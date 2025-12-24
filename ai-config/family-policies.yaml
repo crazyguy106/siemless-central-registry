@@ -1,0 +1,87 @@
+# AI Model Family Policies
+# SIEMLess Central Registry - Version Locking Rules
+# Last Updated: 2025-12-24
+
+version: "1.0.0"
+last_updated: "2025-12-24"
+
+# Family policy: Always use latest family, prevent downgrades
+policies:
+  claude:
+    family_name: Claude
+    provider: anthropic
+    min_version: "4.0"
+    current_version: "4.5"
+    prevent_downgrade: true
+    allowed_models:
+      - claude-sonnet-4-5
+      - claude-opus-4-5
+      - claude-haiku-4-5
+    deprecated_models:
+      - claude-3-opus
+      - claude-3-sonnet
+      - claude-3-haiku
+      - claude-2.1
+      - claude-2
+      - claude-instant
+    notes: "Claude 4.x is current family. All 3.x and earlier deprecated."
+
+  gemini:
+    family_name: Gemini
+    provider: google
+    min_version: "2.5"
+    current_version: "2.5"
+    prevent_downgrade: true
+    allowed_models:
+      - gemini-2.5-pro
+      - gemini-2.5-flash
+      - gemini-2.5-flash-lite
+      - gemma-3-27b-it
+    deprecated_models:
+      - gemini-1.5-pro
+      - gemini-1.5-flash
+      - gemini-1.0-pro
+      - gemini-pro
+      - gemini-pro-vision
+    notes: "Gemini 2.5 is current family. All 1.x deprecated."
+
+  gpt:
+    family_name: GPT
+    provider: openai
+    min_version: "4.0"
+    current_version: "4.0"
+    prevent_downgrade: true
+    allowed_models:
+      - gpt-4-turbo
+      - gpt-4o
+      - gpt-4o-mini
+    deprecated_models:
+      - gpt-4
+      - gpt-4-32k
+      - gpt-3.5-turbo
+      - gpt-3.5-turbo-16k
+      - text-davinci-003
+    notes: "GPT-4 Turbo/4o is current family. All 3.5x deprecated."
+
+  llama:
+    family_name: Llama
+    provider: meta
+    min_version: "3.0"
+    current_version: "3.2"
+    prevent_downgrade: true
+    allowed_models:
+      - llama3.2
+      - llama3.1
+      - llama3
+    deprecated_models:
+      - llama2
+      - llama2-13b
+      - llama2-70b
+    notes: "Llama 3.x is current family. For Ollama local use."
+
+# Enforcement settings
+enforcement:
+  mode: strict  # strict, warn, disabled
+  log_violations: true
+  block_deprecated: true
+  auto_upgrade: false  # Don't auto-upgrade, just block deprecated

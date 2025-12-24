@@ -1,0 +1,155 @@
+# AI Task-to-Model Mappings
+# SIEMLess Central Registry - Task Routing Configuration
+# Last Updated: 2025-12-24
+
+version: "1.0.0"
+last_updated: "2025-12-24"
+
+# Priority override rules
+priority_overrides:
+  high:
+    model: claude-opus-4-5
+    provider: anthropic
+    reason: "High priority - best quality model"
+  low:
+    model: gemini-2.5-flash-lite
+    provider: google
+    reason: "Low priority - cheapest model"
+
+# Task-specific model mappings (priority: normal)
+task_mappings:
+  # ============================================================================
+  # Intelligence Service Tasks
+  # ============================================================================
+  vendor_detection:
+    model: gemma-3-27b-it
+    provider: google
+    reason: "Vendor detection is simple classification - use FREE Gemma 27B"
+    cost_per_1k: 0.0
+    strategy: single
+
+  schema_detection:
+    model: claude-sonnet-4-5
+    provider: anthropic
+    reason: "Schema detection critical - use BOTH Sonnet + Gemini Pro for consensus"
+    cost_per_1k: 0.008
+    strategy: consensus
+    consensus_models:
+      - model: claude-sonnet-4-5
+        provider: anthropic
+      - model: gemini-2.5-pro
+        provider: google
+
+  entity_extraction:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Deterministic extraction using cached schema - cheap model fine"
+    cost_per_1k: 0.075
+    strategy: single
+
+  # ============================================================================
+  # Detection Service Tasks
+  # ============================================================================
+  rule_enhancement:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Gemini 2.5 Flash - 100% quality, 3x faster, 8.7x cheaper than Claude (tested Dec 2025)"
+    cost_per_1k: 0.00015
+    strategy: single
+
+  synthetic_logs:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Gemini 2.5 Flash - equal quality, 2x faster, 7.8x cheaper than Claude (tested Dec 2025)"
+    cost_per_1k: 0.00015
+    strategy: single
+
+  fidelity_scoring:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Gemini 2.5 Flash - 100% quality, 9.7x cheaper than Claude (tested Dec 2025)"
+    cost_per_1k: 0.00015
+    strategy: single
+
+  cti_rule_generation:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "CTI rule generation - fast iteration on IOC-based rules"
+    cost_per_1k: 0.00015
+    strategy: single
+
+  investigation_guide:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Investigation guide generation - structured output"
+    cost_per_1k: 0.00015
+    strategy: single
+
+  # ============================================================================
+  # Delivery Service Tasks (User-Facing)
+  # ============================================================================
+  user_chat:
+    model: claude-sonnet-4-5
+    provider: anthropic
+    reason: "User-facing chat needs quality (Sonnet preferred, Flash fallback)"
+    cost_per_1k: 0.003
+    strategy: primary_fallback
+    fallback:
+      model: gemini-2.5-flash
+      provider: google
+
+  user_chat_fast:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Fast user responses when latency matters more than quality"
+    cost_per_1k: 0.075
+    strategy: single
+
+  query_generation:
+    model: claude-haiku-4-5
+    provider: anthropic
+    reason: "Query generation needs speed more than deep reasoning"
+    cost_per_1k: 0.0008
+    strategy: single
+
+  # ============================================================================
+  # Ingestion Service Tasks
+  # ============================================================================
+  log_analysis:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Log parsing and analysis - good balance of speed/cost"
+    cost_per_1k: 0.075
+    strategy: single
+
+  doc_search:
+    model: gemini-2.5-flash-lite
+    provider: google
+    reason: "Documentation URL search - simple task, cheapest model"
+    cost_per_1k: 0.00004
+    strategy: single
+
+  field_extraction:
+    model: gemini-2.5-flash
+    provider: google
+    reason: "Field extraction from documentation - needs good context handling"
+    cost_per_1k: 0.00015
+    strategy: single
+
+# Default fallback for unknown task types
+default:
+  model: gemini-2.5-flash
+  provider: google
+  reason: "Default fallback - cheap and fast"
+  strategy: single
+
+# Strategy definitions
+strategies:
+  single:
+    description: "Use single model for task"
+  consensus:
+    description: "Multiple models must agree on result"
+    min_agreement: 2
+  primary_fallback:
+    description: "Use primary model, fall back on error/timeout"
+    timeout_ms: 30000

@@ -1,0 +1,259 @@
+# AI Model Registry
+# SIEMLess Central Registry - AI Configurations
+# Last Updated: 2025-12-24
+
+version: "1.0.0"
+last_updated: "2025-12-24"
+
+models:
+  # ============================================================================
+  # Anthropic Models
+  # ============================================================================
+  claude-sonnet-4-5:
+    provider: anthropic
+    model_id: claude-sonnet-4-5-20250929
+    display_name: Claude Sonnet 4.5
+    version: "4.5"
+    status: production
+    capabilities:
+      max_context_window: 200000
+      supports_streaming: true
+      supports_function_calling: true
+      supports_json_mode: true
+      supports_vision: false
+    cost:
+      input_cost_per_1m: 3.00   # $3.00 per million tokens
+      output_cost_per_1m: 15.00 # $15.00 per million tokens
+    description: "Claude Sonnet 4.5 - Balanced performance and cost"
+    tags:
+      - production
+      - recommended
+      - fast
+    use_cases:
+      - user_chat
+      - schema_detection
+      - rule_enhancement
+
+  claude-opus-4-5:
+    provider: anthropic
+    model_id: claude-opus-4-5-20250801
+    display_name: Claude Opus 4.5
+    version: "4.5"
+    status: production
+    capabilities:
+      max_context_window: 200000
+      supports_streaming: true
+      supports_function_calling: true
+      supports_json_mode: true
+      supports_vision: true
+    cost:
+      input_cost_per_1m: 15.00
+      output_cost_per_1m: 75.00
+    description: "Claude Opus 4.5 - Highest quality reasoning"
+    tags:
+      - production
+      - premium
+      - quality
+    use_cases:
+      - complex_analysis
+      - high_priority_tasks
+
+  claude-haiku-4-5:
+    provider: anthropic
+    model_id: claude-haiku-4-5-20251001
+    display_name: Claude Haiku 4.5
+    version: "4.5"
+    status: production
+    capabilities:
+      max_context_window: 200000
+      supports_streaming: true
+      supports_function_calling: true
+      supports_json_mode: true
+      supports_vision: false
+    cost:
+      input_cost_per_1m: 0.80
+      output_cost_per_1m: 4.00
+    description: "Claude Haiku 4.5 - Fast and affordable"
+    tags:
+      - production
+      - fast
+      - cheap
+    use_cases:
+      - query_generation
+      - simple_tasks
+
+  # ============================================================================
+  # Google Models
+  # ============================================================================
+  gemini-2.5-flash:
+    provider: google
+    model_id: gemini-2.5-flash
+    display_name: Gemini 2.5 Flash
+    version: "2.5"
+    status: production
+    capabilities:
+      max_context_window: 1000000
+      supports_streaming: true
+      supports_function_calling: true
+      supports_json_mode: true
+      supports_vision: true
+    cost:
+      input_cost_per_1m: 0.15   # $0.15 per million tokens
+      output_cost_per_1m: 0.60  # $0.60 per million tokens
+    description: "Gemini 2.5 Flash - Best value: 100% quality, 8x cheaper than Claude (Dec 2025)"
+    tags:
+      - production
+      - recommended
+      - fast
+      - cheap
+      - best_value
+    use_cases:
+      - rule_enhancement
+      - synthetic_logs
+      - fidelity_scoring
+      - entity_extraction
+      - log_analysis
+
+  gemini-2.5-pro:
+    provider: google
+    model_id: gemini-2.5-pro
+    display_name: Gemini 2.5 Pro
+    version: "2.5"
+    status: production
+    capabilities:
+      max_context_window: 1000000
+      supports_streaming: true
+      supports_function_calling: true
+      supports_json_mode: true
+      supports_vision: true
+    cost:
+      input_cost_per_1m: 1.25
+      output_cost_per_1m: 5.00
+    description: "Gemini 2.5 Pro - Best reasoning model (#1 LMArena Dec 2025)"
+    tags:
+      - production
+      - premium
+      - quality
+    use_cases:
+      - schema_detection_consensus
+      - complex_analysis
+
+  gemini-2.5-flash-lite:
+    provider: google
+    model_id: gemini-2.5-flash-lite
+    display_name: Gemini 2.5 Flash Lite
+    version: "2.5"
+    status: production
+    capabilities:
+      max_context_window: 1000000
+      supports_streaming: true
+      supports_function_calling: true
+      supports_json_mode: true
+      supports_vision: false
+    cost:
+      input_cost_per_1m: 0.10
+      output_cost_per_1m: 0.40
+    description: "Gemini 2.5 Flash Lite - Ultra-cheap for simple tasks"
+    tags:
+      - production
+      - fast
+      - cheapest
+    use_cases:
+      - doc_search
+      - low_priority
+
+  gemma-3-27b-it:
+    provider: google
+    model_id: gemma-3-27b-it
+    display_name: Gemma 3 27B IT
+    version: "3.0"
+    status: production
+    capabilities:
+      max_context_window: 32000
+      supports_streaming: true
+      supports_function_calling: false
+      supports_json_mode: true
+      supports_vision: false
+    cost:
+      input_cost_per_1m: 0.00   # FREE!
+      output_cost_per_1m: 0.00  # FREE!
+    description: "Gemma 3 27B IT - FREE tier for simple classification tasks"
+    tags:
+      - production
+      - free
+      - classification
+    use_cases:
+      - vendor_detection
+      - simple_classification
+
+  # ============================================================================
+  # OpenAI Models
+  # ============================================================================
+  gpt-4-turbo:
+    provider: openai
+    model_id: gpt-4-turbo
+    display_name: GPT-4 Turbo
+    version: "2024"
+    status: production
+    capabilities:
+      max_context_window: 128000
+      supports_streaming: true
+      supports_function_calling: true
+      supports_json_mode: true
+      supports_vision: true
+    cost:
+      input_cost_per_1m: 10.00
+      output_cost_per_1m: 30.00
+    description: "GPT-4 Turbo - High quality, higher cost"
+    tags:
+      - production
+      - premium
+    use_cases:
+      - fallback
+      - openai_preference
+
+  # ============================================================================
+  # Local/Free Models
+  # ============================================================================
+  llama3.2:
+    provider: ollama
+    model_id: llama3.2:latest
+    display_name: Llama 3.2
+    version: "3.2"
+    status: testing
+    capabilities:
+      max_context_window: 128000
+      supports_streaming: true
+      supports_function_calling: false
+      supports_json_mode: false
+      supports_vision: false
+    cost:
+      input_cost_per_1m: 0.00
+      output_cost_per_1m: 0.00
+    description: "Llama 3.2 - Free local model (requires GPU)"
+    tags:
+      - testing
+      - free
+      - local
+    use_cases:
+      - local_testing
+      - air_gapped
+
+# Provider API endpoints
+providers:
+  anthropic:
+    base_url: https://api.anthropic.com
+    api_version: "2024-01-01"
+    env_key: ANTHROPIC_API_KEY
+  google:
+    base_url: https://generativelanguage.googleapis.com
+    api_version: v1beta
+    env_key: GOOGLE_API_KEY
+  openai:
+    base_url: https://api.openai.com
+    api_version: v1
+    env_key: OPENAI_API_KEY
+  ollama:
+    base_url: http://localhost:11434
+    api_version: v1
+    env_key: null  # No API key needed
