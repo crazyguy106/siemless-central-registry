@@ -1,178 +1,69 @@
-# SIEMLess Central Registry
+# SIEMLess Log Signatures - GitHub Resource Hub
 
-A community-driven registry of shared knowledge for SIEMLess instances.
+Auto-generated from local signature extraction.
 
-## Overview
+## Statistics
 
-The Central Registry provides curated, version-controlled configurations that sync to all SIEMLess deployments:
+- **Total Signatures**: 6,263
+- **Total Files**: 5
+- **Vendors**: 4
+- **Generated**: 2025-12-31 00:20
 
-- **Vendor Documentation URLs** - Discovered documentation benefits all users
-- **AI Model Configurations** - Task mappings, pricing, family policies
-- **Parser Templates** - Pre-built parsers for common vendors (coming soon)
-- **SIEM Schema Mappings** - Field transformations per SIEM (coming soon)
-
-## Repository Structure
+## Structure
 
 ```
-siemless-central-registry/
-├── registry.json              # Master index with version + checksums
-├── README.md                  # This file
-│
-├── vendor-docs/               # Curated vendor documentation URLs
-│   ├── crowdstrike/
-│   │   └── falcon.yaml
-│   ├── paloalto/
-│   │   └── firewall.yaml
-│   ├── microsoft/
-│   │   └── defender.yaml
-│   ├── elastic/
-│   │   └── elasticsearch.yaml
-│   └── splunk/
-│       └── enterprise.yaml
-│
-├── ai-config/                 # AI model configurations
-│   ├── models.yaml            # Model catalog with pricing
-│   ├── task-mappings.yaml     # Task → model routing
-│   └── family-policies.yaml   # Version locking rules
-│
-├── parsers/                   # Parser templates (coming soon)
-│   └── .gitkeep
-│
-└── siem-schemas/             # SIEM field mappings (coming soon)
-    ├── elastic/
-    ├── splunk/
-    └── sentinel/
+signatures/
+├── index.yaml          # Index of all signatures
+├── check-point/
+│   └── security-gateway.yaml
+├── cisco/
+│   ├── asa.yaml
+│   └── asa.yaml
+├── fortinet/
+│   └── fortigate.yaml
+├── microsoft/
+│   └── windows.yaml
 ```
 
-## How Sync Works
+## Files
 
-### 1. Startup Sync
-When a SIEMLess instance starts, it fetches the latest registry:
-
-```python
-registry = fetch("https://raw.githubusercontent.com/.../registry.json")
-if registry.checksums != local_checksums:
-    sync_all_sections()
-```
-
-### 2. Periodic Sync
-A background worker syncs every 6 hours:
-- Compares checksums to detect changes
-- Only downloads updated sections
-- Falls back to local cache if GitHub unreachable
-
-### 3. Contribution (Optional)
-Users can contribute discovered documentation:
-1. Parser Workflow discovers new documentation URL
-2. User clicks "Share with community"
-3. SIEMLess creates PR to this repo
-4. Maintainers review and merge
-5. All users get the update on next sync
+| Vendor | Product | Signatures | Categories |
+|--------|---------|------------|------------|
+| Check Point | Security Gateway | 15 | firewall, threat_prevention, url_filtering... |
+| Cisco | ASA | 2,341 | Authentication, Other, Failover... |
+| Cisco | ASA | 2,341 | Authentication, Other, Failover... |
+| Fortinet | FortiGate | 1,155 | activexfilter, analytics, anomaly... |
+| Microsoft | Windows | 411 | Account Logon, Account Management, DS Access... |
 
 ## Usage
 
-### Fetching Registry Data
-
-```python
-import yaml
-import requests
-
-REGISTRY_URL = "https://raw.githubusercontent.com/crazyguy106/siemless-central-registry/main"
-
-# Fetch vendor docs
-response = requests.get(f"{REGISTRY_URL}/vendor-docs/crowdstrike/falcon.yaml")
-vendor_docs = yaml.safe_load(response.text)
-
-# Fetch AI task mappings
-response = requests.get(f"{REGISTRY_URL}/ai-config/task-mappings.yaml")
-task_mappings = yaml.safe_load(response.text)
-
-# Get model for a task
-task = "rule_enhancement"
-model_config = task_mappings["task_mappings"].get(task)
-print(f"Use {model_config['model']} from {model_config['provider']}")
-```
-
-### Vendor Documentation Format
-
-```yaml
-vendor: crowdstrike
-products:
-  - name: falcon_edr
-    documentation_urls:
-      - url: https://docs.crowdstrike.com/falcon-edr/latest/
-        doc_type: api_reference
-        confidence: 0.95
-        last_verified: 2025-12-24
-```
-
-### Task Mapping Format
-
-```yaml
-task_mappings:
-  rule_enhancement:
-    model: gemini-2.5-flash
-    provider: google
-    reason: "100% quality, 8.7x cheaper than Claude"
-    strategy: single
-```
-
-## Contributing
-
-### Adding Vendor Documentation
-
-1. Fork this repository
-2. Add/update YAML file in `vendor-docs/{vendor}/{product}.yaml`
-3. Update `registry.json` stats
-4. Create pull request
-
-### Documentation URL Schema
-
-```yaml
-- url: https://example.com/docs
-  doc_type: field_reference | api_reference | user_guide | schema_reference
-  confidence: 0.0-1.0
-  last_verified: YYYY-MM-DD
-  notes: Optional description
-```
-
-### Updating AI Configurations
-
-AI configurations are maintained by the SIEMLess team. If you notice:
-- Outdated pricing
-- Deprecated models
-- Better task mappings
-
-Please open an issue with your suggestion.
-
-## Offline / Air-Gapped Deployments
-
-For air-gapped environments:
-
-1. Clone this repository to your internal Git server
-2. Configure `REGISTRY_URL` to point to your internal server
-3. Manually sync periodically
+### Sync to SIEMLess Instance
 
 ```bash
-REGISTRY_URL=https://internal-git.company.com/siemless-registry/main
+# Via Resource Hub UI
+1. Navigate to Platform > Resource Hub > Log Signatures
+2. Click "Sync from GitHub"
+
+# Via API
+curl -X POST "https://your-instance/api/v1/ingestion/log-signatures/sync/github" \
+  -H "Authorization: Bearer <token>"
 ```
 
-## Stats
+### Manual Import
 
-| Category | Count |
-|----------|-------|
-| Vendors | 5 |
-| Products | 8 |
-| AI Models | 9 |
-| Task Mappings | 13 |
-| Parsers | Coming soon |
+```bash
+# Import specific vendor
+curl -X POST "https://your-instance/api/v1/ingestion/log-signatures/import" \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d @signatures/cisco/asa.yaml
+```
+
+## Source
+
+Generated from vendor documentation using SIEMLess signature extraction tools.
+Local working copies: `config/log-signatures/*.json` (gitignored)
 
 ## License
 
-MIT License - Free to use, modify, and distribute.
-
-## Links
-
-- [SIEMLess Documentation](https://docs.besiemless.ai)
-- [SIEMLess Demo](https://demo.besiemless.ai)
-- [Report Issues](https://github.com/crazyguy106/siemless-central-registry/issues)
+Proprietary - SIEMLess Technologies
