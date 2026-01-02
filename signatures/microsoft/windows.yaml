@@ -2,8 +2,12 @@ version: '1.0'
 vendor: Microsoft
 product: Windows
 product_full_name: Microsoft Windows Security Event Log
-log_type: syslog
-signature_count: 411
+log_type: structured
+source_document: WindowsSecurityAuditEvents.xlsx + Microsoft Documentation
+source_url: https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/security-auditing-overview
+extraction_date: '2025-12-29'
+source_file: windows-security-signatures.json
+generated_at: '2026-01-02T22:29:44.809165'
 categories:
 - Account Logon
 - Account Management
@@ -14,308 +18,792 @@ categories:
 - Policy Change
 - Privilege Use
 - System
-source_file: windows-security-signatures.json
-generated_at: '2025-12-31T00:20:43.833430'
+field_count: 49
+fields:
+- field_name: EventID
+  field_type: int
+  description: Windows Event ID
+  category: General
+- field_name: TimeCreated
+  field_type: datetime
+  description: Event timestamp
+  category: General
+- field_name: Computer
+  field_type: string
+  description: Computer name
+  category: General
+- field_name: Channel
+  field_type: string
+  description: Log channel (Security)
+  category: General
+- field_name: Provider
+  field_type: string
+  description: Event provider name
+  category: General
+- field_name: Level
+  field_type: int
+  description: Event level (0=Info, 1=Critical, etc.)
+  category: General
+- field_name: Task
+  field_type: int
+  description: Task category
+  category: General
+- field_name: Keywords
+  field_type: string
+  description: Event keywords
+  category: General
+- field_name: SubjectUserSid
+  field_type: string
+  description: Subject user SID
+  category: General
+- field_name: SubjectUserName
+  field_type: string
+  description: Subject user name
+  category: General
+- field_name: SubjectDomainName
+  field_type: string
+  description: Subject domain name
+  category: General
+- field_name: SubjectLogonId
+  field_type: string
+  description: Subject logon ID
+  category: General
+- field_name: TargetUserSid
+  field_type: string
+  description: Target user SID
+  category: General
+- field_name: TargetUserName
+  field_type: string
+  description: Target user name
+  category: General
+- field_name: TargetDomainName
+  field_type: string
+  description: Target domain name
+  category: General
+- field_name: TargetLogonId
+  field_type: string
+  description: Target logon ID
+  category: General
+- field_name: LogonType
+  field_type: int
+  description: Logon type (2=Interactive, 3=Network, etc.)
+  category: General
+- field_name: LogonProcessName
+  field_type: string
+  description: Logon process name
+  category: General
+- field_name: AuthenticationPackageName
+  field_type: string
+  description: Authentication package
+  category: General
+- field_name: WorkstationName
+  field_type: string
+  description: Workstation name
+  category: General
+- field_name: LogonGuid
+  field_type: string
+  description: Logon GUID
+  category: General
+- field_name: IpAddress
+  field_type: ip
+  description: Source IP address
+  category: General
+- field_name: IpPort
+  field_type: port
+  description: Source port
+  category: General
+- field_name: NewProcessId
+  field_type: string
+  description: New process ID
+  category: General
+- field_name: NewProcessName
+  field_type: string
+  description: New process name/path
+  category: General
+- field_name: ProcessId
+  field_type: string
+  description: Process ID
+  category: General
+- field_name: ProcessName
+  field_type: string
+  description: Process name/path
+  category: General
+- field_name: CommandLine
+  field_type: string
+  description: Command line
+  category: General
+- field_name: ParentProcessName
+  field_type: string
+  description: Parent process name
+  category: General
+- field_name: ObjectType
+  field_type: string
+  description: Object type
+  category: General
+- field_name: ObjectName
+  field_type: string
+  description: Object name/path
+  category: General
+- field_name: HandleId
+  field_type: string
+  description: Handle ID
+  category: General
+- field_name: AccessMask
+  field_type: string
+  description: Access mask
+  category: General
+- field_name: AccessList
+  field_type: string
+  description: Access list
+  category: General
+- field_name: TargetSid
+  field_type: string
+  description: Target account SID
+  category: General
+- field_name: PrivilegeList
+  field_type: string
+  description: Privileges used
+  category: General
+- field_name: MemberSid
+  field_type: string
+  description: Group member SID
+  category: General
+- field_name: MemberName
+  field_type: string
+  description: Group member name
+  category: General
+- field_name: SamAccountName
+  field_type: string
+  description: SAM account name
+  category: General
+- field_name: DisplayName
+  field_type: string
+  description: Display name
+  category: General
+- field_name: UserPrincipalName
+  field_type: string
+  description: UPN
+  category: General
+- field_name: HomeDirectory
+  field_type: string
+  description: Home directory path
+  category: General
+- field_name: HomePath
+  field_type: string
+  description: Home path
+  category: General
+- field_name: ScriptPath
+  field_type: string
+  description: Logon script path
+  category: General
+- field_name: ProfilePath
+  field_type: string
+  description: Profile path
+  category: General
+- field_name: UserWorkstations
+  field_type: string
+  description: Allowed workstations
+  category: General
+- field_name: PasswordLastSet
+  field_type: datetime
+  description: Password last set time
+  category: General
+- field_name: AccountExpires
+  field_type: datetime
+  description: Account expiration time
+  category: General
+- field_name: UserAccountControl
+  field_type: string
+  description: Account control flags
+  category: General
 signatures:
-- severity: 6
-  severity_name: Informational
+- event_id: 4608
+  log_id: WIN-4608
   category: System
+  subcategory: Security State Change
   description: Windows is starting up.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4609
+  log_id: WIN-4609
   category: System
+  subcategory: Security State Change
   description: Windows is shutting down.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4610
+  log_id: WIN-4610
   category: System
+  subcategory: Security System Extension
   description: An authentication package has been loaded by the Local Security Authority.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4611
+  log_id: WIN-4611
   category: System
-  description: A trusted logon process has been registered with the Local Security Authority.
-- severity: 6
+  subcategory: Security System Extension
+  description: A trusted logon process has been registered with the Local Security
+    Authority.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4612
+  log_id: WIN-4612
   category: System
-  description: Internal resources allocated for the queuing of audit messages have been exhausted, leading to the loss of
-    some audits.
-- severity: 6
+  subcategory: System Integrity
+  description: Internal resources allocated for the queuing of audit messages have
+    been exhausted, leading to the loss of some audits.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4614
+  log_id: WIN-4614
   category: System
+  subcategory: Security System Extension
   description: A notification package has been loaded by the Security Account Manager.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4615
+  log_id: WIN-4615
   category: System
+  subcategory: System Integrity
   description: Invalid use of LPC port.
-- severity: 4
-  severity_name: Warning
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4616
+  log_id: WIN-4616
   category: System
+  subcategory: Security State Change
   description: The system time was changed.
-- severity: 6
-  severity_name: Informational
+  severity: 4
+  severity_name: Warning
+  is_high_value: true
+- event_id: 4618
+  log_id: WIN-4618
   category: System
+  subcategory: System Integrity
   description: A monitored security event pattern has occurred.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4621
+  log_id: WIN-4621
   category: System
-  description: Administrator recovered system from CrashOnAuditFail. Users who are not administrators will now be allowed
-    to log on. Some auditable activity might not have been recorded.
-- severity: 6
+  subcategory: Security State Change
+  description: Administrator recovered system from CrashOnAuditFail. Users who are
+    not administrators will now be allowed to log on. Some auditable activity might
+    not have been recorded.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4622
+  log_id: WIN-4622
   category: System
+  subcategory: Security System Extension
   description: A security package has been loaded by the Local Security Authority.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4624
+  log_id: WIN-4624
   category: Logon/Logoff
+  subcategory: Logon
   description: An account was successfully logged on.
-- severity: 4
-  severity_name: Warning
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4625
+  log_id: WIN-4625
   category: Logon/Logoff
+  subcategory: Logon
   description: An account failed to log on.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: User/Device claims information.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: Group membership information.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: An account was logged off.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: '%1'
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: User initiated logoff.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: A logon was attempted using explicit credentials.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: A replay attack was detected.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: An IPsec Main Mode security association was established. Extended Mode was not enabled. Certificate authentication
-    was not used.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: An IPsec Main Mode security association was established. Extended Mode was not enabled. A certificate was used
-    for authentication.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: An IPsec Main Mode negotiation failed.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: An IPsec Main Mode negotiation failed.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: An IPsec Quick Mode negotiation failed.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: An IPsec Main Mode security association ended.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: A handle to an object was requested.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: A registry value was modified.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: The handle to an object was closed.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: A handle to an object was requested with intent to delete.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: A handle to an object was requested with intent to delete.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An object was deleted.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An object was deleted.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: A handle to an object was requested.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: A handle to an object was requested.
-- severity: 6
-  severity_name: Informational
-  category: DS Access
-  description: An operation was performed on an object.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An attempt was made to access an object.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An attempt was made to access an object.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An attempt was made to create a hard link.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An attempt was made to create an application client context.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: 'An application attempted an operation:'
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An application client context was deleted.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An application was initialized.
-- severity: 6
-  severity_name: Informational
-  category: Policy Change
-  description: Permissions on an object were changed.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An application attempted to access a blocked ordinal through the TBS.
-- severity: 6
-  severity_name: Informational
-  category: Privilege Use
-  description: Special privileges assigned to new logon.
-- severity: 6
-  severity_name: Informational
-  category: Privilege Use
-  description: A privileged service was called.
-- severity: 6
-  severity_name: Informational
-  category: Privilege Use
-  description: An operation was attempted on a privileged object.
-- severity: 6
-  severity_name: Informational
-  category: Logon/Logoff
-  description: SIDs were filtered.
-- severity: 6
-  severity_name: Informational
-  category: Detailed Tracking
-  description: A new process has been created.
-- severity: 6
-  severity_name: Informational
-  category: Detailed Tracking
-  description: A process has exited.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: An attempt was made to duplicate a handle to an object.
-- severity: 6
-  severity_name: Informational
-  category: Object Access
-  description: Indirect access to an object was requested.
-- severity: 6
-  severity_name: Informational
-  category: Detailed Tracking
-  description: Backup of data protection master key was attempted.
-- severity: 6
-  severity_name: Informational
-  category: Detailed Tracking
-  description: Recovery of data protection master key was attempted.
-- severity: 6
-  severity_name: Informational
-  category: Detailed Tracking
-  description: Protection of auditable protected data was attempted.
-- severity: 6
-  severity_name: Informational
-  category: Detailed Tracking
-  description: Unprotection of auditable protected data was attempted.
-- severity: 6
-  severity_name: Informational
-  category: Detailed Tracking
-  description: A primary token was assigned to process.
-- severity: 4
+  severity: 4
   severity_name: Warning
+  is_high_value: true
+- event_id: 4626
+  log_id: WIN-4626
+  category: Logon/Logoff
+  subcategory: Logon
+  description: User/Device claims information.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4627
+  log_id: WIN-4627
+  category: Logon/Logoff
+  subcategory: Group Membership
+  description: Group membership information.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4634
+  log_id: WIN-4634
+  category: Logon/Logoff
+  subcategory: Logoff
+  description: An account was logged off.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4646
+  log_id: WIN-4646
+  category: Logon/Logoff
+  subcategory: IPsec Main Mode
+  description: '%1'
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4647
+  log_id: WIN-4647
+  category: Logon/Logoff
+  subcategory: Logoff
+  description: User initiated logoff.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4648
+  log_id: WIN-4648
+  category: Logon/Logoff
+  subcategory: Logon
+  description: A logon was attempted using explicit credentials.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4649
+  log_id: WIN-4649
+  category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
+  description: A replay attack was detected.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4650
+  log_id: WIN-4650
+  category: Logon/Logoff
+  subcategory: IPsec Main Mode
+  description: An IPsec Main Mode security association was established. Extended Mode
+    was not enabled. Certificate authentication was not used.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4651
+  log_id: WIN-4651
+  category: Logon/Logoff
+  subcategory: IPsec Main Mode
+  description: An IPsec Main Mode security association was established. Extended Mode
+    was not enabled. A certificate was used for authentication.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4652
+  log_id: WIN-4652
+  category: Logon/Logoff
+  subcategory: IPsec Main Mode
+  description: An IPsec Main Mode negotiation failed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4653
+  log_id: WIN-4653
+  category: Logon/Logoff
+  subcategory: IPsec Main Mode
+  description: An IPsec Main Mode negotiation failed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4654
+  log_id: WIN-4654
+  category: Logon/Logoff
+  subcategory: IPsec Quick Mode
+  description: An IPsec Quick Mode negotiation failed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4655
+  log_id: WIN-4655
+  category: Logon/Logoff
+  subcategory: IPsec Main Mode
+  description: An IPsec Main Mode security association ended.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4656
+  log_id: WIN-4656
+  category: Object Access
+  subcategory: Handle Manipulation
+  description: A handle to an object was requested.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4657
+  log_id: WIN-4657
+  category: Object Access
+  subcategory: Registry
+  description: A registry value was modified.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4658
+  log_id: WIN-4658
+  category: Object Access
+  subcategory: Handle Manipulation
+  description: The handle to an object was closed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4659
+  log_id: WIN-4659
+  category: Object Access
+  subcategory: SAM
+  description: A handle to an object was requested with intent to delete.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4659
+  log_id: WIN-4659
+  category: Object Access
+  subcategory: Kernel
+  description: A handle to an object was requested with intent to delete.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4660
+  log_id: WIN-4660
+  category: Object Access
+  subcategory: SAM
+  description: An object was deleted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4660
+  log_id: WIN-4660
+  category: Object Access
+  subcategory: Kernel
+  description: An object was deleted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4661
+  log_id: WIN-4661
+  category: Object Access
+  subcategory: SAM
+  description: A handle to an object was requested.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4661
+  log_id: WIN-4661
+  category: Object Access
+  subcategory: Kernel
+  description: A handle to an object was requested.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4662
+  log_id: WIN-4662
+  category: DS Access
+  subcategory: Directory Service Access
+  description: An operation was performed on an object.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4663
+  log_id: WIN-4663
+  category: Object Access
+  subcategory: SAM
+  description: An attempt was made to access an object.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4663
+  log_id: WIN-4663
+  category: Object Access
+  subcategory: Kernel
+  description: An attempt was made to access an object.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4664
+  log_id: WIN-4664
+  category: Object Access
+  subcategory: File System
+  description: An attempt was made to create a hard link.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4665
+  log_id: WIN-4665
+  category: Object Access
+  subcategory: Application Generated
+  description: An attempt was made to create an application client context.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4666
+  log_id: WIN-4666
+  category: Object Access
+  subcategory: Application Generated
+  description: 'An application attempted an operation:'
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4667
+  log_id: WIN-4667
+  category: Object Access
+  subcategory: Application Generated
+  description: An application client context was deleted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4668
+  log_id: WIN-4668
+  category: Object Access
+  subcategory: Application Generated
+  description: An application was initialized.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4670
+  log_id: WIN-4670
+  category: Policy Change
+  subcategory: Subcategory (special)
+  description: Permissions on an object were changed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4671
+  log_id: WIN-4671
+  category: Object Access
+  subcategory: Other Object Access Events
+  description: An application attempted to access a blocked ordinal through the TBS.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4672
+  log_id: WIN-4672
+  category: Privilege Use
+  subcategory: Sensitive Privilege Use / Non Sensitive Privilege Use
+  description: Special privileges assigned to new logon.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4673
+  log_id: WIN-4673
+  category: Privilege Use
+  subcategory: Sensitive Privilege Use / Non Sensitive Privilege Use
+  description: A privileged service was called.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4674
+  log_id: WIN-4674
+  category: Privilege Use
+  subcategory: Sensitive Privilege Use / Non Sensitive Privilege Use
+  description: An operation was attempted on a privileged object.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4675
+  log_id: WIN-4675
+  category: Logon/Logoff
+  subcategory: Logon
+  description: SIDs were filtered.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4688
+  log_id: WIN-4688
+  category: Detailed Tracking
+  subcategory: Process Creation
+  description: A new process has been created.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4689
+  log_id: WIN-4689
+  category: Detailed Tracking
+  subcategory: Process Termination
+  description: A process has exited.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4690
+  log_id: WIN-4690
+  category: Object Access
+  subcategory: Handle Manipulation
+  description: An attempt was made to duplicate a handle to an object.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4691
+  log_id: WIN-4691
+  category: Object Access
+  subcategory: Other Object Access Events
+  description: Indirect access to an object was requested.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4692
+  log_id: WIN-4692
+  category: Detailed Tracking
+  subcategory: DPAPI Activity
+  description: Backup of data protection master key was attempted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4693
+  log_id: WIN-4693
+  category: Detailed Tracking
+  subcategory: DPAPI Activity
+  description: Recovery of data protection master key was attempted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4694
+  log_id: WIN-4694
+  category: Detailed Tracking
+  subcategory: DPAPI Activity
+  description: Protection of auditable protected data was attempted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4695
+  log_id: WIN-4695
+  category: Detailed Tracking
+  subcategory: DPAPI Activity
+  description: Unprotection of auditable protected data was attempted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4696
+  log_id: WIN-4696
+  category: Detailed Tracking
+  subcategory: Process Creation
+  description: A primary token was assigned to process.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4697
+  log_id: WIN-4697
   category: System
+  subcategory: Security System Extension
   description: A service was installed in the system.
-- severity: 6
-  severity_name: Informational
+  severity: 4
+  severity_name: Warning
+  is_high_value: true
+- event_id: 4698
+  log_id: WIN-4698
   category: Object Access
+  subcategory: Other Object Access Events
   description: A scheduled task was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4699
+  log_id: WIN-4699
   category: Object Access
+  subcategory: Other Object Access Events
   description: A scheduled task was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4700
+  log_id: WIN-4700
   category: Object Access
+  subcategory: Other Object Access Events
   description: A scheduled task was enabled.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4701
+  log_id: WIN-4701
   category: Object Access
+  subcategory: Other Object Access Events
   description: A scheduled task was disabled.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4702
+  log_id: WIN-4702
   category: Object Access
+  subcategory: Other Object Access Events
   description: A scheduled task was updated.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4703
+  log_id: WIN-4703
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: A user right was adjusted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4704
+  log_id: WIN-4704
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: A user right was assigned.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4705
+  log_id: WIN-4705
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: A user right was removed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4706
+  log_id: WIN-4706
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: A new trust was created to a domain.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4707
+  log_id: WIN-4707
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: A trust to a domain was removed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4709
+  log_id: WIN-4709
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: IPsec Services was started.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4710
+  log_id: WIN-4710
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: IPsec Services was disabled.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4711
+  log_id: WIN-4711
   category: Policy Change
-  description: 'May contain any one of the following: PAStore Engine applied locally cached copy of Active Directory storage
-    IPsec policy on the computer.
+  subcategory: Filtering Platform Policy Change
+  description: 'May contain any one of the following: PAStore Engine applied locally
+    cached copy of Active Directory storage IPsec policy on the computer.
 
     PAStore Engine applied Active Directory storage IPsec policy on the computer.
 
     PAStore Engine applied local registry storage IPsec policy on the computer.
 
-    PAStore Engine failed to apply locally cached copy of Active Directory storage IPsec policy on the computer.
+    PAStore Engine failed to apply locally cached copy of Active Directory storage
+    IPsec policy on the computer.
 
     PAStore Engine failed to apply Active Directory storage IPsec policy on the computer.
 
@@ -332,1399 +820,2831 @@ signatures:
     PAStore Engine loaded local storage IPsec policy on the computer.
 
     PAStore Engine polled for changes to the active IPsec policy and detected no changes.'
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4712
+  log_id: WIN-4712
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: IPsec Services encountered a potentially serious failure.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4713
+  log_id: WIN-4713
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: Kerberos policy was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4714
+  log_id: WIN-4714
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: Encrypted data recovery policy was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4715
+  log_id: WIN-4715
   category: Policy Change
+  subcategory: Audit Policy Change
   description: The audit policy (SACL) on an object was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4716
+  log_id: WIN-4716
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: Trusted domain information was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4717
+  log_id: WIN-4717
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: System security access was granted to an account.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4718
+  log_id: WIN-4718
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: System security access was removed from an account.
-- severity: 4
-  severity_name: Warning
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4719
+  log_id: WIN-4719
   category: Policy Change
+  subcategory: Audit Policy Change
   description: System audit policy was changed.
-- severity: 6
-  severity_name: Informational
+  severity: 4
+  severity_name: Warning
+  is_high_value: true
+- event_id: 4720
+  log_id: WIN-4720
   category: Account Management
+  subcategory: User Account Management
   description: A user account was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4722
+  log_id: WIN-4722
   category: Account Management
+  subcategory: User Account Management
   description: A user account was enabled.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4723
+  log_id: WIN-4723
   category: Account Management
+  subcategory: User Account Management
   description: An attempt was made to change an account's password.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4724
+  log_id: WIN-4724
   category: Account Management
+  subcategory: User Account Management
   description: An attempt was made to reset an account's password.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4725
+  log_id: WIN-4725
   category: Account Management
+  subcategory: User Account Management
   description: A user account was disabled.
-- severity: 4
-  severity_name: Warning
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4726
+  log_id: WIN-4726
   category: Account Management
+  subcategory: User Account Management
   description: A user account was deleted.
-- severity: 6
-  severity_name: Informational
+  severity: 4
+  severity_name: Warning
+  is_high_value: true
+- event_id: 4727
+  log_id: WIN-4727
   category: Account Management
+  subcategory: Security Group Management
   description: A security-enabled global group was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4728
+  log_id: WIN-4728
   category: Account Management
+  subcategory: Security Group Management
   description: A member was added to a security-enabled global group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4729
+  log_id: WIN-4729
   category: Account Management
+  subcategory: Security Group Management
   description: A member was removed from a security-enabled global group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4730
+  log_id: WIN-4730
   category: Account Management
+  subcategory: Security Group Management
   description: A security-enabled global group was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4731
+  log_id: WIN-4731
   category: Account Management
+  subcategory: Security Group Management
   description: A security-enabled local group was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4732
+  log_id: WIN-4732
   category: Account Management
+  subcategory: Security Group Management
   description: A member was added to a security-enabled local group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4733
+  log_id: WIN-4733
   category: Account Management
+  subcategory: Security Group Management
   description: A member was removed from a security-enabled local group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4734
+  log_id: WIN-4734
   category: Account Management
+  subcategory: Security Group Management
   description: A security-enabled local group was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4735
+  log_id: WIN-4735
   category: Account Management
+  subcategory: Security Group Management
   description: A security-enabled local group was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4737
+  log_id: WIN-4737
   category: Account Management
+  subcategory: Security Group Management
   description: A security-enabled global group was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4738
+  log_id: WIN-4738
   category: Account Management
+  subcategory: User Account Management
   description: A user account was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4739
+  log_id: WIN-4739
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: Domain Policy was changed.
-- severity: 4
-  severity_name: Warning
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4740
+  log_id: WIN-4740
   category: Account Management
+  subcategory: User Account Management
   description: A user account was locked out.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A computer account was changed.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A computer account was deleted.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled local group was created.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled local group was changed.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was added to a security-disabled local group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was removed from a security-disabled local group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled local group was deleted.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled global group was created.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled global group was changed.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was added to a security-disabled global group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was removed from a security-disabled global group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled global group was deleted.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-enabled universal group was created.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-enabled universal group was changed.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was added to a security-enabled universal group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was removed from a security-enabled universal group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-enabled universal group was deleted.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled universal group was created.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A security-disabled universal group was changed.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was added to a security-disabled universal group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A member was removed from a security-disabled universal group.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A group’s type was changed.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: SID History was added to an account.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: An attempt to add SID History to an account failed.
-- severity: 6
-  severity_name: Informational
-  category: Account Management
-  description: A user account was unlocked.
-- severity: 6
-  severity_name: Informational
-  category: Account Logon
-  description: A Kerberos authentication ticket (TGT) was requested.
-- severity: 6
-  severity_name: Informational
-  category: Account Logon
-  description: A Kerberos service ticket was requested.
-- severity: 6
-  severity_name: Informational
-  category: Account Logon
-  description: A Kerberos service ticket was renewed.
-- severity: 4
+  severity: 4
   severity_name: Warning
+  is_high_value: true
+- event_id: 4742
+  log_id: WIN-4742
+  category: Account Management
+  subcategory: Computer Account Management
+  description: A computer account was changed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4743
+  log_id: WIN-4743
+  category: Account Management
+  subcategory: Computer Account Management
+  description: A computer account was deleted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4744
+  log_id: WIN-4744
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled local group was created.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4745
+  log_id: WIN-4745
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled local group was changed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4746
+  log_id: WIN-4746
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A member was added to a security-disabled local group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4747
+  log_id: WIN-4747
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A member was removed from a security-disabled local group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4748
+  log_id: WIN-4748
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled local group was deleted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4749
+  log_id: WIN-4749
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled global group was created.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4750
+  log_id: WIN-4750
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled global group was changed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4751
+  log_id: WIN-4751
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A member was added to a security-disabled global group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4752
+  log_id: WIN-4752
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A member was removed from a security-disabled global group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4753
+  log_id: WIN-4753
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled global group was deleted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4754
+  log_id: WIN-4754
+  category: Account Management
+  subcategory: Security Group Management
+  description: A security-enabled universal group was created.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4755
+  log_id: WIN-4755
+  category: Account Management
+  subcategory: Security Group Management
+  description: A security-enabled universal group was changed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4756
+  log_id: WIN-4756
+  category: Account Management
+  subcategory: Security Group Management
+  description: A member was added to a security-enabled universal group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4757
+  log_id: WIN-4757
+  category: Account Management
+  subcategory: Security Group Management
+  description: A member was removed from a security-enabled universal group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4758
+  log_id: WIN-4758
+  category: Account Management
+  subcategory: Security Group Management
+  description: A security-enabled universal group was deleted.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4759
+  log_id: WIN-4759
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled universal group was created.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4760
+  log_id: WIN-4760
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A security-disabled universal group was changed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4761
+  log_id: WIN-4761
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A member was added to a security-disabled universal group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4762
+  log_id: WIN-4762
+  category: Account Management
+  subcategory: Distribution Group Management
+  description: A member was removed from a security-disabled universal group.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4764
+  log_id: WIN-4764
+  category: Account Management
+  subcategory: Security Group Management
+  description: A group’s type was changed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4765
+  log_id: WIN-4765
+  category: Account Management
+  subcategory: User Account Management
+  description: SID History was added to an account.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4766
+  log_id: WIN-4766
+  category: Account Management
+  subcategory: User Account Management
+  description: An attempt to add SID History to an account failed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false
+- event_id: 4767
+  log_id: WIN-4767
+  category: Account Management
+  subcategory: User Account Management
+  description: A user account was unlocked.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4768
+  log_id: WIN-4768
   category: Account Logon
+  subcategory: Kerberos Authentication Service
+  description: A Kerberos authentication ticket (TGT) was requested.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4769
+  log_id: WIN-4769
+  category: Account Logon
+  subcategory: Kerberos Service Ticket Operations
+  description: A Kerberos service ticket was requested.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4770
+  log_id: WIN-4770
+  category: Account Logon
+  subcategory: Kerberos Service Ticket Operations
+  description: A Kerberos service ticket was renewed.
+  severity: 6
+  severity_name: Informational
+  is_high_value: true
+- event_id: 4771
+  log_id: WIN-4771
+  category: Account Logon
+  subcategory: Kerberos Authentication Service
   description: Kerberos pre-authentication failed.
-- severity: 6
-  severity_name: Informational
+  severity: 4
+  severity_name: Warning
+  is_high_value: true
+- event_id: 4772
+  log_id: WIN-4772
   category: Account Logon
+  subcategory: Kerberos Authentication Service
   description: A Kerberos authentication ticket request failed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4773
+  log_id: WIN-4773
   category: Account Logon
+  subcategory: Kerberos Authentication Service
   description: A Kerberos service ticket request failed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4774
+  log_id: WIN-4774
   category: Account Logon
+  subcategory: Credential Validation
   description: An account was mapped for logon.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4775
+  log_id: WIN-4775
   category: Account Logon
+  subcategory: Credential Validation
   description: An account could not be mapped for logon.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4776
+  log_id: WIN-4776
   category: Account Logon
-  description: The domain controller attempted to validate the credentials for an account.
-- severity: 6
+  subcategory: Credential Validation
+  description: The domain controller attempted to validate the credentials for an
+    account.
+  severity: 6
   severity_name: Informational
+  is_high_value: true
+- event_id: 4777
+  log_id: WIN-4777
   category: Account Logon
+  subcategory: Credential Validation
   description: The domain controller failed to validate the credentials for an account.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4778
+  log_id: WIN-4778
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: A session was reconnected to a Window Station.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4779
+  log_id: WIN-4779
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: A session was disconnected from a Window Station.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4780
+  log_id: WIN-4780
   category: Account Management
+  subcategory: User Account Management
   description: The ACL was set on accounts which are members of administrators groups.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4781
+  log_id: WIN-4781
   category: Account Management
+  subcategory: User Account Management
   description: 'The name of an account was changed:'
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4782
+  log_id: WIN-4782
   category: Account Management
+  subcategory: Other Account Management Events
   description: The password hash an account was accessed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4783
+  log_id: WIN-4783
   category: Account Management
+  subcategory: Application Group Management
   description: A basic application group was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4784
+  log_id: WIN-4784
   category: Account Management
+  subcategory: Application Group Management
   description: A basic application group was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4785
+  log_id: WIN-4785
   category: Account Management
+  subcategory: Application Group Management
   description: A member was added to a basic application group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4786
+  log_id: WIN-4786
   category: Account Management
+  subcategory: Application Group Management
   description: A member was removed from a basic application group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4787
+  log_id: WIN-4787
   category: Account Management
+  subcategory: Application Group Management
   description: A non-member was added to a basic application group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4788
+  log_id: WIN-4788
   category: Account Management
+  subcategory: Application Group Management
   description: A non-member was removed from a basic application group.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4789
+  log_id: WIN-4789
   category: Account Management
+  subcategory: Application Group Management
   description: A basic application group was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4790
+  log_id: WIN-4790
   category: Account Management
+  subcategory: Application Group Management
   description: An LDAP query group was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4791
+  log_id: WIN-4791
   category: Account Management
+  subcategory: Application Group Management
   description: A basic application group was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4792
+  log_id: WIN-4792
   category: Account Management
+  subcategory: Application Group Management
   description: An LDAP query group was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4793
+  log_id: WIN-4793
   category: Account Management
+  subcategory: Other Account Management Events
   description: The Password Policy Checking API was called.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4794
+  log_id: WIN-4794
   category: Account Management
+  subcategory: User Account Management
   description: An attempt was made to set the Directory Services Restore Mode.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4797
+  log_id: WIN-4797
   category: Account Management
-  description: An attempt was made to query the existence of a blank password for an account.
-- severity: 6
+  subcategory: User Account Management
+  description: An attempt was made to query the existence of a blank password for
+    an account.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4798
+  log_id: WIN-4798
   category: Account Management
+  subcategory: User Account Management
   description: A user's local group membership was enumerated.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4799
+  log_id: WIN-4799
   category: Account Management
+  subcategory: Security Group Management
   description: A security-enabled local group membership was enumerated.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4800
+  log_id: WIN-4800
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: The workstation was locked.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4801
+  log_id: WIN-4801
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: The workstation was unlocked.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4802
+  log_id: WIN-4802
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: The screen saver was invoked.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4803
+  log_id: WIN-4803
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: The screen saver was dismissed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4816
+  log_id: WIN-4816
   category: System
+  subcategory: System Integrity
   description: RPC detected an integrity violation while decrypting an incoming message.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4817
+  log_id: WIN-4817
   category: Policy Change
+  subcategory: Audit Policy Change
   description: Auditing settings on an object were changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4818
+  log_id: WIN-4818
   category: Object Access
-  description: Proposed Central Access Policy does not grant the same access permissions as the current Central Access Policy
-- severity: 6
+  subcategory: Central Access Policy Staging
+  description: Proposed Central Access Policy does not grant the same access permissions
+    as the current Central Access Policy
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4819
+  log_id: WIN-4819
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: Central Access Policies on the machine have been changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4820
+  log_id: WIN-4820
   category: Account Logon
-  description: A Kerberos Ticket-granting-ticket (TGT) was denied because the device does not meet the access control restrictions.
-- severity: 6
+  subcategory: Kerberos Authentication Service
+  description: A Kerberos Ticket-granting-ticket (TGT) was denied because the device
+    does not meet the access control restrictions.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4821
+  log_id: WIN-4821
   category: Account Logon
-  description: A Kerberos service ticket was denied because the user, device, or both does not meet the access control restrictions.
-- severity: 6
+  subcategory: Kerberos Service Ticket Operations
+  description: A Kerberos service ticket was denied because the user, device, or both
+    does not meet the access control restrictions.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4822
+  log_id: WIN-4822
   category: Account Logon
-  description: NTLM authentication failed because the account was a member of the Protected User group.
-- severity: 6
+  subcategory: Credential Validation
+  description: NTLM authentication failed because the account was a member of the
+    Protected User group.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4823
+  log_id: WIN-4823
   category: Account Logon
-  description: NTLM authentication failed because access control restrictions are required.
-- severity: 6
+  subcategory: Credential Validation
+  description: NTLM authentication failed because access control restrictions are
+    required.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4824
+  log_id: WIN-4824
   category: Account Logon
-  description: Kerberos preauthentication by using DES or RC4 failed because the account was a member of the Protected User
-    group.
-- severity: 6
+  subcategory: Kerberos Authentication Service
+  description: Kerberos preauthentication by using DES or RC4 failed because the account
+    was a member of the Protected User group.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4825
+  log_id: WIN-4825
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: A user was denied the access to Remote Desktop.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4826
+  log_id: WIN-4826
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: Boot Configuration Data loaded.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4864
+  log_id: WIN-4864
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: A namespace collision was detected.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4865
+  log_id: WIN-4865
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: A trusted forest information entry was added.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4866
+  log_id: WIN-4866
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: A trusted forest information entry was removed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4867
+  log_id: WIN-4867
   category: Policy Change
+  subcategory: Authentication Policy Change
   description: A trusted forest information entry was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4868
+  log_id: WIN-4868
   category: Object Access
+  subcategory: Certification Services
   description: The certificate manager denied a pending certificate request.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4869
+  log_id: WIN-4869
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services received a resubmitted certificate request.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4870
+  log_id: WIN-4870
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services revoked a certificate.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4871
+  log_id: WIN-4871
   category: Object Access
-  description: Certificate Services received a request to publish the certificate revocation list (CRL).
-- severity: 6
+  subcategory: Certification Services
+  description: Certificate Services received a request to publish the certificate
+    revocation list (CRL).
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4872
+  log_id: WIN-4872
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services published the certificate revocation list (CRL).
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4873
+  log_id: WIN-4873
   category: Object Access
+  subcategory: Certification Services
   description: A certificate request extension changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4874
+  log_id: WIN-4874
   category: Object Access
+  subcategory: Certification Services
   description: One or more certificate request attributes changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4875
+  log_id: WIN-4875
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services received a request to shut down.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4876
+  log_id: WIN-4876
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services backup started.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4877
+  log_id: WIN-4877
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services backup completed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4878
+  log_id: WIN-4878
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services restore started.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4879
+  log_id: WIN-4879
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services restore completed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4880
+  log_id: WIN-4880
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services started.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4881
+  log_id: WIN-4881
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services stopped.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4882
+  log_id: WIN-4882
   category: Object Access
+  subcategory: Certification Services
   description: The security permissions for Certificate Services changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4883
+  log_id: WIN-4883
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services retrieved an archived key.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4884
+  log_id: WIN-4884
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services imported a certificate into its database.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4885
+  log_id: WIN-4885
   category: Object Access
+  subcategory: Certification Services
   description: The audit filter for Certificate Services changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4886
+  log_id: WIN-4886
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services received a certificate request.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4887
+  log_id: WIN-4887
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services approved a certificate request and issued a certificate.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4888
+  log_id: WIN-4888
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services denied a certificate request.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4889
+  log_id: WIN-4889
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services set the status of a certificate request to pending.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4890
+  log_id: WIN-4890
   category: Object Access
+  subcategory: Certification Services
   description: The certificate manager settings for Certificate Services changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4891
+  log_id: WIN-4891
   category: Object Access
+  subcategory: Certification Services
   description: A configuration entry changed in Certificate Services.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4892
+  log_id: WIN-4892
   category: Object Access
+  subcategory: Certification Services
   description: A property of Certificate Services changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4893
+  log_id: WIN-4893
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services archived a key.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4894
+  log_id: WIN-4894
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services imported and archived a key.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4895
+  log_id: WIN-4895
   category: Object Access
-  description: Certificate Services published the CA certificate to Active Directory Domain Services.
-- severity: 6
+  subcategory: Certification Services
+  description: Certificate Services published the CA certificate to Active Directory
+    Domain Services.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4896
+  log_id: WIN-4896
   category: Object Access
+  subcategory: Certification Services
   description: One or more rows have been deleted from the certificate database.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4897
+  log_id: WIN-4897
   category: Object Access
+  subcategory: Certification Services
   description: 'Role separation enabled:'
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4898
+  log_id: WIN-4898
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services loaded a template.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4899
+  log_id: WIN-4899
   category: Object Access
+  subcategory: Certification Services
   description: A Certificate Services template was updated.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4900
+  log_id: WIN-4900
   category: Object Access
+  subcategory: Certification Services
   description: Certificate Services template security was updated.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4902
+  log_id: WIN-4902
   category: Policy Change
+  subcategory: Audit Policy Change
   description: The Per-user audit policy table was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4904
+  log_id: WIN-4904
   category: Policy Change
+  subcategory: Audit Policy Change
   description: An attempt was made to register a security event source.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4905
+  log_id: WIN-4905
   category: Policy Change
+  subcategory: Audit Policy Change
   description: An attempt was made to unregister a security event source.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4906
+  log_id: WIN-4906
   category: Policy Change
+  subcategory: Audit Policy Change
   description: The CrashOnAuditFail value has changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4907
+  log_id: WIN-4907
   category: Policy Change
+  subcategory: Audit Policy Change
   description: Auditing settings on object were changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4908
+  log_id: WIN-4908
   category: Policy Change
+  subcategory: Audit Policy Change
   description: Special Groups Logon table modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4909
+  log_id: WIN-4909
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: The local policy settings for the TBS were changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4910
+  log_id: WIN-4910
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: The group policy settings for the TBS were changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4911
+  log_id: WIN-4911
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: Resource attributes of the object were changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4912
+  log_id: WIN-4912
   category: Policy Change
+  subcategory: Audit Policy Change
   description: Per User Audit Policy was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4913
+  log_id: WIN-4913
   category: Policy Change
+  subcategory: Authorization Policy Change
   description: Central Access Policy on the object was changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4928
+  log_id: WIN-4928
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: An Active Directory replica source naming context was established.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4929
+  log_id: WIN-4929
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: An Active Directory replica source naming context was removed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4930
+  log_id: WIN-4930
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: An Active Directory replica source naming context was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4931
+  log_id: WIN-4931
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: An Active Directory replica destination naming context was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4932
+  log_id: WIN-4932
   category: DS Access
-  description: Synchronization of a replica of an Active Directory naming context has begun.
-- severity: 6
+  subcategory: Directory Service Replication
+  description: Synchronization of a replica of an Active Directory naming context
+    has begun.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4933
+  log_id: WIN-4933
   category: DS Access
-  description: Synchronization of a replica of an Active Directory naming context has ended.
-- severity: 6
+  subcategory: Directory Service Replication
+  description: Synchronization of a replica of an Active Directory naming context
+    has ended.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4934
+  log_id: WIN-4934
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: Attributes of an Active Directory object were replicated.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4935
+  log_id: WIN-4935
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: Replication failure begins.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4936
+  log_id: WIN-4936
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: Replication failure ends.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4937
+  log_id: WIN-4937
   category: DS Access
+  subcategory: Detailed Directory Service Replication
   description: A lingering object was removed from a replica.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4944
+  log_id: WIN-4944
   category: Policy Change
+  subcategory: MPSSVC Rule-Level Policy Change
   description: The following policy was active when the Windows Firewall started.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4945
+  log_id: WIN-4945
   category: Policy Change
+  subcategory: MPSSVC Rule-Level Policy Change
   description: A rule was listed when the Windows Firewall started.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4946
+  log_id: WIN-4946
   category: Policy Change
-  description: A change has been made to Windows Firewall exception list. A rule was added.
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: A change has been made to Windows Firewall exception list. A rule was
+    added.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4947
+  log_id: WIN-4947
   category: Policy Change
-  description: A change has been made to Windows Firewall exception list. A rule was modified.
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: A change has been made to Windows Firewall exception list. A rule was
+    modified.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4948
+  log_id: WIN-4948
   category: Policy Change
-  description: A change has been made to Windows Firewall exception list. A rule was deleted.
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: A change has been made to Windows Firewall exception list. A rule was
+    deleted.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4949
+  log_id: WIN-4949
   category: Policy Change
+  subcategory: MPSSVC Rule-Level Policy Change
   description: Windows Firewall settings were restored to the default values.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4950
+  log_id: WIN-4950
   category: Policy Change
+  subcategory: MPSSVC Rule-Level Policy Change
   description: A Windows Firewall setting has changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4951
+  log_id: WIN-4951
   category: Policy Change
-  description: A rule has been ignored because its major version number was not recognized by Windows Firewall.
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: A rule has been ignored because its major version number was not recognized
+    by Windows Firewall.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4952
+  log_id: WIN-4952
   category: Policy Change
-  description: Parts of a rule have been ignored because its minor version number was not recognized by Windows Firewall.
-    The other parts of the rule will be enforced.
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: Parts of a rule have been ignored because its minor version number
+    was not recognized by Windows Firewall. The other parts of the rule will be enforced.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4953
+  log_id: WIN-4953
   category: Policy Change
-  description: A rule has been ignored by Windows Firewall because it could not parse the rule.
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: A rule has been ignored by Windows Firewall because it could not parse
+    the rule.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4954
+  log_id: WIN-4954
   category: Policy Change
-  description: Windows Firewall Group Policy settings have changed. The new settings have been applied.
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: Windows Firewall Group Policy settings have changed. The new settings
+    have been applied.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4956
+  log_id: WIN-4956
   category: Policy Change
+  subcategory: MPSSVC Rule-Level Policy Change
   description: Windows Firewall has changed the active profile.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4957
+  log_id: WIN-4957
   category: Policy Change
+  subcategory: MPSSVC Rule-Level Policy Change
   description: 'Windows Firewall did not apply the following rule:'
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4958
+  log_id: WIN-4958
   category: Policy Change
-  description: 'Windows Firewall did not apply the following rule because the rule referred to items not configured on this
-    computer:'
-- severity: 6
+  subcategory: MPSSVC Rule-Level Policy Change
+  description: 'Windows Firewall did not apply the following rule because the rule
+    referred to items not configured on this computer:'
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4960
+  log_id: WIN-4960
   category: System
-  description: IPsec dropped an inbound packet that failed an integrity check. If this problem persists, it could indicate
-    a network issue or that packets are being modified in transit to this computer. Verify that the packets sent from the
-    remote computer are the same as those received by this computer. This error might also indicate interoperability problems
-    with other IPsec implementations.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec dropped an inbound packet that failed an integrity check. If
+    this problem persists, it could indicate a network issue or that packets are being
+    modified in transit to this computer. Verify that the packets sent from the remote
+    computer are the same as those received by this computer. This error might also
+    indicate interoperability problems with other IPsec implementations.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4961
+  log_id: WIN-4961
   category: System
-  description: IPsec dropped an inbound packet that failed a replay check. If this problem persists, it could indicate a replay
-    attack against this computer.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec dropped an inbound packet that failed a replay check. If this
+    problem persists, it could indicate a replay attack against this computer.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4962
+  log_id: WIN-4962
   category: System
-  description: IPsec dropped an inbound packet that failed a replay check. The inbound packet had too low a sequence number
-    to ensure it was not a replay.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec dropped an inbound packet that failed a replay check. The inbound
+    packet had too low a sequence number to ensure it was not a replay.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4963
+  log_id: WIN-4963
   category: System
-  description: IPsec dropped an inbound clear text packet that should have been secured. This is usually due to the remote
-    computer changing its IPsec policy without informing this computer. This could also be a spoofing attack attempt.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec dropped an inbound clear text packet that should have been secured.
+    This is usually due to the remote computer changing its IPsec policy without informing
+    this computer. This could also be a spoofing attack attempt.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4964
+  log_id: WIN-4964
   category: Logon/Logoff
+  subcategory: Special Logon
   description: Special groups have been assigned to a new logon.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4965
+  log_id: WIN-4965
   category: System
-  description: IPsec received a packet from a remote computer with an incorrect Security Parameter Index (SPI). This is usually
-    caused by malfunctioning hardware that is corrupting packets. If these errors persist, verify that the packets sent from
-    the remote computer are the same as those received by this computer. This error may also indicate interoperability problems
-    with other IPsec implementations. In that case, if connectivity is not impeded, then these events can be ignored.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec received a packet from a remote computer with an incorrect Security
+    Parameter Index (SPI). This is usually caused by malfunctioning hardware that
+    is corrupting packets. If these errors persist, verify that the packets sent from
+    the remote computer are the same as those received by this computer. This error
+    may also indicate interoperability problems with other IPsec implementations.
+    In that case, if connectivity is not impeded, then these events can be ignored.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4976
+  log_id: WIN-4976
   category: Logon/Logoff
-  description: During Main Mode negotiation, IPsec received an invalid negotiation packet. If this problem persists, it could
-    indicate a network issue or an attempt to modify or replay this negotiation.
-- severity: 6
+  subcategory: IPsec Main Mode
+  description: During Main Mode negotiation, IPsec received an invalid negotiation
+    packet. If this problem persists, it could indicate a network issue or an attempt
+    to modify or replay this negotiation.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4977
+  log_id: WIN-4977
   category: Logon/Logoff
-  description: During Quick Mode negotiation, IPsec received an invalid negotiation packet. If this problem persists, it could
-    indicate a network issue or an attempt to modify or replay this negotiation.
-- severity: 6
+  subcategory: IPsec Quick Mode
+  description: During Quick Mode negotiation, IPsec received an invalid negotiation
+    packet. If this problem persists, it could indicate a network issue or an attempt
+    to modify or replay this negotiation.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4978
+  log_id: WIN-4978
   category: Logon/Logoff
-  description: During Extended Mode negotiation, IPsec received an invalid negotiation packet. If this problem persists, it
-    could indicate a network issue or an attempt to modify or replay this negotiation.
-- severity: 6
+  subcategory: IPsec Extended Mode
+  description: During Extended Mode negotiation, IPsec received an invalid negotiation
+    packet. If this problem persists, it could indicate a network issue or an attempt
+    to modify or replay this negotiation.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4979
+  log_id: WIN-4979
   category: Logon/Logoff
+  subcategory: IPsec Extended Mode
   description: IPsec Main Mode and Extended Mode security associations were established.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4980
+  log_id: WIN-4980
   category: Logon/Logoff
+  subcategory: IPsec Extended Mode
   description: IPsec Main Mode and Extended Mode security associations were established.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4981
+  log_id: WIN-4981
   category: Logon/Logoff
+  subcategory: IPsec Extended Mode
   description: IPsec Main Mode and Extended Mode security associations were established.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4982
+  log_id: WIN-4982
   category: Logon/Logoff
+  subcategory: IPsec Extended Mode
   description: IPsec Main Mode and Extended Mode security associations were established.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4983
+  log_id: WIN-4983
   category: Logon/Logoff
-  description: An IPsec Extended Mode negotiation failed. The corresponding Main Mode security association has been deleted.
-- severity: 6
+  subcategory: IPsec Extended Mode
+  description: An IPsec Extended Mode negotiation failed. The corresponding Main Mode
+    security association has been deleted.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4984
+  log_id: WIN-4984
   category: Logon/Logoff
-  description: An IPsec Extended Mode negotiation failed. The corresponding Main Mode security association has been deleted.
-- severity: 6
+  subcategory: IPsec Extended Mode
+  description: An IPsec Extended Mode negotiation failed. The corresponding Main Mode
+    security association has been deleted.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 4985
+  log_id: WIN-4985
   category: Object Access
+  subcategory: File System
   description: The state of a transaction has changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5024
+  log_id: WIN-5024
   category: System
+  subcategory: Other System Events
   description: The Windows Firewall Service has started successfully.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5025
+  log_id: WIN-5025
   category: System
+  subcategory: Other System Events
   description: The Windows Firewall Service has been stopped.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5027
+  log_id: WIN-5027
   category: System
-  description: The Windows Firewall Service was unable to retrieve the security policy from the local storage. The service
-    will continue enforcing the current policy.
-- severity: 6
+  subcategory: Other System Events
+  description: The Windows Firewall Service was unable to retrieve the security policy
+    from the local storage. The service will continue enforcing the current policy.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5028
+  log_id: WIN-5028
   category: System
-  description: The Windows Firewall Service was unable to parse the new security policy. The service will continue with currently
-    enforced policy.
-- severity: 6
+  subcategory: Other System Events
+  description: The Windows Firewall Service was unable to parse the new security policy.
+    The service will continue with currently enforced policy.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5029
+  log_id: WIN-5029
   category: System
-  description: The Windows Firewall Service failed to initialize the driver. The service will continue to enforce the current
-    policy.
-- severity: 6
+  subcategory: Other System Events
+  description: The Windows Firewall Service failed to initialize the driver. The service
+    will continue to enforce the current policy.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5030
+  log_id: WIN-5030
   category: System
+  subcategory: Other System Events
   description: The Windows Firewall Service failed to start.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5031
+  log_id: WIN-5031
   category: Object Access
-  description: The Windows Firewall Service blocked an application from accepting incoming connections on the network.
-- severity: 6
+  subcategory: Filtering Platform Connection
+  description: The Windows Firewall Service blocked an application from accepting
+    incoming connections on the network.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5032
+  log_id: WIN-5032
   category: System
-  description: Windows Firewall was unable to notify the user that it blocked an application from accepting incoming connections
-    on the network.
-- severity: 6
+  subcategory: Other System Events
+  description: Windows Firewall was unable to notify the user that it blocked an application
+    from accepting incoming connections on the network.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5033
+  log_id: WIN-5033
   category: System
+  subcategory: Other System Events
   description: The Windows Firewall Driver has started successfully.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5034
+  log_id: WIN-5034
   category: System
+  subcategory: Other System Events
   description: The Windows Firewall Driver has been stopped.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5035
+  log_id: WIN-5035
   category: System
+  subcategory: Other System Events
   description: The Windows Firewall Driver failed to start.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5037
+  log_id: WIN-5037
   category: System
+  subcategory: Other System Events
   description: The Windows Firewall Driver detected critical runtime error. Terminating.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5038
+  log_id: WIN-5038
   category: System
-  description: Code integrity determined that the image hash of a file is not valid. The file could be corrupt due to unauthorized
-    modification or the invalid hash could indicate a potential disk device error.
-- severity: 6
+  subcategory: System Integrity
+  description: Code integrity determined that the image hash of a file is not valid.
+    The file could be corrupt due to unauthorized modification or the invalid hash
+    could indicate a potential disk device error.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5039
+  log_id: WIN-5039
   category: Object Access
+  subcategory: Registry
   description: A registry key was virtualized.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5040
+  log_id: WIN-5040
   category: Policy Change
-  description: A change has been made to IPsec settings. An Authentication Set was added.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: A change has been made to IPsec settings. An Authentication Set was
+    added.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5041
+  log_id: WIN-5041
   category: Policy Change
-  description: A change has been made to IPsec settings. An Authentication Set was modified.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: A change has been made to IPsec settings. An Authentication Set was
+    modified.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5042
+  log_id: WIN-5042
   category: Policy Change
-  description: A change has been made to IPsec settings. An Authentication Set was deleted.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: A change has been made to IPsec settings. An Authentication Set was
+    deleted.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5043
+  log_id: WIN-5043
   category: Policy Change
-  description: A change has been made to IPsec settings. A Connection Security Rule was added.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: A change has been made to IPsec settings. A Connection Security Rule
+    was added.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5044
+  log_id: WIN-5044
   category: Policy Change
-  description: A change has been made to IPsec settings. A Connection Security Rule was modified.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: A change has been made to IPsec settings. A Connection Security Rule
+    was modified.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5045
+  log_id: WIN-5045
   category: Policy Change
-  description: A change has been made to IPsec settings. A Connection Security Rule was deleted.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: A change has been made to IPsec settings. A Connection Security Rule
+    was deleted.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5046
+  log_id: WIN-5046
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: A change has been made to IPsec settings. A Crypto Set was added.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5047
+  log_id: WIN-5047
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: A change has been made to IPsec settings. A Crypto Set was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5048
+  log_id: WIN-5048
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: A change has been made to IPsec settings. A Crypto Set was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5049
+  log_id: WIN-5049
   category: Logon/Logoff
+  subcategory: IPsec Main Mode
   description: An IPsec Security Association was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5050
+  log_id: WIN-5050
   category: System
-  description: An attempt to programmatically disable the Windows Firewall was rejected because this API is not supported
-    on Windows Vista.
-- severity: 6
+  subcategory: Other System Events
+  description: An attempt to programmatically disable the Windows Firewall was rejected
+    because this API is not supported on Windows Vista.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5051
+  log_id: WIN-5051
   category: Object Access
+  subcategory: File System
   description: A file was virtualized.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5056
+  log_id: WIN-5056
   category: System
+  subcategory: System Integrity
   description: A cryptographic self test was performed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5057
+  log_id: WIN-5057
   category: System
+  subcategory: System Integrity
   description: A cryptographic primitive operation failed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5058
+  log_id: WIN-5058
   category: System
+  subcategory: Other System Events
   description: Key file operation.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5059
+  log_id: WIN-5059
   category: System
+  subcategory: Other System Events
   description: Key migration operation.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5060
+  log_id: WIN-5060
   category: System
+  subcategory: System Integrity
   description: Verification operation failed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5061
+  log_id: WIN-5061
   category: System
+  subcategory: System Integrity
   description: Cryptographic operation.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5062
+  log_id: WIN-5062
   category: System
+  subcategory: System Integrity
   description: A kernel-mode cryptographic self test was performed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5063
+  log_id: WIN-5063
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic provider operation was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5064
+  log_id: WIN-5064
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic context operation was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5065
+  log_id: WIN-5065
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic context modification was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5066
+  log_id: WIN-5066
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic function operation was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5067
+  log_id: WIN-5067
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic function modification was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5068
+  log_id: WIN-5068
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic function provider operation was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5069
+  log_id: WIN-5069
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic function property operation was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5070
+  log_id: WIN-5070
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A cryptographic function property modification was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5071
+  log_id: WIN-5071
   category: System
+  subcategory: Other System Events
   description: Key access denied by Microsoft key distribution service.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5120
+  log_id: WIN-5120
   category: Object Access
+  subcategory: Certification Services
   description: OCSP Responder Service Started.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5121
+  log_id: WIN-5121
   category: Object Access
+  subcategory: Certification Services
   description: OCSP Responder Service Stopped.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5122
+  log_id: WIN-5122
   category: Object Access
+  subcategory: Certification Services
   description: A Configuration entry changed in the OCSP Responder Service.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5123
+  log_id: WIN-5123
   category: Object Access
+  subcategory: Certification Services
   description: A configuration entry changed in the OCSP Responder Service.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5124
+  log_id: WIN-5124
   category: Object Access
+  subcategory: Certification Services
   description: A security setting was updated on OCSP Responder Service.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5125
+  log_id: WIN-5125
   category: Object Access
+  subcategory: Certification Services
   description: A request was submitted to OCSP Responder Service.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5126
+  log_id: WIN-5126
   category: Object Access
-  description: Signing Certificate was automatically updated by the OCSP Responder Service.
-- severity: 6
+  subcategory: Certification Services
+  description: Signing Certificate was automatically updated by the OCSP Responder
+    Service.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5127
+  log_id: WIN-5127
   category: Object Access
+  subcategory: Certification Services
   description: The OCSP Revocation Provider successfully updated the revocation information.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5136
+  log_id: WIN-5136
   category: DS Access
+  subcategory: Directory Service Changes
   description: A directory service object was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5137
+  log_id: WIN-5137
   category: DS Access
+  subcategory: Directory Service Changes
   description: A directory service object was created.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5138
+  log_id: WIN-5138
   category: DS Access
+  subcategory: Directory Service Changes
   description: A directory service object was undeleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5139
+  log_id: WIN-5139
   category: DS Access
+  subcategory: Directory Service Changes
   description: A directory service object was moved.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5140
+  log_id: WIN-5140
   category: Object Access
+  subcategory: File Share
   description: A network share object was accessed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5141
+  log_id: WIN-5141
   category: DS Access
+  subcategory: Directory Service Changes
   description: A directory service object was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5142
+  log_id: WIN-5142
   category: Object Access
+  subcategory: File Share
   description: A network share object was added.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5143
+  log_id: WIN-5143
   category: Object Access
+  subcategory: File Share
   description: A network share object was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5144
+  log_id: WIN-5144
   category: Object Access
+  subcategory: File Share
   description: A network share object was deleted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5145
+  log_id: WIN-5145
   category: Object Access
-  description: A network share object was checked to see whether the client can be granted desired access.
-- severity: 6
+  subcategory: Detailed File Share
+  description: A network share object was checked to see whether the client can be
+    granted desired access.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5146
+  log_id: WIN-5146
   category: Object Access
+  subcategory: Filtering Platform Packet Drop
   description: The Windows Filtering Platform has blocked a packet.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5147
+  log_id: WIN-5147
   category: Object Access
-  description: A more restrictive Windows Filtering Platform filter has blocked a packet.
-- severity: 6
+  subcategory: Filtering Platform Packet Drop
+  description: A more restrictive Windows Filtering Platform filter has blocked a
+    packet.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5148
+  log_id: WIN-5148
   category: Object Access
-  description: The Windows Filtering Platform has detected a DoS attack and entered a defensive mode; packets associated with
-    this attack will be discarded.
-- severity: 6
+  subcategory: Other Object Access Events
+  description: The Windows Filtering Platform has detected a DoS attack and entered
+    a defensive mode; packets associated with this attack will be discarded.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5149
+  log_id: WIN-5149
   category: Object Access
+  subcategory: Other Object Access Events
   description: The DoS attack has subsided and normal processing is being resumed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5150
+  log_id: WIN-5150
   category: Object Access
+  subcategory: Filtering Platform Connection
   description: The Windows Filtering Platform has blocked a packet.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5151
+  log_id: WIN-5151
   category: Object Access
-  description: A more restrictive Windows Filtering Platform filter has blocked a packet.
-- severity: 6
+  subcategory: Filtering Platform Connection
+  description: A more restrictive Windows Filtering Platform filter has blocked a
+    packet.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5152
+  log_id: WIN-5152
   category: Object Access
+  subcategory: Filtering Platform Packet Drop
   description: The Windows Filtering Platform blocked a packet.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5153
+  log_id: WIN-5153
   category: Object Access
-  description: A more restrictive Windows Filtering Platform filter has blocked a packet.
-- severity: 6
+  subcategory: Filtering Platform Packet Drop
+  description: A more restrictive Windows Filtering Platform filter has blocked a
+    packet.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5154
+  log_id: WIN-5154
   category: Object Access
-  description: The Windows Filtering Platform has permitted an application or service to listen on a port for incoming connections.
-- severity: 6
+  subcategory: Filtering Platform Connection
+  description: The Windows Filtering Platform has permitted an application or service
+    to listen on a port for incoming connections.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5155
+  log_id: WIN-5155
   category: Object Access
-  description: The Windows Filtering Platform has blocked an application or service from listening on a port for incoming
-    connections.
-- severity: 6
+  subcategory: Filtering Platform Connection
+  description: The Windows Filtering Platform has blocked an application or service
+    from listening on a port for incoming connections.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5156
+  log_id: WIN-5156
   category: Object Access
+  subcategory: Filtering Platform Connection
   description: The Windows Filtering Platform has allowed a connection.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5157
+  log_id: WIN-5157
   category: Object Access
+  subcategory: Filtering Platform Connection
   description: The Windows Filtering Platform has blocked a connection.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5158
+  log_id: WIN-5158
   category: Object Access
+  subcategory: Filtering Platform Connection
   description: The Windows Filtering Platform has permitted a bind to a local port.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5159
+  log_id: WIN-5159
   category: Object Access
+  subcategory: Filtering Platform Connection
   description: The Windows Filtering Platform has blocked a bind to a local port.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5168
+  log_id: WIN-5168
   category: Object Access
+  subcategory: File Share
   description: Spn check for SMB/SMB2 failed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5169
+  log_id: WIN-5169
   category: DS Access
+  subcategory: Directory Service Access
   description: A directory service object was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5376
+  log_id: WIN-5376
   category: Account Management
+  subcategory: User Account Management
   description: Credential Manager credentials were backed up.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5377
+  log_id: WIN-5377
   category: Account Management
+  subcategory: User Account Management
   description: Credential Manager credentials were restored from a backup.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5378
+  log_id: WIN-5378
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: The requested credentials delegation was disallowed by policy.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5440
+  log_id: WIN-5440
   category: Policy Change
-  description: The following callout was present when the Windows Filtering Platform Base Filtering Engine started.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: The following callout was present when the Windows Filtering Platform
+    Base Filtering Engine started.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5441
+  log_id: WIN-5441
   category: Policy Change
-  description: The following filter was present when the Windows Filtering Platform Base Filtering Engine started.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: The following filter was present when the Windows Filtering Platform
+    Base Filtering Engine started.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5442
+  log_id: WIN-5442
   category: Policy Change
-  description: The following provider was present when the Windows Filtering Platform Base Filtering Engine started.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: The following provider was present when the Windows Filtering Platform
+    Base Filtering Engine started.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5443
+  log_id: WIN-5443
   category: Policy Change
-  description: The following provider context was present when the Windows Filtering Platform Base Filtering Engine started.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: The following provider context was present when the Windows Filtering
+    Platform Base Filtering Engine started.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5444
+  log_id: WIN-5444
   category: Policy Change
-  description: The following sub-layer was present when the Windows Filtering Platform Base Filtering Engine started.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: The following sub-layer was present when the Windows Filtering Platform
+    Base Filtering Engine started.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5446
+  log_id: WIN-5446
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: A Windows Filtering Platform callout has been changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5447
+  log_id: WIN-5447
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: A Windows Filtering Platform filter has been changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5448
+  log_id: WIN-5448
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: A Windows Filtering Platform provider has been changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5449
+  log_id: WIN-5449
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: A Windows Filtering Platform provider context has been changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5450
+  log_id: WIN-5450
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: A Windows Filtering Platform sub-layer has been changed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5451
+  log_id: WIN-5451
   category: Logon/Logoff
+  subcategory: IPsec Quick Mode
   description: An IPsec Quick Mode security association was established.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5452
+  log_id: WIN-5452
   category: Logon/Logoff
+  subcategory: IPsec Quick Mode
   description: An IPsec Quick Mode security association ended.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5453
+  log_id: WIN-5453
   category: Logon/Logoff
-  description: An IPsec negotiation with a remote computer failed because the IKE and AuthIP IPsec Keying Modules (IKEEXT)
-    service is not started.
-- severity: 6
+  subcategory: IPsec Main Mode
+  description: An IPsec negotiation with a remote computer failed because the IKE
+    and AuthIP IPsec Keying Modules (IKEEXT) service is not started.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5456
+  log_id: WIN-5456
   category: Policy Change
-  description: PAStore Engine applied Active Directory storage IPsec policy on the computer.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine applied Active Directory storage IPsec policy on the
+    computer.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5457
+  log_id: WIN-5457
   category: Policy Change
-  description: PAStore Engine failed to apply Active Directory storage IPsec policy on the computer.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine failed to apply Active Directory storage IPsec policy
+    on the computer.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5458
+  log_id: WIN-5458
   category: Policy Change
-  description: PAStore Engine applied locally cached copy of Active Directory storage IPsec policy on the computer.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine applied locally cached copy of Active Directory storage
+    IPsec policy on the computer.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5459
+  log_id: WIN-5459
   category: Policy Change
-  description: PAStore Engine failed to apply locally cached copy of Active Directory storage IPsec policy on the computer.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine failed to apply locally cached copy of Active Directory
+    storage IPsec policy on the computer.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5460
+  log_id: WIN-5460
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: PAStore Engine applied local registry storage IPsec policy on the computer.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5461
+  log_id: WIN-5461
   category: Policy Change
-  description: PAStore Engine failed to apply local registry storage IPsec policy on the computer.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine failed to apply local registry storage IPsec policy
+    on the computer.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5462
+  log_id: WIN-5462
   category: Policy Change
-  description: PAStore Engine failed to apply some rules of the active IPsec policy on the computer. Use the IP Security Monitor
-    snap-in to diagnose the problem.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine failed to apply some rules of the active IPsec policy
+    on the computer. Use the IP Security Monitor snap-in to diagnose the problem.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5463
+  log_id: WIN-5463
   category: Policy Change
-  description: PAStore Engine polled for changes to the active IPsec policy and detected no changes.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine polled for changes to the active IPsec policy and detected
+    no changes.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5464
+  log_id: WIN-5464
   category: Policy Change
-  description: PAStore Engine polled for changes to the active IPsec policy, detected changes, and applied them to IPsec Services.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine polled for changes to the active IPsec policy, detected
+    changes, and applied them to IPsec Services.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5465
+  log_id: WIN-5465
   category: Policy Change
-  description: PAStore Engine received a control for forced reloading of IPsec policy and processed the control successfully.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine received a control for forced reloading of IPsec policy
+    and processed the control successfully.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5466
+  log_id: WIN-5466
   category: Policy Change
-  description: PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory cannot
-    be reached, and will use the cached copy of the Active Directory IPsec policy instead. Any changes made to the Active
-    Directory IPsec policy since the last poll could not be applied.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine polled for changes to the Active Directory IPsec policy,
+    determined that Active Directory cannot be reached, and will use the cached copy
+    of the Active Directory IPsec policy instead. Any changes made to the Active Directory
+    IPsec policy since the last poll could not be applied.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5467
+  log_id: WIN-5467
   category: Policy Change
-  description: PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory can
-    be reached, and found no changes to the policy. The cached copy of the Active Directory IPsec policy is no longer being
-    used.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine polled for changes to the Active Directory IPsec policy,
+    determined that Active Directory can be reached, and found no changes to the policy.
+    The cached copy of the Active Directory IPsec policy is no longer being used.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5468
+  log_id: WIN-5468
   category: Policy Change
-  description: PAStore Engine polled for changes to the Active Directory IPsec policy, determined that Active Directory can
-    be reached, found changes to the policy, and applied those changes. The cached copy of the Active Directory IPsec policy
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine polled for changes to the Active Directory IPsec policy,
+    determined that Active Directory can be reached, found changes to the policy,
+    and applied those changes. The cached copy of the Active Directory IPsec policy
     is no longer being used.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5471
+  log_id: WIN-5471
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: PAStore Engine loaded local storage IPsec policy on the computer.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5472
+  log_id: WIN-5472
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: PAStore Engine failed to load local storage IPsec policy on the computer.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5473
+  log_id: WIN-5473
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: PAStore Engine loaded directory storage IPsec policy on the computer.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5474
+  log_id: WIN-5474
   category: Policy Change
-  description: PAStore Engine failed to load directory storage IPsec policy on the computer.
-- severity: 6
+  subcategory: Filtering Platform Policy Change
+  description: PAStore Engine failed to load directory storage IPsec policy on the
+    computer.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5477
+  log_id: WIN-5477
   category: Policy Change
+  subcategory: Filtering Platform Policy Change
   description: PAStore Engine failed to add quick mode filter.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5478
+  log_id: WIN-5478
   category: System
+  subcategory: IPsec Driver
   description: IPsec Services has started successfully.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5479
+  log_id: WIN-5479
   category: System
-  description: IPsec Services has been shut down successfully. The shutdown of IPsec Services can put the computer at greater
-    risk of network attack or expose the computer to potential security risks.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec Services has been shut down successfully. The shutdown of IPsec
+    Services can put the computer at greater risk of network attack or expose the
+    computer to potential security risks.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5480
+  log_id: WIN-5480
   category: System
-  description: IPsec Services failed to get the complete list of network interfaces on the computer. This poses a potential
-    security risk because some of the network interfaces may not get the protection provided by the applied IPsec filters.
-    Use the IP Security Monitor snap-in to diagnose the problem.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec Services failed to get the complete list of network interfaces
+    on the computer. This poses a potential security risk because some of the network
+    interfaces may not get the protection provided by the applied IPsec filters. Use
+    the IP Security Monitor snap-in to diagnose the problem.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5483
+  log_id: WIN-5483
   category: System
-  description: IPsec Services failed to initialize RPC server. IPsec Services could not be started.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec Services failed to initialize RPC server. IPsec Services could
+    not be started.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5484
+  log_id: WIN-5484
   category: System
-  description: IPsec Services has experienced a critical failure and has been shut down. The shutdown of IPsec Services can
-    put the computer at greater risk of network attack or expose the computer to potential security risks.
-- severity: 6
+  subcategory: IPsec Driver
+  description: IPsec Services has experienced a critical failure and has been shut
+    down. The shutdown of IPsec Services can put the computer at greater risk of network
+    attack or expose the computer to potential security risks.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5485
+  log_id: WIN-5485
   category: System
-  description: IPsec Services failed to process some IPsec filters on a plug-and-play event for network interfaces. This poses
-    a potential security risk because some of the network interfaces may not get the protection provided by the applied IPsec
+  subcategory: IPsec Driver
+  description: IPsec Services failed to process some IPsec filters on a plug-and-play
+    event for network interfaces. This poses a potential security risk because some
+    of the network interfaces may not get the protection provided by the applied IPsec
     filters. Use the IP Security Monitor snap-in to diagnose the problem.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5632
+  log_id: WIN-5632
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: A request was made to authenticate to a wireless network.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5633
+  log_id: WIN-5633
   category: Logon/Logoff
+  subcategory: Other Logon/Logoff Events
   description: A request was made to authenticate to a wired network.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5712
+  log_id: WIN-5712
   category: Detailed Tracking
+  subcategory: RPC Events
   description: A Remote Procedure Call (RPC) was attempted.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5888
+  log_id: WIN-5888
   category: Object Access
+  subcategory: Other Object Access Events
   description: An object in the COM+ Catalog was modified.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5889
+  log_id: WIN-5889
   category: Object Access
+  subcategory: Other Object Access Events
   description: An object was deleted from the COM+ Catalog.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 5890
+  log_id: WIN-5890
   category: Object Access
+  subcategory: Other Object Access Events
   description: An object was added to the COM+ Catalog.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6144
+  log_id: WIN-6144
   category: Policy Change
+  subcategory: Other Policy Change Events
   description: Security policy in the group policy objects has been applied successfully.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6145
+  log_id: WIN-6145
   category: Policy Change
-  description: One or more errors occurred while processing security policy in the group policy objects.
-- severity: 6
+  subcategory: Other Policy Change Events
+  description: One or more errors occurred while processing security policy in the
+    group policy objects.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6272
+  log_id: WIN-6272
   category: Logon/Logoff
+  subcategory: Network Policy Server
   description: Network Policy Server granted access to a user.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6273
+  log_id: WIN-6273
   category: Logon/Logoff
+  subcategory: Network Policy Server
   description: Network Policy Server denied access to a user.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6274
+  log_id: WIN-6274
   category: Logon/Logoff
+  subcategory: Network Policy Server
   description: Network Policy Server discarded the request for a user.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6275
+  log_id: WIN-6275
   category: Logon/Logoff
+  subcategory: Network Policy Server
   description: Network Policy Server discarded the accounting request for a user.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6276
+  log_id: WIN-6276
   category: Logon/Logoff
+  subcategory: Network Policy Server
   description: Network Policy Server quarantined a user.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6277
+  log_id: WIN-6277
   category: Logon/Logoff
-  description: Network Policy Server granted access to a user but put it on probation because the host did not meet the defined
-    health policy.
-- severity: 6
+  subcategory: Network Policy Server
+  description: Network Policy Server granted access to a user but put it on probation
+    because the host did not meet the defined health policy.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6278
+  log_id: WIN-6278
   category: Logon/Logoff
-  description: Network Policy Server granted full access to a user because the host met the defined health policy.
-- severity: 6
+  subcategory: Network Policy Server
+  description: Network Policy Server granted full access to a user because the host
+    met the defined health policy.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6279
+  log_id: WIN-6279
   category: Logon/Logoff
-  description: Network Policy Server locked the user account due to repeated failed authentication attempts.
-- severity: 6
+  subcategory: Network Policy Server
+  description: Network Policy Server locked the user account due to repeated failed
+    authentication attempts.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6280
+  log_id: WIN-6280
   category: Logon/Logoff
+  subcategory: Network Policy Server
   description: Network Policy Server unlocked the user account.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6281
+  log_id: WIN-6281
   category: System
-  description: Code Integrity determined that the page hashes of an image file are not valid. The file could be improperly
-    signed without page hashes or corrupt due to unauthorized modification. The invalid hashes could indicate a potential
+  subcategory: System Integrity
+  description: Code Integrity determined that the page hashes of an image file are
+    not valid. The file could be improperly signed without page hashes or corrupt
+    due to unauthorized modification. The invalid hashes could indicate a potential
     disk device error
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6400
+  log_id: WIN-6400
   category: System
-  description: 'BranchCache: Received an incorrectly formatted response while discovering availability of content.'
-- severity: 6
+  subcategory: Other System Events
+  description: 'BranchCache: Received an incorrectly formatted response while discovering
+    availability of content.'
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6401
+  log_id: WIN-6401
   category: System
+  subcategory: Other System Events
   description: 'BranchCache: Received invalid data from a peer. Data discarded.'
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6402
+  log_id: WIN-6402
   category: System
-  description: 'BranchCache: The message to the hosted cache offering it data is incorrectly formatted.'
-- severity: 6
+  subcategory: Other System Events
+  description: 'BranchCache: The message to the hosted cache offering it data is incorrectly
+    formatted.'
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6403
+  log_id: WIN-6403
   category: System
-  description: 'BranchCache: The hosted cache sent an incorrectly formatted response to the client.'
-- severity: 6
+  subcategory: Other System Events
+  description: 'BranchCache: The hosted cache sent an incorrectly formatted response
+    to the client.'
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6404
+  log_id: WIN-6404
   category: System
-  description: 'BranchCache: Hosted cache could not be authenticated using the provisioned SSL certificate.'
-- severity: 6
+  subcategory: Other System Events
+  description: 'BranchCache: Hosted cache could not be authenticated using the provisioned
+    SSL certificate.'
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6405
+  log_id: WIN-6405
   category: System
+  subcategory: Other System Events
   description: 'BranchCache: %2 instance(s) of event id %1 occurred.'
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6406
+  log_id: WIN-6406
   category: System
-  description: '%1 registered to Windows Firewall to control filtering for the following: %2'
-- severity: 6
+  subcategory: Other System Events
+  description: '%1 registered to Windows Firewall to control filtering for the following:
+    %2'
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6407
+  log_id: WIN-6407
   category: System
+  subcategory: Other System Events
   description: 1%
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6408
+  log_id: WIN-6408
   category: System
-  description: Registered product %1 failed and Windows Firewall is now controlling the filtering for %2
-- severity: 6
+  subcategory: Other System Events
+  description: Registered product %1 failed and Windows Firewall is now controlling
+    the filtering for %2
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6409
+  log_id: WIN-6409
   category: System
+  subcategory: Other System Events
   description: 'BranchCache: A service connection point object could not be parsed.'
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6410
+  log_id: WIN-6410
   category: System
-  description: Code integrity determined that a file does not meet the security requirements to load into a process.
-- severity: 6
+  subcategory: System Integrity
+  description: Code integrity determined that a file does not meet the security requirements
+    to load into a process.
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6416
+  log_id: WIN-6416
   category: System
+  subcategory: Plug and Play Events
   description: A new external device was recognized by the System
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6417
+  log_id: WIN-6417
   category: System
+  subcategory: System Integrity
   description: The FIPS mode crypto selftests succeeded.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6418
+  log_id: WIN-6418
   category: System
+  subcategory: System Integrity
   description: The FIPS mode crypto selftests failed.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6419
+  log_id: WIN-6419
   category: System
+  subcategory: Plug and Play Events
   description: A request was made to disable a device
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6420
+  log_id: WIN-6420
   category: System
+  subcategory: Plug and Play Events
   description: A device was disabled.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6421
+  log_id: WIN-6421
   category: System
+  subcategory: Plug and Play Events
   description: A request was made to enable a device.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6422
+  log_id: WIN-6422
   category: System
+  subcategory: Plug and Play Events
   description: A device was enabled.
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6423
+  log_id: WIN-6423
   category: System
+  subcategory: Plug and Play Events
   description: The installation of this device is forbidden by system policy
-- severity: 6
+  severity: 6
   severity_name: Informational
+  is_high_value: false
+- event_id: 6424
+  log_id: WIN-6424
   category: System
-  description: The installation of this device was allowed, after having previously been forbidden by policy.
+  subcategory: Plug and Play Events
+  description: The installation of this device was allowed, after having previously
+    been forbidden by policy.
+  severity: 6
+  severity_name: Informational
+  is_high_value: false

@@ -1,0 +1,522 @@
+version: '1.0'
+vendor: VMware Carbon Black
+product: Carbon Black EDR
+product_full_name: Carbon Black Enterprise Response (EDR)
+log_type: structured
+source_document: Event Forwarder Event Schema
+source_url: https://developer.carbonblack.com/reference/enterprise-response/connectors/event-forwarder/event-schema/
+extraction_date: '2026-01-02'
+source_file: carbonblack-edr-signatures.json
+generated_at: '2026-01-02T22:29:38.464271'
+categories:
+- ServerEvents
+- ProcessDocument
+- BinaryDocument
+- FeedHit
+- ProcessStart
+- ChildProcess
+- FileModification
+- RegistryModification
+- NetworkConnection
+- ModuleLoad
+- CrossProcess
+- Security
+field_count: 115
+fields:
+- field_name: cb_version
+  field_type: string
+  description: Carbon Black server version
+  category: ServerEvents
+- field_name: event_timestamp
+  field_type: datetime
+  description: Timestamp when event was published
+  category: ServerEvents
+- field_name: server_name
+  field_type: string
+  description: Name of the Carbon Black Server
+  category: ServerEvents
+- field_name: watchlist_id
+  field_type: integer
+  description: Identifier of the watchlist that matched
+  category: ServerEvents
+- field_name: watchlist_name
+  field_type: string
+  description: Name of watchlist that matched
+  category: ServerEvents
+- field_name: feed_id
+  field_type: integer
+  description: Identifier of feed with matching report
+  category: ServerEvents
+- field_name: feed_name
+  field_type: string
+  description: Name of feed with matching report
+  category: ServerEvents
+- field_name: report_id
+  field_type: string
+  description: Identifier of report with matching IOC
+  category: ServerEvents
+- field_name: ioc_type
+  field_type: string
+  description: 'IOC type: md5, dns, ipv4, query'
+  category: ServerEvents
+- field_name: ioc_value
+  field_type: string
+  description: The matching IOC value
+  category: ServerEvents
+- field_name: ioc_attr
+  field_type: object
+  description: Key-value pairs of additional IOC attributes
+  category: ServerEvents
+- field_name: docs
+  field_type: array
+  description: List of matching process or binary documents
+  category: ServerEvents
+- field_name: process_name
+  field_type: string
+  description: Filename of executable backing process
+  category: ProcessDocument
+- field_name: process_md5
+  field_type: hash
+  description: MD5 of executable file backing process
+  category: ProcessDocument
+- field_name: process_pid
+  field_type: integer
+  description: PID of this process
+  category: ProcessDocument
+- field_name: path
+  field_type: string
+  description: Full path to executable file backing process
+  category: ProcessDocument
+- field_name: cmdline
+  field_type: string
+  description: Process command line
+  category: ProcessDocument
+- field_name: username
+  field_type: string
+  description: User context in which process executed
+  category: ProcessDocument
+- field_name: hostname
+  field_type: string
+  description: Hostname of computer where process executed
+  category: ProcessDocument
+- field_name: sensor_id
+  field_type: integer
+  description: Endpoint identifier
+  category: ProcessDocument
+- field_name: group
+  field_type: string
+  description: Sensor group at time of process execution
+  category: ProcessDocument
+- field_name: host_type
+  field_type: string
+  description: 'Type of computer: server, workstation, domain controller'
+  category: ProcessDocument
+- field_name: os_type
+  field_type: string
+  description: Operating system type (Windows, Linux, Osx)
+  category: ProcessDocument
+- field_name: unique_id
+  field_type: string
+  description: Process unique Id
+  category: ProcessDocument
+- field_name: parent_name
+  field_type: string
+  description: Name of parent process
+  category: ProcessDocument
+- field_name: parent_md5
+  field_type: hash
+  description: MD5 of parent process
+  category: ProcessDocument
+- field_name: parent_pid
+  field_type: integer
+  description: PID of parent process
+  category: ProcessDocument
+- field_name: parent_unique_id
+  field_type: string
+  description: Parent process unique identifier
+  category: ProcessDocument
+- field_name: start
+  field_type: datetime
+  description: Start time in endpoint local time
+  category: ProcessDocument
+- field_name: last_update
+  field_type: datetime
+  description: Last activity in endpoint local time
+  category: ProcessDocument
+- field_name: segment_id
+  field_type: integer
+  description: Process segment identifier
+  category: ProcessDocument
+- field_name: childproc_count
+  field_type: integer
+  description: Total count of child processes created
+  category: ProcessDocument
+- field_name: filemod_count
+  field_type: integer
+  description: Total count of file modifications made
+  category: ProcessDocument
+- field_name: regmod_count
+  field_type: integer
+  description: Total count of registry modifications made
+  category: ProcessDocument
+- field_name: modload_count
+  field_type: integer
+  description: Total count of module loads
+  category: ProcessDocument
+- field_name: netconn_count
+  field_type: integer
+  description: Total count of network connections
+  category: ProcessDocument
+- field_name: md5
+  field_type: hash
+  description: MD5 of binary
+  category: BinaryDocument
+- field_name: observed_filename
+  field_type: string
+  description: Full path to executable backing process
+  category: BinaryDocument
+- field_name: orig_mod_len
+  field_type: integer
+  description: Size in bytes at observation time
+  category: BinaryDocument
+- field_name: copied_mod_len
+  field_type: integer
+  description: Number of bytes copied to server
+  category: BinaryDocument
+- field_name: is_executable_image
+  field_type: boolean
+  description: True if standalone executable vs library
+  category: BinaryDocument
+- field_name: is_64bit
+  field_type: boolean
+  description: True if x64 architecture
+  category: BinaryDocument
+- field_name: digsig_issuer
+  field_type: string
+  description: If signed, the issuer
+  category: BinaryDocument
+- field_name: digsig_publisher
+  field_type: string
+  description: If signed, the publisher
+  category: BinaryDocument
+- field_name: digsig_result
+  field_type: string
+  description: If signed, human-readable status
+  category: BinaryDocument
+- field_name: digsig_sign_time
+  field_type: datetime
+  description: If signed, the sign time
+  category: BinaryDocument
+- field_name: digsig_subject
+  field_type: string
+  description: If signed, the subject
+  category: BinaryDocument
+- field_name: server_added_timestamp
+  field_type: datetime
+  description: Time first seen by server
+  category: BinaryDocument
+- field_name: file_version
+  field_type: string
+  description: File Version (Windows Only)
+  category: BinaryDocument
+- field_name: product_name
+  field_type: string
+  description: Product Name (Windows Only)
+  category: BinaryDocument
+- field_name: company_name
+  field_type: string
+  description: Company Name (Windows Only)
+  category: BinaryDocument
+- field_name: internal_name
+  field_type: string
+  description: Internal Name (Windows Only)
+  category: BinaryDocument
+- field_name: original_filename
+  field_type: string
+  description: Internal Original Filename (Windows Only)
+  category: BinaryDocument
+- field_name: file_desc
+  field_type: string
+  description: File Description (Windows only)
+  category: BinaryDocument
+- field_name: legal_copyright
+  field_type: string
+  description: Legal copyright string (Windows only)
+  category: BinaryDocument
+- field_name: command_line
+  field_type: string
+  description: Command line of new process
+  category: ProcessStart
+- field_name: process_guid
+  field_type: string
+  description: CB Process GUID
+  category: ProcessStart
+- field_name: pid
+  field_type: integer
+  description: OS Process id
+  category: ProcessStart
+- field_name: computer_name
+  field_type: string
+  description: Hostname of sensor
+  category: ProcessStart
+- field_name: cb_server
+  field_type: string
+  description: Distinguishes multiple EDR servers
+  category: ProcessStart
+- field_name: event_type
+  field_type: string
+  description: Event type identifier (proc, filemod, etc.)
+  category: ProcessStart
+- field_name: timestamp
+  field_type: integer
+  description: Endpoint timestamp seconds since epoch
+  category: ProcessStart
+- field_name: type
+  field_type: string
+  description: Full event type (ingress.event.procstart)
+  category: ProcessStart
+- field_name: parent_create_time
+  field_type: integer
+  description: Parent process creation time (seconds since epoch)
+  category: ProcessStart
+- field_name: parent_path
+  field_type: string
+  description: File path of parent executable
+  category: ProcessStart
+- field_name: parent_process_guid
+  field_type: string
+  description: CB Process GUID of parent
+  category: ProcessStart
+- field_name: expect_followon_w_md5
+  field_type: boolean
+  description: If md5 will arrive in separate event
+  category: ProcessStart
+- field_name: logon_type
+  field_type: integer
+  description: Describes logon type of session
+  category: ProcessStart
+- field_name: link_process
+  field_type: url
+  description: Deep link to EDR UI for process
+  category: ProcessStart
+- field_name: link_parent
+  field_type: url
+  description: Deep link to EDR UI for parent
+  category: ProcessStart
+- field_name: link_sensor
+  field_type: url
+  description: Deep link to EDR UI for sensor
+  category: ProcessStart
+- field_name: child_process_guid
+  field_type: string
+  description: Process GUID of child process
+  category: ChildProcess
+- field_name: created
+  field_type: boolean
+  description: Whether process_guid is child or parent
+  category: ChildProcess
+- field_name: link_child
+  field_type: url
+  description: Deep link to EDR UI for child process
+  category: ChildProcess
+- field_name: action
+  field_type: string
+  description: 'Action: create, write, delete, lastwrite (filemod) or createkey, writeval,
+    delkey, delval (regmod)'
+  category: FileModification
+- field_name: actiontype
+  field_type: integer
+  description: Action type bitmask (1=create, 2=write, 4=delete, 8=lastwrite)
+  category: FileModification
+- field_name: filetype
+  field_type: integer
+  description: Enum value of detected file type
+  category: FileModification
+- field_name: filetype_name
+  field_type: string
+  description: Detected file type name
+  category: FileModification
+- field_name: direction
+  field_type: string
+  description: 'Connection direction: inbound or outbound'
+  category: NetworkConnection
+- field_name: domain
+  field_type: string
+  description: DNS name of network peer if available
+  category: NetworkConnection
+- field_name: ipv4
+  field_type: ip
+  description: Remote IPv4 address (backward compatibility)
+  category: NetworkConnection
+- field_name: local_ip
+  field_type: ip
+  description: Local IP address
+  category: NetworkConnection
+- field_name: local_port
+  field_type: port
+  description: Local port of connection
+  category: NetworkConnection
+- field_name: remote_ip
+  field_type: ip
+  description: IP of remote system
+  category: NetworkConnection
+- field_name: remote_port
+  field_type: port
+  description: Remote port
+  category: NetworkConnection
+- field_name: port
+  field_type: port
+  description: Remote port (backward compatibility)
+  category: NetworkConnection
+- field_name: protocol
+  field_type: integer
+  description: 'Protocol number: 6=TCP, 17=UDP'
+  category: NetworkConnection
+- field_name: proxy
+  field_type: boolean
+  description: Whether web proxy was used
+  category: NetworkConnection
+- field_name: proxy_ip
+  field_type: ip
+  description: IP of web proxy
+  category: NetworkConnection
+- field_name: proxy_port
+  field_type: port
+  description: Port of web proxy
+  category: NetworkConnection
+- field_name: proxy_domain
+  field_type: string
+  description: Domain of web proxy
+  category: NetworkConnection
+- field_name: cross_process_type
+  field_type: string
+  description: 'Type: open_process or open_thread'
+  category: CrossProcess
+- field_name: is_target
+  field_type: boolean
+  description: Whether process_guid is target
+  category: CrossProcess
+- field_name: requested_access
+  field_type: integer
+  description: Windows bitfield of requested access
+  category: CrossProcess
+- field_name: target_create_time
+  field_type: integer
+  description: Target process creation time (64-bit Windows FILETIME)
+  category: CrossProcess
+- field_name: target_md5
+  field_type: hash
+  description: MD5 of target executable
+  category: CrossProcess
+- field_name: target_path
+  field_type: string
+  description: Path of target executable
+  category: CrossProcess
+- field_name: target_pid
+  field_type: integer
+  description: Process ID of target
+  category: CrossProcess
+- field_name: target_process_guid
+  field_type: string
+  description: Process GUID of target
+  category: CrossProcess
+- field_name: link_target
+  field_type: url
+  description: Deep link for target process
+  category: CrossProcess
+- field_name: tamper_type
+  field_type: string
+  description: Type of tamper activity detected
+  category: Security
+- field_name: blocked
+  field_type: boolean
+  description: Whether action was blocked
+  category: Security
+- field_name: blocked_event
+  field_type: string
+  description: 'Event type that was blocked: ProcessCreate or RunningProcess'
+  category: Security
+- field_name: blocked_reason
+  field_type: string
+  description: Reason for block (Md5Hash is only value)
+  category: Security
+- field_name: blocked_result
+  field_type: string
+  description: Result of blocked action
+  category: Security
+- field_name: uid
+  field_type: string
+  description: Security Identifier (SID) of username
+  category: Security
+- field_name: mitigation
+  field_type: string
+  description: Type of EMET mitigation performed
+  category: Security
+- field_name: log_id
+  field_type: integer
+  description: EMET log ID
+  category: Security
+- field_name: log_message
+  field_type: string
+  description: Full message from EMET
+  category: Security
+- field_name: emet_timestamp
+  field_type: integer
+  description: EMET event timestamp (64-bit Windows FILETIME)
+  category: Security
+- field_name: size
+  field_type: integer
+  description: Size of original binary in bytes
+  category: BinaryDocument
+- field_name: compressed_size
+  field_type: integer
+  description: Size of zip archive on server
+  category: BinaryDocument
+- field_name: file_path
+  field_type: string
+  description: Path of binary file on server disk
+  category: BinaryDocument
+- field_name: scores
+  field_type: object
+  description: Dictionary of Alliance feed scores
+  category: BinaryDocument
+- field_name: watchlists
+  field_type: object
+  description: Already-matched watchlists
+  category: BinaryDocument
+event_types:
+- type: watchlist.hit.process
+  description: Watchlist matched a process
+- type: watchlist.hit.binary
+  description: Watchlist matched a binary
+- type: feed.ingress.hit.process
+  description: Feed IOC matched during ingestion (process)
+- type: feed.ingress.hit.binary
+  description: Feed IOC matched during ingestion (binary)
+- type: feed.storage.hit.process
+  description: Feed IOC matched in storage (process)
+- type: feed.query.hit.process
+  description: Feed query matched process
+- type: ingress.event.procstart
+  description: Process started
+- type: ingress.event.childproc
+  description: Child process created
+- type: ingress.event.filemod
+  description: File modification
+- type: ingress.event.regmod
+  description: Registry modification
+- type: ingress.event.netconn
+  description: Network connection
+- type: ingress.event.moduleload
+  description: Module loaded
+- type: ingress.event.crossprocopen
+  description: Cross-process operation
+- type: ingress.event.tamper
+  description: Tamper detection
+- type: ingress.event.processblock
+  description: Process blocked
+- type: binaryinfo.observed
+  description: Binary observed
+- type: binarystore.file.added
+  description: Binary file stored
+notes: On-premises EDR solution. Event forwarder streams events for SIEM integration.

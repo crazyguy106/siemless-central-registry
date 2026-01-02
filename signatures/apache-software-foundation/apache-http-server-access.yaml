@@ -1,0 +1,204 @@
+version: '1.0'
+vendor: Apache Software Foundation
+product: Apache HTTP Server Access Logs
+product_full_name: Apache HTTP Server (httpd) Access Logs via mod_log_config
+log_type: structured
+source_document: mod_log_config Module Documentation
+source_url: https://httpd.apache.org/docs/2.4/mod/mod_log_config.html
+extraction_date: '2026-01-02'
+source_file: apache-httpd-signatures.json
+generated_at: '2026-01-02T22:29:38.305775'
+categories:
+- Client
+- Request
+- Response
+- Timing
+- Headers
+- Server
+- Connection
+field_count: 43
+fields:
+- field_name: '%h'
+  field_type: ip
+  description: Remote hostname (or IP if HostnameLookups is Off)
+  category: Client
+- field_name: '%{c}h'
+  field_type: ip
+  description: Hostname of underlying TCP connection (for keep-alive)
+  category: Client
+- field_name: '%a'
+  field_type: ip
+  description: Client IP address of the request
+  category: Client
+- field_name: '%{c}a'
+  field_type: ip
+  description: Underlying peer IP address of the connection
+  category: Client
+- field_name: '%l'
+  field_type: string
+  description: Remote logname from identd (usually '-')
+  category: Client
+- field_name: '%u'
+  field_type: string
+  description: Remote user if authenticated via HTTP auth
+  category: Client
+- field_name: '%r'
+  field_type: string
+  description: First line of request (method + URI + protocol)
+  category: Request
+- field_name: '%m'
+  field_type: string
+  description: The request method (GET, POST, etc.)
+  category: Request
+- field_name: '%U'
+  field_type: string
+  description: The URL path requested (without query string)
+  category: Request
+- field_name: '%q'
+  field_type: string
+  description: The query string (prepended with ? if exists)
+  category: Request
+- field_name: '%H'
+  field_type: string
+  description: The request protocol (HTTP/1.0, HTTP/1.1, HTTP/2)
+  category: Request
+- field_name: '%f'
+  field_type: string
+  description: Filename served
+  category: Request
+- field_name: '%R'
+  field_type: string
+  description: Handler generating the response
+  category: Request
+- field_name: '%s'
+  field_type: integer
+  description: Status code of original request
+  category: Response
+- field_name: '%>s'
+  field_type: integer
+  description: Final status code after redirects
+  category: Response
+- field_name: '%b'
+  field_type: integer
+  description: Size of response in bytes (excluding headers, '-' if 0)
+  category: Response
+- field_name: '%B'
+  field_type: integer
+  description: Size of response in bytes (excluding headers, 0 if 0)
+  category: Response
+- field_name: '%O'
+  field_type: integer
+  description: Bytes sent including headers (requires mod_logio)
+  category: Response
+- field_name: '%I'
+  field_type: integer
+  description: Bytes received including headers (requires mod_logio)
+  category: Response
+- field_name: '%S'
+  field_type: integer
+  description: Bytes transferred (received + sent, requires mod_logio)
+  category: Response
+- field_name: '%t'
+  field_type: datetime
+  description: Time request received in standard format [18/Sep/2011:19:18:28 -0400]
+  category: Timing
+- field_name: '%{format}t'
+  field_type: datetime
+  description: Time in extended strftime format (supports sec, msec, usec)
+  category: Timing
+- field_name: '%D'
+  field_type: integer
+  description: Time to serve request in microseconds
+  category: Timing
+- field_name: '%T'
+  field_type: integer
+  description: Time to serve request in seconds
+  category: Timing
+- field_name: '%{UNIT}T'
+  field_type: integer
+  description: Time to serve request in specified unit (ms, us, or s)
+  category: Timing
+- field_name: '%{VARNAME}i'
+  field_type: string
+  description: 'Contents of VARNAME: header in request (e.g., %{User-Agent}i)'
+  category: Headers
+- field_name: '%{VARNAME}o'
+  field_type: string
+  description: 'Contents of VARNAME: header in reply (e.g., %{Content-Type}o)'
+  category: Headers
+- field_name: '%{VARNAME}C'
+  field_type: string
+  description: Contents of cookie VARNAME in request
+  category: Headers
+- field_name: '%{VARNAME}e'
+  field_type: string
+  description: Contents of environment variable VARNAME
+  category: Headers
+- field_name: '%{VARNAME}n'
+  field_type: string
+  description: Contents of note VARNAME from another module
+  category: Headers
+- field_name: '%{VARNAME}^ti'
+  field_type: string
+  description: Contents of trailer line(s) VARNAME in request
+  category: Headers
+- field_name: '%{VARNAME}^to'
+  field_type: string
+  description: Contents of trailer line(s) VARNAME in response
+  category: Headers
+- field_name: '%v'
+  field_type: string
+  description: Canonical ServerName of server serving the request
+  category: Server
+- field_name: '%V'
+  field_type: string
+  description: Server name per UseCanonicalName setting
+  category: Server
+- field_name: '%p'
+  field_type: integer
+  description: Canonical port of the server serving the request
+  category: Server
+- field_name: '%{format}p'
+  field_type: integer
+  description: Port (canonical, local, or remote)
+  category: Server
+- field_name: '%A'
+  field_type: ip
+  description: Local IP address
+  category: Server
+- field_name: '%P'
+  field_type: integer
+  description: Process ID of child that serviced the request
+  category: Server
+- field_name: '%{format}P'
+  field_type: string
+  description: Process ID or thread ID (pid, tid, hextid)
+  category: Server
+- field_name: '%k'
+  field_type: integer
+  description: Number of keepalive requests handled on this connection
+  category: Connection
+- field_name: '%X'
+  field_type: string
+  description: 'Connection status: X=aborted, +=keep-alive, -=close'
+  category: Connection
+- field_name: '%L'
+  field_type: string
+  description: Request log ID from error log (for correlation)
+  category: Connection
+- field_name: '%%'
+  field_type: string
+  description: Literal percent sign
+  category: Special
+notes: Access log format directives for Apache HTTP Server. Supports Common Log Format
+  (CLF) and Combined Log Format.
+log_formats:
+- name: Common Log Format (CLF)
+  format: '%h %l %u %t "%r" %>s %b'
+  description: NCSA Common Log Format
+- name: Combined Log Format
+  format: '%h %l %u %t "%r" %>s %b "%{Referer}i" "%{User-agent}i"'
+  description: NCSA Extended/Combined Log Format with Referer and User-Agent
+- name: Virtual Host Combined
+  format: '%v:%p %h %l %u %t "%r" %>s %b "%{Referer}i" "%{User-agent}i"'
+  description: Combined format with virtual host and port

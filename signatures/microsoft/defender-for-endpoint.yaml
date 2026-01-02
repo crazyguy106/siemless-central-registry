@@ -1,0 +1,241 @@
+version: '1.0'
+vendor: Microsoft
+product: Defender for Endpoint
+product_full_name: Microsoft Defender for Endpoint (MDE)
+log_type: structured
+source_document: Defender for Endpoint API Field Mapping
+source_url: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/api-portal-mapping
+extraction_date: '2026-01-02'
+source_file: defender-endpoint-signatures.json
+generated_at: '2026-01-02T22:29:40.895122'
+categories:
+- Alert
+- DeviceEvidence
+- FileEvidence
+- ProcessEvidence
+- UserEvidence
+- NetworkEvidence
+field_count: 55
+fields:
+- field_name: id
+  field_type: string
+  description: Unique alert identifier
+  category: Alert
+- field_name: title
+  field_type: string
+  description: Alert title
+  category: Alert
+- field_name: description
+  field_type: string
+  description: Alert description
+  category: Alert
+- field_name: category
+  field_type: string
+  description: Alert category (e.g., Malware, Ransomware)
+  category: Alert
+- field_name: severity
+  field_type: string
+  description: 'Alert severity: Informational, Low, Medium, High'
+  category: Alert
+- field_name: createdDateTime
+  field_type: datetime
+  description: Date and time when the alert was created
+  category: Alert
+- field_name: lastActivityDateTime
+  field_type: datetime
+  description: Date and time of last activity
+  category: Alert
+- field_name: alertWebUrl
+  field_type: url
+  description: Link to alert in Defender portal
+  category: Alert
+- field_name: incidentWebUrl
+  field_type: url
+  description: Link to related incident in Defender portal
+  category: Alert
+- field_name: actorDisplayName
+  field_type: string
+  description: Threat actor display name
+  category: Alert
+- field_name: threatDisplayName
+  field_type: string
+  description: Threat display name
+  category: Alert
+- field_name: threatFamilyName
+  field_type: string
+  description: Threat family name (e.g., Cobalt Strike)
+  category: Alert
+- field_name: detectorId
+  field_type: string
+  description: Detector/IoA definition ID
+  category: Alert
+- field_name: detectionSource
+  field_type: string
+  description: Source of detection (EDR, AV, SmartScreen, etc.)
+  category: Alert
+- field_name: mitreTechniques
+  field_type: array
+  description: MITRE ATT&CK technique IDs
+  category: Alert
+- field_name: evidence.deviceEvidence.deviceDnsName
+  field_type: string
+  description: DNS name of the device
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.mdeDeviceId
+  field_type: guid
+  description: MDE device identifier
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.rbacGroupName
+  field_type: string
+  description: RBAC machine group name
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.loggedOnUsers
+  field_type: array
+  description: Users logged on to the device
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.osPlatform
+  field_type: string
+  description: Operating system platform
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.osVersion
+  field_type: string
+  description: Operating system version
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.healthStatus
+  field_type: string
+  description: Device health status
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.riskScore
+  field_type: string
+  description: Device risk score
+  category: DeviceEvidence
+- field_name: evidence.deviceEvidence.tags
+  field_type: array
+  description: Device tags
+  category: DeviceEvidence
+- field_name: evidence.fileEvidence.fileDetails.fileName
+  field_type: string
+  description: File name
+  category: FileEvidence
+- field_name: evidence.fileEvidence.fileDetails.filePath
+  field_type: string
+  description: Full file path
+  category: FileEvidence
+- field_name: evidence.fileEvidence.fileDetails.sha1
+  field_type: hash
+  description: SHA1 hash of the file
+  category: FileEvidence
+- field_name: evidence.fileEvidence.fileDetails.sha256
+  field_type: hash
+  description: SHA256 hash of the file
+  category: FileEvidence
+- field_name: evidence.fileEvidence.fileDetails.fileSize
+  field_type: integer
+  description: File size in bytes
+  category: FileEvidence
+- field_name: evidence.fileEvidence.fileDetails.filePublisher
+  field_type: string
+  description: File publisher/signer
+  category: FileEvidence
+- field_name: evidence.fileEvidence.fileDetails.issuer
+  field_type: string
+  description: Certificate issuer
+  category: FileEvidence
+- field_name: evidence.fileEvidence.fileDetails.signer
+  field_type: string
+  description: File signer
+  category: FileEvidence
+- field_name: evidence.fileEvidence.detectionStatus
+  field_type: string
+  description: Detection status
+  category: FileEvidence
+- field_name: evidence.fileEvidence.remediationStatus
+  field_type: string
+  description: Remediation action status
+  category: FileEvidence
+- field_name: evidence.processEvidence.processCommandLine
+  field_type: string
+  description: Process command line
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.processId
+  field_type: integer
+  description: Process ID
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.parentProcessId
+  field_type: integer
+  description: Parent process ID
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.processCreationTime
+  field_type: datetime
+  description: Process creation time
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.imageFile.fileName
+  field_type: string
+  description: Process image file name
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.imageFile.filePath
+  field_type: string
+  description: Process image file path
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.imageFile.sha1
+  field_type: hash
+  description: Process image SHA1
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.imageFile.sha256
+  field_type: hash
+  description: Process image SHA256
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.detectionStatus
+  field_type: string
+  description: Process detection status
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.userAccount.accountName
+  field_type: string
+  description: User account name running process
+  category: ProcessEvidence
+- field_name: evidence.processEvidence.userAccount.domainName
+  field_type: string
+  description: User domain name
+  category: ProcessEvidence
+- field_name: evidence.userEvidence.userAccount.accountName
+  field_type: string
+  description: User account name
+  category: UserEvidence
+- field_name: evidence.userEvidence.userAccount.domainName
+  field_type: string
+  description: User domain name
+  category: UserEvidence
+- field_name: evidence.userEvidence.userAccount.userSid
+  field_type: string
+  description: User security identifier (SID)
+  category: UserEvidence
+- field_name: evidence.userEvidence.userAccount.azureAdUserId
+  field_type: guid
+  description: Azure AD user ID
+  category: UserEvidence
+- field_name: evidence.userEvidence.userAccount.userPrincipalName
+  field_type: string
+  description: User principal name (UPN)
+  category: UserEvidence
+- field_name: evidence.ipEvidence.ipAddress
+  field_type: ip
+  description: IP address
+  category: NetworkEvidence
+- field_name: evidence.urlEvidence.url
+  field_type: url
+  description: URL
+  category: NetworkEvidence
+- field_name: evidence.networkEvidence.destinationAddress
+  field_type: ip
+  description: Destination IP address
+  category: NetworkEvidence
+- field_name: evidence.networkEvidence.destinationPort
+  field_type: port
+  description: Destination port
+  category: NetworkEvidence
+- field_name: evidence.networkEvidence.protocol
+  field_type: string
+  description: Network protocol
+  category: NetworkEvidence
+notes: XDR/EDR alerts with evidence objects for devices, files, processes, users,
+  IPs, and URLs.

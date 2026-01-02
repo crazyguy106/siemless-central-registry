@@ -1,0 +1,367 @@
+version: '1.0'
+vendor: Auth0
+product: Tenant Logs
+product_full_name: Auth0 Tenant Logs
+log_type: structured
+source_document: Log Event Type Codes
+source_url: https://auth0.com/docs/deploy-monitor/logs/log-event-type-codes
+extraction_date: '2026-01-02'
+source_file: auth0-signatures.json
+generated_at: '2026-01-02T22:29:38.316096'
+categories:
+- Core
+- Client
+- Connection
+- Details
+- Network
+- Location
+- User
+field_count: 38
+fields:
+- field_name: _id
+  field_type: string
+  description: Internal log entry ID
+  category: Core
+- field_name: audience
+  field_type: string
+  description: API audience for the token request
+  category: Client
+- field_name: client_id
+  field_type: string
+  description: Client ID of the application
+  category: Client
+- field_name: client_name
+  field_type: string
+  description: Name of the application
+  category: Client
+- field_name: connection
+  field_type: string
+  description: Name of the connection (e.g., Username-Password-Authentication)
+  category: Connection
+- field_name: connection_id
+  field_type: string
+  description: Unique identifier for the connection
+  category: Connection
+- field_name: date
+  field_type: datetime
+  description: Timestamp when the event occurred (ISO 8601)
+  category: Core
+- field_name: description
+  field_type: string
+  description: Human-readable description of the event
+  category: Core
+- field_name: details.body
+  field_type: object
+  description: Request body details
+  category: Details
+- field_name: details.completedAt
+  field_type: datetime
+  description: When the operation completed
+  category: Details
+- field_name: details.elapsedTime
+  field_type: number
+  description: Time taken in milliseconds
+  category: Details
+- field_name: details.error
+  field_type: object
+  description: Error information if authentication failed
+  category: Details
+- field_name: details.error.message
+  field_type: string
+  description: Error message
+  category: Details
+- field_name: details.error.type
+  field_type: string
+  description: Error type code
+  category: Details
+- field_name: details.initiatedAt
+  field_type: datetime
+  description: When the operation was initiated
+  category: Details
+- field_name: details.prompts
+  field_type: array
+  description: MFA prompts presented
+  category: Details
+- field_name: details.request
+  field_type: object
+  description: Request information
+  category: Details
+- field_name: details.response
+  field_type: object
+  description: Response information
+  category: Details
+- field_name: details.session_id
+  field_type: string
+  description: Session identifier
+  category: Details
+- field_name: hostname
+  field_type: string
+  description: Hostname associated with the IP
+  category: Network
+- field_name: ip
+  field_type: ip
+  description: IP address of the client
+  category: Network
+- field_name: isMobile
+  field_type: boolean
+  description: Whether the request came from a mobile device
+  category: Network
+- field_name: location_info.city_name
+  field_type: string
+  description: City name
+  category: Location
+- field_name: location_info.continent_code
+  field_type: string
+  description: Continent code (e.g., NA, EU)
+  category: Location
+- field_name: location_info.country_code
+  field_type: string
+  description: Two-letter country code (e.g., US, GB)
+  category: Location
+- field_name: location_info.country_code3
+  field_type: string
+  description: Three-letter country code (e.g., USA, GBR)
+  category: Location
+- field_name: location_info.country_name
+  field_type: string
+  description: Full country name
+  category: Location
+- field_name: location_info.latitude
+  field_type: number
+  description: Geographic latitude
+  category: Location
+- field_name: location_info.longitude
+  field_type: number
+  description: Geographic longitude
+  category: Location
+- field_name: location_info.time_zone
+  field_type: string
+  description: Timezone of the location
+  category: Location
+- field_name: log_id
+  field_type: string
+  description: Unique identifier for the log entry
+  category: Core
+- field_name: scope
+  field_type: string
+  description: Requested OAuth2 scopes
+  category: Client
+- field_name: strategy
+  field_type: string
+  description: Authentication strategy (e.g., auth0, google-oauth2, samlp)
+  category: Connection
+- field_name: strategy_type
+  field_type: string
+  description: Type of strategy (social, database, enterprise)
+  category: Connection
+- field_name: type
+  field_type: string
+  description: Event type code (e.g., s, f, ss, fs)
+  category: Core
+- field_name: user_agent
+  field_type: string
+  description: User agent string from the browser/client
+  category: User
+- field_name: user_id
+  field_type: string
+  description: Auth0 user ID (e.g., auth0|xxx)
+  category: User
+- field_name: user_name
+  field_type: string
+  description: Username or email of the user
+  category: User
+event_types:
+- code: s
+  name: Success Login
+  description: Successful login event
+  category: Login
+- code: f
+  name: Failed Login
+  description: Generic login failure
+  category: Login
+- code: fp
+  name: Failed Login (Password)
+  description: Failed login due to incorrect password
+  category: Login
+- code: fu
+  name: Failed Login (Username)
+  description: Failed login due to invalid email/username
+  category: Login
+- code: flo
+  name: Failed Logout
+  description: Logout operation failed
+  category: Login
+- code: slo
+  name: Success Logout
+  description: User successfully logged out
+  category: Login
+- code: ss
+  name: Success Signup
+  description: Successful user registration
+  category: Signup
+- code: fs
+  name: Failed Signup
+  description: Registration failure
+  category: Signup
+- code: ssa
+  name: Success Silent Auth
+  description: Silent authentication succeeded
+  category: SilentAuth
+- code: fsa
+  name: Failed Silent Auth
+  description: Silent authentication error
+  category: SilentAuth
+- code: cls
+  name: Code/Link Sent
+  description: Passwordless login code/link has been sent
+  category: Passwordless
+- code: cs
+  name: Code Sent
+  description: Passwordless login code has been sent
+  category: Passwordless
+- code: mfar
+  name: MFA Required
+  description: User prompted for multi-factor authentication
+  category: MFA
+- code: gd_start_auth
+  name: Second Factor Started
+  description: MFA authentication initiated
+  category: MFA
+- code: gd_auth_succeed
+  name: MFA Auth Success
+  description: Multi-factor authentication success
+  category: MFA
+- code: gd_auth_failed
+  name: MFA Auth Failed
+  description: MFA authentication error
+  category: MFA
+- code: gd_tenant_update
+  name: Guardian Update
+  description: Guardian MFA settings updated
+  category: MFA
+- code: gd_enrollment_complete
+  name: MFA Enrollment Complete
+  description: User completed MFA enrollment
+  category: MFA
+- code: sv
+  name: Success Verification
+  description: Email verification success
+  category: Verification
+- code: svr
+  name: Success Verification Request
+  description: Email verification request sent
+  category: Verification
+- code: fv
+  name: Failed Verification
+  description: Email verification failed
+  category: Verification
+- code: scp
+  name: Success Change Password
+  description: Password change successful
+  category: Password
+- code: fcp
+  name: Failed Change Password
+  description: Password change failed
+  category: Password
+- code: sce
+  name: Success Change Email
+  description: Email change successful
+  category: Password
+- code: fce
+  name: Failed Change Email
+  description: Email change failed
+  category: Password
+- code: scpr
+  name: Success Change Password Request
+  description: Password reset email sent
+  category: Password
+- code: fcpr
+  name: Failed Change Password Request
+  description: Password reset request failed
+  category: Password
+- code: pwd_leak
+  name: Breached Password
+  description: Attempted login with a leaked password
+  category: Security
+- code: limit_mu
+  name: Blocked IP Address
+  description: IP blocked after multiple failed attempts
+  category: Security
+- code: limit_sul
+  name: Blocked Account
+  description: User temporarily prevented from logging in
+  category: Security
+- code: limit_wc
+  name: Blocked by Anomaly
+  description: Blocked due to anomaly detection
+  category: Security
+- code: api_limit
+  name: Rate Limit on APIs
+  description: Maximum number of requests has been reached
+  category: API
+- code: sapi
+  name: Success API Operation
+  description: API operation successful
+  category: API
+- code: fapi
+  name: Failed API Operation
+  description: API operation failed
+  category: API
+- code: seacft
+  name: Success Exchange Auth Code
+  description: Authorization code exchanged for tokens
+  category: Exchange
+- code: feacft
+  name: Failed Exchange Auth Code
+  description: Failed to exchange authorization code
+  category: Exchange
+- code: seccft
+  name: Success Exchange Client Credentials
+  description: Client credentials grant succeeded
+  category: Exchange
+- code: feccft
+  name: Failed Exchange Client Credentials
+  description: Client credentials grant failed
+  category: Exchange
+- code: sepft
+  name: Success Exchange Password
+  description: Password grant succeeded
+  category: Exchange
+- code: fepft
+  name: Failed Exchange Password
+  description: Password grant failed
+  category: Exchange
+- code: sertft
+  name: Success Exchange Refresh Token
+  description: Refresh token exchange succeeded
+  category: Exchange
+- code: fertft
+  name: Failed Exchange Refresh Token
+  description: Refresh token exchange failed
+  category: Exchange
+- code: sd
+  name: Success Delegation
+  description: Token delegation successful
+  category: Delegation
+- code: fd
+  name: Failed Delegation
+  description: Token delegation failed
+  category: Delegation
+- code: du
+  name: Deleted User
+  description: User deleted
+  category: UserManagement
+- code: ublkdu
+  name: Unblocked User
+  description: User unblocked
+  category: UserManagement
+- code: sdu
+  name: Success Device Update
+  description: Device credentials updated
+  category: Admin
+- code: fdu
+  name: Failed Device Update
+  description: Failed to update device credentials
+  category: Admin
+notes: Auth0 logs capture authentication, authorization, and user management events.
+  Includes login/logout, MFA, password changes, API operations, and security events.

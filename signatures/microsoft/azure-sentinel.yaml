@@ -1,0 +1,185 @@
+version: '1.0'
+vendor: Microsoft
+product: Azure Sentinel
+product_full_name: Microsoft Sentinel (formerly Azure Sentinel)
+log_type: structured
+source_document: Incidents REST API Reference
+source_url: https://learn.microsoft.com/en-us/rest/api/securityinsights/incidents/get
+extraction_date: '2026-01-02'
+source_file: azure-sentinel-signatures.json
+generated_at: '2026-01-02T22:29:38.403199'
+categories:
+- Core
+- Properties
+- AdditionalData
+- Owner
+- Labels
+- SystemData
+- Enums
+field_count: 40
+fields:
+- field_name: id
+  field_type: string
+  description: Fully qualified resource ID for the resource (ARM ID)
+  category: Core
+- field_name: name
+  field_type: string
+  description: The name of the resource
+  category: Core
+- field_name: type
+  field_type: string
+  description: The type of the resource (e.g., Microsoft.SecurityInsights/incidents)
+  category: Core
+- field_name: etag
+  field_type: string
+  description: Etag of the azure resource
+  category: Core
+- field_name: properties.title
+  field_type: string
+  description: The title of the incident
+  category: Properties
+- field_name: properties.description
+  field_type: string
+  description: The description of the incident
+  category: Properties
+- field_name: properties.severity
+  field_type: enum
+  description: The severity of the incident (High, Medium, Low, Informational)
+  category: Properties
+- field_name: properties.status
+  field_type: enum
+  description: The status of the incident (New, Active, Closed)
+  category: Properties
+- field_name: properties.classification
+  field_type: enum
+  description: The reason the incident was closed
+  category: Properties
+- field_name: properties.classificationComment
+  field_type: string
+  description: Describes the reason the incident was closed
+  category: Properties
+- field_name: properties.classificationReason
+  field_type: enum
+  description: The classification reason (SuspiciousActivity, SuspiciousButExpected,
+    IncorrectAlertLogic, InaccurateData)
+  category: Properties
+- field_name: properties.incidentNumber
+  field_type: integer
+  description: A sequential number identifying the incident
+  category: Properties
+- field_name: properties.incidentUrl
+  field_type: string
+  description: The deep-link URL to the incident in Azure portal
+  category: Properties
+- field_name: properties.providerIncidentId
+  field_type: string
+  description: The incident ID assigned by the incident provider
+  category: Properties
+- field_name: properties.providerName
+  field_type: string
+  description: The name of the source provider that generated the incident
+  category: Properties
+- field_name: properties.createdTimeUtc
+  field_type: datetime
+  description: The time the incident was created
+  category: Properties
+- field_name: properties.lastModifiedTimeUtc
+  field_type: datetime
+  description: The last time the incident was updated
+  category: Properties
+- field_name: properties.firstActivityTimeUtc
+  field_type: datetime
+  description: The time of the first activity in the incident
+  category: Properties
+- field_name: properties.lastActivityTimeUtc
+  field_type: datetime
+  description: The time of the last activity in the incident
+  category: Properties
+- field_name: properties.relatedAnalyticRuleIds
+  field_type: array
+  description: List of resource IDs of Analytic rules related to the incident
+  category: Properties
+- field_name: properties.additionalData.alertProductNames
+  field_type: array
+  description: List of product names of alerts in the incident
+  category: AdditionalData
+- field_name: properties.additionalData.alertsCount
+  field_type: integer
+  description: The number of alerts in the incident
+  category: AdditionalData
+- field_name: properties.additionalData.bookmarksCount
+  field_type: integer
+  description: The number of bookmarks in the incident
+  category: AdditionalData
+- field_name: properties.additionalData.commentsCount
+  field_type: integer
+  description: The number of comments in the incident
+  category: AdditionalData
+- field_name: properties.additionalData.providerIncidentUrl
+  field_type: string
+  description: The provider incident URL to the incident in Microsoft 365 Defender
+    portal
+  category: AdditionalData
+- field_name: properties.additionalData.tactics
+  field_type: array
+  description: The MITRE ATT&CK tactics associated with incident
+  category: AdditionalData
+- field_name: properties.owner.assignedTo
+  field_type: string
+  description: The name of the user the incident is assigned to
+  category: Owner
+- field_name: properties.owner.email
+  field_type: email
+  description: The email of the user the incident is assigned to
+  category: Owner
+- field_name: properties.owner.objectId
+  field_type: uuid
+  description: The object ID of the user the incident is assigned to
+  category: Owner
+- field_name: properties.owner.ownerType
+  field_type: enum
+  description: The type of the owner (Unknown, User, Group)
+  category: Owner
+- field_name: properties.owner.userPrincipalName
+  field_type: string
+  description: The user principal name of the user the incident is assigned to
+  category: Owner
+- field_name: properties.labels
+  field_type: array
+  description: List of labels relevant to this incident
+  category: Labels
+- field_name: properties.labels.labelName
+  field_type: string
+  description: The name of the label
+  category: Labels
+- field_name: properties.labels.labelType
+  field_type: enum
+  description: The type of the label (User, AutoAssigned)
+  category: Labels
+- field_name: systemData.createdAt
+  field_type: datetime
+  description: The timestamp of resource creation (UTC)
+  category: SystemData
+- field_name: systemData.createdBy
+  field_type: string
+  description: The identity that created the resource
+  category: SystemData
+- field_name: systemData.createdByType
+  field_type: enum
+  description: The type of identity that created the resource (User, Application,
+    ManagedIdentity, Key)
+  category: SystemData
+- field_name: systemData.lastModifiedAt
+  field_type: datetime
+  description: The timestamp of resource last modification (UTC)
+  category: SystemData
+- field_name: systemData.lastModifiedBy
+  field_type: string
+  description: The identity that last modified the resource
+  category: SystemData
+- field_name: systemData.lastModifiedByType
+  field_type: enum
+  description: The type of identity that last modified the resource
+  category: SystemData
+notes: Incident schema for Microsoft Sentinel SIEM/SOAR platform. Includes classification,
+  severity, status, owner, and MITRE ATT&CK tactics.

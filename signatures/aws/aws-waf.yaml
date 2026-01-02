@@ -1,0 +1,252 @@
+version: '1.0'
+vendor: Amazon Web Services
+product: AWS WAF
+product_full_name: AWS Web Application Firewall
+log_type: structured
+source_document: AWS WAF Logging Fields
+source_url: https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html
+extraction_date: '2026-01-02'
+source_file: aws-waf-signatures.json
+generated_at: '2026-01-02T22:29:38.367335'
+categories:
+- TopLevel
+- CaptchaChallenge
+- ExcludedRules
+- NonTerminating
+- RateBased
+- TerminatingRule
+field_count: 57
+fields:
+- field_name: action
+  field_type: string
+  description: 'Terminating action: allow, block, CAPTCHA, or challenge'
+  category: TopLevel
+- field_name: args
+  field_type: string
+  description: The query string
+  category: TopLevel
+- field_name: captchaResponse
+  field_type: object
+  description: CAPTCHA action status for the request
+  category: TopLevel
+- field_name: captchaResponse.failureReason
+  field_type: string
+  description: CAPTCHA failure reason
+  category: CaptchaChallenge
+- field_name: captchaResponse.responseCode
+  field_type: integer
+  description: CAPTCHA response code
+  category: CaptchaChallenge
+- field_name: captchaResponse.solveTimestamp
+  field_type: integer
+  description: CAPTCHA solve timestamp
+  category: CaptchaChallenge
+- field_name: cfDistributionTenantId
+  field_type: string
+  description: CloudFront distribution tenant identifier
+  category: TopLevel
+- field_name: challengeResponse
+  field_type: object
+  description: Challenge action status for the request
+  category: TopLevel
+- field_name: challengeResponse.failureReason
+  field_type: string
+  description: Challenge failure reason
+  category: CaptchaChallenge
+- field_name: challengeResponse.responseCode
+  field_type: integer
+  description: Challenge response code
+  category: CaptchaChallenge
+- field_name: challengeResponse.solveTimestamp
+  field_type: integer
+  description: Challenge solve timestamp
+  category: CaptchaChallenge
+- field_name: clientAsn
+  field_type: string
+  description: ASN associated with the client IP address
+  category: TopLevel
+- field_name: clientIp
+  field_type: ip
+  description: IP address of the client sending the request
+  category: TopLevel
+- field_name: country
+  field_type: string
+  description: Source country of the request
+  category: TopLevel
+- field_name: excludedRules
+  field_type: array
+  description: List of rules excluded with Count action
+  category: TopLevel
+- field_name: excludedRules.exclusionType
+  field_type: string
+  description: Type indicating rule has action Count
+  category: ExcludedRules
+- field_name: excludedRules.ruleId
+  field_type: string
+  description: ID of excluded rule within rule group
+  category: ExcludedRules
+- field_name: formatVersion
+  field_type: string
+  description: Format version for the log
+  category: TopLevel
+- field_name: forwardedAsn
+  field_type: string
+  description: ASN of the forwarding entity
+  category: TopLevel
+- field_name: fragment
+  field_type: string
+  description: 'URL fragment after # symbol'
+  category: TopLevel
+- field_name: headers
+  field_type: array
+  description: List of request headers
+  category: TopLevel
+- field_name: httpMethod
+  field_type: string
+  description: HTTP method in the request
+  category: TopLevel
+- field_name: httpRequest
+  field_type: object
+  description: Metadata about the request
+  category: TopLevel
+- field_name: httpSourceId
+  field_type: string
+  description: ID of associated resource (CloudFront/ALB/API Gateway/etc.)
+  category: TopLevel
+- field_name: httpSourceName
+  field_type: string
+  description: 'Source of request: CF, APIGW, ALB, APPSYNC, COGNITOIDP, APPRUNNER,
+    VERIFIED_ACCESS'
+  category: TopLevel
+- field_name: httpVersion
+  field_type: string
+  description: HTTP version
+  category: TopLevel
+- field_name: ja3Fingerprint
+  field_type: string
+  description: 32-char MD5 hash from TLS Client Hello
+  category: TopLevel
+- field_name: ja4Fingerprint
+  field_type: string
+  description: 36-char hash from TLS Client Hello
+  category: TopLevel
+- field_name: labels
+  field_type: array
+  description: Labels applied by matching rules (first 100)
+  category: TopLevel
+- field_name: nonTerminatingMatchingRules
+  field_type: array
+  description: List of non-terminating rules that matched
+  category: TopLevel
+- field_name: nonTerminatingMatchingRules.action
+  field_type: string
+  description: 'Action: count, CAPTCHA, or challenge'
+  category: NonTerminating
+- field_name: nonTerminatingMatchingRules.ruleId
+  field_type: string
+  description: ID of matching non-terminating rule
+  category: NonTerminating
+- field_name: nonTerminatingMatchingRules.ruleMatchDetails
+  field_type: array
+  description: Match details for SQLi/XSS
+  category: NonTerminating
+- field_name: oversizeFields
+  field_type: array
+  description: 'Fields over inspection limit: REQUEST_BODY, REQUEST_JSON_BODY, REQUEST_HEADERS,
+    REQUEST_COOKIES'
+  category: TopLevel
+- field_name: rateBasedRuleList
+  field_type: array
+  description: List of rate-based rules that acted
+  category: TopLevel
+- field_name: rateBasedRuleList.customValues
+  field_type: array
+  description: Custom aggregation values
+  category: RateBased
+- field_name: rateBasedRuleList.evaluationWindowSec
+  field_type: integer
+  description: Time window for request counts in seconds
+  category: RateBased
+- field_name: rateBasedRuleList.limitKey
+  field_type: string
+  description: 'Aggregation type: IP, FORWARDED_IP, CUSTOMKEYS, CONSTANT'
+  category: RateBased
+- field_name: rateBasedRuleList.limitValue
+  field_type: string
+  description: Value for single IP rate limiting
+  category: RateBased
+- field_name: rateBasedRuleList.maxRateAllowed
+  field_type: integer
+  description: Max requests allowed in time window
+  category: RateBased
+- field_name: rateBasedRuleList.rateBasedRuleId
+  field_type: string
+  description: ID of rate-based rule
+  category: RateBased
+- field_name: rateBasedRuleList.rateBasedRuleName
+  field_type: string
+  description: Name of rate-based rule
+  category: RateBased
+- field_name: requestHeadersInserted
+  field_type: array
+  description: Headers inserted for custom request handling
+  category: TopLevel
+- field_name: requestId
+  field_type: string
+  description: Request ID from underlying host service
+  category: TopLevel
+- field_name: responseCodeSent
+  field_type: string
+  description: Response code sent with custom response
+  category: TopLevel
+- field_name: ruleGroupId
+  field_type: string
+  description: ID of the rule group
+  category: TopLevel
+- field_name: ruleGroupList
+  field_type: array
+  description: List of rule groups that acted on the request
+  category: TopLevel
+- field_name: terminatingRule
+  field_type: object
+  description: The rule that terminated the request
+  category: TopLevel
+- field_name: terminatingRule.action
+  field_type: string
+  description: 'Action: allow, block, CAPTCHA, or challenge'
+  category: TerminatingRule
+- field_name: terminatingRule.ruleId
+  field_type: string
+  description: ID of matching rule
+  category: TerminatingRule
+- field_name: terminatingRule.ruleMatchDetails
+  field_type: array
+  description: Match details for SQLi/XSS
+  category: TerminatingRule
+- field_name: terminatingRuleId
+  field_type: string
+  description: ID of terminating rule (Default_Action if none)
+  category: TopLevel
+- field_name: terminatingRuleMatchDetails
+  field_type: array
+  description: Details for SQL injection/XSS matches
+  category: TopLevel
+- field_name: terminatingRuleType
+  field_type: string
+  description: 'Type: RATE_BASED, REGULAR, GROUP, MANAGED_RULE_GROUP'
+  category: TopLevel
+- field_name: timestamp
+  field_type: integer
+  description: Timestamp in milliseconds
+  category: TopLevel
+- field_name: uri
+  field_type: string
+  description: URI of the request
+  category: TopLevel
+- field_name: webaclId
+  field_type: string
+  description: GUID of the web ACL
+  category: TopLevel
+notes: AWS WAF logs capture detailed information about web requests inspected by WAF.
+  Supports CloudFront, API Gateway, ALB, AppSync, Cognito, App Runner, and Verified
+  Access.

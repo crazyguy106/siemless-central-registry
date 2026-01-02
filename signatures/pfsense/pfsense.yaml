@@ -1,0 +1,233 @@
+version: '1.0'
+vendor: Netgate
+product: pfSense
+product_full_name: pfSense Firewall
+log_type: structured
+source_document: pfSense Raw Filter Log Format (BNF)
+source_url: https://docs.netgate.com/pfsense/en/latest/monitoring/logs/raw-filter-format.html
+extraction_date: '2026-01-01'
+source_file: pfsense-filterlog-signatures.json
+generated_at: '2026-01-02T22:29:44.598950'
+categories:
+- Base
+- IPv4
+- IPv6
+- IP Data
+- TCP
+- UDP
+- ICMP
+- CARP
+field_count: 52
+fields:
+- field_name: rule_number
+  field_type: int
+  description: Rule number in the PF Ruleset
+  category: Base
+- field_name: sub_rule_number
+  field_type: int
+  description: Sub rule number in the PF Ruleset
+  category: Base
+- field_name: anchor
+  field_type: string
+  description: Anchor name in which the rule exists
+  category: Base
+- field_name: tracker
+  field_type: int
+  description: Unique rule tracking ID per rule
+  category: Base
+- field_name: real_interface
+  field_type: string
+  description: Real interface for the log entry (e.g. em0)
+  category: Base
+- field_name: reason
+  field_type: string
+  description: Reason for the log entry (typically "match")
+  category: Base
+- field_name: action
+  field_type: string
+  description: 'Action taken: pass, block, or unkn'
+  category: Base
+- field_name: direction
+  field_type: string
+  description: 'Direction of traffic: in, out'
+  category: Base
+- field_name: ip_version
+  field_type: int
+  description: 'IP version: 4 or 6'
+  category: Base
+- field_name: tos
+  field_type: hex
+  description: Type of Service identification
+  category: IPv4
+- field_name: ecn
+  field_type: string
+  description: Explicit Congestion Notification
+  category: IPv4
+- field_name: ttl
+  field_type: int
+  description: Time To Live of the packet
+  category: IPv4
+- field_name: id
+  field_type: int
+  description: ID of the packet
+  category: IPv4
+- field_name: offset
+  field_type: int
+  description: Fragment offset
+  category: IPv4
+- field_name: flags
+  field_type: string
+  description: IP Flags (none or text)
+  category: IPv4
+- field_name: protocol_id
+  field_type: int
+  description: IP protocol ID (e.g. 6 for TCP, 17 for UDP)
+  category: IPv4
+- field_name: protocol_text
+  field_type: string
+  description: IP protocol text (tcp, udp, icmp, etc)
+  category: IPv4
+- field_name: class
+  field_type: hex
+  description: ToS traffic class
+  category: IPv6
+- field_name: flow_label
+  field_type: string
+  description: IPv6 Flow label
+  category: IPv6
+- field_name: hop_limit
+  field_type: int
+  description: Hop Limit (similar to IPv4 TTL)
+  category: IPv6
+- field_name: length
+  field_type: int
+  description: Length of the packet in bytes
+  category: IP Data
+- field_name: source_address
+  field_type: ip
+  description: Source IP address of the logged traffic
+  category: IP Data
+- field_name: destination_address
+  field_type: ip
+  description: Destination IP address of the logged traffic
+  category: IP Data
+- field_name: source_port
+  field_type: port
+  description: Source port number
+  category: TCP
+- field_name: destination_port
+  field_type: port
+  description: Destination port number
+  category: TCP
+- field_name: data_length
+  field_type: int
+  description: Data/payload length
+  category: TCP
+- field_name: tcp_flags
+  field_type: string
+  description: 'TCP Flags: S(SYN), A(ACK), .(no flags), F(FIN), R(RST), P(PSH), U(URG),
+    E(ECE), W(CWR)'
+  category: TCP
+- field_name: sequence_number
+  field_type: int
+  description: TCP Sequence ID
+  category: TCP
+- field_name: ack_number
+  field_type: int
+  description: TCP ACK number
+  category: TCP
+- field_name: tcp_window
+  field_type: int
+  description: TCP Window size
+  category: TCP
+- field_name: urg
+  field_type: string
+  description: Urgent pointer data
+  category: TCP
+- field_name: tcp_options
+  field_type: string
+  description: TCP Options
+  category: TCP
+- field_name: udp_source_port
+  field_type: port
+  description: UDP Source port number
+  category: UDP
+- field_name: udp_destination_port
+  field_type: port
+  description: UDP Destination port number
+  category: UDP
+- field_name: udp_data_length
+  field_type: int
+  description: UDP Data/payload length
+  category: UDP
+- field_name: icmp_type
+  field_type: string
+  description: 'ICMP type: request, reply, unreachproto, unreachport, unreach, timexceed,
+    paramprob, redirect, maskreply, needfrag, tstamp, tstampreply'
+  category: ICMP
+- field_name: icmp_id
+  field_type: int
+  description: ID of the echo request/reply
+  category: ICMP
+- field_name: icmp_sequence
+  field_type: int
+  description: Sequence number of the echo request/reply
+  category: ICMP
+- field_name: icmp_destination_ip
+  field_type: ip
+  description: Original destination address of the connection that caused this notification
+  category: ICMP
+- field_name: unreachable_protocol_id
+  field_type: int
+  description: Protocol ID number that was unreachable
+  category: ICMP
+- field_name: unreachable_port_number
+  field_type: int
+  description: Port number that was unreachable
+  category: ICMP
+- field_name: icmp_description
+  field_type: string
+  description: Description from the ICMP packet
+  category: ICMP
+- field_name: icmp_mtu
+  field_type: int
+  description: MTU to use for subsequent data to this destination
+  category: ICMP
+- field_name: icmp_otime
+  field_type: timestamp
+  description: ICMP Originate Timestamp
+  category: ICMP
+- field_name: icmp_rtime
+  field_type: timestamp
+  description: ICMP Receive Timestamp
+  category: ICMP
+- field_name: icmp_ttime
+  field_type: timestamp
+  description: ICMP Transmit Timestamp
+  category: ICMP
+- field_name: carp_type
+  field_type: string
+  description: Type of CARP/VRRP
+  category: CARP
+- field_name: carp_ttl
+  field_type: int
+  description: CARP Time to Live
+  category: CARP
+- field_name: vhid
+  field_type: int
+  description: Virtual Host ID
+  category: CARP
+- field_name: carp_version
+  field_type: int
+  description: CARP Version
+  category: CARP
+- field_name: advbase
+  field_type: int
+  description: Advertisement base timer interval (seconds)
+  category: CARP
+- field_name: advskew
+  field_type: int
+  description: Advertisement skew (1/256 of a second)
+  category: CARP
+notes: pfSense filterlog uses CSV format with position-based fields. Field order varies
+  by IP version and protocol.

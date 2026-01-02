@@ -1,0 +1,71 @@
+version: '1.0'
+vendor: Docker Inc.
+product: Docker Container Logs
+product_full_name: Docker Engine JSON File Logging Driver
+log_type: structured
+source_document: JSON File Logging Driver Documentation
+source_url: https://docs.docker.com/config/containers/logging/json-file/
+extraction_date: '2026-01-02'
+source_file: docker-signatures.json
+generated_at: '2026-01-02T22:29:40.915023'
+categories:
+- LogEntry
+- Stream
+- Timestamp
+- Container
+- Configuration
+- Labels
+field_count: 12
+fields:
+- field_name: log
+  field_type: string
+  description: The actual log message content, typically ending with newline character
+  category: LogEntry
+- field_name: stream
+  field_type: enum
+  description: 'Origin designation: stdout or stderr'
+  category: Stream
+- field_name: time
+  field_type: datetime
+  description: ISO 8601 formatted timestamp (RFC3339Nano) indicating when the log
+    was captured
+  category: Timestamp
+- field_name: container_id
+  field_type: string
+  description: Container ID (full 64-char hex)
+  category: Container
+- field_name: container_name
+  field_type: string
+  description: Container name (without leading slash)
+  category: Container
+- field_name: image_id
+  field_type: string
+  description: Image ID used to create container
+  category: Container
+- field_name: image_name
+  field_type: string
+  description: Image name including tag
+  category: Container
+- field_name: partial_message
+  field_type: boolean
+  description: True if message exceeds 16KB buffer and is split
+  category: LogEntry
+- field_name: partial_id
+  field_type: string
+  description: Unique ID linking partial message fragments
+  category: LogEntry
+- field_name: partial_ordinal
+  field_type: integer
+  description: Sequence number for partial message reassembly
+  category: LogEntry
+- field_name: partial_last
+  field_type: boolean
+  description: True if this is the final fragment of a partial message
+  category: LogEntry
+- field_name: attrs
+  field_type: object
+  description: Container labels and environment variables (when logging with labels/env
+    options)
+  category: Labels
+notes: JSON file logging driver is Docker's default logging driver. Logs are stored
+  as JSON objects, one per line.

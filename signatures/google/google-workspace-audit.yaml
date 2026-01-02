@@ -1,0 +1,146 @@
+version: '1.0'
+vendor: Google
+product: Google Workspace Audit Logs
+product_full_name: Google Workspace (G Suite) Audit Logging
+log_type: structured
+source_document: Google Workspace Audit Logging in Cloud Logging
+source_url: https://cloud.google.com/logging/docs/audit/gsuite-audit-logging
+extraction_date: '2026-01-02'
+source_file: google-workspace-signatures.json
+generated_at: '2026-01-02T22:29:44.401882'
+categories:
+- LogEntry
+- ProtoPayload
+- AuthenticationInfo
+- RequestMetadata
+- Metadata
+- Event
+- Parameter
+field_count: 31
+fields:
+- field_name: logName
+  field_type: string
+  description: Contains organization ID and audit log type (admin_activity or data_access)
+  category: LogEntry
+- field_name: resource
+  field_type: object
+  description: Target of the audited operation
+  category: LogEntry
+- field_name: resource.type
+  field_type: string
+  description: Resource type being audited
+  category: LogEntry
+- field_name: resource.labels
+  field_type: object
+  description: Resource labels including project_id, organization_id
+  category: LogEntry
+- field_name: timestamp
+  field_type: datetime
+  description: Time when operation occurred (RFC 3339 format)
+  category: LogEntry
+- field_name: severity
+  field_type: string
+  description: Log severity level
+  category: LogEntry
+- field_name: insertId
+  field_type: string
+  description: Unique identifier for the log entry
+  category: LogEntry
+- field_name: protoPayload.@type
+  field_type: string
+  description: Always type.googleapis.com/google.cloud.audit.AuditLog
+  category: ProtoPayload
+- field_name: protoPayload.serviceName
+  field_type: string
+  description: Service generating the audit log (e.g., admin.googleapis.com)
+  category: ProtoPayload
+- field_name: protoPayload.methodName
+  field_type: string
+  description: Specific operation performed
+  category: ProtoPayload
+- field_name: protoPayload.resourceName
+  field_type: string
+  description: Organization identifier being audited
+  category: ProtoPayload
+- field_name: protoPayload.status
+  field_type: object
+  description: Status of the operation
+  category: ProtoPayload
+- field_name: protoPayload.authenticationInfo.principalEmail
+  field_type: email
+  description: Email of user performing the action
+  category: AuthenticationInfo
+- field_name: protoPayload.authenticationInfo.principalSubject
+  field_type: string
+  description: Subject identifier for the principal
+  category: AuthenticationInfo
+- field_name: protoPayload.requestMetadata.callerIp
+  field_type: ip
+  description: Source IP address of the request
+  category: RequestMetadata
+- field_name: protoPayload.requestMetadata.callerSuppliedUserAgent
+  field_type: string
+  description: User agent string from the caller
+  category: RequestMetadata
+- field_name: protoPayload.requestMetadata.requestAttributes
+  field_type: object
+  description: Additional request attributes
+  category: RequestMetadata
+- field_name: protoPayload.metadata.@type
+  field_type: string
+  description: Always type.googleapis.com/ccc_hosted_reporting.ActivityProto
+  category: Metadata
+- field_name: protoPayload.metadata.activityId
+  field_type: object
+  description: Unique activity identifier with timestamp
+  category: Metadata
+- field_name: protoPayload.metadata.activityId.timeUsec
+  field_type: integer
+  description: Activity timestamp in microseconds
+  category: Metadata
+- field_name: protoPayload.metadata.activityId.uniqQualifier
+  field_type: string
+  description: Unique qualifier for the activity
+  category: Metadata
+- field_name: protoPayload.metadata.event
+  field_type: array
+  description: Array of event objects
+  category: Event
+- field_name: protoPayload.metadata.event.eventName
+  field_type: string
+  description: Human-readable event identifier
+  category: Event
+- field_name: protoPayload.metadata.event.eventType
+  field_type: string
+  description: Classification of event (e.g., login, admin_action)
+  category: Event
+- field_name: protoPayload.metadata.event.status
+  field_type: string
+  description: Event status (success, failure)
+  category: Event
+- field_name: protoPayload.metadata.event.parameter
+  field_type: array
+  description: Key-value pairs with event details
+  category: Parameter
+- field_name: parameter.name
+  field_type: string
+  description: Parameter field name
+  category: Parameter
+- field_name: parameter.type
+  field_type: string
+  description: Parameter data type (TYPE_STRING, TYPE_INT64, etc.)
+  category: Parameter
+- field_name: parameter.value
+  field_type: string
+  description: Single parameter value
+  category: Parameter
+- field_name: parameter.multiStrValue
+  field_type: array
+  description: Array of string values for repeated fields
+  category: Parameter
+- field_name: parameter.label
+  field_type: string
+  description: Field label (LABEL_REPEATED for arrays)
+  category: Parameter
+notes: Audit logs for Google Workspace services (Admin, Drive, Login, etc.) streamed
+  to Cloud Logging.

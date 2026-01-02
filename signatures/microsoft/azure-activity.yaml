@@ -1,0 +1,292 @@
+version: '1.0'
+vendor: Microsoft
+product: Azure Activity Log
+product_full_name: Azure Monitor Activity Log
+log_type: structured
+source_document: Azure Activity Log Event Schema
+source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log-schema
+extraction_date: '2026-01-02'
+source_file: azure-activity-signatures.json
+generated_at: '2026-01-02T22:29:38.382788'
+categories:
+- Administrative
+- HttpRequest
+- Security
+- Alert
+- Autoscale
+- Policy
+- ServiceHealth
+- ResourceHealth
+field_count: 67
+fields:
+- field_name: authorization
+  field_type: object
+  description: Azure RBAC properties (action, role, scope)
+  category: Administrative
+- field_name: caller
+  field_type: string
+  description: Email/UPN/SPN of the user/application performing operation
+  category: Administrative
+- field_name: category
+  field_type: string
+  description: Event category (Administrative, ServiceHealth, etc.)
+  category: Administrative
+- field_name: channels
+  field_type: string
+  description: Admin or Operation channel
+  category: Administrative
+- field_name: claims
+  field_type: object
+  description: JWT token from Active Directory
+  category: Administrative
+- field_name: correlationId
+  field_type: string
+  description: Shared identifier across related events
+  category: Administrative
+- field_name: description
+  field_type: string
+  description: Static text description
+  category: Administrative
+- field_name: eventDataId
+  field_type: string
+  description: Unique event identifier
+  category: Administrative
+- field_name: eventName
+  field_type: object
+  description: Friendly name with value and localizedValue
+  category: Administrative
+- field_name: eventTimestamp
+  field_type: datetime
+  description: When Azure service generated event
+  category: Administrative
+- field_name: httpRequest.clientIpAddress
+  field_type: ip
+  description: Client IP address
+  category: HttpRequest
+- field_name: httpRequest.clientRequestId
+  field_type: string
+  description: Client request identifier
+  category: HttpRequest
+- field_name: httpRequest.method
+  field_type: string
+  description: HTTP method used
+  category: HttpRequest
+- field_name: id
+  field_type: string
+  description: Full resource URI with event ID
+  category: Administrative
+- field_name: level
+  field_type: string
+  description: Severity level (Critical/Error/Warning/Informational)
+  category: Administrative
+- field_name: operationId
+  field_type: string
+  description: Shared among related operation events
+  category: Administrative
+- field_name: operationName
+  field_type: object
+  description: Operation name (e.g., Microsoft.Network/networkSecurityGroups/write)
+  category: Administrative
+- field_name: properties
+  field_type: object
+  description: Key-value pairs with event details
+  category: Administrative
+- field_name: properties.ActionTaken
+  field_type: string
+  description: Detected, Blocked, etc.
+  category: Security
+- field_name: properties.Aggregation
+  field_type: string
+  description: Aggregation type (Average, Total, etc.)
+  category: Alert
+- field_name: properties.Description
+  field_type: string
+  description: Detailed autoscale action description
+  category: Autoscale
+- field_name: properties.LastScaleActionTime
+  field_type: string
+  description: Timestamp of last scaling action
+  category: Autoscale
+- field_name: properties.MetricName
+  field_type: string
+  description: Metric name
+  category: Alert
+- field_name: properties.MetricUnit
+  field_type: string
+  description: Metric unit (Count, Percent, etc.)
+  category: Alert
+- field_name: properties.NewInstancesCount
+  field_type: string
+  description: New instance count
+  category: Autoscale
+- field_name: properties.OldInstancesCount
+  field_type: string
+  description: Previous instance count
+  category: Autoscale
+- field_name: properties.Operator
+  field_type: string
+  description: Conditional operator (LessThan, GreaterThan, etc.)
+  category: Alert
+- field_name: properties.ResourceName
+  field_type: string
+  description: Resource ID being scaled
+  category: Autoscale
+- field_name: properties.RuleDescription
+  field_type: string
+  description: Alert rule description
+  category: Alert
+- field_name: properties.RuleName
+  field_type: string
+  description: Alert rule name
+  category: Alert
+- field_name: properties.RuleUri
+  field_type: string
+  description: Resource ID of metric alert rule
+  category: Alert
+- field_name: properties.Severity
+  field_type: string
+  description: High, Medium, Low
+  category: Security
+- field_name: properties.Threshold
+  field_type: string
+  description: Threshold value for evaluation
+  category: Alert
+- field_name: properties.UserSID
+  field_type: string
+  description: User security identifier
+  category: Security
+- field_name: properties.WindowSizeInMinutes
+  field_type: string
+  description: Time window for evaluation
+  category: Alert
+- field_name: properties.accountLogonId
+  field_type: string
+  description: Account logon identifier
+  category: Security
+- field_name: properties.ancestors
+  field_type: string
+  description: Comma-separated parent management groups
+  category: Policy
+- field_name: properties.commandLine
+  field_type: string
+  description: Process command line executed
+  category: Security
+- field_name: properties.communication
+  field_type: string
+  description: Detailed incident description
+  category: ServiceHealth
+- field_name: properties.domainName
+  field_type: string
+  description: Domain of affected system
+  category: Security
+- field_name: properties.healthEventCategory
+  field_type: string
+  description: Planned or Unplanned
+  category: ResourceHealth
+- field_name: properties.healthEventCause
+  field_type: string
+  description: PlatformInitiated or UserInitiated
+  category: ResourceHealth
+- field_name: properties.healthEventType
+  field_type: string
+  description: Downtime, etc.
+  category: ResourceHealth
+- field_name: properties.healthStatus
+  field_type: string
+  description: Available, Unavailable, Degraded, Unknown
+  category: ResourceHealth
+- field_name: properties.impactStartTime
+  field_type: datetime
+  description: When impact began
+  category: ServiceHealth
+- field_name: properties.impactedServices
+  field_type: array
+  description: Services affected by region
+  category: ServiceHealth
+- field_name: properties.incidentType
+  field_type: string
+  description: Incident, Maintenance, Action Required, etc.
+  category: ServiceHealth
+- field_name: properties.isComplianceCheck
+  field_type: string
+  description: False (new resources), True (evaluation triggers)
+  category: Policy
+- field_name: properties.parentProcess
+  field_type: string
+  description: Parent process name
+  category: Security
+- field_name: properties.policies
+  field_type: string
+  description: JSON array with policy definition, assignment, effect, parameters
+  category: Policy
+- field_name: properties.processId
+  field_type: string
+  description: Process ID
+  category: Security
+- field_name: properties.processName
+  field_type: string
+  description: Process name/path
+  category: Security
+- field_name: properties.region
+  field_type: string
+  description: Affected region
+  category: ServiceHealth
+- field_name: properties.resourceLocation
+  field_type: string
+  description: Azure region of evaluated resource
+  category: Policy
+- field_name: properties.service
+  field_type: string
+  description: Service name
+  category: ServiceHealth
+- field_name: properties.stage
+  field_type: string
+  description: Active, Resolved, etc.
+  category: ServiceHealth
+- field_name: properties.title
+  field_type: string
+  description: Infrastructure/service affected
+  category: ServiceHealth
+- field_name: properties.trackingId
+  field_type: string
+  description: Incident tracking ID
+  category: ServiceHealth
+- field_name: properties.userName
+  field_type: string
+  description: User account name
+  category: Security
+- field_name: resourceGroupName
+  field_type: string
+  description: Resource group name
+  category: Administrative
+- field_name: resourceId
+  field_type: string
+  description: Full resource ID
+  category: Administrative
+- field_name: resourceProviderName
+  field_type: object
+  description: Provider name (e.g., Microsoft.Network)
+  category: Administrative
+- field_name: resourceType
+  field_type: object
+  description: Resource type (e.g., Microsoft.Network/networkSecurityGroups)
+  category: Administrative
+- field_name: status
+  field_type: object
+  description: Succeeded, Failed, Started, In Progress
+  category: Administrative
+- field_name: subStatus
+  field_type: object
+  description: HTTP status code or substatus
+  category: Administrative
+- field_name: submissionTimestamp
+  field_type: datetime
+  description: When event became available for querying
+  category: Administrative
+- field_name: subscriptionId
+  field_type: string
+  description: Azure Subscription ID
+  category: Administrative
+notes: Azure Activity Log provides insight into subscription-level events including
+  Administrative, ServiceHealth, ResourceHealth, Alert, Autoscale, Security, Recommendation,
+  and Policy categories.

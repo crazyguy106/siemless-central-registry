@@ -1,0 +1,64 @@
+version: '1.0'
+vendor: Amazon Web Services
+product: Route 53 Query Logs
+product_full_name: Amazon Route 53 DNS Query Logging
+log_type: structured
+source_document: Route 53 Query Logging
+source_url: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html
+extraction_date: '2026-01-02'
+source_file: aws-route53-signatures.json
+generated_at: '2026-01-02T22:29:38.354006'
+categories:
+- Core
+- DNS
+- Network
+field_count: 10
+fields:
+- field_name: log_format_version
+  field_type: string
+  description: Version number of the query log format. Incremented when fields are
+    added.
+  category: Core
+- field_name: query_timestamp
+  field_type: datetime
+  description: Date and time in ISO 8601 format (UTC) when Route 53 responded to the
+    request
+  category: Core
+- field_name: hosted_zone_id
+  field_type: string
+  description: The ID of the hosted zone associated with the DNS queries in the log
+  category: Core
+- field_name: query_name
+  field_type: string
+  description: The domain or subdomain specified in the DNS request
+  category: DNS
+- field_name: query_type
+  field_type: string
+  description: DNS record type specified in the request (A, AAAA, TXT, etc.) or ANY
+  category: DNS
+- field_name: response_code
+  field_type: string
+  description: DNS response code returned by Route 53 (NOERROR, NXDOMAIN, SERVFAIL,
+    REFUSED)
+  category: DNS
+- field_name: layer4_protocol
+  field_type: string
+  description: 'Protocol used to submit the query: TCP or UDP'
+  category: Network
+- field_name: route53_edge_location
+  field_type: string
+  description: Route 53 edge location that responded (3-letter airport code + number,
+    e.g., DFW3)
+  category: Network
+- field_name: resolver_ip_address
+  field_type: ip
+  description: IP address of the DNS resolver that submitted the request to Route
+    53
+  category: Network
+- field_name: edns_client_subnet
+  field_type: string
+  description: Partial client IP from EDNS Client Subnet extension (e.g., 192.168.222.0/24)
+    or dash if unavailable
+  category: Network
+notes: DNS query logs for Route 53 hosted zones. Logs queries to public hosted zones
+  from recursive DNS resolvers.

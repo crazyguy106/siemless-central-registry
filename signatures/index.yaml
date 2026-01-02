@@ -1,36 +1,123 @@
 version: '1.0'
 description: SIEMLess Log Signature Resource Hub
-generated_at: '2025-12-31T00:20:43.889182'
+generated_at: '2026-01-02T22:29:44.974619'
 total_signatures: 6263
-total_files: 5
+total_files: 45
 vendors:
+- name: Amazon Web Services
+  products:
+  - name: CloudTrail
+    file: signatures/aws/cloudtrail.yaml
+    field_count: 62
+    categories:
+    - Addendum
+    - RequestResponse
+    - Core
+    - Resources
+    - TLS
+    - UserIdentity
+    - InScopeOf
+    - OnBehalfOf
+    - SessionContext
+  - name: GuardDuty
+    file: signatures/aws/guardduty.yaml
+    field_count: 74
+    categories:
+    - Metadata
+    - Classification
+    - Network
+    - Resource
+    - Service
+  - name: Route 53 Query Logs
+    file: signatures/aws/route-53-query.yaml
+    field_count: 10
+    categories:
+    - Core
+    - DNS
+    - Network
+  - name: VPC Flow Logs
+    file: signatures/aws/vpc-flow.yaml
+    field_count: 42
+    categories:
+    - Core
+    - Regional
+    - ECS
+    - Encryption
+    - Service
+    - Extended
+    - Security
+    - NAT
+  - name: AWS WAF
+    file: signatures/aws/aws-waf.yaml
+    field_count: 57
+    categories:
+    - TopLevel
+    - CaptchaChallenge
+    - ExcludedRules
+    - NonTerminating
+    - RateBased
+    - TerminatingRule
+- name: Apache Software Foundation
+  products:
+  - name: Apache HTTP Server Access Logs
+    file: signatures/apache-software-foundation/apache-http-server-access.yaml
+    field_count: 43
+    categories:
+    - Client
+    - Request
+    - Response
+    - Timing
+    - Headers
+    - Server
+    - Connection
+- name: Auth0
+  products:
+  - name: Tenant Logs
+    file: signatures/auth0/tenant.yaml
+    field_count: 38
+    categories:
+    - Core
+    - Client
+    - Connection
+    - Details
+    - Network
+    - Location
+    - User
 - name: Check Point
   products:
   - name: Security Gateway
     file: signatures/check-point/security-gateway.yaml
-    signature_count: 15
+    field_count: 643
     categories:
-    - firewall
-    - threat_prevention
-    - url_filtering
-    - data_loss_prevention
-    - identity_awareness
+    - Common
+    - Advanced
+    - Firewall
+    - Anti-Virus
+    - Application Control
+    - Identity Awareness
+    - IPS
+    - NAT
+    - Threat Emulation
+    - Threat Extraction
+    - VPN
+    - Endpoint
+    - Mobile
 - name: Cisco
   products:
   - name: ASA
     file: signatures/cisco/asa.yaml
-    signature_count: 2341
+    field_count: 0
     categories:
-    - Authentication
-    - Other
-    - Failover
     - VPN/SSL
     - SMTP/ESMTP
+    - Syslog
+    - Connection
+    - Failover
+    - Authentication
+    - Other
     - IPS/IDS
     - NAT
-    - Connection
     - VPN
-    - Syslog
   - name: ASA
     file: signatures/cisco/asa.yaml
     signature_count: 2341
@@ -45,11 +132,50 @@ vendors:
     - Connection
     - VPN
     - Syslog
+- name: Cisco Meraki
+  products:
+  - name: Security Appliance
+    file: signatures/cisco-meraki/security-appliance.yaml
+    field_count: 77
+    categories:
+    - MX Security Appliance
+    - MR Access Points
+    - Common
+- name: Cloudflare
+  products:
+  - name: HTTP Request Logs
+    file: signatures/cloudflare/http-request.yaml
+    field_count: 103
+    categories:
+    - Bot
+    - Cache
+    - Client
+    - TLS
+    - Request
+    - Content
+    - Edge
+    - Fraud
+    - Origin
+    - Metadata
+    - Security
+    - Worker
+- name: Docker Inc.
+  products:
+  - name: Docker Container Logs
+    file: signatures/docker/docker-container.yaml
+    field_count: 12
+    categories:
+    - LogEntry
+    - Stream
+    - Timestamp
+    - Container
+    - Configuration
+    - Labels
 - name: Fortinet
   products:
   - name: FortiGate
     file: signatures/fortinet/fortigate.yaml
-    signature_count: 1155
+    field_count: 423
     categories:
     - activexfilter
     - analytics
@@ -136,11 +262,108 @@ vendors:
     - webmail
     - webproxy
     - wireless
+  - name: FortiManager
+    file: signatures/fortinet/fortimanager.yaml
+    field_count: 207
+    categories:
+    - User/Authentication
+    - Administrative Domain
+    - Incident Management
+    - Database
+    - Device
+    - Policy/Package
+    - Automation
+    - Action/Result
+    - High Availability
+    - System Metrics
+    - Certificate/License
+    - Network
+    - Logging
+    - Common
+    - Configuration
+    - Version/Upgrade
+    - Timestamp
+    - Reporting
+- name: Google
+  products:
+  - name: Google Workspace Audit Logs
+    file: signatures/google/google-workspace-audit.yaml
+    field_count: 31
+    categories:
+    - LogEntry
+    - ProtoPayload
+    - AuthenticationInfo
+    - RequestMetadata
+    - Metadata
+    - Event
+    - Parameter
+- name: Google Cloud Platform
+  products:
+  - name: Audit Logs
+    file: signatures/google-cloud-platform/audit.yaml
+    field_count: 42
+    categories:
+    - LogEntry
+    - Operation
+    - AuthenticationInfo
+    - AuthorizationInfo
+    - RequestResponse
+    - AuditLog
+    - PolicyViolation
+    - RequestMetadata
+    - ResourceLocation
+    - Status
+  - name: VPC Flow Logs
+    file: signatures/google-cloud-platform/vpc-flow.yaml
+    field_count: 42
+    categories:
+    - Base
+    - IpConnection
+    - SourceDestMetadata
+    - Geographic
+    - Gateway
+    - LoadBalancing
+    - Advanced
+- name: Kubernetes
+  products:
+  - name: API Server Audit Logs
+    file: signatures/kubernetes/api-server-audit.yaml
+    field_count: 34
+    categories:
+    - Core
+    - Request
+    - User
+    - Object
+    - Response
+    - Timing
+    - Metadata
+- name: Linux
+  products:
+  - name: Auditd
+    file: signatures/linux/auditd.yaml
+    field_count: 140
+    categories:
+    - Process
+    - Subject
+    - Virtualization
+    - Netfilter
+    - Network
+    - Syscall
+    - Audit
+    - Capability
+    - Crypto
+    - Object
+    - TTY
+    - SELinux
+    - Kernel
+    - PAM
+    - IPC
+    - Signal
 - name: Microsoft
   products:
   - name: Windows
     file: signatures/microsoft/windows.yaml
-    signature_count: 411
+    field_count: 49
     categories:
     - Account Logon
     - Account Management
@@ -151,3 +374,437 @@ vendors:
     - Policy Change
     - Privilege Use
     - System
+  - name: Azure Activity Log
+    file: signatures/microsoft/azure-activity.yaml
+    field_count: 67
+    categories:
+    - Administrative
+    - HttpRequest
+    - Security
+    - Alert
+    - Autoscale
+    - Policy
+    - ServiceHealth
+    - ResourceHealth
+  - name: Azure NSG Flow Logs
+    file: signatures/microsoft/azure-nsg-flow.yaml
+    field_count: 25
+    categories:
+    - LogRecord
+    - FlowTupleV2
+    - FlowTupleV1
+    - Flow
+    - Rule
+    - Properties
+  - name: Azure Sentinel
+    file: signatures/microsoft/azure-sentinel.yaml
+    field_count: 40
+    categories:
+    - Core
+    - Properties
+    - AdditionalData
+    - Owner
+    - Labels
+    - SystemData
+    - Enums
+  - name: Entra ID Sign-In Logs
+    file: signatures/microsoft/entra-id-sign-in.yaml
+    field_count: 87
+    categories:
+    - Identity
+    - Metadata
+    - Application
+    - ConditionalAccess
+    - Authentication
+    - Network
+    - Device
+    - CrossTenant
+    - Token
+    - Session
+    - Risk
+  - name: Defender for Endpoint
+    file: signatures/microsoft/defender-for-endpoint.yaml
+    field_count: 55
+    categories:
+    - Alert
+    - DeviceEvidence
+    - FileEvidence
+    - ProcessEvidence
+    - UserEvidence
+    - NetworkEvidence
+  - name: IIS W3C Access Logs
+    file: signatures/microsoft/iis-w3c-access.yaml
+    field_count: 22
+    categories:
+    - Client
+    - Server
+    - Request
+    - Response
+    - Timing
+  - name: Defender XDR
+    file: signatures/microsoft/defender-xdr.yaml
+    field_count: 306
+    categories:
+    - AADSignInEventsBeta
+    - DeviceRegistryEvents
+    - DeviceImageLoadEvents
+    - AlertEvidence
+    - DeviceTvmSoftwareVulnerabilities
+    - DeviceNetworkEvents
+    - DeviceLogonEvents
+    - EmailAttachmentInfo
+    - DeviceTvmSoftwareInventory
+    - EmailEvents
+    - EmailUrlInfo
+    - BehaviorEntities
+    - DeviceNetworkInfo
+    - DeviceFileEvents
+    - IdentityLogonEvents
+    - AlertInfo
+    - DeviceProcessEvents
+    - DeviceInfo
+    - IdentityQueryEvents
+    - CloudAppEvents
+    - UrlClickEvents
+  - name: Office 365 Unified Audit Log
+    file: signatures/microsoft/office-365-unified-audit.yaml
+    field_count: 130
+    categories:
+    - Common
+    - AppAccessContext
+    - SharePointBase
+    - SharePointFileOperations
+    - SharePointListOperations
+    - SharePointSharing
+    - ExchangeAdmin
+    - ExchangeMailbox
+    - ExchangeItem
+    - ExchangeFolder
+    - AzureADBase
+    - AzureADLogon
+    - AzureADSTSLogon
+    - AzureADSchema
+    - DLP
+  - name: Sysmon
+    file: signatures/microsoft/sysmon.yaml
+    field_count: 85
+    categories:
+    - Common
+    - Process
+    - Network
+    - File
+    - Registry
+    - WMI
+    - DNS
+    - Pipe
+    - Clipboard
+    - Driver
+    - Service
+  - name: Windows Security Events
+    file: signatures/microsoft/windows-security.yaml
+    field_count: 0
+    categories:
+    - HighCriticality
+    - System
+    - PolicyTrust
+    - Logon
+    - ObjectAccess
+    - PrivilegeUse
+    - Process
+    - DataProtection
+    - ServiceTask
+    - AccountManagement
+    - Groups
+    - GroupManagement
+    - Kerberos
+    - FirewallSecurity
+    - CertificateServices
+    - Firewall
+    - IPsec
+    - WindowsFilteringPlatform
+    - NetworkPolicyServer
+- name: Netgate
+  products:
+  - name: pfSense
+    file: signatures/pfsense/pfsense.yaml
+    field_count: 52
+    categories:
+    - Base
+    - IPv4
+    - IPv6
+    - IP Data
+    - TCP
+    - UDP
+    - ICMP
+    - CARP
+- name: Nginx Inc.
+  products:
+  - name: Nginx HTTP Server Access Logs
+    file: signatures/nginx/nginx-http-server-access.yaml
+    field_count: 62
+    categories:
+    - Client
+    - Request
+    - Response
+    - Connection
+    - Timing
+    - Headers
+    - Server
+    - ProxyProtocol
+    - TCP
+- name: OWASP
+  products:
+  - name: ModSecurity WAF
+    file: signatures/owasp/modsecurity-waf.yaml
+    field_count: 58
+    categories:
+    - Header
+    - Request
+    - Response
+    - Trailer
+    - Alert
+    - Performance
+    - Sanitization
+    - Rules
+- name: Palo Alto Networks
+  products:
+  - name: PAN-OS
+    file: signatures/palo-alto/pan-os.yaml
+    field_count: 294
+    categories:
+    - Traffic
+    - Threat
+    - URL Filtering
+    - Data Filtering
+    - HIP Match
+    - GlobalProtect
+    - IP-Tag
+    - User-ID
+    - Decryption
+    - Tunnel Inspection
+    - SCTP
+    - Authentication
+    - Config
+    - System
+    - Correlated Events
+    - GTP
+    - Audit
+- name: SentinelOne
+  products:
+  - name: Singularity
+    file: signatures/sentinelone/singularity.yaml
+    field_count: 324
+    categories:
+    - Legacy
+    - AgentDetectionInfo
+    - AgentCloudProviders
+    - AgentRealtimeInfo
+    - AlertInfo
+    - ContainerInfo
+    - Indicators
+    - KubernetesInfo
+    - MitigationStatus
+    - RuleInfo
+    - SourceParentProcessInfo
+    - SourceProcessInfo
+    - TargetProcessInfo
+    - ThreatInfo
+- name: SonicWall
+  products:
+  - name: SonicOS/X
+    file: signatures/sonicwall/sonicos-x.yaml
+    field_count: 108
+    categories:
+    - Network
+    - Traffic Statistics
+    - Application Filter
+    - Web/Content
+    - Common
+    - Firewall
+    - VPN
+    - Configuration Auditing
+    - Email
+    - Security Services
+    - Wireless
+    - Users
+- name: Sophos
+  products:
+  - name: Firewall
+    file: signatures/sophos/firewall.yaml
+    field_count: 403
+    categories:
+    - SD-WAN
+    - IPS
+    - Email (antivirus)
+    - IPsec
+    - Antivirus (FTP)
+    - Interface
+    - RED
+    - Web filter
+    - DDNS
+    - Reporting
+    - L2TP PPTP VPN
+    - Web (System HTTPS Deny events)
+    - Gateway
+    - Web content policy
+    - Heartbeat
+    - Email quarantine
+    - Firewall
+    - Zero Day Protection events
+    - HA - High availability
+    - SSL VPN
+    - Antivirus (HTTP / HTTPS)
+- name: Squid Cache
+  products:
+  - name: Squid Proxy Access Logs
+    file: signatures/squid/squid-proxy-access.yaml
+    field_count: 79
+    categories:
+    - Connection
+    - Time
+    - HTTP
+    - SSL
+    - Size
+    - Headers
+    - Cache
+    - Adaptation
+    - Notes
+    - ICAP
+- name: Symantec
+  products:
+  - name: Data Loss Prevention
+    file: signatures/symantec/data-loss-prevention.yaml
+    field_count: 83
+    categories:
+    - Syslog
+    - CEF
+    - Event
+    - Server
+    - Policy
+    - Incident
+    - User
+    - DataSource
+    - Profile
+    - Channel
+    - Network
+    - File
+    - Scan
+    - Email
+    - Agent
+    - Certificate
+    - Error
+    - Status
+    - Metrics
+    - Cloud
+- name: Trend Micro
+  products:
+  - name: Deep Security
+    file: signatures/trend-micro/deep-security.yaml
+    field_count: 108
+    categories:
+    - CEF Header
+    - Container
+    - Anti-Malware
+    - Firewall
+    - System Events
+    - SSL/TLS
+    - Universal
+    - Application Control
+    - IPS
+    - Device Control
+    - LEEF
+    - Log Inspection
+    - Integrity Monitoring
+    - Web Reputation
+- name: VMware Carbon Black
+  products:
+  - name: Carbon Black Cloud
+    file: signatures/carbon-black/carbon-black-cloud.yaml
+    field_count: 238
+    categories:
+    - File/Module
+    - Threat Intelligence
+    - Policy/Workflow
+    - Network
+    - Authentication
+    - Common
+    - Audit
+    - Device
+    - Process
+    - Alert/Detection
+    - Container
+    - USB Device Control
+  - name: Carbon Black EDR
+    file: signatures/carbon-black/carbon-black-edr.yaml
+    field_count: 115
+    categories:
+    - ServerEvents
+    - ProcessDocument
+    - BinaryDocument
+    - FeedHit
+    - ProcessStart
+    - ChildProcess
+    - FileModification
+    - RegistryModification
+    - NetworkConnection
+    - ModuleLoad
+    - CrossProcess
+    - Security
+- name: WatchGuard
+  products:
+  - name: Firebox
+    file: signatures/watchguard/firebox.yaml
+    field_count: 304
+    categories:
+    - Proxy Policy
+    - VPN
+    - Management
+    - Networking
+    - Mobile Security
+    - Firewall
+    - FireCluster
+    - Common
+- name: Zscaler
+  products:
+  - name: Zscaler Internet Access (ZIA)
+    file: signatures/zscaler/zscaler-internet-access-zia.yaml
+    field_count: 295
+    categories:
+    - HTTP
+    - Activity
+    - File
+    - Audit
+    - IPS
+    - GenAI
+    - IKE
+    - Forwarding
+    - CloudApp
+    - Email
+    - Session
+    - URL
+    - Repository
+    - Bandwidth
+    - Client
+    - Network
+    - Common
+    - DateTime
+    - Collaboration
+    - DataCenter
+    - User
+    - Device
+    - DLP
+    - Transaction
+    - Event
+    - Sample
+    - FileType
+    - Misc
+    - Sandbox
+    - Scan
+    - Threat
+    - Mobile
+    - Policy
+    - SSLServer
+    - SSLClient
+    - Action
+    - Server
+total_field_definitions: 5469

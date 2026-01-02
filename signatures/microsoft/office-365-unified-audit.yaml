@@ -1,0 +1,550 @@
+version: '1.0'
+vendor: Microsoft
+product: Office 365 Unified Audit Log
+product_full_name: Microsoft 365 Management Activity API
+log_type: structured
+source_document: Office 365 Management Activity API Schema
+source_url: https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-schema
+extraction_date: '2026-01-02'
+source_file: o365-audit-signatures.json
+generated_at: '2026-01-02T22:29:44.514934'
+categories:
+- Common
+- AppAccessContext
+- SharePointBase
+- SharePointFileOperations
+- SharePointListOperations
+- SharePointSharing
+- ExchangeAdmin
+- ExchangeMailbox
+- ExchangeItem
+- ExchangeFolder
+- AzureADBase
+- AzureADLogon
+- AzureADSTSLogon
+- AzureADSchema
+- DLP
+field_count: 130
+fields:
+- field_name: Id
+  field_type: guid
+  description: Unique identifier of an audit record
+  category: Common
+- field_name: RecordType
+  field_type: integer
+  description: Type of operation indicated by the record
+  category: Common
+- field_name: CreationTime
+  field_type: datetime
+  description: Date and time in UTC when the audit log record was generated
+  category: Common
+- field_name: Operation
+  field_type: string
+  description: Name of the user or admin activity
+  category: Common
+- field_name: OrganizationId
+  field_type: guid
+  description: GUID for organization's Office 365 tenant
+  category: Common
+- field_name: UserType
+  field_type: integer
+  description: Type of user that performed the operation
+  category: Common
+- field_name: UserKey
+  field_type: string
+  description: Alternative ID for user (PUID for SharePoint, OneDrive, Exchange)
+  category: Common
+- field_name: Workload
+  field_type: string
+  description: Office 365 service where activity occurred
+  category: Common
+- field_name: ResultStatus
+  field_type: string
+  description: 'Success status: Succeeded, PartiallySucceeded, or Failed'
+  category: Common
+- field_name: ObjectId
+  field_type: string
+  description: Full path name of file/folder accessed or modified object name
+  category: Common
+- field_name: UserId
+  field_type: string
+  description: UPN of user who performed the action
+  category: Common
+- field_name: ClientIP
+  field_type: ip
+  description: IPv4 or IPv6 address of device used when activity was logged
+  category: Common
+- field_name: Scope
+  field_type: string
+  description: 'Event source: online (Microsoft 365) or onprem (on-premises)'
+  category: Common
+- field_name: AppAccessContext
+  field_type: object
+  description: Application context for user or service principal that performed action
+  category: Common
+- field_name: AppAccessContext.AADSessionId
+  field_type: string
+  description: Microsoft Entra SessionId of Entra sign-in
+  category: AppAccessContext
+- field_name: AppAccessContext.APIId
+  field_type: string
+  description: ID for API pathway used to access resource
+  category: AppAccessContext
+- field_name: AppAccessContext.ClientAppId
+  field_type: string
+  description: ID of Microsoft Entra app that performed access
+  category: AppAccessContext
+- field_name: AppAccessContext.ClientAppName
+  field_type: string
+  description: Name of Microsoft Entra app that performed access
+  category: AppAccessContext
+- field_name: AppAccessContext.CorrelationId
+  field_type: string
+  description: Identifier to correlate user's actions across Microsoft 365 services
+  category: AppAccessContext
+- field_name: AppAccessContext.UniqueTokenId
+  field_type: string
+  description: Unique, per-token identifier (case-sensitive)
+  category: AppAccessContext
+- field_name: AppAccessContext.IssuedAtTime
+  field_type: datetime
+  description: When authentication for the Microsoft Entra token occurred
+  category: AppAccessContext
+- field_name: Site
+  field_type: guid
+  description: GUID of site where file/folder accessed
+  category: SharePointBase
+- field_name: ItemType
+  field_type: string
+  description: Type of object accessed or modified
+  category: SharePointBase
+- field_name: EventSource
+  field_type: string
+  description: 'Entity triggering event: SharePoint or ObjectModel'
+  category: SharePointBase
+- field_name: SourceName
+  field_type: string
+  description: Entity triggering operation
+  category: SharePointBase
+- field_name: UserAgent
+  field_type: string
+  description: Client/browser information
+  category: SharePointBase
+- field_name: MachineDomainInfo
+  field_type: string
+  description: Device sync operation information (PII)
+  category: SharePointBase
+- field_name: MachineId
+  field_type: string
+  description: Device sync operation identifier (PII)
+  category: SharePointBase
+- field_name: ListItemUniqueId
+  field_type: guid
+  description: GUID of list item
+  category: SharePointBase
+- field_name: ListId
+  field_type: guid
+  description: GUID of the list
+  category: SharePointBase
+- field_name: ApplicationId
+  field_type: string
+  description: ID of application performing operation
+  category: SharePointBase
+- field_name: ApplicationDisplayName
+  field_type: string
+  description: Display name of application performing operation
+  category: SharePointBase
+- field_name: IsWorkflow
+  field_type: boolean
+  description: True if SharePoint Workflows triggered event
+  category: SharePointBase
+- field_name: SiteUrl
+  field_type: url
+  description: URL of site where file/folder is located
+  category: SharePointFileOperations
+- field_name: SourceRelativeUrl
+  field_type: string
+  description: URL of folder containing file accessed
+  category: SharePointFileOperations
+- field_name: SourceFileName
+  field_type: string
+  description: Name of file or folder accessed
+  category: SharePointFileOperations
+- field_name: SourceFileExtension
+  field_type: string
+  description: File extension (blank if folder)
+  category: SharePointFileOperations
+- field_name: DestinationRelativeUrl
+  field_type: string
+  description: URL of destination folder (copy/move operations)
+  category: SharePointFileOperations
+- field_name: DestinationFileName
+  field_type: string
+  description: Name of file copied or moved
+  category: SharePointFileOperations
+- field_name: DestinationFileExtension
+  field_type: string
+  description: Extension of file copied or moved
+  category: SharePointFileOperations
+- field_name: UserSharedWith
+  field_type: string
+  description: User resource was shared with
+  category: SharePointFileOperations
+- field_name: SharingType
+  field_type: string
+  description: Type of sharing permissions assigned
+  category: SharePointFileOperations
+- field_name: SourceLabel
+  field_type: string
+  description: Original label before change
+  category: SharePointFileOperations
+- field_name: DestinationLabel
+  field_type: string
+  description: Final label after change
+  category: SharePointFileOperations
+- field_name: SensitivityLabelOwnerEmail
+  field_type: email
+  description: Email of sensitivity label owner
+  category: SharePointFileOperations
+- field_name: SensitivityLabelId
+  field_type: string
+  description: Current sensitivity label ID
+  category: SharePointFileOperations
+- field_name: ListTitle
+  field_type: string
+  description: Title of SharePoint list
+  category: SharePointListOperations
+- field_name: ListName
+  field_type: string
+  description: Name of SharePoint list
+  category: SharePointListOperations
+- field_name: ListUrl
+  field_type: url
+  description: URL of list relative to website
+  category: SharePointListOperations
+- field_name: ListBaseType
+  field_type: string
+  description: Base type for list
+  category: SharePointListOperations
+- field_name: ListBaseTemplateType
+  field_type: string
+  description: List definition type
+  category: SharePointListOperations
+- field_name: IsHiddenList
+  field_type: boolean
+  description: True if list is hidden
+  category: SharePointListOperations
+- field_name: IsDocLib
+  field_type: boolean
+  description: True if list is Document Library
+  category: SharePointListOperations
+- field_name: TargetUserOrGroupName
+  field_type: string
+  description: UPN or name of target user/group
+  category: SharePointSharing
+- field_name: TargetUserOrGroupType
+  field_type: string
+  description: 'Target type: Member, Guest, Group, or Partner'
+  category: SharePointSharing
+- field_name: EventData
+  field_type: xml
+  description: Follow-up info about sharing action
+  category: SharePointSharing
+- field_name: UniqueSharingId
+  field_type: string
+  description: Unique sharing ID
+  category: SharePointSharing
+- field_name: ModifiedObjectResolvedName
+  field_type: string
+  description: User-friendly name of modified object
+  category: ExchangeAdmin
+- field_name: Parameters
+  field_type: array
+  description: Name/value pairs for cmdlet parameters
+  category: ExchangeAdmin
+- field_name: ModifiedProperties
+  field_type: array
+  description: Modified properties with old/new values
+  category: ExchangeAdmin
+- field_name: ExternalAccess
+  field_type: boolean
+  description: False = organization user, True = datacenter/delegated admin
+  category: ExchangeAdmin
+- field_name: OriginatingServer
+  field_type: string
+  description: Server from which cmdlet was executed
+  category: ExchangeAdmin
+- field_name: OrganizationName
+  field_type: string
+  description: Tenant name
+  category: ExchangeAdmin
+- field_name: DeviceId
+  field_type: string
+  description: Registered/domain-joined device ID
+  category: ExchangeAdmin
+- field_name: TokenObjectId
+  field_type: string
+  description: OID claim of Microsoft Entra tokens
+  category: ExchangeAdmin
+- field_name: TokenTenantId
+  field_type: string
+  description: TID claim of Microsoft Entra tokens
+  category: ExchangeAdmin
+- field_name: LogonType
+  field_type: integer
+  description: Type of user accessing mailbox (0=Owner, 1=Admin, 2=Delegated, 3=Transport)
+  category: ExchangeMailbox
+- field_name: InternalLogonType
+  field_type: integer
+  description: Reserved for internal use
+  category: ExchangeMailbox
+- field_name: MailboxGuid
+  field_type: guid
+  description: Exchange GUID of accessed mailbox
+  category: ExchangeMailbox
+- field_name: MailboxOwnerUPN
+  field_type: string
+  description: Email address of mailbox owner
+  category: ExchangeMailbox
+- field_name: MailboxOwnerSid
+  field_type: string
+  description: SID of mailbox owner
+  category: ExchangeMailbox
+- field_name: MailboxOwnerMasterAccountSid
+  field_type: string
+  description: Master account SID
+  category: ExchangeMailbox
+- field_name: LogonUserSid
+  field_type: string
+  description: SID of user performing operation
+  category: ExchangeMailbox
+- field_name: LogonUserDisplayName
+  field_type: string
+  description: User-friendly name of user
+  category: ExchangeMailbox
+- field_name: ClientInfoString
+  field_type: string
+  description: Email client info (browser, Outlook version, mobile)
+  category: ExchangeMailbox
+- field_name: ClientIPAddress
+  field_type: ip
+  description: IP address (IPv4 or IPv6)
+  category: ExchangeMailbox
+- field_name: ClientMachineName
+  field_type: string
+  description: Machine name hosting Outlook client
+  category: ExchangeMailbox
+- field_name: ClientProcessName
+  field_type: string
+  description: Email client name
+  category: ExchangeMailbox
+- field_name: ClientVersion
+  field_type: string
+  description: Email client version
+  category: ExchangeMailbox
+- field_name: SessionId
+  field_type: string
+  description: Unique session identifier
+  category: ExchangeMailbox
+- field_name: AppId
+  field_type: string
+  description: Application identifier
+  category: ExchangeMailbox
+- field_name: ClientAppId
+  field_type: string
+  description: Original caller (service/protocol) identifier
+  category: ExchangeMailbox
+- field_name: HostAppId
+  field_type: string
+  description: Executing service/protocol identifier
+  category: ExchangeMailbox
+- field_name: OperationProperties
+  field_type: array
+  description: Operation-specific properties
+  category: ExchangeMailbox
+- field_name: ClientRequestId
+  field_type: string
+  description: Client request identifier
+  category: ExchangeMailbox
+- field_name: ExternalUserTenantId
+  field_type: string
+  description: External user tenant ID
+  category: ExchangeMailbox
+- field_name: ActorIP
+  field_type: ip
+  description: IP address of actor
+  category: ExchangeMailbox
+- field_name: ActorInfoString
+  field_type: string
+  description: Cloud instance name (Public, GCC, GCC-H)
+  category: ExchangeMailbox
+- field_name: CloudInstanceName
+  field_type: string
+  description: Cloud instance name
+  category: ExchangeMailbox
+- field_name: AuthType
+  field_type: string
+  description: Authentication scheme used
+  category: ExchangeMailbox
+- field_name: TokenType
+  field_type: string
+  description: Type of token during authentication
+  category: ExchangeMailbox
+- field_name: Item.Id
+  field_type: string
+  description: Store ID
+  category: ExchangeItem
+- field_name: Item.Subject
+  field_type: string
+  description: Message subject line
+  category: ExchangeItem
+- field_name: Item.ParentFolder
+  field_type: object
+  description: Folder containing item
+  category: ExchangeItem
+- field_name: Item.Attachments
+  field_type: string
+  description: Names/file sizes of attachments
+  category: ExchangeItem
+- field_name: Item.ImmutableId
+  field_type: string
+  description: Permanent item identifier
+  category: ExchangeItem
+- field_name: Item.InternetMessageId
+  field_type: string
+  description: Internet message ID
+  category: ExchangeItem
+- field_name: Item.ComplianceLabel
+  field_type: string
+  description: Compliance label
+  category: ExchangeItem
+- field_name: Item.IsRecord
+  field_type: boolean
+  description: True if item is record
+  category: ExchangeItem
+- field_name: Item.SizeInBytes
+  field_type: integer
+  description: Item size in bytes
+  category: ExchangeItem
+- field_name: Item.Sensitivity
+  field_type: string
+  description: Sensitivity level
+  category: ExchangeItem
+- field_name: Folder.Id
+  field_type: string
+  description: Store ID of folder
+  category: ExchangeFolder
+- field_name: Folder.Path
+  field_type: string
+  description: Mailbox folder name
+  category: ExchangeFolder
+- field_name: Folder.Name
+  field_type: string
+  description: Folder name
+  category: ExchangeFolder
+- field_name: Folder.MemberSid
+  field_type: string
+  description: Member security identifier
+  category: ExchangeFolder
+- field_name: Folder.MemberRights
+  field_type: string
+  description: Folder access rights
+  category: ExchangeFolder
+- field_name: Folder.MemberUpn
+  field_type: string
+  description: Member UPN
+  category: ExchangeFolder
+- field_name: AzureActiveDirectoryEventType
+  field_type: integer
+  description: Type of Microsoft Entra event
+  category: AzureADBase
+- field_name: ExtendedProperties
+  field_type: array
+  description: Extended event properties
+  category: AzureADBase
+- field_name: Application
+  field_type: string
+  description: Application triggering login (e.g., Office 15)
+  category: AzureADLogon
+- field_name: Client
+  field_type: string
+  description: Client device, OS, and browser details
+  category: AzureADLogon
+- field_name: LoginStatus
+  field_type: integer
+  description: Login status code
+  category: AzureADLogon
+- field_name: UserDomain
+  field_type: string
+  description: Tenant identity information
+  category: AzureADLogon
+- field_name: STSApplicationId
+  field_type: string
+  description: GUID of application requesting login
+  category: AzureADSTSLogon
+- field_name: DeviceProperties
+  field_type: array
+  description: Device details (Id, Display name, OS, Browser, SessionId, DeviceTrustType)
+  category: AzureADSTSLogon
+- field_name: ErrorCode
+  field_type: string
+  description: AADSTS error code for failed logins, 0 for success
+  category: AzureADSTSLogon
+- field_name: LogonError
+  field_type: string
+  description: User-readable description of login failure
+  category: AzureADSTSLogon
+- field_name: Actor
+  field_type: array
+  description: User or service principal performing action
+  category: AzureADSchema
+- field_name: ActorContextId
+  field_type: guid
+  description: GUID of actor's organization
+  category: AzureADSchema
+- field_name: ActorIpAddress
+  field_type: ip
+  description: Actor's IP address (IPv4 or IPv6)
+  category: AzureADSchema
+- field_name: InterSystemsId
+  field_type: guid
+  description: GUID tracking actions across components
+  category: AzureADSchema
+- field_name: IntraSystemsId
+  field_type: guid
+  description: GUID generated by Azure AD to track action
+  category: AzureADSchema
+- field_name: SupportTicketId
+  field_type: string
+  description: Support ticket ID for act-on-behalf-of scenarios
+  category: AzureADSchema
+- field_name: Target
+  field_type: array
+  description: User action was performed on
+  category: AzureADSchema
+- field_name: TargetContextId
+  field_type: guid
+  description: GUID of target user's organization
+  category: AzureADSchema
+- field_name: SharePointMetaData
+  field_type: object
+  description: Metadata about document containing sensitive info
+  category: DLP
+- field_name: ExchangeMetaData
+  field_type: object
+  description: Exchange metadata
+  category: DLP
+- field_name: DLPOperationName
+  field_type: string
+  description: 'DLP operation: DlpRuleMatch, DlpRuleUndo, or DlpInfo'
+  category: DLP
+- field_name: IsOverride
+  field_type: boolean
+  description: User override flag
+  category: DLP
+- field_name: IsFalsePositive
+  field_type: boolean
+  description: False positive designation
+  category: DLP
+notes: Unified audit logging across Exchange, SharePoint, OneDrive, Azure AD, Teams,
+  and 100+ M365 workloads.
