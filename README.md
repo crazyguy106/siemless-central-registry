@@ -9,6 +9,17 @@ Auto-generated from local signature extraction.
 - **Vendors**: 4
 - **Generated**: 2025-12-31 00:20
 
+
+## Sigma Rules
+
+Detection rules for threat identification in parsed logs.
+
+- **Total Original Rules**: 3,067
+- **Total Sigma+ Enhanced**: 0
+- **Last Updated**: 2026-01-04
+
+See [sigma-rules/README.md](sigma-rules/README.md) for usage instructions.
+
 ## Structure
 
 ```
