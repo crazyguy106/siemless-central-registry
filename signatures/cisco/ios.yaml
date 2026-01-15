@@ -1,0 +1,21 @@
+signatures:
+- vendor: cisco
+  product: ios
+  log_type: network
+  version: null
+  log_format: emblem
+  signature_name: Cisco IOS EMBLEM Format
+  primary_pattern: '%[A-Z0-9_]+-\d+-[A-Z0-9_]+:'
+  confidence: 0.85
+  priority: 50
+  source: github_sync
+  exclusion_patterns:
+  - '%ASA-'
+  - '%FTD-'
+  - '%FWSM-'
+  sample_logs:
+  - 'router01 %SYS-5-CONFIG_I: Configured from console by admin'
+  - '%LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to down'
+  upstream_sources:
+  - grok
+  - wazuh

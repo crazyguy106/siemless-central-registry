@@ -1,0 +1,33 @@
+signatures:
+- vendor: checkpoint
+  product: firewall-1
+  log_type: firewall
+  version: null
+  log_format: syslog
+  signature_name: Check Point Firewall-1 LEA
+  primary_pattern: Product:(\s)?(?:VPN-1|FireWall-1|SmartDefense)
+  confidence: 0.95
+  priority: 10
+  source: github_sync
+  sample_logs:
+  - time=1710505845|action=accept|orig=10.1.1.1|dst=8.8.8.8|Product:FireWall-1
+  - 'Product: VPN-1 & FireWall-1|src=10.1.1.1|dst=8.8.8.8|service=https'
+  upstream_sources:
+  - filebeat
+  - wazuh
+- vendor: checkpoint
+  product: firewall-1
+  log_type: firewall
+  version: null
+  log_format: syslog
+  signature_name: Check Point Origin SIC
+  primary_pattern: 'origin_sic_name:'
+  confidence: 0.9
+  priority: 20
+  source: github_sync
+  secondary_patterns:
+  - 'action:'
+  sample_logs:
+  - 'origin_sic_name: cn=fw01,o=checkpoint.example.com|action: accept|src: 10.1.1.1'
+  upstream_sources:
+  - wazuh

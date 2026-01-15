@@ -1,0 +1,18 @@
+signatures:
+- vendor: ot
+  product: ethernet_ip
+  log_type: industrial
+  version: null
+  log_format: syslog
+  signature_name: EtherNet/IP CIP Protocol
+  primary_pattern: (?:cip_service|connection_id|originator)
+  confidence: 0.9
+  priority: 30
+  source: github_sync
+  sample_logs:
+  - cip_service=0x4c connection_id=0x12345678 originator=10.1.1.1
+  - 'enip: cip_service: get_attribute_single, connection_id: 12345'
+  - ethernet_ip originator=10.0.0.100 target=10.0.0.1 service=read_tag
+  upstream_sources:
+  - zeek
+  - suricata

@@ -1,0 +1,17 @@
+signatures:
+- vendor: ot
+  product: opc_ua
+  log_type: industrial
+  version: null
+  log_format: syslog
+  signature_name: OPC UA Protocol
+  primary_pattern: (?:opcua|node_id|namespace_index)\s*[=:]
+  confidence: 0.88
+  priority: 35
+  source: github_sync
+  sample_logs:
+  - 'opcua: node_id: ns=2;s=Temperature, value: 25.5'
+  - namespace_index=2 node_id=1001 browse_name=PLC1.Temperature
+  - opc.tcp://server:4840 node_id=i=2258 value=running
+  upstream_sources:
+  - zeek

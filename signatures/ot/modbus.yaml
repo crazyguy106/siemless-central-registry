@@ -1,0 +1,16 @@
+signatures:
+- vendor: ot
+  product: modbus
+  log_type: industrial
+  version: null
+  log_format: syslog
+  signature_name: Modbus Protocol Traffic
+  primary_pattern: (?:function_code|unit_id|transaction_id)\s*[=:]\s*\d+
+  confidence: 0.9
+  priority: 30
+  source: github_sync
+  sample_logs:
+  - function_code=3 unit_id=1 transaction_id=12345
+  upstream_sources:
+  - zeek
+  - suricata

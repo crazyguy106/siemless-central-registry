@@ -1,0 +1,32 @@
+signatures:
+- vendor: paloalto
+  product: pan-os
+  log_type: firewall
+  version: null
+  log_format: csv
+  signature_name: Palo Alto TRAFFIC Log
+  primary_pattern: ',TRAFFIC,'
+  confidence: 0.95
+  priority: 10
+  source: github_sync
+  sample_logs:
+  - 1,2024/03/15 12:30:45,001234567890,TRAFFIC,end,2560,2024/03/15 12:30:45,10.1.1.1,8.8.8.8,0.0.0.0,0.0.0.0,rule1
+  - Mar 15 12:30:45 fw01 1,2024/03/15 12:30:45,TRAFFIC,start,123,2024/03/15 12:30:45
+  upstream_sources:
+  - filebeat
+  - grok
+- vendor: paloalto
+  product: pan-os
+  log_type: threat
+  version: null
+  log_format: csv
+  signature_name: Palo Alto THREAT Log
+  primary_pattern: ',THREAT,'
+  confidence: 0.95
+  priority: 10
+  source: github_sync
+  sample_logs:
+  - 1,2024/03/15 12:30:45,001234567890,THREAT,vulnerability,2560,2024/03/15 12:30:45,10.1.1.1,8.8.8.8
+  upstream_sources:
+  - filebeat
+  - grok
