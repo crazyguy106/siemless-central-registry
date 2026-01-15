@@ -1,0 +1,131 @@
+vendor: Microsoft
+template_count: 4
+templates:
+- product: Azure Activity
+  log_type: cloud_audit
+  name: Azure Activity Logs
+  description: Azure subscription-level events for resource operations and service
+    health.
+  version: 1.0.0
+  source_category: cloud
+  integration_complexity: easy
+  detection_value_score: 80
+  default_fields:
+  - timestamp
+  - caller
+  - operation_name
+  - resource_group
+  - resource_type
+  - status
+  - correlation_id
+  - properties
+  default_log_types:
+  - activity
+  - resource_health
+  - service_health
+  mitre_coverage:
+  - T1078
+  - T1136
+  - T1098
+  - T1562
+  use_cases:
+  - cloud_security
+  - resource_monitoring
+- product: Azure AD
+  log_type: auth_logs
+  name: Azure Active Directory Sign-in Logs
+  description: Azure AD authentication logs.
+  version: 1.0.0
+  source_category: identity
+  integration_complexity: easy
+  detection_value_score: 90
+  default_fields:
+  - timestamp
+  - user_principal_name
+  - app_display_name
+  - ip_address
+  - location
+  - device_detail
+  - status
+  - conditional_access_status
+  - mfa_detail
+  - risk_level
+  default_log_types:
+  - sign_in
+  - audit
+  - provisioning
+  - risky_users
+  mitre_coverage:
+  - T1078
+  - T1110
+  - T1556
+  - T1550
+  - T1539
+  use_cases:
+  - identity_protection
+  - access_monitoring
+- product: Defender for Endpoint
+  log_type: endpoint_detection
+  name: Microsoft Defender for Endpoint
+  description: Endpoint protection and detection from Microsoft Defender.
+  version: 1.0.0
+  source_category: edr
+  integration_complexity: easy
+  detection_value_score: 90
+  default_fields:
+  - timestamp
+  - device_name
+  - user_name
+  - process_name
+  - process_id
+  - file_name
+  - file_hash
+  - url
+  - alert_title
+  - severity
+  - category
+  default_log_types:
+  - alert
+  - device_timeline
+  - advanced_hunting
+  mitre_coverage:
+  - T1059
+  - T1053
+  - T1055
+  - T1027
+  - T1105
+  - T1547
+  - T1548
+  use_cases:
+  - malware_detection
+  - threat_hunting
+- product: Office 365 Email
+  log_type: email_security
+  name: Microsoft 365 Email Security Logs
+  description: Exchange Online and Defender for Office 365 email protection logs.
+  version: 1.0.0
+  source_category: email
+  integration_complexity: easy
+  detection_value_score: 80
+  default_fields:
+  - timestamp
+  - sender
+  - recipient
+  - subject
+  - message_id
+  - direction
+  - threat_type
+  - delivery_action
+  - detection_method
+  default_log_types:
+  - message_trace
+  - threat_protection
+  - dlp
+  mitre_coverage:
+  - T1566
+  - T1534
+  - T1114
+  - T1020
+  use_cases:
+  - email_security
+  - phishing_detection
