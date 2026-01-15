@@ -1,0 +1,39 @@
+title: Suspicious Network Tool Launched Inside A Container
+id: 7290be75-2e10-49ec-b387-d4ed55b920ff
+status: stable
+level: low
+description: 'This rule detects commonly abused network utilities running inside a
+  container. Network utilities like nc, nmap, dig,
+
+  tcpdump, ngrep, telnet, mitmproxy, zmap can be used for malicious purposes such
+  as network reconnaissance, monitoring,
+
+  or exploitation, and should be monitored closely within a container.'
+author: Elastic (converted by SIEMLess)
+date: '2025-03-12'
+modified: '2025-03-12'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_entry_leader_entry_meta_type: container
+  condition: selection
+tags:
+- attack.discovery
+- attack.reconnaissance
+- attack.command_and_control
+- attack.t1595
+- attack.t1105
+- attack.t1046
+references:
+- https://sysdig.com/blog/cve-2021-25741-kubelet-falco/
+falsepositives:
+- "    There is a potential for false positives if the container is used for legitimate\
+  \ tasks that require the use of\n    network utilities, such as network troubleshooting,\
+  \ testing or system monitoring. It is important to investigate any\n    alerts generated\
+  \ by this rule to determine if they are indicative of malicious activity or part\
+  \ of legitimate\n    container activity.\n    "

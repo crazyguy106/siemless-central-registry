@@ -1,0 +1,22 @@
+title: O365 Email Access By Security Administrator
+id: 3043fe13-d4fb-5802-96ae-26be353f4459
+status: stable
+level: high
+description: |
+  The following analytic identifies when a user with sufficient access to O365 Security & Compliance portal uses premium investigation features (Threat Explorer) to directly view email. Adversaries may exploit privileged access with this premium feature to enumerate or exfiltrate sensitive data.
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    workload: SecurityComplianceCenter
+    operation: AdminMailAccess
+  condition: selection
+tags:
+  - attack.t1114.002
+  - attack.t1567
+references:
+  - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/threat-explorer-investigate-delivered-malicious-email?view=o365-worldwide
+custom_attributes:
+  original_rule_id: c6998a30-fef4-4e89-97ac-3bb0123719b4
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: Create or delete windows shares using net exe
+id: 688a1116-6357-502b-99f3-639260b5b011
+status: stable
+level: high
+description: |
+  The following analytic detects the creation or deletion of Windows shares using the net.exe command. It leverages Endpoint Detection and Response (EDR) data to identify processes involving net.exe with actions related to share management. This activity is significant because it may indicate an attacker attempting to manipulate network shares for malicious purposes, such as data exfiltration, malware distribution, or establishing persistence. If confirmed malicious, this activity could lead to un
+author: Bhavin Patel, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*share* /delete*'
+      - '*share* /REMARK:*'
+      - '*share* /CACHE:*'
+  condition: selection
+tags:
+  - attack.t1070.005
+references:
+  - https://attack.mitre.org/techniques/T1070/005/
+custom_attributes:
+  original_rule_id: 743a322c-9a68-4a0f-9c17-85d9cce2a27c
+  source_format: splunk_spl

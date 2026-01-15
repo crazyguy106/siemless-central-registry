@@ -1,0 +1,28 @@
+title: Windows Hide Notification Features Through Registry
+id: 8fc910a3-fd48-542a-a6af-89008c5d8c42
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious registry modifications aimed at hiding common Windows notification features on a compromised host. It leverages data from the Endpoint.Registry data model, focusing on specific registry paths and values. This activity is significant as it is often used by ransomware to obscure visual indicators, increasing the impact of the attack. If confirmed malicious, this could prevent users from noticing critical system alerts, thereby aiding the attacker in mainta
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*'
+    registry_value_data: 0x00000001
+    registry_value_name:
+      - HideClock
+      - HideSCAHealth
+      - HideSCANetwork
+      - HideSCAPower
+      - HideSCAVolume
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/Ransom.Win32.ONALOCKER.A/
+custom_attributes:
+  original_rule_id: cafa4bce-9f06-11ec-a7b2-acde48001122
+  source_format: splunk_spl

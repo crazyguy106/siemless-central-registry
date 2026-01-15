@@ -1,0 +1,38 @@
+title: 'Netscaler: Multiple non-http resource access denied'
+id: b25d6b5e-d253-5b38-9ef6-141ebb002fbd
+status: stable
+level: high
+description: 'Netscaler: Multiple non-http resource access denied'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-80111
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1083
+  - attack.t1133
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80112
+  wazuh_level: 10

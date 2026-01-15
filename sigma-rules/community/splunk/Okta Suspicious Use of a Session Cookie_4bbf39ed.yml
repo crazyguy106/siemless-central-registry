@@ -1,0 +1,24 @@
+title: Okta Suspicious Use of a Session Cookie
+id: 95cd8ff6-5c9c-5dea-a1b6-ece33e17051e
+status: stable
+level: medium
+description: |
+  The following analytic identifies suspicious use of a session cookie by detecting multiple client values (IP, User Agent, etc.) changing for the same Device Token associated with a specific user. It leverages policy evaluation events from successful authentication logs in Okta. This activity is significant as it may indicate an adversary attempting to reuse a stolen web session cookie, potentially bypassing authentication mechanisms. If confirmed malicious, this could allow unauthorized access t
+author: Scott Dermott, Felicity Robson, Okta, Michael Haag, Bhavin Patel, Splunk
+logsource:
+  product: okta
+detection:
+  selection:
+    eventtype:
+      - policy.evaluate_sign_on
+    result:
+      - ALLOW
+      - SUCCESS
+  condition: selection
+tags:
+  - attack.t1539
+references:
+  - https://attack.mitre.org/techniques/T1539/
+custom_attributes:
+  original_rule_id: 71ad47d1-d6bd-4e0a-b35c-020ad9a6959e
+  source_format: splunk_spl

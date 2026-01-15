@@ -1,0 +1,24 @@
+title: osCommerce file manager login.php bypass attempt.
+id: c3d8ad63-35f6-56d1-9340-0c086a39b2fc
+status: stable
+level: medium
+description: osCommerce file manager login.php bypass attempt.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: /admin/\w+.php/login.php
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31100
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31504
+  wazuh_level: 6

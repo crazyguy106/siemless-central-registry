@@ -1,0 +1,22 @@
+title: Detect HTML Help Renamed
+id: c849a83a-5377-5825-96ee-3dfbfac1350d
+status: stable
+level: low
+description: |
+  The following analytic detects instances where hh.exe (HTML Help) has been renamed and is executing a Compiled HTML Help (CHM) file. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names. This activity is significant because attackers can use renamed hh.exe to execute malicious scripts embedded in CHM files, potentially leading to code execution. If confirmed malicious, this technique could allow attackers to run arbitr
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1218.001
+references:
+  - https://attack.mitre.org/techniques/T1218/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
+  - https://lolbas-project.github.io/lolbas/Binaries/Hh/
+custom_attributes:
+  original_rule_id: 62fed254-513b-460e-953d-79771493a9f3
+  source_format: splunk_spl

@@ -1,0 +1,32 @@
+title: O365 Email Hard Delete Excessive Volume
+id: 5edd62cf-53e8-55be-b4e2-dedd6a9b3933
+status: stable
+level: medium
+description: |
+  The following analytic identifies when an O365 email account hard deletes an excessive number of emails within a short period (within 1 hour). This behavior may indicate a compromised account where the threat actor is attempting to permanently purge a large amount of items from the mailbox. Threat actors may attempt to remove evidence of their activity by purging items from the compromised mailbox. --- Some account owner legitimate behaviors can trigger this alert, however these actions may not 
+author: Steven Dick
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    workload: Exchange
+    span: 1hr
+    operation:
+      - Send
+      - SendAs
+      - SendOnBehalf
+    path:
+      - \\Sent Items
+      - \\Recoverable Items\\Deletions
+  condition: selection
+tags:
+  - attack.t1070.008
+  - attack.t1485
+references:
+  - https://attack.mitre.org/techniques/T1114/
+  - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+  - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+custom_attributes:
+  original_rule_id: c7fe0949-348a-41ce-8f17-a09a7fe5fd7d
+  source_format: splunk_spl

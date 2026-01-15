@@ -1,0 +1,24 @@
+title: Process Capability Enumeration
+id: 5c351f54-4187-4ad8-abc8-29b0cfbef8b1
+status: stable
+level: low
+description: 'Identifies recursive process capability enumeration of the entire filesystem
+  through the getcap command. Malicious users
+
+  may manipulate identified capabilities to gain root privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2024-01-09'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: getcap
+    process_args: /
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1057

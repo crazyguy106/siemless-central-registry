@@ -1,0 +1,35 @@
+title: Potential Process Name Stomping with Prctl
+id: fef62ecf-0260-4b71-848b-a8624b304828
+status: stable
+level: medium
+description: 'This rule leverages Auditd data to detect the use of the `prctl` syscall
+  to potentially hide a process
+
+  by changing its name. The `prctl` syscall is used to control various process attributes.
+  Attackers can use
+
+  this syscall to change the name of a process to a hidden directory or file, making
+  it harder to detect. The query
+
+  looks for the `prctl` syscall with the `PR_SET_NAME` argument set to `f` (PR_SET_NAME
+  is used to set the name of a process).'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-09'
+modified: '2025-05-05'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    auditd_data_syscall: prctl
+    auditd_data_a0: f
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036.005
+- attack.t1036
+references:
+- https://haxrob.net/process-name-stomping/
+- https://haxrob.net/hiding-in-plain-sight-part-2/
+- https://www.elastic.co/security-labs/linux-detection-engineering-with-auditd

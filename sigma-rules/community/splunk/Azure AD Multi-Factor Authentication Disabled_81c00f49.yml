@@ -1,0 +1,26 @@
+title: Azure AD Multi-Factor Authentication Disabled
+id: bdcc9e80-1d7d-58ef-b4aa-766bed5f95ba
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to disable multi-factor authentication (MFA) for an Azure AD user. It leverages Azure Active Directory AuditLogs to identify the "Disable Strong Authentication" operation. This activity is significant because disabling MFA can allow adversaries to maintain persistence using compromised accounts without raising suspicion. If confirmed malicious, this action could enable attackers to bypass an essential security control, potentially leading to unauthorized a
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    operationname: Disable Strong Authentication
+    category: AuditLogs
+  condition: selection
+tags:
+  - attack.t1556.006
+  - attack.t1586.003
+references:
+  - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+  - https://docs.microsoft.com/en-us/azure/active-directory/authentication/howto-mfa-userstates
+  - https://attack.mitre.org/tactics/TA0005/
+  - https://attack.mitre.org/techniques/T1556/
+custom_attributes:
+  original_rule_id: 482dd42a-acfa-486b-a0bb-d6fcda27318e
+  source_format: splunk_spl

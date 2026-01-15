@@ -1,0 +1,40 @@
+title: Potential Privilege Escalation via Container Misconfiguration
+id: afe6b0eb-dd9d-4922-b08a-1910124d524d
+status: stable
+level: medium
+description: 'This rule monitors for the execution of processes that interact with
+  Linux containers through an interactive shell
+
+  without root permissions. Utilities such as runc and ctr are universal command-line
+  utilities leveraged to interact with
+
+  containers via root permissions. On systems where the access to these utilities
+  are misconfigured, attackers might be
+
+  able to create and run a container that mounts the root folder or spawn a privileged
+  container vulnerable to a container
+
+  escape attack, which might allow them to escalate privileges and gain further access
+  onto the host file system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-31'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_name: ctr
+    process_args: run
+    user_Ext_real_id: '0'
+    group_Ext_real_id: '0'
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1611
+references:
+- https://book.hacktricks.xyz/linux-hardening/privilege-escalation/runc-privilege-escalation
+- https://book.hacktricks.xyz/linux-hardening/privilege-escalation/containerd-ctr-privilege-escalation

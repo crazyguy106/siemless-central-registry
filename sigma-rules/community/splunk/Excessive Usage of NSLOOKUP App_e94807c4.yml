@@ -1,0 +1,24 @@
+title: Excessive Usage of NSLOOKUP App
+id: 46ffad9d-665a-5edb-a020-e8abdcfd85da
+status: stable
+level: medium
+description: |
+  The following analytic detects excessive usage of the nslookup application, which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode 1 to monitor process executions, specifically focusing on nslookup.exe. The detection identifies outliers by comparing the frequency of nslookup executions against a calculated threshold. This activity is significant as it can reveal attempts by malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious, this behav
+author: Teoderick Contreras, Stanislav Miskovic, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: nslookup.exe
+    span: 1m
+    isoutlier: 1
+  condition: selection
+tags:
+  - attack.t1048
+references:
+  - https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings
+  - https://www.varonis.com/blog/dns-tunneling
+  - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+custom_attributes:
+  original_rule_id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
+  source_format: splunk_spl

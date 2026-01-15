@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): conhost.exe process masquerading detected, path is $(osquery.columns.path)'
+id: 23d5e901-744b-56eb-8cb6-402dd686468d
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): conhost.exe process masquerading detected, path is $(osquery.columns.path)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: conhost.exe_incorrect_path
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+tags:
+  - attack.t1036
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24709
+  wazuh_level: 4

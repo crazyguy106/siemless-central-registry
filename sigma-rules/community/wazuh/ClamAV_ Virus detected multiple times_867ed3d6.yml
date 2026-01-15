@@ -1,0 +1,31 @@
+title: 'ClamAV: Virus detected multiple times'
+id: 54d97c80-a513-5f2b-afb6-af79cee0ae8b
+status: stable
+level: high
+description: 'ClamAV: Virus detected multiple times'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    by:
+      - event.id
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-52502
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-52511
+  wazuh_level: 10

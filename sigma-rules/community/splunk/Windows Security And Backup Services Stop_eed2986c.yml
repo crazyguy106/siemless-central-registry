@@ -1,0 +1,23 @@
+title: Windows Security And Backup Services Stop
+id: 9b3a3344-0491-5182-858c-ba7d453a9729
+status: stable
+level: high
+description: |
+  The following analytic detects the suspicious termination of known services commonly targeted by ransomware before file encryption. It leverages Windows System Event Logs (EventCode 7036) to identify when critical services such as Volume Shadow Copy, backup, and antivirus services are stopped. This activity is significant because ransomware often disables these services to avoid errors and ensure successful file encryption. If confirmed malicious, this behavior could lead to widespread data encr
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    param2: stopped
+  condition: selection
+tags:
+  - attack.t1490
+references:
+  - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+  - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+  - https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+  - https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
+custom_attributes:
+  original_rule_id: 9c24aef6-cad9-4931-acce-74318aa5663b
+  source_format: splunk_spl

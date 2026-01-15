@@ -1,0 +1,25 @@
+title: Typosquatted Email Received
+id: 1de45965-678c-44a5-befc-bca67c97ae54
+status: experimental
+level: medium
+description: |
+  Adversaries may create typosquatted domains to mimic your domains. This detection can be used to detect typosquatted domains and alert on entries. You can configure the threshold yourself based on the *TypoSquatMin* and *TypoSquatMax*, these values represent the percentage of how many unicode characters match.
+author: Bert-JanP
+logsource:
+  product: office_365
+  service: kql
+detection:
+  _kql_query: |
+    let Domain = tolower("kqlquery.com");
+let UnicodeDomain = unicode_codepoints_from_string(Domain);
+let TypoSquatMin = 0.75;
+let TypoSquatMax = 0.99; // If set to 1.0 it equals the domain.
+EmailEvents
+| where EmailDirection == "Inbound"
+| extend SenderDomainUnicode = unicode_codepoints_from_string(tolower(SenderFromDomain))
+| extend TypoSquadPercentage = jaccard_index(UnicodeDomain, SenderDomainUnicode)
+| where TypoSquadPercentage between (TypoSquatMin .. TypoSquatMax)
+| project-reorder Timestamp, SenderFromDomain, TypoSquadPercentage, RecipientEmailAddress, Subject
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

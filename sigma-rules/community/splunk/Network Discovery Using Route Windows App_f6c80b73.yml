@@ -1,0 +1,21 @@
+title: Network Discovery Using Route Windows App
+id: 5884d23d-a880-54c4-a9bf-77180836cf39
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of the `route.exe` Windows application, commonly used for network discovery. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events. This activity is significant because adversaries often use `route.exe` to map network routes and identify potential targets within a network. If confirmed malicious, this behavior could allow attackers to gain insights into network topology, facilitating lateral movement 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1016.001
+references:
+  - https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
+custom_attributes:
+  original_rule_id: dd83407e-439f-11ec-ab8e-acde48001122
+  source_format: splunk_spl

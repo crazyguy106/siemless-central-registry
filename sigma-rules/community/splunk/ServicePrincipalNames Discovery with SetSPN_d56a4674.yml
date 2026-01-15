@@ -1,0 +1,30 @@
+title: ServicePrincipalNames Discovery with SetSPN
+id: 2d71e555-5001-58f3-88b7-c6cfa3b9941c
+status: stable
+level: high
+description: |
+  The following analytic detects the use of `setspn.exe` to query the domain for Service Principal Names (SPNs). This detection leverages Endpoint Detection and Response (EDR) data, focusing on specific command-line arguments associated with `setspn.exe`. Monitoring this activity is crucial as it often precedes Kerberoasting or Silver Ticket attacks, which can lead to credential theft. If confirmed malicious, an attacker could use the gathered SPNs to escalate privileges or persist within the envi
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*-t*'
+      - '*-f*'
+      - '*-q*'
+      - '**/**'
+      - '*-q*'
+      - '*-s*'
+  condition: selection
+tags:
+  - attack.t1558.003
+references:
+  - https://docs.microsoft.com/en-us/windows/win32/ad/service-principal-names
+  - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+  - https://strontic.github.io/xcyclopedia/library/setspn.exe-5C184D581524245DAD7A0A02B51FD2C2.html
+  - https://attack.mitre.org/techniques/T1558/003/
+  - https://social.technet.microsoft.com/wiki/contents/articles/717.service-principal-names-spn-setspn-syntax.aspx
+custom_attributes:
+  original_rule_id: ae8b3efc-2d2e-11ec-8b57-acde48001122
+  source_format: splunk_spl

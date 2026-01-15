@@ -1,0 +1,22 @@
+title: CMD Echo Pipe - Escalation
+id: 62c41996-23b4-58af-b331-19c21ab0f408
+status: stable
+level: high
+description: |
+  The following analytic identifies the use of named-pipe impersonation for privilege escalation, commonly associated with Cobalt Strike and similar frameworks. It detects command-line executions where `cmd.exe` uses `echo` to write to a named pipe, such as `cmd.exe /c echo 4sgryt3436 > \\.\Pipe\5erg53`. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry. This activity is significant as it indicates potential privilege es
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1059.003
+  - attack.t1543.003
+references:
+  - https://redcanary.com/threat-detection-report/threats/cobalt-strike/
+  - https://github.com/rapid7/meterpreter/blob/master/source/extensions/priv/server/elevate/namedpipe.c
+custom_attributes:
+  original_rule_id: eb277ba0-b96b-11eb-b00e-acde48001122
+  source_format: splunk_spl

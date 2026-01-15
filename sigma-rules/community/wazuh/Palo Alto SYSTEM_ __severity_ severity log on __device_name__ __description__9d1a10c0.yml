@@ -1,0 +1,24 @@
+title: 'Palo Alto SYSTEM: $(severity) severity log on $(device_name): $(description)'
+id: dbb86e94-4194-5f5d-831e-35a634a5ec5f
+status: stable
+level: high
+description: 'Palo Alto SYSTEM: $(severity) severity log on $(device_name): $(description)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    severity: high
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-64500
+tags:
+  - attack.t1089
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64505
+  wazuh_level: 10

@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): File $(osquery.columns.path) has setuid enabled'
+id: 39e9c928-6a04-5bb5-a53a-b0f999c690ff
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): File $(osquery.columns.path) has setuid enabled'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: suid_bin
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+tags:
+  - attack.t1166
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24059
+  wazuh_level: 4

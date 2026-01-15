@@ -1,0 +1,26 @@
+title: ConnectWise ScreenConnect Path Traversal
+id: eb8096f6-d440-55f6-b8db-f90b386c7bf9
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1708 vulnerability, which allows path traversal attacks by manipulating file_path and file_name parameters in the URL. It leverages the Endpoint datamodel Filesystem node to identify suspicious file system events, specifically targeting paths and filenames associated with ScreenConnect. This activity is significant as it can lead to unauthorized access to sensitive files and directories, potentially resulti
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    file_path:
+      - '*\\ScreenConnect\\App_Extensions\\*'
+    file_name:
+      - '*.aspx'
+      - '*.ashx'
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://www.huntress.com/blog/a-catastrophe-for-control-understanding-the-screenconnect-authentication-bypass
+  - https://www.huntress.com/blog/detection-guidance-for-connectwise-cwe-288-2
+  - https://www.connectwise.com/company/trust/security-bulletins/connectwise-screenconnect-23.9.8
+custom_attributes:
+  original_rule_id: 56a3ac65-e747-41f7-b014-dff7423c1dda
+  source_format: splunk_spl

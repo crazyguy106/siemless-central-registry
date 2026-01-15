@@ -1,0 +1,24 @@
+title: Windows MsiExec HideWindow Rundll32 Execution
+id: 433c3a26-2db3-55de-86f5-8b05346e3153
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the msiexec.exe process with the /HideWindow and rundll32 command-line parameters. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line arguments. This activity is significant because it is a known tactic used by malware like QakBot to mask malicious operations under legitimate system processes. If confirmed malicious, this behavior could allow an attacker to download additional p
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '* /HideWindow *'
+      - '* rundll32*'
+  condition: selection
+tags:
+  - attack.t1218.007
+references:
+  - https://twitter.com/Max_Mal_/status/1736392741758611607
+  - https://twitter.com/1ZRR4H/status/1735944522075386332
+custom_attributes:
+  original_rule_id: 9683271d-92e4-43b5-a907-1983bfb9f7fd
+  source_format: splunk_spl

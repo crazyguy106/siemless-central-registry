@@ -1,0 +1,23 @@
+title: Windows Impair Defense Disable Win Defender Network Protection
+id: 63118372-05e0-56eb-b94d-96d4cf8f8108
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry that disable Windows Defender Network Protection. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the EnableNetworkProtection registry entry. This activity is significant because disabling Network Protection can leave the system vulnerable to network-based threats by preventing Windows Defender from analyzing and blocking malicious network activity. If confirmed malicious, this action
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    registry_path: '*\\Windows Defender\\Windows Defender Exploit Guard\\Network Protection\\EnableNetworkProtection'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://x.com/malmoeb/status/1742604217989415386?s=20
+  - https://github.com/undergroundwires/privacy.sexy
+custom_attributes:
+  original_rule_id: 8b6c15c7-5556-463d-83c7-986326c21f12
+  source_format: splunk_spl

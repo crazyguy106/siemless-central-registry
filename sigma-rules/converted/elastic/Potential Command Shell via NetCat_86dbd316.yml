@@ -1,0 +1,30 @@
+title: Potential Command Shell via NetCat
+id: 9c0f61fa-abf4-4b11-8d9d-5978c09182dd
+status: stable
+level: high
+description: 'Identifies potential attempt to execute via a reverse shell using the
+  netcat utility to execute Windows commands using
+
+  the default interpreters like Cmd.exe and Powershell.'
+author: Elastic (converted by SIEMLess)
+date: '2025-10-14'
+modified: '2025-10-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - cmd.exe
+    - powershell.exe
+    process_parent_args|contains:
+    - cmd.exe
+    - powershell.exe
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.001
+- attack.t1059.003

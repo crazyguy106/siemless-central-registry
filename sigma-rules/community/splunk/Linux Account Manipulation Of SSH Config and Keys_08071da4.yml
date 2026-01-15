@@ -1,0 +1,24 @@
+title: Linux Account Manipulation Of SSH Config and Keys
+id: 374d4140-84ae-53d5-8ca2-6dca24d6f285
+status: stable
+level: medium
+description: |
+  The following analytic detects the deletion of SSH keys on a Linux machine. It leverages filesystem event logs to identify when files within "/etc/ssh/*" or "~/.ssh/*" are deleted. This activity is significant because attackers may delete or modify SSH keys to evade security measures or as part of a destructive payload, similar to the AcidRain malware. If confirmed malicious, this behavior could lead to impaired security features, hindered forensic investigations, or further unauthorized access,
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    action: deleted
+    file_path:
+      - /etc/ssh/*
+      - ~/.ssh/*
+  condition: selection
+tags:
+  - attack.t1070.004
+  - attack.t1485
+references:
+  - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+custom_attributes:
+  original_rule_id: 73a56508-1cf5-4df7-b8d9-5737fbdc27d2
+  source_format: splunk_spl

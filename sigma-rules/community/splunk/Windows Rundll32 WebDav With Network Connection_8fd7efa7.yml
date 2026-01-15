@@ -1,0 +1,34 @@
+title: Windows Rundll32 WebDav With Network Connection
+id: e3136eca-6e7a-58b0-bf7e-af779dc7b4d0
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of rundll32.exe with command-line arguments loading davclnt.dll and the davsetcookie function to access a remote WebDav instance. It uses data from Endpoint Detection and Response (EDR) agents, correlating process execution and network traffic data. This activity is significant as it may indicate exploitation of CVE-2023-23397, a known vulnerability. If confirmed malicious, this could allow an attacker to establish unauthorized remote connections, pot
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    span: 1h
+    process:
+      - '*\\windows\\system32\\davclnt.dll'
+      - '*davsetcookie*'
+      - '*\\windows\\syswow64\\davclnt.dll'
+      - '*davsetcookie*'
+    dest_ip:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+  condition: selection
+tags:
+  - attack.t1048.003
+references:
+  - https://strontic.github.io/xcyclopedia/library/davclnt.dll-0EA3050E7CC710526E330C413C165DA0.html
+  - https://twitter.com/ACEResponder/status/1636116096506818562?s=20
+  - https://twitter.com/domchell/status/1635999068282408962?s=20
+  - https://msrc.microsoft.com/blog/2023/03/microsoft-mitigates-outlook-elevation-of-privilege-vulnerability/
+  - https://www.pwndefend.com/2023/03/15/the-long-game-persistent-hash-theft/
+custom_attributes:
+  original_rule_id: f03355e0-28b5-4e9b-815a-6adffc63b38c
+  source_format: splunk_spl

@@ -1,0 +1,33 @@
+title: Installation of Security Support Provider
+id: e86da94d-e54b-4fb5-b96c-cecff87e8787
+status: stable
+level: medium
+description: 'Identifies registry modifications related to the Windows Security Support
+  Provider (SSP) configuration. Adversaries may
+
+  abuse this to establish persistence in an environment.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - '*\\SYSTEM\\*ControlSet*\\Control\\Lsa\\Security Packages'
+    - '*\\SYSTEM\\*ControlSet*\\Control\\Lsa\\OSConfig\\Security Packages'
+    process_executable|contains:
+    - C:\\Windows\\System32\\msiexec.exe
+    - C:\\Windows\\SysWOW64\\msiexec.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\msiexec.exe
+    - \\Device\\HarddiskVolume*\\Windows\\SysWOW64\\msiexec.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547
+- attack.t1112
+- attack.t1547.005

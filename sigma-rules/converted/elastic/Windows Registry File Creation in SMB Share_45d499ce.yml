@@ -1,0 +1,40 @@
+title: Windows Registry File Creation in SMB Share
+id: a4c7473a-5cb4-4bc1-9d06-e4a75adbc494
+status: stable
+level: medium
+description: 'Identifies the creation or modification of a medium-size registry hive
+  file on a Server Message Block (SMB) share, which
+
+  may indicate an exfiltration attempt of a previously dumped Security Account Manager
+  (SAM) registry hive for credential
+
+  extraction on an attacker-controlled system.'
+author: Elastic (converted by SIEMLess)
+date: '2022-02-16'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: creation
+    user_id|contains:
+    - S-1-5-21*
+    - S-1-12-1-*
+    file_path|contains:
+    - ?:\\*\\UPM_Profile\\NTUSER.DAT
+    - ?:\\*\\UPM_Profile\\NTUSER.DAT.LASTGOODLOAD
+    - ?:\\*\\UPM_Profile\\AppData\\Local\\Microsoft\\Windows\\UsrClass.dat*
+    - ?:\\Windows\\Netwrix\\Temp\\????????.???.offreg
+    - ?:\\*\\AppData\\Local\\Packages\\Microsoft.*\\Settings\\settings.dat*
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.credential_access
+- attack.t1003
+- attack.t1021
+- attack.t1021.002
+- attack.t1003.002
+references:
+- https://www.elastic.co/security-labs/detect-credential-access

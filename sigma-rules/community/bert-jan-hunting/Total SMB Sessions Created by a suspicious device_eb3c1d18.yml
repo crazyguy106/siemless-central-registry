@@ -1,0 +1,25 @@
+title: Total SMB Sessions Created by a suspicious device
+id: c5256a0a-64c7-4726-aa6a-1e1273155abe
+status: experimental
+level: medium
+description: |
+  Total SMB Sessions Created by a suspicious device
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let TimeFrame = 24h; //Customizable h = hours, d = days
+let SuspiciousDevices = dynamic(['server1.com', 'laptop1.com']);
+DeviceNetworkEvents
+| where Timestamp > ago(TimeFrame)
+| where RemotePort == 445
+| where ActionType  == "ConnectionSuccess"
+| where DeviceName in~ (SuspiciousDevices)
+| summarize IPsAccessed = make_set(RemoteIP), TotalIPs = dcount(RemoteIP) by DeviceName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

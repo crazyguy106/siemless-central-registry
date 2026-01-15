@@ -1,0 +1,22 @@
+title: 'Docker: Volume unmounted from $(docker.Actor.Attributes.driver)'
+id: f3fd17b8-a29d-5835-b120-10803ff5d069
+status: stable
+level: low
+description: 'Docker: Volume unmounted from $(docker.Actor.Attributes.driver)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^unmount$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87912
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87916
+  wazuh_level: 5

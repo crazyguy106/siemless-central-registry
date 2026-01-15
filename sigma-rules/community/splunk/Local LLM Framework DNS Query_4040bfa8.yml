@@ -1,0 +1,47 @@
+title: Local LLM Framework DNS Query
+id: 34ff46a4-6f7c-5444-9b2e-5405f65d4e2c
+status: stable
+level: low
+description: |
+  Detects DNS queries related to local LLM models on endpoints by monitoring Sysmon DNS query events (Event ID 22) for known LLM model domains and services. Local LLM frameworks like Ollama, LM Studio, and GPT4All make DNS calls to repositories such as huggingface.co and ollama.ai for model downloads, updates, and telemetry. These queries can reveal unauthorized AI tool usage or data exfiltration risks on corporate networks.
+author: Rod Soto
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    eventcode: 22
+    queryname:
+      - '*huggingface*'
+      - '*ollama*'
+      - '*jan.ai*'
+      - '*gpt4all*'
+      - '*nomic*'
+      - '*koboldai*'
+      - '*lmstudio*'
+      - '*modelscope*'
+      - '*civitai*'
+      - '*oobabooga*'
+      - '*replicate*'
+      - '*anthropic*'
+      - '*openai*'
+      - '*openrouter*'
+      - '*api.openrouter*'
+      - '*aliyun*'
+      - '*alibabacloud*'
+      - '*dashscope.aliyuncs*'
+    image:
+      - '*\\MsMpEng.exe'
+      - 'C:\\ProgramData\\*'
+      - 'C:\\Windows\\System32\\*'
+      - 'C:\\Windows\\SysWOW64\\*'
+  condition: selection
+tags:
+  - attack.t1590
+references:
+  - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+custom_attributes:
+  original_rule_id: d7ceffc5-a45e-412b-b9fa-2ba27c284503
+  source_format: splunk_spl

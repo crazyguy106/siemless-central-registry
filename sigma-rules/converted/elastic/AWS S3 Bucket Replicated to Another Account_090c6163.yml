@@ -1,0 +1,28 @@
+title: AWS S3 Bucket Replicated to Another Account
+id: d488f026-7907-4f56-ad51-742feb3db01c
+status: stable
+level: medium
+description: Identifies when the `PutBucketReplication` operation is used to replicate
+  S3 objects to a bucket in another AWS account. Adversaries may use bucket replication
+  to exfiltrate sensitive data to an environment they control.
+author: Elastic (converted by SIEMLess)
+date: '2024-07-12'
+modified: '2025-01-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_action: PutBucketReplication
+    event_outcome: success
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.t1537
+references:
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-walkthrough-2.html/
+- https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html/
+falsepositives:
+- "    Bucket replication accross accounts is a legitimate practice in some AWS environments.\
+  \ Ensure that the sharing is authorized before taking action.\n    "

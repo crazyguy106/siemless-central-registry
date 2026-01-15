@@ -1,0 +1,20 @@
+title: External User Access Enabled
+id: 7a65b24d-fd18-53de-8fca-c24a2a921100
+status: stable
+level: low
+description: |
+  'This alerts when the account setting is changed to allow either external domain access or anonymous access to meetings.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    EnforceLogin: 'false'
+    Event: account.settings_updated
+  condition: selection
+tags:
+  - attack.t1098
+  - attack.t1556
+custom_attributes:
+  original_rule_id: 8e267e91-6bda-4b3c-bf68-9f5cbdd103a3
+  source_format: azure_kql

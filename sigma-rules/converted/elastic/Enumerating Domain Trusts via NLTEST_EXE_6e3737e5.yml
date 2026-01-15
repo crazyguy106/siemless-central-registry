@@ -1,0 +1,44 @@
+title: Enumerating Domain Trusts via NLTEST.EXE
+id: 84da2554-e12a-11ec-b896-f661ea17fbcd
+status: stable
+level: low
+description: 'Identifies the use of nltest.exe for domain trust discovery purposes.
+  Adversaries may use this command-line utility to
+
+  enumerate domain trusts and gain insight into trust relationships, as well as the
+  state of Domain Controller (DC)
+
+  replication in a Microsoft Windows NT Domain.'
+author: Elastic (converted by SIEMLess)
+date: '2022-05-31'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_args|contains:
+    - /DCLIST:*
+    - /DCNAME:*
+    - /DSGET*
+    - /LSAQUERYFTI:*
+    - /PARENTDOMAIN
+    - /DOMAIN_TRUSTS
+    - /BDC_QUERY:*
+    event_dataset|contains:
+    - windows.sysmon_operational
+    - windows.sysmon
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1482
+- attack.t1018
+references:
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc731935(v=ws.11)
+- https://redcanary.com/blog/how-one-hospital-thwarted-a-ryuk-ransomware-outbreak/
+falsepositives:
+- "    Domain administrators may use this command-line utility for legitimate information\
+  \ gathering purposes, but it is not\n    common for environments with Windows Server\
+  \ 2012 and newer.\n    "

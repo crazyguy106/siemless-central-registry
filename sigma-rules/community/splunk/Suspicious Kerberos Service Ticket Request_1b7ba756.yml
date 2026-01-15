@@ -1,0 +1,24 @@
+title: Suspicious Kerberos Service Ticket Request
+id: a340908b-0bed-528e-a510-ff9ed64c632b
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious Kerberos Service Ticket (TGS) requests where the requesting account name matches the service name, potentially indicating an exploitation attempt of CVE-2021-42278 and CVE-2021-42287. This detection leverages Event ID 4769 from Domain Controller and Kerberos events. Such activity is significant as it may represent an adversary attempting to escalate privileges by impersonating a domain controller. If confirmed malicious, this could allow an attacker to t
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventcode: 4769
+    issuspicious: 1
+  condition: selection
+tags:
+  - attack.t1078.002
+references:
+  - https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287
+  - https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-sfu/02636893-7a1f-4357-af9a-b672e3e3de13
+custom_attributes:
+  original_rule_id: 8b1297bc-6204-11ec-b7c4-acde48001122
+  source_format: splunk_spl

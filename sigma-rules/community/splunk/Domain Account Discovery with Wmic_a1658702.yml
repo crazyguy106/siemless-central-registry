@@ -1,0 +1,25 @@
+title: Domain Account Discovery with Wmic
+id: 8a1284d2-70f7-5ed3-ba29-a5fdbafe4c81
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `wmic.exe` with command-line arguments used to query for domain users. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns indicative of domain account discovery. This activity is significant as it often precedes lateral movement or privilege escalation attempts by adversaries. If confirmed malicious, this behavior could allow attackers to map out user accounts within the domain, facilitat
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: wmic.exe
+    process:
+      - '*/NAMESPACE:\\\\root\\directory\\ldap*'
+      - '*ds_user*'
+      - '*GET*'
+      - '*ds_samaccountname*'
+  condition: selection
+tags:
+  - attack.t1087.002
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+custom_attributes:
+  original_rule_id: 383572e0-04c5-11ec-bdcc-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: 'sshd: Client did not offer an acceptable key exchange method.'
+id: 90cd0188-c0aa-570b-bbfe-28d0d101fdbf
+status: stable
+level: informational
+description: 'sshd: Client did not offer an acceptable key exchange method.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - no matching key exchange method found.
+      - Unable to negotiate a key exchange method
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5750
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5752
+  wazuh_level: 2

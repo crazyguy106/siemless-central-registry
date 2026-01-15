@@ -1,0 +1,28 @@
+title: Potential Disabling of SELinux
+id: eb9eb8ba-a983-41d9-9c93-a1c05112ca5e
+status: stable
+level: medium
+description: 'Identifies potential attempts to disable Security-Enhanced Linux (SELinux),
+  which is a Linux kernel security feature to
+
+  support access control policies. Adversaries may disable security tools to avoid
+  possible detection of their tools and
+
+  activities.'
+author: Elastic (converted by SIEMLess)
+date: '2020-04-22'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: setenforce
+    process_args: '0'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001

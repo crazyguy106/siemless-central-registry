@@ -1,0 +1,22 @@
+title: 'Docker: Plugin $(docker.Actor.Attributes.name) disabled'
+id: d0fd815d-6b24-53be-8da6-72d2606a1878
+status: stable
+level: low
+description: 'Docker: Plugin $(docker.Actor.Attributes.name) disabled'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^disable$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87942
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87945
+  wazuh_level: 3

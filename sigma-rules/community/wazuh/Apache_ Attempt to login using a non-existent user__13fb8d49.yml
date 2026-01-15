@@ -1,0 +1,22 @@
+title: 'Apache: Attempt to login using a non-existent user.'
+id: b4386c56-3182-5fa3-956c-a6eb06f823b7
+status: stable
+level: medium
+description: 'Apache: Attempt to login using a non-existent user.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: 'user \S+ not found|user \S+ in realm \.* not found'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-30101
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-30109
+  wazuh_level: 9

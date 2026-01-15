@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Device $(osquery.columns.path), UID $(osquery.columns.uid), GID $(osquery.columns.gid), type $(osquery.c'
+id: 08ff4377-2cb7-570f-8d28-10ee0c6eec49
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Device $(osquery.columns.path), UID $(osquery.columns.uid), GID $(osquery.columns.gid), type $(osquery.columns.type)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: device_nodes
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24416
+  wazuh_level: 4

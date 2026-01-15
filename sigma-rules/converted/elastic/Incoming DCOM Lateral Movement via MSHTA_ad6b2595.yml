@@ -1,0 +1,38 @@
+title: Incoming DCOM Lateral Movement via MSHTA
+id: 622ecb68-fa81-4601-90b5-f8cd661e4520
+status: stable
+level: high
+description: 'Identifies the use of Distributed Component Object Model (DCOM) to execute
+  commands from a remote host, which are
+
+  launched via the HTA Application COM Object. This behavior may indicate an attacker
+  abusing a DCOM application to move
+
+  laterally while attempting to evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-03'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence with maxspan=1m\n  [process where host.os.type == \"\
+      windows\" and event.type == \"start\" and\n     process.name : \"mshta.exe\"\
+      \ and process.args : \"-Embedding\"\n  ] by host.id, process.entity_id\n  [network\
+      \ where host.os.type == \"windows\" and event.type == \"start\" and process.name\
+      \ : \"mshta.exe\" and\n     network.direction : (\"incoming\", \"ingress\")\
+      \ and network.transport == \"tcp\" and\n     source.port > 49151 and destination.port\
+      \ > 49151 and source.ip != \"127.0.0.1\" and source.ip != \"::1\"\n  ] by host.id,\
+      \ process.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.lateral_movement
+- attack.t1021.003
+- attack.t1218
+- attack.t1021
+- attack.t1218.005
+references:
+- https://codewhitesec.blogspot.com/2018/07/lethalhta.html

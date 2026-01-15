@@ -1,0 +1,27 @@
+title: Windows Audit Policy Auditing Option Modified - Registry
+id: 5f8f3d21-3a63-5e1f-a05b-f8132c97d507
+status: stable
+level: medium
+description: |
+  The following analytic detects potentially suspicious modifications to the Audit Policy auditing options registry values. It leverages data from the Endpoint.Registry data model, focusing on changes to one of the following auditing option values "CrashOnAuditFail", "FullPrivilegeAuditing", "AuditBaseObjects" and "AuditBaseDirectories" within the "HKLM\\System\\CurrentControlSet\\Control\\Lsa\\" registry key. This activity is significant as it could be a sign of a threat actor trying to tamper wi
+author: Nasreddine Bencherchali, Bhavin Patel, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Control\\Lsa*'
+    registry_value_name:
+      - CrashOnAuditFail
+      - FullPrivilegeAuditing
+      - AuditBaseObjects
+      - AuditBaseDirectories
+  condition: selection
+tags:
+  - attack.t1547.014
+references:
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/262a2bed-93d4-4c04-abec-cf06e9ec72fd
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-set
+custom_attributes:
+  original_rule_id: 27914692-9c62-44ea-9129-ceb429b61bd0
+  source_format: splunk_spl

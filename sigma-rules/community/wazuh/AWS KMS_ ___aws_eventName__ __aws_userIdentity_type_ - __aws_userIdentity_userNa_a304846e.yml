@@ -1,0 +1,22 @@
+title: 'AWS KMS: [$(aws.eventName)] $(aws.userIdentity.type) - $(aws.userIdentity.userName) - $(aws.sourceIPAddress)'
+id: 786ad6ed-ed59-5e9a-8500-9986f655d98e
+status: stable
+level: low
+description: 'AWS KMS: [$(aws.eventName)] $(aws.userIdentity.type) - $(aws.userIdentity.userName) - $(aws.sourceIPAddress)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.userIdentity.userName: \.+
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80491
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80492
+  wazuh_level: 3

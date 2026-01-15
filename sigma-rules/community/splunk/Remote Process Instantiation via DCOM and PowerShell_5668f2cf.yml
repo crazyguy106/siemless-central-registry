@@ -1,0 +1,24 @@
+title: Remote Process Instantiation via DCOM and PowerShell
+id: f75e8fef-a1fd-5a6b-a0e4-9f9021b65631
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `powershell.exe` with arguments used to start a process on a remote endpoint by abusing the DCOM protocol, specifically targeting ShellExecute and ExecuteShellCommand. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line executions. This activity is significant as it indicates potential lateral movement and remote code execution attempts by adversaries. If confirmed malic
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*Document.ActiveView.ExecuteShellCommand*'
+      - '*Document.Application.ShellExecute*'
+  condition: selection
+tags:
+  - attack.t1021.003
+references:
+  - https://attack.mitre.org/techniques/T1021/003/
+  - https://www.cybereason.com/blog/dcom-lateral-movement-techniques
+custom_attributes:
+  original_rule_id: d4f42098-4680-11ec-ad07-3e22fbd008af
+  source_format: splunk_spl

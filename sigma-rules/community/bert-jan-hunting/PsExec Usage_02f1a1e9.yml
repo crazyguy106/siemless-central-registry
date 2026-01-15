@@ -1,0 +1,27 @@
+title: PsExec Usage
+id: daacc215-aa2e-4c98-ac62-7b800998eea9
+status: experimental
+level: medium
+description: |
+  PsExec is a tool that can be used to execute remote commands. This can be done in a benign way by admins, however attackers can also use this tool for various techniques. This query lists all the PsExec executions by the Device that triggerd the actions. This is not a detection rule, but a hunting rule that can be the start of an investigation why a specific device uses PsExec to run remote commands. The query will list the device that has initiated the remote commands, the devices it connected to and the commands that it has executed. 
+
+The query contains a filter for devices that are configured to support remote commands.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceProcessEvents
+// Collect all executed psexec commands
+| where ProcessCommandLine contains "psexec.exe"
+// Extract the remove device
+| extend RemoteDevice = extract(@'\\\\(.*)c:', 1, ProcessCommandLine)
+// If in your device onboarding Enable-PsRemoting is executed filter the line below
+//| where not(ProcessCommandLine has_all ('powershell -command "Enable-PsRemoting -Force"', 'psexec.exe'))
+// Collect stats and lists with remote devices and executed commands
+| summarize TotalRemoteDevices = dcount(RemoteDevice), RemoteDeviceList = make_set(RemoteDevice), ExecutedCommands = make_set(ProcessCommandLine) by DeviceName
+| sort by TotalRemoteDevices
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

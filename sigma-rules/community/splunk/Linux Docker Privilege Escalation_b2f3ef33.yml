@@ -1,0 +1,22 @@
+title: Linux Docker Privilege Escalation
+id: d5ef4b15-ce95-5173-86a4-732eaab2f6db
+status: stable
+level: medium
+description: |
+  The following analytic detects attempts to escalate privileges on a Linux system using Docker. It identifies processes where Docker commands are used to mount the root directory or execute shell commands within a container. This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names, command-line arguments, and parent processes. This activity is significant because it can allow an attacker with Docker privileges to modify critical system files, such as /et
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*docker*exec*sh*'
+      - '*docker*exec*bash*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/docker/
+custom_attributes:
+  original_rule_id: 2e7bfb78-85f6-47b5-bc2f-15813a4ef2b3
+  source_format: splunk_spl

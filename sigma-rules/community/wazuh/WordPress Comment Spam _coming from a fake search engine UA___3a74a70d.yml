@@ -1,0 +1,25 @@
+title: WordPress Comment Spam (coming from a fake search engine UA).
+id: f9b2a318-9812-52e8-8579-369c287658ac
+status: stable
+level: medium
+description: WordPress Comment Spam (coming from a fake search engine UA).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: POST /
+    message|re: 'Googlebot|MSNBot|BingBot'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31100
+tags:
+  - attack.t1203
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31501
+  wazuh_level: 6

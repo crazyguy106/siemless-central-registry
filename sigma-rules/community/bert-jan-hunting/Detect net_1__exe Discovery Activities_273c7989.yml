@@ -1,0 +1,31 @@
+title: Detect net(1).exe Discovery Activities
+id: 7576dd15-0377-4df0-b299-008ba92a9021
+status: experimental
+level: medium
+description: |
+  This query can be used to detect suspicious net.exe or net1.exe activities that have been executed by a account. The parameters that are to detect this behaviour are:
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    The query calculates the amount of executions for each parameter together with the total discovery events that have been executed. This overview can be leveraged to determine which users perform anomalous amounts of discovery events using net(1).exe. The full commands that are executed are also included in the results, for analysis of the commandline executions. The detection rule can be tweaked depending on the needs of your environment. 
+- *StartTime* - Determines from which point the search must be started.
+- *BinFormat* = Determines by what timeframe the count should be applied, the default is a total count per day.
+- *Threshold* = Determines when to alert, when using the default this is at least 10 events in a period of 1 day. 
+
+If you have accounts that should be excluded you can create a variable with a global whitelist, for example service desk employees might trigger a lot of incidents.
+
+#### Risk
+An adversary has gained access to an account and tries to disover the network to perform lateral movement.
+
+#### References
+- https://learn.microsoft.com/en-us/windows/win32/winsock/net-exe-2
+- https://www.trendmicro.com/en_us/research/19/f/shifting-tactics-breaking-down-ta505-groups-use-of-html-rats-and-other-techniques-in-latest-campaigns.html
+- https://www.cybereason.com/blog/operation-cuckoobees-deep-dive-into-stealthy-winnti-techniques
+
+## Defender XDR
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

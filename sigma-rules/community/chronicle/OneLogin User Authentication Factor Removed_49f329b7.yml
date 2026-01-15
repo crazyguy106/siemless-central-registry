@@ -1,0 +1,23 @@
+title: OneLogin User Authentication Factor Removed
+id: 65147569-cf6a-503a-af08-1115f43e319d
+status: experimental
+level: high
+description: Detects when a user removes an authentication factor or otp device.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_ACCESS
+    metadata_product_name: ONELOGIN_SSO
+    metadata_vendor_name: ONELOGIN
+    metadata_product_event_type: 24
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426
+custom_attributes:
+  original_rule_id: mr_1b251f11-1699-4707-9027-a279dea7d47e
+  source_format: chronicle_yaral

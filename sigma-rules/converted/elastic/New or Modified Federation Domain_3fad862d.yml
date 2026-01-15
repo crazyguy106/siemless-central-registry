@@ -1,0 +1,33 @@
+title: New or Modified Federation Domain
+id: 684554fc-0777-47ce-8c9b-3d01f198d7f8
+status: stable
+level: low
+description: 'Identifies a new or modified federation domain, which can be used to
+  create a trust between O365 and an external
+
+  identity provider.'
+author: Elastic (converted by SIEMLess)
+date: '2021-05-17'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_category: web
+    event_action: ("Set-AcceptedDomain
+    event_outcome: success
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1484.002
+- attack.t1484
+references:
+- https://docs.microsoft.com/en-us/powershell/module/exchange/remove-accepteddomain?view=exchange-ps
+- https://docs.microsoft.com/en-us/powershell/module/exchange/remove-federateddomain?view=exchange-ps
+- https://docs.microsoft.com/en-us/powershell/module/exchange/new-accepteddomain?view=exchange-ps
+- https://docs.microsoft.com/en-us/powershell/module/exchange/add-federateddomain?view=exchange-ps
+- https://docs.microsoft.com/en-us/powershell/module/exchange/set-accepteddomain?view=exchange-ps
+- https://docs.microsoft.com/en-us/powershell/module/msonline/set-msoldomainfederationsettings?view=azureadps-1.0

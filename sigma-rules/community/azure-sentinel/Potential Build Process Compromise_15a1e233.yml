@@ -1,0 +1,24 @@
+title: Potential Build Process Compromise
+id: 40cce3d7-96e7-506f-9906-37e6d7cc39af
+status: stable
+level: medium
+description: |
+  'The query looks for source code files being modified immediately after a build process is started. The purpose of this is to look for malicious code injection during the build process. More details: https://techcommunity.microsoft.com/t5/azure-sentinel/monitoring-the-software-supply-chain-with-azure-sentinel/ba-p/2176463'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: process_creation
+detection:
+  selection:
+    AccessMask:
+      - 0x6
+      - 0x6
+    ObjectName|endswith:
+      - .cs
+      - .cs
+  condition: selection
+tags:
+  - attack.t1554
+custom_attributes:
+  original_rule_id: 5ef06767-b37c-4818-b035-47de950d0046
+  source_format: azure_kql

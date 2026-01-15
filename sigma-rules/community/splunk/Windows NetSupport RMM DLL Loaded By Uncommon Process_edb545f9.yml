@@ -1,0 +1,34 @@
+title: Windows NetSupport RMM DLL Loaded By Uncommon Process
+id: 186fd851-b639-56a9-8f3f-1ded2fae26df
+status: stable
+level: medium
+description: |
+  The following analytic detects the loading of specific dynamic-link libraries (DLLs) associated with the NetSupport Remote Manager (RMM) tool by any process on a Windows system. Modules such as CryptPak.dll, HTCTL32.DLL, IPCTL32.DLL, keyshowhook.dll, pcicapi.DLL, PCICL32.DLL, and TCCTL32.DLL, are integral to NetSupport's functionality. This detection is particularly valuable when these modules are loaded by processes running from unusual directories (e.g., Downloads, ProgramData, or user-specifi
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    signature: NetSupport Ltd*
+    eventcode: 7
+    imageloaded:
+      - '*\\CryptPak.dll'
+      - '*\\HTCTL32.DLL'
+      - '*\\pcicapi.dll'
+      - '*\\pcichek.dll'
+      - '*\\PCICL32.DLL'
+      - '*\\TCCTL32.DLL'
+    image:
+      - 'C:\\Program Files\\*'
+      - 'C:\\Program Files (x86'
+  condition: selection
+tags:
+  - attack.t1036
+references:
+  - https://www.linkedin.com/posts/mauricefielenbach_cybersecurity-incidentresponse-dfir-activity-7394805779448418304-g0gZ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAuFTjIB5weY_kcyu4qp3kHbI4v49tO0zEk
+  - https://thedfirreport.com/2023/10/30/netsupport-intrusion-results-in-domain-compromise/
+  - https://www.esentire.com/blog/evalusion-campaign-delivers-amatera-stealer-and-netsupport-rat
+custom_attributes:
+  original_rule_id: 125f96f9-6f34-418b-b868-c4a8d7fb865f
+  source_format: splunk_spl

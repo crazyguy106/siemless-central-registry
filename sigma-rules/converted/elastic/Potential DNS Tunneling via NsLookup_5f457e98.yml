@@ -1,0 +1,29 @@
+title: Potential DNS Tunneling via NsLookup
+id: 3a59fc81-99d3-47ea-8cd6-d48d561fca20
+status: stable
+level: medium
+description: 'This rule identifies a large number (15) of nslookup.exe executions
+  with an explicit query type from the same host. This
+
+  may indicate command and control activity utilizing the DNS protocol.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-11'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=5m\n[process where host.os.type\
+      \ == \"windows\" and event.type == \"start\" and\n  process.name : \"nslookup.exe\"\
+      \ and process.args:(\"-querytype=*\", \"-qt=*\", \"-q=*\", \"-type=*\")] with\
+      \ runs = 10"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.command_and_control
+- attack.t1071.004
+- attack.t1572
+- attack.t1071
+references:
+- https://unit42.paloaltonetworks.com/dns-tunneling-in-the-wild-overview-of-oilrigs-dns-tunneling/

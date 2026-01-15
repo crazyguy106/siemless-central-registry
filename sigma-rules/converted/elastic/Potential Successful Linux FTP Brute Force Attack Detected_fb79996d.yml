@@ -1,0 +1,43 @@
+title: Potential Successful Linux FTP Brute Force Attack Detected
+id: 66712812-e7f2-4a1d-bbda-dd0b5cf20c5d
+status: stable
+level: medium
+description: 'An FTP (file transfer protocol) brute force attack is a method where
+  an attacker systematically tries different
+
+  combinations of usernames and passwords to gain unauthorized access to an FTP server,
+  and if successful, the impact can
+
+  include unauthorized data access, manipulation, or theft, compromising the security
+  and integrity of the server and
+
+  potentially exposing sensitive information. This rule identifies multiple consecutive
+  authentication failures targeting
+
+  a specific user account from the same source address and within a short time interval,
+  followed by a successful
+
+  authentication.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-06'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, auditd.data.addr, related.user with maxspan=5s\n\
+      \  [authentication where host.os.type == \"linux\" and event.action == \"authenticated\"\
+      \ and\n   auditd.data.terminal == \"ftp\" and event.outcome == \"failure\" and\
+      \ auditd.data.addr != null and\n   auditd.data.addr != \"0.0.0.0\" and auditd.data.addr\
+      \ != \"::\"] with runs=10\n  [authentication where host.os.type == \"linux\"\
+      \ and event.action  == \"authenticated\" and\n   auditd.data.terminal == \"\
+      ftp\" and event.outcome == \"success\" and auditd.data.addr != null and\n  \
+      \ auditd.data.addr != \"0.0.0.0\" and auditd.data.addr != \"::\"] | tail 1"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1110.001
+- attack.t1110.003
+- attack.t1110

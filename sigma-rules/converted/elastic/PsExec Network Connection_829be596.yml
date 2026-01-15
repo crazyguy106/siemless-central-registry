@@ -1,0 +1,43 @@
+title: PsExec Network Connection
+id: 55d551c6-333b-4665-ab7e-5d14a59715ce
+status: stable
+level: low
+description: 'Identifies use of the SysInternals tool PsExec.exe making a network
+  connection. This could be an indication of lateral
+
+  movement.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id\n  [process where host.os.type ==\
+      \ \"windows\" and process.name : \"PsExec.exe\" and event.type == \"start\"\
+      \ and\n\n   /* This flag suppresses the display of the license dialog and may\n\
+      \      indicate that psexec executed for the first time in the machine */\n\
+      \   process.args : \"-accepteula\" and\n\n   not process.executable : (\"?:\\\
+      \\ProgramData\\\\Docusnap\\\\Discovery\\\\discovery\\\\plugins\\\\17\\\\Bin\\\
+      \\psexec.exe\",\n                             \"?:\\\\Docusnap 11\\\\Bin\\\\\
+      psexec.exe\",\n                             \"?:\\\\Program Files\\\\Docusnap\
+      \ X\\\\Bin\\\\psexec.exe\",\n                             \"?:\\\\Program Files\\\
+      \\Docusnap X\\\\Tools\\\\dsDNS.exe\") and\n   not process.parent.executable\
+      \ : \"?:\\\\Program Files (x86)\\\\Cynet\\\\Cynet Scanner\\\\CynetScanner.exe\"\
+      ]\n  [network where host.os.type == \"windows\" and process.name : \"PsExec.exe\"\
+      ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.execution
+- attack.t1569.002
+- attack.t1021
+- attack.t1569
+- attack.t1570
+- attack.t1021.002
+falsepositives:
+- "    PsExec is a dual-use tool that can be used for benign or malicious activity.\
+  \ It's important to baseline your\n    environment to determine the amount of noise\
+  \ to expect from this tool.\n    "

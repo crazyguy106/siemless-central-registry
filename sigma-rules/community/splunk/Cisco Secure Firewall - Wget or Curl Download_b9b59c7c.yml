@@ -1,0 +1,33 @@
+title: Cisco Secure Firewall - Wget or Curl Download
+id: 81ba1493-d01f-5d9b-88f5-01fc7c87ca48
+status: stable
+level: medium
+description: |
+  The following analytic detects outbound connections initiated by command-line tools such as curl or wget. It leverages Cisco Secure Firewall Threat Defense logs and identifies allowed connections (action=Allow) where either the EVE_Process or ClientApplication fields indicate use of these utilities. While curl and wget are legitimate tools commonly used for software updates and scripting, adversaries often abuse them to download payloads, retrieve additional tools, or establish staging infrastru
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: ConnectionEvent
+    action:
+      - Trust
+      - Allow
+      - allowed
+    eve_process:
+      - '*curl*'
+      - '*wget*'
+    clientapplication:
+      - cURL
+      - Wget
+  condition: selection
+tags:
+  - attack.t1053.003
+  - attack.t1059
+  - attack.t1071.001
+  - attack.t1105
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+custom_attributes:
+  original_rule_id: 173a1cb9-1814-4128-a9dc-f29dade89957
+  source_format: splunk_spl

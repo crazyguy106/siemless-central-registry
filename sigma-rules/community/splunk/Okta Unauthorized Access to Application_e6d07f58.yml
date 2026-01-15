@@ -1,0 +1,22 @@
+title: Okta Unauthorized Access to Application
+id: 48078602-051b-56b5-b9b1-0b0e8e1df099
+status: stable
+level: medium
+description: |
+  The following analytic identifies attempts by users to access Okta applications that have not been assigned to them. It leverages Okta Identity Management logs, specifically focusing on failed access attempts to unassigned applications. This activity is significant for a SOC as it may indicate potential unauthorized access attempts, which could lead to exposure of sensitive information or disruption of services. If confirmed malicious, such activity could result in data breaches, non-compliance 
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    action: failure
+    datamodel: Authentication
+  condition: selection
+tags:
+  - attack.t1087.004
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+custom_attributes:
+  original_rule_id: 5f661629-9750-4cb9-897c-1f05d6db8727
+  source_format: splunk_spl

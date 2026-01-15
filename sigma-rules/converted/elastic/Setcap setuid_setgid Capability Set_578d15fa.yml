@@ -1,0 +1,31 @@
+title: Setcap setuid/setgid Capability Set
+id: f5c005d3-4e17-48b0-9cd7-444d48857f97
+status: stable
+level: medium
+description: 'This rule monitors for the addition of the cap_setuid+ep or cap_setgid+ep
+  capabilities via setcap. Setuid (Set User ID)
+
+  and setgid (Set Group ID) are Unix-like OS features that enable processes to run
+  with elevated privileges, based on the
+
+  file owner or group. Threat actors can exploit these attributes to achieve persistence
+  by creating malicious binaries,
+
+  allowing them to maintain control over a compromised system with elevated permissions.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-05'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: setcap
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1548.001
+- attack.t1548

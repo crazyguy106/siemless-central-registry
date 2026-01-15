@@ -1,0 +1,23 @@
+title: OneLogin Multiple Users Assumed
+id: be6bbabe-613a-5c82-8768-5a38f6875ed1
+status: experimental
+level: low
+description: Detects when a user assumes multiple user accounts.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_ACCESS
+    metadata_product_name: ONELOGIN_SSO
+    metadata_vendor_name: ONELOGIN
+    metadata_product_event_type: 3
+  condition: selection
+tags:
+  - attack.t1550
+references:
+  - https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010594
+custom_attributes:
+  original_rule_id: mr_20b98df8-72a3-4163-8654-b66e4192d744
+  source_format: chronicle_yaral

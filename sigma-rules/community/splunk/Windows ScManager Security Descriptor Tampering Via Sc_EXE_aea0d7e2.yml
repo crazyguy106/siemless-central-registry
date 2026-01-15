@@ -1,0 +1,24 @@
+title: Windows ScManager Security Descriptor Tampering Via Sc.EXE
+id: c9dd0efe-4a02-5bee-8607-2bf37e6e118e
+status: stable
+level: high
+description: |
+  The following analytic detects changes in the ScManager service security descriptor settings. It leverages data from Endpoint Detection and Response (EDR) agents, specifically searching for any process execution involving the "sc.exe" binary with the "sdset" flag targeting the "scmanager" service. If confirmed malicious, this could allow an attacker to escalate their privileges.
+author: Nasreddine Bencherchali, Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*sdset *'
+      - '*scmanager*'
+  condition: selection
+tags:
+  - attack.t1569.002
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/8ac5c4f84692b11ea2832d18d3dc6f1ce7fb4e41/atomics/T1569.002/T1569.002.md#atomic-test-7---modifying-acl-of-service-control-manager-via-sdet
+  - https://0xv1n.github.io/posts/scmanager/
+  - https://attack.mitre.org/techniques/T1569/002/
+custom_attributes:
+  original_rule_id: 04023928-0381-4935-82cb-03372b2ef644
+  source_format: splunk_spl

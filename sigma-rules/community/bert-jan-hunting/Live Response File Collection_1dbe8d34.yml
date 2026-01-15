@@ -1,0 +1,22 @@
+title: Live Response File Collection
+id: 5b59365c-a9e0-42c3-acd5-f18247a1bc58
+status: experimental
+level: medium
+description: |
+  This query lists all the Getfile activities that have been executed. This includes listing the SHA256 hash of the collected file (when available).
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where Timestamp > ago(30d)
+| where ActionType == "LiveResponseGetFile"
+| extend FileName = tostring(parse_json(RawEventData).FileName), FileSHA256 = tostring(parse_json(RawEventData).FileSHA256)
+| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId, SHA256 = FileSHA256
+| invoke FileProfile(SHA256, 1000)
+| project-reorder Timestamp, FileName, SHA256, InitiatedByAccountName, InitiatedByAccounttId, GlobalPrevalence, SignatureState
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

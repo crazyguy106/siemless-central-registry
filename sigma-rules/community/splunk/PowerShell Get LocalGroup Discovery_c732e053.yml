@@ -1,0 +1,21 @@
+title: PowerShell Get LocalGroup Discovery
+id: 8c6bc73c-527d-5671-8d4a-3051b3c8a62c
+status: stable
+level: low
+description: |
+  The following analytic identifies the use of the `get-localgroup` command executed via PowerShell or cmd.exe to enumerate local groups on an endpoint. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. Monitoring this activity is significant as it may indicate an attacker attempting to gather information about local group memberships, which can be a precursor to privilege escalation. If confirmed malicious, this 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '*get-localgroup*'
+  condition: selection
+tags:
+  - attack.t1069.001
+references:
+  - https://attack.mitre.org/techniques/T1069/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+custom_attributes:
+  original_rule_id: b71adfcc-155b-11ec-9413-acde48001122
+  source_format: splunk_spl

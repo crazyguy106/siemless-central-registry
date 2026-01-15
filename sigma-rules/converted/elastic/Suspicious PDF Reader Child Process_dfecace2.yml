@@ -1,0 +1,84 @@
+title: Suspicious PDF Reader Child Process
+id: 53a26770-9cbd-40c5-8b57-61d01a325e14
+status: stable
+level: low
+description: 'Identifies suspicious child processes of PDF reader applications. These
+  child processes are often launched via
+
+  exploitation of PDF applications or social engineering.'
+author: Elastic (converted by SIEMLess)
+date: '2020-03-30'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_name|contains:
+    - AcroRd32.exe
+    - Acrobat.exe
+    - FoxitPhantomPDF.exe
+    - FoxitReader.exe
+    process_name|contains:
+    - arp.exe
+    - dsquery.exe
+    - dsget.exe
+    - gpresult.exe
+    - hostname.exe
+    - ipconfig.exe
+    - nbtstat.exe
+    - net.exe
+    - net1.exe
+    - netsh.exe
+    - netstat.exe
+    - nltest.exe
+    - ping.exe
+    - qprocess.exe
+    - quser.exe
+    - qwinsta.exe
+    - reg.exe
+    - sc.exe
+    - systeminfo.exe
+    - tasklist.exe
+    - tracert.exe
+    - whoami.exe
+    - bginfo.exe
+    - cdb.exe
+    - cmstp.exe
+    - csi.exe
+    - dnx.exe
+    - fsi.exe
+    - ieexec.exe
+    - iexpress.exe
+    - installutil.exe
+    - Microsoft.Workflow.Compiler.exe
+    - msbuild.exe
+    - mshta.exe
+    - msxsl.exe
+    - odbcconf.exe
+    - rcsi.exe
+    - regsvr32.exe
+    - xwizard.exe
+    - atbroker.exe
+    - forfiles.exe
+    - schtasks.exe
+    - regasm.exe
+    - regsvcs.exe
+    - cmd.exe
+    - cscript.exe
+    - powershell.exe
+    - pwsh.exe
+    - wmic.exe
+    - wscript.exe
+    - bitsadmin.exe
+    - certutil.exe
+    - ftp.exe
+  condition: selection
+tags:
+- attack.initial_access
+- attack.execution
+- attack.t1566
+- attack.t1566.001
+- attack.t1203

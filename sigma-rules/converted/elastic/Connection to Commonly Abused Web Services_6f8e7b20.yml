@@ -1,0 +1,58 @@
+title: Connection to Commonly Abused Web Services
+id: 66883649-f908-4a5b-a1e0-54090a1d3a32
+status: stable
+level: low
+description: 'Adversaries may implement command and control (C2) communications that
+  use common web services to hide their activity.
+
+  This attack technique is typically targeted at an organization and uses web services
+  common to the victim network, which
+
+  allows the adversary to blend into legitimate traffic activity. These popular services
+  are typically targeted since they
+
+  have most likely been used before compromise, which helps malicious traffic blend
+  in.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-04'
+modified: '2025-11-04'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    host_os_type: windows
+    user_domain: NT AUTHORITY
+    dns_question_name|contains:
+    - api.github.com
+    - raw.githubusercontent.com
+    process_executable|contains: ?:\\Program Files\\*.exe
+    process_name|contains:
+    - Microsoft.SharePoint.exe
+    - OneDrive.Sync.Service.exe
+    process_code_signature_subject_name|contains:
+    - Johannes Schindelin
+    - Redis Inc.
+    - Slack Technologies, LLC
+    - Cisco Systems, Inc.
+    - Dropbox, Inc
+    - Amazon.com Services LLC
+    - Island Technology Inc.
+    - GitHub, Inc.
+    - Red Hat, Inc
+    - Mozilla Corporation
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.command_and_control
+- attack.t1568.002
+- attack.t1102
+- attack.t1568
+- attack.t1567
+- attack.t1090.002
+- attack.t1567.002
+- attack.t1567.001
+- attack.t1090
+references:
+- https://www.elastic.co/security-labs/operation-bleeding-bear
+- https://www.elastic.co/security-labs/siestagraph-new-implant-uncovered-in-asean-member-foreign-ministry

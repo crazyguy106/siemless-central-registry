@@ -1,0 +1,23 @@
+title: List all Cloud Permissions of a Compromised User
+id: 82585661-a1c2-4420-839f-5e0e35bbf628
+status: experimental
+level: medium
+description: |
+  KQL detection rule: List all Cloud Permissions of a Compromised User
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // Cloud Permissions Compromised User
+let UserName = "Bert-Jan Pals";
+ExposureGraphEdges
+| where EdgeLabel == "has permissions to"
+| where SourceNodeName == UserName
+| extend Type = extract(@'"name":"(.*?)"', 1, tostring(EdgeProperties))
+| project SourceNodeName, EdgeLabel, Type, TargetNodeName, TargetNodeLabel, EdgeProperties
+| sort by Type, TargetNodeLabel, TargetNodeName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

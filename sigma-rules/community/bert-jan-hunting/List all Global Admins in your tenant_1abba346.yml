@@ -1,0 +1,19 @@
+title: List all Global Admins in your tenant
+id: 465e1bb6-0c30-4859-9aba-a8478580c9fc
+status: experimental
+level: medium
+description: |
+  This query lists all accounts that have the Global Admin role assigned to their account. If you have enabled PIM, then only users that have pimmed to Global Admin in the search period will be shown.
+author: Bert-JanP
+logsource:
+  product: azure_sentinel
+  service: kql
+detection:
+  _kql_query: |
+    IdentityInfo
+| where AssignedRoles contains "Global Admin"
+| distinct AccountName, AccountDomain, AccountUPN, AccountSID
+// If PIM is enabled for Global Admins the list shows only the Global Admins that have used PIM to gain the privileges.
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

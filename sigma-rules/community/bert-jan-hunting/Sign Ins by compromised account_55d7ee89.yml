@@ -1,0 +1,28 @@
+title: Sign Ins by compromised account
+id: 205ddee2-af3c-47a4-8c41-e7e428428aa2
+status: experimental
+level: medium
+description: |
+  List the interactive and noninteractive signins that have been performed by a compromised account. This can be done based on the UPN of the compromised account.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedAccountUPN = "test@test.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+let aadFunc = (tableName: string, email: string) {
+    table(tableName)
+    | where TimeGenerated > ago(SearchWindow)
+    | where ResultType == 0
+    | where UserPrincipalName == email
+};
+let aadSignin = aadFunc("SigninLogs", CompromisedAccountUPN);
+let aadNonInt = aadFunc("AADNonInteractiveUserSignInLogs", CompromisedAccountUPN);
+union isfuzzy=true aadSignin, aadNonInt
+// In case of all details remove line below
+| project TimeGenerated, Category, Location, AppDisplayName, ClientAppUsed, RiskState
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

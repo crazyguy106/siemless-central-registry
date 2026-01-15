@@ -1,0 +1,24 @@
+title: User initiated shutdown
+id: bc857d8a-7771-56ca-9ead-16801c15f012
+status: stable
+level: medium
+description: User initiated shutdown
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    win.system.eventID: ^4098$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-60600
+tags:
+  - attack.t1529
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-90501
+  wazuh_level: 7

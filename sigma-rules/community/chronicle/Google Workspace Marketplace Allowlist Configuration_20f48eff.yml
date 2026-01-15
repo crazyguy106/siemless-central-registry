@@ -1,0 +1,23 @@
+title: Google Workspace Marketplace Allowlist Configuration
+id: b8e064b9-4feb-5640-a05f-f3cd7d9046ab
+status: experimental
+level: low
+description: |
+  Identifies when the Google Workspace Marketplace allowlist is configured to allow users to install and run any apps from the Marketplace. Allowing users to install and run any apps may increase the organization's risk of data exfiltration/leakage and increase its attack surface.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: admin
+    metadata_product_event_type: CHANGE_APPLICATION_SETTING
+    security_result_category_details: APPLICATION_SETTINGS
+    target_application: Google Workspace Marketplace
+    target_resource_name: Apps Access Setting Allowlist access
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_3dd74ce1-27cb-4c57-b4cf-4cfb29293ab5
+  source_format: chronicle_yaral

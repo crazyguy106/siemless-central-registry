@@ -1,0 +1,24 @@
+title: O365 New Email Forwarding Rule Enabled
+id: 8dc3d4e3-dd7b-556f-badd-a19c6dd26fad
+status: stable
+level: high
+description: |
+  The following analytic identifies the creation of new email forwarding rules in an Office 365 environment via the UpdateInboxRules operation. It leverages Office 365 management activity events to detect rules that forward emails to external recipients by examining the OperationProperties for specific forwarding actions. This activity is significant as it may indicate unauthorized email redirection, potentially leading to data exfiltration. If confirmed malicious, attackers could intercept sensit
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    valueextracted: '*@*.*'
+    workload: Exchange
+    operation: UpdateInboxRules
+    input: ServerRule
+    output: valueExtracted
+  condition: selection
+tags:
+  - attack.t1114.003
+references:
+  - https://attack.mitre.org/techniques/T1114/003/
+custom_attributes:
+  original_rule_id: ac7c4d0a-06a3-4278-aa59-88a5e537f981
+  source_format: splunk_spl

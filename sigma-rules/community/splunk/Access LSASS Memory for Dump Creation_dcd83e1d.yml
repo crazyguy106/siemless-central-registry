@@ -1,0 +1,20 @@
+title: Access LSASS Memory for Dump Creation
+id: 65e48f59-3138-5ee3-a880-a1ec44fa4b50
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to dump the LSASS process memory, a common technique in credential dumping attacks. It leverages Sysmon logs, specifically EventCode 10, to identify suspicious call traces to dbgcore.dll and dbghelp.dll associated with lsass.exe. This activity is significant as it often precedes the theft of sensitive login credentials, posing a high risk of unauthorized access to systems and data. If confirmed malicious, attackers could gain access to critical credentials
+author: Patrick Bareiss, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 10
+  condition: selection
+tags:
+  - attack.t1003.001
+references:
+  - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+custom_attributes:
+  original_rule_id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
+  source_format: splunk_spl

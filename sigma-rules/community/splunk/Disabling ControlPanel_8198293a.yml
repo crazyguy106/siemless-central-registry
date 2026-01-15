@@ -1,0 +1,22 @@
+title: Disabling ControlPanel
+id: 54899fe3-1952-5709-bca9-262e9fb06413
+status: stable
+level: high
+description: |
+  The following analytic detects registry modifications that disable the Control Panel on Windows systems. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel" with a value of "0x00000001". This activity is significant as it is commonly used by malware to prevent users from accessing the Control Panel, thereby hindering the removal of malicious artifacts an
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+  - attack.t1562.001
+references:
+  - https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+custom_attributes:
+  original_rule_id: 6ae0148e-9215-11eb-a94a-acde48001122
+  source_format: splunk_spl

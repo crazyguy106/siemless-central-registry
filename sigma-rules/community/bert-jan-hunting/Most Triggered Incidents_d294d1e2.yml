@@ -1,0 +1,26 @@
+title: Most Triggered Incidents
+id: 5162fb1a-e49d-4284-8c84-1ddc0e5f9912
+status: experimental
+level: medium
+description: |
+  The results of this query provide insight in the top 10 incidents that have triggered in your selected *timeframe*, this can give indications on which incidents should be addressed to limit potential false positives.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // Timeframe to collect incident statistics
+let timeframe = 7d;
+AlertInfo
+| where Timestamp > ago(timeframe)
+// Collect the first entry of each alert
+| summarize arg_min(Timestamp, *) by AlertId
+// Get the alert statistics
+| summarize Triggers = count(), AlertIds = make_set(AlertId) by Title
+| top 10 by Triggers
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

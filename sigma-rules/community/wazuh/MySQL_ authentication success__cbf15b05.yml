@@ -1,0 +1,24 @@
+title: 'MySQL: authentication success.'
+id: 37dbb451-c9e9-525f-a115-2e371ed2e292
+status: stable
+level: low
+description: 'MySQL: authentication success.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '^MySQL log: \d+ \S+ \d+ Connect'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-50100
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-50105
+  wazuh_level: 3

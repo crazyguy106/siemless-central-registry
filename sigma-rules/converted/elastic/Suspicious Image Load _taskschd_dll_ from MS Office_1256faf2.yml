@@ -1,0 +1,42 @@
+title: Suspicious Image Load (taskschd.dll) from MS Office
+id: baa5d22c-5e1c-4f33-bfc9-efa73bb53022
+status: stable
+level: low
+description: 'Identifies a suspicious image load (taskschd.dll) from Microsoft Office
+  processes. This behavior may indicate
+
+  adversarial activity where a scheduled task is configured via Windows Component
+  Object Model (COM). This technique can
+
+  be used to configure persistence and evade monitoring by avoiding the usage of the
+  traditional Windows binary
+
+  (schtasks.exe) used to manage scheduled tasks.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-17'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_category: process
+    event_category|contains:
+    - library
+    - driver
+    process_name|contains:
+    - WINWORD.EXE
+    - EXCEL.EXE
+    - POWERPNT.EXE
+    - MSPUB.EXE
+    - MSACCESS.EXE
+  condition: selection
+tags:
+- attack.persistence
+- attack.execution
+- attack.t1053.005
+- attack.t1053
+references:
+- https://medium.com/threatpunter/detecting-adversary-tradecraft-with-image-load-event-logging-and-eql-8de93338c16
+- https://www.clearskysec.com/wp-content/uploads/2020/10/Operation-Quicksand.pdf

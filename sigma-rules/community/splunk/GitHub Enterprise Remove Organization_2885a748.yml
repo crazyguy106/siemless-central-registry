@@ -1,0 +1,22 @@
+title: GitHub Enterprise Remove Organization
+id: 22cd637d-23fa-5e87-bcf6-d01b4404c07f
+status: stable
+level: medium
+description: |
+  The following analytic detects when a user removes an organization from GitHub Enterprise. The detection monitors GitHub Enterprise audit logs for organization deletion events, which could indicate unauthorized removal of critical business resources. For a SOC, identifying organization removals is crucial as it may signal account compromise, insider threats, or malicious attempts to disrupt business operations by deleting entire organizational structures. The impact could be severe, potentially 
+author: Patrick Bareiss, Splunk
+logsource:
+  product: github
+detection:
+  selection:
+    user: actor
+  condition: selection
+tags:
+  - attack.t1485
+  - attack.t1195
+references:
+  - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk
+custom_attributes:
+  original_rule_id: 94cb89aa-aec1-4585-91b1-affcdacf357e
+  source_format: splunk_spl

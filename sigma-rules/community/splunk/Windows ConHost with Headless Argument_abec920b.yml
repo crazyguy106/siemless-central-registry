@@ -1,0 +1,22 @@
+title: Windows ConHost with Headless Argument
+id: 0d739318-6d70-50af-bfac-ae49324513b2
+status: stable
+level: high
+description: |
+  The following analytic detects the unusual invocation of the Windows Console Host process (conhost.exe) with the undocumented --headless parameter. This detection leverages Endpoint Detection and Response (EDR) telemetry, specifically monitoring for command-line executions where conhost.exe is executed with the --headless argument. This activity is significant for a SOC as it is not commonly used in legitimate operations and may indicate an attacker's attempt to execute commands stealthily. If c
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '*--headless *'
+  condition: selection
+tags:
+  - attack.t1564.003
+  - attack.t1564.006
+references:
+  - https://x.com/embee_research/status/1559410767564181504?s=20
+  - https://x.com/GroupIB_TI/status/1719675754886131959?s=20
+custom_attributes:
+  original_rule_id: d5039508-998d-4cfc-8b5e-9dcd679d9a62
+  source_format: splunk_spl

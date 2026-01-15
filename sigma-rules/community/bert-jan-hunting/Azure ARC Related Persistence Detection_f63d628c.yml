@@ -1,0 +1,24 @@
+title: Azure ARC Related Persistence Detection
+id: 18c6c812-4248-42c6-9c55-f0e06a60fb0b
+status: experimental
+level: medium
+description: |
+  This detection rule aims to identify the unexpected installation of Azure ARC agents. Peach Sandstorm has been known to register their own Azure tenant and install Azure ARC agents on devices to maintain persistence. The rule includes two queries: one for detecting service installations and another for identifying specific file path creations associated with Azure ARC agents.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    // Unexpected installation of azure arc agent - service installation
+let ServiceNames = datatable(name:string)["himds.exe","gc_arc_service.exe","gc_extension_service.exe"];
+DeviceEvents
+| where ActionType =~ "ServiceInstalled"
+| extend ServiceName = tostring(parse_json(AdditionalFields).ServiceName)
+| extend ServiceAccount = tostring(parse_json(AdditionalFields).ServiceAccount)
+| extend ServiceStartType = tostring(parse_json(AdditionalFields).ServiceStartType)
+| extend ServiceType = tostring(parse_json(AdditionalFields).ServiceType)
+| where ServiceName has_any (ServiceNames)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,28 @@
+title: Sensitive Files Compression Inside A Container
+id: d9faf1ba-a216-4c29-b8e0-a05a9d14b027
+status: stable
+level: medium
+description: 'Identifies the use of a compression utility to collect known files containing
+  sensitive information, such as credentials
+
+  and system configurations inside a container.'
+author: Elastic (converted by SIEMLess)
+date: '2025-03-12'
+modified: '2025-03-12'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_entry_leader_entry_meta_type: container
+  condition: selection
+tags:
+- attack.collection
+- attack.credential_access
+- attack.t1560.001
+- attack.t1552
+- attack.t1560
+- attack.t1552.001

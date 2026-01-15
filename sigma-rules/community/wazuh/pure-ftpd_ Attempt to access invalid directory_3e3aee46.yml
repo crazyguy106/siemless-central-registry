@@ -1,0 +1,22 @@
+title: 'pure-ftpd: Attempt to access invalid directory'
+id: 814a8cee-09fc-5a22-b548-9cd099c1bcd5
+status: stable
+level: low
+description: 'pure-ftpd: Attempt to access invalid directory'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '[INFO] Can''t change directory to'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11305
+  wazuh_level: 5

@@ -1,0 +1,35 @@
+title: Multiple Horde emergency messages.
+id: e701c2de-4236-525c-9645-8817cea3b941
+status: stable
+level: high
+description: Multiple Horde emergency messages.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 320s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 6
+  - type: sequence
+    parent_rule: wazuh-9304
+    window:
+      maxspan: 320s
+    enforce_order: true
+tags:
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9352
+  wazuh_level: 10

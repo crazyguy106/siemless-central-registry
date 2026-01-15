@@ -1,0 +1,24 @@
+title: AWS S3 Public Access Block Removed
+id: e60dfbb0-3a83-5e71-a32e-e6bc0a8cb186
+status: experimental
+level: high
+description: Detect when the S3 Public Access Block configuration has been removed from a bucket or an account.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - DeleteAccountPublicAccessBlock
+      - DeleteBucketPublicAccessBlock
+      - PutBucketPublicAccessBlock
+      - PutAccountPublicAccessBlock
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_07638aec-6719-467b-9fee-8de4993087fa
+  source_format: chronicle_yaral

@@ -1,0 +1,22 @@
+title: Detect DGA domains using pretrained model in DSDL
+id: b4938e6b-d3ba-5f8a-bf51-8c94770c727e
+status: experimental
+level: medium
+description: |
+  The following analytic identifies Domain Generation Algorithm (DGA) generated domains using a pre-trained deep learning model. It leverages the Network Resolution data model to analyze domain names and detect unusual character sequences indicative of DGA activity. This behavior is significant as adversaries often use DGAs to generate numerous domain names for command-and-control servers, making it harder to block malicious traffic. If confirmed malicious, this activity could enable attackers to 
+author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Network_Resolution
+  condition: selection
+tags:
+  - attack.t1568.002
+references:
+  - https://attack.mitre.org/techniques/T1568/002/
+  - https://unit42.paloaltonetworks.com/threat-brief-understanding-domain-generation-algorithms-dga/
+  - https://en.wikipedia.org/wiki/Domain_generation_algorithm
+custom_attributes:
+  original_rule_id: 92e24f32-9b9a-4060-bba2-2a0eb31f3493
+  source_format: splunk_spl

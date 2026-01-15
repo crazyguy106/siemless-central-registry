@@ -1,0 +1,19 @@
+title: Automated investigation and response effectiveness
+id: 375b17c1-1e7f-40d1-8864-1dcd3dc2ba1b
+status: experimental
+level: medium
+description: |
+  THis query only returns results if automated investigation and response is enabled in Defender For Office. The query is aimed to display the effectiveness of AIR, it could be that these automatic response actions fail, hence it is important to review these on a periodic basis.
+The query lists the statistics by day and result.
+author: Bert-JanP
+logsource:
+  product: office_365
+  service: kql
+detection:
+  _kql_query: |
+    EmailPostDeliveryEvents
+ where ActionType =~ Automated Remediation
+ summarize TotalNetworkMessages = dcount(NetworkMessageId) by bin(Timestamp, 1d), ActionResult
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

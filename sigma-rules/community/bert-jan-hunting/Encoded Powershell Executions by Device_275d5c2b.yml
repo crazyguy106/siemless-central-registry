@@ -1,0 +1,28 @@
+title: Encoded Powershell Executions by Device
+id: 7f9790c6-db6a-40f6-8df0-6f5bd9b4415f
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Encoded Powershell Executions by Device
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let EncodedList = dynamic(['-encodedcommand', '-enc']); 
+// For more results use line below en filter one above. This will also return more FPs.
+// let EncodedList = dynamic(['-encodedcommand', '-enc', '-e']);
+let TimeFrame = 48h; //Customizable h = hours, d = days
+DeviceProcessEvents
+| where Timestamp > ago(TimeFrame)
+| where ProcessCommandLine contains "powershell" or InitiatingProcessCommandLine contains "powershell"
+| where ProcessCommandLine has_any (EncodedList) or InitiatingProcessCommandLine has_any (EncodedList)
+| extend base64String = extract(@'\s+([A-Za-z0-9+/]{20}\S+$)', 1, ProcessCommandLine)
+| extend DecodedCommandLine = base64_decode_tostring(base64String)
+| where not(isempty(base64String) and isempty(DecodedCommandLine))
+| summarize TotalEncodedExecutions = count() by DeviceName
+| sort by TotalEncodedExecutions
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

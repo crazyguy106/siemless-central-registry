@@ -1,0 +1,24 @@
+title: 'Audit: Deleted: $(audit.file.name)'
+id: e5894d27-82c0-535f-a7e0-6e6e3a055710
+status: stable
+level: low
+description: 'Audit: Deleted: $(audit.file.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: type=DELETE
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_group: audit_watch_write
+tags:
+  - attack.t1107
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80791
+  wazuh_level: 3

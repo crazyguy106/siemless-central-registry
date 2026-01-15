@@ -1,0 +1,24 @@
+title: 'Auditd: user becomes root'
+id: d23b568e-5964-5cd3-8414-5f33b61dae30
+status: stable
+level: high
+description: 'Auditd: user becomes root'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.type: ANOM_ROOT_TRANS
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+tags:
+  - attack.t1169
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80721
+  wazuh_level: 10

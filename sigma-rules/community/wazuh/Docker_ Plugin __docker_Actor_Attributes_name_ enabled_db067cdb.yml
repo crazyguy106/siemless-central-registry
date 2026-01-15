@@ -1,0 +1,22 @@
+title: 'Docker: Plugin $(docker.Actor.Attributes.name) enabled'
+id: 8cc51e23-0961-55fa-8827-e8d27ae017eb
+status: stable
+level: low
+description: 'Docker: Plugin $(docker.Actor.Attributes.name) enabled'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^enable$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87942
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87944
+  wazuh_level: 3

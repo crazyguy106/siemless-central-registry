@@ -1,0 +1,21 @@
+title: Missing Domain Controller Heartbeat
+id: 0b542349-83cf-5b8b-8d1c-de6b83610314
+status: stable
+level: high
+description: |
+  'This detection will go over the heartbeats received from the agents of Domain Controllers over the last hour, and will create alerts if the last heartbeats were received an hour ago.'
+author: Jose Sebastian Canos
+logsource:
+  product: azure
+detection:
+  selection:
+    OSType: Windows
+    Computer:
+      - DCServersList
+  condition: selection
+tags:
+  - attack.t1499
+  - attack.t1564
+custom_attributes:
+  original_rule_id: b8b8ba09-1e89-45a1-8bd7-691cd23bfa32
+  source_format: azure_kql

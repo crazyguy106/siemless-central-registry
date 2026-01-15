@@ -1,0 +1,26 @@
+title: VMWare ESX user login.
+id: caaa839e-ead6-51db-a4f1-9fd556e650a1
+status: stable
+level: low
+description: VMWare ESX user login.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - Accepted password for
+      - login from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-19101
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-19112
+  wazuh_level: 3

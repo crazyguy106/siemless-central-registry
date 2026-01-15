@@ -1,0 +1,23 @@
+title: 'Partition usage reached 100% (disk space monitor).'
+id: 731ee4a0-355e-5473-a9b5-21ed04137560
+status: stable
+level: medium
+description: 'Partition usage reached 100% (disk space monitor).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'ossec: output: ''df -P'': /dev/'
+    message|re: '100%'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-530
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-531
+  wazuh_level: 7

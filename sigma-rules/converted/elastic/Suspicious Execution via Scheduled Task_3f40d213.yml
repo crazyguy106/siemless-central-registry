@@ -1,0 +1,31 @@
+title: Suspicious Execution via Scheduled Task
+id: 5d1d6907-0747-4d5d-9b24-e4a18853dc0a
+status: stable
+level: medium
+description: Identifies execution of a suspicious program via scheduled tasks by looking
+  at process lineage and command line usage.
+author: Elastic (converted by SIEMLess)
+date: '2020-11-19'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_args|contains:
+    - -File
+    - -PSConsoleFile
+    - C:\\ProgramData\\Microsoft\\AutopatchSetupScheduled\\SetupAutopatchClientV2Package.ps1
+    - C:\\ProgramData\\Microsoft\\AutopatchSetupScheduled\\SetupAutopatchClientPackage.ps1
+  condition: selection
+tags:
+- attack.persistence
+- attack.execution
+- attack.t1053.005
+- attack.t1053
+references:
+- https://www.elastic.co/security-labs/elastic-protects-against-data-wiper-malware-targeting-ukraine-hermeticwiper
+falsepositives:
+- Legitimate scheduled tasks running third party software.

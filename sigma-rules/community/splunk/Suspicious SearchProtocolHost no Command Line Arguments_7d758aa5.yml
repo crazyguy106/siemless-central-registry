@@ -1,0 +1,21 @@
+title: Suspicious SearchProtocolHost no Command Line Arguments
+id: a7d6b247-fa32-5f37-839a-ca9766170a0f
+status: stable
+level: high
+description: |
+  The following analytic detects instances of searchprotocolhost.exe running without command line arguments. This behavior is unusual and often associated with malicious activities, such as those performed by Cobalt Strike. The detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process execution data. This activity is significant because searchprotocolhost.exe typically runs with specific arguments, and its absence may indicate an attempt to evade detection. If confir
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process: (?i)(searchprotocolhost\.exe.{0,4}$)
+  condition: selection
+tags:
+  - attack.t1055
+references:
+  - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/SUSPICIOUS%20EXECUTION%20OF%20SEARCHPROTOCOLHOST%20(METHODOLOGY).ioc
+custom_attributes:
+  original_rule_id: f52d2db8-31f9-4aa7-a176-25779effe55c
+  source_format: splunk_spl

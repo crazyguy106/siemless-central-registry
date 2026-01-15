@@ -1,0 +1,23 @@
+title: Windows Service Create with Tscon
+id: d4a1431d-b3c0-576d-ab74-69ae55b349ec
+status: stable
+level: high
+description: |
+  The following analytic detects potential RDP Hijacking attempts by identifying the creation of a Windows service using sc.exe with a binary path that includes tscon.exe. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line arguments. This activity is significant as it indicates an attacker may be trying to hijack a disconnected RDP session, posing a risk of unauthorized access. If confirmed malicious, the attacker c
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process: '*/dest:rdp-tcp*'
+  condition: selection
+tags:
+  - attack.t1543.003
+  - attack.t1563.002
+references:
+  - https://doublepulsar.com/rdp-hijacking-how-to-hijack-rds-and-remoteapp-sessions-transparently-to-move-through-an-da2a1e73a5f6
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1563.002/T1563.002.md
+custom_attributes:
+  original_rule_id: c13b3d74-6b63-4db5-a841-4206f0370077
+  source_format: splunk_spl

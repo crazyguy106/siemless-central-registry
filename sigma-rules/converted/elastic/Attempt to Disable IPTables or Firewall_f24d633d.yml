@@ -1,0 +1,28 @@
+title: Attempt to Disable IPTables or Firewall
+id: 83e9c2b3-24ef-4c1d-a8cd-5ebafb5dfa2f
+status: stable
+level: low
+description: 'Adversaries may attempt to disable the iptables or firewall service
+  in an attempt to affect how a host is allowed to
+
+  receive or send network traffic.'
+author: Elastic (converted by SIEMLess)
+date: '2023-02-22'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: systemctl
+    process_args: 'off'
+    process_parent_args: force-stop
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://www.elastic.co/security-labs/detecting-log4j2-with-elastic-security

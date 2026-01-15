@@ -1,0 +1,28 @@
+title: Potential Upgrade of Non-interactive Shell
+id: 84d1f8db-207f-45ab-a578-921d91c23eb2
+status: stable
+level: medium
+description: 'Identifies when a non-interactive terminal (tty) is being upgraded to
+  a fully interactive shell. Attackers may upgrade a
+
+  simple reverse shell to a fully interactive tty after obtaining initial access to
+  a host, in order to obtain a more
+
+  stable connection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-20'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: script
+    process_args: /dev/null
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.004

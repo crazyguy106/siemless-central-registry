@@ -1,0 +1,33 @@
+title: Detect Executable Files in C:\ProgramData
+id: 9b4cc5f3-9bc0-456c-b808-78f73adda628
+status: experimental
+level: medium
+description: |
+  This query detects rare Executable files that are created in the folder C:\ProgramData\* and all the subfolders. It is not common that executable files are created in this folder and therefore the file creations should be investigated. An attacker can use those folders to 
+
+Note: The query for Sentinel is different then the one for MDE, this is because the FileProfile function is used, which is currently not supported by Sentinel. Therefore I suggest running this query in MDE for the best results.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    // The start of the folderpath in the Public directory.
+let ProgramDataFolder = @'C:\ProgramData';
+// List with Executable File Extensions, can be adjusted or changed.
+let ExecutableFileExtensions = dynamic(['bat', 'cmd', 'com', 'cpl', 'ex', 'exe', 'jse', 'msc','ps1', 'reg', 'vb', 'vbe', 'ws', 'wsf', 'hta']);
+// Prevalence Threshold, if the file exceeds this threshold it is likely to be benign.
+let FilePrevalenceThreshold = 250;
+DeviceFileEvents
+| where FolderPath contains ProgramDataFolder
+// Extract File Extension from the filename.
+| extend FileExtension = tostring(extract(@'.*\.(.*)', 1, FileName))
+// Only list Files that are executable
+| where FileExtension in~ (ExecutableFileExtensions)
+| invoke FileProfile('SHA256', 10000)
+// Filter based on FilePrevalenceThreshold
+| where GlobalPrevalence <= FilePrevalenceThreshold
+| project Timestamp, DeviceName, FileExtension, FolderPath, GlobalPrevalence, Signer, Publisher, ReportId, DeviceId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

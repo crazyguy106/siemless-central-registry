@@ -1,0 +1,25 @@
+title: Windows New EventLog ChannelAccess Registry Value Set
+id: 8af804f0-0d1e-548f-90af-3b6fb952d8e3
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious modifications to the EventLog security descriptor registry value for defense evasion. It leverages data from the Endpoint.Registry data model, focusing on changes to the "CustomSD" value within the "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Eventlog\<Channel>\CustomSD" path. This activity is significant as changes to the access permissions of the event log could blind security products and help attackers evade defenses. If confirmed malicious,
+author: Nasreddine Bencherchali, Michael Haag, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_value_name: ChannelAccess
+    registry_path:
+      - '*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\*'
+      - '*\Microsoft\Windows\EventLog\*'
+  condition: selection
+tags:
+  - attack.t1562.002
+references:
+  - https://web.archive.org/web/20220710181255/https://blog.minerva-labs.com/lockbit-3.0-aka-lockbit-black-is-here-with-a-new-icon-new-ransom-note-new-wallpaper-but-less-evasiveness
+  - https://attack.mitre.org/techniques/T1562/002/
+custom_attributes:
+  original_rule_id: 16eb11bc-ef42-42e8-9d0c-d21e0fa15725
+  source_format: splunk_spl

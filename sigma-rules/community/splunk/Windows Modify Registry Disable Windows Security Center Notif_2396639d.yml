@@ -1,0 +1,23 @@
+title: Windows Modify Registry Disable Windows Security Center Notif
+id: b0639f39-25f4-5f59-87a1-25e0dd4fef59
+status: stable
+level: medium
+description: |
+  The following analytic detects modifications to the Windows registry aimed at disabling Windows Security Center notifications. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the registry path "*\\Windows\\CurrentVersion\\ImmersiveShell\\UseActionCenterExperience*" with a value of "0x00000000". This activity is significant as it can indicate an attempt by adversaries or malware, such as Azorult, to evade defenses by suppressing critical update notificat
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Windows\\CurrentVersion\\ImmersiveShell\\UseActionCenterExperience*'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-remoteassistance-exe-fallowtogethelp
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+custom_attributes:
+  original_rule_id: 27ed3e79-6d86-44dd-b9ab-524451c97a7b
+  source_format: splunk_spl

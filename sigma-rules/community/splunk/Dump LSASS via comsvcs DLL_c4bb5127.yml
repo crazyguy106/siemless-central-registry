@@ -1,0 +1,24 @@
+title: Dump LSASS via comsvcs DLL
+id: 2833220e-d55c-5629-a526-f4c7a7332262
+status: stable
+level: high
+description: |
+  The following analytic detects the behavior of dumping credentials from memory by exploiting the Local Security Authority Subsystem Service (LSASS) using the comsvcs.dll and MiniDump via rundll32. This detection leverages process information from Endpoint Detection and Response (EDR) logs, focusing on specific command-line executions. This activity is significant because it indicates potential credential theft, which can lead to broader system compromise, persistence, lateral movement, and privi
+author: Patrick Bareiss, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*MiniDump*'
+      - '*#24*'
+  condition: selection
+tags:
+  - attack.t1003.001
+references:
+  - https://modexp.wordpress.com/2019/08/30/minidumpwritedump-via-com-services-dll/
+  - https://twitter.com/SBousseaden/status/1167417096374050817
+  - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+custom_attributes:
+  original_rule_id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
+  source_format: splunk_spl

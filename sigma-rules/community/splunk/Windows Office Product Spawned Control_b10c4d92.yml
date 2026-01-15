@@ -1,0 +1,24 @@
+title: Windows Office Product Spawned Control
+id: b3b0501d-614c-525c-ab26-8ac123436b86
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where `control.exe` is spawned by a Microsoft Office product. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process relationships. This activity is significant because it can indicate exploitation attempts related to CVE-2021-40444, where `control.exe` is used to execute malicious .cpl or .inf files. If confirmed malicious, this behavior could allow an attacker to execute arbitrary code, potentially
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1566.001
+references:
+  - https://strontic.github.io/xcyclopedia/library/control.exe-1F13E714A0FEA8887707DFF49287996F.html
+  - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
+  - https://attack.mitre.org/techniques/T1218/011/
+  - https://www.echotrail.io/insights/search/control.exe/
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+custom_attributes:
+  original_rule_id: 081c485d-ac8d-4bee-ad4c-525772fead4d
+  source_format: splunk_spl

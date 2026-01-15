@@ -1,0 +1,53 @@
+title: Potential Reverse Shell via Suspicious Binary
+id: fa3a59dc-33c3-43bf-80a9-e8437a922c7f
+status: stable
+level: medium
+description: 'This detection rule detects the creation of a shell through a chain
+  consisting of the execution of a suspicious binary
+
+  (located in a commonly abused location or executed manually) followed by a network
+  event and ending with a shell being
+
+  spawned. Stageless reverse tcp shells display this behaviour. Attackers may spawn
+  reverse shells to establish
+
+  persistence onto a target system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-05'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.entity_id with maxspan=1s\n[ process\
+      \ where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ == \"exec\" and\n  process.executable : (\n  \"./*\", \"/tmp/*\", \"/var/tmp/*\"\
+      , \"/var/www/*\", \"/dev/shm/*\", \"/etc/init.d/*\", \"/etc/rc*.d/*\",\n  \"\
+      /etc/crontab\", \"/etc/cron.*\", \"/etc/update-motd.d/*\", \"/usr/lib/update-notifier/*\"\
+      ,\n  \"/boot/*\", \"/srv/*\", \"/run/*\", \"/root/*\", \"/etc/rc.local\"\n \
+      \  ) and\n  process.parent.name : (\"bash\", \"dash\", \"sh\", \"tcsh\", \"\
+      csh\", \"zsh\", \"ksh\", \"fish\") and not\n  process.name : (\"curl\", \"wget\"\
+      , \"ping\", \"apt\", \"dpkg\", \"yum\", \"rpm\", \"dnf\", \"dockerd\") ]\n[\
+      \ network where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ in (\"connection_attempted\", \"connection_accepted\") and\n  process.executable\
+      \ : (\n  \"./*\", \"/tmp/*\", \"/var/tmp/*\", \"/var/www/*\", \"/dev/shm/*\"\
+      , \"/etc/init.d/*\", \"/etc/rc*.d/*\",\n  \"/etc/crontab\", \"/etc/cron.*\"\
+      , \"/etc/update-motd.d/*\", \"/usr/lib/update-notifier/*\",\n  \"/boot/*\",\
+      \ \"/srv/*\", \"/run/*\", \"/root/*\", \"/etc/rc.local\"\n   ) and destination.ip\
+      \ != null and destination.ip != \"127.0.0.1\" and destination.ip != \"::1\"\
+      \ ]\n[ process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action == \"exec\" and\n  process.name : (\"bash\", \"dash\", \"sh\"\
+      , \"tcsh\", \"csh\", \"zsh\", \"ksh\", \"fish\") and\n  process.parent.name\
+      \ : (\"bash\", \"dash\", \"sh\", \"tcsh\", \"csh\", \"zsh\", \"ksh\", \"fish\"\
+      ) ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1059.004
+- attack.t1071
+references:
+- https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md

@@ -1,0 +1,28 @@
+title: Windows Scheduled Task with Suspicious Command
+id: 45d0ff6a-a37a-5d6a-9c6f-9edaa9b36218
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of scheduled tasks designed to execute commands using native Windows shells like PowerShell, Cmd, Wscript, or Cscript or from public folders such as Users, Temp, or ProgramData. It leverages Windows Security EventCode 4698, 4700, and 4702 to identify when such tasks are registered, enabled, or modified. This activity is significant as it may indicate an attempt to establish persistence or execute malicious commands on a system. If confirmed malicious, 
+author: Steven Dick
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    signature_id: EventCode
+    eventcode:
+      - 4698
+      - 4700
+      - 4702
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+  - https://www.ic3.gov/CSA/2023/231213.pdf
+  - https://news.sophos.com/en-us/2024/11/06/bengal-cat-lovers-in-australia-get-psspsspssd-in-google-driven-gootloader-campaign/
+  - https://github.com/mthcht/awesome-lists/blob/main/Lists/suspicious_windows_tasks_list.csv
+custom_attributes:
+  original_rule_id: 1f44c126-c26a-4dd3-83bb-0f9a0f03ecc3
+  source_format: splunk_spl

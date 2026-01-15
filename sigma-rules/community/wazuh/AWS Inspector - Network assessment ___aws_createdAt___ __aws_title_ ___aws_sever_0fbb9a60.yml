@@ -1,0 +1,22 @@
+title: 'AWS Inspector - Network assessment [$(aws.createdAt)]: $(aws.title) [$(aws.severity)]'
+id: fb1fb15d-4555-5b59-b465-027ef91ee557
+status: stable
+level: high
+description: 'AWS Inspector - Network assessment [$(aws.createdAt)]: $(aws.title) [$(aws.severity)]'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.severity: High
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80495
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80496
+  wazuh_level: 10

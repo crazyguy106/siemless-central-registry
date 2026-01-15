@@ -1,0 +1,25 @@
+title: Linux Change File Owner To Root
+id: f6ebf4b1-8014-5300-af16-36ea520bc633
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the 'chown' command to change a file owner to 'root' on a Linux system. It leverages Endpoint Detection and Response (EDR) telemetry, specifically monitoring command-line executions and process details. This activity is significant as it may indicate an attempt to escalate privileges by adversaries, malware, or red teamers. If confirmed malicious, this action could allow an attacker to gain root-level access, leading to full control over the compromised 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*chown *'
+      - '* root *'
+    process_name: chown
+  condition: selection
+tags:
+  - attack.t1222.002
+references:
+  - https://unix.stackexchange.com/questions/101073/how-to-change-permissions-from-root-user-to-all-users
+  - https://askubuntu.com/questions/617850/changing-from-user-to-superuser
+custom_attributes:
+  original_rule_id: c1400ea2-6257-11ec-ad49-acde48001122
+  source_format: splunk_spl

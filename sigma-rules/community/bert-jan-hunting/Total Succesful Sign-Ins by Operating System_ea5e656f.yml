@@ -1,0 +1,27 @@
+title: Total Succesful Sign-Ins by Operating System
+id: 19a2473b-b6e0-48e5-9852-27d60d3359e4
+status: experimental
+level: medium
+description: |
+  This query can be used to detect rare operating systems that are used to sign into your tenant. For example your company only has Windows company devices and you have sign ins with MacOS, those can ben intersting to investigate.
+
+This query can also be used to determine with Operting Systems need to be added to your Conditional Access Policies.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AADSignInEventsBeta
+| where isnotempty(UserAgent)
+// Filter for successful sign ins only
+| where ErrorCode == 0
+| extend ParsedAgent = parse_json(parse_user_agent(UserAgent, "os"))
+| extend OperatingSystem = strcat(tostring(ParsedAgent.OperatingSystem.Family), " ", tostring(ParsedAgent.OperatingSystem.MajorVersion))
+| summarize Total = count() by OperatingSystem
+| sort by Total
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

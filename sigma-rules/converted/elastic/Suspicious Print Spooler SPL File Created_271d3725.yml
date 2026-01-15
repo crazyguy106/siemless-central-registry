@@ -1,0 +1,40 @@
+title: Suspicious Print Spooler SPL File Created
+id: a7ccae7b-9d2c-44b2-a061-98e5946971fa
+status: stable
+level: low
+description: 'Detects attempts to exploit privilege escalation vulnerabilities related
+  to the Print Spooler service including
+
+  CVE-2020-1048 and CVE-2020-1337.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-14'
+modified: '2025-02-03'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    process_name|contains:
+    - spoolsv.exe
+    - printfilterpipelinesvc.exe
+    - PrintIsolationHost.exe
+    - splwow64.exe
+    - msiexec.exe
+    - poqexec.exe
+    - System
+    process_executable|contains:
+    - ?:\\Windows\\System32\\mmc.exe
+    - \\Device\\Mup\\*.exe
+    - ?:\\Windows\\System32\\svchost.exe
+    - ?:\\Windows\\System32\\mmc.exe
+    - ?:\\Windows\\System32\\printui.exe
+    - ?:\\Windows\\System32\\mstsc.exe
+    - ?:\\Windows\\System32\\spool\\*.exe
+    - ?:\\Program Files\\*.exe
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1068
+references:
+- https://safebreach.com/Post/How-we-bypassed-CVE-2020-1048-Patch-and-got-CVE-2020-1337

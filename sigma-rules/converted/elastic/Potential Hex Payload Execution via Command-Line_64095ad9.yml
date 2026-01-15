@@ -1,0 +1,29 @@
+title: Potential Hex Payload Execution via Command-Line
+id: 1d0027d4-6717-4a37-bad8-531d8e9fe53f
+status: stable
+level: low
+description: 'This rule detects when a process executes a command line containing
+  hexadecimal characters. Malware authors may use
+
+  hexadecimal encoding to obfuscate their payload and evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-29'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_command_line|endswith: \\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+- attack.t1204
+- attack.t1140
+- attack.t1027
+- attack.t1059.004
+- attack.t1204.002

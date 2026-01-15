@@ -1,0 +1,36 @@
+title: Suspicious WerFault Child Process
+id: ac5012b8-8da8-440b-aaaf-aedafdea2dff
+status: stable
+level: medium
+description: 'A suspicious WerFault child process was detected, which may indicate
+  an attempt to run via the SilentProcessExit
+
+  registry key manipulation. Verify process details such as command line, network
+  connections and file writes.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-24'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_executable|contains: ?:\\Windows\\SysWOW64\\Initcrypt.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1546.012
+- attack.t1546
+- attack.t1036
+references:
+- https://www.hexacorn.com/blog/2019/09/19/silentprocessexit-quick-look-under-the-hood/
+- https://www.hexacorn.com/blog/2019/09/20/werfault-command-line-switches-v0-1/
+- https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES/blob/master/Persistence/persistence_SilentProcessExit_ImageHijack_sysmon_13_1.evtx
+- http://web.archive.org/web/20230530011556/https://blog.menasec.net/2021/01/
+falsepositives:
+- Custom Windows error reporting debugger or applications restarted by WerFault after
+  a crash.

@@ -1,0 +1,19 @@
+title: Device EDR settings are not compliant
+id: 5d200c8a-c709-4fb9-b45e-fdbbe2a6522f
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Device EDR settings are not compliant
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSecureConfigurationAssessment
+| join DeviceTvmSecureConfigurationAssessmentKB on ConfigurationId
+| where IsCompliant == 0 and IsApplicable == 1
+| where ConfigurationSubcategory == "EDR"
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

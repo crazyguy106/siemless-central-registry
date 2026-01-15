@@ -1,0 +1,24 @@
+title: Windows Exfiltration Over C2 Via Powershell UploadString
+id: c9d232e4-a474-548e-8ac6-d388dcc3d83b
+status: stable
+level: high
+description: |
+  The following analytic identifies potential data exfiltration using the PowerShell `net.webclient` command with the `UploadString` method. It leverages PowerShell Script Block Logging to detect instances where this command is executed. This activity is significant as it may indicate an attempt to upload sensitive data, such as desktop screenshots or files, to an external or internal URI, often associated with malware like Winter-Vivern. If confirmed malicious, this could lead to unauthorized dat
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*Net.webclient*'
+      - '*.UploadString*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1041
+references:
+  - https://twitter.com/_CERT_UA/status/1620781684257091584
+  - https://cert.gov.ua/article/3761104
+custom_attributes:
+  original_rule_id: 59e8bf41-7472-412a-90d3-00f3afa452e9
+  source_format: splunk_spl

@@ -1,0 +1,33 @@
+title: NextCloud brute force (multiple failed logins).
+id: 5b59c52f-a4d9-5998-9421-aaa70e3d57d3
+status: stable
+level: high
+description: NextCloud brute force (multiple failed logins).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-88202
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-88203
+  wazuh_level: 10

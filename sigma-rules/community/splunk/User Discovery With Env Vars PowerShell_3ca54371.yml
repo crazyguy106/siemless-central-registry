@@ -1,0 +1,23 @@
+title: User Discovery With Env Vars PowerShell
+id: 545eb26e-2dd6-55c0-816b-a3c9cbe38add
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `powershell.exe` with command-line arguments that use PowerShell environment variables to identify the current logged user. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as adversaries may use it for situational awareness and Active Directory discovery on compromised endpoints. If confirmed malicious, this behavior could allow attackers to gat
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: powershell.exe
+    process:
+      - '*$env:UserName*'
+      - '*[System.Environment]::UserName*'
+  condition: selection
+tags:
+  - attack.t1033
+references:
+  - https://attack.mitre.org/techniques/T1033/
+custom_attributes:
+  original_rule_id: 0cdf318b-a0dd-47d7-b257-c621c0247de8
+  source_format: splunk_spl

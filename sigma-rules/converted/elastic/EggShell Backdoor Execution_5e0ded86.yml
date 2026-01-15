@@ -1,0 +1,25 @@
+title: EggShell Backdoor Execution
+id: 41824afb-d68c-4d0e-bfee-474dac1fa56e
+status: stable
+level: high
+description: Identifies the execution of and EggShell Backdoor. EggShell is a known
+  post exploitation tool for macOS and Linux.
+author: Elastic (converted by SIEMLess)
+date: '2021-01-12'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    event_type: (process_started
+    process_name: espl
+    process_args: eyJkZWJ1ZyI6*
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.006
+references:
+- https://github.com/neoneggplant/EggShell

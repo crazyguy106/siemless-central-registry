@@ -1,0 +1,29 @@
+title: Nping Process Activity
+id: 0d69150b-96f8-467c-a86d-a67a3378ce77
+status: stable
+level: medium
+description: 'Nping ran on a Linux host. Nping is part of the Nmap tool suite and
+  has the ability to construct raw packets for a wide
+
+  variety of security testing applications, including denial of service testing.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: nping
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1046
+references:
+- https://en.wikipedia.org/wiki/Nmap
+falsepositives:
+- "    Some normal use of this command may originate from security engineers and network\
+  \ or server administrators, but this\n    is usually not routine or unannounced.\
+  \ Use of `Nping` by non-engineers or ordinary users is uncommon.\n    "

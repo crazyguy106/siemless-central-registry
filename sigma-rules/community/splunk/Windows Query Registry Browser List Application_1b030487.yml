@@ -1,0 +1,30 @@
+title: Windows Query Registry Browser List Application
+id: e007c184-facc-5633-ad93-cdc9ec6f99d6
+status: stable
+level: medium
+description: |
+  The following analytic detects a suspicious process accessing the registry entries for default internet browsers. It leverages Windows Security Event logs, specifically event code 4663, to identify access attempts to these registry paths. This activity is significant because adversaries can exploit this registry key to gather information about installed browsers and their settings, potentially leading to the theft of sensitive data such as login credentials and browsing history. If confirmed mal
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    eventcode: 4663
+    object_file_path:
+      - '*\\SOFTWARE\\Clients\\StartMenuInternet\\*'
+      - '*\\SOFTWARE\\Clients\\StartMenuInternet\\*'
+    process_path:
+      - '*:\\Windows\\System32\\*'
+      - '*:\\Windows\\SysWow64\\*'
+      - '*:\\Windows\\WinSxS\\*'
+      - '*:\\Program Files\\*'
+      - '*:\\Program Files (x86'
+  condition: selection
+tags:
+  - attack.t1012
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+custom_attributes:
+  original_rule_id: 45ebd21c-f4bf-4ced-bd49-d25b6526cebb
+  source_format: splunk_spl

@@ -1,0 +1,25 @@
+title: Shellshock attack detected
+id: 0f593c87-9e00-58b3-bd9f-8835ea513418
+status: stable
+level: critical
+description: Shellshock attack detected
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '"\(\)\s*{\s*\w*:;\s*}\s*;|"\(\)\s*{\s*\w*;\s*}\s*;'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31108
+tags:
+  - attack.t1068
+  - attack.t1190
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31168
+  wazuh_level: 15

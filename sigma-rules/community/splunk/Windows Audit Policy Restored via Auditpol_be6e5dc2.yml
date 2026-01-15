@@ -1,0 +1,26 @@
+title: Windows Audit Policy Restored via Auditpol
+id: daad96da-1725-53af-909e-575f414f03d7
+status: stable
+level: medium
+description: |
+  The following analytic identifies the execution of `auditpol.exe` with the "/restore" command-line argument used to restore the audit policy from a file. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity can be significant as it indicates potential defense evasion by adversaries or Red Teams, aiming to limit data that can be leveraged for detections and audits. Attackers can provide an audit policy file that 
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*/restore*'
+      - '*/file*'
+      - '*/?*'
+  condition: selection
+tags:
+  - attack.t1562.002
+references:
+  - https://www.microsoft.com/en-us/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+  - https://www.cybereason.com/blog/research/prometei-botnet-exploiting-microsoft-exchange-vulnerabilities
+  - https://attack.mitre.org/techniques/T1562/002/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-restore
+custom_attributes:
+  original_rule_id: d7d1795b-ea18-47e5-9ca6-2c330d052d21
+  source_format: splunk_spl

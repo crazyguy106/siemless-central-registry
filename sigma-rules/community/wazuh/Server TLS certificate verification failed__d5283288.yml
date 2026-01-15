@@ -1,0 +1,23 @@
+title: Server TLS certificate verification failed.
+id: b2eb1b59-61d4-51f0-bc80-09e0541570ed
+status: stable
+level: low
+description: Server TLS certificate verification failed.
+author: Wazuh, Inc.
+logsource:
+  service: smtpd
+  product: wazuh
+detection:
+  selection:
+    message|contains: Server certificate verification failed
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-53500
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-53508
+  wazuh_level: 5

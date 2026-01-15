@@ -1,0 +1,21 @@
+title: gmail_spike_in_undeliverables
+id: 8955e4de-2f98-5a5e-a617-780bd0481fb9
+status: experimental
+level: medium
+description: |
+  Detects a spike in undeliverable emails, this can be an early indication of a targeted phishing campaign or a compromised user account.
+author: Bastradamus
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: gmail
+    metadata_event_type: EMAIL_TRANSACTION
+    network_email_subject: 'Undeliverable\:'
+  condition: selection
+tags:
+  - attack.t1566
+custom_attributes:
+  original_rule_id: bcb1cf41-8ee0-4ac2-b370-879d5adcfe02
+  source_format: chronicle_yaral

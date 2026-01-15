@@ -1,0 +1,24 @@
+title: ASL AWS IAM AccessDenied Discovery Events
+id: 02582250-b56c-5a53-a906-4697e58984ca
+status: stable
+level: medium
+description: |
+  The following analytic identifies excessive AccessDenied events within an hour timeframe for IAM users in AWS. It leverages AWS CloudTrail logs to detect multiple failed access attempts from the same source IP and user identity. This activity is significant as it may indicate that an access key has been compromised and is being misused for unauthorized discovery actions. If confirmed malicious, this could allow attackers to gather information about the AWS environment, potentially leading to fur
+author: Patrick Bareiss, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    error:
+      - AccessDenied
+      - OperationNotPermittedException
+    type: IAMUser
+    span: 1h
+  condition: selection
+tags:
+  - attack.t1580
+references:
+  - https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
+custom_attributes:
+  original_rule_id: a4f39755-b1e2-40bb-b2dc-4449c45b0bf2
+  source_format: splunk_spl

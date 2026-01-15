@@ -1,0 +1,24 @@
+title: Windows Attempt To Stop Security Service
+id: e9617285-a5cf-51a5-b769-3dacd1344a2f
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to stop security-related services on an endpoint, which may indicate malicious activity. It leverages data from Endpoint Detection and Response (EDR) agents, specifically searching for processes involving the "sc.exe" or "net.exe" command with the "stop" parameter or the PowerShell "Stop-Service" cmdlet. This activity is significant because disabling security services can undermine the organization's security posture, potentially leading to unauthorized ac
+author: Rico Valdez, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '* stop *'
+      - '*Stop-Service *'
+    category: security
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+custom_attributes:
+  original_rule_id: 9ed27cea-4e27-4eff-b2c6-aac9e78a7517
+  source_format: splunk_spl

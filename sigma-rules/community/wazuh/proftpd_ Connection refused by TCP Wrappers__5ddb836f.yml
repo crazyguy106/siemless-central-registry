@@ -1,0 +1,24 @@
+title: 'proftpd: Connection refused by TCP Wrappers.'
+id: bb2ab9fa-0a20-5cef-96e5-cb8dbf3791bd
+status: stable
+level: low
+description: 'proftpd: Connection refused by TCP Wrappers.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: refused connect from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+tags:
+  - attack.t1095
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11207
+  wazuh_level: 5

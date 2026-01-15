@@ -1,0 +1,29 @@
+title: PowerShell Script with Encryption/Decryption Capabilities
+id: 1d9aeb0b-9549-46f6-a32d-05e2a001b7fd
+status: stable
+level: medium
+description: 'Identifies the use of Cmdlets and methods related to encryption/decryption
+  of files in PowerShell scripts, which malware
+
+  and offensive security tools can abuse to encrypt data or decrypt payloads to bypass
+  security solutions.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-23'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: ("function
+    user_id: S-1-5-18
+    file_name: Bootstrap.Octopus.FunctionAppenderContext.ps1
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1027
+- attack.t1140
+falsepositives:
+- Legitimate PowerShell Scripts which makes use of encryption.

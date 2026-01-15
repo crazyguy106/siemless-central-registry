@@ -1,0 +1,24 @@
+title: O365 Threat Intelligence Suspicious Email Delivered
+id: 28213a8b-ed2a-5a1d-b38d-8cad4e2c3924
+status: stable
+level: medium
+description: |
+  The following analytic identifies when a suspicious email is detected within the Microsoft Office 365 ecosystem through the Advanced Threat Protection engine and delivered to an end user. Attackers may execute several attacks through email, any detections from built-in Office 365 capabilities should be monitored and responded to appropriately. Certain premium Office 365 capabilities such as Safe Attachment and Safe Links further enhance these detection and response functions.
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    workload: ThreatIntelligence
+    operation: TIMailData
+    directionality: InBound
+  condition: selection
+tags:
+  - attack.t1566.001
+  - attack.t1566.002
+references:
+  - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-protection-for-spo-odfb-teams-about?view=o365-worldwide
+  - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/office-365-ti?view=o365-worldwide
+custom_attributes:
+  original_rule_id: 605cc93a-70e4-4ee3-9a3d-1a62e8c9b6c2
+  source_format: splunk_spl

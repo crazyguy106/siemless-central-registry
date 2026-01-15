@@ -1,0 +1,31 @@
+title: Potential Successful SSH Brute Force Attack
+id: 8cb84371-d053-4f4f-bce0-c74990e28f28
+status: stable
+level: high
+description: 'Identifies multiple SSH login failures followed by a successful one
+  from the same source address. Adversaries can
+
+  attempt to login into multiple users with a common or known password to gain access
+  to accounts.'
+author: Elastic (converted by SIEMLess)
+date: '2022-09-14'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, source.ip, user.name with maxspan=15s\n \
+      \ [authentication where host.os.type == \"linux\" and event.action  in (\"ssh_login\"\
+      , \"user_login\") and\n   event.outcome == \"failure\" and source.ip != null\
+      \ and source.ip != \"0.0.0.0\" and source.ip != \"::\" ] with runs=10\n\n  [authentication\
+      \ where host.os.type == \"linux\" and event.action  in (\"ssh_login\", \"user_login\"\
+      ) and\n   event.outcome == \"success\" and source.ip != null and source.ip !=\
+      \ \"0.0.0.0\" and source.ip != \"::\" ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1110.001
+- attack.t1110.003
+- attack.t1110

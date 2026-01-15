@@ -1,0 +1,24 @@
+title: Cisco Duo Policy Allow Old Flash
+id: 3a112616-12b0-573b-8c27-f9f5cac37820
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where a Duo administrator creates or updates a policy to allow the use of outdated Flash components, specifically by detecting policy changes with the flash_remediation=no remediation attribute. It leverages Duo activity logs ingested via the Cisco Security Cloud App, searching for policy_update or policy_create actions and parsing the policy description for indicators of weakened security controls. This behavior is significant for a SOC because permit
+author: Patrick Bareiss, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    flash_remediation: no remediation
+    action:
+      - policy_update
+      - policy_create
+    input: description
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://splunkbase.splunk.com/app/7404
+custom_attributes:
+  original_rule_id: f36c0d3f-d57f-4b88-a5d4-0a4c9a0752f6
+  source_format: splunk_spl

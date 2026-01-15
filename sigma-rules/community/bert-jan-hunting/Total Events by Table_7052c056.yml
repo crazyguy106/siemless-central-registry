@@ -1,0 +1,22 @@
+title: Total Events by Table
+id: 5b82dd56-7ce9-4f1b-8d71-05e285559981
+status: experimental
+level: medium
+description: |
+  This query returns a table that shows the number of events for each data table that occurred in the last 30 days. This can returns information about the totalevens in all your Sentinel tables. Since you probably ingest more in Sentinel than you know, this query can result in discovering 'new' data sources to investigate.
+
+## Sentinel
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let TimeFrame = 30d
+union *
+| where TimeGenerated > startofday(ago(TimeFrame))
+| summarize TotalEvents = count() by Type
+| sort by TotalEvents asc
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

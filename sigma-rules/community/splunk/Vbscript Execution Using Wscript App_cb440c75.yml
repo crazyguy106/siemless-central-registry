@@ -1,0 +1,25 @@
+title: Vbscript Execution Using Wscript App
+id: df2f11fd-9467-5da8-a328-f10dbded6e79
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of VBScript using the wscript.exe application. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry. This activity is significant because wscript.exe is typically not used to execute VBScript, which is usually associated with cscript.exe. This deviation can indicate an attempt to evade traditional process monitoring and antivirus defenses. If confirmed malicious, this technique could allow
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    parent_process_name: wscript.exe
+    parent_process: '*//e:vbscript*'
+    process_name: wscript.exe
+    process: '*//e:vbscript*'
+  condition: selection
+tags:
+  - attack.t1059.005
+references:
+  - https://www.joesandbox.com/analysis/369332/0/html
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+custom_attributes:
+  original_rule_id: 35159940-228f-11ec-8a49-acde48001122
+  source_format: splunk_spl

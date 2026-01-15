@@ -1,0 +1,24 @@
+title: Windows Audit Policy Auditing Option Disabled via Auditpol
+id: 0897a7ba-ad1f-5fc6-9c1d-7c8b53b763a7
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of `auditpol.exe` with the "/set", "/option" and "/value:disable" command-line arguments used to disable specific auditing options of the audit policy. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity can be significant as it indicates potential defense evasion by adversaries or Red Teams, aiming to limit data that can be leveraged for detections and audits. If
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*FullPrivilegeAuditing*'
+      - '*AuditBaseObjects*'
+      - '*AuditBaseDirectories*'
+  condition: selection
+tags:
+  - attack.t1562.002
+references:
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/262a2bed-93d4-4c04-abec-cf06e9ec72fd
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-set
+custom_attributes:
+  original_rule_id: 663a7a50-b752-4c84-975b-8325ca3f6f9e
+  source_format: splunk_spl

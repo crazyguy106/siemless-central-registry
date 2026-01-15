@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Windows shared resource $(osquery.columns.name) with path $(osquery.columns.path) status is $(osquery.co'
+id: 8dcdc30b-a8ce-5c4a-8042-688d9d0282bc
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Windows shared resource $(osquery.columns.name) with path $(osquery.columns.path) status is $(osquery.columns.status)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: windows_shared_resources
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24112
+  wazuh_level: 4

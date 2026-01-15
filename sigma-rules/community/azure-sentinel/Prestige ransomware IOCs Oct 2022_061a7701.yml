@@ -1,0 +1,20 @@
+title: Prestige ransomware IOCs Oct 2022
+id: 60b546c9-b52f-5cb5-b111-07dec28d9246
+status: stable
+level: high
+description: '''This query looks for file hashes and AV signatures associated with Prestige ransomware payload.'''
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    ProductName: Microsoft Defender Advanced Threat Protection
+    Source: Microsoft-Windows-Sysmon
+    FileHash:
+      - sha256Hashes
+  condition: selection
+tags:
+  - attack.t1203
+custom_attributes:
+  original_rule_id: bca9c877-2afc-4246-a26d-087ab1cdcd5f
+  source_format: azure_kql

@@ -1,0 +1,28 @@
+title: GitHub Enterprise Or Organization Recovery Codes Activity
+id: 0035c240-45df-5a4b-b5bc-6fd323aaf1bd
+status: experimental
+level: medium
+description: |
+  Detects when the Single Sign-On (SSO) recovery codes are accessed for a GitHub enterprise or organization. An adversary may attempt to access or steal SSO recovery codes in order to maintain access to their target's GitHub environment.
+author: Google Cloud Security
+logsource:
+  product: github
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type:
+      - business.recovery_codes_downloaded
+      - business.recovery_codes_generated
+      - business.recovery_codes_printed
+      - business.recovery_codes_viewed
+      - org.recovery_codes_downloaded
+      - org.recovery_codes_generated
+      - org.recovery_codes_printed
+      - org.recovery_codes_viewed
+  condition: selection
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_2bb0bc58-b799-4b8f-96c3-f1cfd7cea201
+  source_format: chronicle_yaral

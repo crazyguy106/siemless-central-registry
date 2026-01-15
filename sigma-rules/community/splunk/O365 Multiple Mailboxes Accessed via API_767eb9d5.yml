@@ -1,0 +1,27 @@
+title: O365 Multiple Mailboxes Accessed via API
+id: 3d0ed240-253d-54ec-b26c-97834d59732f
+status: stable
+level: high
+description: |
+  The following analytic detects when a high number of Office 365 Exchange mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) within a short timeframe. It leverages 'MailItemsAccessed' operations in Exchange, using AppId and regex to identify API interactions. This activity is significant as it may indicate unauthorized mass email access, potentially signaling data exfiltration or account compromise. If confirmed malicious, attackers could gain access to sensitive inform
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    appid: 00000003-0000-0000-c000-000000000000
+    workload: Exchange
+    operation: MailItemsAccessed
+    span: 10m
+  condition: selection
+tags:
+  - attack.t1114.002
+references:
+  - https://attack.mitre.org/techniques/T1114/002/
+  - https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
+  - https://learn.microsoft.com/en-us/graph/permissions-reference
+  - https://attack.mitre.org/techniques/T1114/002/
+  - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+custom_attributes:
+  original_rule_id: 7cd853e9-d370-412f-965d-a2bcff2a2908
+  source_format: splunk_spl

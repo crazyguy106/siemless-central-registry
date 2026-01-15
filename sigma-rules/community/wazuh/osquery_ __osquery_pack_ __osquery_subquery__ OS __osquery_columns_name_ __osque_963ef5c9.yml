@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): OS $(osquery.columns.name) $(osquery.columns.version) $(osquery.columns.major).$(osquery.columns.minor) '
+id: ff8c6e0e-7843-5aec-b878-adb6fec43547
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): OS $(osquery.columns.name) $(osquery.columns.version) $(osquery.columns.major).$(osquery.columns.minor) $(osquery.columns.codename)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: os_version
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24104
+  wazuh_level: 4

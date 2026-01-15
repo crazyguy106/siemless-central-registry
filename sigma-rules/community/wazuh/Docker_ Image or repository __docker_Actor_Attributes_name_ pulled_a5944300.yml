@@ -1,0 +1,22 @@
+title: 'Docker: Image or repository $(docker.Actor.Attributes.name) pulled'
+id: 36f1cf1a-19d4-5dbe-af73-034e1e911b7d
+status: stable
+level: low
+description: 'Docker: Image or repository $(docker.Actor.Attributes.name) pulled'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^pull$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87932
+  wazuh_level: 3

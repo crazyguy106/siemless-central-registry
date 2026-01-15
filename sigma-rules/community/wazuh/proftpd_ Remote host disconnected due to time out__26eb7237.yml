@@ -1,0 +1,22 @@
+title: 'proftpd: Remote host disconnected due to time out.'
+id: b062d056-461b-5efd-91d3-65964a999d8f
+status: stable
+level: low
+description: 'proftpd: Remote host disconnected due to time out.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'FTP session idle timeout, disconnected'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11216
+  wazuh_level: 3

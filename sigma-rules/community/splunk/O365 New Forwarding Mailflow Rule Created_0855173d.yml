@@ -1,0 +1,24 @@
+title: O365 New Forwarding Mailflow Rule Created
+id: 26248d09-871b-5aef-8961-4d37ec0306cc
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of new mail flow rules in Office 365 that may redirect or copy emails to unauthorized or external addresses. It leverages Office 365 Management Activity logs, specifically querying for the "New-TransportRule" operation and parameters like "BlindCopyTo", "CopyTo", and "RedirectMessageTo". This activity is significant as it can indicate potential data exfiltration or unauthorized access to sensitive information. If confirmed malicious, attackers could in
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    operation: New-TransportRule
+    workload: Exchange
+  condition: selection
+tags:
+  - attack.t1114
+references:
+  - https://attack.mitre.org/techniques/T1114/
+  - https://learn.microsoft.com/en-us/exchange/security-and-compliance/mail-flow-rules/mail-flow-rules
+  - https://learn.microsoft.com/en-us/exchange/security-and-compliance/mail-flow-rules/mail-flow-rule-actions
+custom_attributes:
+  original_rule_id: 289ed0a1-4c78-4a43-9321-44ea2e089c14
+  source_format: splunk_spl

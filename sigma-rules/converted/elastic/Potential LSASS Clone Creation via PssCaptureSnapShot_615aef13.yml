@@ -1,0 +1,26 @@
+title: Potential LSASS Clone Creation via PssCaptureSnapShot
+id: a16612dd-b30e-4d41-86a0-ebe70974ec00
+status: stable
+level: high
+description: 'Identifies the creation of an LSASS process clone via PssCaptureSnapShot
+  where the parent process is the initial LSASS
+
+  process instance. This may indicate an attempt to evade detection and dump LSASS
+  memory for credential access.'
+author: Elastic (converted by SIEMLess)
+date: '2021-11-27'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1003.001
+references:
+- https://www.matteomalvica.com/blog/2019/12/02/win-defender-atp-cred-bypass/
+- https://medium.com/@Achilles8284/the-birth-of-a-process-part-2-97c6fb9c42a2

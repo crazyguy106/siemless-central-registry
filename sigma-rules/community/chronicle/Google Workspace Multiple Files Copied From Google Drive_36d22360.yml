@@ -1,0 +1,23 @@
+title: Google Workspace Multiple Files Copied From Google Drive
+id: 4a336565-ef76-595f-9b14-48cbe2d9de11
+status: experimental
+level: high
+description: |
+  Identifies when a user copies multiple files from Google Drive, which may indicate data exfiltration.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: drive
+    metadata_product_event_type:
+      - copy
+      - source_copy
+  condition: selection
+tags:
+  - attack.t1567
+custom_attributes:
+  original_rule_id: mr_dc187a73-9ea0-47bf-9a78-9a6f915de0f0
+  source_format: chronicle_yaral

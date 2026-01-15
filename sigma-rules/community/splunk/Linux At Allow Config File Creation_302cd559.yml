@@ -1,0 +1,23 @@
+title: Linux At Allow Config File Creation
+id: ed94c15d-2a21-5ab2-a7e4-e03f0f74f63d
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of the /etc/at.allow or /etc/at.deny configuration files in Linux. It leverages file creation events from the Endpoint datamodel to identify when these files are created. This activity is significant as these files control user permissions for the "at" scheduling application and can be abused by attackers to establish persistence. If confirmed malicious, this could allow unauthorized execution of malicious code, leading to potential data theft or furth
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/etc/at.allow'
+      - '*/etc/at.deny'
+  condition: selection
+tags:
+  - attack.t1053.003
+references:
+  - https://linuxize.com/post/at-command-in-linux/
+custom_attributes:
+  original_rule_id: 977b3082-5f3d-11ec-b954-acde48001122
+  source_format: splunk_spl

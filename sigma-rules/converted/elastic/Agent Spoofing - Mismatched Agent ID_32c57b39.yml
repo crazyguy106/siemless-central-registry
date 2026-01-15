@@ -1,0 +1,29 @@
+title: Agent Spoofing - Mismatched Agent ID
+id: 3115bd2c-0baa-4df0-80ea-45e474b5ef93
+status: stable
+level: high
+description: 'Detects events that have a mismatch on the expected event agent ID.
+  The status "agent_id_mismatch/mismatch" occurs when
+
+  the expected agent ID associated with the API key does not match the actual agent
+  ID in an event. This could indicate
+
+  attempts to spoof events in order to masquerade actual activity to evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2021-07-14'
+modified: '2025-11-13'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_agent_id_status: agent_id_mismatch
+    host_name: agentless-*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036
+falsepositives:
+- "    This is meant to run only on datasources using Elastic Agent 7.14+ since versions\
+  \ prior to that will be missing the\n    necessary field, resulting in false positives.\n\
+  \    "

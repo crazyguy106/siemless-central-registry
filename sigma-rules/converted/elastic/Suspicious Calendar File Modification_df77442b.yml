@@ -1,0 +1,29 @@
+title: Suspicious Calendar File Modification
+id: cb71aa62-55c8-42f0-b0dd-afb0bb0b1f51
+status: stable
+level: medium
+description: 'Identifies suspicious modifications of the calendar file by an unusual
+  process. Adversaries may create a custom calendar
+
+  notification procedure to execute a malicious program at a recurring interval to
+  establish persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-19'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+    event_action: modification
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1546
+references:
+- https://labs.f-secure.com/blog/operationalising-calendar-alerts-persistence-on-macos
+- https://github.com/FSecureLABS/CalendarPersist
+- https://github.com/D00MFist/PersistentJXA/blob/master/CalendarPersist.js
+falsepositives:
+- Trusted applications for managing calendars and reminders.

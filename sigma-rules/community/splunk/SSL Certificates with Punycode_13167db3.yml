@@ -1,0 +1,26 @@
+title: SSL Certificates with Punycode
+id: d795aafb-2ca0-58eb-bfbc-58134610bdbd
+status: experimental
+level: low
+description: |
+  The following analytic detects SSL certificates with Punycode domains in the SSL issuer email domain, identified by the prefix "xn--". It leverages the Certificates Datamodel to flag these domains and uses CyberChef for decoding. This activity is significant as Punycode can be used for domain spoofing and phishing attacks. If confirmed malicious, attackers could deceive users and systems, potentially leading to unauthorized access and data breaches.
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    infield: ssl_issuer_email_domain
+    outfield: convertedPuny
+    jsonrecipe: [{
+    punycode: 1
+  condition: selection
+tags:
+  - attack.t1573
+references:
+  - https://www.splunk.com/en_us/blog/security/nothing-puny-about-cve-2022-3602.html
+  - https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
+  - https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
+  - https://github.com/corelight/CVE-2022-3602/tree/master/scripts
+custom_attributes:
+  original_rule_id: 696694df-5706-495a-81f2-79501fa11b90
+  source_format: splunk_spl

@@ -1,0 +1,40 @@
+title: Execution of a Downloaded Windows Script
+id: 79543b00-28a5-4461-81ac-644c4dc4012f
+status: stable
+level: medium
+description: 'Identifies the creation of a Windows script downloaded from the internet
+  followed by the execution of a scripting utility.
+
+  Adversaries may use Windows script files for initial access and execution.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-31'
+modified: '2025-04-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, user.id with maxspan=3m\n[file where host.os.type\
+      \ == \"windows\" and event.action == \"creation\" and user.id != \"S-1-5-18\"\
+      \ and\n  process.name : (\"chrome.exe\", \"msedge.exe\", \"brave.exe\", \"browser.exe\"\
+      , \"dragon.exe\", \"vivaldi.exe\", \"explorer.exe\", \"winrar.exe\", \"7zFM.exe\"\
+      , \"7zG.exe\", \"Bandizip.exe\") and\n  file.extension in~ (\"js\", \"jse\"\
+      , \"vbs\", \"vbe\", \"wsh\", \"hta\", \"cmd\", \"bat\") and\n  (file.origin_url\
+      \ != null or file.origin_referrer_url != null)]\n[process where host.os.type\
+      \ == \"windows\" and event.type == \"start\" and\n process.parent.name : (\"\
+      chrome.exe\", \"msedge.exe\", \"brave.exe\", \"firefox.exe\", \"browser.exe\"\
+      , \"dragon.exe\", \"vivaldi.exe\", \"explorer.exe\", \"winrar.exe\", \"7zFM.exe\"\
+      , \"7zG.exe\", \"Bandizip.exe\") and \n process.args_count >= 2 and\n (\n  process.name\
+      \ in~ (\"wscript.exe\", \"mshta.exe\") or\n  (process.name : \"cmd.exe\" and\
+      \ process.command_line : (\"*.cmd*\", \"*.bat*\"))\n  )]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059.003
+- attack.t1059
+- attack.t1059.005
+- attack.t1218.005
+- attack.t1059.007
+- attack.t1218

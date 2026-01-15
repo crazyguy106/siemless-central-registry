@@ -1,0 +1,20 @@
+title: Service Principal Assigned Privileged Role
+id: b82d5aed-e626-501f-ac1f-ab20e4f09f89
+status: stable
+level: medium
+description: |
+  'Detects a privileged role being added to a Service Principal.   Ensure that any assignment to a Service Principal is valid and appropriate - Service Principals should not be assigned to very highly privileged roles such as Global Admin.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-privileged-accounts#changes-to-privileged-accounts'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    displayName: Role.DisplayName
+    Result: Success
+    type_: ServicePrincipal
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 84cccc86-5c11-4b3a-aca6-7c8f738ed0f7
+  source_format: azure_kql

@@ -1,0 +1,21 @@
+title: Unauthorized Logon actions by Domain and Account
+id: c3cf1545-3a39-4a04-bb59-50aef38f016c
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Unauthorized Logon actions by Domain and Account
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceLogonEvents
+| where isnotempty(FailureReason)
+| where FailureReason == "UnauthorizedLogonType"
+| summarize count() by AccountDomain, AccountName
+| sort by count_
+| render columnchart with(title="Unauthorized Logon by Domain and Account")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

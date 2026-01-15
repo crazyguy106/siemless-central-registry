@@ -1,0 +1,16 @@
+title: MacOS - Re-opened Applications
+id: 66501ec6-afec-5f7a-b75d-25f8822e9e12
+status: experimental
+level: high
+description: |
+  The following analytic identifies processes referencing plist files that determine which applications are re-opened when a user reboots their MacOS machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes related to "com.apple.loginwindow." This activity is significant because it can indicate attempts to persist across reboots, a common tactic used by attackers to maintain access. If confirmed malicious, this could allow an atta
+author: Jamie Windley, Splunk
+logsource:
+  product: macos
+detection:
+  selection:
+    process: '*com.apple.loginwindow*'
+  condition: selection
+custom_attributes:
+  original_rule_id: 40bb64f9-f619-4e3d-8732-328d40377c4b
+  source_format: splunk_spl

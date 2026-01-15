@@ -1,0 +1,41 @@
+title: Windows SQLCMD Execution
+id: d3ff77fd-46b7-5f4d-b25b-eba0e96ba4fa
+status: stable
+level: low
+description: |
+  This detection identifies potentially suspicious usage of sqlcmd.exe, focusing on command patterns that may indicate data exfiltration, reconnaissance, or malicious database operations. The detection looks for both short-form (-X) and long-form (--flag) suspicious parameter combinations, which have been observed in APT campaigns targeting high-value organizations. For example, threat actors like CL-STA-0048 have been known to abuse sqlcmd.exe for data theft and exfiltration from compromised MSSQ
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    risk_message: 'SQLCMD execution with risk factors: '
+    has_local_server:
+      - 1
+      - 1
+    risk_score: 0
+    has_url_input:
+      - 1
+      - 1
+    has_query:
+      - 1
+      - 1
+      - 1
+    is_help_check:
+      - 0
+      - 0
+      - 0
+    has_parameters: 1
+  condition: selection
+tags:
+  - attack.t1059.003
+references:
+  - https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility
+  - https://attack.mitre.org/techniques/T1078/
+  - https://attack.mitre.org/techniques/T1213/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1105/T1105.md#atomic-test-32---file-download-with-sqlcmdexe
+  - https://unit42.paloaltonetworks.com/espionage-campaign-targets-south-asian-entities/
+custom_attributes:
+  original_rule_id: 4e7c2f85-8f02-4bd2-a48b-5ec98a2c5f72
+  source_format: splunk_spl

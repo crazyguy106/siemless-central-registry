@@ -1,0 +1,20 @@
+title: Linux Auditd Auditd Daemon Shutdown
+id: 98bc4c24-62c5-5235-a011-dde36c513e11
+status: stable
+level: medium
+description: |
+  The following analytic detects the unexpected termination of the Linux Audit daemon (auditd) by monitoring for log entries of type DAEMON_END. This event signifies that the audit logging service has stopped, either due to a legitimate system shutdown, manual administrative action, or potentially malicious tampering. Since auditd is responsible for recording critical security events, its sudden stoppage may indicate an attempt to disable security monitoring or evade detection during an attack. Th
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    type: DAEMON_END
+  condition: selection
+tags:
+  - attack.t1562.012
+references:
+  - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/security_guide/sec-audit_record_types
+custom_attributes:
+  original_rule_id: 6e2574b3-e24b-4321-ae3c-ba83a75bb714
+  source_format: splunk_spl

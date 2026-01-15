@@ -1,0 +1,20 @@
+title: Wazuh - Large Number of Web errors from an IP
+id: 4730b00f-c88c-527c-a6b4-d2748e12523b
+status: stable
+level: low
+description: |
+  'Identifies instances where Wazuh logged over 400 '403' Web Errors from one IP Address. To onboard Wazuh data into Sentinel please view: https://github.com/wazuh/wazuh-documentation/blob/master/source/azure/monitoring%20activity.rst'
+author: Jordan Ross
+logsource:
+  product: azure
+detection:
+  selection:
+    DeviceProduct: Wazuh
+    Activity|contains: Web server 400 error code.
+    Message|contains: 403
+  condition: selection
+tags:
+  - attack.t1110
+custom_attributes:
+  original_rule_id: 2790795b-7dba-483e-853f-44aa0bc9c985
+  source_format: azure_kql

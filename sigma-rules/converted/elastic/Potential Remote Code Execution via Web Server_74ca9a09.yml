@@ -1,0 +1,96 @@
+title: Potential Remote Code Execution via Web Server
+id: f16fca20-4d6c-43f9-aec1-20b6de3b0aeb
+status: stable
+level: high
+description: 'Identifies suspicious commands executed via a web server, which may
+  suggest a vulnerability and remote shell access.
+
+  Attackers may exploit a vulnerability in a web application to execute commands via
+  a web server, or place a backdoor
+
+  file that can be abused to gain code execution as a mechanism for persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2023-03-04'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: phpquery
+    process_parent_executable|contains:
+    - /usr/sbin/nginx
+    - /usr/local/sbin/nginx
+    - /usr/sbin/apache
+    - /usr/local/sbin/apache
+    - /usr/sbin/apache2
+    - /usr/local/sbin/apache2
+    - /usr/sbin/php*
+    - /usr/local/sbin/php*
+    - /usr/sbin/lighttpd
+    - /usr/local/sbin/lighttpd
+    - /usr/sbin/hiawatha
+    - /usr/local/sbin/hiawatha
+    - /usr/local/bin/caddy
+    - /usr/local/lsws/bin/lswsctrl
+    - '*/bin/catalina.sh'
+    process_name|contains:
+    - bash
+    - dash
+    - sh
+    - tcsh
+    - csh
+    - zsh
+    - ksh
+    - fish
+    - python*
+    - php*
+    - perl
+    - ruby
+    - lua*
+    - openssl
+    - nc
+    - netcat
+    - ncat
+    - telnet
+    - awk
+    - socat
+    process_args|contains:
+    - whoami
+    - id
+    - uname
+    - cat
+    - hostname
+    - ip
+    - curl
+    - wget
+    - pwd
+    - ls
+    - cd
+    - python*
+    - php*
+    - perl
+    - ruby
+    - lua*
+    - openssl
+    - nc
+    - netcat
+    - ncat
+    - telnet
+    - awk
+    - socat
+  condition: selection
+tags:
+- attack.persistence
+- attack.initial_access
+- attack.t1505.003
+- attack.t1505
+- attack.t1190
+references:
+- https://pentestlab.blog/tag/web-shell/
+- https://www.elastic.co/security-labs/elastic-response-to-the-the-spring4shell-vulnerability-cve-2022-22965
+falsepositives:
+- "    Network monitoring or management products may have a web server component that\
+  \ runs shell commands as part of normal\n    behavior.\n    "

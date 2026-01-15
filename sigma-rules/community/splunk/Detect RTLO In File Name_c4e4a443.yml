@@ -1,0 +1,25 @@
+title: Detect RTLO In File Name
+id: 26a70d3a-9ed0-53f7-b9fe-13e5734c2ba2
+status: stable
+level: high
+description: |
+  The following analytic identifies the use of the right-to-left override (RTLO) character in file names. It leverages data from the Endpoint.Filesystem datamodel, specifically focusing on file creation events and file names containing the RTLO character (U+202E). This activity is significant because adversaries use RTLO to disguise malicious files as benign by reversing the text that follows the character. If confirmed malicious, this technique can deceive users and security tools, leading to the
+author: Steven Dick
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    file_name: \\x{202E}
+    field: file_name
+    file_name_with_rtlo: file_name
+  condition: selection
+tags:
+  - attack.t1036.002
+references:
+  - https://attack.mitre.org/techniques/T1036/002/
+  - https://resources.infosecinstitute.com/topic/spoof-using-right-to-left-override-rtlo-technique-2/
+  - https://www.trendmicro.com/en_us/research/17/f/following-trail-blacktech-cyber-espionage-campaigns.html
+custom_attributes:
+  original_rule_id: 468b7e11-d362-43b8-b6ec-7a2d3b246678
+  source_format: splunk_spl

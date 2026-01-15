@@ -1,0 +1,25 @@
+title: COM Registry Key Modified to Point to File in Color Profile Folder
+id: cda20282-0f41-5329-bf94-8600a1b4df1c
+status: stable
+level: medium
+description: |
+  'This query looks for changes to COM registry keys to point to files in C:\Windows\System32\spool\drivers\color\.   This can be used to enable COM hijacking for persistence.   Ref: https://www.microsoft.com/security/blog/2022/07/27/untangling-knotweed-european-private-sector-offensive-actor-using-0-day-exploits/'
+author: Microsoft Security Research
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    ActionType: RegistryValueSet
+    RegistryValueData|contains: System32\\spool\\drivers\\color
+    NewValue|contains: System32\\spool\\drivers\\color
+    RegistryKey:
+      - HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID
+    ObjectName:
+      - HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID
+  condition: selection
+tags:
+  - attack.t1574
+custom_attributes:
+  original_rule_id: ed8c9153-6f7a-4602-97b4-48c336b299e1
+  source_format: azure_kql

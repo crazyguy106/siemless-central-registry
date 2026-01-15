@@ -1,0 +1,35 @@
+title: Interactive Logon by an Unusual Process
+id: 61766ef9-48a5-4247-ad74-3349de7eb2ad
+status: stable
+level: high
+description: 'Identifies interactive logon attempt with alternate credentials and
+  by an unusual process. Adversaries may create a new
+
+  token to escalate privileges and bypass access controls.'
+author: Elastic (converted by SIEMLess)
+date: '2023-12-04'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    winlog_logon_type: Interactive
+    winlog_event_data_SubjectUserSid|contains:
+    - S-1-5-21*
+    - S-1-12-*
+    winlog_event_data_TargetUserSid|contains:
+    - S-1-5-21*
+    - S-1-12-*
+    process_executable|contains:
+    - ?:\\Windows\\System32\\winlogon.exe
+    - ?:\\Windows\\System32\\wininit.exe
+    - ?:\\Program Files\\*.exe
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1134
+- attack.t1134.002
+- attack.t1134.003
+references:
+- https://attack.mitre.org/techniques/T1134/002/

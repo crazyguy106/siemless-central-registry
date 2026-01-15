@@ -1,0 +1,53 @@
+title: Whoami Process Activity
+id: ef862985-3f13-4262-a686-5f357bbb9bc2
+status: stable
+level: low
+description: 'Identifies suspicious use of whoami.exe which displays user, group,
+  and privileges information for the user who is
+
+  currently logged on to the local system.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    user_domain|contains:
+    - NT *
+    - '* NT'
+    - IIS APPPOOL
+    user_id|contains:
+    - S-1-5-18
+    - S-1-5-19
+    - S-1-5-20
+    - S-1-5-82-*
+    event_dataset|contains:
+    - windows.sysmon_operational
+    - windows.sysmon
+    process_parent_args|contains:
+    - chcp 437>nul 2>&1 & C:\\WINDOWS\\System32\\whoami.exe  /groups
+    - chcp 437>nul 2>&1 & %systemroot%\\system32\\whoami /user
+    - C:\\WINDOWS\\System32\\whoami.exe /groups
+    - '*WINDOWS\\system32\\config\\systemprofile*'
+    process_parent_executable|contains:
+    - C:\\Program Files\\Microsoft Monitoring Agent\\Agent\\MonitoringHost.exe
+    - C:\\Program Files\\Cohesity\\cohesity_windows_agent_service.exe
+    process_parent_name|contains:
+    - wsmprovhost.exe
+    - w3wp.exe
+    - wmiprvse.exe
+    - rundll32.exe
+    - regsvr32.exe
+    winlog_event_data_SubjectUserName|endswith: $
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1033
+falsepositives:
+- "    Some normal use of this program, at varying levels of frequency, may originate\
+  \ from scripts, automation tools and\n    frameworks. Usage by non-engineers and\
+  \ ordinary users is unusual.\n    "

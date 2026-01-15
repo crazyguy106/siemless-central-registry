@@ -1,0 +1,27 @@
+title: Ollama Suspicious Prompt Injection Jailbreak
+id: b8cd11c9-2cd5-5780-84e1-f65c167b6d14
+status: experimental
+level: medium
+description: |
+  Detects potential prompt injection or jailbreak attempts against Ollama API endpoints by identifying requests with abnormally long response times. Attackers often craft complex, layered prompts designed to bypass AI safety controls, which typically result in extended processing times as the model attempts to parse and respond to these malicious inputs. This detection monitors /api/generate and /api/chat endpoints for requests exceeding 30 seconds, which may indicate sophisticated jailbreak techn
+author: Rod Soto
+logsource:
+  product: splunk
+detection:
+  selection:
+    attack_type: Potential Prompt Injection / Jailbreak
+    field:
+      - _raw
+      - response_time
+    src: src_ip
+    span: 10m
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1059
+references:
+  - https://github.com/rosplk/ta-ollama
+  - https://github.com/OWASP/www-project-ai-testing-guide
+custom_attributes:
+  original_rule_id: aac5df6f-9151-4da6-bdb2-5691aa6e376f
+  source_format: splunk_spl

@@ -1,0 +1,31 @@
+title: AWS Configuration Recorder Stopped
+id: fbd44836-0d69-4004-a0b4-03c20370c435
+status: stable
+level: high
+description: Identifies an AWS configuration change to stop recording a designated
+  set of resources.
+author: Elastic (converted by SIEMLess)
+date: '2020-06-16'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: config.amazonaws.com
+    event_action: StopConfigurationRecorder
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configservice/stop-configuration-recorder.html
+- https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html
+falsepositives:
+- "    Verify whether the user identity, user agent, and/or hostname should be making\
+  \ changes in your environment.\n    Recording changes from unfamiliar users or hosts\
+  \ should be investigated. If known behavior is causing false\n    positives, it\
+  \ can be exempted from the rule.\n    "

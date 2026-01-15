@@ -1,0 +1,21 @@
+title: AWS Account Leaving Or Removed From The Organization
+id: 115400c1-fe40-5fcb-bda9-c96b04cb3bfc
+status: experimental
+level: low
+description: Detect an AWS account attempting to leave or being removed from an AWS organization.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - LeaveOrganization
+      - RemoveAccountFromOrganization
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_eb9b7a74-0ad2-43e1-bf93-376844fe62b6
+  source_format: chronicle_yaral

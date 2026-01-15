@@ -1,0 +1,37 @@
+title: Exim brute force attack (multiple auth failures).
+id: 84eaa8dc-68dc-552b-9fa1-0abefd448a8e
+status: stable
+level: high
+description: Exim brute force attack (multiple auth failures).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 240s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-87506
+    window:
+      maxspan: 240s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87507
+  wazuh_level: 10

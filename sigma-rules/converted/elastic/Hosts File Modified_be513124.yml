@@ -1,0 +1,35 @@
+title: Hosts File Modified
+id: 9c260313-c811-4ec8-ab89-8f6530e0246c
+status: stable
+level: medium
+description: 'The hosts file on endpoints is used to control manual IP address to
+  hostname resolutions. The hosts file is the first
+
+  point of lookup for DNS hostname resolution so if adversaries can modify the endpoint
+  hosts file, they can route traffic
+
+  to malicious infrastructure. This rule detects modifications to the hosts file on
+  Microsoft Windows, Linux (Ubuntu or
+
+  RHEL) and macOS systems.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-07'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    file_path|contains:
+    - /private/etc/hosts
+    - /etc/hosts
+    - ?:\\Windows\\System32\\drivers\\etc\\hosts
+    process_args|contains: /etc/hosts
+  condition: selection
+tags:
+- attack.impact
+- attack.t1565.001
+- attack.t1565
+references:
+- https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-reference-yml.html

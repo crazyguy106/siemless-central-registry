@@ -1,0 +1,21 @@
+title: GraphAPIAuditEvents App Enrichment ExternalData Based
+id: 7c30e077-7d6a-4e22-a5e8-d1fbbc9e55ae
+status: experimental
+level: medium
+description: |
+  This query enriches the *GraphAPIAuditEvents* with Application information Using the Azure_Application_ID list developed by [@Beercow](https://github.com/Beercow) 1000+ AppIds can be enriched with the [externaldata operator](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/externaldata-operator?pivots=azuredataexplorer) resulting in the query below.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let ApplicationInformation = externaldata (ApplicationName: string, AppId: string, Reference: string ) [h"https://raw.githubusercontent.com/Beercow/Azure-App-IDs/master/Azure_Application_IDs.csv"] with (ignoreFirstRecord=true, format="csv");
+GraphAPIAuditEvents
+// Your filter here
+| take 1000
+| lookup kind=leftouter ApplicationInformation on $left.ApplicationId == $right.AppId
+| project-reorder ApplicationId, ApplicationName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

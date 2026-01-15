@@ -1,0 +1,33 @@
+title: Kernel Module Load via insmod
+id: 2339f03c-f53f-40fa-834b-40c5983fc41f
+status: stable
+level: medium
+description: 'Detects the use of the insmod binary to load a Linux kernel object file.
+  Threat actors can use this binary, given they
+
+  have root privileges, to load a rootkit on a system providing them with complete
+  control and the ability to hide from
+
+  security products. Manually loading a kernel module in this manner should not be
+  at all common and can indicate
+
+  suspcious or malicious behavior.'
+author: Elastic (converted by SIEMLess)
+date: '2022-07-11'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: insmod
+    process_args|endswith: .ko
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1547
+- attack.t1547.006
+references:
+- https://decoded.avast.io/davidalvarez/linux-threat-hunting-syslogk-a-kernel-rootkit-found-under-development-in-the-wild/

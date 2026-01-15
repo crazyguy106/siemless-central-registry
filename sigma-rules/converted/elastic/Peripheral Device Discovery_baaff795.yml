@@ -1,0 +1,23 @@
+title: Peripheral Device Discovery
+id: 0c7ca5c2-728d-4ad9-b1c5-bbba83ecb1f4
+status: stable
+level: low
+description: 'Identifies use of the Windows file system utility (fsutil.exe) to gather
+  information about attached peripheral devices
+
+  and components connected to a computer system.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-02'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: fsutil.exe
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1120

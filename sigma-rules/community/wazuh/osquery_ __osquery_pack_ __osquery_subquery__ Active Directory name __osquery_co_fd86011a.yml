@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Active Directory name $(osquery.columns.name) with domain $(osquery.columns.domain) has a value of $(osq'
+id: 5e9e52e0-2023-598a-83df-8dc42fa43c8f
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Active Directory name $(osquery.columns.name) with domain $(osquery.columns.domain) has a value of $(osquery.columns.value)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: ad_config
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24102
+  wazuh_level: 4

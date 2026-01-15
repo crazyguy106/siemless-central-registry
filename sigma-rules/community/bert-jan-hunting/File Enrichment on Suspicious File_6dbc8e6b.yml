@@ -1,0 +1,35 @@
+title: File Enrichment on Suspicious File
+id: 14be4e1b-a8ce-4fb1-afac-a5dceae4fcec
+status: experimental
+level: medium
+description: |
+  KQL detection rule: File Enrichment on Suspicious File
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let SuspiciousDownloadName = 'GoogleUpdateSetup.exe';
+DeviceFileEvents
+| where FileName == SuspiciousDownloadName
+| summarize
+     arg_max(Timestamp, *),
+     DeviceList = make_set(DeviceName),
+     FileLocations = make_set(FolderPath)
+     by SHA1
+// Add file details, for more details see: https://docs.microsoft.com/en-us/microsoft-365/security/defender/advanced-hunting-fileprofile-function?view=o365-worldwide
+| invoke FileProfile(SHA1, 1000)
+| project-reorder
+     Timestamp,
+     SHA1,
+     // GlobalPrevalence = Number of instances of the entity observed by Microsoft globally. The more instances, the more likely it is benign.
+     GlobalPrevalence,
+     GlobalFirstSeen,
+     Signer,
+     ThreatName,
+     DeviceList,
+     FileLocations
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

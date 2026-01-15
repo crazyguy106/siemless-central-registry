@@ -1,0 +1,30 @@
+title: Creation or Modification of Domain Backup DPAPI private key
+id: b83a7e96-2eb3-4edf-8346-427b6858d3bd
+status: stable
+level: high
+description: 'Identifies the creation or modification of Domain Backup private keys.
+  Adversaries may extract the Data Protection API
+
+  (DPAPI) domain backup key from a Domain Controller (DC) to be able to decrypt any
+  domain user master key file.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-13'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_name|contains:
+    - ntds_capi_*.pfx
+    - ntds_capi_*.pvk
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1552
+- attack.t1552.004
+- attack.t1555
+references:
+- https://www.dsinternals.com/en/retrieving-dpapi-backup-keys-from-active-directory/
+- https://posts.specterops.io/operational-guidance-for-offensive-user-dpapi-abuse-1fb7fac8b107

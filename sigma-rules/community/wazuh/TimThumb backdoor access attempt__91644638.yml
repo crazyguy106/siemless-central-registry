@@ -1,0 +1,24 @@
+title: TimThumb backdoor access attempt.
+id: 76117a0b-eaef-5e38-b959-be05d2e1b157
+status: stable
+level: medium
+description: TimThumb backdoor access attempt.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '"GET /\S+/cache/external\S+.php'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31100
+tags:
+  - attack.t1108
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31505
+  wazuh_level: 6

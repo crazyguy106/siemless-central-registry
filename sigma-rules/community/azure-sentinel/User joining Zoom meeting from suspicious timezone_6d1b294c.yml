@@ -1,0 +1,20 @@
+title: User joining Zoom meeting from suspicious timezone
+id: b6bffe54-2337-5cc0-a0f2-30a6f3281d49
+status: stable
+level: low
+description: |
+  'The alert shows users that join a Zoom meeting from a time zone other than the one the meeting was created in. You can also whitelist known good time zones in the tz_whitelist value using the tz database name format https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Event:
+      - meeting.created
+      - meeting.participant_joined
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 58fc0170-0877-4ea8-a9ff-d805e361cfae
+  source_format: azure_kql

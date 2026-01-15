@@ -1,0 +1,32 @@
+title: Machine Learning Detected a Suspicious Windows Event with a High Malicious
+  Probability Score
+id: 994e40aa-8c85-43de-825e-15f665375ee8
+status: stable
+level: high
+description: 'A supervised machine learning model (ProblemChild) has identified a
+  suspicious Windows process event with high
+
+  probability of it being malicious activity. Alternatively, the model''s blocklist
+  identified the event as being
+
+  malicious.'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-16'
+modified: '2025-09-08'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_args|contains:
+    - '*C:\\WINDOWS\\temp\\nessus_*.txt*'
+    - '*C:\\WINDOWS\\temp\\nessus_*.tmp*'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036.004
+- attack.t1036
+references:
+- https://www.elastic.co/guide/en/security/current/prebuilt-ml-jobs.html
+- https://docs.elastic.co/en/integrations/problemchild
+- https://www.elastic.co/security-labs/detecting-living-off-the-land-attacks-with-new-elastic-integration

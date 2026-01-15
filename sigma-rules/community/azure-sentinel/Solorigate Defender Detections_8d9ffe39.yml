@@ -1,0 +1,19 @@
+title: Solorigate Defender Detections
+id: cb15bf72-8f8f-5e0f-9344-821efa724df8
+status: stable
+level: high
+description: |
+  'Surfaces any Defender Alert for Solorigate Events. In Microsoft Sentinel the SecurityAlerts table includes only the Device Name of the affected device, this query joins the DeviceInfo table to clearly connect other information such as  Device group, ip, logged on users etc. This way, the Microsoft Sentinel user can have all the pertinent device info in one view for all the the Solarigate Defender alerts.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    ProviderName: MDATP
+    ThreatName|contains: Solorigate
+  condition: selection
+tags:
+  - attack.t1195
+custom_attributes:
+  original_rule_id: e70fa6e0-796a-4e85-9420-98b17b0bb749
+  source_format: azure_kql

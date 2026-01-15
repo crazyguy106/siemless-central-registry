@@ -1,0 +1,27 @@
+title: O365 New Federated Domain Added
+id: 541db56a-c7da-5fde-bb1c-907e38dec76d
+status: stable
+level: high
+description: |
+  The following analytic identifies the addition of a new federated domain in an Office 365 environment. This behavior is detected by analyzing Office 365 management activity logs, specifically filtering for Workload=Exchange and Operation="Add-FederatedDomain". The addition of a new federated domain is significant as it may indicate unauthorized changes or potential compromises. If confirmed malicious, attackers could establish a backdoor, bypass security measures, or exfiltrate data, leading to 
+author: Rod Soto, Mauricio Velazco Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    operation:
+      - '*add*'
+      - '*new*'
+    src: NA
+  condition: selection
+tags:
+  - attack.t1136.003
+references:
+  - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+  - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+  - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
+  - https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en
+  - https://o365blog.com/post/aadbackdoor/
+custom_attributes:
+  original_rule_id: e155876a-6048-11eb-ae93-0242ac130002
+  source_format: splunk_spl

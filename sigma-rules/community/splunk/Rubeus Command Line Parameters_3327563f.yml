@@ -1,0 +1,38 @@
+title: Rubeus Command Line Parameters
+id: d1ee07f4-29dc-50a1-935f-e7e0b38c1ce9
+status: stable
+level: high
+description: |
+  The following analytic detects the use of Rubeus command line parameters, a toolset for Kerberos attacks within Active Directory environments. It leverages Endpoint Detection and Response (EDR) data to identify specific command-line arguments associated with actions like ticket manipulation, kerberoasting, and password spraying. This activity is significant as Rubeus is commonly used by adversaries to exploit Kerberos for privilege escalation and lateral movement. If confirmed malicious, this co
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*ptt /ticket*'
+      - '* monitor /interval*'
+      - '* asktgt* /user:*'
+      - '* asktgs* /service:*'
+      - '* golden* /user:*'
+      - '* silver* /service:*'
+      - '* kerberoast*'
+      - '* asreproast*'
+      - '* renew* /ticket:*'
+      - '* brute* /password:*'
+      - '* brute* /passwords:*'
+      - '* harvest*'
+  condition: selection
+tags:
+  - attack.t1550.003
+  - attack.t1558.003
+  - attack.t1558.004
+references:
+  - https://github.com/GhostPack/Rubeus
+  - https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/
+  - https://attack.mitre.org/techniques/T1550/003/
+  - https://en.hackndo.com/kerberos-silver-golden-tickets/
+custom_attributes:
+  original_rule_id: cca37478-8377-11ec-b59a-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): dllhost.exe process masquerading detected, path is $(osquery.columns.path)'
+id: 1cb1eb6c-a6c5-566a-bcd6-6d97d2f0a032
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): dllhost.exe process masquerading detected, path is $(osquery.columns.path)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: dllhost.exe_incorrect_path
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+tags:
+  - attack.t1036
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24710
+  wazuh_level: 4

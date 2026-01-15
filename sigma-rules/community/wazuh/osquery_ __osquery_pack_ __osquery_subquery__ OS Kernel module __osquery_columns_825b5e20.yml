@@ -1,0 +1,23 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): OS Kernel module $(osquery.columns.name) is enabled and used by $(osquery.columns.used_by)'
+id: c88ddd33-0f55-5f57-a313-2cec5c416f00
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): OS Kernel module $(osquery.columns.name) is enabled and used by $(osquery.columns.used_by)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: kernel_modules
+    osquery.columns.status: Live
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24304
+  wazuh_level: 4

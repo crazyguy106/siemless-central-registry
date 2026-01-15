@@ -1,0 +1,26 @@
+title: 'Puppet Master: Deprecated'
+id: dabc3b2c-0cc4-5717-8b4b-b32baf7f5b41
+status: stable
+level: informational
+description: 'Puppet Master: Deprecated'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^Compiled catalog
+      - ^Reopening log
+      - is deprecated
+      - are deprecated
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80000
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80010
+  wazuh_level: 2

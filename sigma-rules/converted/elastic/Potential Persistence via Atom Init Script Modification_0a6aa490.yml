@@ -1,0 +1,26 @@
+title: Potential Persistence via Atom Init Script Modification
+id: b4449455-f986-4b5a-82ed-e36b129331f7
+status: stable
+level: low
+description: 'Identifies modifications to the Atom desktop text editor Init File.
+  Adversaries may add malicious JavaScript code to the
+
+  init.coffee file that will be executed upon the Atom application opening.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-21'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+    event_action: modification
+    user_name: root
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037
+references:
+- https://github.com/D00MFist/PersistentJXA/blob/master/AtomPersist.js
+- https://flight-manual.atom.io/hacking-atom/sections/the-init-file/

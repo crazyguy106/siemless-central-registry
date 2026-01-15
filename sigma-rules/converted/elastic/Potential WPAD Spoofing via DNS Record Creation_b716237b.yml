@@ -1,0 +1,28 @@
+title: Potential WPAD Spoofing via DNS Record Creation
+id: 894326d2-56c0-4342-b553-4abfaf421b5b
+status: stable
+level: medium
+description: 'Identifies the creation of a DNS record that is potentially meant to
+  enable WPAD spoofing. Attackers can disable the
+
+  Global Query Block List (GQBL) and create a "wpad" record to exploit hosts running
+  WPAD with default settings for
+
+  privilege escalation and lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-03'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '5137'
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1557
+references:
+- https://www.thehacker.recipes/ad/movement/mitm-and-coerced-authentications/wpad-spoofing#through-adidns-spoofing
+- https://cube0x0.github.io/Pocing-Beyond-DA/

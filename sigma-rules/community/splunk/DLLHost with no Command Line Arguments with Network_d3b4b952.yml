@@ -1,0 +1,25 @@
+title: DLLHost with no Command Line Arguments with Network
+id: b0df2bad-6c73-5a38-a5c7-c2345a03a209
+status: stable
+level: high
+description: |
+  The following analytic detects instances of DLLHost.exe running without command line arguments while establishing a network connection. This behavior is identified using Endpoint Detection and Response (EDR) telemetry,  focusing on process execution and network activity data.  It is significant because DLLHost.exe typically runs with specific arguments,  and its absence can indicate malicious activity, such as Cobalt Strike usage.  If confirmed malicious, this activity could allow attackers to e
+author: Steven Dick, Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process: (?i)(dllhost\.exe.{0,4}$)
+    span: 1h
+  filter:
+    action: blocked
+  condition: selection and not filter
+tags:
+  - attack.t1055
+references:
+  - https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
+  - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
+custom_attributes:
+  original_rule_id: f1c07594-a141-11eb-8407-acde48001122
+  source_format: splunk_spl

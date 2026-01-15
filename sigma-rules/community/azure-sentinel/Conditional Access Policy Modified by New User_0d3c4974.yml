@@ -1,0 +1,23 @@
+title: Conditional Access Policy Modified by New User
+id: 1e0e8984-4f8e-54b5-9fcc-1504e98b42fb
+status: stable
+level: medium
+description: |
+  'Detects a Conditional Access Policy being modified by a user who has not modified a policy in the last 14 days.   A threat actor may try to modify policies to weaken the security controls in place.   Investigate any change to ensure they are approved.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-infrastructure#conditional-access'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Result:
+      - success
+      - success
+    OperationName|contains:
+      - conditional access policy
+      - conditional access policy
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 25a7f951-54b7-4cf5-9862-ebc04306c590
+  source_format: azure_kql

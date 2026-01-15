@@ -1,0 +1,35 @@
+title: VShell host has exceeded the number of failed login attempts and has been added to the Hosts Deny file.
+id: 9d035792-1266-5118-89da-a1dd77afc531
+status: stable
+level: high
+description: VShell host has exceeded the number of failed login attempts and has been added to the Hosts Deny file.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 60s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 7
+  - type: sequence
+    parent_rule: wazuh-86802
+    window:
+      maxspan: 60s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-86807
+  wazuh_level: 12

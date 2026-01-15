@@ -1,0 +1,22 @@
+title: Windows Modify Registry DisableRemoteDesktopAntiAlias
+id: a1777989-f920-5dc7-8a2d-a79b0b95749b
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry key "DisableRemoteDesktopAntiAlias" with a value set to 0x00000001. This detection leverages data from the Endpoint datamodel, specifically monitoring changes in the Registry node. This activity is significant as it may indicate the presence of DarkGate malware, which alters this registry setting to enhance its remote desktop capabilities. If confirmed malicious, this modification could allow an attacker to maintain persistence
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Terminal Services\\DisableRemoteDesktopAntiAlias'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+custom_attributes:
+  original_rule_id: 4927c6f1-4667-42e6-bd7a-f5222116386b
+  source_format: splunk_spl

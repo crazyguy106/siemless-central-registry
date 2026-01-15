@@ -1,0 +1,45 @@
+title: Excessive Microsoft 365 Mailbox Items Accessed
+id: 7fc95782-4bd1-11f0-9838-f661ea17fbcd
+status: stable
+level: medium
+description: 'Identifies an excessive number of Microsoft 365 mailbox items accessed
+  by a user either via aggregated counts or
+
+  throttling. Microsoft audits mailbox access via the MailItemsAccessed event, which
+  is triggered when a user accesses
+
+  mailbox items. If more than 1000 mailbox items are accessed within a 24-hour period,
+  it is then throttled. Excessive
+
+  mailbox access may indicate an adversary attempting to exfiltrate sensitive information
+  or perform reconnaissance on a
+
+  target''s mailbox. This rule detects both the throttled and unthrottled events with
+  a high threshold.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-17'
+modified: '2025-06-17'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_action: MailItemsAccessed
+    event_code: ExchangeItemAggregated
+    o365_audit_OperationProperties_Name: IsThrottled
+    o365_audit_OperationProperties_Value: 'True'
+  condition: selection
+tags:
+- attack.collection
+- attack.t1114.002
+- attack.t1114
+references:
+- https://learn.microsoft.com/en-us/purview/audit-log-investigate-accounts#use-mailitemsaccessed-audit-records-for-forensic-investigations
+- https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/
+falsepositives:
+- "    Legitimate users may access a large number of mailbox items in a short period,\
+  \ especially in environments with high\n    email volume or during data migrations.\
+  \ If this is expected behavior, consider adjusting the rule or adding\n    exceptions\
+  \ for specific users or groups.\n    "

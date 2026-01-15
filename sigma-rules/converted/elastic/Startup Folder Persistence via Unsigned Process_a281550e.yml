@@ -1,0 +1,37 @@
+title: Startup Folder Persistence via Unsigned Process
+id: 2fba96c0-ade5-4bce-b92f-a5df2509da3f
+status: stable
+level: medium
+description: 'Identifies files written or modified in the startup folder by unsigned
+  processes. Adversaries may abuse this technique
+
+  to maintain persistence in an environment.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-29'
+modified: '2025-02-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.entity_id with maxspan=5s\n  [process\
+      \ where host.os.type == \"windows\" and event.type == \"start\" and process.code_signature.trusted\
+      \ == false and\n  /* suspicious paths can be added here  */\n   process.executable\
+      \ : (\"C:\\\\Users\\\\*.exe\",\n                         \"C:\\\\ProgramData\\\
+      \\*.exe\",\n                         \"C:\\\\Windows\\\\Temp\\\\*.exe\",\n \
+      \                        \"C:\\\\Windows\\\\Tasks\\\\*.exe\",\n            \
+      \             \"C:\\\\Intel\\\\*.exe\",\n                         \"C:\\\\PerfLogs\\\
+      \\*.exe\")\n   ]\n   [file where host.os.type == \"windows\" and event.type\
+      \ != \"deletion\" and user.domain != \"NT AUTHORITY\" and\n    file.path : (\"\
+      C:\\\\Users\\\\*\\\\AppData\\\\Roaming\\\\Microsoft\\\\Windows\\\\Start Menu\\\
+      \\Programs\\\\Startup\\\\*\",\n                 \"C:\\\\ProgramData\\\\Microsoft\\\
+      \\Windows\\\\Start Menu\\\\Programs\\\\StartUp\\\\*\")\n   ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547.001
+- attack.t1547
+- attack.t1036.001
+- attack.t1036

@@ -1,0 +1,18 @@
+title: Lsass Memory Dump via Comsvcs DLL
+id: a553a0d4-5f20-5c64-acf5-5a7ca8821c99
+status: experimental
+level: high
+description: |
+  Detects adversaries leveraging the MiniDump export function from comsvcs.dll via rundll32 to perform a memory dump from lsass
+author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: PROCESS_OPEN
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/proc_access_win_lsass_dump_comsvcs_dll.yml
+custom_attributes:
+  original_rule_id: mr_4efe14fb-53fb-49ba-b137-f5d70cb6adb9
+  source_format: chronicle_yaral

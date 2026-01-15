@@ -1,0 +1,21 @@
+title: Suspicious microsoft workflow compiler usage
+id: a729f0e4-0aa3-573f-8f2d-0cea430135a2
+status: stable
+level: high
+description: |
+  The following analytic identifies the usage of microsoft.workflow.compiler.exe, a rarely utilized executable typically found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution telemetry. The significance of this activity lies in its uncommon usage, which may indicate malicious intent such as code execution or persistence mechanisms. If confirmed malicious, an attacker could leverage th
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1127
+references:
+  - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
+custom_attributes:
+  original_rule_id: 9bbc62e8-55d8-11eb-ae93-0242ac130002
+  source_format: splunk_spl

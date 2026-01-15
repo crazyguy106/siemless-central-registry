@@ -1,0 +1,22 @@
+title: 'Apache: without resources to run.'
+id: f39d2b2a-7a77-54ca-9513-fc29d1f6542d
+status: stable
+level: high
+description: 'Apache: without resources to run.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'Resource temporarily unavailable:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-30101
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-30120
+  wazuh_level: 12

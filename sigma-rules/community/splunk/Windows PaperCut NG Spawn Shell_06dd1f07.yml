@@ -1,0 +1,23 @@
+title: Windows PaperCut NG Spawn Shell
+id: 41abe0d7-3685-57ff-91c2-7e2b6de0da71
+status: stable
+level: high
+description: |
+  The following analytic detects instances where the PaperCut NG application (pc-app.exe) spawns a Windows shell, such as cmd.exe or PowerShell. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process creation events where the parent process is pc-app.exe. This activity is significant as it may indicate an attacker attempting to gain unauthorized access or execute malicious commands on the system. If confirmed malicious, this could lead to unauthorize
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1059
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.cisa.gov/news-events/alerts/2023/05/11/cisa-and-fbi-release-joint-advisory-response-active-exploitation-papercut-vulnerability
+  - https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
+custom_attributes:
+  original_rule_id: a602d9a2-aaea-45f8-bf0f-d851168d61ca
+  source_format: splunk_spl

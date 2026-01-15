@@ -1,0 +1,33 @@
+title: 'Identity Guard: Multiple authentication failures.'
+id: 8e06eb6c-bbad-56a1-9ed1-04754e424e29
+status: stable
+level: high
+description: 'Identity Guard: Multiple authentication failures.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-85501
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-85502
+  wazuh_level: 10

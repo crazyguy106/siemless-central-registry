@@ -1,0 +1,26 @@
+title: 'sshd: authentication failed.'
+id: 85797ec0-ac97-5c08-8b4e-e95b54483099
+status: stable
+level: low
+description: 'sshd: authentication failed.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^Failed
+      - '^error: PAM: Authentication'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5716
+  wazuh_level: 5

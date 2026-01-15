@@ -1,0 +1,26 @@
+title: Linux SSH Authorized Keys Modification
+id: b533cf9b-6ea1-5fa7-9802-eff0ba2d1a24
+status: stable
+level: medium
+description: |
+  The following analytic detects the modification of SSH Authorized Keys on Linux systems. It leverages process execution data from Endpoint Detection and Response (EDR) agents, specifically monitoring commands like "bash" and "cat" interacting with "authorized_keys" files. This activity is significant as adversaries often modify SSH Authorized Keys to establish persistent access to compromised endpoints. If confirmed malicious, this behavior could allow attackers to maintain unauthorized access, 
+author: Michael Haag, Splunk
+logsource:
+  product: linux
+  category: authentication
+detection:
+  selection:
+    process_name:
+      - bash
+      - cat
+    process:
+      - '*/authorized_keys*'
+  condition: selection
+tags:
+  - attack.t1098.004
+references:
+  - https://redcanary.com/blog/lateral-movement-with-secure-shell/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1098.004/T1098.004.md
+custom_attributes:
+  original_rule_id: f5ab595e-28e5-4327-8077-5008ba97c850
+  source_format: splunk_spl

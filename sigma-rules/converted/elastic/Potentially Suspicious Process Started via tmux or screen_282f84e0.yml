@@ -1,0 +1,25 @@
+title: Potentially Suspicious Process Started via tmux or screen
+id: e0cc3807-e108-483c-bf66-5a4fbe0d7e89
+status: stable
+level: low
+description: 'This rule monitors for the execution of suspicious commands via screen
+  and tmux. When launching a command and detaching
+
+  directly, the commands will be executed in the background via its parent process.
+  Attackers may leverage screen or tmux
+
+  to execute commands while attempting to evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-04'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1218

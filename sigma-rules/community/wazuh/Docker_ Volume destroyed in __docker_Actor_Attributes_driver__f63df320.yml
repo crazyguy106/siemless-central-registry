@@ -1,0 +1,25 @@
+title: 'Docker: Volume destroyed in $(docker.Actor.Attributes.driver)'
+id: 5dd55526-2968-5578-b114-a42a746ce07a
+status: stable
+level: medium
+description: 'Docker: Volume destroyed in $(docker.Actor.Attributes.driver)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^destroy$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87912
+tags:
+  - attack.t1107
+  - attack.t1488
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87914
+  wazuh_level: 7

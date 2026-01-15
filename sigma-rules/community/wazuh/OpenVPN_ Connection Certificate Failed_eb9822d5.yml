@@ -1,0 +1,26 @@
+title: 'OpenVPN: Connection Certificate Failed'
+id: d1ce2832-bc86-5b1f-916d-d2971c1393c1
+status: stable
+level: low
+description: 'OpenVPN: Connection Certificate Failed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - TLS Error
+      - TLS Auth Error
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81800
+tags:
+  - attack.t1133
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81803
+  wazuh_level: 4

@@ -1,0 +1,23 @@
+title: List Lateral Movements Paths to Compromised Device
+id: e9c37ef5-d2db-4732-94bc-094ee04cd3fd
+status: experimental
+level: medium
+description: |
+  KQL detection rule: List Lateral Movements Paths to Compromised Device
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // List potential lateralmovement paths to compromised device
+let DeviceName = "testdevice.test.com";
+ExposureGraphEdges
+| where TargetNodeLabel == "device"
+| where TargetNodeName == DeviceName
+| summarize Total = dcount(SourceNodeName), Details = make_set(SourceNodeName) by EdgeLabel, TargetNodeName
+| extend Message = strcat(Total, " details ", EdgeLabel, " ", TargetNodeName)
+| project Message, Action = EdgeLabel, Details, Total, Target = TargetNodeName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

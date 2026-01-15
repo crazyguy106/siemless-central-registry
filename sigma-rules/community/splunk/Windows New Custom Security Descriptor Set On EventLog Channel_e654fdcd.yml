@@ -1,0 +1,22 @@
+title: Windows New Custom Security Descriptor Set On EventLog Channel
+id: bf53bc40-1771-5fcf-8e6a-d4bf5688301f
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious modifications to the EventLog security descriptor registry value for defense evasion. It leverages data from the Endpoint.Registry data model, focusing on changes to the "CustomSD" value within the "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Eventlog\<Channel>\CustomSD" path. This activity is significant as changes to the access permissions of the event log could blind security products and help attackers evade defenses. If confirmed malicious,
+author: Nasreddine Bencherchali, Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Services\\Eventlog\\*'
+    registry_value_name: CustomSD
+  condition: selection
+tags:
+  - attack.t1562.002
+references:
+  - https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/set-event-log-security-locally-or-via-group-policy
+  - https://attack.mitre.org/techniques/T1562/002/
+custom_attributes:
+  original_rule_id: c0e5dd5a-2117-41d5-a04c-82a762a86a38
+  source_format: splunk_spl

@@ -1,0 +1,34 @@
+title: Windows Domain Admin Impersonation Indicator
+id: 5bbb4192-6a9c-578a-974c-e66f06c6a45a
+status: stable
+level: high
+description: |
+  The following analytic identifies potential Kerberos ticket forging attacks, specifically the Diamond Ticket attack. This is detected when a user logs into a host and the GroupMembership field in event 4627 indicates a privileged group (e.g., Domain Admins), but the user does not actually belong to that group in the directory service. The detection leverages Windows Security Event Log 4627, which logs account logon events. The analytic cross-references the GroupMembership field from the event ag
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    username: NotDA
+    eventcode: 4627
+    logontype: 3
+    value: NotDA
+    targetusername:
+      - '*$'
+      - SYSTEM
+      - DWM-*
+      - LOCAL SERVICE
+      - NETWORK SERVICE
+      - ANONYMOUS LOGON
+      - UMFD-*
+  condition: selection
+tags:
+  - attack.t1558
+references:
+  - https://trustedsec.com/blog/a-diamond-in-the-ruff
+  - https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks
+  - https://github.com/GhostPack/Rubeus/pull/136
+  - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4627
+custom_attributes:
+  original_rule_id: 10381f93-6d38-470a-9c30-d25478e3bd3f
+  source_format: splunk_spl

@@ -1,0 +1,23 @@
+title: 'CIS-CAT: $(cis-data.rule_title) (unknown)'
+id: e2d44a3c-05da-5363-b05e-555dd32eba56
+status: stable
+level: low
+description: 'CIS-CAT: $(cis-data.rule_title) (unknown)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    type: ^scan_result$
+    cis-data.result: ^unknown$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87403
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87415
+  wazuh_level: 3

@@ -1,0 +1,40 @@
+title: Network Logon Provider Registry Modification
+id: 54c3d186-0461-4dc3-9b33-2dc5c7473936
+status: stable
+level: medium
+description: 'Identifies the modification of the network logon provider registry.
+  Adversaries may register a rogue network logon
+
+  provider module for persistence and/or credential access via intercepting the authentication
+  credentials in clear text
+
+  during user logon.'
+author: Elastic (converted by SIEMLess)
+date: '2021-03-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\SYSTEM\\*ControlSet*\\Services\\*\\NetworkProvider\\ProviderPath
+    - \\REGISTRY\\MACHINE\\SYSTEM\\*ControlSet*\\Services\\*\\NetworkProvider\\ProviderPath
+    registry_data_strings|contains:
+    - '%SystemRoot%\\System32\\ntlanman.dll'
+    - '%SystemRoot%\\System32\\drprov.dll'
+    - '%SystemRoot%\\System32\\davclnt.dll'
+    - '%SystemRoot%\\System32\\vmhgfs.dll'
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1556
+- attack.t1543
+references:
+- https://github.com/gtworek/PSBits/tree/master/PasswordStealing/NPPSpy
+- https://docs.microsoft.com/en-us/windows/win32/api/npapi/nf-npapi-nplogonnotify
+falsepositives:
+- Authorized third party network logon providers.

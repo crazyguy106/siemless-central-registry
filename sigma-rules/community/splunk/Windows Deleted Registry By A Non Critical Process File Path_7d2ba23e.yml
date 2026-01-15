@@ -1,0 +1,27 @@
+title: Windows Deleted Registry By A Non Critical Process File Path
+id: 40715d90-6b3e-5065-b3ae-9d5e82f4d46f
+status: stable
+level: medium
+description: |
+  The following analytic detects the deletion of registry keys by non-critical processes. It leverages Endpoint Detection and Response (EDR) data, focusing on registry deletion events and correlating them with processes not typically associated with system or program files. This activity is significant as it may indicate malware, such as the Double Zero wiper, attempting to evade defenses or cause destructive payload impacts. If confirmed malicious, this behavior could lead to significant system d
+author: Steven Dick, Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    action: deleted
+    span:
+      - 1h
+      - 1h
+    process_path:
+      - '*\\windows\\*'
+      - '*\\program files*'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+custom_attributes:
+  original_rule_id: 15e70689-f55b-489e-8a80-6d0cd6d8aad2
+  source_format: splunk_spl

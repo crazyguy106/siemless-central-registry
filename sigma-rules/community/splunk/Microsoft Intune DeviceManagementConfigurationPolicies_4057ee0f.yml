@@ -1,0 +1,27 @@
+title: Microsoft Intune DeviceManagementConfigurationPolicies
+id: 96c4cf14-1207-5283-8096-7493c5e7e63d
+status: stable
+level: low
+description: |
+  Microsoft Intune device management configuration policies are a tool administrators can use to remotely manage policies and settings on intune managed devices. This functionality can also be abused to disable defences & evade detection.  This detection identifies when a new device management configuration policy has been created.
+author: Dean Luxton
+logsource:
+  product: splunk
+detection:
+  selection:
+    operationname: '* DeviceManagementConfigurationPolicy*'
+    field: operationName
+  condition: selection
+tags:
+  - attack.t1072
+  - attack.t1484
+  - attack.t1021.007
+  - attack.t1562.001
+  - attack.t1562.004
+references:
+  - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
+  - https://securityintelligence.com/x-force/detecting-intune-lateral-movement/
+  - https://posts.specterops.io/maestro-9ed71d38d546
+custom_attributes:
+  original_rule_id: 3c49e5ed-625c-408c-a2c7-8e2b524efb2c
+  source_format: splunk_spl

@@ -1,0 +1,25 @@
+title: Kubernetes newly seen TCP edge
+id: 40033d16-3e70-55ef-9c85-3aec16b2934e
+status: experimental
+level: medium
+description: |
+  The following analytic identifies newly seen TCP communication between source and destination workload pairs within a Kubernetes cluster. It leverages Network Performance Monitoring metrics collected via an OTEL collector and pulled from Splunk Observability Cloud. The detection compares network activity over the last hour with the past 30 days to spot new inter-workload communications. This is significant as new connections can indicate changes in application behavior or potential security thre
+author: Matthew Moore, Splunk
+logsource:
+  product: kubernetes
+detection:
+  selection:
+    current:
+      - 'True'
+      - 'false'
+      - 'true'
+  filter:
+    current: 'false'
+  condition: selection and not filter
+tags:
+  - attack.t1204
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart
+custom_attributes:
+  original_rule_id: 13f081d6-7052-428a-bbb0-892c79ca7c65
+  source_format: splunk_spl

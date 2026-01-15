@@ -1,0 +1,36 @@
+title: AWS RDS DB Instance Made Public
+id: 9efb3f79-b77b-466a-9fa0-3645d22d1e7f
+status: stable
+level: medium
+description: Identifies the creation or modification of an AWS RDS DB instance to
+  enable public access. DB instances may contain sensitive data that can be abused
+  if shared with unauthorized accounts or made public. Adversaries may enable public
+  access on a DB instance to maintain persistence or evade defenses by bypassing access
+  controls.
+author: Elastic (converted by SIEMLess)
+date: '2024-06-29'
+modified: '2025-01-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: rds.amazonaws.com
+    event_outcome: success
+    event_action: ModifyDBInstance
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1556.009
+- attack.t1556
+references:
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBInstance.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html
+- https://cloud.hacktricks.xyz/pentesting-cloud/aws-security/aws-persistence/aws-rds-persistence#make-instance-publicly-accessible-rds-modifydbinstance
+- https://cloud.hacktricks.xyz/pentesting-cloud/aws-security/aws-privilege-escalation/aws-rds-privesc#rds-createdbinstance
+falsepositives:
+- "    Public access is a common configuration used to enable access from outside\
+  \ a private VPC. Ensure that the instance should not be modified in this way before\
+  \ taking action.\n    "

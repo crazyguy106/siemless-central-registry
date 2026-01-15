@@ -1,0 +1,22 @@
+title: 'CIS-CAT Report overview: Score less than 90% ($(cis-data.score) %)'
+id: 313e58b1-703d-5359-9dc6-54a64f432421
+status: stable
+level: low
+description: 'CIS-CAT Report overview: Score less than 90% ($(cis-data.score) %)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    cis-data.score: ^8\d
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87403
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87421
+  wazuh_level: 4

@@ -1,0 +1,33 @@
+title: Multiple Zeus warnings.
+id: 3347808c-1508-5922-a0e5-23c8b1cda255
+status: stable
+level: high
+description: Multiple Zeus warnings.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-31202
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31251
+  wazuh_level: 10

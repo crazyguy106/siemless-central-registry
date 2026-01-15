@@ -1,0 +1,26 @@
+title: O365 Email Suspicious Behavior Alert
+id: 4187bf08-e713-55f9-86a7-5c9f45063c07
+status: stable
+level: high
+description: |
+  The following analytic identifies when one of O365 the built-in security detections for suspicious email behaviors are triggered.  These alerts often indicate that an attacker may have compromised a mailbox within the environment. Any detections from built-in Office 365 capabilities should be monitored and responded to appropriately. Certain premium Office 365 capabilities further enhance these detection and response functions.
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    workload: SecurityComplianceCenter
+    operation: AlertEntityGenerated
+    name:
+      - Suspicious email sending patterns detected
+      - User restricted from sending email
+      - Suspicious Email Forwarding Activity
+      - Email sending limit exceeded
+  condition: selection
+tags:
+  - attack.t1114.003
+references:
+  - https://learn.microsoft.com/en-us/purview/alert-policies
+custom_attributes:
+  original_rule_id: 85c7555a-05af-4322-81aa-76b4ddf52baa
+  source_format: splunk_spl

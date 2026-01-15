@@ -1,0 +1,22 @@
+title: 'Docker: Volume created in $(docker.Actor.Attributes.driver)'
+id: d2926b2b-a6aa-5c7f-947f-88716d0c8f3b
+status: stable
+level: low
+description: 'Docker: Volume created in $(docker.Actor.Attributes.driver)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^create$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87912
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87913
+  wazuh_level: 3

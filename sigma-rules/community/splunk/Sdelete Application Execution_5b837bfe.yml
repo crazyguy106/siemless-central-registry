@@ -1,0 +1,23 @@
+title: Sdelete Application Execution
+id: a1d6d9d9-4353-5785-946f-c1411203b5a9
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the sdelete.exe application, a Sysinternals tool often used by adversaries to securely delete files and remove forensic evidence from a targeted host. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs. Monitoring this activity is crucial as sdelete.exe is not commonly used in regular operations and its presence may indicate an attempt to cover malicious activities. If confirmed malic
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process_name: sdelete.exe
+    original_file_name: sdelete.exe
+  condition: selection
+tags:
+  - attack.t1070.004
+  - attack.t1485
+references:
+  - https://app.any.run/tasks/956f50be-2c13-465a-ac00-6224c14c5f89/
+custom_attributes:
+  original_rule_id: 31702fc0-2682-11ec-85c3-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: GitHub Organizations Repository Archived
+id: a9094d2f-d3ed-5b6a-8bd1-bc3db865ac46
+status: stable
+level: medium
+description: |
+  The following analytic detects when a repository is archived in GitHub Organizations. The detection monitors GitHub Organizations audit logs for repository archival events by tracking actor details, repository information, and associated metadata. For a SOC, identifying repository archival is important as it could indicate attempts to make critical code inaccessible or preparation for repository deletion. While archiving is a legitimate feature, unauthorized archival of active repositories could
+author: Patrick Bareiss, Splunk
+logsource:
+  product: github
+detection:
+  selection:
+    user: actor
+  condition: selection
+tags:
+  - attack.t1485
+  - attack.t1195
+references:
+  - https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/
+  - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+custom_attributes:
+  original_rule_id: 4f568a0e-896f-4d94-a2f7-fa6d82ab1f77
+  source_format: splunk_spl

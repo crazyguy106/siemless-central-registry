@@ -1,0 +1,46 @@
+title: Systemd Generator Created
+id: 39c06367-b700-4380-848a-cab06e7afede
+status: stable
+level: medium
+description: 'This rule detects the creation of a systemd generator file. Generators
+  are small executables executed by systemd at
+
+  bootup and during configuration reloads. Their main role is to convert non-native
+  configuration and execution parameters
+
+  into dynamically generated unit files, symlinks, or drop-ins, extending the unit
+  file hierarchy for the service manager.
+
+  Systemd generators can be used to execute arbitrary code at boot time, which can
+  be leveraged by attackers to maintain
+
+  persistence on a Linux system.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-19'
+modified: '2025-01-24'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_Ext_original_extension: dpkg-new
+    file_path|contains:
+    - /run/systemd/system-generators/*
+    - /etc/systemd/system-generators/*
+    - /usr/local/lib/systemd/system-generators/*
+    - /lib/systemd/system-generators/*
+    - /usr/lib/systemd/system-generators/*
+    - /etc/systemd/user-generators/*
+    - /usr/local/lib/systemd/user-generators/*
+    - /usr/lib/systemd/user-generators/*
+    - /lib/systemd/user-generators/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1543.002
+- attack.t1543
+references:
+- https://pberba.github.io/security/2022/02/07/linux-threat-hunting-for-persistence-systemd-generators/
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

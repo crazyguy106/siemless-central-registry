@@ -1,0 +1,18 @@
+title: Windows Network Sniffing
+id: c9c27889-ba19-474c-8ee1-68ee39fa88da
+status: experimental
+level: medium
+description: |
+  In Windows the default tool Packet Monitor can be used to capture network traffic. This traffic might contain valueble information that an attacker can use. Valueble information can be found in HTTP traffic, because it goes unencrypted over the wire.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceProcessEvents
+| where FileName == "PktMon.exe"
+| project Timestamp, DeviceName, ProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

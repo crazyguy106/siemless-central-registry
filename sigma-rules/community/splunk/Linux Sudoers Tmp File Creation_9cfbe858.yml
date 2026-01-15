@@ -1,0 +1,22 @@
+title: Linux Sudoers Tmp File Creation
+id: 17b3e9fb-2245-5cdc-aba8-662e92f52f58
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of the "sudoers.tmp" file, which occurs when editing the /etc/sudoers file using visudo or another editor on a Linux platform. This detection leverages filesystem data to identify the presence of "sudoers.tmp" files. Monitoring this activity is crucial as adversaries may exploit it to gain elevated privileges on a compromised host. If confirmed malicious, this activity could allow attackers to modify sudoers configurations, potentially granting them un
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*sudoers.tmp*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://forum.ubuntuusers.de/topic/sudo-visudo-gibt-etc-sudoers-tmp/
+custom_attributes:
+  original_rule_id: be254a5c-63e7-11ec-89da-acde48001122
+  source_format: splunk_spl

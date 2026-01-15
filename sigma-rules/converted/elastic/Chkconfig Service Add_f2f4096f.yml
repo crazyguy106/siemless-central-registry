@@ -1,0 +1,33 @@
+title: Chkconfig Service Add
+id: b910f25a-2d44-47f2-a873-aabdc0d355e6
+status: stable
+level: medium
+description: 'Detects the use of the chkconfig binary to manually add a service for
+  management by chkconfig. Threat actors may utilize
+
+  this technique to maintain persistence on a system. When a new service is added,
+  chkconfig ensures that the service has
+
+  either a start or a kill entry in every runlevel and when the system is rebooted
+  the service file added will run
+
+  providing long-term persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2022-07-22'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    process_parent_args|contains:
+    - /var/tmp/rpm*
+    - /var/lib/waagent/*
+    process_args|endswith: chkconfig
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037
+references:
+- https://www.intezer.com/blog/research/lightning-framework-new-linux-threat/

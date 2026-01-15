@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Temperature sensor $(osquery.columns.name) is at $(osquery.columns.celsius) celsius'
+id: 648ecbb2-0acd-579d-9499-a27a282a5b42
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Temperature sensor $(osquery.columns.name) is at $(osquery.columns.celsius) celsius'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: temperatures
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24407
+  wazuh_level: 4

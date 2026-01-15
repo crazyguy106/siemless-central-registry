@@ -1,0 +1,45 @@
+title: Kubernetes Container Created with Excessive Linux Capabilities
+id: 7164081a-3930-11ed-a261-0242ac120002
+status: stable
+level: medium
+description: 'This rule detects a container deployed with one or more dangerously
+  permissive Linux capabilities. An attacker with the
+
+  ability to deploy a container with added capabilities could use this for further
+  execution, lateral movement, or
+
+  privilege escalation within a cluster. The capabilities detected in this rule have
+  been used in container escapes to the
+
+  host machine.'
+author: Elastic (converted by SIEMLess)
+date: '2022-09-20'
+modified: '2025-06-18'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: kubernetes.audit_logs
+    decision: allow
+    kubernetes_audit_verb: create
+    kubernetes_audit_objectRef_resource: pods
+    kubernetes_audit_requestObject_spec_containers_securityContext_capabilities_add: ("BPF
+    kubernetes_audit_requestObject_spec_containers_image: ("docker.elastic.co/beats/elastic-agent:8.4.0
+    lb: v0.3.5
+  condition: selection
+tags:
+- attack.execution
+- attack.privilege_escalation
+- attack.t1610
+- attack.t1611
+references:
+- https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container
+- https://0xn3va.gitbook.io/cheat-sheets/container/escaping/excessive-capabilities
+- https://man7.org/linux/man-pages/man7/capabilities.7.html
+- https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
+falsepositives:
+- "    Some container images require the addition of privileged capabilities. This\
+  \ rule leaves space for the exception of\n    trusted container images. To add an\
+  \ exception, add the trusted container image name to the query field,\n    kubernetes.audit.requestObject.spec.containers.image.\n\
+  \    "

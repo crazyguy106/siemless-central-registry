@@ -1,0 +1,24 @@
+title: Courier (imap/pop3) authentication failed.
+id: d8182ff8-c8e3-5b94-8337-5277c62bf4e9
+status: stable
+level: low
+description: Courier (imap/pop3) authentication failed.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - '^LOGIN FAILED,'
+      - 'FAILED:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3902
+  wazuh_level: 5

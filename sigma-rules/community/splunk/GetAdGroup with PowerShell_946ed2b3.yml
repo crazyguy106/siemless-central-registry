@@ -1,0 +1,21 @@
+title: GetAdGroup with PowerShell
+id: c48f9d2d-000c-5449-9ed2-a4ddcc67b218
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `powershell.exe` with the `Get-AdGroup` commandlet, which is used to query domain groups in a Windows Domain. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. Monitoring this activity is crucial as it may indicate an adversary or Red Team enumerating domain groups for situational awareness and Active Directory discovery. If confirmed malicious, this activity could
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: powershell.exe
+  condition: selection
+tags:
+  - attack.t1069.002
+references:
+  - https://attack.mitre.org/techniques/T1069/002/
+  - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
+custom_attributes:
+  original_rule_id: 872e3063-0fc4-4e68-b2f3-f2b99184a708
+  source_format: splunk_spl

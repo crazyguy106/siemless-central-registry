@@ -1,0 +1,29 @@
+title: KRBTGT Delegation Backdoor
+id: e052c845-48d0-4f46-8a13-7d0aba05df82
+status: stable
+level: high
+description: 'Identifies the modification of the msDS-AllowedToDelegateTo attribute
+  to KRBTGT. Attackers can use this technique to
+
+  maintain persistence to the domain by having the ability to request tickets for
+  the KRBTGT service.'
+author: Elastic (converted by SIEMLess)
+date: '2022-01-27'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '4738'
+    winlog_event_data_AllowedToDelegateTo|endswith: krbtgt*
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1098
+- attack.t1558
+references:
+- https://skyblue.team/posts/delegate-krbtgt
+- https://github.com/atc-project/atomic-threat-coverage/blob/master/Atomic_Threat_Coverage/Logging_Policies/LP_0026_windows_audit_user_account_management.md

@@ -1,0 +1,19 @@
+title: LSASS Process Memory Dump Files
+id: 9898474c-6a0b-5200-9a16-348a27745b1d
+status: experimental
+level: high
+description: |
+  Detects creation of files with names used by different memory dumping tools to create a memory dump of the LSASS process memory, which contains user credentials
+author: Florian Roth (Nextron Systems)
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: FILE_CREATION
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_lsass_default_dump_file_names.yml
+custom_attributes:
+  original_rule_id: mr_8fd8cb2b-18dc-468d-acdf-899da9f6de43
+  source_format: chronicle_yaral

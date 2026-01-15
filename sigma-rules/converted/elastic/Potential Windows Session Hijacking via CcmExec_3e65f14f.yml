@@ -1,0 +1,24 @@
+title: Potential Windows Session Hijacking via CcmExec
+id: e7357fec-6e9c-41b9-b93d-6e4fc40c7d47
+status: stable
+level: medium
+description: 'This detection rule identifies when ''SCNotification.exe'' loads an
+  untrusted DLL, which is a potential indicator of an
+
+  attacker attempt to hijack/impersonate a Windows user session.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-17'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: image_load
+detection:
+  selection:
+    host_os_type: windows
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1574
+references:
+- https://cloud.google.com/blog/topics/threat-intelligence/windows-session-hijacking-via-ccmexec
+- https://mayfly277.github.io/posts/SCCM-LAB-part0x3/#impersonate-users---revshell-connected-users

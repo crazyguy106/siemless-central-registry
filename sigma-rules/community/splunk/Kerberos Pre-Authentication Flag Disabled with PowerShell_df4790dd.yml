@@ -1,0 +1,26 @@
+title: Kerberos Pre-Authentication Flag Disabled with PowerShell
+id: 87bb5369-7b20-571b-ba66-ec5ce0f4910e
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the `Set-ADAccountControl` PowerShell cmdlet with parameters that disable Kerberos Pre-Authentication. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this specific command execution. Disabling Kerberos Pre-Authentication is significant because it allows adversaries to perform offline brute force attacks against user passwords using the AS-REP Roasting technique. If confirmed malicious, this activity could enable attackers to es
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    scriptblocktext:
+      - '*Set-ADAccountControl*'
+      - '*DoesNotRequirePreAuth:$true*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1558.004
+references:
+  - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+  - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
+  - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
+custom_attributes:
+  original_rule_id: 59b51620-94c9-11ec-b3d5-acde48001122
+  source_format: splunk_spl

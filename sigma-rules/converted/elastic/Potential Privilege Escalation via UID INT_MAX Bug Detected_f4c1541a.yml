@@ -1,0 +1,31 @@
+title: Potential Privilege Escalation via UID INT_MAX Bug Detected
+id: d55436a8-719c-445f-92c4-c113ff2f9ba5
+status: stable
+level: medium
+description: 'This rule monitors for the execution of the systemd-run command by a
+  user with a UID that is larger than the maximum
+
+  allowed UID size (INT_MAX). Some older Linux versions were affected by a bug which
+  allows user accounts with a UID
+
+  greater than INT_MAX to escalate privileges by spawning a shell through systemd-run.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-27'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: systemd-run
+    process_args: -t
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1068
+references:
+- https://twitter.com/paragonsec/status/1071152249529884674
+- https://github.com/mirchr/security-research/blob/master/vulnerabilities/CVE-2018-19788.sh
+- https://gitlab.freedesktop.org/polkit/polkit/-/issues/74

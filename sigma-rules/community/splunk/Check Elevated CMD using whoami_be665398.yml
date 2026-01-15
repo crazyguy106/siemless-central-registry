@@ -1,0 +1,22 @@
+title: Check Elevated CMD using whoami
+id: 9bad3c5f-6418-5cc6-a3f2-5391d15cbd9e
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of the "whoami" command with the "/group" flag, where the results are passed to the "find" command in order to look for a the string "12288". This string represents the SID of the group "Mandatory Label\High Mandatory Level" effectively checking if the current process is running as a "High" integrity process or with Administrator privileges. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line te
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*whoami*'
+      - '*/group*'
+      - '* find *'
+      - '*12288*'
+  condition: selection
+tags:
+  - attack.t1033
+custom_attributes:
+  original_rule_id: a9079b18-1633-11ec-859c-acde48001122
+  source_format: splunk_spl

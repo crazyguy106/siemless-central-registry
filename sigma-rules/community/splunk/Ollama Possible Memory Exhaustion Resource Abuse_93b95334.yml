@@ -1,0 +1,26 @@
+title: Ollama Possible Memory Exhaustion Resource Abuse
+id: 93999385-3d8e-5b2b-9529-ad6fad907b90
+status: experimental
+level: medium
+description: |
+  Detects abnormal memory allocation patterns and excessive runner operations in Ollama that may indicate resource exhaustion attacks, memory abuse through malicious model loading, or attempts to degrade system performance by overwhelming GPU/CPU resources. Adversaries may deliberately load multiple large models, trigger repeated model initialization cycles, or exploit memory allocation mechanisms to exhaust available system resources, causing denial of service conditions or degrading performance 
+author: Rod Soto
+logsource:
+  product: splunk
+detection:
+  selection:
+    attack_type: Resource Exhaustion / Memory Abuse
+    field:
+      - _raw
+      - _raw
+      - _raw
+      - _raw
+    span: 5m
+  condition: selection
+tags:
+  - attack.t1499
+references:
+  - https://github.com/rosplk/ta-ollama
+custom_attributes:
+  original_rule_id: ca96297f-e82e-4749-8cc9-d1ab555abb57
+  source_format: splunk_spl

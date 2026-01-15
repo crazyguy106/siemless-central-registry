@@ -1,0 +1,24 @@
+title: 'Arpwatch: Possible arpspoofing attempt.'
+id: b1f82f1b-6c11-5a92-8d9e-f24ff33c39a2
+status: stable
+level: medium
+description: 'Arpwatch: Possible arpspoofing attempt.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: ethernet mismatch
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-7200
+tags:
+  - attack.t1095
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-7209
+  wazuh_level: 7

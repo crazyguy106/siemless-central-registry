@@ -1,0 +1,22 @@
+title: 'The resource was newly discovered. AWS Config - History:  [$(aws.awsAccountId) $(aws.awsRegion)] [$(aws.resourceType)]: $(aws.resourceId) ($(aws.confi'
+id: 41ad0585-5c82-591a-900e-99506811a12f
+status: stable
+level: low
+description: 'The resource was newly discovered. AWS Config - History:  [$(aws.awsAccountId) $(aws.awsRegion)] [$(aws.resourceType)]: $(aws.resourceId) ($(aws.configurationItemStatus))'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.configurationItemStatus: ResourceDiscovered
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80451
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80454
+  wazuh_level: 3

@@ -1,0 +1,22 @@
+title: SUNBURST and SUPERNOVA backdoor hashes (Normalized File Events)
+id: f5b9e882-487b-5daf-92a9-ffe99687e7f6
+status: stable
+level: high
+description: |
+  Identifies SolarWinds SUNBURST and SUPERNOVA backdoor file hash IOCs in File Events To use this analytics rule, make sure you have deployed the [ASIM normalization parsers](https://aka.ms/ASimFileEvent) References: - https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html - https://gist.github.com/olafhartong/71ffdd4cab4b6acd5cbcd1a0691ff82f
+author: Yaron
+logsource:
+  product: github
+  category: file_event
+detection:
+  selection:
+    TargetFileMD5:
+      - SunburstMD5
+  condition: selection
+tags:
+  - attack.t1195
+  - attack.t1059
+  - attack.t1546
+custom_attributes:
+  original_rule_id: bc5ffe2a-84d6-48fe-bc7b-1055100469bc
+  source_format: azure_kql

@@ -1,0 +1,24 @@
+title: Samba connection denied.
+id: d3f3fea2-7e03-5c05-a283-16063082a862
+status: stable
+level: low
+description: Samba connection denied.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - Denied connection from
+      - Connection denied from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-13100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-13102
+  wazuh_level: 5

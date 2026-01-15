@@ -1,0 +1,27 @@
+title: 'Netscaler: UI/API dangerous command'
+id: 43019077-052b-5f59-9b53-f7651035041c
+status: stable
+level: high
+description: 'Netscaler: UI/API dangerous command'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - UI CMD_EXECUTED
+      - API CMD_EXECUTED
+    message|re: 'Command "(\.*delete\.*)"'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80100
+tags:
+  - attack.t1107
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80106
+  wazuh_level: 10

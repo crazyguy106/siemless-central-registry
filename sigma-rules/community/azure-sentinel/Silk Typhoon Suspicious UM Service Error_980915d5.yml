@@ -1,0 +1,20 @@
+title: Silk Typhoon Suspicious UM Service Error
+id: dc17bda0-5d9e-54aa-a7f7-d978a068a717
+status: stable
+level: low
+description: |
+  'This query looks for errors that may indicate that an attacker is attempting to exploit a vulnerability in the service.  Reference: https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    EventLog: Application
+    EventLevelName: error
+    Source|startswith: MSExchange
+  condition: selection
+tags:
+  - attack.t1190
+custom_attributes:
+  original_rule_id: 0625fcce-6d52-491e-8c68-1d9b801d25b9
+  source_format: azure_kql

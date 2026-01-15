@@ -1,0 +1,26 @@
+title: WMIC XSL Execution via URL
+id: 76b9e4b0-23d6-55cf-a860-76fecd6ddcd9
+status: stable
+level: high
+description: |
+  The following analytic detects `wmic.exe` loading a remote XSL script via a URL. This detection leverages Endpoint Detection and Response (EDR) data, focusing on command-line executions that include HTTP/HTTPS URLs and the /FORMAT switch. This activity is significant as it indicates a potential application control bypass, allowing adversaries to execute JScript or VBScript within an XSL file. If confirmed malicious, this technique can enable attackers to execute arbitrary code, escalate privileg
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*http://*'
+      - '*https://*'
+  condition: selection
+tags:
+  - attack.t1220
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md
+  - https://web.archive.org/web/20190814201250/https://subt0x11.blogspot.com/2018/04/wmicexe-whitelisting-bypass-hacking.html
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md#atomic-test-4---wmic-bypass-using-remote-xsl-file
+  - https://securitydatasets.com/notebooks/atomic/windows/defense_evasion/SDWIN-201017061100.html
+custom_attributes:
+  original_rule_id: 787e9dd0-4328-11ec-a029-acde48001122
+  source_format: splunk_spl

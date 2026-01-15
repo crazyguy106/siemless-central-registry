@@ -1,0 +1,20 @@
+title: First Time Seen Running Windows Service
+id: 1bc60715-937a-54fa-9909-737d5e95182f
+status: experimental
+level: medium
+description: |
+  The following analytic detects the first occurrence of a Windows service running in your environment. It leverages Windows system event logs, specifically EventCode 7036, to identify services entering the "running" state. This activity is significant because the appearance of a new or previously unseen service could indicate the installation of unauthorized or malicious software. If confirmed malicious, this activity could allow an attacker to execute arbitrary code, maintain persistence, or esc
+author: David Dorsey, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    state: running
+    eventcode: 7036
+    field: Message
+  condition: selection
+tags:
+  - attack.t1569.002
+custom_attributes:
+  original_rule_id: 823136f2-d755-4b6d-ae04-372b486a5808
+  source_format: splunk_spl

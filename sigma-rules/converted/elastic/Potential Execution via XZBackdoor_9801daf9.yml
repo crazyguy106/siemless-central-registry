@@ -1,0 +1,44 @@
+title: Potential Execution via XZBackdoor
+id: 7afc6cc9-8800-4c7f-be6b-b688d2dea248
+status: stable
+level: high
+description: 'It identifies potential malicious shell executions through remote SSH
+  and detects cases where the sshd service suddenly
+
+  terminates soon after successful execution, suggesting suspicious behavior similar
+  to the XZ backdoor.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-01'
+modified: '2025-11-14'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=1m\n  [process where host.os.type\
+      \ == \"linux\" and event.action == \"end\" and process.name == \"sshd\" and\
+      \ process.exit_code != 0] by process.entity_id\n  [process where host.os.type\
+      \ == \"linux\" and event.type == \"start\" and event.action == \"exec\" and\n\
+      \   process.parent.name == \"sshd\" and process.parent.args == \"-D\" and process.parent.args\
+      \ == \"-R\" and\n   process.name in (\"bash\", \"dash\", \"sh\", \"tcsh\", \"\
+      csh\", \"zsh\", \"ksh\", \"fish\") and process.args == \"-c\" and\n   not (\n\
+      \     process.args like (\"rsync*\", \"systemctl*\", \"/usr/sbin/unix_chkpwd\"\
+      , \"/usr/bin/google_authorized_keys\", \"/usr/sbin/aad_certhandler*\") or\n\
+      \     process.command_line like (\"sh -c /usr/bin/env -i PATH=*\", \"sh -c --\
+      \ /usr/bin/env -i PATH=*\") \n   )] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.lateral_movement
+- attack.credential_access
+- attack.t1021.004
+- attack.t1021
+- attack.t1563
+- attack.t1556
+- attack.t1563.001
+- attack.t1543
+references:
+- https://github.com/amlweems/xzbot
+- https://access.redhat.com/security/cve/CVE-2024-3094
+- https://www.elastic.co/security-labs/500ms-to-midnight

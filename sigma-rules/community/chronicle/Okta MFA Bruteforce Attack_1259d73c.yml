@@ -1,0 +1,22 @@
+title: Okta MFA Bruteforce Attack
+id: b8925322-78af-5d07-abc1-c289ecda330d
+status: experimental
+level: medium
+description: Detects a successful login after multiple failed MFA pushes
+author: Google Cloud Security
+logsource:
+  product: okta
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_event_type: USER_UNCATEGORIZED
+    metadata_product_event_type: system.push.send_factor_verify_push
+  condition: selection
+tags:
+  - attack.t1110
+references:
+  - https://sec.okta.com/pushfatigueworkflows
+custom_attributes:
+  original_rule_id: mr_61d8d679-bf4d-4441-bbbb-65f82a37e3c5
+  source_format: chronicle_yaral

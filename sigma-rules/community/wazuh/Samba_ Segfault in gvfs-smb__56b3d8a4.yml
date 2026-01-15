@@ -1,0 +1,21 @@
+title: 'Samba: Segfault in gvfs-smb.'
+id: 9c8b65a1-9f53-531e-846a-1451271806ff
+status: stable
+level: low
+description: 'Samba: Segfault in gvfs-smb.'
+author: Wazuh, Inc.
+logsource:
+  category: linux
+  service: kernel
+  product: wazuh
+detection:
+  selection:
+    message|contains: gvfsd-smb
+    message|re: segfault at \S+ ip \S+ sp \S+ error \d+ in
+  condition: selection
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-13112
+  wazuh_level: 3

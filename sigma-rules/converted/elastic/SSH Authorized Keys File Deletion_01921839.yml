@@ -1,0 +1,27 @@
+title: SSH Authorized Keys File Deletion
+id: 3c216ace-2633-4911-9aac-b61d4dc320e8
+status: stable
+level: low
+description: 'This rule detects the deletion of the authorized_keys or authorized_keys2
+  files on Linux systems. These files
+
+  are used to store public keys for SSH authentication. Unauthorized deletion of these
+  files can be an indicator
+
+  of an attacker removing access to the system, and may be a precursor to further
+  malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2025-02-21'
+modified: '2025-05-15'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: deletion
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.004
+- attack.t1070

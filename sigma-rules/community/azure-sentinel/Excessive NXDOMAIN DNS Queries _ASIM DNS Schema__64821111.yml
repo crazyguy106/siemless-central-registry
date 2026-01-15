@@ -1,0 +1,20 @@
+title: Excessive NXDOMAIN DNS Queries (ASIM DNS Schema)
+id: b7380960-6b23-557f-b34b-8fb6734a0b8e
+status: stable
+level: medium
+description: |
+  'This creates an incident in the event a client generates excessive amounts of DNS queries for non-existent domains.  This analytic rule uses [ASIM](https://aka.ms/AboutASIM) and supports any built-in or custom source that supports the ASIM DNS schema'
+author: Yaron
+logsource:
+  product: azure
+  category: network_connection
+detection:
+  selection:
+    DnsResponseCodeName: NXDOMAIN
+  condition: selection
+tags:
+  - attack.t1568
+  - attack.t1008
+custom_attributes:
+  original_rule_id: c3b11fb2-9201-4844-b7b9-6b7bf6d9b851
+  source_format: azure_kql

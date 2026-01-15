@@ -1,0 +1,27 @@
+title: Windows AD Domain Controller Promotion
+id: bb92b91f-f1ca-5024-b7aa-12c35eb214a8
+status: stable
+level: high
+description: |
+  The following analytic identifies a genuine Domain Controller (DC) promotion event by detecting when a computer assigns itself the necessary Service Principal Names (SPNs) to function as a domain controller. It leverages Windows Security Event Code 4742 to monitor existing domain controllers for these changes. This activity is significant as it can help identify rogue DCs added to the network, which could indicate a DCShadow attack. If confirmed malicious, this could allow an attacker to manipul
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    search: search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$
+    eventcode:
+      - 4742
+      - 4624
+    src_user: user
+    serviceprincipalnames:
+      - '*E3514235-4B06-11D1-AB04-00C04FC2DCD2/*'
+      - '*GC/*'
+  condition: selection
+tags:
+  - attack.t1207
+references:
+  - https://attack.mitre.org/techniques/T1207/
+custom_attributes:
+  original_rule_id: e633a0ef-2a6e-4ed7-b925-5ff999e5d1f0
+  source_format: splunk_spl

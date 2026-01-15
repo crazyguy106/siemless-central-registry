@@ -1,0 +1,22 @@
+title: GCP emergency event from VM $(gcp.jsonPayload.vmInstanceName) with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location) with res
+id: 3136d202-b59f-5a2d-9c49-7417918c5b19
+status: stable
+level: high
+description: GCP emergency event from VM $(gcp.jsonPayload.vmInstanceName) with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location) with response code $(gcp.jsonPayload.responseCode)
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.severity: ^EMERGENCY$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65003
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65017
+  wazuh_level: 12

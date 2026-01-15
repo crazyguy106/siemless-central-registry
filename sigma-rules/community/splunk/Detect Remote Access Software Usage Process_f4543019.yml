@@ -1,0 +1,28 @@
+title: Detect Remote Access Software Usage Process
+id: 3e3316b3-dded-50a6-b908-876a6bc1fc98
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of known remote access software within the environment. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes mapped to the Endpoint data model. We then compare with with a list of known remote access software shipped as a lookup file - remote_access_software. This activity is significant as adversaries often use remote access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintai
+author: Steven Dick, Sebastian Wurl, Splunk Community
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    isutility:
+      - 'TRUE'
+      - 'TRUE'
+  filter:
+    dest: unknown
+    user: unknown
+  condition: selection and not filter
+tags:
+  - attack.t1219
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+custom_attributes:
+  original_rule_id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
+  source_format: splunk_spl

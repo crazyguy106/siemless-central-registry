@@ -1,0 +1,25 @@
+title: ESXi User Granted Admin Role
+id: 30fbd115-498c-5aa1-b09c-5f0d07f3046c
+status: stable
+level: high
+description: |
+  This detection identifies when a user is granted the Administrator role on an ESXi host. Assigning elevated privileges is a critical action that can indicate potential malicious behavior if performed unexpectedly. Adversaries who gain access may use this to escalate privileges, maintain persistence, or disable security controls.
+author: Raven Tait, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    message:
+      - '*esxcli system permission set*'
+      - '*role Admin*'
+    field:
+      - _raw
+      - _raw
+      - _raw
+  condition: selection
+tags:
+  - attack.t1098
+  - attack.t1078
+custom_attributes:
+  original_rule_id: b0c64d6e-cfdf-441a-b6ce-d956e202563e
+  source_format: splunk_spl

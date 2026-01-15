@@ -1,0 +1,22 @@
+title: CMS (WordPress or Joomla) login attempt.
+id: 3693154e-bd57-5d4d-a8fc-d14669a909ed
+status: stable
+level: low
+description: CMS (WordPress or Joomla) login attempt.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '] "POST \S+wp-login.php| "POST /administrator'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31108
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31509
+  wazuh_level: 3

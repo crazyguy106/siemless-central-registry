@@ -1,0 +1,22 @@
+title: Google Workspace Admin Role Assignment
+id: ffc81f61-dd10-5c40-9421-e7bc87a9100a
+status: experimental
+level: high
+description: |
+  Identifies when an administrator role is assigned to a user account in Google Workspace. Security teams can monitor for the malicious or accidental assignment of administrator privileges to prevent unauthorized access to data.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: admin
+    metadata_event_type: USER_RESOURCE_UPDATE_PERMISSIONS
+    metadata_product_event_type: ASSIGN_ROLE
+    security_result_category_details: DELEGATED_ADMIN_SETTINGS
+  condition: selection
+tags:
+  - attack.t1098
+custom_attributes:
+  original_rule_id: mr_0c547820-1095-42a1-94d8-a00d5ef2df76
+  source_format: chronicle_yaral

@@ -1,0 +1,44 @@
+title: Accepted Default Telnet Port Connection
+id: 34fde489-94b0-4500-a76f-b8a157cf9269
+status: stable
+level: medium
+description: 'This rule detects network events that may indicate the use of Telnet
+  traffic. Telnet is commonly used by system
+
+  administrators to remotely control older or embedded systems using the command line
+  shell. It should almost never be
+
+  directly exposed to the Internet, as it is frequently targeted and exploited by
+  threat actors as an initial access or
+
+  backdoor vector. As a plain-text protocol, it may also expose usernames and passwords
+  to anyone capable of observing the
+
+  traffic.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_dataset: network_traffic.flow
+    event_category: (network
+    event_type: connection
+    event_action: (
+    destination_port: '23'
+  condition: selection
+tags:
+- attack.initial_access
+- attack.lateral_movement
+- attack.command_and_control
+- attack.t1021
+- attack.t1190
+falsepositives:
+- "    IoT (Internet of Things) devices and networks may use telnet and can be excluded\
+  \ if desired. Some business\n    work-flows may use Telnet for administration of\
+  \ older devices. These often have a predictable behavior. Telnet\n    activity involving\
+  \ an unusual source or destination may be more suspicious. Telnet activity involving\
+  \ a production\n    server that has no known associated Telnet work-flow or business\
+  \ requirement is often suspicious.\n    "

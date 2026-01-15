@@ -1,0 +1,24 @@
+title: Windows IIS Components Module Failed to Load
+id: 5aa26fb6-a584-545c-a350-c7095e5c8a57
+status: stable
+level: medium
+description: |
+  The following analytic detects when an IIS Module DLL fails to load due to a configuration problem, identified by EventCode 2282. This detection leverages Windows Application event logs to identify repeated failures in loading IIS modules. Such failures can indicate misconfigurations or potential tampering with IIS components. If confirmed malicious, this activity could lead to service disruptions or provide an attacker with opportunities to exploit vulnerabilities within the IIS environment. Im
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 2282
+  condition: selection
+tags:
+  - attack.t1505.004
+references:
+  - https://social.technet.microsoft.com/wiki/contents/articles/21757.event-id-2282-iis-worker-process-availability.aspx
+  - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
+  - https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
+  - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
+  - https://www.secureworks.com/research/bronze-union
+custom_attributes:
+  original_rule_id: 40c2ba5b-dd6a-496b-9e6e-c9524d0be167
+  source_format: splunk_spl

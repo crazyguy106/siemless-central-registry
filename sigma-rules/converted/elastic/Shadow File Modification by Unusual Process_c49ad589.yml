@@ -1,0 +1,30 @@
+title: Shadow File Modification by Unusual Process
+id: cdf1a39b-1ca5-4e2a-9739-17fc4d026029
+status: stable
+level: low
+description: 'This rule monitors for Linux Shadow file modifications. These modifications
+  are indicative of a potential password
+
+  change or user addition event. Threat actors may attempt to create new users or
+  change the password of a user account to
+
+  maintain access to a system.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-05'
+modified: '2025-01-24'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: change
+    event_action: rename
+    file_path: /etc/shadow
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1098
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

@@ -1,0 +1,29 @@
+title: Potential Privilege Escalation via InstallerFileTakeOver
+id: 58c6d58b-a0d3-412d-b3b8-0981a9400607
+status: stable
+level: high
+description: 'Identifies a potential exploitation of InstallerTakeOver (CVE-2021-41379)
+  default PoC execution. Successful exploitation
+
+  allows an unprivileged user to escalate privileges to SYSTEM.'
+author: Elastic (converted by SIEMLess)
+date: '2021-11-25'
+modified: '2025-02-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: elevation_service.exe
+    process_name|contains:
+    - rundll32.exe
+    - cmd.exe
+    - powershell.exe
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1068
+references:
+- https://github.com/klinix5/InstallerFileTakeOver

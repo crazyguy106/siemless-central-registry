@@ -1,0 +1,29 @@
+title: Potential Persistence via Login Hook
+id: ac412404-57a5-476f-858f-4e8fbb4f48d8
+status: stable
+level: medium
+description: 'Identifies the creation or modification of the login window property
+  list (plist). Adversaries may modify plist files to
+
+  run a program during system boot or user login for persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-21'
+modified: '2025-01-15'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    event_category: file
+    host_os_type: macos
+    event_type: deletion
+    file_name: com.apple.loginwindow.plist
+    process_name: (systemmigrationd
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547
+- attack.t1647
+references:
+- https://github.com/D00MFist/PersistentJXA/blob/master/LoginScript.js

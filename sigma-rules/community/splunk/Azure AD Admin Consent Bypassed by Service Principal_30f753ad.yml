@@ -1,0 +1,23 @@
+title: Azure AD Admin Consent Bypassed by Service Principal
+id: c4f69c25-38a4-5d90-9f85-75ccb7b6b9f9
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where a service principal in Azure Active Directory assigns app roles without standard admin consent. It uses Entra ID logs from the `azure_monitor_aad` data source, focusing on the "Add app role assignment to service principal" operation. This detection is significant as it highlights potential bypasses of critical administrative consent processes, which could lead to unauthorized privileges being granted. If confirmed malicious, this activity could a
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname:
+      - Add app role assignment to service principal
+      - Add member to role*
+    src_user_type: servicePrincipal
+  condition: selection
+tags:
+  - attack.t1098.003
+references:
+  - https://attack.mitre.org/techniques/T1098/003/
+custom_attributes:
+  original_rule_id: 9d4fea43-9182-4c5a-ada8-13701fd5615d
+  source_format: splunk_spl

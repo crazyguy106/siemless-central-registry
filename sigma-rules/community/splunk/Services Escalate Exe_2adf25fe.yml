@@ -1,0 +1,22 @@
+title: Services Escalate Exe
+id: 95da245b-8315-54bb-85cd-61d0d45f9d78
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of a randomly named binary via `services.exe`, indicative of privilege escalation using Cobalt Strike's `svc-exe`. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process lineage and command-line executions. This activity is significant as it often follows initial access, allowing adversaries to escalate privileges and establish persistence. If confirmed malicious, this behavior could enable attackers to
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1548
+references:
+  - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+  - https://attack.mitre.org/techniques/T1548/
+  - https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1085
+custom_attributes:
+  original_rule_id: c448488c-b7ec-11eb-8253-acde48001122
+  source_format: splunk_spl

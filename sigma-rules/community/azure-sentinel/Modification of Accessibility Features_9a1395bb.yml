@@ -1,0 +1,18 @@
+title: Modification of Accessibility Features
+id: 899090fc-1652-5a79-94d6-6e9cdda057db
+status: stable
+level: medium
+description: |
+  'Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by accessibility features. Windows contains accessibility features that may be launched with a key combination before a user has logged in (ex: when the user is on the Windows logon screen). An adversary can modify the way these programs are launched to get a command prompt or backdoor without logging in to the system. Two common accessibility programs are C:\Windows\System32\sethc.exe, laun
+author: Vasileios Paschalidis
+logsource:
+  product: windows
+detection:
+  selection:
+    EventLog: Microsoft-Windows-Sysmon/Operational
+  condition: selection
+tags:
+  - attack.t1546.008
+custom_attributes:
+  original_rule_id: d714ef62-1a56-4779-804f-91c4158e528d
+  source_format: azure_kql

@@ -1,0 +1,51 @@
+title: Suspicious Installer Package Spawns Network Event
+id: 99239e7d-b0d4-46e3-8609-acafcf99f68c
+status: stable
+level: medium
+description: 'Detects the execution of a MacOS installer package with an abnormal
+  child process (e.g bash) followed immediately by a
+
+  network connection via a suspicious process (e.g curl). Threat actors will build
+  and distribute malicious MacOS
+
+  installer packages, which have a .pkg extension, many times imitating valid software
+  in order to persuade and infect
+
+  their victims often using the package files (e.g pre/post install scripts etc.)
+  to download additional tools or
+
+  malicious software. If this rule fires it should indicate the installation of a
+  malicious or suspicious package.'
+author: Elastic (converted by SIEMLess)
+date: '2021-02-23'
+modified: '2025-04-21'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    _original_eql: 'sequence by host.id, process.entity_id with maxspan=15s
+
+      [process where host.os.type == "macos" and event.type == "start" and event.action
+      == "exec" and process.parent.name like~ ("installer", "package_script_service")
+      and ((process.name in ("bash", "sh", "zsh") and process.args == "-c") or (process.name
+      like~ ("python*", "osascript", "tclsh*", "curl", "nscurl")))]
+
+      [network where host.os.type == "macos" and event.type == "start"]'
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1071.001
+- attack.t1059
+- attack.t1071
+- attack.t1059.007
+references:
+- https://redcanary.com/blog/clipping-silver-sparrows-wings
+- https://posts.specterops.io/introducing-mystikal-4fbd2f7ae520
+- https://github.com/D00MFist/Mystikal
+falsepositives:
+- "    Custom organization-specific macOS packages that use .pkg files to run cURL\
+  \ could trigger this rule. If known\n    behavior is causing false positives, it\
+  \ can be excluded from the rule.\n    "

@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): OS X Kernel extension $(osquery.columns.name) with version $(osquery.columns.version) is loaded'
+id: cb25fac6-a4d2-53ad-939c-e414ae7b6ebe
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): OS X Kernel extension $(osquery.columns.name) with version $(osquery.columns.version) is loaded'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: kernel_extensions
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24413
+  wazuh_level: 4

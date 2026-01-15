@@ -1,0 +1,27 @@
+title: Windows File Download Via CertUtil
+id: 6eef87a5-ce01-5996-9d5e-d407db7f6063
+status: stable
+level: high
+description: |
+  The following analytic detects the use of `certutil.exe` to download files using the `-URL`, `-urlcache` or '-verifyctl' arguments. This behavior is identified by monitoring command-line executions for these specific arguments via Endpoint Detection and Response (EDR) telemetry. This activity is significant because `certutil.exe` is a legitimate tool often abused by attackers to download and execute malicious payloads. If confirmed malicious, this could allow an attacker to download and execute 
+author: Nasreddine Bencherchali, Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*/f *'
+      - '*-f *'
+  condition: selection
+tags:
+  - attack.t1105
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/
+  - https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
+  - https://web.archive.org/web/20210921110637/https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
+  - https://lolbas-project.github.io/lolbas/Binaries/Certutil/
+custom_attributes:
+  original_rule_id: 7fac8d40-e370-45ea-a4a3-031bbcc18b02
+  source_format: splunk_spl

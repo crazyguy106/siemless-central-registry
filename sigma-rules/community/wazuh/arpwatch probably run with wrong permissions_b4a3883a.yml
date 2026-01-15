@@ -1,0 +1,22 @@
+title: arpwatch probably run with wrong permissions
+id: a2f5b17b-71ec-5925-8063-071c538e249c
+status: stable
+level: informational
+description: arpwatch probably run with wrong permissions
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '/dev/bpf0: Permission denied'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-7200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-7207
+  wazuh_level: 1

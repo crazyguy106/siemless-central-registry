@@ -1,0 +1,32 @@
+title: Windows LOLBAS Executed As Renamed File
+id: e75ce660-e6b3-5437-a465-d9f79a178658
+status: stable
+level: high
+description: |
+  The following analytic identifies a LOLBAS process being executed where it's process name does not match it's original file name attribute. Processes that have been renamed and executed may be an indicator that an adversary is attempting to evade defenses or execute malicious code. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
+author: Steven Dick
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    original_file_name:
+      - '-'
+      - unknown
+    process_path:
+      - '*\\Program Files*'
+      - '*\\PROGRA~*'
+      - '*\\Windows\\System32\\*'
+      - '*\\Windows\\Syswow64\\*'
+  filter:
+    desc: 'false'
+  condition: selection and not filter
+tags:
+  - attack.t1036.003
+  - attack.t1218.011
+references:
+  - https://attack.mitre.org/techniques/T1036/
+  - https://attack.mitre.org/techniques/T1036/003/
+custom_attributes:
+  original_rule_id: fd496996-7d9e-4894-8d40-bb85b6192dc6
+  source_format: splunk_spl

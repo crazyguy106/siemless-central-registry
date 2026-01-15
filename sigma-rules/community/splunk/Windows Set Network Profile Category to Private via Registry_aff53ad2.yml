@@ -1,0 +1,23 @@
+title: Windows Set Network Profile Category to Private via Registry
+id: c982fdab-7da7-5d06-9ef3-1ca865f732e9
+status: stable
+level: medium
+description: |
+  The following analytic detects attempts to modify the Windows Registry to change a network profile's category to "Private", which may indicate an adversary is preparing the environment for lateral movement or reducing firewall restrictions. Specifically, this activity involves changes to the Category value within the HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{GUID} registry path. A value of 1 corresponds to a private network profile, which typically enables less rest
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkList\\Profiles\\*'
+    registry_value_name: Category
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.microsoft.com/en-us/security/blog/2025/07/31/frozen-in-transit-secret-blizzards-aitm-campaign-against-diplomats/
+custom_attributes:
+  original_rule_id: b11bb510-97e1-4b7a-b673-887ab228c280
+  source_format: splunk_spl

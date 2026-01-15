@@ -1,0 +1,24 @@
+title: Drop IcedID License dat
+id: f9ba089b-4f1d-518d-867a-5505633ce8a5
+status: stable
+level: low
+description: |
+  The following analytic detects the dropping of a suspicious file named "license.dat" in %appdata% or %programdata%. This behavior is associated with the IcedID malware, which uses this file to inject its core bot into other processes for banking credential theft. The detection leverages Sysmon EventCode 11 to monitor file creation events in these directories. This activity is significant as it indicates a potential malware infection aiming to steal sensitive banking information. If confirmed mal
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    targetfilename:
+      - '*\\license.dat'
+      - '*\\appdata\\*'
+      - '*\\programdata\\*'
+    eventcode: 11
+  condition: selection
+tags:
+  - attack.t1204.002
+references:
+  - https://www.cisecurity.org/insights/white-papers/security-primer-icedid
+custom_attributes:
+  original_rule_id: b7a045fc-f14a-11eb-8e79-acde48001122
+  source_format: splunk_spl

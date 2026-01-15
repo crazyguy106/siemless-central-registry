@@ -1,0 +1,36 @@
+title: Unusual DPKG Execution
+id: d6241c90-99f2-44db-b50f-299b6ebd7ee9
+status: stable
+level: low
+description: 'This rule detects the execution of the DPKG command by processes not
+  associated with the DPKG package manager. The DPKG
+
+  command is used to install, remove, and manage Debian packages on a Linux system.
+  Attackers can abuse the DPKG command
+
+  to install malicious packages on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-09'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_session_leader_name: dpkg
+    process_group_leader_name: dpkg
+  condition: selection
+tags:
+- attack.persistence
+- attack.initial_access
+- attack.t1574
+- attack.t1546
+- attack.t1195.002
+- attack.t1546.016
+- attack.t1543
+- attack.t1195
+references:
+- https://www.makeuseof.com/how-deb-packages-are-backdoored-how-to-detect-it/

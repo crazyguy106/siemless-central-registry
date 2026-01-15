@@ -1,0 +1,29 @@
+title: Kubectl Apply Pod from URL
+id: eef9f8b5-48ec-44b5-b8bd-7b9b7d71853c
+status: stable
+level: low
+description: 'This rule detects the execution of the "kubectl apply" command with
+  a URL argument. This command is often used to
+
+  apply configurations or deploy resources in a Kubernetes cluster. Attackers may
+  use this command to deploy malicious
+
+  pods or modify existing ones, potentially leading to unauthorized access or data
+  exfiltration.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-27'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: kubectl
+    process_args: apply
+  condition: selection
+tags:
+- attack.execution
+- attack.t1609
+- attack.t1610

@@ -1,0 +1,30 @@
+title: Suspicious Portable Executable Encoded in Powershell Script
+id: ad84d445-b1ce-4377-82d9-7c633f28bf9a
+status: stable
+level: medium
+description: 'Detects the presence of a portable executable (PE) in a PowerShell script
+  by looking for its encoded header. Attackers
+
+  embed PEs into PowerShell scripts to inject them into memory, avoiding defences
+  by not writing to disk.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-15'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    user_id: S-1-5-18
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+- attack.t1059.001
+- attack.t1055
+references:
+- https://github.com/atc-project/atc-data/blob/master/docs/Logging_Policies/LP_0109_windows_powershell_script_block_log.md

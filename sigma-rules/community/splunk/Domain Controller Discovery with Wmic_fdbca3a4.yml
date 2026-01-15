@@ -1,0 +1,21 @@
+title: Domain Controller Discovery with Wmic
+id: 3b39cbdb-3044-543a-aa02-27e27b9c6262
+status: stable
+level: low
+description: |
+  The following analytic identifies the execution of `wmic.exe` with command-line arguments used to discover domain controllers in a Windows domain. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because it is commonly used by adversaries and Red Teams for situational awareness and Active Directory discovery. If confirmed malicious, this behavior could allow attackers to map out the network, id
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: wmic.exe
+    process: '*DomainControllerAddress*'
+  condition: selection
+tags:
+  - attack.t1018
+references:
+  - https://attack.mitre.org/techniques/T1018/
+custom_attributes:
+  original_rule_id: 64c7adaa-48ee-483c-b0d6-7175bc65e6cc
+  source_format: splunk_spl

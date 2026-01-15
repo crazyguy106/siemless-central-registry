@@ -1,0 +1,30 @@
+title: O365 Exfiltration via File Access
+id: 2e28a334-c2dc-551c-b245-20b7cd2c98d2
+status: stable
+level: medium
+description: |
+  The following analytic detects when an excessive number of files are access from o365 by the same user over a short period of time. A malicious actor may abuse the "open in app" functionality of SharePoint through scripted or Graph API based access to evade triggering the FileDownloaded Event. This behavior may indicate an attacker staging data for exfiltration or an insider threat removing organizational data. Additional attention should be take with any Azure Guest (#EXT#) accounts.
+author: Steven Dick
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    operation:
+      - fileaccessed
+    sourcefileextension:
+      - bmp
+      - png
+      - jpeg
+      - jpg
+  condition: selection
+tags:
+  - attack.t1567
+  - attack.t1530
+references:
+  - https://attack.mitre.org/techniques/T1567/exfil
+  - https://www.varonis.com/blog/sidestepping-detection-while-exfiltrating-sharepoint-data
+  - https://thedfirjournal.com/posts/m365-data-exfiltration-rclone/
+custom_attributes:
+  original_rule_id: 80b44ae2-60ff-43f1-8e56-34beb49a340a
+  source_format: splunk_spl

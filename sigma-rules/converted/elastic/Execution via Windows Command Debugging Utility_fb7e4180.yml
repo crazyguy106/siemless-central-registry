@@ -1,0 +1,30 @@
+title: Execution via Windows Command Debugging Utility
+id: bdfaddc4-4438-48b4-bc43-9f5cf8151c46
+status: stable
+level: medium
+description: 'An adversary can use the Windows command line debugging utility cdb.exe
+  to execute commands or shellcode. This rule
+
+  looks for those instances and where the cdb.exe binary is outside of the normal
+  WindowsKit installation paths.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-24'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: CDB.Exe
+    process_args|contains:
+    - -cf
+    - -c
+    - -pd
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1218
+references:
+- https://lolbas-project.github.io/lolbas/OtherMSBinaries/Cdb/

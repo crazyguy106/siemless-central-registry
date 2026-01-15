@@ -1,0 +1,18 @@
+title: Windows Security Account Manager Stopped
+id: 2c33d152-d09f-5ac9-95d0-a6b73738d27d
+status: stable
+level: high
+description: |
+  The following analytic detects the stopping of the Windows Security Account Manager (SAM) service via command-line, typically using the "net stop samss" command. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because stopping the SAM service can disrupt authentication mechanisms and is often associated with ransomware attacks like Ryuk. If confirmed malicious, this action could l
+author: Rod Soto, Jose Hernandez, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1489
+custom_attributes:
+  original_rule_id: 69c12d59-d951-431e-ab77-ec426b8d65e6
+  source_format: splunk_spl

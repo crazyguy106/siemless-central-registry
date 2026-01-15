@@ -1,0 +1,33 @@
+title: Microsoft 365 Exchange Management Group Role Assignment
+id: 98995807-5b09-4e37-8a54-5cae5dc932d7
+status: stable
+level: medium
+description: 'Identifies when a new role is assigned to a management group in Microsoft
+  365. An adversary may attempt to add a role in
+
+  order to maintain persistence in an environment.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-20'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_category: web
+    event_action: New-ManagementRoleAssignment
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+- attack.t1098.003
+references:
+- https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps
+- https://docs.microsoft.com/en-us/microsoft-365/admin/add-users/about-admin-roles?view=o365-worldwide
+falsepositives:
+- "    A new role may be assigned to a management group by a system or network administrator.\
+  \ Verify that the configuration\n    change was expected. Exceptions can be added\
+  \ to this rule to filter expected behavior.\n    "

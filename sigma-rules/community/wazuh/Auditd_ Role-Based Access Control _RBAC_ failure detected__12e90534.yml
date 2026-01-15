@@ -1,0 +1,24 @@
+title: 'Auditd: Role-Based Access Control (RBAC) failure detected.'
+id: 8e5f282e-2309-501d-959a-34a958d7be96
+status: stable
+level: medium
+description: 'Auditd: Role-Based Access Control (RBAC) failure detected.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.type:
+      - ANOM_RBAC_FAIL
+      - ANOM_RBAC_INTEGRITY_FAIL
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80717
+  wazuh_level: 8

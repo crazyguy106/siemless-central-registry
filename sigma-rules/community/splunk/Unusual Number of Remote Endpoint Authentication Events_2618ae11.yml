@@ -1,0 +1,25 @@
+title: Unusual Number of Remote Endpoint Authentication Events
+id: 1f28525b-4d01-58f2-ac51-3470f17aaacf
+status: experimental
+level: low
+description: |
+  The following analytic identifies an unusual number of remote authentication attempts from a single source by leveraging Windows Event ID 4624, which logs successful account logons. It uses statistical analysis, specifically the 3-sigma rule, to detect deviations from normal behavior. This activity is significant for a SOC as it may indicate lateral movement, malware staging, or reconnaissance. If confirmed malicious, this behavior could allow an attacker to move laterally within the network, es
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 4624
+    logon_type: 3
+    span: 2m
+  filter:
+    account_name: '*$'
+  condition: selection and not filter
+tags:
+  - attack.t1078
+references:
+  - https://attack.mitre.org/techniques/T1078/
+custom_attributes:
+  original_rule_id: acb5dc74-5324-11ec-a36d-acde48001122
+  source_format: splunk_spl

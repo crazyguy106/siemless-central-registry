@@ -1,0 +1,25 @@
+title: GitHub Repository Deploy Key Created Or Modified
+id: bcdddd29-9195-574c-8f04-2a86fc60ca51
+status: experimental
+level: high
+description: |
+  Detects when an SSH deploy key is added or modified in a GitHub repository. A compromised or unauthorized deploy key could allow malicious actors to push unauthorized changes into production environments, potentially bypassing code reviews and testing procedures. This could lead to the introduction of backdoors, malware, or the exfiltration of sensitive data.
+author: Google Cloud Security
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type:
+      - public_key.create
+      - public_key.update
+  condition: selection
+tags:
+  - attack.t1098
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_e10b0f8b-6a90-48af-aecb-95ef2ca10de8
+  source_format: chronicle_yaral

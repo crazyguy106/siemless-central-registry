@@ -1,0 +1,27 @@
+title: Windows Process Execution in Temp Dir
+id: 66da8d6f-3f01-5203-aea3-137933f63a46
+status: stable
+level: medium
+description: |
+  The following analytic identifies processes running from %temp% directory file paths. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific process paths within the Endpoint data model. This activity is significant because adversaries often use unconventional file paths to execute malicious code without requiring administrative privileges. If confirmed malicious, this behavior could indicate an attempt to bypass security controls, leading to unauthorized softw
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_path:
+      - '*\\temp\\*'
+  condition: selection
+tags:
+  - attack.t1543
+  - attack.t1036.005
+references:
+  - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+  - https://twitter.com/pr0xylife/status/1590394227758104576
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+  - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+custom_attributes:
+  original_rule_id: f6fbe929-4187-4ba4-901e-8a34be838443
+  source_format: splunk_spl

@@ -1,0 +1,36 @@
+title: Microsoft 365 Exchange Transport Rule Modification
+id: 272a6484-2663-46db-a532-ef734bf9a796
+status: stable
+level: medium
+description: 'Identifies when a transport rule has been disabled or deleted in Microsoft
+  365. Mail flow rules (also known as transport
+
+  rules) are used to identify and take action on messages that flow through your organization.
+  An adversary or insider
+
+  threat may modify a transport rule to exfiltrate data or evade defenses.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-19'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_category: web
+    event_action: ("Remove-TransportRule
+    event_outcome: success
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.t1537
+references:
+- https://docs.microsoft.com/en-us/powershell/module/exchange/remove-transportrule?view=exchange-ps
+- https://docs.microsoft.com/en-us/powershell/module/exchange/disable-transportrule?view=exchange-ps
+- https://docs.microsoft.com/en-us/exchange/security-and-compliance/mail-flow-rules/mail-flow-rules
+falsepositives:
+- "    A transport rule may be modified by a system or network administrator. Verify\
+  \ that the configuration change was\n    expected. Exceptions can be added to this\
+  \ rule to filter expected behavior.\n    "

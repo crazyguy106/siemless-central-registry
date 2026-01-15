@@ -1,0 +1,22 @@
+title: 'Docker: Command launched in container $(docker.Actor.Attributes.name). Action: "$(docker.Action)"'
+id: dc46af0a-c39a-53cf-afe2-eda054d3f335
+status: stable
+level: low
+description: 'Docker: Command launched in container $(docker.Actor.Attributes.name). Action: "$(docker.Action)"'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: '^exec_start:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87907
+  wazuh_level: 3

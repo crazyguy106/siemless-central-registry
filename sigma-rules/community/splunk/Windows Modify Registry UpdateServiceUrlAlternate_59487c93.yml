@@ -1,0 +1,21 @@
+title: Windows Modify Registry UpdateServiceUrlAlternate
+id: 88a45ddc-f4bc-5d10-9c24-0f5fa4d65076
+status: stable
+level: medium
+description: |
+  The following analytic detects a suspicious modification to the Windows Update configuration registry key, specifically targeting the UpdateServiceUrlAlternate setting. It leverages data from the Endpoint.Registry datamodel to identify changes to this registry path. This activity is significant because adversaries, including malware like RedLine Stealer, exploit this technique to bypass detection and deploy additional payloads. If confirmed malicious, this modification could allow attackers to r
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\UpdateServiceUrlAlternate'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
+custom_attributes:
+  original_rule_id: ca4e94fb-7969-4d63-8630-3625809a1f70
+  source_format: splunk_spl

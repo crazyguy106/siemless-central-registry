@@ -1,0 +1,32 @@
+title: Windows Group Policy Object Created
+id: 4d4c6d74-78ae-5400-bebe-8342cc18b762
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of a new Group Policy Object (GPO) by leveraging Event IDs 5136 and 5137. This detection uses directory service change events to identify when a new GPO is created. Monitoring GPO creation is crucial as adversaries can exploit GPOs to escalate privileges or deploy malware across an Active Directory network. If confirmed malicious, this activity could allow attackers to control system configurations, deploy ransomware, or propagate malware, leading to w
+author: Mauricio Velazco
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    eventcode:
+      - 5137
+      - 5136
+    attributeldapdisplayname: displayName
+    objectclass: groupPolicyContainer
+  filter:
+    attributevalue: New Group Policy Object
+  condition: selection and not filter
+tags:
+  - attack.t1078.002
+  - attack.t1484.001
+references:
+  - https://attack.mitre.org/techniques/T1484/
+  - https://attack.mitre.org/techniques/T1484/001
+  - https://www.trustedsec.com/blog/weaponizing-group-policy-objects-access/
+  - https://adsecurity.org/?p=2716
+  - https://www.bleepingcomputer.com/news/security/lockbit-ransomware-now-encrypts-windows-domains-using-group-policies/
+custom_attributes:
+  original_rule_id: 23add2a8-ea22-4fd4-8bc0-8c0b822373a1
+  source_format: splunk_spl

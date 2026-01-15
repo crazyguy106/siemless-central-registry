@@ -1,0 +1,23 @@
+title: Forensics on Registry Run keys in Windows.
+id: ff6a0ef1-9d81-4c79-bd22-baba4464593c
+status: experimental
+level: medium
+description: |
+  Registry Run keys can be used to establish persistence on a device. 
+
+The detection covers the following registry key paths:
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run
+HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\RunOnce
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

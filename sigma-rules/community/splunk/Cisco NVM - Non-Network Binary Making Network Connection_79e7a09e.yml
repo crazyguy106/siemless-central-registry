@@ -1,0 +1,57 @@
+title: Cisco NVM - Non-Network Binary Making Network Connection
+id: 225f666f-dc4b-5ba9-8de6-f0d56e6aa60b
+status: stable
+level: medium
+description: |
+  This analytic detects network connections initiated by binaries that are not typically associated with network communication, such as 'notepad.exe', 'calc.exe' or 'write.exe'. It leverages Cisco Network Visibility Module logs to correlate network flow activity with process context, including command-line arguments, process path, and parent process information. These applications are normally used for locally and do not require outbound network access. When they do initiate such connections, it m
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    process_name:
+      - notepad.exe
+      - write.exe
+      - mspaint.exe
+      - calc.exe
+      - addinutil.exe
+      - cmstp.exe
+      - dialer.exe
+      - eqnedt32.exe
+      - IMEWDBLD.exe
+    dest:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+      - 100.64.0.0/10
+      - 127.0.0.0/8
+      - 169.254.0.0/16
+      - 192.0.0.0/24
+      - 192.0.0.0/29
+      - 192.0.0.8/32
+      - 192.0.0.9/32
+      - 192.0.0.10/32
+      - 192.0.0.170/32
+      - 192.0.0.171/32
+      - 192.0.2.0/24
+      - 192.31.196.0/24
+      - 192.52.193.0/24
+      - 192.88.99.0/24
+      - 224.0.0.0/4
+      - 192.175.48.0/24
+      - 198.18.0.0/15
+      - 198.51.100.0/24
+      - 203.0.113.0/24
+      - 240.0.0.0/4
+      - '::1'
+  condition: selection
+tags:
+  - attack.t1055
+  - attack.t1036
+references:
+  - https://redcanary.com/threat-detection-report/techniques/process-injection/
+  - https://www.blue-prints.blog/content/blog/posts/lolbin/addinutil-lolbas.html
+custom_attributes:
+  original_rule_id: c6db35af-8a0e-4b61-88ed-738e66f15715
+  source_format: splunk_spl

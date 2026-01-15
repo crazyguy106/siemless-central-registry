@@ -1,0 +1,19 @@
+title: DNS Query Length Outliers - MLTK
+id: a1456aa5-81c7-5282-b904-1fb69ef92b19
+status: experimental
+level: medium
+description: |
+  The following analytic identifies DNS requests with unusually large query lengths for the record type being requested. It leverages the Network_Resolution data model and applies a machine learning model to detect outliers in DNS query lengths. This activity is significant because unusually large DNS queries can indicate data exfiltration or command-and-control communication attempts. If confirmed malicious, this activity could allow attackers to exfiltrate sensitive data or maintain persistent c
+author: Rico Valdez, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    datamodel: Network_Resolution
+  condition: selection
+tags:
+  - attack.t1071.004
+custom_attributes:
+  original_rule_id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
+  source_format: splunk_spl

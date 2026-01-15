@@ -1,0 +1,22 @@
+title: 'sshd: Timeout while logging in.'
+id: d9c5304d-394c-5644-adda-8c7b6b988596
+status: stable
+level: low
+description: 'sshd: Timeout while logging in.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'fatal: Timeout before authentication for'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5704
+  wazuh_level: 4

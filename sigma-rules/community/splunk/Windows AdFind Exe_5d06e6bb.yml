@@ -1,0 +1,37 @@
+title: Windows AdFind Exe
+id: 1f322d3b-073b-5721-a23e-47d3307217db
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of `adfind.exe` standalone or with specific command-line arguments related to Active Directory queries. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, command-line arguments, and parent Processes. This activity is significant because `adfind.exe` is a powerful tool often used by threat actors like Wizard Spider and FIN6 to gather sensitive AD information. If confirmed malicious, this activity could a
+author: Jose Hernandez, Bhavin Patel, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: AdFind.exe
+    original_file_name: AdFind.exe
+    process:
+      - '* trustdmp*'
+      - '* dclist*'
+      - '* dcdmp*'
+      - '* adobjcnt*'
+      - '* adamobjcnt*'
+      - '* sdump*'
+      - '* exchaddresses*'
+      - '* getacl*'
+      - '* domainlist*'
+      - '* export_user*'
+      - '* export_group*'
+      - '* admincountdmp*'
+  condition: selection
+tags:
+  - attack.t1018
+references:
+  - https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/
+  - https://www.mandiant.com/resources/a-nasty-trick-from-credential-theft-malware-to-business-disruption
+  - https://www.joeware.net/freetools/tools/adfind/index.htm
+  - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+custom_attributes:
+  original_rule_id: bd3b0187-189b-46c0-be45-f52da2bae67f
+  source_format: splunk_spl

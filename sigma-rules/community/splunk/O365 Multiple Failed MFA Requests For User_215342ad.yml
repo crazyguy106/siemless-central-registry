@@ -1,0 +1,24 @@
+title: O365 Multiple Failed MFA Requests For User
+id: f78c5825-42a7-5133-be37-647e00cb9688
+status: stable
+level: high
+description: |
+  The following analytic identifies potential "MFA fatigue" attacks targeting Office 365 users by detecting more than nine Multi-Factor Authentication (MFA) prompts within a 10-minute timeframe. It leverages O365 management activity logs, focusing on Azure Active Directory events with the UserLoginFailed operation, a Success ResultStatus, and an ErrorNumber of 500121. This activity is significant as attackers may exploit MFA fatigue to gain unauthorized access by overwhelming users with repeated M
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    workload: AzureActiveDirectory
+    operation: UserLoginFailed
+    resultstatus: Success
+    errornumber: 500121
+    span: 10m
+  condition: selection
+tags:
+  - attack.t1621
+references:
+  - https://attack.mitre.org/techniques/T1621/
+custom_attributes:
+  original_rule_id: fd22124e-dbac-4744-a8ce-be10d8ec3e26
+  source_format: splunk_spl

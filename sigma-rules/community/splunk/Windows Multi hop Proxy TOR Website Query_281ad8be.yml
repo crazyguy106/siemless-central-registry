@@ -1,0 +1,23 @@
+title: Windows Multi hop Proxy TOR Website Query
+id: 94e97351-cafd-563b-982c-e69b57ac53aa
+status: stable
+level: medium
+description: |
+  The following analytic identifies DNS queries to known TOR proxy websites, such as "*.torproject.org" and "www.theonionrouter.com". It leverages Sysmon EventCode 22 to detect these queries by monitoring DNS query events from endpoints. This activity is significant because adversaries often use TOR proxies to disguise the source of their malicious traffic, making it harder to trace their actions. If confirmed malicious, this behavior could indicate an attempt to obfuscate network traffic, potenti
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 22
+    queryname:
+      - '*.torproject.org'
+      - www.theonionrouter.com
+  condition: selection
+tags:
+  - attack.t1071.003
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla
+custom_attributes:
+  original_rule_id: 4c2d198b-da58-48d7-ba27-9368732d0054
+  source_format: splunk_spl

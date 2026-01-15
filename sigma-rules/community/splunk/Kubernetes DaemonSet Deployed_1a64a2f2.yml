@@ -1,0 +1,20 @@
+title: Kubernetes DaemonSet Deployed
+id: 427a21bf-7a5a-5bd5-ab8c-8fc6f2214f88
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of a DaemonSet in a Kubernetes cluster. This behavior is identified by monitoring Kubernetes Audit logs for the creation event of a DaemonSet. DaemonSets ensure a specific pod runs on every node, making them a potential vector for persistent access. This activity is significant for a SOC as it could indicate an attempt to maintain persistent access to the Kubernetes infrastructure. If confirmed malicious, it could lead to persistent attacks, service di
+author: Patrick Bareiss, Splunk
+logsource:
+  product: kubernetes
+detection:
+  selection:
+    verb: create
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+custom_attributes:
+  original_rule_id: bf39c3a3-b191-4d42-8738-9d9797bd0c3a
+  source_format: splunk_spl

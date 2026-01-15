@@ -1,0 +1,19 @@
+title: Time series anomaly detection for total volume of traffic
+id: 329045d2-fbcc-5b9b-b2b8-c2b955b92e6f
+status: stable
+level: medium
+description: |
+  'Identifies anamalous spikes in network traffic logs as compared to baseline or normal historical patterns. The query leverages a KQL built-in anomaly detection algorithm to find large deviations from baseline patterns. Sudden increases in network traffic volume may be an indication of data exfiltration attempts and should be investigated. The higher the score, the further it is from the baseline value. The output is aggregated to provide summary view of unique source IP to destination IP addres
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    DateHour:
+      - (AnomalyHours
+  condition: selection
+tags:
+  - attack.t1030
+custom_attributes:
+  original_rule_id: 06a9b845-6a95-4432-a78b-83919b28c375
+  source_format: azure_kql

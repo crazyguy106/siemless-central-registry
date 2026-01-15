@@ -1,0 +1,23 @@
+title: Visualize the Threat Intelligence Indicators by day for the last 30 days
+id: 26bea277-f8d0-4b77-be6a-8688651dcde6
+status: experimental
+level: medium
+description: |
+  This query visualizes the amount of IOCs that have triggerd each day for the last 30 days in a timechart. This could indicate spikes in malicious activities by users or give intsights in the value of Threat Intelligence feeds. 
+
+## Sentinel
+author: Bert-JanP
+logsource:
+  product: azure_sentinel
+  service: kql
+detection:
+  _kql_query: |
+    ThreatIntelligenceIndicator
+| where TimeGenerated > ago(30d)
+| extend IOC = iff(isnotempty(DomainName), DomainName, 
+iff(isnotempty(NetworkIP), NetworkIP, iff(isnotempty(Url), Url, "No IOC defined")))
+| summarize count() by bin(TimeGenerated, 1d), IOC
+| render columnchart with (kind=stacked, title="Threat Intelligence Indicators triggered each day")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

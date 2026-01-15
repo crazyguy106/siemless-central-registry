@@ -1,0 +1,21 @@
+title: Disable Defender BlockAtFirstSeen Feature
+id: 09987d79-826d-520d-b5f9-b41f5be22798
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of the Windows registry to disable the Windows Defender BlockAtFirstSeen feature. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path associated with Windows Defender SpyNet and the DisableBlockAtFirstSeen value. This activity is significant because disabling this feature can allow malicious files to bypass initial detection by Windows Defender, increasing the risk of malware infection. If c
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Windows Defender\\SpyNet*'
+    registry_value_name: DisableBlockAtFirstSeen
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: 2dd719ac-3021-11ec-97b4-acde48001122
+  source_format: splunk_spl

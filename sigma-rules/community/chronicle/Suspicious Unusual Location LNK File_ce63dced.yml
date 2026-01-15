@@ -1,0 +1,23 @@
+title: Suspicious Unusual Location LNK File
+id: 110fe486-757d-5ee1-8611-668c85b2c0f9
+status: experimental
+level: low
+description: Detects creation and movement of .lnk files to specific folders
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type:
+      - FILE_CREATION
+      - FILE_MODIFICATION
+      - FILE_COPY
+      - FILE_MOVE
+    target_file_full_path:
+      - \.lnk$
+      - \\(Desktop|Documents|Start Menu)\\.*
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_efb341aa-57c5-47b6-bde5-b409b4395c8f
+  source_format: chronicle_yaral

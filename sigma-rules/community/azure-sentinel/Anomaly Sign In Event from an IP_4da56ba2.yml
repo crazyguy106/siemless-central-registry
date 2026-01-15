@@ -1,0 +1,18 @@
+title: Anomaly Sign In Event from an IP
+id: dd3a4eea-4ada-5b3b-aed5-5f49e07bf432
+status: stable
+level: medium
+description: |
+  'Identifies sign-in anomalies from an IP in the last hour, targeting multiple users where the password is correct after multiple attempts'
+author: Juanse
+logsource:
+  product: azure
+detection:
+  selection:
+    PasswordResult|contains: Correct Password
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 9c1e9381-79dd-4ddf-9570-b73a1dc59fe0
+  source_format: azure_kql

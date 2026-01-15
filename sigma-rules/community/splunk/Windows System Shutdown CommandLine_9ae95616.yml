@@ -1,0 +1,26 @@
+title: Windows System Shutdown CommandLine
+id: 0b373834-d2fc-50a8-a68d-6c06562074c2
+status: stable
+level: medium
+description: |
+  The following analytic identifies the execution of the Windows shutdown command via the command line interface. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because attackers may use the shutdown command to erase tracks, cause disruption, or ensure changes take effect after installing backdoors. If confirmed malicious, this activity could lead to system downtime, denial of service, or evasi
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '* /t*'
+      - '* -t*'
+      - '* /f*'
+      - '* -f*'
+  condition: selection
+tags:
+  - attack.t1529
+references:
+  - https://attack.mitre.org/techniques/T1529/
+  - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+custom_attributes:
+  original_rule_id: 4fee57b8-d825-4bf3-9ea8-bf405cdb614c
+  source_format: splunk_spl

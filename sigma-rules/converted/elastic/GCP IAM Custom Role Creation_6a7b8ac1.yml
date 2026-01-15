@@ -1,0 +1,36 @@
+title: GCP IAM Custom Role Creation
+id: aa8007f0-d1df-49ef-8520-407857594827
+status: stable
+level: medium
+description: 'Identifies an Identity and Access Management (IAM) custom role creation
+  in Google Cloud Platform (GCP). Custom roles are
+
+  user-defined, and allow for the bundling of one or more supported permissions to
+  meet specific needs. Custom roles will
+
+  not be updated automatically and could lead to privilege creep if not carefully
+  scrutinized.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-21'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: gcp.audit
+    event_action: google.iam.admin.v*.CreateRole
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.initial_access
+- attack.t1078
+references:
+- https://cloud.google.com/iam/docs/understanding-custom-roles
+falsepositives:
+- "    Custom role creations may be done by a system or network administrator. Verify\
+  \ whether the user email, resource\n    name, and/or hostname should be making changes\
+  \ in your environment. Role creations by unfamiliar users or hosts\n    should be\
+  \ investigated. If known behavior is causing false positives, it can be exempted\
+  \ from the rule.\n    "

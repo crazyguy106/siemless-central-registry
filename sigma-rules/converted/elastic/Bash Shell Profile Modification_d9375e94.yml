@@ -1,0 +1,37 @@
+title: Bash Shell Profile Modification
+id: e6c1a552-7776-44ad-ae0f-8746cc07773c
+status: stable
+level: medium
+description: 'Both ~/.bash_profile and ~/.bashrc are files containing shell commands
+  that are run when Bash is invoked. These files
+
+  are executed in a user''s context, either interactively or non-interactively, when
+  a user logs in so that their
+
+  environment is set correctly. Adversaries may abuse this to establish persistence
+  by executing malicious content
+
+  triggered by a user’s shell.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-19'
+modified: '2025-01-15'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    event_category: file
+    event_type: change
+    process_name: (*
+    process_executable: (/Applications/*
+    file_path: (/private/etc/rc.local
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1546.004
+- attack.t1546
+references:
+- https://www.anomali.com/blog/pulling-linux-rabbit-rabbot-malware-out-of-a-hat
+falsepositives:
+- Changes to the Shell Profile tend to be noisy, a tuning per your environment will
+  be required.

@@ -1,0 +1,31 @@
+title: O365 Email Send and Hard Delete Suspicious Behavior
+id: fffb10fe-2fa1-572b-b454-699123ce516e
+status: stable
+level: medium
+description: |
+  The following analytic identifies when an O365 email account sends and then hard deletes email with within a short period (within 1 hour). This behavior may indicate a compromised account where the threat actor is attempting to remove forensic artifacts or evidence of activity. Threat actors often use this technique to prevent defenders and victims from knowing the account has been compromised. --- Some account owner legitimate behaviors can trigger this alert, however these actions may not be a
+author: Steven Dick
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    workload: Exchange
+    operation:
+      - SoftDelete
+      - HardDelete
+    path:
+      - \\Sent Items
+      - \\Recoverable Items\\Deletions
+  condition: selection
+tags:
+  - attack.t1114.001
+  - attack.t1070.008
+  - attack.t1485
+references:
+  - https://attack.mitre.org/techniques/T1114/
+  - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+  - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+custom_attributes:
+  original_rule_id: c97b3d72-0a47-46f9-b742-b89f1cc2d551
+  source_format: splunk_spl

@@ -1,0 +1,25 @@
+title: AWS Console Login Failed During MFA Challenge
+id: fe3b15a1-e7f3-57de-b97b-a66e4ae53041
+status: stable
+level: high
+description: |
+  The following analytic identifies failed authentication attempts to the AWS Console during the Multi-Factor Authentication (MFA) challenge. It leverages AWS CloudTrail logs, specifically the `additionalEventData` field, to detect when MFA was used but the login attempt still failed. This activity is significant as it may indicate an adversary attempting to access an account with compromised credentials but being thwarted by MFA. If confirmed malicious, this could suggest an ongoing attempt to br
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    errormessage: Failed authentication
+    mfaused: 'Yes'
+    eventname: ConsoleLogin
+  condition: selection
+tags:
+  - attack.t1586.003
+  - attack.t1621
+references:
+  - https://attack.mitre.org/techniques/T1621/
+  - https://aws.amazon.com/what-is/mfa/
+custom_attributes:
+  original_rule_id: 55349868-5583-466f-98ab-d3beb321961e
+  source_format: splunk_spl

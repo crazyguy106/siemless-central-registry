@@ -1,0 +1,23 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Iptable source ip $(osquery.columns.src_ip) with policy $(osquery.columns.policy) and target $(osquery.c'
+id: 43b80e29-505f-562e-a2c6-cacb18739ffe
+status: stable
+level: low
+description: |
+  osquery: $(osquery.pack) $(osquery.subquery): Iptable source ip $(osquery.columns.src_ip) with policy $(osquery.columns.policy) and target $(osquery.columns.target) has a packet count of $(osquery.columns.packets)
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: iptables
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24136
+  wazuh_level: 4

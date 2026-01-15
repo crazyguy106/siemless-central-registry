@@ -1,0 +1,20 @@
+title: List risky IP activities
+id: 4c37391d-eb85-49e0-b77b-783a937d5aed
+status: experimental
+level: medium
+description: |
+  This query activities from a Risky IP
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where IPCategory == "Risky"
+| project Timestamp, ActionType, IPAddress, IPCategory, ISP, RawEventData
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

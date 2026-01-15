@@ -1,0 +1,30 @@
+title: ASL AWS Defense Evasion Impair Security Services
+id: eb4d315a-ef0a-55d4-8d7e-d3b230651471
+status: stable
+level: low
+description: |
+  The following analytic detects the deletion of critical AWS Security Services configurations, such as CloudWatch alarms, GuardDuty detectors, and Web Application Firewall rules. It leverages Amazon Security Lake logs to identify specific API calls like "DeleteLogStream" and "DeleteDetector." This activity is significant because adversaries often use these actions to disable security monitoring and evade detection. If confirmed malicious, this could allow attackers to operate undetected, leading 
+author: Patrick Bareiss, Bhavin Patel, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    operation:
+      - DeleteLogStream
+      - DeleteDetector
+      - DeleteIPSet
+      - DeleteWebACL
+      - DeleteRule
+      - DeleteRuleGroup
+      - DeleteLoggingConfiguration
+      - DeleteAlarms
+  condition: selection
+tags:
+  - attack.t1562.008
+references:
+  - https://docs.aws.amazon.com/cli/latest/reference/guardduty/index.html
+  - https://docs.aws.amazon.com/cli/latest/reference/waf/index.html
+  - https://www.elastic.co/guide/en/security/current/prebuilt-rules.html
+custom_attributes:
+  original_rule_id: 5029b681-0462-47b7-82e7-f7e3d37f5a2d
+  source_format: splunk_spl

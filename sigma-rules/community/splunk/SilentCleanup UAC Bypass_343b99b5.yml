@@ -1,0 +1,22 @@
+title: SilentCleanup UAC Bypass
+id: ad7dcc09-2d4a-54fb-afbe-ae61d8e5f0b3
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious modifications to the registry that may indicate a UAC (User Account Control) bypass attempt via the SilentCleanup task. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on registry changes in the path "*\\Environment\\windir" with executable values. This activity is significant as it can allow an attacker to gain high-privilege execution without user consent, bypassing UAC protections. If confirmed malicious, this could lead 
+author: Steven Dick, Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Environment\\windir'
+    registry_value_data: '*.exe*'
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://github.com/hfiref0x/UACME
+  - https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
+custom_attributes:
+  original_rule_id: 56d7cfcc-da63-11eb-92d4-acde48001122
+  source_format: splunk_spl

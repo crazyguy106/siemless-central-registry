@@ -1,0 +1,20 @@
+title: Operation download all users in Azure Active directory performed
+id: 368183b4-500e-4e97-ada9-cfd6a971af21
+status: experimental
+level: medium
+description: |
+  Detect when a user account downloads all Azure Active Directory users. This can be used to dump all Azure AD users. Both admin and non-admin users can download user lists.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AuditLogs
+| where OperationName contains "Download users"
+| extend InitiatedByInfo = parse_json(InitiatedBy).['user']
+| extend InitiatedByUser = InitiatedByInfo.userPrincipalName
+| project-reorder OperationName, ResultDescription, InitiatedByUser, TimeGenerated
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

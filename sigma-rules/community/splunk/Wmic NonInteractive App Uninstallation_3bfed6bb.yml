@@ -1,0 +1,24 @@
+title: Wmic NonInteractive App Uninstallation
+id: 602ff8f2-0c37-55d2-a011-f21243c70456
+status: stable
+level: low
+description: |
+  The following analytic identifies the use of the WMIC command-line tool attempting to uninstall applications non-interactively. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns associated with WMIC. This activity is significant because it is uncommon and may indicate an attempt to evade detection by uninstalling security software, as seen in IcedID malware campaigns. If confirmed malicious, this behavior could allow an attacker to di
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '* product *'
+      - '*where name*'
+      - '*call uninstall*'
+      - '*/nointeractive*'
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: bff0e7a0-317f-11ec-ab4e-acde48001122
+  source_format: splunk_spl

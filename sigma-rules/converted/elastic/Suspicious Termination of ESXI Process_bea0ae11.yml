@@ -1,0 +1,31 @@
+title: Suspicious Termination of ESXI Process
+id: 6641a5af-fb7e-487a-adc4-9e6503365318
+status: stable
+level: medium
+description: 'Identifies instances where VMware processes, such as "vmware-vmx" or
+  "vmx," are terminated on a Linux system by a "kill"
+
+  command. The rule monitors for the "end" event type, which signifies the termination
+  of a process. The presence of a
+
+  "kill" command as the parent process for terminating VMware processes may indicate
+  that a threat actor is attempting to
+
+  interfere with the virtualized environment on the targeted system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-04-11'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: end
+    process_parent_name: kill
+  condition: selection
+tags:
+- attack.impact
+- attack.t1489
+references:
+- https://www.bleepingcomputer.com/news/security/massive-esxiargs-ransomware-attack-targets-vmware-esxi-servers-worldwide/

@@ -1,0 +1,27 @@
+title: Windows Suspicious Named Pipe
+id: 80c4680d-fe47-5347-a002-d5b40647d095
+status: stable
+level: high
+description: |
+  The following analytic detects the creation or connection to known suspicious named pipes. It leverages Sysmon EventCodes 17 and 18 to identify known default pipe names used by malicious or suspicious tools. If confirmed malicious, this could allow an attacker to abuse these to potentially gain privilege escalation,  persistence, c2 communications, or further system compromise.
+author: Raven Tait, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode:
+      - 17
+      - 18
+    process_path:
+      - '*:\\Program Files \(x86\'
+  condition: selection
+tags:
+  - attack.t1559
+  - attack.t1021.002
+  - attack.t1055
+references:
+  - https://attack.mitre.org/techniques/T1218/009/
+  - https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
+custom_attributes:
+  original_rule_id: 3a76d52f-a007-4a65-a37d-f313c2c83f31
+  source_format: splunk_spl

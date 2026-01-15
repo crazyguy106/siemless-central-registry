@@ -1,0 +1,57 @@
+title: Startup or Run Key Registry Modification
+id: 97fc44d3-8dae-4019-ae83-298c3015600f
+status: stable
+level: low
+description: 'Identifies run key or startup key registry modifications. In order to
+  survive reboots and other system interrupts,
+
+  attackers will modify run keys within the registry or leverage startup folder items
+  as a form of persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-09-18'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_hive|contains:
+    - HKEY_USERS
+    - HKLM
+    registry_path|contains:
+    - HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\*
+    - HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\*
+    - HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\*
+    - HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*
+    - HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell\\*
+    - HKEY_USERS\\*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\*
+    - HKEY_USERS\\*\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\*
+    - HKEY_USERS\\*\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\*
+    - HKEY_USERS\\*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*
+    - HKEY_USERS\\*\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell\\*
+    user_id|contains:
+    - S-1-5-18
+    - S-1-5-19
+    - S-1-5-20
+    registry_data_strings|contains: '*:\\Program Files\\*'
+    process_executable|contains:
+    - ?:\\Windows\\System32\\msiexec.exe
+    - ?:\\Windows\\SysWOW64\\msiexec.exe
+    - D:\\*
+    - \\Device\\Mup*
+    - C:\\Windows\\SysWOW64\\reg.exe
+    - C:\\Windows\\System32\\changepk.exe
+    - C:\\Windows\\System32\\netsh.exe
+    - C:\\$WINDOWS.~BT\\Sources\\SetupPlatform.exe
+    - C:\\$WINDOWS.~BT\\Sources\\SetupHost.exe
+    - C:\\Program Files\\Cisco Spark\\CiscoCollabHost.exe
+    - C:\\Sistemas\\Programas MP\\CCleaner\\CCleaner64.exe
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1547.001
+- attack.t1547
+references:
+- https://www.elastic.co/security-labs/elastic-security-uncovers-blister-malware-campaign

@@ -1,0 +1,17 @@
+title: Kerberos attacks
+id: e53753d9-d33c-4f5b-b28c-72d1dd0f646f
+status: experimental
+level: medium
+description: |
+  #### Risk
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    AlertInfo 
+| where Title has_any ("Successful logon using overpass-the-hash with potentially stolen credentials","Command line used for possible overpass-the-hash")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

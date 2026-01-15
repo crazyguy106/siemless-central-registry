@@ -1,0 +1,45 @@
+title: Disabling User Account Control via Registry Modification
+id: d31f183a-e5b1-451b-8534-ba62bca0b404
+status: stable
+level: medium
+description: 'User Account Control (UAC) can help mitigate the impact of malware on
+  Windows hosts. With UAC, apps and tasks always run
+
+  in the security context of a non-administrator account, unless an administrator
+  specifically authorizes
+
+  administrator-level access to the system. This rule identifies registry value changes
+  to bypass User Access Control
+
+  (UAC) protection.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-20'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_value|contains:
+    - EnableLUA
+    - ConsentPromptBehaviorAdmin
+    - PromptOnSecureDesktop
+    registry_data_strings|contains:
+    - '0'
+    - '0x00000000'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548
+- attack.t1112
+- attack.t1548.002
+- attack.t1562
+- attack.t1562.001
+references:
+- https://www.greyhathacker.net/?p=796
+- https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
+- https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-overview
+- https://www.elastic.co/security-labs/dissecting-remcos-rat-part-four

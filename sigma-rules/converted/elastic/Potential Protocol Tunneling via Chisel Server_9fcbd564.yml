@@ -1,0 +1,46 @@
+title: Potential Protocol Tunneling via Chisel Server
+id: ac8805f6-1e08-406c-962e-3937057fa86f
+status: stable
+level: medium
+description: 'This rule monitors for common command line flags leveraged by the Chisel
+  server utility followed by a received
+
+  connection within a timespan of 1 minute. Chisel is a command-line utility used
+  for creating and managing TCP and UDP
+
+  tunnels, enabling port forwarding and secure communication between machines. Attackers
+  can abuse the Chisel utility to
+
+  establish covert communication channels, bypass network restrictions, and carry
+  out malicious activities by creating
+
+  tunnels that allow unauthorized access to internal systems.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-23'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.entity_id with maxspan=1m\n  [process\
+      \ where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ == \"exec\" and \n   process.args == \"server\" and process.args in (\"--port\"\
+      , \"-p\", \"--reverse\", \"--backend\", \"--socks5\") and \n   process.args_count\
+      \ >= 3 and process.parent.name in (\"bash\", \"dash\", \"ash\", \"sh\", \"tcsh\"\
+      , \"csh\", \"zsh\", \"ksh\", \"fish\")]\n  [network where host.os.type == \"\
+      linux\" and event.type == \"start\" and event.action == \"connection_accepted\"\
+      \ and \n   destination.ip != null and destination.ip != \"127.0.0.1\" and destination.ip\
+      \ != \"::1\" and \n   not process.name : (\n     \"python*\", \"php*\", \"perl\"\
+      , \"ruby\", \"lua*\", \"openssl\", \"nc\", \"netcat\", \"ncat\", \"telnet\"\
+      , \"awk\", \"java\", \"telnet\",\n     \"ftp\", \"socat\", \"curl\", \"wget\"\
+      , \"dpkg\", \"docker\", \"dockerd\", \"yum\", \"apt\", \"rpm\", \"dnf\", \"\
+      ssh\", \"sshd\", \"hugo\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.command_and_control
+- attack.t1572
+references:
+- https://blog.bitsadmin.com/living-off-the-foreign-land-windows-as-offensive-platform
+- https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding

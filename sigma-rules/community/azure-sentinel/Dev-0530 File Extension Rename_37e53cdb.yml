@@ -1,0 +1,22 @@
+title: Dev-0530 File Extension Rename
+id: d046bf41-b9c1-5add-b764-bc826b3a915a
+status: stable
+level: high
+description: |
+  'Dev-0530 actors are known to encrypt the contents of the victims device as well as renaming the file extensions. This query looks for the creation of files with .h0lyenc extension or presence of ransom note.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    ActionType: FileCreated
+    EventType: FileCreated
+    FileName|endswith: .h0lyenc
+    TargetFilePath|endswith: .h0lyenc
+  condition: selection
+tags:
+  - attack.t1486
+custom_attributes:
+  original_rule_id: d82eb796-d1eb-43c8-a813-325ce3417cef
+  source_format: azure_kql

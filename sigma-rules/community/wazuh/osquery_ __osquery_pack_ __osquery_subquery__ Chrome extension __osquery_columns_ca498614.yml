@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Chrome extension $(osquery.columns.name) version is $(osquery.columns.version) and the user that owns it'
+id: 8f30671a-1b6b-5c5a-89f2-75f49fe29893
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Chrome extension $(osquery.columns.name) version is $(osquery.columns.version) and the user that owns it is $(osquery.columns.uid)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: chrome_extensions
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24310
+  wazuh_level: 4

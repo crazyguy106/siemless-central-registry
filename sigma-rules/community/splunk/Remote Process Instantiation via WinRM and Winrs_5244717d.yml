@@ -1,0 +1,24 @@
+title: Remote Process Instantiation via WinRM and Winrs
+id: 80f3068e-2fdf-5d72-b756-2e4ed4ded734
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `winrs.exe` with command-line arguments used to start a process on a remote endpoint. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions mapped to the `Processes` node of the `Endpoint` data model. This activity is significant as it may indicate lateral movement or remote code execution attempts by adversaries. If confirmed malicious, this could allow attackers to execute arbit
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*-r:*'
+      - '*-remote:*'
+  condition: selection
+tags:
+  - attack.t1021.006
+references:
+  - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/winrs
+  - https://attack.mitre.org/techniques/T1021/006/
+custom_attributes:
+  original_rule_id: 0dd296a2-4338-11ec-ba02-3e22fbd008af
+  source_format: splunk_spl

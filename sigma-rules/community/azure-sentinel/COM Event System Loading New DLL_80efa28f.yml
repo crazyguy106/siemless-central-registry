@@ -1,0 +1,22 @@
+title: COM Event System Loading New DLL
+id: b7e827ff-26ca-5faf-886f-84edaf76a637
+status: stable
+level: medium
+description: |
+  'This query uses Sysmon Image Load (Event ID 7) and Process Create (Event ID 1) data to look for COM Event System being used to load a newly seen DLL.'
+author: Shain
+logsource:
+  product: windows
+detection:
+  selection:
+    Source:
+      - Microsoft-Windows-Sysmon
+      - Microsoft-Windows-Sysmon
+    Image|endswith: \\svchost.exe
+    ParentImage|endswith: \\svchost.exe
+  condition: selection
+tags:
+  - attack.t1543
+custom_attributes:
+  original_rule_id: 02f6c2e5-219d-4426-a0bf-ad67abc63d53
+  source_format: azure_kql

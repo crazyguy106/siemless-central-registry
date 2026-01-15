@@ -1,0 +1,26 @@
+title: Windows Common Abused Cmd Shell Risk Behavior
+id: 18a5cae8-87a1-57f3-935a-a0172b6efc41
+status: stable
+level: medium
+description: |
+  The following analytic identifies instances where four or more distinct detection analytics are associated with malicious command line behavior on a specific host. This detection leverages the Command Line Interface (CLI) data from various sources to identify suspicious activities. This behavior is significant as it often indicates attempts to execute malicious commands, access sensitive data, install backdoors, or perform other nefarious actions. If confirmed malicious, attackers could gain una
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1222
+  - attack.t1049
+  - attack.t1033
+  - attack.t1529
+  - attack.t1016
+  - attack.t1059
+references:
+  - https://www.splunk.com/en_us/blog/security/from-macros-to-no-macros-continuous-malware-improvements-by-qakbot.html
+  - https://www.splunk.com/en_us/blog/security/dark-crystal-rat-agent-deep-dive.html
+custom_attributes:
+  original_rule_id: e99fcc4f-c6b0-4443-aa2a-e3c85126ec9a
+  source_format: splunk_spl

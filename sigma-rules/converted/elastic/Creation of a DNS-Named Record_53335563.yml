@@ -1,0 +1,39 @@
+title: Creation of a DNS-Named Record
+id: 1e1b2e7e-b8f5-45e5-addc-66cc1224ffbc
+status: stable
+level: low
+description: 'Active Directory Integrated DNS (ADIDNS) is one of the core components
+  of AD DS, leveraging AD''s access control and
+
+  replication to maintain domain consistency. It stores DNS zones as AD objects, a
+  feature that, while robust, introduces
+
+  some security issues because of the default permission (Any authenticated users)
+  to create DNS-named records. Attackers
+
+  can perform Dynamic Spoofing attacks, where they monitor LLMNR/NBT-NS requests and
+  create DNS-named records to target
+
+  systems that are requested from multiple systems. They can also create specific
+  records to target specific services,
+
+  such as wpad, for spoofing attacks.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-26'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '5137'
+    winlog_event_data_ObjectClass: dnsNode
+    winlog_event_data_SubjectUserName|endswith: $
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1557
+references:
+- https://www.netspi.com/blog/technical/network-penetration-testing/adidns-revisited/
+- https://www.thehacker.recipes/a-d/movement/mitm-and-coerced-authentications/wpad-spoofing

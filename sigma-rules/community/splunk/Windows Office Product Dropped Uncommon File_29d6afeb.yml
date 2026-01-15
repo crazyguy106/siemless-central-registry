@@ -1,0 +1,35 @@
+title: Windows Office Product Dropped Uncommon File
+id: 51025399-816f-50ec-bf15-3863d7208d7b
+status: stable
+level: medium
+description: |
+  The following analytic detects Microsoft Office applications dropping or creating executables or scripts on a Windows OS. It leverages process creation and file system events from the Endpoint data model to identify Office applications like Word or Excel generating files with extensions such as ".exe", ".dll", or ".ps1". This behavior is significant as it is often associated with spear-phishing attacks where malicious files are dropped to compromise the host. If confirmed malicious, this activit
+author: Teoderick Contreras, Michael Haag, Splunk, TheLawsOfChaos, Github
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    span:
+      - 1h
+      - 1h
+    file_name:
+      - '*.dll'
+      - '*.exe'
+      - '*.js'
+      - '*.pif'
+      - '*.ps1'
+      - '*.scr'
+      - '*.vbe'
+      - '*.vbs'
+  condition: selection
+tags:
+  - attack.t1566.001
+references:
+  - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+  - https://attack.mitre.org/groups/G0046/
+  - https://www.joesandbox.com/analysis/702680/0/html
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+custom_attributes:
+  original_rule_id: 7ac0fced-9eae-4381-a748-90dcd1aa9393
+  source_format: splunk_spl

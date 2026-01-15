@@ -1,0 +1,35 @@
+title: Clearing Windows Event Logs
+id: d331bbe2-6db4-4941-80a5-8270db72eb61
+status: stable
+level: low
+description: 'Identifies attempts to clear or disable Windows event log stores using
+  Windows wevetutil command. This is often done by
+
+  attackers in an attempt to evade detection or destroy forensic evidence on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-09-12'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: wevtutil.exe
+    process_args|contains:
+    - /e:false
+    - cl
+    - clear-log
+    process_name|contains:
+    - powershell.exe
+    - pwsh.exe
+    - powershell_ise.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.001
+- attack.t1562.002
+- attack.t1070
+references:
+- https://www.elastic.co/security-labs/invisible-miners-unveiling-ghostengine

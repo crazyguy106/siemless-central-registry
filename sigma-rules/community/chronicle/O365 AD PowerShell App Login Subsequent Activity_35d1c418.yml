@@ -1,0 +1,42 @@
+title: O365 AD PowerShell App Login Subsequent Activity
+id: 30f03ea4-5e68-5d49-ab57-9ad135443919
+status: experimental
+level: medium
+description: |
+  Once a user authenticates to the Azure AD PowerShell application, if they take multiple admin actions indicative of establishing their own persistence with an Entra ID application within a portion of the access token time, alert for additional investigation
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    metadata_event_type:
+      - USER_LOGIN
+      - USER_RESOURCE_CREATION
+      - USER_RESOURCE_UPDATE_CONTENT
+      - USER_RESOURCE_UPDATE_PERMISSIONS
+      - USER_RESOURCE_UPDATE_CONTENT
+    metadata_product_event_type:
+      - UserLoggedIn
+      - Add application.
+      - Update application.
+      - Add delegated permission grant.
+      - Update application.*Certificates and secrets management
+    metadata_product_name:
+      - Office 365
+      - Office 365
+      - Office 365
+      - Office 365
+      - Office 365
+    metadata_vendor_name:
+      - Microsoft
+      - Microsoft
+      - Microsoft
+      - Microsoft
+      - Microsoft
+    target_resource_product_object_id: 1b730954-1685-4b74-9bfd-dac224a7b894
+    security_result_action: ALLOW
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_2d781f34-05f3-43aa-b5ec-257c03787a66
+  source_format: chronicle_yaral

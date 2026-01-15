@@ -1,0 +1,24 @@
+title: 'sshd: SSH Scanning.'
+id: 388c2716-a01d-5649-9808-4452791df437
+status: stable
+level: medium
+description: 'sshd: SSH Scanning.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: AKASSH_Version_Mapper1.
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+tags:
+  - attack.t1046
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5731
+  wazuh_level: 6

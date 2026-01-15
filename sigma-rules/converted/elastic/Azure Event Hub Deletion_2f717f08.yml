@@ -1,0 +1,35 @@
+title: Azure Event Hub Deletion
+id: e0f36de1-0342-453d-95a9-a068b257b053
+status: stable
+level: medium
+description: 'Identifies an Event Hub deletion in Azure. An Event Hub is an event
+  processing service that ingests and processes large
+
+  volumes of events and data. An adversary may delete an Event Hub in an attempt to
+  evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-18'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.EVENTHUB/NAMESPACES/EVENTHUBS/DELETE
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.008
+references:
+- https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about
+- https://azure.microsoft.com/en-in/services/event-hubs/
+- https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features
+falsepositives:
+- "    Event Hub deletions may be done by a system or network administrator. Verify\
+  \ whether the username, hostname, and/or\n    resource name should be making changes\
+  \ in your environment. Event Hub deletions by unfamiliar users or hosts should\n\
+  \    be investigated. If known behavior is causing false positives, it can be exempted\
+  \ from the rule.\n    "

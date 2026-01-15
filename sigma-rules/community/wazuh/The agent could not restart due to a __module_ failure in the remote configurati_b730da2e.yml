@@ -1,0 +1,22 @@
+title: The agent could not restart due to a $(module) failure in the remote configuration
+id: 1490bfef-1c2e-5104-91bd-f852ab721f45
+status: stable
+level: medium
+description: The agent could not restart due to a $(module) failure in the remote configuration
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^wazuh: Invalid remote configuration:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-220
+  wazuh_level: 7

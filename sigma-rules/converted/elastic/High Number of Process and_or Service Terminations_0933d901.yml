@@ -1,0 +1,28 @@
+title: High Number of Process and/or Service Terminations
+id: 035889c4-2686-4583-a7df-67f89c292f2c
+status: stable
+level: medium
+description: 'This rule identifies a high number (10) of process terminations (stop,
+  delete, or suspend) from the same host within a
+
+  short time period.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-03'
+modified: '2025-06-17'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    event_type: start
+    process_name: (net.exe
+    process_args: (stop
+    process_parent_name: (osquerybeat.exe
+  condition: selection
+tags:
+- attack.impact
+- attack.t1489
+references:
+- https://www.elastic.co/security-labs/luna-ransomware-attack-pattern

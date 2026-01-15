@@ -1,0 +1,38 @@
+title: 'vpopmail: brute force (email harvesting).'
+id: a5072e4f-e96a-510f-9298-463eb38dd32c
+status: stable
+level: high
+description: 'vpopmail: brute force (email harvesting).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 240s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-9902
+    window:
+      maxspan: 240s
+    enforce_order: true
+tags:
+  - attack.t1114
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9952
+  wazuh_level: 10

@@ -1,0 +1,24 @@
+title: AWS Bedrock Invoke Model Access Denied
+id: 140e49bb-e23f-509c-84ed-4b452a6412d6
+status: stable
+level: high
+description: |
+  The following analytic identifies access denied error when attempting to invoke AWS Bedrock models. It leverages AWS CloudTrail logs to detect when a user or service receives an AccessDenied error when calling the InvokeModel API. This activity is significant as it may indicate an adversary attempting to access Bedrock models with insufficient permissions after compromising credentials. If confirmed malicious, this could suggest reconnaissance activities or privilege escalation attempts targetin
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    eventname: InvokeModel
+    errorcode: AccessDenied
+  condition: selection
+tags:
+  - attack.t1078
+  - attack.t1550
+references:
+  - https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListFoundationModels.html
+  - https://trustoncloud.com/blog/exposing-the-weakness-how-we-identified-a-flaw-in-bedrocks-foundation-model-access-control/
+  - https://attack.mitre.org/techniques/T1595/
+custom_attributes:
+  original_rule_id: c53a8e62-f741-11ee-9f6e-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,21 @@
+title: Disable Defender Spynet Reporting
+id: f4078b7c-5751-5916-95a0-0eb0a33a6a5a
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of the registry to disable Windows Defender SpyNet reporting. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path associated with Windows Defender SpyNet settings. This activity is significant because disabling SpyNet reporting can prevent Windows Defender from sending telemetry data, potentially allowing malicious activities to go undetected. If confirmed malicious, this action could enable
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Windows Defender\\SpyNet*'
+    registry_value_name: SpynetReporting
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: 898debf4-3021-11ec-ba7c-acde48001122
+  source_format: splunk_spl

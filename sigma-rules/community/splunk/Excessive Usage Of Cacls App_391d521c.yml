@@ -1,0 +1,24 @@
+title: Excessive Usage Of Cacls App
+id: e98628c6-6a98-52c0-a506-7208faf8ee20
+status: stable
+level: medium
+description: |
+  The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe`, or `icacls.exe` to change file or folder permissions. It looks for 10 or more execution of the aforementioned processes in the span of 1 minute.  It leverages data from Endpoint Detection and Response (EDR) agents,  focusing on process names and command-line executions. This activity is significant as it may indicate an adversary attempting to restrict access to malware components or artifacts on a compromised system
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    span: 1m
+    process_name:
+      - icacls.exe
+      - cacls.exe
+      - xcacls.exe
+  condition: selection
+tags:
+  - attack.t1222
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: 0bdf6092-af17-11eb-939a-acde48001122
+  source_format: splunk_spl

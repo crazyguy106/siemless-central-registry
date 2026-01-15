@@ -1,0 +1,23 @@
+title: Get WMIObject Group Discovery
+id: cb23c651-5025-5a14-b5d4-24685b084877
+status: stable
+level: low
+description: |
+  The following analytic detects the use of the `Get-WMIObject Win32_Group` command executed via PowerShell to enumerate local groups on an endpoint. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. Identifying local groups can be a precursor to privilege escalation or lateral movement. If confirmed malicious, this activity could allow an attacker to map out group memberships, aiding in further exploitation or u
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*Get-WMIObject*'
+      - '*Win32_Group*'
+  condition: selection
+tags:
+  - attack.t1069.001
+references:
+  - https://attack.mitre.org/techniques/T1069/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+custom_attributes:
+  original_rule_id: 5434f670-155d-11ec-8cca-acde48001122
+  source_format: splunk_spl

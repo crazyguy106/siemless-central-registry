@@ -1,0 +1,26 @@
+title: Process Started with Executable Stack
+id: fc5105ce-2584-48b6-a0cf-9ace7eeffd3c
+status: stable
+level: low
+description: 'This rule monitors the syslog log file for messages related to instances
+  of processes that are started with an executable
+
+  stack. This can be an indicator of a process that is attempting to execute code
+  from the stack, which can be a security risk.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-07'
+modified: '2025-01-22'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_dataset: system.syslog
+    process_name: kernel
+    message: started
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.004

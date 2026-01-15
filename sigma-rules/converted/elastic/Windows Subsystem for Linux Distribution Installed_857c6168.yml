@@ -1,0 +1,26 @@
+title: Windows Subsystem for Linux Distribution Installed
+id: a1699af0-8e1e-4ed0-8ec1-89783538a061
+status: stable
+level: medium
+description: 'Detects changes to the registry that indicates the install of a new
+  Windows Subsystem for Linux distribution by name.
+
+  Adversaries may enable and use WSL for Linux to avoid detection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-12'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|endswith: \\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Lxss\\*\\PackageFamilyName
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1202
+- attack.t1112
+references:
+- https://learn.microsoft.com/en-us/windows/wsl/wsl-config

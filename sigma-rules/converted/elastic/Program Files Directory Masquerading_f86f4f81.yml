@@ -1,0 +1,28 @@
+title: Program Files Directory Masquerading
+id: 32c5cf9c-2ef8-4e87-819e-5ccb7cd18b14
+status: stable
+level: medium
+description: 'Identifies execution from a directory masquerading as the Windows Program
+  Files directories. These paths are trusted and
+
+  usually host trusted third party programs. An adversary may leverage masquerading,
+  along with low privileges to bypass
+
+  detections allowlisting those folders.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    event_dataset: crowdstrike.fdr
+    process_executable|contains: \\Device\\HarddiskVolume*\\Program Files\\*.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036.005
+- attack.t1036

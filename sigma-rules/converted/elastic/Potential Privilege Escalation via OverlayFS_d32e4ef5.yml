@@ -1,0 +1,33 @@
+title: Potential Privilege Escalation via OverlayFS
+id: b51dbc92-84e2-4af1-ba47-65183fcd0c57
+status: stable
+level: high
+description: 'Identifies an attempt to exploit a local privilege escalation (CVE-2023-2640
+  and CVE-2023-32629) via a flaw in Ubuntu''s
+
+  modifications to OverlayFS. These flaws allow the creation of specialized executables,
+  which, upon execution, grant the
+
+  ability to escalate privileges to root on the affected machine.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-28'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.parent.entity_id, host.id with maxspan=5s\n\
+      \  [process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action == \"exec\" and\n    process.name == \"unshare\" and process.args\
+      \ : (\"-r\", \"-rm\", \"m\") and process.args : \"*cap_setuid*\"  and user.id\
+      \ != \"0\"]\n  [process where host.os.type == \"linux\" and event.action ==\
+      \ \"uid_change\" and event.type == \"change\" and\n    user.id == \"0\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.privilege_escalation
+- attack.t1068
+references:
+- https://www.wiz.io/blog/ubuntu-overlayfs-vulnerability
+- https://twitter.com/liadeliyahu/status/1684841527959273472

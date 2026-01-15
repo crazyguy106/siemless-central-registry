@@ -1,0 +1,24 @@
+title: 'FTPD: Attempt to login with disabled account.'
+id: f970217f-2a0c-5360-b6c8-3ae11afa2cda
+status: stable
+level: medium
+description: 'FTPD: Attempt to login with disabled account.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'PAM_ERROR_MSG: Account is disabled'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11100
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11111
+  wazuh_level: 9

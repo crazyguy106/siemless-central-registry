@@ -1,0 +1,24 @@
+title: Okta Multiple Failed Requests To Access Applications
+id: f4489d41-53b9-5e26-b03e-375086da6a69
+status: experimental
+level: medium
+description: Detects multiple failed requests to access applications
+author: Google Cloud Security
+logsource:
+  product: okta
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_event_type: USER_UNCATEGORIZED
+    metadata_product_event_type: policy.evaluate_sign_on
+    target_resource_resource_subtype: AppInstance
+    security_result_action: CHALLENGE
+  condition: selection
+tags:
+  - attack.t1550
+references:
+  - https://sec.okta.com/sessioncookietheft
+custom_attributes:
+  original_rule_id: mr_171cce33-0367-4c46-918d-c9fe813b4418
+  source_format: chronicle_yaral

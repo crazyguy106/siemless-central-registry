@@ -1,0 +1,24 @@
+title: Windows HTTP Network Communication From MSIExec
+id: d2230216-ff43-5dc1-b8eb-90e236aca230
+status: stable
+level: medium
+description: |
+  The following analytic detects MSIExec making network connections over ports 443 or 80. This behavior is identified by correlating process creation events from Endpoint Detection and Response (EDR) agents with network traffic logs. Typically, MSIExec does not perform network communication to the internet, making this activity unusual and potentially indicative of malicious behavior. If confirmed malicious, an attacker could be using MSIExec to download or communicate with external servers, poten
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    dest_port:
+      - 80
+      - 443
+  condition: selection
+tags:
+  - attack.t1218.007
+references:
+  - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+custom_attributes:
+  original_rule_id: b0fd38c7-f71a-43a2-870e-f3ca06bcdd99
+  source_format: splunk_spl

@@ -1,0 +1,45 @@
+title: Message-of-the-Day (MOTD) File Creation
+id: 96d11d31-9a79-480f-8401-da28b194608f
+status: stable
+level: medium
+description: 'This rule detects the creation of potentially malicious files within
+  the default MOTD file directories. Message of the
+
+  day (MOTD) is the message that is presented to the user when a user connects to
+  a Linux server via SSH or a serial
+
+  connection. Linux systems contain several default MOTD files located in the "/etc/update-motd.d/"
+  directory. These
+
+  scripts run as the root user every time a user connects over SSH or a serial connection.
+  Adversaries may create
+
+  malicious MOTD files that grant them persistence onto the target every time a user
+  connects to the system by executing a
+
+  backdoor script or command.'
+author: Elastic (converted by SIEMLess)
+date: '2023-02-28'
+modified: '2025-02-03'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /tmp/vmis.*
+    - /snap/*
+    - /dev/fd/*
+    - /usr/lib/virtualbox/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037
+references:
+- https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/#10-boot-or-logon-initialization-scripts-motd
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

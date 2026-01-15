@@ -1,0 +1,38 @@
+title: SMB (Windows File Sharing) Activity to the Internet
+id: c82b2bd8-d701-420c-ba43-f11a155b681a
+status: stable
+level: high
+description: 'This rule detects network events that may indicate the use of Windows
+  file sharing (also called SMB or CIFS) traffic to
+
+  the Internet. SMB is commonly used within networks to share files, printers, and
+  other system resources amongst trusted
+
+  systems. It should almost never be directly exposed to the Internet, as it is frequently
+  targeted and exploited by
+
+  threat actors as an initial access or backdoor vector or for data exfiltration.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_dataset: zeek.smb)
+    event_category: (network
+    network_transport: tcp
+    destination_port: (139
+    source_ip: (
+    destination_ip: (
+    FE80: :/10
+    FF00: :/8
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.initial_access
+- attack.t1190
+- attack.t1048
+references:
+- https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml

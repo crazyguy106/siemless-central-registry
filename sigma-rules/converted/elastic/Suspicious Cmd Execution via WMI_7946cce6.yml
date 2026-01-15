@@ -1,0 +1,33 @@
+title: Suspicious Cmd Execution via WMI
+id: 12f07955-1674-44f7-86b5-c35da0a6f41a
+status: stable
+level: high
+description: 'Identifies suspicious command execution (cmd) via Windows Management
+  Instrumentation (WMI) on a remote host. This could
+
+  be indicative of adversary lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2020-10-19'
+modified: '2025-05-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_args|contains:
+    - C:\\windows\\temp\\*.txt
+    - \\Windows\\Temp\\*
+    - -encodehex
+    - \\\\127.0.0.1\\C$\\Windows\\Temp\\*
+    - \\\\127.0.0.1\\ADMIN$\\__*.*
+  condition: selection
+tags:
+- attack.execution
+- attack.t1047
+- attack.t1059
+- attack.t1059.003
+references:
+- https://www.elastic.co/security-labs/elastic-protects-against-data-wiper-malware-targeting-ukraine-hermeticwiper
+- https://www.elastic.co/security-labs/operation-bleeding-bear

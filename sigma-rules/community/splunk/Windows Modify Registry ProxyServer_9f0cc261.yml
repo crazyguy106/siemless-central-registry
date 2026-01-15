@@ -1,0 +1,21 @@
+title: Windows Modify Registry ProxyServer
+id: dd29b694-7418-5f7c-8850-b9b40e5ded7e
+status: stable
+level: medium
+description: |
+  The following analytic detects modifications to the Windows registry key for setting up a proxy server. It leverages data from the Endpoint.Registry datamodel, focusing on changes to the "Internet Settings\\ProxyServer" registry path. This activity is significant as it can indicate malware or adversaries configuring a proxy to facilitate unauthorized communication with Command and Control (C2) servers. If confirmed malicious, this could allow attackers to establish persistent, covert channels fo
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Internet Settings\\ProxyServer'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+custom_attributes:
+  original_rule_id: 12bdaa0b-3c59-4489-aae1-bff6d67746ef
+  source_format: splunk_spl

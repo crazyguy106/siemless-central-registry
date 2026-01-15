@@ -1,0 +1,25 @@
+title: Azure AD New Custom Domain Added
+id: f3d44a7a-bd8d-5071-a445-f5298228e5c5
+status: stable
+level: high
+description: |
+  The following analytic detects the addition of a new custom domain within an Azure Active Directory (AD) tenant. It leverages Azure AD AuditLogs to identify successful "Add unverified domain" operations. This activity is significant as it may indicate an adversary attempting to establish persistence by setting up identity federation backdoors, allowing them to impersonate users and bypass authentication mechanisms. If confirmed malicious, this could enable attackers to gain unauthorized access, 
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: Add unverified domain
+    result: success
+  condition: selection
+tags:
+  - attack.t1484.002
+references:
+  - https://docs.microsoft.com/en-us/azure/active-directory/enterprise-users/domains-manage
+  - https://www.mandiant.com/resources/remediation-and-hardening-strategies-microsoft-365-defend-against-apt29-v13
+  - https://o365blog.com/post/federation-vulnerability/
+  - https://www.inversecos.com/2021/11/how-to-detect-azure-active-directory.html
+  - https://www.mandiant.com/resources/blog/detecting-microsoft-365-azure-active-directory-backdoors
+custom_attributes:
+  original_rule_id: 30c47f45-dd6a-4720-9963-0bca6c8686ef
+  source_format: splunk_spl

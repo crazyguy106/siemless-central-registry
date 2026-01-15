@@ -1,0 +1,29 @@
+title: PowerShell Suspicious Script with Screenshot Capabilities
+id: 959a7353-1129-4aa7-9084-30746b256a70
+status: stable
+level: medium
+description: 'Detects PowerShell scripts that can take screenshots, which is a common
+  feature in post-exploitation kits and remote
+
+  access tools (RATs).'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-19'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    user_id: S-1-5-18
+  condition: selection
+tags:
+- attack.execution
+- attack.collection
+- attack.t1059
+- attack.t1113
+- attack.t1059.001
+references:
+- https://docs.microsoft.com/en-us/dotnet/api/system.drawing.graphics.copyfromscreen

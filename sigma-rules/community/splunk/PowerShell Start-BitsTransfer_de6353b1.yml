@@ -1,0 +1,21 @@
+title: PowerShell Start-BitsTransfer
+id: a7f90ff2-e6ab-5852-9ed8-f195045d1595
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the PowerShell command `Start-BitsTransfer`, which can be used for file transfers, including potential data exfiltration. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line arguments. This activity is significant because `Start-BitsTransfer` can be abused by adversaries to upload sensitive files to remote locations, posing a risk of data loss. If confirmed malicious, this could 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1197
+references:
+  - https://isc.sans.edu/diary/Investigating+Microsoft+BITS+Activity/23281
+  - https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
+custom_attributes:
+  original_rule_id: 39e2605a-90d8-11eb-899e-acde48001122
+  source_format: splunk_spl

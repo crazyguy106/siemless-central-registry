@@ -1,0 +1,21 @@
+title: ESXi Lockdown Mode Disabled
+id: 54a2a535-8aa2-5235-b452-76aff173817f
+status: stable
+level: high
+description: |
+  This detection identifies when Lockdown Mode is disabled on an ESXi host, which can indicate that a threat actor is attempting to weaken host security controls. Disabling Lockdown Mode allows broader remote access via SSH or the host client and may precede further malicious actions such as data exfiltration, lateral movement, or VM tampering.
+author: Raven Tait, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    field: _raw
+    message:
+      - '*lockdownmode.disabled*'
+      - '*Administrator access to the host has been enabled*'
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: 07c0d28a-9a9b-409f-8d4b-65355bd19ead
+  source_format: splunk_spl

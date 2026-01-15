@@ -1,0 +1,21 @@
+title: Wmic Group Discovery
+id: 9916fe62-cf07-52c2-a321-b1ab112deaf8
+status: stable
+level: medium
+description: |
+  The following analytic identifies the use of `wmic.exe` to enumerate local groups on an endpoint. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs, including command-line details. Monitoring this activity is significant as it can indicate reconnaissance efforts by an attacker to understand group memberships, which could be a precursor to privilege escalation or lateral movement. If confirmed malicious, this activity could allow a
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '*group get name*'
+  condition: selection
+tags:
+  - attack.t1069.001
+references:
+  - https://attack.mitre.org/techniques/T1069/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+custom_attributes:
+  original_rule_id: 83317b08-155b-11ec-8e00-acde48001122
+  source_format: splunk_spl

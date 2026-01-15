@@ -1,0 +1,24 @@
+title: Log file size reduced.
+id: 8664a005-f6f2-5457-8c94-94e2a804bb74
+status: stable
+level: medium
+description: Log file size reduced.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^ossec: File size reduced'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-500
+tags:
+  - attack.t1492
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-592
+  wazuh_level: 8

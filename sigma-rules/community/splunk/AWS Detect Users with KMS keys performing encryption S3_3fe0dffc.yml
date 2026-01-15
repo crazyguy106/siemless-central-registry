@@ -1,0 +1,23 @@
+title: AWS Detect Users with KMS keys performing encryption S3
+id: b30b40c3-1c4a-5f41-a16d-5cb1306a7b35
+status: stable
+level: medium
+description: |
+  The following analytic identifies users with KMS keys performing encryption operations on S3 buckets. It leverages AWS CloudTrail logs to detect the `CopyObject` event where server-side encryption with AWS KMS is specified. This activity is significant as it may indicate unauthorized or suspicious encryption of data, potentially masking exfiltration or tampering efforts. If confirmed malicious, an attacker could be encrypting sensitive data to evade detection or preparing it for exfiltration, po
+author: Rod Soto, Patrick Bareiss Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    encryption: 'aws:kms'
+    eventname: CopyObject
+  condition: selection
+tags:
+  - attack.t1486
+references:
+  - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+  - https://github.com/d1vious/git-wild-hunt
+  - https://www.youtube.com/watch?v=PgzNib37g0M
+custom_attributes:
+  original_rule_id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
+  source_format: splunk_spl

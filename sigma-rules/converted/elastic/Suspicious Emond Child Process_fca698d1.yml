@@ -1,0 +1,29 @@
+title: Suspicious Emond Child Process
+id: 3e3d15c6-1509-479a-b125-21718372157e
+status: stable
+level: medium
+description: 'Identifies the execution of a suspicious child process of the Event
+  Monitor Daemon (emond). Adversaries may abuse this
+
+  service by writing a rule to execute commands when a defined event occurs, such
+  as system start up or user
+
+  authentication.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-11'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_parent_name: emond
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1546.014
+- attack.t1546
+references:
+- https://www.xorrior.com/emond-persistence/
+- https://www.elastic.co/security-labs/handy-elastic-tools-for-the-enthusiastic-detection-engineer

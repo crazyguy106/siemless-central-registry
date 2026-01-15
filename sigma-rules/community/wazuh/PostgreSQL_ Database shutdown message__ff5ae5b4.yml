@@ -1,0 +1,26 @@
+title: 'PostgreSQL: Database shutdown message.'
+id: 07143018-d427-5532-a240-715cabd2ffdc
+status: stable
+level: high
+description: 'PostgreSQL: Database shutdown message.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - aborting any active transactions
+      - shutting down
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-50501
+tags:
+  - attack.t1529
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-50521
+  wazuh_level: 12

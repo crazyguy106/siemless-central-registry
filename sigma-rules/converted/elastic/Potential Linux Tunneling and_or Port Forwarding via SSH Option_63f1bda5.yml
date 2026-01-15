@@ -1,0 +1,29 @@
+title: Potential Linux Tunneling and/or Port Forwarding via SSH Option
+id: ef395dff-be12-4a6e-8919-d87d627c2174
+status: stable
+level: low
+description: 'This rule detects the use of SSH options that may indicate tunneling
+  or port forwarding on Linux systems. This behavior
+
+  is commonly associated with malicious activity, such as establishing a port forward,
+  proxy or an encrypted tunnel to
+
+  exfiltrate data.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-25'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_args: -o
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1572
+references:
+- https://blog.bitsadmin.com/living-off-the-foreign-land-windows-as-offensive-platform
+- https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding

@@ -1,0 +1,23 @@
+title: Threat Intel Hash Indicator Match
+id: aab184d3-72b3-4639-b242-6597c99d8bca
+status: stable
+level: high
+description: 'This rule is triggered when a hash indicator from the Threat Intel Filebeat
+  module or integrations has a match against
+
+  an event that contains file hashes, such as antivirus alerts, process creation,
+  library load, and file operation events.'
+author: Elastic (converted by SIEMLess)
+date: '2023-05-22'
+modified: '2025-04-22'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_kql: file.hash.*:* or process.hash.*:* or dll.hash.*:*
+  condition: selection
+references:
+- https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-module-threatintel.html
+- https://www.elastic.co/guide/en/security/current/es-threat-intel-integrations.html
+- https://www.elastic.co/security/tip

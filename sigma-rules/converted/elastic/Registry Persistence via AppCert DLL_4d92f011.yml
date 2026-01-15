@@ -1,0 +1,25 @@
+title: Registry Persistence via AppCert DLL
+id: 513f0ffd-b317-4b9c-9494-92ce861f22c7
+status: stable
+level: medium
+description: 'Detects attempts to maintain persistence by creating registry keys using
+  AppCert DLLs. AppCert DLLs are loaded by every
+
+  process using the common API functions to create processes.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|endswith: \\SYSTEM\\*ControlSet*\\Control\\Session Manager\\AppCertDLLs\\*
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1546.009
+- attack.t1546

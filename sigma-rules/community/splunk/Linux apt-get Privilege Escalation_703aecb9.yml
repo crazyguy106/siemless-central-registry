@@ -1,0 +1,24 @@
+title: Linux apt-get Privilege Escalation
+id: 07f05dbc-2dfd-5148-9ac6-1e33655533dc
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the 'apt-get' command with elevated privileges using 'sudo' on a Linux system. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line details. This activity is significant because it indicates a user may be attempting to escalate privileges to root, which could lead to unauthorized system control. If confirmed malicious, an attacker could gain root access, allowing them to e
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*apt-get*'
+      - '*APT::Update::Pre-Invoke::*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/apt-get/
+  - https://phoenixnap.com/kb/how-to-use-apt-get-commands
+custom_attributes:
+  original_rule_id: d870ce3b-e796-402f-b2af-cab4da1223f2
+  source_format: splunk_spl

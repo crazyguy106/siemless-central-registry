@@ -1,0 +1,20 @@
+title: Suspicious Certreq Command to Download
+id: 8b1399ad-8903-5b24-b675-f682aa93cc53
+status: experimental
+level: high
+description: |
+  Detects a suspicious certreq execution taken from the LOLBAS examples, which can be abused to download (small) files
+author: Christian Burkard (Nextron Systems)
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: certreq.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_lolbin_susp_certreq_download.yml
+custom_attributes:
+  original_rule_id: mr_c615e9f9-ded5-40ff-a571-7564b67da2e0
+  source_format: chronicle_yaral

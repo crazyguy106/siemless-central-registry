@@ -1,0 +1,25 @@
+title: Shellshock attack attempt
+id: 1826b6ae-cf47-590c-a682-81da8fa836ea
+status: stable
+level: medium
+description: Shellshock attack attempt
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '"\(\)\s*{\s*\w*:;\s*}\s*;|"\(\)\s*{\s*\w*;\s*}\s*;'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31101, 31120
+tags:
+  - attack.t1068
+  - attack.t1190
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31166
+  wazuh_level: 6

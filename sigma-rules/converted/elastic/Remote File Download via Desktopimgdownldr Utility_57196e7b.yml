@@ -1,0 +1,25 @@
+title: Remote File Download via Desktopimgdownldr Utility
+id: 15c0b7a7-9c34-4869-b25b-fa6518414899
+status: stable
+level: medium
+description: 'Identifies the desktopimgdownldr utility being used to download a remote
+  file. An adversary may use desktopimgdownldr to
+
+  download arbitrary files as an alternative to certutil.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-03'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: desktopimgdownldr.exe
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1105
+references:
+- https://labs.sentinelone.com/living-off-windows-land-a-new-native-file-downldr/

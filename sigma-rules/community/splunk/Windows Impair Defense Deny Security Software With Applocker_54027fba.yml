@@ -1,0 +1,49 @@
+title: Windows Impair Defense Deny Security Software With Applocker
+id: db722d9c-9434-501b-b206-9c6cc4bd47ee
+status: stable
+level: high
+description: |
+  The following analytic detects modifications in the Windows registry by the Applocker utility that deny the execution of various security products. This detection leverages data from the Endpoint.Registry datamodel, focusing on specific registry paths and values indicating a "Deny" action against known antivirus and security software. This activity is significant as it may indicate an attempt to disable security defenses, a tactic observed in malware like Azorult. If confirmed malicious, this co
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path:
+      - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy Objects\\*'
+      - '*}Machine\\Software\\Policies\\Microsoft\\Windows\\SrpV2*'
+      - '*\\Software\\Policies\\Microsoft\\Windows\\SrpV2*'
+    registry_value_data:
+      - '*O=SYMANTEC*'
+      - '*O=MCAFEE*'
+      - '*O=KASPERSKY*'
+      - '*O=BLEEPING COMPUTER*'
+      - '*O=PANDA SECURITY*'
+      - '*O=SYSTWEAK SOFTWARE*'
+      - '*O=TREND MICRO*'
+      - '*O=AVAST*'
+      - '*O=GRIDINSOFT*'
+      - '*O=MICROSOFT*'
+      - '*O=NANO SECURITY*'
+      - '*O=SUPERANTISPYWARE.COM*'
+      - '*O=DOCTOR WEB*'
+      - '*O=MALWAREBYTES*'
+      - '*O=ESET*'
+      - '*O=AVIRA*'
+      - '*O=WEBROOT*'
+    o:
+      - BLEEPING
+      - PANDA
+      - SYSTWEAK
+      - TREND
+      - NANO
+      - DOCTOR
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+  - https://www.microsoftpressstore.com/articles/article.aspx?p=2228450&seqNum=11
+custom_attributes:
+  original_rule_id: e0b6ca60-9e29-4450-b51a-bba0abae2313
+  source_format: splunk_spl

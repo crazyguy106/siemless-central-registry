@@ -1,0 +1,29 @@
+title: Execution via local SxS Shared Module
+id: a3ea12f3-0d4e-4667-8b44-4230c63f3c75
+status: stable
+level: medium
+description: 'Identifies the creation, change, or deletion of a DLL module within
+  a Windows SxS local folder. Adversaries may abuse
+
+  shared modules to execute malicious payloads by instructing the Windows module loader
+  to load DLLs from arbitrary local
+
+  paths.'
+author: Elastic (converted by SIEMLess)
+date: '2020-10-28'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_path|contains:
+    - C:\\*\\*.exe.local\\*.dll
+    - \\Device\\HarddiskVolume*\\*\\*.exe.local\\*.dll
+  condition: selection
+tags:
+- attack.execution
+- attack.t1129
+references:
+- https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-redirection

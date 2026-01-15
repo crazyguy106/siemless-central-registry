@@ -1,0 +1,28 @@
+title: Suspicious which Enumeration
+id: 5b18eef4-842c-4b47-970f-f08d24004bde
+status: stable
+level: low
+description: 'This rule monitors for the usage of the which command with an unusual
+  amount of process arguments. Attackers may
+
+  leverage the which command to enumerate the system for useful installed utilities
+  that may be used after compromising a
+
+  system to escalate privileges or move latteraly across the network.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-30'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: which
+    process_parent_name: jem
+    process_args: --tty-only
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1082

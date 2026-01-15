@@ -1,0 +1,51 @@
+title: Microsoft Entra ID Suspicious Cloud Device Registration
+id: 90efea04-5675-11f0-8f80-f661ea17fbcd
+status: stable
+level: medium
+description: 'Detects a sequence of events in Microsoft Entra ID indicative of a suspicious
+  cloud-based device registration,
+
+  potentially using ROADtools. This behavior involves adding a device via the Device
+  Registration Service, followed by the
+
+  assignment of registered users and owners — a pattern consistent with techniques
+  used to establish persistence or
+
+  acquire a Primary Refresh Token (PRT). ROADtools, a popular red team toolkit, often
+  leaves distinct telemetry signatures
+
+  such as the `Microsoft.OData.Client` user agent and specific OS version values.
+  These sequences are uncommon in typical
+
+  user behavior and may reflect abuse of device trust for session hijacking or silent
+  token replay.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-13'
+modified: '2025-06-13'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by azure.correlation_id with maxspan=1m\n[any where event.dataset\
+      \ == \"azure.auditlogs\" and\n    azure.auditlogs.identity == \"Device Registration\
+      \ Service\" and\n    azure.auditlogs.operation_name == \"Add device\" and\n\
+      \    azure.auditlogs.properties.additional_details.value like \"Microsoft.OData.Client/*\"\
+      \ and (\n        `azure.auditlogs.properties.target_resources.0.modified_properties.1.display_name`\
+      \ == \"CloudAccountEnabled\" and\n        `azure.auditlogs.properties.target_resources.0.modified_properties.1.new_value`\
+      \ == \"[true]\"\n    ) and\n    `azure.auditlogs.properties.target_resources.0.modified_properties.3.new_value`\
+      \ like \"*10.0.19041.928*\"]\n[any where event.dataset == \"azure.auditlogs\"\
+      \ and\n    azure.auditlogs.operation_name == \"Add registered users to device\"\
+      \ and\n    `azure.auditlogs.properties.target_resources.0.modified_properties.2.new_value`\
+      \ like \"*urn:ms-drs:enterpriseregistration.windows.net*\"]\n[any where event.dataset\
+      \ == \"azure.auditlogs\" and\n    azure.auditlogs.operation_name == \"Add registered\
+      \ owner to device\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.t1098.005
+- attack.t1098
+references:
+- https://www.volexity.com/blog/2025/04/22/phishing-for-codes-russian-threat-actors-target-microsoft-365-oauth-workflows/
+- https://github.com/dirkjanm/ROADtools

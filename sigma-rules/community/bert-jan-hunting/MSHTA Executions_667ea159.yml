@@ -1,0 +1,21 @@
+title: MSHTA Executions
+id: a23e56f5-d954-4e06-9090-f6769fa547e6
+status: experimental
+level: medium
+description: |
+  This query lists all mshta executions, or if mshta is used legitimately can be used to filter on suspicious mshta child processes.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let SuspiciousChildProcesses = dynamic(['cmd.exe', 'powershell.exe', 'bash.exe', 'csscript.exe', 'mshta.exe', 'msiexec.exe', 'rundll32.exe']);
+DeviceProcessEvents
+| where InitiatingProcessFileName =~ 'mshta.exe' or ProcessVersionInfoOriginalFileName  =~ 'mshta.exe'
+// Optionally only list suspicious child processes
+//| where FileName in~ (SuspiciousChildProcesses)
+| project-reorder  Timestamp, DeviceName, ProcessCommandLine, InitiatingProcessCommandLine, AccountUpn, ProcessVersionInfoOriginalFileName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

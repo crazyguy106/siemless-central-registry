@@ -1,0 +1,23 @@
+title: ADFS DB Suspicious Named Pipe Connection
+id: 39f84109-f329-5cd9-a4fc-c38f2f8f851f
+status: experimental
+level: medium
+description: |
+  Connection to ADFS via named pipes that are not using specific Windows ADFS processes may be indicative of user attempting to access ADFS for suspicious purposes
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    metadata_event_type: PROCESS_UNCATEGORIZED
+    metadata_product_event_type: 18
+    metadata_product_name: Microsoft-Windows-Sysmon
+    target_resource_name: '\\MICROSOFT##WID\\tsql\\query'
+    principal_hostname: adfs
+  condition: selection
+references:
+  - https://github.com/Azure/Azure-Sentinel/blob/master/Solutions/Windows%20Security%20Events/Analytic%20Rules/ADFSDBNamedPipeConnection.yaml
+custom_attributes:
+  original_rule_id: mr_a25913a1-65be-4cb5-b0de-6858dd04ac99
+  source_format: chronicle_yaral

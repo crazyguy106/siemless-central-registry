@@ -1,0 +1,22 @@
+title: Remote System Discovery with Wmic
+id: 3814b73c-ce9a-54d5-a2ae-936fc4b699f9
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `wmic.exe` with specific command-line arguments used to discover remote systems within a domain. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it indicates potential reconnaissance efforts by adversaries to map out network resources and Active Directory structures. If confirmed malicious, this behavior could allow attackers to gain situatio
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: wmic.exe
+    process: '*GET ds_samaccountname*'
+  condition: selection
+tags:
+  - attack.t1018
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmic
+custom_attributes:
+  original_rule_id: d82eced3-b1dc-42ab-859e-a2fc98827359
+  source_format: splunk_spl

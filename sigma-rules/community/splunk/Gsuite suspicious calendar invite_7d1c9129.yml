@@ -1,0 +1,22 @@
+title: Gsuite suspicious calendar invite
+id: b1589147-a5de-51b2-aab3-57e601890c75
+status: experimental
+level: low
+description: |
+  The following analytic detects suspicious calendar invites sent via GSuite, potentially indicating compromised accounts or malicious internal activity. It leverages GSuite calendar logs, focusing on events where a high volume of invites (over 100) is sent within a 5-minute window. This behavior is significant as it may involve the distribution of malicious links or attachments, posing a security risk. If confirmed malicious, this activity could lead to widespread phishing attacks, unauthorized a
+author: Rod Soto, Teoderick Contreras
+logsource:
+  product: splunk
+detection:
+  selection:
+    email: '*yourdomain.com'
+    span: 5m
+  condition: selection
+tags:
+  - attack.t1566
+references:
+  - https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/
+  - https://gcn.com/cybersecurity/2012/09/the-20-most-common-words-in-phishing-attacks/280956/
+custom_attributes:
+  original_rule_id: 03cdd68a-34fb-11ec-9bd3-acde48001122
+  source_format: splunk_spl

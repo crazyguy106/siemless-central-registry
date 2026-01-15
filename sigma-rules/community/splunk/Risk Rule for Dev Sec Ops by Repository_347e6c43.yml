@@ -1,0 +1,19 @@
+title: Risk Rule for Dev Sec Ops by Repository
+id: e33c0e08-e8ce-5cb1-aa9c-ad04c8ddc378
+status: stable
+level: medium
+description: |
+  The following analytic identifies high-risk activities within repositories by correlating repository data with risk scores. It leverages risk events from the Dev Sec Ops analytic stories, summing risk scores and capturing source and user information. The detection focuses on high-risk scores above 100 and sources with more than three occurrences. This activity is significant as it highlights repositories frequently targeted by threats, providing insights into potential vulnerabilities. If confir
+author: Bhavin Patel
+logsource:
+  product: splunk
+detection:
+  selection:
+    analyticstories: Dev Sec Ops
+    risk_object_type: other
+  condition: selection
+tags:
+  - attack.t1204.003
+custom_attributes:
+  original_rule_id: 161bc0ca-4651-4c13-9c27-27770660cf67
+  source_format: splunk_spl

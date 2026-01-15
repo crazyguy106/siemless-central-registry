@@ -1,0 +1,44 @@
+title: Potential Remote Desktop Shadowing Activity
+id: c57f8579-e2a5-4804-847f-f2732edc5156
+status: stable
+level: high
+description: 'Identifies the modification of the Remote Desktop Protocol (RDP) Shadow
+  registry or the execution of processes
+
+  indicative of an active RDP shadowing session. An adversary may abuse the RDP Shadowing
+  feature to spy on or control
+
+  other users active RDP sessions.'
+author: Elastic (converted by SIEMLess)
+date: '2021-04-12'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_category: process
+    event_type: start
+    registry_path|contains: '*\\Software\\Policies\\Microsoft\\Windows NT\\Terminal
+      Services\\Shadow'
+    registry_data_strings|contains:
+    - '1'
+    - '0x00000001'
+    - '2'
+    - '0x00000002'
+    - '3'
+    - '0x00000003'
+    - '4'
+    - '0x00000004'
+    process_name|contains:
+    - RdpSaUacHelper.exe
+    - RdpSaProxy.exe
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.t1021.001
+- attack.t1021
+references:
+- https://blog.bitsadmin.com/spying-on-users-using-rdp-shadowing
+- https://swarm.ptsecurity.com/remote-desktop-services-shadowing/

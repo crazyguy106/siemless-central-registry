@@ -1,0 +1,29 @@
+title: Cisco ASA - Core Syslog Message Volume Drop
+id: c5bcaaa6-3c22-56e7-a063-e9aa9d685bd7
+status: stable
+level: low
+description: |
+  Adversaries may intentionally suppress or reduce the volume of core Cisco ASA syslog messages to evade detection or cover their tracks. This hunting search is recommended to proactively identify suspicious downward shifts or absences in key syslog message IDs, which may indicate tampering or malicious activity. Visualizing this data in Splunk dashboards enables security teams to quickly spot anomalies and investigate potential compromise.
+author: Bhavin Patel, Micheal Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    message_id:
+      - 302013
+      - 302014
+      - 609002
+      - 710005
+    span: 15m
+  condition: selection
+tags:
+  - attack.t1562
+references:
+  - https://blog.talosintelligence.com/arcanedoor-new-espionage-focused-campaign-found-targeting-perimeter-network-devices/
+  - https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-z5xP8EUB
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-YROOTUW
+custom_attributes:
+  original_rule_id: 4b4f8fdd-1f9e-45d8-9b0f-1f64c0b297a4
+  source_format: splunk_spl

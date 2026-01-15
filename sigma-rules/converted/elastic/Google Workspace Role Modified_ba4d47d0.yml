@@ -1,0 +1,33 @@
+title: Google Workspace Role Modified
+id: 6f435062-b7fc-4af9-acea-5b1ead65c5a5
+status: stable
+level: medium
+description: 'Detects when a custom admin role or its permissions are modified. An
+  adversary may modify a custom admin role in order
+
+  to elevate the permissions of other user accounts and persist in their target’s
+  environment.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-17'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_provider: admin
+    event_category: iam
+    event_action: (ADD_PRIVILEGE
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+references:
+- https://support.google.com/a/answer/2406043?hl=en
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Google Workspace admin roles may be modified by system administrators. Verify\
+  \ that the configuration change was\n    expected. Exceptions can be added to this\
+  \ rule to filter expected behavior.\n    "

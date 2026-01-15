@@ -7,7 +7,7 @@ source_document: Google Workspace Audit Logging in Cloud Logging
 source_url: https://cloud.google.com/logging/docs/audit/gsuite-audit-logging
 extraction_date: '2026-01-02'
 source_file: google-workspace-signatures.json
-generated_at: '2026-01-02T23:20:42.337066'
+generated_at: '2026-01-04T09:34:59.217057'
 categories:
 - LogEntry
 - ProtoPayload
@@ -22,125 +22,219 @@ fields:
   field_type: string
   description: Contains organization ID and audit log type (admin_activity or data_access)
   category: LogEntry
+  ecs_field: vendor.logName
+  cim_field: logName
+  asim_field: logName
 - field_name: resource
   field_type: object
   description: Target of the audited operation
   category: LogEntry
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
 - field_name: resource.type
   field_type: string
   description: Resource type being audited
   category: LogEntry
+  ecs_field: cloud.resource.type
+  cim_field: resource_type
+  asim_field: CloudResourceType
 - field_name: resource.labels
   field_type: object
   description: Resource labels including project_id, organization_id
   category: LogEntry
+  ecs_field: vendor.resource.labels
+  cim_field: resource.labels
+  asim_field: resource.labels
 - field_name: timestamp
   field_type: datetime
   description: Time when operation occurred (RFC 3339 format)
   category: LogEntry
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
 - field_name: severity
   field_type: string
   description: Log severity level
   category: LogEntry
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
 - field_name: insertId
   field_type: string
   description: Unique identifier for the log entry
   category: LogEntry
+  ecs_field: vendor.insertId
+  cim_field: insertId
+  asim_field: insertId
 - field_name: protoPayload.@type
   field_type: string
   description: Always type.googleapis.com/google.cloud.audit.AuditLog
   category: ProtoPayload
+  ecs_field: vendor.protoPayload.@type
+  cim_field: protoPayload.@type
+  asim_field: protoPayload.@type
 - field_name: protoPayload.serviceName
   field_type: string
   description: Service generating the audit log (e.g., admin.googleapis.com)
   category: ProtoPayload
+  ecs_field: vendor.protoPayload.serviceName
+  cim_field: protoPayload.serviceName
+  asim_field: protoPayload.serviceName
 - field_name: protoPayload.methodName
   field_type: string
   description: Specific operation performed
   category: ProtoPayload
+  ecs_field: vendor.protoPayload.methodName
+  cim_field: protoPayload.methodName
+  asim_field: protoPayload.methodName
 - field_name: protoPayload.resourceName
   field_type: string
   description: Organization identifier being audited
   category: ProtoPayload
+  ecs_field: vendor.protoPayload.resourceName
+  cim_field: protoPayload.resourceName
+  asim_field: protoPayload.resourceName
 - field_name: protoPayload.status
   field_type: object
   description: Status of the operation
   category: ProtoPayload
+  ecs_field: vendor.protoPayload.status
+  cim_field: protoPayload.status
+  asim_field: protoPayload.status
 - field_name: protoPayload.authenticationInfo.principalEmail
   field_type: email
   description: Email of user performing the action
   category: AuthenticationInfo
+  ecs_field: vendor.protoPayload.authenticationInfo.principalEmail
+  cim_field: protoPayload.authenticationInfo.principalEmail
+  asim_field: protoPayload.authenticationInfo.principalEmail
 - field_name: protoPayload.authenticationInfo.principalSubject
   field_type: string
   description: Subject identifier for the principal
   category: AuthenticationInfo
+  ecs_field: vendor.protoPayload.authenticationInfo.principalSubject
+  cim_field: protoPayload.authenticationInfo.principalSubject
+  asim_field: protoPayload.authenticationInfo.principalSubject
 - field_name: protoPayload.requestMetadata.callerIp
   field_type: ip
   description: Source IP address of the request
   category: RequestMetadata
+  ecs_field: vendor.protoPayload.requestMetadata.callerIp
+  cim_field: protoPayload.requestMetadata.callerIp
+  asim_field: protoPayload.requestMetadata.callerIp
 - field_name: protoPayload.requestMetadata.callerSuppliedUserAgent
   field_type: string
   description: User agent string from the caller
   category: RequestMetadata
+  ecs_field: vendor.protoPayload.requestMetadata.callerSuppliedUserAgent
+  cim_field: protoPayload.requestMetadata.callerSuppliedUserAgent
+  asim_field: protoPayload.requestMetadata.callerSuppliedUserAgent
 - field_name: protoPayload.requestMetadata.requestAttributes
   field_type: object
   description: Additional request attributes
   category: RequestMetadata
+  ecs_field: vendor.protoPayload.requestMetadata.requestAttributes
+  cim_field: protoPayload.requestMetadata.requestAttributes
+  asim_field: protoPayload.requestMetadata.requestAttributes
 - field_name: protoPayload.metadata.@type
   field_type: string
   description: Always type.googleapis.com/ccc_hosted_reporting.ActivityProto
   category: Metadata
+  ecs_field: vendor.protoPayload.metadata.@type
+  cim_field: protoPayload.metadata.@type
+  asim_field: protoPayload.metadata.@type
 - field_name: protoPayload.metadata.activityId
   field_type: object
   description: Unique activity identifier with timestamp
   category: Metadata
+  ecs_field: vendor.protoPayload.metadata.activityId
+  cim_field: protoPayload.metadata.activityId
+  asim_field: protoPayload.metadata.activityId
 - field_name: protoPayload.metadata.activityId.timeUsec
   field_type: integer
   description: Activity timestamp in microseconds
   category: Metadata
+  ecs_field: vendor.protoPayload.metadata.activityId.timeUsec
+  cim_field: protoPayload.metadata.activityId.timeUsec
+  asim_field: protoPayload.metadata.activityId.timeUsec
 - field_name: protoPayload.metadata.activityId.uniqQualifier
   field_type: string
   description: Unique qualifier for the activity
   category: Metadata
+  ecs_field: vendor.protoPayload.metadata.activityId.uniqQualifier
+  cim_field: protoPayload.metadata.activityId.uniqQualifier
+  asim_field: protoPayload.metadata.activityId.uniqQualifier
 - field_name: protoPayload.metadata.event
   field_type: array
   description: Array of event objects
   category: Event
+  ecs_field: vendor.protoPayload.metadata.event
+  cim_field: protoPayload.metadata.event
+  asim_field: protoPayload.metadata.event
 - field_name: protoPayload.metadata.event.eventName
   field_type: string
   description: Human-readable event identifier
   category: Event
+  ecs_field: vendor.protoPayload.metadata.event.eventName
+  cim_field: protoPayload.metadata.event.eventName
+  asim_field: protoPayload.metadata.event.eventName
 - field_name: protoPayload.metadata.event.eventType
   field_type: string
   description: Classification of event (e.g., login, admin_action)
   category: Event
+  ecs_field: vendor.protoPayload.metadata.event.eventType
+  cim_field: protoPayload.metadata.event.eventType
+  asim_field: protoPayload.metadata.event.eventType
 - field_name: protoPayload.metadata.event.status
   field_type: string
   description: Event status (success, failure)
   category: Event
+  ecs_field: vendor.protoPayload.metadata.event.status
+  cim_field: protoPayload.metadata.event.status
+  asim_field: protoPayload.metadata.event.status
 - field_name: protoPayload.metadata.event.parameter
   field_type: array
   description: Key-value pairs with event details
   category: Parameter
+  ecs_field: vendor.protoPayload.metadata.event.parameter
+  cim_field: protoPayload.metadata.event.parameter
+  asim_field: protoPayload.metadata.event.parameter
 - field_name: parameter.name
   field_type: string
   description: Parameter field name
   category: Parameter
+  ecs_field: vendor.parameter.name
+  cim_field: parameter.name
+  asim_field: parameter.name
 - field_name: parameter.type
   field_type: string
   description: Parameter data type (TYPE_STRING, TYPE_INT64, etc.)
   category: Parameter
+  ecs_field: vendor.parameter.type
+  cim_field: parameter.type
+  asim_field: parameter.type
 - field_name: parameter.value
   field_type: string
   description: Single parameter value
   category: Parameter
+  ecs_field: vendor.parameter.value
+  cim_field: parameter.value
+  asim_field: parameter.value
 - field_name: parameter.multiStrValue
   field_type: array
   description: Array of string values for repeated fields
   category: Parameter
+  ecs_field: vendor.parameter.multiStrValue
+  cim_field: parameter.multiStrValue
+  asim_field: parameter.multiStrValue
 - field_name: parameter.label
   field_type: string
   description: Field label (LABEL_REPEATED for arrays)
   category: Parameter
+  ecs_field: vendor.parameter.label
+  cim_field: parameter.label
+  asim_field: parameter.label
+mapped_field_count: 4
 notes: Audit logs for Google Workspace services (Admin, Drive, Login, etc.) streamed
   to Cloud Logging.

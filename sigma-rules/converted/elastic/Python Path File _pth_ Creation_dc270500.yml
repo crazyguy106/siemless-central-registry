@@ -1,0 +1,37 @@
+title: Python Path File (pth) Creation
+id: 7f65f984-5642-4291-a0a0-2bbefce4c617
+status: stable
+level: low
+description: 'This rule detects the creation of .pth files in system-wide and user-specific
+  Python package
+
+  directories, which can be abused for persistent code execution. .pth files automatically
+
+  execute Python code when the interpreter starts, making them a stealthy persistence
+  mechanism.
+
+  Monitoring these paths helps identify unauthorized modifications that could indicate
+
+  persistence by an attacker or malicious package injection.'
+author: Elastic (converted by SIEMLess)
+date: '2025-02-26'
+modified: '2025-04-07'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_extension: pth
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.execution
+- attack.t1574
+- attack.t1059.004
+- attack.t1059
+- attack.t1546
+references:
+- https://dfir.ch/posts/publish_python_pth_extension/
+- https://www.volexity.com/blog/2024/04/12/zero-day-exploitation-of-unauthenticated-remote-code-execution-vulnerability-in-globalprotect-cve-2024-3400/

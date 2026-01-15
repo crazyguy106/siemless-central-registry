@@ -1,0 +1,23 @@
+title: Windows Modify Registry Disable Win Defender Raw Write Notif
+id: c85e2374-8b4b-5ec6-a6fa-7fcb9f98c815
+status: stable
+level: medium
+description: |
+  The following analytic detects modifications to the Windows registry that disable the Windows Defender raw write notification feature. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the registry path associated with Windows Defender's real-time protection settings. This activity is significant because disabling raw write notifications can allow malware, such as Azorult, to bypass Windows Defender's behavior monitoring, potentially leading to undetected
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    registry_path: '*\\Windows Defender\\Real-Time Protection\\DisableRawWriteNotification*'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://admx.help/?Category=SystemCenterEndpointProtection&Policy=Microsoft.Policies.Antimalware::real-time_protection_disablerawwritenotification
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+custom_attributes:
+  original_rule_id: 0e5e25c3-32f4-46f7-ba4a-5b95c3b90f5b
+  source_format: splunk_spl

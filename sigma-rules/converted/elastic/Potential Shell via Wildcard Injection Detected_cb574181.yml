@@ -1,0 +1,43 @@
+title: Potential Shell via Wildcard Injection Detected
+id: 0b803267-74c5-444d-ae29-32b5db2d562a
+status: stable
+level: medium
+description: 'This rule monitors for the execution of a set of linux binaries, that
+  are potentially vulnerable to wildcard injection,
+
+  with suspicious command line flags followed by a shell spawn event. Linux wildcard
+  injection is a type of security
+
+  vulnerability where attackers manipulate commands or input containing wildcards
+  (e.g., *, ?, []) to execute unintended
+
+  operations or access sensitive data by tricking the system into interpreting the
+  wildcard characters in unexpected ways.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-28'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=1s\n  [process where host.os.type\
+      \ == \"linux\" and event.type == \"start\" and event.action in (\"exec\", \"\
+      start\", \"ProcessRollup2\") and (\n    (process.name == \"tar\" and process.args\
+      \ : \"--checkpoint=*\" and process.args : \"--checkpoint-action=*\") or\n  \
+      \  (process.name == \"rsync\" and process.args : \"-e*\") or\n    (process.name\
+      \ == \"zip\" and process.args == \"--unzip-command\")\n   ) and not process.executable\
+      \ : \"/tmp/newroot/*\"\n  ]  by process.entity_id\n  [process where host.os.type\
+      \ == \"linux\" and event.type == \"start\" and event.action in (\"exec\", \"\
+      start\", \"ProcessRollup2\") and\n     process.parent.name : (\"tar\", \"rsync\"\
+      , \"zip\") and\n     process.name : (\"bash\", \"dash\", \"sh\", \"tcsh\", \"\
+      csh\", \"zsh\", \"ksh\", \"fish\")\n  ] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.privilege_escalation
+- attack.t1059
+- attack.t1068
+references:
+- https://www.exploit-db.com/papers/33930

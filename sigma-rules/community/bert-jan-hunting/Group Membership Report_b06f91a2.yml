@@ -1,0 +1,27 @@
+title: Group Membership Report
+id: 3244ab75-4790-4ab4-90ac-9e1bd0ac78d5
+status: experimental
+level: medium
+description: |
+  This query can be used to draw an report of the Entra ID group memberships of all users.
+
+Note: if a users has more than 1000 memberships remove the 1000 limitation in the make_set to display all groupnames.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    let TimeFrame = 30d;
+IdentityInfo
+| where Timestamp > ago(TimeFrame)
+| summarize arg_max(TimeGenerated, *) by AccountObjectId
+| mv-expand GroupMembership
+| where isnotempty(GroupMembership)
+| summarize TotalMemberships = dcount(tostring(GroupMembership)), MemberOf = make_set(tostring(GroupMembership), 1000) by AccountObjectId, AccountDisplayName, AccountUPN
+| extend ReportDate = now()
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

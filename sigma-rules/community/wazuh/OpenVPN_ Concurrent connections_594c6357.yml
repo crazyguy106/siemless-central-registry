@@ -1,0 +1,33 @@
+title: 'OpenVPN: Concurrent connections'
+id: 83c7d0c1-7c31-50cc-9065-15c9fe185a23
+status: stable
+level: low
+description: 'OpenVPN: Concurrent connections'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 60s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 3
+  - type: sequence
+    parent_rule: wazuh-81801
+    window:
+      maxspan: 60s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81802
+  wazuh_level: 3

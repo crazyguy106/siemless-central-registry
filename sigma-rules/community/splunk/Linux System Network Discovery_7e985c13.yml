@@ -1,0 +1,31 @@
+title: Linux System Network Discovery
+id: ae52ba41-4aa3-5f37-9a5d-f4de47e742f3
+status: stable
+level: medium
+description: |
+  The following analytic identifies potential enumeration of local network configuration on Linux systems. It detects this activity by monitoring processes such as "arp," "ifconfig," "ip," "netstat," "firewall-cmd," "ufw," "iptables," "ss," and "route" within a 30-minute window. This behavior is significant as it often indicates reconnaissance efforts by adversaries to gather network information for subsequent attacks. If confirmed malicious, this activity could enable attackers to map the network
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: network_connection
+detection:
+  selection:
+    span: 30m
+    process_name:
+      - arp
+      - ifconfig
+      - ip
+      - netstat
+      - firewall-cmd
+      - ufw
+      - iptables
+      - ss
+      - route
+  condition: selection
+tags:
+  - attack.t1016
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1016/T1016.md
+custom_attributes:
+  original_rule_id: 535cb214-8b47-11ec-a2c7-acde48001122
+  source_format: splunk_spl

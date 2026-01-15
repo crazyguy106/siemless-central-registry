@@ -1,0 +1,47 @@
+title: Potential Defense Evasion via PRoot
+id: 5c9ec990-37fa-4d5c-abfc-8d432f3dedd0
+status: stable
+level: medium
+description: 'Identifies the execution of the PRoot utility, an open-source tool for
+  user-space implementation of chroot, mount
+
+  --bind, and binfmt_misc. Adversaries can leverage an open-source tool PRoot to expand
+  the scope of their operations to
+
+  multiple Linux distributions and simplify their necessary efforts. In a normal threat
+  scenario, the scope of an attack
+
+  is limited by the varying configurations of each Linux distribution. With PRoot,
+  it provides an attacker with a
+
+  consistent operational environment across different Linux distributions, such as
+  Ubuntu, Fedora, and Alpine. PRoot also
+
+  provides emulation capabilities that allow for malware built on other architectures,
+  such as ARM, to be run.The
+
+  post-exploitation technique called bring your own filesystem (BYOF), can be used
+  by the threat actors to execute
+
+  malicious payload or elevate privileges or perform network scans or orchestrate
+  another attack on the environment.
+
+  Although PRoot was originally not developed with malicious intent it can be easily
+  tuned to work for one.'
+author: Elastic (converted by SIEMLess)
+date: '2023-03-07'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_parent_name: proot
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1211
+references:
+- https://proot-me.github.io/

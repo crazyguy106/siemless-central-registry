@@ -1,0 +1,23 @@
+title: 'Docker: Role for node $(docker.Actor.Attributes.name) has changed from $(docker.Actor.Attributes.role.old) to $(docker.Actor.Attributes.role.new)'
+id: 574d319b-611b-5ba2-930b-77a2dc9c490b
+status: stable
+level: low
+description: 'Docker: Role for node $(docker.Actor.Attributes.name) has changed from $(docker.Actor.Attributes.role.old) to $(docker.Actor.Attributes.role.new)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Actor.Attributes.role.new: \.+
+    docker.Actor.Attributes.role.old: \.+
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87950
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87951
+  wazuh_level: 3

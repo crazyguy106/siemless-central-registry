@@ -1,0 +1,31 @@
+title: Linux Process Hooking via GDB
+id: 66c058f3-99f4-4d18-952b-43348f2577a0
+status: stable
+level: low
+description: 'This rule monitors for potential memory dumping through gdb. Attackers
+  may leverage memory dumping techniques to attempt
+
+  secret extraction from privileged processes. Tools that display this behavior include
+  "truffleproc" and
+
+  "bash-memory-dump". This behavior should not happen by default, and should be investigated
+  thoroughly.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-30'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: gdb
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1003.007
+references:
+- https://github.com/controlplaneio/truffleproc
+- https://github.com/hajzer/bash-memory-dump

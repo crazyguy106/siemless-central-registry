@@ -1,0 +1,34 @@
+title: Privilege Escalation via Windir Environment Variable
+id: d563aaba-2e72-462b-8658-3e5ea22db3a6
+status: stable
+level: high
+description: 'Identifies a privilege escalation attempt via a rogue Windows directory
+  (Windir) environment variable. This is a known
+
+  primitive that is often combined with other vulnerabilities to elevate privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-26'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_value|contains:
+    - windir
+    - systemroot
+    registry_path|contains:
+    - '*\\Environment\\windir'
+    - '*\\Environment\\systemroot'
+    registry_data_strings|contains:
+    - C:\\windows
+    - '%SystemRoot%'
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1574
+- attack.t1574.007
+references:
+- https://www.tiraniddo.dev/2017/05/exploiting-environment-variables-in.html

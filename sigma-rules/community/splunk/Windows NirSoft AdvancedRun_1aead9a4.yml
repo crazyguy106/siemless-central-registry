@@ -1,0 +1,25 @@
+title: Windows NirSoft AdvancedRun
+id: 3cacbf6a-6ad9-5dd0-8a23-2644c6e85caa
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of AdvancedRun.exe, a tool with capabilities similar to remote administration programs like PsExec. It identifies the process by its name or original file name and flags common command-line arguments. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry. Monitoring this activity is crucial as AdvancedRun can be used for remote code execution and configuration-based automation. 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*EXEFilename*'
+      - '*/cfg*'
+      - '*RunAs*'
+      - '*WindowState*'
+  condition: selection
+tags:
+  - attack.t1588.002
+references:
+  - http://www.nirsoft.net/utils/advanced_run.html
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+custom_attributes:
+  original_rule_id: bb4f3090-7ae4-11ec-897f-acde48001122
+  source_format: splunk_spl

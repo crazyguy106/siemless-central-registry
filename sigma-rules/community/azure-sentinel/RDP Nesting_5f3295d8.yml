@@ -1,0 +1,18 @@
+title: RDP Nesting
+id: 441ce086-18d6-58ca-b4be-651ae7a3a685
+status: stable
+level: medium
+description: |
+  'Query detects potential lateral movement within a network by identifying when an RDP connection (EventID 4624, LogonType 10) is made to an initial system, followed by a subsequent RDP connection from that system to another, using the same account within a 60-minute window.  To reduce false positives, it excludes scenarios where the same account has made 5 or more connections to the same set of computers in the previous 7 days. This approach focuses on highlighting unusual RDP behaviour that sug
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1021
+custom_attributes:
+  original_rule_id: 69a45b05-71f5-45ca-8944-2e038747fb39
+  source_format: azure_kql

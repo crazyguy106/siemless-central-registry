@@ -1,0 +1,25 @@
+title: GetWmiObject User Account with PowerShell Script Block
+id: 5201f349-b726-5b15-9d16-a1bab1c1c3d8
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of the `Get-WmiObject` commandlet with the `Win32_UserAccount` parameter via PowerShell Script Block Logging (EventCode=4104). This method leverages script block text to identify when a list of all local users is being enumerated. This activity is significant as it may indicate an adversary or Red Team operation attempting to gather user information for situational awareness and Active Directory discovery. If confirmed malicious, this could lead to fu
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*Get-WmiObject*'
+      - '*Win32_UserAccount*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1059.001
+  - attack.t1087.001
+references:
+  - https://attack.mitre.org/techniques/T1087/001/
+  - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
+custom_attributes:
+  original_rule_id: 640b0eda-0429-11ec-accd-acde48001122
+  source_format: splunk_spl

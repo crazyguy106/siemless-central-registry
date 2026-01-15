@@ -1,0 +1,21 @@
+title: List Automatically Closed Incidents
+id: ac4d73ec-dfe2-40cb-b5de-db9eff434963
+status: experimental
+level: medium
+description: |
+  List the incidents that are automatically closed by Microsoft Defender XDR. It is good practice to get an overview of the automatically closed incidents and review them once every x period to determine if all the risks have been covered. The amount of automatically closed incidents depend on the Automation levels in automated investigation and remediation capabilities that are set in your tenant.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    SecurityIncident
+| where ProviderName == "Microsoft 365 Defender" and ModifiedBy == "Microsoft 365 Defender"
+| extend OwnerObjectID = tostring(Owner.objectId)
+| where Status == "Closed" and Classification == "Undetermined"
+| where isempty(OwnerObjectID)
+| where isnotempty(ClassificationComment)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

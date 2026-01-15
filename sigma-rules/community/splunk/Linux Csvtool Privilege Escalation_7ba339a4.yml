@@ -1,0 +1,23 @@
+title: Linux Csvtool Privilege Escalation
+id: bdad5012-0022-5070-97f0-989dfef3a66f
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the 'csvtool' command with 'sudo' privileges, which can allow a user to run system commands as root. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line details. This activity is significant because it indicates a potential privilege escalation attempt, where a user could gain unauthorized root access. If confirmed malicious, this could lead to full system com
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*csvtool*'
+      - '*call*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/csvtool/
+custom_attributes:
+  original_rule_id: f8384f9e-1a5c-4c3a-96d6-8a7e5a38a8b8
+  source_format: splunk_spl

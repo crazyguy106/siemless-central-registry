@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): User $(osquery.columns.username) opened recent item $(osquery.columns.value)'
+id: c609bbfb-f29b-52d4-9ff7-b7fd3a485168
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): User $(osquery.columns.username) opened recent item $(osquery.columns.value)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: recent_items
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24056
+  wazuh_level: 4

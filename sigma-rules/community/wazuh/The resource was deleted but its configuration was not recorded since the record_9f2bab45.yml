@@ -1,0 +1,23 @@
+title: The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type. AWS Config - Hist
+id: 3b267832-ca51-5aae-b44c-03bbda9f6f11
+status: stable
+level: low
+description: |
+  The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type. AWS Config - History:  [$(aws.awsAccountId) $(aws.awsRegion)] [$(aws.resourceType)]: $(aws.resourceId) ($(aws.configurationItemStatus))
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.configurationItemStatus: ResourceDeletedNotRecorded
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80451
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80457
+  wazuh_level: 3

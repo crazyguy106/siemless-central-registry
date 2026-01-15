@@ -1,0 +1,18 @@
+title: Exchange SSRF Autodiscover ProxyShell - Detection
+id: d48f588f-6a73-5520-8e84-7dac75bc3561
+status: stable
+level: high
+description: |
+  'This query looks for suspicious request patterns to Exchange servers that fit patterns recently blogged about by PeterJson. This exploitation chain utilises an SSRF vulnerability in Exchange which eventually allows the attacker to execute arbitrary Powershell on the server. In the example powershell can be used to write an email to disk with an encoded attachment containing a shell. Reference: https://peterjson.medium.com/reproducing-the-proxyshell-pwn2own-exploit-49743a4ea9a1'
+author: Thomas McElroy
+logsource:
+  product: windows
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1190
+custom_attributes:
+  original_rule_id: 968358d6-6af8-49bb-aaa4-187b3067fb95
+  source_format: azure_kql

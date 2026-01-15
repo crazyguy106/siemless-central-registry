@@ -1,0 +1,21 @@
+title: AWS User Creates Permanent Access Key
+id: ffeb948f-3529-5236-95c7-86851cbc2f10
+status: experimental
+level: medium
+description: Detects when an AWS IAM user creates an AWS Access Key for programmatic calls.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type: CreateAccessKey
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_ebe72ce0-1e54-4251-afca-ed3fc403cd1f
+  source_format: chronicle_yaral

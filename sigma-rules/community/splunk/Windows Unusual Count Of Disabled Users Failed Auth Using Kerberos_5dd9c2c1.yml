@@ -1,0 +1,24 @@
+title: Windows Unusual Count Of Disabled Users Failed Auth Using Kerberos
+id: 50586faa-ce58-51b4-85e2-2fddcf1e1c75
+status: stable
+level: medium
+description: |
+  The following analytic identifies a source endpoint failing to authenticate with multiple disabled domain users using the Kerberos protocol. It leverages EventCode 4768, which is generated when the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT) and detects failure code `0x12` (credentials revoked). This behavior is significant as it may indicate a Password Spraying attack targeting disabled accounts, potentially leading to initial access or privilege escalation. If confir
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 4768
+    status: 0x12
+    span: 5m
+    isoutlier: 1
+  condition: selection
+tags:
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+custom_attributes:
+  original_rule_id: f65aa026-b811-42ab-b4b9-d9088137648f
+  source_format: splunk_spl

@@ -1,0 +1,20 @@
+title: Finger.EXE Execution
+id: 871b1df5-2c63-59ce-9fd2-7205d91a448b
+status: experimental
+level: high
+description: |
+  Detects execution of the finger.exe utility. Finger.EXE or \"TCPIP Finger Command\" is an old utility that is still present on modern Windows installation. It Displays information about users on a specified remote computer (typically a UNIX computer) that is running the finger service or daemon. Due to the old nature of this utility and the rareness of machines having the finger service. Any execution of finger.exe can be considered suspicious and worth investigating.
+author: Florian Roth (Nextron Systems), omkar72, oscd.community
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: finger.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_finger_execution.yml
+custom_attributes:
+  original_rule_id: mr_9174795b-96f3-4fce-b5a3-f8e5901990b1
+  source_format: chronicle_yaral

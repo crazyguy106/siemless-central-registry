@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Keychain $(osquery.columns.label) path is $(osquery.columns.path)'
+id: 602a98e7-4c8a-5ab7-bb84-a5025c2c42ae
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Keychain $(osquery.columns.label) path is $(osquery.columns.path)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: keychain_items
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24124
+  wazuh_level: 4

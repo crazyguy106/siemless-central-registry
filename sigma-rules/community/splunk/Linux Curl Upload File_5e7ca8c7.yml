@@ -1,0 +1,25 @@
+title: Linux Curl Upload File
+id: f80a2b52-e903-5d2d-98c2-542e74ace69c
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the curl command with specific switches (-F, --form, --upload-file, -T, -d, --data, --data-raw, -I, --head) to upload AWS credentials or configuration files to a remote destination. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details. This activity is significant as it may indicate an attempt to exfiltrate sensitive AWS credentials, a technique known to be used by the Te
+author: Michael Haag, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    process_name: curl
+    process:
+      - '*.aws/credentials*". "*.aws/config*'
+  condition: selection
+tags:
+  - attack.t1105
+references:
+  - https://curl.se/docs/manpage.html
+  - https://www.cadosecurity.com/team-tnt-the-first-crypto-mining-worm-to-steal-aws-credentials/
+  - https://gtfobins.github.io/gtfobins/curl/
+custom_attributes:
+  original_rule_id: c1de2d9a-0c02-4bb4-a49a-510c6e9cf2bf
+  source_format: splunk_spl

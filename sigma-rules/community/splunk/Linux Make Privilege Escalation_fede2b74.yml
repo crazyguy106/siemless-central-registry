@@ -1,0 +1,24 @@
+title: Linux Make Privilege Escalation
+id: 577e29ea-3487-5a64-9614-32b87bd0d5f9
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the 'make' command with elevated privileges to execute system commands as root, potentially leading to a root shell. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions that include 'make', '--eval', and 'sudo'. This activity is significant because it indicates a possible privilege escalation attempt, allowing a user to gain root access. If confirmed malicious, an attacker could achieve full control ov
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*make*-s*'
+      - '*--eval*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/make/
+  - https://www.javatpoint.com/linux-make-command
+custom_attributes:
+  original_rule_id: 80b22836-5091-4944-80ee-f733ac443f4f
+  source_format: splunk_spl

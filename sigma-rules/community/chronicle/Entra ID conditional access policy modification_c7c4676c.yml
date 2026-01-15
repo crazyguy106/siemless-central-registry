@@ -1,0 +1,21 @@
+title: Entra ID conditional access policy modification
+id: 7eeb3542-84d4-5723-8eed-05b715d2f359
+status: experimental
+level: low
+description: Detects when an Entra ID conditional access policy has been modified
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_CONTENT
+    metadata_product_event_type: Update policy.
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    target_application: AzureActiveDirectory
+    target_resource_attribute_labels_key: extendedAuditEventCategory
+    target_resource_attribute_labels_value: Policy
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_0c3f7309-a3e3-4c80-9b33-12ade9f499f8
+  source_format: chronicle_yaral

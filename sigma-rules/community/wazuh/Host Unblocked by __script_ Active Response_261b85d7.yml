@@ -1,0 +1,23 @@
+title: Host Unblocked by $(script) Active Response
+id: 87b0a599-58d9-5a12-b9e5-e62541344000
+status: stable
+level: low
+description: Host Unblocked by $(script) Active Response
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    script: route-null
+    type: delete
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-600
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-606
+  wazuh_level: 3

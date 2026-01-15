@@ -1,0 +1,22 @@
+title: Windows Impair Defense Disable Win Defender Report Infection
+id: 8ffb16e5-d9e6-5035-9b47-d3a2f0e8c2d4
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry that disable Windows Defender's infection reporting. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the "DontReportInfectionInformation" registry key. This activity is significant because it can prevent Windows Defender from reporting detailed threat information to Microsoft, potentially allowing malware to evade detection. If confirmed malicious, this action could enable attackers to
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\MRT\\DontReportInfectionInformation'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://x.com/malmoeb/status/1742604217989415386?s=20
+  - https://github.com/undergroundwires/privacy.sexy
+custom_attributes:
+  original_rule_id: 201946c6-b1d5-42bb-a7e0-5f7123f47fc4
+  source_format: splunk_spl

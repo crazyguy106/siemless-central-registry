@@ -1,0 +1,20 @@
+title: Authentications of Privileged Accounts Outside of Expected Controls
+id: e454b56f-efa7-572d-ba12-ca0373fa6c4f
+status: stable
+level: medium
+description: |
+  'Detects when a privileged user account successfully authenticates from a location, device or ASN that another admin has not logged in from in the last 7 days.   Privileged accounts are a key target for threat actors, monitoring for logins from these accounts that deviate from normal activity can help identify compromised accounts.   Authentication attempts should be investigated to ensure the activity was legitimate and if there is other similar activity.   Ref: https://docs.microsoft.com/azure
+author: Pete Bryan
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    AssignedRoles:
+      - admin
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: af435ca1-fb70-4de1-92c1-7435c48482a9
+  source_format: azure_kql

@@ -1,0 +1,19 @@
+title: Midnight Blizzard - suspicious rundll32.exe execution of vbscript (Normalized Process Events)
+id: 3cfa6513-b92f-51da-9d9d-4596b4790cae
+status: stable
+level: medium
+description: |
+  'This query idenifies when rundll32.exe executes a specific set of inline VBScript commands References: https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/ To use this analytics rule, make sure you have deployed the [ASIM normalization parsers](https://aka.ms/ASimProcessEvent)'
+author: Yuval Naor
+logsource:
+  product: azure
+  category: process_creation
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1547
+custom_attributes:
+  original_rule_id: bdf04f58-242b-4729-b376-577c4bdf5d3a
+  source_format: azure_kql

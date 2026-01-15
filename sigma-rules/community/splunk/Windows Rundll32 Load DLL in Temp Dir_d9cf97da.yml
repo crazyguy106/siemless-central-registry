@@ -1,0 +1,22 @@
+title: Windows Rundll32 Load DLL in Temp Dir
+id: 17d1d2ea-efc0-593f-83d5-fa8f49c4b539
+status: stable
+level: medium
+description: |
+  This detection identifies instances where rundll32.exe is used to load a DLL from a temporary directory, such as C:\Users\<User>\AppData\Local\Temp\ or C:\Windows\Temp\. While rundll32.exe is a legitimate Windows utility used to execute functions exported from DLLs, its use to load libraries from temporary locations is highly suspicious. These directories are commonly used by malware and red team tools to stage payloads or execute code in-memory without writing it to more persistent locations. T
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*temp\\*'
+      - '*\\tmp\\*'
+  condition: selection
+tags:
+  - attack.t1218.011
+references:
+  - https://blog.sekoia.io/interlock-ransomware-evolving-under-the-radar/
+custom_attributes:
+  original_rule_id: 520da6fa-7d5d-4a3b-9c61-1087517b8d0f
+  source_format: splunk_spl

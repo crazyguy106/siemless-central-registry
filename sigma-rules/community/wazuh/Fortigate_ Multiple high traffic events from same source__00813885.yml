@@ -1,0 +1,36 @@
+title: 'Fortigate: Multiple high traffic events from same source.'
+id: 08681ec1-5963-5067-a0ac-3c861e4f4a6a
+status: stable
+level: low
+description: 'Fortigate: Multiple high traffic events from same source.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 45s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 18
+    ignore_window: 240s
+  - type: sequence
+    parent_rule: wazuh-81618
+    window:
+      maxspan: 45s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81619
+  wazuh_level: 3

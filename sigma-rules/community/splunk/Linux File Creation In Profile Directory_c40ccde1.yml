@@ -1,0 +1,23 @@
+title: Linux File Creation In Profile Directory
+id: aa0d10b5-aeb7-5cf7-a2d5-2a40b4e77265
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of files in the /etc/profile.d directory on Linux systems. It leverages filesystem data to identify new files in this directory, which is often used by adversaries for persistence by executing scripts upon system boot. This activity is significant as it may indicate an attempt to maintain long-term access to the compromised host. If confirmed malicious, this could allow attackers to execute arbitrary code with elevated privileges each time the system b
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/etc/profile.d/*'
+  condition: selection
+tags:
+  - attack.t1546.004
+references:
+  - https://attack.mitre.org/techniques/T1546/004/
+  - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+custom_attributes:
+  original_rule_id: 46ba0082-61af-11ec-9826-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,45 @@
+title: Suspicious Script Object Execution
+id: 4ed678a9-3a4f-41fb-9fea-f85a6e0a0dff
+status: stable
+level: medium
+description: 'Identifies scrobj.dll loaded into unusual Microsoft processes. This
+  usually means a malicious scriptlet is being
+
+  executed in the target process.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-02'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_category: process
+    event_category|contains:
+    - library
+    - driver
+    process_executable|contains:
+    - ?:\\Windows\\System32\\cscript.exe
+    - ?:\\Windows\\SysWOW64\\cscript.exe
+    - ?:\\Windows\\system32\\msiexec.exe
+    - ?:\\Windows\\SysWOW64\\msiexec.exe
+    - ?:\\Windows\\System32\\smartscreen.exe
+    - ?:\\Windows\\system32\\taskhostw.exe
+    - ?:\\windows\\system32\\inetsrv\\w3wp.exe
+    - ?:\\windows\\SysWOW64\\inetsrv\\w3wp.exe
+    - ?:\\Windows\\system32\\wscript.exe
+    - ?:\\Windows\\SysWOW64\\wscript.exe
+    - ?:\\Windows\\System32\\mshta.exe
+    - ?:\\Windows\\system32\\mobsync.exe
+    - ?:\\Windows\\SysWOW64\\mobsync.exe
+    - ?:\\Windows\\System32\\cmd.exe
+    - ?:\\Windows\\SysWOW64\\cmd.exe
+    - ?:\\Windows\\System32\\OpenWith.exe
+    - ?:\\Windows\\System32\\wbem\\WMIADAP.exe
+    - ?:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1218
+- attack.t1218.010

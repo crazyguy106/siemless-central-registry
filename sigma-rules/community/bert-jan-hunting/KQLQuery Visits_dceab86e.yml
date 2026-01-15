@@ -1,0 +1,19 @@
+title: KQLQuery Visits
+id: aee0f9c1-6c2a-4d53-b42d-374eeb2b3c2f
+status: experimental
+level: medium
+description: |
+  Visualize the visits to [KQLQuery.com](KQLQuery.com) in a columnchart.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where RemoteUrl has "kqlquery.com"
+| summarize TotalDevices = dcount(DeviceId) by bin(Timestamp, 1d)
+| render columnchart with(title="kqlquery.com visits", xtitle="Date", ytitle="TotalDevices")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

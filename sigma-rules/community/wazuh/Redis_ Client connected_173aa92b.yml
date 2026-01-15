@@ -1,0 +1,23 @@
+title: 'Redis: Client connected'
+id: f759ae48-c1e5-5459-b4f1-63e28eeddae5
+status: stable
+level: low
+description: 'Redis: Client connected'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Accepted
+    message|re: '\S+:\d+'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81304
+  wazuh_level: 3

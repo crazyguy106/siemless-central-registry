@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) has file $(osquery.columns.path) opened'
+id: 5adac5c5-de7d-54c7-9c29-5ba9aea31476
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) has file $(osquery.columns.path) opened'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: open_files
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24049
+  wazuh_level: 4

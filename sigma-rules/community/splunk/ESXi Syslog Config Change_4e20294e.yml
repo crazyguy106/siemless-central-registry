@@ -1,0 +1,23 @@
+title: ESXi Syslog Config Change
+id: a05cad3b-13a8-511a-add3-10864091c530
+status: stable
+level: high
+description: |
+  This detection identifies changes to the syslog configuration on an ESXi host using esxcli, which may indicate an attempt to disrupt log collection and evade detection.
+author: Raven Tait, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    message:
+      - '*syslog config set*'
+      - '*esxcli*'
+    field:
+      - _raw
+      - _raw
+  condition: selection
+tags:
+  - attack.t1562.003
+custom_attributes:
+  original_rule_id: e530beb9-9b8c-4c9b-9776-0a05521ff32d
+  source_format: splunk_spl

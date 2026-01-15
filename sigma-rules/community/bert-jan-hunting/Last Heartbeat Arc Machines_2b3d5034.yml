@@ -1,0 +1,23 @@
+title: Last Heartbeat Arc Machines
+id: 8214e195-4f61-4d83-b877-afdcdf9af59e
+status: experimental
+level: medium
+description: |
+  This query lists the latest heartbeat for each Azure Arc onboarded machine.
+
+## Sentinel
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let ArcMachines = arg("").Resources
+| where type == "microsoft.hybridcompute/machines"
+| distinct id;
+Heartbeat
+| summarize arg_max(TimeGenerated, TimeGenerated, Computer, Resource, ResourceId) by Computer
+| where ResourceId in (ArcMachines)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

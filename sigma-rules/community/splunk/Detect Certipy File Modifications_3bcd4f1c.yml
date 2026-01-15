@@ -1,0 +1,26 @@
+title: Detect Certipy File Modifications
+id: 3cff8514-784f-5bf5-bfaf-6f042e5b011e
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the Certipy tool to enumerate Active Directory Certificate Services (AD CS) environments by identifying unique file modifications. It leverages endpoint process and filesystem data to spot the creation of files with specific names or extensions associated with Certipy's information gathering and exfiltration activities. This activity is significant as it indicates potential reconnaissance and data exfiltration efforts by an attacker. If confirmed malicio
+author: Steven Dick
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    file_name:
+      - '*_certipy.zip'
+      - '*_certipy.txt'
+      - '*_certipy.json'
+      - '*.ccache'
+  condition: selection
+tags:
+  - attack.t1649
+  - attack.t1560
+references:
+  - https://github.com/ly4k/Certipy
+custom_attributes:
+  original_rule_id: 7e3df743-b1d8-4631-8fa8-bd5819688876
+  source_format: splunk_spl

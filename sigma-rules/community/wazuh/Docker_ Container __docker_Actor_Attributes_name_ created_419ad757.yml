@@ -1,0 +1,22 @@
+title: 'Docker: Container $(docker.Actor.Attributes.name) created'
+id: 923daebe-0d4a-56d1-a506-34273ba182bd
+status: stable
+level: low
+description: 'Docker: Container $(docker.Actor.Attributes.name) created'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^create$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87901
+  wazuh_level: 3

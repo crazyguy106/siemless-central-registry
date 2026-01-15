@@ -1,0 +1,22 @@
+title: OneLogin Multiple Users Login Failures From The Same IP
+id: b930b212-2e53-54c8-a813-d49cad817cd3
+status: experimental
+level: medium
+description: Detects multiple users login failures from a single IP.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_name: ONELOGIN_SSO
+    metadata_vendor_name: ONELOGIN
+    security_result_action: BLOCK
+    metadata_product_event_type: 6
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_8e302561-6fc5-430d-ae0c-bd285a0aec21
+  source_format: chronicle_yaral

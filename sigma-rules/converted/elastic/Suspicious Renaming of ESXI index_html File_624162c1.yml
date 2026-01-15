@@ -1,0 +1,28 @@
+title: Suspicious Renaming of ESXI index.html File
+id: c125e48f-6783-41f0-b100-c3bf1b114d16
+status: stable
+level: medium
+description: 'Identifies instances where the "index.html" file within the "/usr/lib/vmware/*"
+  directory is renamed on a Linux system.
+
+  The rule monitors for the "rename" event action associated with this specific file
+  and path, which could indicate
+
+  malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2023-04-11'
+modified: '2025-05-05'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_action: rename
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036.003
+- attack.t1036
+references:
+- https://www.bleepingcomputer.com/news/security/massive-esxiargs-ransomware-attack-targets-vmware-esxi-servers-worldwide/

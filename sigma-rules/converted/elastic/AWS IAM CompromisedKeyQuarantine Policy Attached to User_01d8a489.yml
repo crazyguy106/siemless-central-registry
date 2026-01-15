@@ -1,0 +1,32 @@
+title: AWS IAM CompromisedKeyQuarantine Policy Attached to User
+id: 0b79f5c0-2c31-4fea-86cd-e62644278205
+status: stable
+level: high
+description: 'This rule looks for use of the IAM `AttachUserPolicy` API operation
+  to attach the `CompromisedKeyQuarantine` or `CompromisedKeyQuarantineV2` AWS managed
+  policies to an existing IAM user.
+
+  This policy denies access to certain actions and is applied by the AWS team in the
+  event that an IAM user''s credentials have been compromised or exposed publicly.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-20'
+modified: '2025-11-04'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_action: AttachUserPolicy
+    event_outcome: success
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1552
+references:
+- https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSCompromisedKeyQuarantine.html/
+- https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSCompromisedKeyQuarantineV2.html/
+falsepositives:
+- "    This is an intentional action taken by AWS in the event of compromised credentials.\
+  \ Follow the instructions specified in the support case created for you regarding\
+  \ this event.\n    "

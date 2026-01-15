@@ -1,0 +1,35 @@
+title: 'Netscaler: Multiple AAATM http resource access denied'
+id: df96f9f2-b1d0-5c54-90bd-76ecb3bd71c9
+status: stable
+level: high
+description: 'Netscaler: Multiple AAATM http resource access denied'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-80136
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80137
+  wazuh_level: 10

@@ -1,0 +1,27 @@
+title: M365 Copilot Jailbreak Attempts
+id: 2177c112-0c29-5dd0-8524-2cb2dc1c0a14
+status: experimental
+level: medium
+description: |
+  Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls. The detection searches exported eDiscovery prompt logs for jailbreak keywords like "pretend you are," "act as," "rules=," "ignore," "bypass," and "override" in the Subject_Title field, assigning severity scores based on the manipulation type (score of 4 for amoral impersonation or explic
+author: Rod Soto
+logsource:
+  product: splunk
+detection:
+  selection:
+    subject_title:
+      - '*pretend you are*'
+      - '*act as*'
+      - '*rules=*'
+      - '*ignore*'
+      - '*bypass*'
+      - '*override*'
+    user: Sender
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+custom_attributes:
+  original_rule_id: b05a4f25-e07d-436f-ab03-f954afa922c0
+  source_format: splunk_spl

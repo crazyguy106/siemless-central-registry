@@ -1,0 +1,38 @@
+title: Suspicious .NET Code Compilation
+id: 201200f1-a99b-43fb-88ed-f65a45c4972c
+status: stable
+level: medium
+description: 'Identifies executions of .NET compilers with suspicious parent processes,
+  which can indicate an attacker''s attempt to
+
+  compile code after delivery in order to bypass security mechanisms.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-21'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - csc.exe
+    - vbc.exe
+    process_parent_name|contains:
+    - wscript.exe
+    - mshta.exe
+    - cscript.exe
+    - wmic.exe
+    - svchost.exe
+    - rundll32.exe
+    - cmstp.exe
+    - regsvr32.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1027
+- attack.t1027.004
+- attack.t1059.005
+- attack.t1059

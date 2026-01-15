@@ -1,0 +1,35 @@
+title: Suspicious Kerberos Authentication Ticket Request
+id: c6b40f4c-c6a9-434e-adb8-989b0d06d005
+status: stable
+level: high
+description: 'Correlates network connections to the standard Kerberos port by an unusual
+  process from the source machine with a Kerberos
+
+  authentication ticket request from the target domain controller.'
+author: Elastic (converted by SIEMLess)
+date: '2025-10-28'
+modified: '2025-10-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by source.port, source.ip with maxspan=3s\n [network\
+      \ where host.os.type == \"windows\" and destination.port == 88 and\n  process.executable\
+      \ != null and\n  not process.executable : (\"?:\\\\Windows\\\\system32\\\\lsass.exe\"\
+      , \"\\\\device\\\\harddiskvolume*\\\\windows\\\\system32\\\\lsass.exe\") and\n\
+      \  source.ip != \"127.0.0.1\" and destination.ip != \"::1\" and destination.ip\
+      \ != \"127.0.0.1\"]\n [authentication where host.os.type == \"windows\" and\
+      \ event.code in (\"4768\", \"4769\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.credential_access
+- attack.t1550.003
+- attack.t1550
+- attack.t1558
+- attack.t1558.003
+references:
+- https://github.com/its-a-feature/bifrost
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4768

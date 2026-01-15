@@ -1,0 +1,26 @@
+title: Windows AppX Deployment Full Trust Package Installation
+id: 25518f44-db6e-556e-b495-ae412c5b7a6f
+status: stable
+level: low
+description: |
+  The following analytic detects the installation of MSIX/AppX packages with full trust privileges. This detection leverages Windows event logs from the AppXDeployment-Server, specifically focusing on EventCode 400 which indicates a package deployment operation. Full trust packages are significant as they run with elevated privileges outside the normal AppX container restrictions, allowing them to access system resources that regular AppX packages cannot. Adversaries have been observed leveraging 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    hasfulltrust: 'true'
+    eventcode: 400
+  condition: selection
+tags:
+  - attack.t1553.005
+  - attack.t1204.002
+references:
+  - https://redcanary.com/blog/threat-intelligence/msix-installers/
+  - https://redcanary.com/threat-detection-report/techniques/installer-packages/
+  - https://learn.microsoft.com/en-us/windows/msix/desktop/desktop-to-uwp-behind-the-scenes
+  - https://learn.microsoft.com/en-us/windows/msix/package/package-identity
+  - https://attack.mitre.org/techniques/T1553/005/
+custom_attributes:
+  original_rule_id: 8560de46-ea2d-4c69-8ca3-5b78b90f1338
+  source_format: splunk_spl

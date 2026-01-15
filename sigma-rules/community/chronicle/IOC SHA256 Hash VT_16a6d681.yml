@@ -1,0 +1,19 @@
+title: IOC SHA256 Hash VT
+id: 52e6e70f-3884-5eae-a0e6-356d83352c3a
+status: experimental
+level: medium
+description: |
+  Detect file/process events with watchlisted hashes from MISP that VT flagged as MS Office docx file types
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type:
+      - PROCESS_LAUNCH
+      - FILE_CREATION
+    target_file_file_type: FILE_TYPE_DOCX
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_d36dec67-3af0-4d52-be78-1fe14c865006
+  source_format: chronicle_yaral

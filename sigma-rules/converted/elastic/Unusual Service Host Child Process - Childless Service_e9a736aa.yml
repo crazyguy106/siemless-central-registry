@@ -1,0 +1,60 @@
+title: Unusual Service Host Child Process - Childless Service
+id: 6a8ab9cc-4023-4d17-b5df-1a3e16882ce7
+status: stable
+level: medium
+description: 'Identifies unusual child processes of Service Host (svchost.exe) that
+  traditionally do not spawn any child processes.
+
+  This may indicate a code injection or an equivalent form of exploitation.'
+author: Elastic (converted by SIEMLess)
+date: '2020-10-13'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_args|contains:
+    - WdiSystemHost
+    - LicenseManager
+    - StorSvc
+    - CDPSvc
+    - cdbhsvc
+    - BthAvctpSvc
+    - SstpSvc
+    - WdiServiceHost
+    - imgsvc
+    - TrkWks
+    - WpnService
+    - IKEEXT
+    - PolicyAgent
+    - CryptSvc
+    - netprofm
+    - ProfSvc
+    - StateRepository
+    - camsvc
+    - LanmanWorkstation
+    - NlaSvc
+    - EventLog
+    - hidserv
+    - DisplayEnhancementService
+    - ShellHWDetection
+    - AppHostSvc
+    - fhsvc
+    - CscService
+    - PushToInstall
+    process_name|contains:
+    - WerFault.exe
+    - WerFaultSecure.exe
+    - wermgr.exe
+    process_executable|contains: ?:\\Program Files\\*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1055.012
+- attack.t1055
+falsepositives:
+- Changes to Windows services or a rarely executed child process.

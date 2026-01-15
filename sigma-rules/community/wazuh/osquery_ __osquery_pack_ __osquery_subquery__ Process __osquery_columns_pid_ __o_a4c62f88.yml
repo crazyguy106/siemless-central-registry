@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) $(osquery.columns.path) memory start $(osquery.columns.start), memory end'
+id: 4b4ef010-2f8c-55e7-86c1-0d97e14c636e
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) $(osquery.columns.path) memory start $(osquery.columns.start), memory end $(osquery.columns.end)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: process_memory
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24060
+  wazuh_level: 4

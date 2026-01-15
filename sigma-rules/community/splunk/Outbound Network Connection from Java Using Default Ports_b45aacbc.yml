@@ -1,0 +1,28 @@
+title: Outbound Network Connection from Java Using Default Ports
+id: 06f5a874-7de0-575e-a6b2-69d49150b79d
+status: stable
+level: high
+description: |
+  The following analytic detects outbound network connections from Java processes to default ports used by LDAP and RMI protocols, which may indicate exploitation of the CVE-2021-44228-Log4j vulnerability. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network traffic logs. Monitoring this activity is crucial as it can signify an attacker’s attempt to perform JNDI lookups and retrieve malicious payloads. If confirmed malicious, this activit
+author: Mauricio Velazco, Lou Stella, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    process_name: java.exe
+    dest_port:
+      - 389
+      - 636
+      - 1389
+      - 1099
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.lunasec.io/docs/blog/log4j-zero-day/
+  - https://www.govcert.admin.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+custom_attributes:
+  original_rule_id: d2c14d28-5c47-11ec-9892-acde48001122
+  source_format: splunk_spl

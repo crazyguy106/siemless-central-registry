@@ -1,0 +1,22 @@
+title: 'Duplicate key name with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+id: 1204a8f2-b650-592f-a0f3-7da7db263275
+status: stable
+level: medium
+description: 'Duplicate key name with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.jsonPayload.responseCode: ^BADNAME$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002,65003
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65035
+  wazuh_level: 7

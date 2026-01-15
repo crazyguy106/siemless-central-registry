@@ -1,0 +1,29 @@
+title: Kubectl Permission Discovery
+id: 1600f9e2-5be6-4742-8593-1ba50cd94069
+status: stable
+level: low
+description: 'This rule detects the use of the "kubectl auth --can-i" command, which
+  is used to check permissions in Kubernetes clusters.
+
+  Attackers may use this command to enumerate permissions and discover potential misconfigurations
+  in the cluster, allowing
+
+  them to gain unauthorized access or escalate privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-17'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: kubectl
+    process_args: can-i
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1613
+references:
+- https://kubernetes.io/docs/reference/kubectl/generated/kubectl_auth/kubectl_auth_can-i/

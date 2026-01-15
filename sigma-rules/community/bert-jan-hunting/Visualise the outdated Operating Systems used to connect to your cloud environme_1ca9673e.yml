@@ -1,0 +1,19 @@
+title: Visualise the outdated Operating Systems used to connect to your cloud environment
+id: 80738cef-16d7-4b27-9807-18cbbc559fcf
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Visualise the outdated Operating Systems used to connect to your cloud environment
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where UserAgentTags contains "Outdated operating system"
+| summarize count() by OSPlatform
+| render piechart with(title="Outdated Operating Systems Used")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

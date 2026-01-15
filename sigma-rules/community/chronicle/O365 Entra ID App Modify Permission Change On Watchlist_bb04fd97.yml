@@ -1,0 +1,24 @@
+title: O365 Entra ID App Modify Permission Change On Watchlist
+id: a7dfaa71-c83a-541e-b83d-a6acf49f2d98
+status: experimental
+level: medium
+description: Alerts when a permission on the watchlist is applied to an Entra ID application.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_CONTENT
+    metadata_product_name: Office 365
+    metadata_product_event_type: Update application.
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+    target_resource_attribute_labels_key:
+      - NewValue_EntitlementId-
+      - OldValue_EntitlementId-
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/graph/permissions-reference
+custom_attributes:
+  original_rule_id: mr_678cafb8-ea1f-42ac-a396-238bc35e4d21
+  source_format: chronicle_yaral

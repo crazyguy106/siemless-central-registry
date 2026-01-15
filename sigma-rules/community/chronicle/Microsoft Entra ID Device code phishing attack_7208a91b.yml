@@ -1,0 +1,24 @@
+title: Microsoft Entra ID Device code phishing attack
+id: 7f7ba447-543c-5391-bd1b-c820b34dc1b8
+status: experimental
+level: high
+description: Detects strong indicators of a successful device code phishing attack.
+author: Bastradamus
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: gmail
+    about_url:
+      - microsoft.com\
+      - oauth2\
+    about_labels_value: 71|9
+  condition: selection
+tags:
+  - attack.t1566
+references:
+  - https://systemweakness.com/detecting-device-code-phishing-in-google-security-operations-9bf1c282cff0
+custom_attributes:
+  original_rule_id: mr_8b29e3d1-5c42-4f91-9aef-b673ad89f0e4
+  source_format: chronicle_yaral

@@ -1,0 +1,20 @@
+title: Windows Net System Service Discovery
+id: a2d709fd-b6d3-5027-8515-5e6ac2a8121d
+status: stable
+level: medium
+description: |
+  The following analytic detects the enumeration of Windows services using the net start command, which is a built-in utility that lists all running services on a system. Adversaries, system administrators, or automated tools may use this command to gain situational awareness of what services are active, identify potential security software, or discover opportunities for privilege escalation and lateral movement. The execution of net start is often associated with reconnaissance activity during th
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '* start*'
+  condition: selection
+tags:
+  - attack.t1007
+references:
+  - https://cert.gov.ua/article/6284730
+custom_attributes:
+  original_rule_id: dd7da098-83b8-4c48-b09d-e51aeb621e81
+  source_format: splunk_spl

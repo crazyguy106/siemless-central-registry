@@ -1,0 +1,21 @@
+title: (Mass) Cloud Resource Deletion
+id: 723cb376-f04f-444b-b298-6c1c478de523
+status: experimental
+level: medium
+description: |
+  This query can be used to detect (mass) resource deletion in your cloud environment. The query uses the *Threshold* and *BinSize* variables to trigger. The default is set to the deletion of 20 cloud resources in a timespan of 1 day, you can modify this to your needs.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let Threshold = 20;
+let BinSize = 1d;
+CloudAuditEvents
+| where ActionType == "CloudAuditEventDelete"
+| summarize TotalActions = count(), arg_max(Timestamp, *) by bin(Timestamp, BinSize), Account, DataSource
+| where TotalActions > Threshold
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,45 @@
+title: Windows Privilege Escalation User Process Spawn System Process
+id: 80c24d56-10ad-5748-8a3d-6c99fbd7f161
+status: stable
+level: high
+description: |
+  The following analytic detects when a process with low, medium, or high integrity spawns a system integrity process from a user-controlled location. This behavior is indicative of privilege escalation attempts where attackers elevate their privileges to SYSTEM level from a user-controlled process or service. The detection leverages Sysmon data, specifically Event ID 15, to identify such transitions. Monitoring this activity is crucial as it can signify an attacker gaining SYSTEM-level access, po
+author: Steven Dick
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    join_guid: process_guid
+    max: 0
+    process_integrity_level:
+      - system
+    user:
+      - '*SYSTEM'
+      - '*LOCAL SERVICE'
+      - '*NETWORK SERVICE'
+      - DWM-*
+      - '*$'
+    process_path:
+      - '*\\\\*'
+      - '*\\Users\\*'
+      - '*\\Temp\\*'
+      - '*\\ProgramData\\*'
+    parent_process_path:
+      - '*\\\\*'
+      - '*\\Users\\*'
+      - '*\\Temp\\*'
+      - '*\\ProgramData\\*'
+  condition: selection
+tags:
+  - attack.t1068
+  - attack.t1548
+  - attack.t1134
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://vuls.cert.org/confluence/display/Wiki/2021/06/21/Finding+Privilege+Escalation+Vulnerabilities+in+Windows+using+Process+Monitor
+  - https://redcanary.com/blog/getsystem-offsec/
+  - https://atomicredteam.io/privilege-escalation/T1134.001/
+custom_attributes:
+  original_rule_id: c9687a28-39ad-43c6-8bcf-eaf061ba0cbe
+  source_format: splunk_spl

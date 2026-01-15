@@ -1,0 +1,38 @@
+title: 'racoon: Multiple failed VPN logins.'
+id: 2a111c81-1ef0-50cf-9833-a6cd68e23a67
+status: stable
+level: medium
+description: 'racoon: Multiple failed VPN logins.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 360s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 5
+  - type: sequence
+    parent_rule: wazuh-14101
+    window:
+      maxspan: 360s
+    enforce_order: true
+tags:
+  - attack.t1110
+  - attack.t1133
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-14151
+  wazuh_level: 9

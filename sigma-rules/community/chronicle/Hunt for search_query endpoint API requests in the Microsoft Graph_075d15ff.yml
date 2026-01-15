@@ -1,0 +1,22 @@
+title: Hunt for search/query endpoint API requests in the Microsoft Graph
+id: a8487464-9f24-579c-8b0d-8e5939ded9c6
+status: experimental
+level: low
+description: |
+  This detects when the search/query endpoint is called which can be used for enumeration of items like SharePoint site URLs. GraphRunner contains a function called Get-SharePointSiteURLs but other tools may as well.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/v1.0/search/query'
+    network_http_method: POST
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_19ac0f85-970c-4eca-9832-72aaed1ee311
+  source_format: chronicle_yaral

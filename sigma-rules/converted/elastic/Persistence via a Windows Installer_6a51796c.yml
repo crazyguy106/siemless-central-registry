@@ -1,0 +1,36 @@
+title: Persistence via a Windows Installer
+id: 1719ee47-89b8-4407-9d55-6dff2629dd4c
+status: stable
+level: medium
+description: Identifies when the Windows installer process msiexec.exe creates a new
+  persistence entry via scheduled tasks or startup.
+author: Elastic (converted by SIEMLess)
+date: '2024-09-05'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_category: registry
+    event_action: modification
+    file_path|contains:
+    - ?:\\Windows\\System32\\Tasks\\*
+    - ?:\\programdata\\microsoft\\windows\\start menu\\programs\\startup\\*
+    - ?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*
+    registry_path|contains:
+    - H*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\*
+    - H*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run\\*
+    - H*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*
+    - H*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1218.007
+- attack.t1053.005
+- attack.t1053
+- attack.t1218
+falsepositives:
+- Legitimate scheduled tasks may be created during installation of new software.

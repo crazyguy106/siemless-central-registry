@@ -1,0 +1,26 @@
+title: MicrosoftGraphActivityLogs App Enrichment AADNonInteractiveUserSignInLogs Based
+id: d4041f4e-c40b-4352-afa2-2ad750230afe
+status: experimental
+level: medium
+description: |
+  This query enriches the *MicrosoftGraphActivityLogs* with Application information from the *AADNonInteractiveUserSignInLogs* table to get more context in the results.
+
+This query does have a limitation, a user must have signed in to the application to show up in the logs. An alternative KQL query is available that leverages the externaldata operator to solve this issue: [App Enrichment ExternalData](./AppEnrichmentExternalData.md)
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    let ApplicationName = AADNonInteractiveUserSignInLogs
+| where TimeGenerated > ago(30d)
+| summarize arg_max(TimeGenerated, *) by ResourceIdentity
+| project-rename ApplicationName = ResourceDisplayName
+| distinct ApplicationName, ResourceIdentity;
+MicrosoftGraphActivityLogs
+// Your filter here
+| lookup kind=leftouter ApplicationName on $left.AppId == $right.ResourceIdentity
+| project-reorder AppId, ApplicationName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,23 @@
+title: Azure AD Multiple Service Principals Created by User
+id: 057f9434-d947-5c9d-afd2-5013287023c5
+status: stable
+level: medium
+description: |
+  The following analytic identifies instances where a single user creates more than three unique OAuth applications within a 10-minute timeframe in Azure AD. It detects this activity by monitoring the 'Add service principal' operation and aggregating data in 10-minute intervals. This behavior is significant as it may indicate an adversary rapidly creating multiple service principals to stage an attack or expand their foothold within the network. If confirmed malicious, this activity could allow at
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    operationname: Add service principal
+    span: 10m
+  condition: selection
+tags:
+  - attack.t1136.003
+references:
+  - https://attack.mitre.org/techniques/T1136/003/
+  - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+custom_attributes:
+  original_rule_id: 32880707-f512-414e-bd7f-204c0c85b758
+  source_format: splunk_spl

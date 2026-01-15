@@ -1,0 +1,20 @@
+title: Local Account Discovery With Wmic
+id: 9e847669-3ab2-5fa6-aef1-95d0134249a8
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `wmic.exe` with command-line arguments used to query local user accounts, specifically the `useraccount` argument. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line details. This activity is significant as it indicates potential reconnaissance efforts by adversaries to enumerate local users, which is a common step in situational awareness and Active Directory discovery.
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1087.001
+references:
+  - https://attack.mitre.org/techniques/T1087/001/
+custom_attributes:
+  original_rule_id: 4902d7aa-0134-11ec-9d65-acde48001122
+  source_format: splunk_spl

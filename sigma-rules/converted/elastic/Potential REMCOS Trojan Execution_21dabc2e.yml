@@ -1,0 +1,34 @@
+title: Potential REMCOS Trojan Execution
+id: d8b2f85a-cf1c-40fc-acf0-bb5d588a8ea6
+status: stable
+level: high
+description: Identifies known execution traces of the REMCOS Remote Access Trojan.
+  Remcos RAT is used by attackers to perform actions on infected machines remotely.
+author: Elastic (converted by SIEMLess)
+date: '2025-08-20'
+modified: '2025-08-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_category: registry
+    event_type: deletion
+    registry_value|contains:
+    - Remcos
+    - Rmc-??????
+    - licence
+    registry_path|contains:
+    - '*\\Windows\\CurrentVersion\\Run\\Remcos'
+    - '*\\Windows\\CurrentVersion\\Run\\Rmc-??????'
+    - '*\\SOFTWARE\\Remcos-*\\licence'
+    - '*\\Software\\Rmc-??????\\licence'
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1219
+references:
+- https://any.run/malware-trends/remcos
+- https://attack.mitre.org/software/S0332/
+- https://www.elastic.co/security-labs/exploring-the-ref2731-intrusion-set

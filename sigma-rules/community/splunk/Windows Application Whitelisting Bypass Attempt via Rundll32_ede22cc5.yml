@@ -1,0 +1,27 @@
+title: Windows Application Whitelisting Bypass Attempt via Rundll32
+id: e1ea9ff8-5d89-5476-aa82-cf00b365fdf5
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of rundll32.exe calling one of the following DLLs:  - Advpack.dll - Ieadvpack.dll - Syssetup.dll - Setupapi.dll  with one of the following functions: "LaunchINFSection", "InstallHinfSection", "SetupInfObjectInstallAction". This method is identified through Endpoint Detection and Response (EDR) telemetry,  focusing on command-line executions and process details.  This activity is significant as it indicates a potential application control or whitelisti
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*LaunchINFSection*'
+      - '*InstallHinfSection*'
+      - '*SetupInfObjectInstallAction*'
+  condition: selection
+tags:
+  - attack.t1218.011
+references:
+  - https://attack.mitre.org/techniques/T1218/011/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+  - https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
+  - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+  - https://lolbas-project.github.io/lolbas/Libraries/Advpack/
+custom_attributes:
+  original_rule_id: 1ef5dab0-e1f1-495d-a272-d134583c10b1
+  source_format: splunk_spl

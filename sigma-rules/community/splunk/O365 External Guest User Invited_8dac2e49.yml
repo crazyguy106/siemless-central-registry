@@ -1,0 +1,28 @@
+title: O365 External Guest User Invited
+id: d25d5e62-abb0-5b47-967e-7dc6058fa4cd
+status: stable
+level: high
+description: |
+  The following analytic identifies the invitation of an external guest user within Azure AD. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations should be monitored by security teams as they could potentially lead to unauthorized access. An example of this attack vector was described at BlackHat 2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking Azure AD Accounts by 
+author: Steven Dick
+logsource:
+  product: azure
+detection:
+  selection:
+    operation: Add user*
+    newvalue:
+      - [*Guest*]
+      - [*Invitation*]
+    workload: AzureActiveDirectory
+    field: user
+  condition: selection
+tags:
+  - attack.t1136.003
+references:
+  - https://dirkjanm.io/assets/raw/US-22-Mollema-Backdooring-and-hijacking-Azure-AD-accounts_final.pdf
+  - https://www.blackhat.com/us-22/briefings/schedule/#backdooring-and-hijacking-azure-ad-accounts-by-abusing-external-identities-26999
+  - https://attack.mitre.org/techniques/T1136/003/
+  - https://docs.microsoft.com/en-us/azure/active-directory/external-identities/b2b-quickstart-add-guest-users-portal
+custom_attributes:
+  original_rule_id: 8c6d52ec-d5f2-4b2f-8ba1-f32c047a71fa
+  source_format: splunk_spl

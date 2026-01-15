@@ -1,0 +1,23 @@
+title: Cisco Secure Firewall - Intrusion Events by Threat Activity
+id: 797ed68c-ba8b-56c9-9833-ed86a82118ae
+status: stable
+level: medium
+description: |
+  This analytic detects intrusion events from known threat activity using Cisco Secure Firewall Intrusion Events. It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where one or multiple Snort signatures associated with a known threat or threat actor activity have been triggered within a one-hour time window. The detection uses a lookup table (cisco_snort_ids_to_threat_mapping) to map Snort signature IDs to known threat actors and their techniques. When multipl
+author: Bhavin Patel, Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: IntrusionEvent
+    span: 1d
+  condition: selection
+tags:
+  - attack.t1041
+  - attack.t1573.002
+references:
+  - https://www.cisco.com/c/en/us/products/security/firewalls/index.html
+  - https://blog.talosintelligence.com/static-tundra/
+custom_attributes:
+  original_rule_id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
+  source_format: splunk_spl

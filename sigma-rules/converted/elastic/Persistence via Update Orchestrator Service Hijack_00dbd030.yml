@@ -1,0 +1,44 @@
+title: Persistence via Update Orchestrator Service Hijack
+id: 265db8f5-fc73-4d0d-b434-6483b56372e2
+status: stable
+level: high
+description: 'Identifies potential hijacking of the Microsoft Update Orchestrator
+  Service to establish persistence with an integrity
+
+  level of SYSTEM.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-17'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_executable|contains:
+    - ?:\\ProgramData\\Microsoft\\Windows\\UUS\\Packages\\*\\amd64\\MoUsoCoreWorker.exe
+    - ?:\\Windows\\System32\\UsoClient.exe
+    - ?:\\Windows\\System32\\MusNotification.exe
+    - ?:\\Windows\\System32\\MusNotificationUx.exe
+    - ?:\\Windows\\System32\\MusNotifyIcon.exe
+    - ?:\\Windows\\System32\\WerFault.exe
+    - ?:\\Windows\\System32\\WerMgr.exe
+    - ?:\\Windows\\UUS\\amd64\\MoUsoCoreWorker.exe
+    - ?:\\Windows\\System32\\MoUsoCoreWorker.exe
+    - ?:\\Windows\\UUS\\amd64\\UsoCoreWorker.exe
+    - ?:\\Windows\\System32\\UsoCoreWorker.exe
+    - ?:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\OfficeC2RClient.exe
+    process_name|contains:
+    - MoUsoCoreWorker.exe
+    - OfficeC2RClient.exe
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1068
+- attack.t1574
+- attack.t1543.003
+- attack.t1543
+references:
+- https://github.com/irsl/CVE-2020-1313

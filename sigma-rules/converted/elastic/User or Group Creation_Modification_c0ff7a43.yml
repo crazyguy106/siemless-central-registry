@@ -1,0 +1,26 @@
+title: User or Group Creation/Modification
+id: fcf733d5-7801-4eb0-92ac-8ffacf3658f2
+status: stable
+level: low
+description: 'This rule leverages the `auditd_manager` integration to detect user
+  or group creation or modification events on Linux
+
+  systems. Threat actors may attempt to create or modify users or groups to establish
+  persistence on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-20'
+modified: '2025-01-24'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    auditd_result: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1136.001
+- attack.t1136
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

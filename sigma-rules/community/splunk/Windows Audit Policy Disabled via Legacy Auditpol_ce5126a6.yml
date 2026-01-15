@@ -1,0 +1,30 @@
+title: Windows Audit Policy Disabled via Legacy Auditpol
+id: 2367b06e-bce8-58fc-9b9f-fafdb97e323f
+status: stable
+level: medium
+description: |
+  The following analytic identifies the execution of the legacy `auditpol.exe` included with the Windows 2000 Resource Kit Tools, with the "/disable" command-line argument or one of the allowed category flags and the "none" option, in order to disable a specific logging category from the audit policy. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity can be significant as it indicates potential defense evasion 
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*/system:none*'
+      - '*/logon:none*'
+      - '*/object:none*'
+      - '*/privilege:none*'
+      - '*/process:none*'
+      - '*/policy:none*'
+      - '*/sam:none*'
+  condition: selection
+tags:
+  - attack.t1562.002
+references:
+  - https://www.microsoft.com/en-us/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+  - https://www.cybereason.com/blog/research/prometei-botnet-exploiting-microsoft-exchange-vulnerabilities
+  - https://attack.mitre.org/techniques/T1562/002/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-set
+custom_attributes:
+  original_rule_id: d2cef287-c2b7-4496-a609-7a548c1e27f9
+  source_format: splunk_spl

@@ -1,0 +1,45 @@
+title: Local Account TokenFilter Policy Disabled
+id: 07b1ef73-1fde-4a49-a34a-5dd40011b076
+status: stable
+level: medium
+description: 'Identifies registry modification to the LocalAccountTokenFilterPolicy
+  policy. If this value exists (which doesn''t by
+
+  default) and is set to 1, then remote connections from all local members of Administrators
+  are granted full
+
+  high-integrity tokens during negotiation.'
+author: Elastic (converted by SIEMLess)
+date: '2022-11-01'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\*\\LocalAccountTokenFilterPolicy
+    - \\REGISTRY\\MACHINE\\*\\LocalAccountTokenFilterPolicy
+    - MACHINE\\*\\LocalAccountTokenFilterPolicy
+    registry_data_strings|contains:
+    - '1'
+    - '0x00000001'
+    process_executable|contains:
+    - C:\\Windows\\system32\\deviceenroller.exe
+    - C:\\Windows\\system32\\omadmclient.exe
+    - \\Device\\HarddiskVolume*\\system32\\deviceenroller.exe
+    - \\Device\\HarddiskVolume*\\system32\\omadmclient.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.lateral_movement
+- attack.t1550
+- attack.t1112
+- attack.t1562
+- attack.t1550.002
+references:
+- https://www.stigviewer.com/stig/windows_server_2008_r2_member_server/2014-04-02/finding/V-36439
+- https://posts.specterops.io/pass-the-hash-is-dead-long-live-localaccounttokenfilterpolicy-506c25a7c167
+- https://www.welivesecurity.com/wp-content/uploads/2018/01/ESET_Turla_Mosquito.pdf

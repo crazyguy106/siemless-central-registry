@@ -1,0 +1,39 @@
+title: Potential Suspicious DebugFS Root Device Access
+id: 2605aa59-29ac-4662-afad-8d86257c7c91
+status: stable
+level: low
+description: 'This rule monitors for the usage of the built-in Linux DebugFS utility
+  to access a disk device without root permissions.
+
+  Linux users that are part of the "disk" group have sufficient privileges to access
+  all data inside of the machine
+
+  through DebugFS. Attackers may leverage DebugFS in conjunction with "disk" permissions
+  to read sensitive files owned by
+
+  root, such as the shadow file, root ssh private keys or other sensitive files that
+  may allow them to further escalate
+
+  privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-30'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_name: debugfs
+    process_args: -R
+    user_Ext_real_id: '0'
+    group_Ext_real_id: '0'
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1078.003
+- attack.t1078
+references:
+- https://book.hacktricks.xyz/linux-hardening/privilege-escalation/interesting-groups-linux-pe#disk-group

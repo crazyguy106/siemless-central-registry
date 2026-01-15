@@ -1,0 +1,22 @@
+title: 'vsftpd: FTP session opened.'
+id: 377cbb3b-aec4-5962-8e2f-908a5349d12e
+status: stable
+level: low
+description: 'vsftpd: FTP session opened.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'CONNECT: Client'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11401
+  wazuh_level: 3

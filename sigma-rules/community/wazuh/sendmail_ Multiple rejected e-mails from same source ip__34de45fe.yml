@@ -1,0 +1,38 @@
+title: 'sendmail: Multiple rejected e-mails from same source ip.'
+id: 3b601651-3af9-5f19-9604-6789efc85342
+status: stable
+level: high
+description: 'sendmail: Multiple rejected e-mails from same source ip.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 12
+  - type: sequence
+    parent_rule: wazuh-3107
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1114
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3156
+  wazuh_level: 10

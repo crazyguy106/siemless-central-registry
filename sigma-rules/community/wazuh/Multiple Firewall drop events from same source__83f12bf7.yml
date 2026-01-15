@@ -1,0 +1,36 @@
+title: Multiple Firewall drop events from same source.
+id: d618fb81-2ae5-5331-8edc-650d76ad36f5
+status: stable
+level: high
+description: Multiple Firewall drop events from same source.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 45s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 18
+    ignore_window: 240s
+  - type: sequence
+    parent_rule: wazuh-4101
+    window:
+      maxspan: 45s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4151
+  wazuh_level: 10

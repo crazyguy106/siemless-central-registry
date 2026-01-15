@@ -1,0 +1,31 @@
+title: Execution from a Removable Media with Network Connection
+id: 1542fa53-955e-4330-8e4d-b2d812adeb5f
+status: stable
+level: low
+description: 'Identifies process execution from a removable media and by an unusual
+  process. Adversaries may move onto systems,
+
+  possibly those on disconnected or air-gapped networks, by copying malware to removable
+  media and taking advantage of
+
+  Autorun features when the media is inserted into a system and executes.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-27'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id with maxspan=5m\n [process where\
+      \ host.os.type == \"windows\" and event.action == \"start\" and\n\n  /* Direct\
+      \ Exec from USB */\n  (process.Ext.device.bus_type : \"usb\" or process.Ext.device.product_id\
+      \ : \"USB *\") and\n  (process.code_signature.trusted == false or process.code_signature.exists\
+      \ == false) and\n\n  not process.code_signature.status : (\"errorExpired\",\
+      \ \"errorCode_endpoint*\")]\n [network where host.os.type == \"windows\" and\
+      \ event.action == \"connection_attempted\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.initial_access
+- attack.t1091

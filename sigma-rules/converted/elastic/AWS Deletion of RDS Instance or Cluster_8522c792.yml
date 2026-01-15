@@ -1,0 +1,37 @@
+title: AWS Deletion of RDS Instance or Cluster
+id: 9055ece6-2689-4224-a0e0-b04881e1f8ad
+status: stable
+level: medium
+description: 'Identifies the deletion of an Amazon Relational Database Service (RDS)
+  Aurora database cluster, global database cluster,
+
+  or database instance.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: rds.amazonaws.com
+    event_action: (DeleteDBCluster
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/delete-db-cluster.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DeleteDBCluster.html
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/delete-global-cluster.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DeleteGlobalCluster.html
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/delete-db-instance.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DeleteDBInstance.html
+falsepositives:
+- "    Clusters or instances may be deleted by a system administrator. Verify whether\
+  \ the user identity, user agent, and/or\n    hostname should be making changes in\
+  \ your environment. Cluster or instance deletions by unfamiliar users or hosts\n\
+  \    should be investigated. If known behavior is causing false positives, it can\
+  \ be exempted from the rule.\n    "

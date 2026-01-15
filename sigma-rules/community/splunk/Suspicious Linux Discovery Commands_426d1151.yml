@@ -1,0 +1,25 @@
+title: Suspicious Linux Discovery Commands
+id: 80aee7c0-088f-508b-b24d-b85503bab537
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of suspicious bash commands commonly used in scripts like AutoSUID, LinEnum, and LinPeas for system discovery on a Linux host. It leverages Endpoint Detection and Response (EDR) data, specifically looking for a high number of distinct commands executed within a short time frame. This activity is significant as it often precedes privilege escalation or other malicious actions. If confirmed malicious, an attacker could gain detailed system information, 
+author: Bhavin Patel, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    span: 5m
+  condition: selection
+tags:
+  - attack.t1059.004
+references:
+  - https://attack.mitre.org/matrices/enterprise/linux/
+  - https://attack.mitre.org/techniques/T1059/004/
+  - https://github.com/IvanGlinkin/AutoSUID
+  - https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
+  - https://github.com/rebootuser/LinEnum
+custom_attributes:
+  original_rule_id: 0edd5112-56c9-11ec-b990-acde48001122
+  source_format: splunk_spl

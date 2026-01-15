@@ -1,0 +1,55 @@
+title: SUID/SGUID Enumeration Detected
+id: 5b06a27f-ad72-4499-91db-0c69667bffa5
+status: stable
+level: low
+description: 'This rule monitors for the usage of the "find" command in conjunction
+  with SUID and SGUID permission arguments. SUID
+
+  (Set User ID) and SGID (Set Group ID) are special permissions in Linux that allow
+  a program to execute with the
+
+  privileges of the file owner or group, respectively, rather than the privileges
+  of the user running the program. In case
+
+  an attacker is able to enumerate and find a binary that is misconfigured, they might
+  be able to leverage this
+
+  misconfiguration to escalate privileges by exploiting vulnerabilities or built-in
+  features in the privileged program.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-24'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_name: find
+    user_Ext_real_id: '0'
+    group_Ext_real_id: '0'
+    process_args|contains:
+    - /6000
+    - '-6000'
+    - /4000
+    - '-4000'
+    - /2000
+    - '-2000'
+    - /u=s
+    - -u=s
+    - /g=s
+    - -g=s
+    - /u=s,g=s
+    - /g=s,u=s
+  condition: selection
+tags:
+- attack.persistence
+- attack.discovery
+- attack.privilege_escalation
+- attack.t1083
+- attack.t1548.001
+- attack.t1548
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

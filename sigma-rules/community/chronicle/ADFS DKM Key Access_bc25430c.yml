@@ -1,0 +1,22 @@
+title: ADFS DKM Key Access
+id: 6d792ccc-e80a-5b4e-9ad2-baad2e8b9447
+status: experimental
+level: high
+description: |
+  Detects access to the AD contact object to read the AD FS DKM (distributed key manager) master key value
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_ACCESS
+    metadata_product_name: Microsoft-Windows-Security-Auditing
+    metadata_vendor_name: Microsoft
+    metadata_product_event_type: 4662
+    security_result_detection_fields_value: 'properties:{8d3bca50-1d7e-11d0-a081-00aa006c33ed}'
+  condition: selection
+references:
+  - https://github.com/OTRF/BHEU22-ADFS/blob/main/Slide-Deck.pdf
+custom_attributes:
+  original_rule_id: mr_2517eaa0-0915-4a9e-8ca2-abce955eb635
+  source_format: chronicle_yaral

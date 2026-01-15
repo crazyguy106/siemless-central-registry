@@ -1,0 +1,22 @@
+title: GCP error with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location) with response code $(gcp.jsonPayload.responseCode)
+id: 89a1fb0c-5af3-5e23-8778-79f7be893272
+status: stable
+level: medium
+description: GCP error with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location) with response code $(gcp.jsonPayload.responseCode)
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.severity: ^ERROR$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65007
+  wazuh_level: 7

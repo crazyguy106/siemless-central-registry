@@ -1,0 +1,39 @@
+title: AWS IAM AdministratorAccess Policy Attached to User
+id: 9aa4be8d-5828-417d-9f54-7cd304571b24
+status: stable
+level: medium
+description: 'An adversary with access to a set of compromised credentials may attempt
+  to persist or escalate privileges by attaching
+
+  additional permissions to compromised user accounts. This rule looks for use of
+  the IAM AttachUserPolicy API operation
+
+  to attach the highly permissive AdministratorAccess AWS managed policy to an existing
+  IAM user.'
+author: Elastic (converted by SIEMLess)
+date: '2024-05-30'
+modified: '2025-10-13'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    event_action: AttachUserPolicy
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1098
+- attack.t1098.003
+references:
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html
+- https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AdministratorAccess.html
+- https://hackingthe.cloud/aws/exploitation/iam_privilege_escalation/
+falsepositives:
+- "    While this can be normal behavior, it should be investigated to ensure validity.\
+  \ Verify whether the user identity\n    should be using the IAM `AttachUserPolicy`\
+  \ API operation to attach the `AdministratorAccess` policy to the target\n    user.\n\
+  \    "

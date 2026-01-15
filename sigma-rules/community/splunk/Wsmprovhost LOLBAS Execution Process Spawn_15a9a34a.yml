@@ -1,0 +1,78 @@
+title: Wsmprovhost LOLBAS Execution Process Spawn
+id: e996b368-fa00-5fe7-a0ce-52072e751d54
+status: stable
+level: high
+description: |
+  The following analytic identifies `Wsmprovhost.exe` spawning a LOLBAS execution process. It leverages Endpoint Detection and Response (EDR) data to detect when `Wsmprovhost.exe` spawns child processes that are known LOLBAS (Living Off the Land Binaries and Scripts) executables. This activity is significant because it may indicate an adversary using Windows Remote Management (WinRM) to execute code on remote endpoints, a common technique for lateral movement. If confirmed malicious, this could al
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - Regsvcs.exe
+      - Ftp.exe
+      - OfflineScannerShell.exe
+      - Rasautou.exe
+      - Schtasks.exe
+      - Xwizard.exe
+      - Dllhost.exe
+      - Pnputil.exe
+      - Atbroker.exe
+      - Pcwrun.exe
+      - Ttdinject.exe
+      - Mshta.exe
+      - Bitsadmin.exe
+      - Certoc.exe
+      - Ieexec.exe
+      - Microsoft.Workflow.Compiler.exe
+      - Runscripthelper.exe
+      - Forfiles.exe
+      - Msbuild.exe
+      - Register-cimprovider.exe
+      - Tttracer.exe
+      - Ie4uinit.exe
+      - Bash.exe
+      - Hh.exe
+      - SettingSyncHost.exe
+      - Cmstp.exe
+      - Mmc.exe
+      - Stordiag.exe
+      - Scriptrunner.exe
+      - Odbcconf.exe
+      - Extexport.exe
+      - Msdt.exe
+      - WorkFolders.exe
+      - Diskshadow.exe
+      - Mavinject.exe
+      - Regasm.exe
+      - Gpscript.exe
+      - Rundll32.exe
+      - Regsvr32.exe
+      - Msiexec.exe
+      - Wuauclt.exe
+      - Presentationhost.exe
+      - Wmic.exe
+      - Runonce.exe
+      - Syncappvpublishingserver.exe
+      - Verclsid.exe
+      - Infdefaultinstall.exe
+      - Explorer.exe
+      - Installutil.exe
+      - Netsh.exe
+      - Wab.exe
+      - Dnscmd.exe
+      - At.exe
+      - Pcalua.exe
+      - Msconfig.exe
+  condition: selection
+tags:
+  - attack.t1021.006
+references:
+  - https://attack.mitre.org/techniques/T1021/006/
+  - https://lolbas-project.github.io/
+  - https://pentestlab.blog/2018/05/15/lateral-movement-winrm/
+custom_attributes:
+  original_rule_id: 2eed004c-4c0d-11ec-93e8-3e22fbd008af
+  source_format: splunk_spl

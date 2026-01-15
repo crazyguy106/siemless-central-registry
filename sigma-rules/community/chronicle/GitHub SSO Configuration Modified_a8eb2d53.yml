@@ -1,0 +1,25 @@
+title: GitHub SSO Configuration Modified
+id: add56a77-1585-51c1-a0b8-5571e93979b2
+status: experimental
+level: high
+description: |
+  Detects when changes are made to a GitHub enterprise or organization's Single Sign-On (SSO) configuration.
+author: Google Cloud Security
+logsource:
+  product: github
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type:
+      - business.disable_saml
+      - business.update_saml_provider_settings
+      - business.disable_oidc
+  condition: selection
+tags:
+  - attack.t1562
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_65a0f413-7f77-4039-a241-383c13e96dc2
+  source_format: chronicle_yaral

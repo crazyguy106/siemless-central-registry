@@ -1,0 +1,25 @@
+title: Cisco Smart Install Port Discovery and Status
+id: 96706f4b-2169-562f-a7c6-292cac3e6757
+status: stable
+level: high
+description: |
+  This analytic detects network traffic to TCP port 4786, which is used by the Cisco Smart Install protocol. Smart Install is a plug-and-play configuration and image-management feature that helps customers to deploy Cisco switches. This protocol has been exploited via CVE-2018-0171, a vulnerability that allows unauthenticated remote attackers to execute arbitrary code or cause denial of service conditions. Recently, Cisco Talos reported that a Russian state-sponsored threat actor called "Static Tu
+author: Bhavin Patel, Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Network_Traffic
+    dest_port: 4786
+    transport: tcp
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://github.com/AlrikRr/Cisco-Smart-Exploit
+  - https://www.exploit-db.com/exploits/44451
+custom_attributes:
+  original_rule_id: ded9f9d7-edb8-48cf-8b72-1b459eee6785
+  source_format: splunk_spl

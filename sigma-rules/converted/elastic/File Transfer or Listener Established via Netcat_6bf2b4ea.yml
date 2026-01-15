@@ -1,0 +1,38 @@
+title: File Transfer or Listener Established via Netcat
+id: adb961e0-cb74-42a0-af9e-29fc41f88f5f
+status: stable
+level: medium
+description: 'A netcat process is engaging in network activity on a Linux host. Netcat
+  is often used as a persistence mechanism by
+
+  exporting a reverse shell or by serving a shell on a listening port. Netcat is also
+  sometimes used for data
+
+  exfiltration.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-10-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.004
+references:
+- http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+- https://www.sans.org/security-resources/sec560/netcat_cheat_sheet_v1.pdf
+- https://en.wikipedia.org/wiki/Netcat
+- https://www.hackers-arise.com/hacking-fundamentals
+- https://null-byte.wonderhowto.com/how-to/hack-like-pro-use-netcat-swiss-army-knife-hacking-tools-0148657/
+- https://levelup.gitconnected.com/ethical-hacking-part-15-netcat-nc-and-netcat-f6a8f7df43fd
+falsepositives:
+- "    Netcat is a dual-use tool that can be used for benign or malicious activity.\
+  \ Netcat is included in some Linux\n    distributions so its presence is not necessarily\
+  \ suspicious. Some normal use of this program, while uncommon, may\n    originate\
+  \ from scripts, automation tools, and frameworks.\n    "

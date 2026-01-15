@@ -1,0 +1,23 @@
+title: Windows Remote Desktop Network Bruteforce Attempt
+id: b0e5653b-a218-5247-96bb-c94763d5f1c1
+status: stable
+level: medium
+description: |
+  The following analytic identifies potential Remote Desktop Protocol (RDP) brute force attacks by monitoring network traffic for RDP application activity. This query detects potential RDP brute force attacks by identifying source IPs that have made more than 10 connection attempts to the same RDP port on a host within a one-hour window. The results are presented in a table that includes the source and destination IPs, destination port, number of attempts, and the times of the first and last conne
+author: Jose Hernandez, Bhavin Patel, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    datamodel: Network_Traffic
+    app: rdp
+  condition: selection
+tags:
+  - attack.t1110.001
+references:
+  - https://www.zscaler.com/blogs/security-research/ransomware-delivered-using-rdp-brute-force-attack
+  - https://www.reliaquest.com/blog/rdp-brute-force-attacks/
+custom_attributes:
+  original_rule_id: 908bf0d5-0983-4afd-b6a4-e9eb5d361a7d
+  source_format: splunk_spl

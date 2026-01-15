@@ -1,0 +1,22 @@
+title: Server does not have enough memory to reload the configuration.
+id: 2a33944f-89aa-534a-81d5-1eaa507fac4b
+status: stable
+level: medium
+description: Server does not have enough memory to reload the configuration.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'reloading configuration failed: out of memory'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12144
+  wazuh_level: 9

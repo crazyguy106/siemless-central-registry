@@ -1,0 +1,19 @@
+title: Malicious PowerShell Process With Obfuscation Techniques
+id: 94d56fc0-634b-53ad-a0a3-965695ea40ad
+status: stable
+level: high
+description: |
+  The following analytic detects PowerShell processes launched with command-line arguments indicative of obfuscation techniques. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and complete command-line executions. This activity is significant because obfuscated PowerShell commands are often used by attackers to evade detection and execute malicious scripts. If confirmed malicious, this activity could lead to unauthorized code execu
+author: David Dorsey, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1059.001
+custom_attributes:
+  original_rule_id: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
+  source_format: splunk_spl

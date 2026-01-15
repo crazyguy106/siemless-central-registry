@@ -1,0 +1,31 @@
+title: Potential Masquerading as Communication Apps
+id: c9482bfa-a553-4226-8ea2-4959bd4f7923
+status: stable
+level: medium
+description: 'Identifies suspicious instances of communications apps, both unsigned
+  and renamed ones, that can indicate an attempt to
+
+  conceal malicious activity, bypass security features such as allowlists, or trick
+  users into executing malware.'
+author: Elastic (converted by SIEMLess)
+date: '2023-05-05'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_code_signature_subject_name|contains:
+    - WhatsApp LLC
+    - WhatsApp, Inc
+    - 24803D75-212C-471A-BC57-9EF86AB91435
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1036.001
+- attack.t1554
+- attack.t1036.005
+- attack.t1036

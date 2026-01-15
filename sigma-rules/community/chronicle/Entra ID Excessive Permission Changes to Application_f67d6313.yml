@@ -1,0 +1,22 @@
+title: Entra ID Excessive Permission Changes to Application
+id: d3502742-5f4a-5b56-a2ed-4bd33824914a
+status: experimental
+level: medium
+description: |
+  Adding permissions to an application is expected, however if excessive permissions are changed at one time over a defined threshold, it may be worth validating.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: SERVICE_MODIFICATION
+    metadata_product_event_type: Update application
+    metadata_product_name: Azure AD Directory Audit
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/graph/permissions-reference
+custom_attributes:
+  original_rule_id: mr_7e13e4fc-6a6d-45c6-af92-69f98b4c9805
+  source_format: chronicle_yaral

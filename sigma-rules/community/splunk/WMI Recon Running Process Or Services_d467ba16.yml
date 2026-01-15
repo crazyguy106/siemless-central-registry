@@ -1,0 +1,28 @@
+title: WMI Recon Running Process Or Services
+id: cef41666-9508-5ea7-be84-4258d9431c60
+status: stable
+level: medium
+description: |
+  The following analytic identifies suspicious PowerShell script execution via EventCode 4104, where WMI performs an event query to list running processes or services. This detection leverages PowerShell Script Block Logging to capture and analyze script block text for specific WMI queries. This activity is significant as it is commonly used by malware and APT actors to map security applications or services on a compromised machine. If confirmed malicious, this could allow attackers to identify an
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    scriptblocktext:
+      - '*SELECT*'
+      - '*Win32_Process*'
+      - '*Win32_Service*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1592
+references:
+  - https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/
+  - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
+  - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md
+  - https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+custom_attributes:
+  original_rule_id: b5cd5526-cce7-11eb-b3bd-acde48001122
+  source_format: splunk_spl

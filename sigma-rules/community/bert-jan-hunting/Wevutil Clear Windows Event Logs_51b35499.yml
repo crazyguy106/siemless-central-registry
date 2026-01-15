@@ -1,0 +1,21 @@
+title: Wevutil Clear Windows Event Logs
+id: 1ff770c7-2fe2-4a24-a05d-d3501633e10a
+status: experimental
+level: medium
+description: |
+  Adversaries may clear Windows Event Logs to hide the activity of an intrusion. Windows Event Logs are a record of a computer's alerts and notifications. There are three system-defined sources of events: System, Application, and Security.
+
+This query lists when one of the three sources of Windows Event is cleared or when an attempt has been made to clear the logs. The logs will not provide if the user that initiated the clear action also had the permissions to succesfully complete the task.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceProcessEvents
+| extend ProcessCommandLineToLower =  tolower(ProcessCommandLine)
+| where ProcessCommandLineToLower has "wevtutil.exe" and ProcessCommandLineToLower has_any ("cl", "clear-log")
+| project-reorder Timestamp, DeviceName, AccountSid, ProcessCommandLine, InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

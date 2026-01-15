@@ -1,0 +1,21 @@
+title: Windows Command and Scripting Interpreter Hunting Path Traversal
+id: c1a67a81-97bb-5640-b403-d5722f13ec33
+status: stable
+level: low
+description: |
+  The following analytic identifies path traversal command-line executions, leveraging data from Endpoint Detection and Response (EDR) agents. It detects patterns in command-line arguments indicative of path traversal techniques, such as multiple instances of "/..", "\..", or "\\..". This activity is significant as it often indicates attempts to evade defenses by executing malicious code, such as through msdt.exe. If confirmed malicious, this behavior could allow attackers to execute arbitrary cod
+author: Teoderick Contreras, Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1059
+references:
+  - https://app.any.run/tasks/713f05d2-fe78-4b9d-a744-f7c133e3fafb/
+custom_attributes:
+  original_rule_id: d0026380-b3c4-4da0-ac8e-02790063ff6b
+  source_format: splunk_spl

@@ -1,0 +1,41 @@
+title: Git Hook Command Execution
+id: dc61f382-dc0c-4cc0-a845-069f2a071704
+status: stable
+level: medium
+description: 'This rule detects the execution of a potentially malicious process from
+  a Git hook. Git hooks are scripts that Git
+
+  executes before or after events such as: commit, push, and receive. An attacker
+  can abuse Git hooks to execute arbitrary
+
+  commands on the system and establish persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-15'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=3s\n  [process where host.os.type\
+      \ == \"linux\" and event.type == \"start\" and event.action in (\"exec\", \"\
+      start\", \"ProcessRollup2\") and\n   process.parent.name == \"git\" and process.args\
+      \ : \".git/hooks/*\" and\n   process.name in (\"bash\", \"dash\", \"sh\", \"\
+      tcsh\", \"csh\", \"zsh\", \"ksh\", \"fish\")\n  ] by process.entity_id\n  [process\
+      \ where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ in (\"exec\", \"start\", \"ProcessRollup2\") and\n   process.parent.name in\
+      \ (\"bash\", \"dash\", \"sh\", \"tcsh\", \"csh\", \"zsh\", \"ksh\", \"fish\"\
+      )] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.execution
+- attack.t1574
+- attack.t1059.004
+- attack.t1059
+- attack.t1543
+references:
+- https://swisskyrepo.github.io/InternalAllTheThings/redteam/persistence/linux-persistence/#backdooring-git
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

@@ -1,0 +1,27 @@
+title: 'Netscaler: UI/API login succeeds'
+id: f7c20401-fe14-5626-baac-292b201e8ec8
+status: stable
+level: low
+description: 'Netscaler: UI/API login succeeds'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - UI CMD_EXECUTED
+      - API CMD_EXECUTED
+    message|re: 'Command "login'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80100
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80138
+  wazuh_level: 3

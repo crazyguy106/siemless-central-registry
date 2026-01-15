@@ -1,0 +1,27 @@
+title: 'sshd: authentication success.'
+id: 1c90e829-c3a1-5f0a-8c5f-9d2713510c89
+status: stable
+level: low
+description: 'sshd: authentication success.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^Accepted
+      - authenticated.$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+tags:
+  - attack.t1078
+  - attack.t1021
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5715
+  wazuh_level: 3

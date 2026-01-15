@@ -1,0 +1,24 @@
+title: Kubernetes Previously Unseen Process
+id: 743026a9-3fb2-52e2-846a-1aa9bd593756
+status: experimental
+level: medium
+description: |
+  The following analytic detects previously unseen processes within the Kubernetes environment on master or worker nodes. It leverages process metrics collected via an OTEL collector and hostmetrics receiver, and data is pulled from Splunk Observability Cloud. This detection compares processes observed in the last hour against those seen in the previous 30 days. Identifying new processes is crucial as they may indicate unauthorized activity or attempts to compromise the node. If confirmed maliciou
+author: Matthew Moore, Splunk
+logsource:
+  product: kubernetes
+  category: process_creation
+detection:
+  selection:
+    current:
+      - 'True'
+      - 'True'
+    count: 1
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart
+custom_attributes:
+  original_rule_id: c8119b2f-d7f7-40be-940a-1c582870e8e2
+  source_format: splunk_spl

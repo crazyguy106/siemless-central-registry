@@ -1,0 +1,22 @@
+title: Windows Proxy Via Netsh
+id: fdefe839-894f-5d3e-a846-5b99fb245086
+status: stable
+level: medium
+description: |
+  The following analytic identifies the use of netsh.exe to configure a connection proxy, which can be leveraged for persistence by executing a helper DLL. It detects this activity by analyzing process creation events from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving "portproxy" and "v4tov4" parameters. This activity is significant because it indicates potential unauthorized network configuration changes, which could be used to maintain persistence or
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '* portproxy *'
+      - '* v4tov4 *'
+  condition: selection
+tags:
+  - attack.t1090.001
+references:
+  - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+custom_attributes:
+  original_rule_id: c137bfe8-6036-4cff-b77b-4e327dd0a1cf
+  source_format: splunk_spl

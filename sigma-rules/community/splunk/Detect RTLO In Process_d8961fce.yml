@@ -1,0 +1,26 @@
+title: Detect RTLO In Process
+id: 399b8abd-3dce-5368-81c3-2ea054d92b49
+status: stable
+level: high
+description: |
+  The following analytic identifies the abuse of the right-to-left override (RTLO) character (U+202E) in process names. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs and command-line data. This activity is significant because adversaries use the RTLO character to disguise malicious files or commands, making them appear benign. If confirmed malicious, this technique can allow attackers to execute harmful code undetected, potentially leading 
+author: Steven Dick
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process: \\x{202E}
+    action: allowed
+    field: process
+    process_with_rtlo: process
+  condition: selection
+tags:
+  - attack.t1036.002
+references:
+  - https://attack.mitre.org/techniques/T1036/002/
+  - https://resources.infosecinstitute.com/topic/spoof-using-right-to-left-override-rtlo-technique-2/
+  - https://www.trendmicro.com/en_us/research/17/f/following-trail-blacktech-cyber-espionage-campaigns.html
+custom_attributes:
+  original_rule_id: 22ac27b4-7189-4a4f-9375-b9017c9620d7
+  source_format: splunk_spl

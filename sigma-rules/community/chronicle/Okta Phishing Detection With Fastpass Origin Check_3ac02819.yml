@@ -1,0 +1,25 @@
+title: Okta Phishing Detection With Fastpass Origin Check
+id: 81d0a5dd-ed10-5150-8425-205898bec535
+status: experimental
+level: medium
+description: |
+  Okta provides a platform detection for when a user enrolled in FastPass fails to authenticate via a real-time AiTM phishing proxy.
+author: Google Cloud Security
+logsource:
+  product: okta
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: user.authentication.auth_via_mfa
+    security_result_action: BLOCK
+    security_result_category_details: FastPass declined phishing attempt
+  condition: selection
+tags:
+  - attack.t1566
+references:
+  - https://sec.okta.com/fastpassphishingdetection
+custom_attributes:
+  original_rule_id: mr_07d1a26d-1132-4228-bd49-c8dd899c7792
+  source_format: chronicle_yaral

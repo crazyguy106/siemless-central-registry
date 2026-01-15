@@ -1,0 +1,22 @@
+title: Active Directory Lateral Movement Identified
+id: 09a48a59-c747-5af8-a864-be813416ef58
+status: stable
+level: medium
+description: |
+  The following analytic identifies potential lateral movement activities within an organization's Active Directory (AD) environment. It detects this activity by correlating multiple analytics from the Active Directory Lateral Movement analytic story within a specified time frame. This is significant for a SOC as lateral movement is a common tactic used by attackers to expand their access within a network, posing a substantial risk. If confirmed malicious, this activity could allow attackers to es
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    analyticstories: Active Directory Lateral Movement
+    risk_object_type: system
+  condition: selection
+tags:
+  - attack.t1210
+references:
+  - https://attack.mitre.org/tactics/TA0008/
+  - https://research.splunk.com/stories/active_directory_lateral_movement/
+custom_attributes:
+  original_rule_id: 6aa6f9dd-adfe-45a8-8f74-c4c7a0d7d037
+  source_format: splunk_spl

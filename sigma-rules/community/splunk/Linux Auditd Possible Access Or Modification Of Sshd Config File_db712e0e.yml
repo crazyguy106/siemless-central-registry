@@ -1,0 +1,28 @@
+title: Linux Auditd Possible Access Or Modification Of Sshd Config File
+id: 79ee8f6c-cb4c-5e65-ab5b-25af41a0f2a4
+status: stable
+level: medium
+description: |
+  The following analytic detects access, deletion or modification of the ssh_config file on Linux systems. It leverages data from Linux Auditd, focusing on events of type PATH with a nametype of ("NORMAL", "CREATE", "DELETE"). This activity could be significant because unauthorized changes to ssh_config can allow threat actors to redirect port connections or use unauthorized keys, potentially compromising the system. Correlate this with related EXECVE or PROCTITLE events to identify the process or
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    type:
+      - PATH
+      - CWD
+    nametype:
+      - NORMAL
+      - CREATE
+      - DELETE
+  condition: selection
+tags:
+  - attack.t1098.004
+references:
+  - https://www.hackingarticles.in/ssh-penetration-testing-port-22/
+  - https://attack.mitre.org/techniques/T1098/004/
+custom_attributes:
+  original_rule_id: acb3ea33-70f7-47aa-b335-643b3aebcb2f
+  source_format: splunk_spl

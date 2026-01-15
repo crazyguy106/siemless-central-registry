@@ -1,0 +1,22 @@
+title: Windows Unusual SysWOW64 Process Run System32 Executable
+id: 86c9ac57-cb24-5c2d-9946-bae5bfc721f4
+status: stable
+level: medium
+description: |
+  The following analytic detects an unusual process execution pattern where a process running from C:\Windows\SysWOW64\ attempts to execute a binary from C:\Windows\System32\. In a typical Windows environment, 32-bit processes under SysWOW64 should primarily interact with 32-bit binaries within the same directory. However, an execution flow where a 32-bit process spawns a 64-bit binary from System32 can indicate potential process injection, privilege escalation, evasion techniques, or unauthorized
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_path: '*\\Windows\\SysWOW64\\*'
+    process: '*windows\\system32\\*'
+  condition: selection
+tags:
+  - attack.t1036.009
+references:
+  - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+custom_attributes:
+  original_rule_id: e4602172-db86-4315-86df-da66fb40bcde
+  source_format: splunk_spl

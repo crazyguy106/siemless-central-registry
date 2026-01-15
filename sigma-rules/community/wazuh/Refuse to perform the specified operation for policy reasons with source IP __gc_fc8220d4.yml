@@ -1,0 +1,22 @@
+title: 'Refuse to perform the specified operation for policy reasons with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity'
+id: 45f0eadf-64c9-5755-86fa-836c7994aac1
+status: stable
+level: low
+description: 'Refuse to perform the specified operation for policy reasons with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.jsonPayload.responseCode: ^REFUSED$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002,65003
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65023
+  wazuh_level: 5

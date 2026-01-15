@@ -1,0 +1,24 @@
+title: Top 100 users that have the most interactive sign ins
+id: 808ba280-f1aa-4a8f-b56d-2d5076470dd3
+status: experimental
+level: medium
+description: |
+  Visualize the top 100 users that have performed the most interactive sign ins.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    IdentityLogonEvents
+| where LogonType == 'Interactive'
+| where isempty(FailureReason)
+| distinct AccountUpn, DeviceName
+| summarize TotalUniqueInteractiveSignIns = count() by AccountUpn
+| top 100 by TotalUniqueInteractiveSignIns
+| render columnchart with (title="Top 100 users that have the most interactive sign ins")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

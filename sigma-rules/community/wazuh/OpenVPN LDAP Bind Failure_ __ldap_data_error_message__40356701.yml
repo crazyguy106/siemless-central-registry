@@ -1,0 +1,22 @@
+title: 'OpenVPN LDAP Bind Failure: $(ldap_data.error_message)'
+id: d4af0807-bd5e-5f1c-91b0-312071b12428
+status: stable
+level: low
+description: 'OpenVPN LDAP Bind Failure: $(ldap_data.error_message)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^LDAP bind failed:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81800
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81805
+  wazuh_level: 5

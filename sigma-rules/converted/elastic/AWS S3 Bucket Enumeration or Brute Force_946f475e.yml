@@ -1,0 +1,37 @@
+title: AWS S3 Bucket Enumeration or Brute Force
+id: 5f0234fd-7f21-42af-8391-511d5fd11d5c
+status: stable
+level: low
+description: 'Identifies a high number of failed S3 operations against a single bucket
+  from a single source address within a short timeframe.
+
+  This activity can indicate attempts to collect bucket objects or cause an increase
+  in billing to an account via internal "AccessDenied" errors.'
+author: Elastic (converted by SIEMLess)
+date: '2024-05-01'
+modified: '2025-10-01'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: s3.amazonaws.com
+    aws_cloudtrail_error_code: AccessDenied
+    tls_client_server_name: '*'
+  condition: selection
+tags:
+- attack.impact
+- attack.discovery
+- attack.collection
+- attack.t1657
+- attack.t1619
+- attack.t1530
+references:
+- https://medium.com/@maciej.pocwierz/how-an-empty-s3-bucket-can-make-your-aws-bill-explode-934a383cb8b1
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/ErrorCodeBilling.html
+falsepositives:
+- "  External account IDs or broken automation may trigger this rule. For AccessDenied\
+  \ (HTTP 403 Forbidden), S3 doesn't charge the bucket owner when the request is initiated\
+  \ outside of the bucket owner's individual AWS account or the bucket owner's AWS\
+  \ organization.\n  "

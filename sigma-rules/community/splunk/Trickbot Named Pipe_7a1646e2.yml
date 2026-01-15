@@ -1,0 +1,24 @@
+title: Trickbot Named Pipe
+id: 2382486c-6315-5e50-bdba-cb85489ba67a
+status: stable
+level: high
+description: |
+  The following analytic detects the creation or connection to a named pipe associated with Trickbot malware. It leverages Sysmon EventCodes 17 and 18 to identify named pipes with the pattern "\\pipe\\*lacesomepipe". This activity is significant as Trickbot uses named pipes for communication with its command and control (C2) servers, facilitating data exfiltration and command execution. If confirmed malicious, this behavior could allow attackers to maintain persistence, execute arbitrary commands,
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    pipename: \\pipe\\*lacesomepipe
+    eventcode:
+      - 17
+      - 18
+  condition: selection
+tags:
+  - attack.t1055
+references:
+  - https://labs.vipre.com/trickbot-and-its-modules/
+  - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
+custom_attributes:
+  original_rule_id: 1804b0a4-a682-11eb-8f68-acde48001122
+  source_format: splunk_spl

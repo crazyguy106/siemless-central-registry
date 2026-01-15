@@ -1,0 +1,33 @@
+title: 'ASA: Multiple critical messages.'
+id: f3f21aaf-f742-54fc-9560-a3b860e8d360
+status: stable
+level: high
+description: 'ASA: Multiple critical messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 360s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-64002
+    window:
+      maxspan: 360s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64029
+  wazuh_level: 10

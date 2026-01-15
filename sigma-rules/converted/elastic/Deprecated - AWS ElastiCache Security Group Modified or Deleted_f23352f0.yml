@@ -1,0 +1,42 @@
+title: Deprecated - AWS ElastiCache Security Group Modified or Deleted
+id: 1ba5160d-f5a2-4624-b0ff-6a1dc55d2516
+status: stable
+level: low
+description: 'Identifies when an ElastiCache security group has been modified or deleted.
+  Amazon EC2-Classic and ElastiCache
+
+  CacheSecurityGroups have been retired. Modern ElastiCache deployments run in a VPC
+  and use standard EC2 security groups
+
+  instead. This rule should be retained only for historical log analysis on legacy
+  CloudTrail data. We recommend relying
+
+  on "AWS EC2 Security Group Configuration Change" rule for network-control changes
+  impacting ElastiCache in VPC-based
+
+  deployments.'
+author: Elastic (converted by SIEMLess)
+date: '2021-07-19'
+modified: '2025-11-18'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: elasticache.amazonaws.com
+    event_action: ("Delete
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562.007
+- attack.t1562
+references:
+- https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/Welcome.html
+falsepositives:
+- "    A ElastiCache security group deletion may be done by a system or network administrator.\
+  \ Verify whether the user\n    identity, user agent, and/or hostname should be making\
+  \ changes in your environment. Security Group deletions by\n    unfamiliar users\
+  \ or hosts should be investigated. If known behavior is causing false positives,\
+  \ it can be exempted\n    from the rule.\n    "

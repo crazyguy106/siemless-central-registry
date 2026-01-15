@@ -1,0 +1,24 @@
+title: Remote File Download via MpCmdRun
+id: c6453e73-90eb-4fe7-a98c-cde7bbfc504a
+status: stable
+level: medium
+description: Identifies the Windows Defender configuration utility (MpCmdRun.exe)
+  being used to download a remote file.
+author: Elastic (converted by SIEMLess)
+date: '2020-09-03'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: MpCmdRun.exe
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1105
+references:
+- https://twitter.com/mohammadaskar2/status/1301263551638761477
+- https://www.bleepingcomputer.com/news/microsoft/microsoft-defender-can-ironically-be-used-to-download-malware/

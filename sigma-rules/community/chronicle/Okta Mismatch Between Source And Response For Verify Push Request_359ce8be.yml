@@ -1,0 +1,26 @@
+title: Okta Mismatch Between Source And Response For Verify Push Request
+id: b3c79875-7460-57bf-87de-cc6ae20719b5
+status: experimental
+level: medium
+description: Okta Mismatch Between Source and Response for Verify Push Request
+author: Google Cloud Security
+logsource:
+  product: okta
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_event_type: USER_UNCATEGORIZED
+    metadata_product_event_type: system.push.send_factor_verify_push
+    security_result_action: ALLOW
+    security_result_description:
+      - New Device=POSITIVE
+      - New IP=POSITIVE
+  condition: selection
+tags:
+  - attack.t1621
+references:
+  - https://sec.okta.com/pushfatigueworkflows
+custom_attributes:
+  original_rule_id: mr_552008c0-c691-40b2-b7ce-5181570ba5c3
+  source_format: chronicle_yaral

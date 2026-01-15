@@ -1,0 +1,50 @@
+title: Windows Service Installed via an Unusual Client
+id: 55c2bf58-2a39-4c58-a384-c8b1978153c2
+status: stable
+level: high
+description: 'Identifies the creation of a Windows service by an unusual client process.
+  Services may be created with administrator
+
+  privileges but are executed under SYSTEM privileges, so an adversary may also use
+  a service to escalate privileges from
+
+  administrator to SYSTEM.'
+author: Elastic (converted by SIEMLess)
+date: '2022-02-07'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_action: service-installed
+    winlog_event_data_ClientProcessId: '0'
+    winlog_event_data_ParentProcessId: '0'
+    winlog_event_data_ServiceAccount: LocalSystem
+    winlog_event_data_ServiceFileName|contains:
+    - ?:\\Windows\\VeeamVssSupport\\VeeamGuestHelper.exe
+    - ?:\\Windows\\VeeamLogShipper\\VeeamLogShipper.exe
+    - '%SystemRoot%\\system32\\Drivers\\Crowdstrike\\*-CsInstallerService.exe'
+    - \
+    - ' '
+    - \
+    - ' '
+    - \
+    - ' '
+    - \
+    - ",\n    "
+    - C:\\WINDOWS\\ccmsetup\\ccmsetup.exe\
+    - ",\n    "
+    - ?:\\SMS\\bin\\x64\\srvboot.exe\
+    - ",\n    "
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1543.003
+- attack.t1543
+references:
+- https://www.x86matthew.com/view_post?id=create_svc_rpc
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4697
+- https://github.com/atc-project/atomic-threat-coverage/blob/master/Atomic_Threat_Coverage/Logging_Policies/LP_0100_windows_audit_security_system_extension.md
+- https://www.elastic.co/security-labs/siestagraph-new-implant-uncovered-in-asean-member-foreign-ministry

@@ -1,0 +1,25 @@
+title: Windows Default Rdp File Deletion
+id: 6c081291-dce1-5ac0-819d-aea2baba75d9
+status: stable
+level: medium
+description: |
+  This detection identifies the deletion of the Default.rdp file from a user’s Documents folder. This file is automatically created or updated by the Remote Desktop Connection client (mstsc.exe) whenever a user initiates an RDP session. It contains session configuration data, such as the remote hostname and display settings. While the presence of this file is normal during legitimate RDP usage, its deletion may indicate an attempt to conceal evidence of remote access activity. Threat actors and re
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    targetfilename: '*\\default.rdp'
+    eventcode:
+      - 23
+      - 26
+  condition: selection
+tags:
+  - attack.t1070.004
+references:
+  - https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+  - https://thelocalh0st.github.io/posts/rdp/
+custom_attributes:
+  original_rule_id: 30a334c1-f9a5-4fbd-8958-5b65a8435cb2
+  source_format: splunk_spl

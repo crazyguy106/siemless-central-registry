@@ -1,0 +1,27 @@
+title: Windows Command Shell DCRat ForkBomb Payload
+id: 2fa720a4-072c-554f-a872-a42e93f91c1e
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of a DCRat "forkbomb" payload, which spawns multiple cmd.exe processes that launch notepad.exe instances in quick succession. This detection leverages Endpoint Detection and Response (EDR) data, focusing on the rapid creation of cmd.exe and notepad.exe processes within a 30-second window. This activity is significant as it indicates a potential DCRat infection, a known Remote Access Trojan (RAT) with destructive capabilities. If confirmed malicious, t
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    parent_process_name: cmd.exe
+    process_name: notepad.exe
+    original_file_name: notepad.exe
+    parent_process: '*.bat*'
+    span: 30s
+  condition: selection
+tags:
+  - attack.t1059.003
+references:
+  - https://cert.gov.ua/article/405538
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
+  - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+custom_attributes:
+  original_rule_id: 2bb1a362-7aa8-444a-92ed-1987e8da83e1
+  source_format: splunk_spl

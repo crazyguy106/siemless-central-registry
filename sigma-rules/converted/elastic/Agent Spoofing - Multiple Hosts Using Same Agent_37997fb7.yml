@@ -1,0 +1,29 @@
+title: Agent Spoofing - Multiple Hosts Using Same Agent
+id: 493834ca-f861-414c-8602-150d5505b777
+status: stable
+level: high
+description: 'Detects when multiple hosts are using the same agent ID. This could
+  occur in the event of an agent being taken over and
+
+  used to inject illegitimate documents into an instance as an attempt to spoof events
+  in order to masquerade actual
+
+  activity to evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2021-07-14'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_agent_id_status: '*'
+    tags: forwarded
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036
+falsepositives:
+- "    This is meant to run only on datasources using Elastic Agent 7.14+ since versions\
+  \ prior to that will be missing the\n    necessary field, resulting in false positives.\n\
+  \    "

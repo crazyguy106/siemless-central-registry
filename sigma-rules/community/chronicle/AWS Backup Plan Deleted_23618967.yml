@@ -1,0 +1,24 @@
+title: AWS Backup Plan Deleted
+id: 9440a236-2dc3-5e44-a5f4-84a56c243a5a
+status: experimental
+level: low
+description: Detects when AWS Backup Plan is deleted.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_event_type: RESOURCE_DELETION
+    metadata_product_event_type:
+      - DeleteBackupPlan
+      - DeleteBackupSelection
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1490
+custom_attributes:
+  original_rule_id: mr_ac4b93af-f166-44fa-951d-83f08ded6fd8
+  source_format: chronicle_yaral

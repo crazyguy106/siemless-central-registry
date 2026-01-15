@@ -1,0 +1,38 @@
+title: 'mailscanner: Multiple attempts of spam.'
+id: 1a2a3335-df48-5b29-9a35-25de72104090
+status: stable
+level: medium
+description: 'mailscanner: Multiple attempts of spam.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 180s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-3702
+    window:
+      maxspan: 180s
+    enforce_order: true
+tags:
+  - attack.t1114
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3751
+  wazuh_level: 6

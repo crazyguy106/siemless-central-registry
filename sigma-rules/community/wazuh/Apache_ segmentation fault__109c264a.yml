@@ -1,0 +1,22 @@
+title: 'Apache: segmentation fault.'
+id: b87eba99-40aa-5a8e-bd28-46e319ab0f72
+status: stable
+level: high
+description: 'Apache: segmentation fault.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: exit signal Segmentation Fault
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-30103
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-30104
+  wazuh_level: 12

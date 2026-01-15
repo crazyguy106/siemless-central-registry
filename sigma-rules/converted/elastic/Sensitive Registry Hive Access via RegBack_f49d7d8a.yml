@@ -1,0 +1,31 @@
+title: Sensitive Registry Hive Access via RegBack
+id: 63e381a6-0ffe-4afb-9a26-72a59ad16d7b
+status: stable
+level: high
+description: Identifies attempts to access sensitive registry hives which contain
+  credentials from the registry backup folder.
+author: Elastic (converted by SIEMLess)
+date: '2024-07-01'
+modified: '2025-02-14'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_action: open
+    event_outcome: success
+    user_id: S-1-5-18
+    file_path|contains:
+    - ?:\\Windows\\System32\\config\\RegBack\\SAM
+    - ?:\\Windows\\System32\\config\\RegBack\\SECURITY
+    - ?:\\Windows\\System32\\config\\RegBack\\SYSTEM
+    process_executable|contains:
+    - ?:\\Windows\\system32\\taskhostw.exe
+    - ?:\\Windows\\system32\\taskhost.exe
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1003.004
+- attack.t1003.002

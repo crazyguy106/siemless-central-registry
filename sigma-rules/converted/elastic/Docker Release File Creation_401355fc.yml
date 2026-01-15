@@ -1,0 +1,33 @@
+title: Docker Release File Creation
+id: 4d4cda2b-9aad-4702-a0a2-75952bd6a77c
+status: stable
+level: low
+description: 'This rule detects the creation of files named release_agent or notify_on_release,
+  which are
+
+  commonly associated with the abuse of Linux cgroup release mechanisms. In Docker
+  or containerized
+
+  environments, this behavior may indicate an attempt to exploit privilege escalation
+  vulnerabilities
+
+  such as CVE-2022-0492, where attackers use the release_agent feature to execute
+  code on the host
+
+  from within a container.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-25'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1611
+references:
+- https://sysdig.com/blog/detecting-mitigating-cve-2022-0492-sysdig/

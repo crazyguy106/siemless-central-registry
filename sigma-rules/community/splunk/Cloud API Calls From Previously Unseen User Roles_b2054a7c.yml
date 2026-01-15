@@ -1,0 +1,21 @@
+title: Cloud API Calls From Previously Unseen User Roles
+id: 4e082eb7-9b0d-5b6b-ad5a-a3b46c521f63
+status: stable
+level: medium
+description: |
+  The following analytic detects cloud API calls executed by user roles that have not previously run these commands. It leverages the Change data model in Splunk to identify commands executed by users with the user_type of AssumedRole and a status of success. This activity is significant because new commands from different user roles can indicate potential malicious activity or unauthorized actions. If confirmed malicious, this behavior could lead to unauthorized access, data breaches, or other da
+author: David Dorsey, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Change
+    user_type: AssumedRole
+    status: success
+    enough_data: 1
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
+  source_format: splunk_spl

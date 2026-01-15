@@ -1,0 +1,21 @@
+title: Windows Modify Registry Disable Restricted Admin
+id: 8ed67ecd-92ed-5391-a0fd-db684043c7ca
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry entry "DisableRestrictedAdmin," which controls the Restricted Admin mode behavior. This detection leverages registry activity logs from endpoint data sources like Sysmon or Carbon Black. Monitoring this activity is crucial as changes to this setting can disable a security feature that limits credential exposure during remote connections. If confirmed malicious, an attacker could weaken security controls, increasing the risk of 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\System\\CurrentControlSet\\Control\\Lsa\\DisableRestrictedAdmin'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+custom_attributes:
+  original_rule_id: cee573a0-7587-48e6-ae99-10e8c657e89a
+  source_format: splunk_spl

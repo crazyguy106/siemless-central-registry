@@ -1,0 +1,21 @@
+title: Google Workspace Multiple Files Downloaded From Google Drive
+id: 5ea69e4d-961a-5ad8-a391-362e0e6db163
+status: experimental
+level: high
+description: |
+  Identifies when a user downloads multiple files from Google Drive, which may indicate data exfiltration.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: drive
+    metadata_product_event_type: download
+  condition: selection
+tags:
+  - attack.t1567
+custom_attributes:
+  original_rule_id: mr_72855af9-fba4-4424-b879-4de733374e8b
+  source_format: chronicle_yaral

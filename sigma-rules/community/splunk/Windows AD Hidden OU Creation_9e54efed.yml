@@ -1,0 +1,44 @@
+title: Windows AD Hidden OU Creation
+id: fe97f9e4-1e74-529a-95e9-99931b2e21ac
+status: stable
+level: high
+description: |
+  This analytic is looking for when an ACL is applied to an OU which denies listing the objects residing in the OU. This activity combined with modifying the owner of the OU will hide AD objects even from domain administrators.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    aceaccessrights:
+      - List contents
+      - List objects
+      - LC
+      - LO
+    eventcode: 5136
+    objectclass: organizationalUnit
+    field:
+      - old_value
+      - new_value
+      - new_ace
+      - aceAccessRights
+      - aceFlags
+    max_match:
+      - 10000
+      - 10000
+      - 100
+      - 100
+    new_ace:
+      - old_values
+    acetype:
+      - Access denied
+      - D
+  condition: selection
+tags:
+  - attack.t1222.001
+  - attack.t1484
+references:
+  - https://happycamper84.medium.com/sneaky-persistence-via-hidden-objects-in-ad-1c91fc37bf54
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+custom_attributes:
+  original_rule_id: 66b6ad5e-339a-40af-b721-dacefc7bdb75
+  source_format: splunk_spl

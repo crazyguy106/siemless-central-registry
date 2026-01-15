@@ -1,0 +1,23 @@
+title: Display the Inspected Network Signatures
+id: 1f55a6a1-ce16-4db7-a09e-12fbefa36024
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Display the Inspected Network Signatures
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where ActionType == "NetworkSignatureInspected"
+| extend
+     SignatureName = parse_json(AdditionalFields).SignatureName,
+     SignatureMatchedContent = 
+parse_json(AdditionalFields).SignatureMatchedContent
+| summarize count() by tostring(SignatureName)
+| render piechart with(title="Inspected Network Signatures")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

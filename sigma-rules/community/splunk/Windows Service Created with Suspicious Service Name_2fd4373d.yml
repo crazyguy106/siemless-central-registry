@@ -1,0 +1,24 @@
+title: Windows Service Created with Suspicious Service Name
+id: a2758517-4d94-5ef5-90ad-f6776d72b0e9
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of a Windows Service with a known suspicious or malicious name using Windows Event ID 7045. It leverages logs from the `wineventlog_system` to identify these services installations. This activity is significant as adversaries, including those deploying Clop ransomware, often create malicious services for lateral movement, remote code execution, persistence, and execution. If confirmed malicious, this could allow attackers to maintain persistence, execu
+author: Steven Dick
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    eventcode: 7045
+  condition: selection
+tags:
+  - attack.t1569.002
+references:
+  - https://attack.mitre.org/techniques/T1569/002/
+  - https://github.com/BishopFox/sliver/blob/71f94928bf36c1557ea5fbeffa161b71116f56b2/client/command/exec/psexec.go#LL61C5-L61C16
+  - https://www.microsoft.com/en-us/security/blog/2022/08/24/looking-for-the-sliver-lining-hunting-for-emerging-command-and-control-frameworks/
+  - https://github.com/mthcht/awesome-lists/blob/main/Lists/suspicious_windows_services_names_list.csv
+custom_attributes:
+  original_rule_id: 35eb6d19-a497-400c-93c5-645562804b11
+  source_format: splunk_spl

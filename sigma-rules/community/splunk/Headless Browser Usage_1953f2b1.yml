@@ -1,0 +1,22 @@
+title: Headless Browser Usage
+id: 27c8ee85-f308-5d5d-9931-c7e97f84f378
+status: stable
+level: low
+description: |
+  The following analytic detects the usage of headless browsers within an organization. It identifies processes containing the "--headless" and "--disable-gpu" command line arguments, which are indicative of headless browsing. This detection leverages data from the Endpoint.Processes datamodel to identify such processes. Monitoring headless browser usage is significant as these tools can be exploited by adversaries for malicious activities like web scraping, automated testing, and undetected web i
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*--headless*'
+      - '*--disable-gpu*'
+  condition: selection
+tags:
+  - attack.t1564.003
+references:
+  - https://cert.gov.ua/article/5702579
+custom_attributes:
+  original_rule_id: 869ba261-c272-47d7-affe-5c0aa85c93d6
+  source_format: splunk_spl

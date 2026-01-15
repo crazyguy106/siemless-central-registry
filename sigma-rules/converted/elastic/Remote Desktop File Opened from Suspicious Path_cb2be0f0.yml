@@ -1,0 +1,34 @@
+title: Remote Desktop File Opened from Suspicious Path
+id: f401a0e3-5eeb-4591-969a-f435488e7d12
+status: stable
+level: medium
+description: 'Identifies attempts to open a remote desktop file from suspicious paths.
+  Adversaries may abuse RDP files for initial
+
+  access.'
+author: Elastic (converted by SIEMLess)
+date: '2024-11-05'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_args|contains:
+    - ?:\\Users\\*\\Downloads\\*.rdp
+    - ?:\\Users\\*\\AppData\\Local\\Temp\\Temp?_*.rdp
+    - ?:\\Users\\*\\AppData\\Local\\Temp\\7z*.rdp
+    - ?:\\Users\\*\\AppData\\Local\\Temp\\Rar$*\\*.rdp
+    - ?:\\Users\\*\\AppData\\Local\\Temp\\BNZ.*.rdp
+    - ?:\\Users\\*\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Outlook\\*.rdp
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1566
+- attack.t1566.001
+references:
+- https://www.microsoft.com/en-us/security/blog/2024/10/29/midnight-blizzard-conducts-large-scale-spear-phishing-campaign-using-rdp-files/
+- https://www.blackhillsinfosec.com/rogue-rdp-revisiting-initial-access-methods/
+- https://shorsec.io/blog/malrdp-implementing-rouge-rdp-manually/

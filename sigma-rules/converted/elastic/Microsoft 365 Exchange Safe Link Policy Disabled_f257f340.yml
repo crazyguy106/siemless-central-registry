@@ -1,0 +1,34 @@
+title: Microsoft 365 Exchange Safe Link Policy Disabled
+id: a989fa1b-9a11-4dd8-a3e9-f0de9c6eb5f2
+status: stable
+level: medium
+description: 'Identifies when a Safe Link policy is disabled in Microsoft 365. Safe
+  Link policies for Office applications extend
+
+  phishing protection to documents that contain hyperlinks, even after they have been
+  delivered to a user.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_category: web
+    event_action: Disable-SafeLinksRule
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://docs.microsoft.com/en-us/powershell/module/exchange/disable-safelinksrule?view=exchange-ps
+- https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/atp-safe-links?view=o365-worldwide
+falsepositives:
+- "    Disabling safe links may be done by a system or network administrator. Verify\
+  \ that the configuration change was\n    expected. Exceptions can be added to this\
+  \ rule to filter expected behavior.\n    "

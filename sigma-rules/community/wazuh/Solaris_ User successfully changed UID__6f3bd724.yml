@@ -1,0 +1,24 @@
+title: 'Solaris: User successfully changed UID.'
+id: c22cf154-56e4-596c-a7e2-06a07fa7c0e7
+status: stable
+level: low
+description: 'Solaris: User successfully changed UID.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: ^su
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-6102
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-6105
+  wazuh_level: 3

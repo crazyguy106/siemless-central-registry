@@ -1,0 +1,22 @@
+title: Potential DGA detected (ASIM DNS Schema)
+id: f64deffb-6e6b-5664-81e3-f336a454994d
+status: stable
+level: medium
+description: |
+  'Identifies clients with a high NXDomain count which could be indicative of a DGA (cycling through possible C2 domains where most C2s are not live). Alert is generated when a new IP address is seen (based on not being seen associated with  NXDomain records in prior 10-day baseline period). This analytic rule uses [ASIM](https://aka.ms/AboutASIM) and supports any built-in or custom source that supports the ASIM DNS schema'
+author: Yaron
+logsource:
+  product: azure
+  category: network_connection
+detection:
+  selection:
+    DnsQueryTypeName:
+      - A
+      - AAAA
+  condition: selection
+tags:
+  - attack.t1568
+  - attack.t1008
+custom_attributes:
+  original_rule_id: 983a6922-894d-413c-9f04-d7add0ecc307
+  source_format: azure_kql

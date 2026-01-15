@@ -1,0 +1,25 @@
+title: Kubernetes Anomalous Inbound Outbound Network IO
+id: 0371a052-9638-579e-95f2-ecf043c7aef3
+status: experimental
+level: medium
+description: |
+  The following analytic identifies high inbound or outbound network I/O anomalies in Kubernetes containers. It leverages process metrics from an OTEL collector and Kubelet Stats Receiver, along with data from Splunk Observability Cloud. A lookup table with average and standard deviation values for network I/O is used to detect anomalies persisting over a 1-hour period. This activity is significant as it may indicate data exfiltration, command and control communication, or unauthorized data transf
+author: Matthew Moore, Splunk
+logsource:
+  product: kubernetes
+  category: network_connection
+detection:
+  selection:
+    direction:
+      - transmit
+      - receive
+    key: k8s.cluster.name
+    span: 10s
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart
+custom_attributes:
+  original_rule_id: 4f3b0c97-657e-4547-a89a-9a50c656e3cd
+  source_format: splunk_spl

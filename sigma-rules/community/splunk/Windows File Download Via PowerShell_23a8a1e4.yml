@@ -1,0 +1,32 @@
+title: Windows File Download Via PowerShell
+id: 7e342d6c-a684-5411-8004-d0661f03709f
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of PowerShell's download methods such as "DownloadString" and "DownloadData" from the WebClient class or Invoke-WebRequest and it's aliases "IWR" or "Curl". It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line details. This activity can be significant such methods and functions are commonly used in malicious PowerShell scripts to fetch and execute remote code. If confirmed maliciou
+author: Michael Haag, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*iwr *'
+      - '*Invoke-WebRequest*'
+      - '*wget *'
+      - curl
+      - '*.DownloadData*'
+      - '*.DownloadFile*'
+      - '*.DownloadString*'
+  condition: selection
+tags:
+  - attack.t1059.001
+  - attack.t1105
+references:
+  - https://learn.microsoft.com/en-us/dotnet/api/system.net.webclient?view=net-9.0#methods
+  - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
+  - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+custom_attributes:
+  original_rule_id: 58c4e56c-b5b8-46a3-b5fb-6537dca3c6de
+  source_format: splunk_spl

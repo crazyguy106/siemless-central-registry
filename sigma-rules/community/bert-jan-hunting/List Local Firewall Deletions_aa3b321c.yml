@@ -1,0 +1,26 @@
+title: List Local Firewall Deletions
+id: 8b18b370-687b-4934-813a-c881e5ef4fa0
+status: experimental
+level: medium
+description: |
+  List Local Firewall Deletions
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceProcessEvents
+| where ProcessCommandLine contains "firewall delete"
+| where InitiatingProcessFileName != "Microsoft.Tri.Sensor.Updater.exe" // DFI sensor
+| project-reorder
+     Timestamp,
+     DeviceName,
+     AccountName,
+     ProcessCommandLine,
+     InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

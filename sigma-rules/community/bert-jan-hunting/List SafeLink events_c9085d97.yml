@@ -1,0 +1,20 @@
+title: List SafeLink events
+id: 56d5b653-8737-4a0a-a95a-21feb1a4b78e
+status: experimental
+level: medium
+description: |
+  This query lists all events that have triggered a URL block by safelinks. Those actions can be from multiple workloads: Teams, Office Applications or from email events. The URL click of the user will also generate a indincident itself. This query lists all events in one single view. 
+
+Note: This query will only give results if safe links is enabled in your environment.
+author: Bert-JanP
+logsource:
+  product: office_365
+  service: kql
+detection:
+  _kql_query: |
+    UrlClickEvents
+| where ActionType == "ClickBlocked"
+| project Timestamp, Url, Workload, AccountUpn, ThreatTypes, IsClickedThrough
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

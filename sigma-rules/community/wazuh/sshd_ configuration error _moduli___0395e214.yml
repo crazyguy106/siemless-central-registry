@@ -1,0 +1,22 @@
+title: 'sshd: configuration error (moduli).'
+id: 209d9193-5e98-502b-9d85-432dc77e6194
+status: stable
+level: low
+description: 'sshd: configuration error (moduli).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'error: Bad prime description in line'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5717
+  wazuh_level: 4

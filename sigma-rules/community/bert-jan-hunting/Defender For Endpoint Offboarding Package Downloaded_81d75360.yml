@@ -1,0 +1,20 @@
+title: Defender For Endpoint Offboarding Package Downloaded
+id: 4cc43f9e-d0b4-484b-8d38-20b605786b77
+status: experimental
+level: medium
+description: |
+  This query lists when a Defender For Endpoint offboarding package has been downloaded. Defender For Endpoint offboarding packages are considered tier0, because this allows you to remove security tooling from devices. (Local) Administrator permissions are needed to execute the proces and successfully ofboard devices.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "DownloadOffboardingPkg"
+| extend UserId = tostring(parse_json(RawEventData).UserId), ClientIP = tostring(parse_json(RawEventData).ClientIP)
+| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+| project-reorder Timestamp, InitiatedByAccountName, UserId, ClientIP, ActionType
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

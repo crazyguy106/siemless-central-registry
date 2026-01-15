@@ -1,0 +1,23 @@
+title: Remote System Discovery with Adsisearcher
+id: 404b3822-6274-50b4-81b9-8c542ad14439
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell scripts to query Active Directory for domain computers. It leverages PowerShell Script Block Logging (EventCode=4104) to identify specific script blocks containing `adsisearcher` and `objectcategory=computer` with methods like `findAll()` or `findOne()`. This activity is significant as it may indicate an attempt by adversaries or Red Teams to perform Active Directory discovery and gain situational aware
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*findAll('
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1018
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
+custom_attributes:
+  original_rule_id: 70803451-0047-4e12-9d63-77fa7eb8649c
+  source_format: splunk_spl

@@ -1,0 +1,45 @@
+title: Windows Privilege Escalation Suspicious Process Elevation
+id: e1dd3d45-ec51-5b6a-aa26-12c4595b2241
+status: stable
+level: high
+description: |
+  The following analytic detects when a process running with low or medium integrity from a user account spawns an elevated process with high or system integrity in suspicious locations. This behavior is identified using process execution data from Windows process monitoring or Sysmon EventID 1. This activity is significant as it may indicate a threat actor successfully elevating privileges, which is a common tactic in advanced attacks. If confirmed malicious, this could allow the attacker to exec
+author: Steven Dick
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    max: 0
+    process_integrity_level:
+      - high
+      - system
+    user:
+      - '*SYSTEM'
+      - '*LOCAL SERVICE'
+      - '*NETWORK SERVICE'
+      - DWM-*
+      - '*$'
+    parent_process_path:
+      - '*\\\\*'
+      - '*\\Users\\*'
+      - '*\\Temp\\*'
+      - '*\\ProgramData\\*'
+    process_path:
+      - '*\\\\*'
+      - '*\\Users\\*'
+      - '*\\Temp\\*'
+      - '*\\ProgramData\\*'
+  condition: selection
+tags:
+  - attack.t1068
+  - attack.t1548
+  - attack.t1134
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://vuls.cert.org/confluence/display/Wiki/2021/06/21/Finding+Privilege+Escalation+Vulnerabilities+in+Windows+using+Process+Monitor
+  - https://redcanary.com/blog/getsystem-offsec/
+  - https://atomicredteam.io/privilege-escalation/T1134.001/
+custom_attributes:
+  original_rule_id: 6a80300a-9f8a-4f22-bd3e-09ca577cfdfc
+  source_format: splunk_spl

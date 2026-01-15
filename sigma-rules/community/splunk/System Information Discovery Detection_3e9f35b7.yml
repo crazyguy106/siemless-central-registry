@@ -1,0 +1,20 @@
+title: System Information Discovery Detection
+id: 00125b87-09ae-5966-b2de-f39b039d91c6
+status: stable
+level: high
+description: |
+  The following analytic identifies system information discovery techniques, such as the execution of commands like `wmic qfe`, `systeminfo`, and `hostname`. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs. This activity is significant because attackers often use these commands to gather system configuration details, which can aid in further exploitation. If confirmed malicious, this behavior could allow attackers to tailor their attacks base
+author: Patrick Bareiss, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '*wmic* qfe*'
+  condition: selection
+tags:
+  - attack.t1082
+references:
+  - https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
+custom_attributes:
+  original_rule_id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
+  source_format: splunk_spl

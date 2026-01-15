@@ -1,0 +1,20 @@
+title: Device congifuration not compliant
+id: 7a2ff922-a8ab-4b01-b65b-910d1268c6c9
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Device congifuration not compliant
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSecureConfigurationAssessment
+| join DeviceTvmSecureConfigurationAssessmentKB on ConfigurationId
+| where IsCompliant == 0 and IsApplicable == 1
+| summarize ConfigurationImpactScore =  sum(ConfigurationImpact), ImpactedConfiguration = make_set(ConfigurationName), ConfigID = make_set(ConfigurationId) by DeviceName
+| sort by ConfigurationImpactScore
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

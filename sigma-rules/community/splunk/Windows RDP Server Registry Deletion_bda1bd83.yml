@@ -1,0 +1,23 @@
+title: Windows RDP Server Registry Deletion
+id: 18bb409d-7ffe-5f22-b6c4-f3dc988c98f6
+status: stable
+level: medium
+description: |
+  This detection identifies the deletion of registry keys under HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers\, which store records of previously connected remote systems via Remote Desktop Protocol (RDP). These keys are created automatically when a user connects to a remote host using the native Windows RDP client (mstsc.exe) and can be valuable forensic artifacts for tracking remote access activity. Malicious actors aware of this behavior may delete these keys after using R
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Terminal Server Client\\Servers\\*'
+    action: deleted
+  condition: selection
+tags:
+  - attack.t1070.004
+references:
+  - https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+  - https://thelocalh0st.github.io/posts/rdp/
+custom_attributes:
+  original_rule_id: 1a058296-7c68-4d66-9560-464764d6e26c
+  source_format: splunk_spl

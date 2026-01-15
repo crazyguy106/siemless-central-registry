@@ -1,0 +1,26 @@
+title: Ransomware Notes bulk creation
+id: 321e2d61-3ad4-5a6a-a5f6-bef1e9b347aa
+status: stable
+level: medium
+description: |
+  The following analytic identifies the bulk creation of ransomware notes (e.g., .txt, .html, .hta files) on an infected machine. It leverages Sysmon EventCode 11 to detect multiple instances of these file types being created within a short time frame. This activity is significant as it often indicates an active ransomware attack, where the attacker is notifying the victim of the encryption. If confirmed malicious, this behavior could lead to widespread data encryption, rendering critical files in
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 11
+    span: 10s
+    file_name:
+      - '*\.txt'
+      - '*\.html'
+      - '*\.hta'
+  condition: selection
+tags:
+  - attack.t1486
+references:
+  - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+  - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+custom_attributes:
+  original_rule_id: eff7919a-8330-11eb-83f8-acde48001122
+  source_format: splunk_spl

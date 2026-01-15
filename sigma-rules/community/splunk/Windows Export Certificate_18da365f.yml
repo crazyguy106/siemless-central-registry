@@ -1,0 +1,21 @@
+title: Windows Export Certificate
+id: f6e2abf7-c491-58af-aa87-9668fdb4bfa2
+status: stable
+level: medium
+description: |
+  The following analytic detects the export of a certificate from the Windows Certificate Store. It leverages the Certificates Lifecycle log channel, specifically event ID 1007, to identify this activity. Monitoring certificate exports is crucial as certificates can be used for authentication to VPNs or private resources. If malicious actors export certificates, they could potentially gain unauthorized access to sensitive systems or data, leading to significant security breaches.
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 1007
+  condition: selection
+tags:
+  - attack.t1552.004
+  - attack.t1649
+references:
+  - https://atomicredteam.io/defense-evasion/T1553.004/#atomic-test-4---install-root-ca-on-windows
+custom_attributes:
+  original_rule_id: d8ddfa9b-b724-4df9-9dbe-f34cc0936714
+  source_format: splunk_spl

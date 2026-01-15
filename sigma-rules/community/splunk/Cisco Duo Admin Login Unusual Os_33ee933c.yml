@@ -1,0 +1,22 @@
+title: Cisco Duo Admin Login Unusual Os
+id: db1d03b4-294e-57a1-b7fe-5cd5224cb453
+status: stable
+level: high
+description: |
+  The following analytic identifies Duo admin login attempts from operating systems that are unusual for your environment, excluding commonly used OS such as Mac OS X. Please adjust to your environment. It works by analyzing Duo activity logs for admin login actions and filtering out logins from expected operating systems. The analytic then aggregates events by browser, version, source IP, location, and OS details to highlight anomalies. Detecting admin logins from unexpected operating systems is 
+author: Patrick Bareiss, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    os:
+      - Mac OS X
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://splunkbase.splunk.com/app/7404
+custom_attributes:
+  original_rule_id: c4824cc6-d644-458e-a39a-67cd67da75e3
+  source_format: splunk_spl

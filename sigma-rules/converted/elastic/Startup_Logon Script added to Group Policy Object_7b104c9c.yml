@@ -1,0 +1,38 @@
+title: Startup/Logon Script added to Group Policy Object
+id: 16fac1a1-21ee-4ca6-b720-458e3855d046
+status: stable
+level: medium
+description: Detects the modification of Group Policy Objects (GPO) to add a startup/logon
+  script to users or computer objects.
+author: Elastic (converted by SIEMLess)
+date: '2021-11-08'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    winlog_event_data_AttributeLDAPDisplayName|contains:
+    - gPCMachineExtensionNames
+    - gPCUserExtensionNames
+    winlog_event_data_AttributeValue|contains:
+    - '*40B66650-4972-11D1-A7CA-0000F87571E3*'
+    - '*40B6664F-4972-11D1-A7CA-0000F87571E3*'
+    winlog_event_data_RelativeTargetName|contains:
+    - '*\\scripts.ini'
+    - '*\\psscripts.ini'
+    winlog_event_data_AttributeValue|endswith: 42B5FAAE-6536-11D2-AE5A-0000F87571E3*
+    winlog_event_data_AccessList|endswith: '%%4417*'
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1547
+- attack.t1484.001
+- attack.t1484
+references:
+- https://github.com/atc-project/atc-data/blob/master/docs/Logging_Policies/LP_0025_windows_audit_directory_service_changes.md
+- https://github.com/atc-project/atc-data/blob/f2bbb51ecf68e2c9f488e3c70dcdd3df51d2a46b/docs/Logging_Policies/LP_0029_windows_audit_detailed_file_share.md
+- https://labs.f-secure.com/tools/sharpgpoabuse
+falsepositives:
+- Legitimate Administrative Activity

@@ -1,0 +1,22 @@
+title: Randomly Generated Scheduled Task Name
+id: b6c251c4-e73c-5eb0-baed-cb4df3fc46a2
+status: experimental
+level: low
+description: |
+  The following analytic detects the creation of a Scheduled Task with a high entropy, randomly generated name, leveraging Event ID 4698. It uses the `ut_shannon` function from the URL ToolBox Splunk application to measure the entropy of the Task Name. This activity is significant as adversaries often use randomly named Scheduled Tasks for lateral movement and remote code execution, employing tools like Impacket or CrackMapExec. If confirmed malicious, this could allow attackers to execute arbitra
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventcode: 4698
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+  - https://splunkbase.splunk.com/app/2734/
+  - https://en.wikipedia.org/wiki/Entropy_(information_theory)
+custom_attributes:
+  original_rule_id: 9d22a780-5165-11ec-ad4f-3e22fbd008af
+  source_format: splunk_spl

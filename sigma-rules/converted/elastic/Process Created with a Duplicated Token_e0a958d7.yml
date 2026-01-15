@@ -1,0 +1,57 @@
+title: Process Created with a Duplicated Token
+id: 1b0b4818-5655-409b-9c73-341cac4bb73f
+status: stable
+level: medium
+description: 'Identifies the creation of a process impersonating the token of another
+  user logon session. Adversaries may create a new
+
+  process with a different token to escalate privileges and bypass access controls.'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-02'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_action: start
+    user_id|contains:
+    - S-1-5-21-*
+    - S-1-12-1-*
+    process_name|contains:
+    - powershell.exe
+    - cmd.exe
+    - rundll32.exe
+    - notepad.exe
+    - net.exe
+    - ntdsutil.exe
+    - tasklist.exe
+    - reg.exe
+    - certutil.exe
+    - bitsadmin.exe
+    - msbuild.exe
+    - esentutl.exe
+    process_code_signature_status|contains:
+    - trusted
+    - errorExpired
+    - errorCode_endpoint*
+    process_executable|contains: ?:\\Program Files\\*
+    process_command_line|contains:
+    - '*davclnt.dll,DavSetCookie*'
+    - '*?:\\Program Files*'
+    - '*\\Windows\\System32\\winethc.dll*'
+    - '*\\Windows\\SYSTEM32\\EDGEHTML.dll*'
+    - '*shell32.dll,SHCreateLocalServerRunDll*'
+    process_parent_executable|contains:
+    - ?:\\Windows\\System32\\svchost.exe
+    - ?:\\Windows\\System32\\msiexec.exe
+    - ?:\\Windows\\twain_32\\*.exe
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1134.001
+- attack.t1134
+- attack.t1134.002
+references:
+- https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw

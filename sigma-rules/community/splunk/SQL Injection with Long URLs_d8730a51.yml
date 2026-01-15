@@ -1,0 +1,19 @@
+title: SQL Injection with Long URLs
+id: 8a0ce1b8-24e8-5770-a954-ee2d592fe9b9
+status: experimental
+level: high
+description: |
+  The following analytic detects long URLs containing multiple SQL commands, indicating a potential SQL injection attack. This detection leverages web traffic data, specifically targeting web server destinations with URLs longer than 1024 characters or HTTP user agents longer than 200 characters. SQL injection is significant as it allows attackers to manipulate a web application's database, potentially leading to unauthorized data access or modification. If confirmed malicious, this activity could
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Web
+    dest_category: web_server
+  condition: selection
+tags:
+  - attack.t1190
+custom_attributes:
+  original_rule_id: e0aad4cf-0790-423b-8328-7564d0d938f9
+  source_format: splunk_spl

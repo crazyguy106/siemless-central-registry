@@ -1,0 +1,19 @@
+title: List the triggered ASR events for each device in a pivot table
+id: 2a622b82-55e9-4f19-9cf2-8fc759d432ab
+status: experimental
+level: medium
+description: |
+  This query returns a row for each device with a count for each Attack Surface Reduction trigger type. This can be used to find devices that trigger a lot of ASR rules. The reference can be used to find more information on each specific ASR rule.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents
+| where ActionType startswith 'ASR'
+| project DeviceName, ActionType
+| evaluate pivot(ActionType)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

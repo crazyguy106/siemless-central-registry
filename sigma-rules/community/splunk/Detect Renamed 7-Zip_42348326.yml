@@ -1,0 +1,20 @@
+title: Detect Renamed 7-Zip
+id: 36dc1fb8-0fa6-552f-b668-ea86467765ef
+status: stable
+level: low
+description: |
+  The following analytic detects the usage of a renamed 7-Zip executable using Sysmon data. It leverages the OriginalFileName field to identify instances where the 7-Zip process has been renamed. This activity is significant as attackers often rename legitimate tools to evade detection while staging or exfiltrating data. If confirmed malicious, this behavior could indicate data exfiltration attempts or other unauthorized data manipulation, potentially leading to significant data breaches or loss o
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1560.001
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
+custom_attributes:
+  original_rule_id: 4057291a-b8cf-11eb-95fe-acde48001122
+  source_format: splunk_spl

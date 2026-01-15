@@ -1,0 +1,25 @@
+title: AWS Concurrent Sessions From Different Ips
+id: 183154ff-37ae-508b-aaa7-212ab4b814af
+status: stable
+level: high
+description: |
+  The following analytic identifies an AWS IAM account with concurrent sessions originating from more than one unique IP address within a 5-minute window. It leverages AWS CloudTrail logs, specifically the `DescribeEventAggregates` event, to detect this behavior. This activity is significant as it may indicate a session hijacking attack, where an adversary uses stolen session cookies to access AWS resources from a different location. If confirmed malicious, this could allow unauthorized access to 
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    eventname: DescribeEventAggregates
+    span: 5m
+  filter:
+    src_ip: AWS Internal
+  condition: selection and not filter
+tags:
+  - attack.t1185
+references:
+  - https://attack.mitre.org/techniques/T1185/
+  - https://breakdev.org/evilginx-2-next-generation-of-phishing-2fa-tokens/
+  - https://github.com/kgretzky/evilginx2
+custom_attributes:
+  original_rule_id: 51c04fdb-2746-465a-b86e-b413a09c9085
+  source_format: splunk_spl

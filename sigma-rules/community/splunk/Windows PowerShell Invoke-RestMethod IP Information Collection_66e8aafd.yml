@@ -1,0 +1,27 @@
+title: Windows PowerShell Invoke-RestMethod IP Information Collection
+id: 9d73e0f4-c211-53ce-b437-d20ba5a7c4a0
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of PowerShell's Invoke-RestMethod cmdlet to collect geolocation data from ipinfo.io or IP address information from api.ipify.org. This behavior leverages PowerShell Script Block Logging to identify scripts that gather external IP information and potential geolocation data. This activity is significant as it may indicate reconnaissance efforts, where threat actors are attempting to determine the geographical location or network details of a compromised syste
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*Invoke-RestMethod*'
+      - '*ipinfo.io*'
+      - '*api.ipify.org*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1082
+  - attack.t1016
+  - attack.t1059.001
+references:
+  - https://securityintelligence.com/posts/new-threat-actor-water-gamayun-targets-telecom-finance/
+  - https://www.ncsc.gov.uk/report/weekly-threat-report-12th-april-2024
+custom_attributes:
+  original_rule_id: 8db47e12-9c3e-4f5a-b0d6-e42a1895cd4f
+  source_format: splunk_spl

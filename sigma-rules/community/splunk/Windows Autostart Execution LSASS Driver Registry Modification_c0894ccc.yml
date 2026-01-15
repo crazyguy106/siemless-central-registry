@@ -1,0 +1,24 @@
+title: Windows Autostart Execution LSASS Driver Registry Modification
+id: 9f085ace-9beb-5d78-adb5-6178aa1d4059
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to undocumented registry keys that allow a DLL to load into lsass.exe, potentially capturing credentials. It leverages the Endpoint.Registry data model to identify changes to \CurrentControlSet\Services\NTDS\DirectoryServiceExtPt or \CurrentControlSet\Services\NTDS\LsaDbExtPt. This activity is significant as it indicates a possible attempt to inject malicious code into the Local Security Authority Subsystem Service (LSASS), which can lead to credentia
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    registry_path:
+      - '*\\CurrentControlSet\\Services\\NTDS\\DirectoryServiceExtPt'
+      - '*\\CurrentControlSet\\Services\\NTDS\\LsaDbExtPt'
+  condition: selection
+tags:
+  - attack.t1547.008
+references:
+  - https://blog.xpnsec.com/exploring-mimikatz-part-1/
+  - https://github.com/oxfemale/LogonCredentialsSteal/tree/master/lsass_lib
+custom_attributes:
+  original_rule_id: 57fb8656-141e-4d8a-9f51-62cff4ecb82a
+  source_format: splunk_spl

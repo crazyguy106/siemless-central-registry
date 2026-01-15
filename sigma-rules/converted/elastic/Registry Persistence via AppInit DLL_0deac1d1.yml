@@ -1,0 +1,40 @@
+title: Registry Persistence via AppInit DLL
+id: d0e159cf-73e9-40d1-a9ed-077e3158a855
+status: stable
+level: medium
+description: 'AppInit DLLs are dynamic-link libraries (DLLs) that are loaded into
+  every process that creates a user interface (loads
+
+  user32.dll) on Microsoft Windows operating systems. The AppInit DLL mechanism is
+  used to load custom code into user-mode
+
+  processes, allowing for the customization of the user interface and the behavior
+  of Windows-based applications.
+
+  Attackers who add those DLLs to the registry locations can execute code with elevated
+  privileges, similar to process
+
+  injection, and provide a solid and constant persistence on the machine.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    process_executable|contains:
+    - ?:\\Windows\\System32\\DriverStore\\FileRepository\\*\\Display.NvContainer\\NVDisplay.Container.exe
+    - ?:\\Windows\\System32\\msiexec.exe
+    - ?:\\Windows\\SysWOW64\\msiexec.exe
+    - ?:\\Program Files\\Commvault\\Base\\cvd.exe
+    - ?:\\Program Files\\Commvault\\ContentStore*\\Base\\cvd.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1546.010
+- attack.t1112
+- attack.t1546

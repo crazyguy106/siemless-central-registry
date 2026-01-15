@@ -1,0 +1,32 @@
+title: Simple HTTP Web Server Creation
+id: 907a26f5-3eb6-4338-a70e-6c375c1cde8a
+status: stable
+level: low
+description: 'This rule detects the creation of a simple HTTP web server using PHP
+  or Python built-in modules. Adversaries may create
+
+  simple HTTP web servers to establish persistence on a compromised system by uploading
+  a reverse or command shell payload
+
+  to the server web root, allowing them to regain remote access to the system if lost.'
+author: Elastic (converted by SIEMLess)
+date: '2024-12-17'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_args: -S
+  condition: selection
+tags:
+- attack.persistence
+- attack.execution
+- attack.command_and_control
+- attack.t1505
+- attack.t1071
+- attack.t1505.003
+- attack.t1059
+- attack.t1059.004

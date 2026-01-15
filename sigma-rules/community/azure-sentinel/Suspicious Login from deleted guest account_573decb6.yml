@@ -1,0 +1,19 @@
+title: Suspicious Login from deleted guest account
+id: f9ed7437-0375-535f-9189-30d5bc37c265
+status: stable
+level: medium
+description: |
+  ' This query will detect logins from guest account which was recently deleted.  For any successful logins from deleted identities should be investigated further if any existing user accounts have been altered or linked to such identity prior deletion'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    Category: UserManagement
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: defe4855-0d33-4362-9557-009237623976
+  source_format: azure_kql

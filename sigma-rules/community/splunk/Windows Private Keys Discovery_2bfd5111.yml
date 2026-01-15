@@ -1,0 +1,37 @@
+title: Windows Private Keys Discovery
+id: 30c896a8-b9d2-5f33-b678-87837f6be643
+status: stable
+level: medium
+description: |
+  The following analytic identifies processes that retrieve information related to private key files, often used by post-exploitation tools like winpeas. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions that search for private key certificates. This activity is significant as it indicates potential attempts to locate insecurely stored credentials, which adversaries can exploit for privilege escalation, persistence, or remote servi
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*.rdg*'
+      - '*.gpg*'
+      - '*.pgp*'
+      - '*.p12*'
+      - '*.der*'
+      - '*.csr*'
+      - '*.cer*'
+      - '*.ovpn*'
+      - '*.key*'
+      - '*.ppk*'
+      - '*.p12*'
+      - '*.pem*'
+      - '*.pfx*'
+      - '*.p7b*'
+      - '*.asc*'
+  condition: selection
+tags:
+  - attack.t1552.004
+references:
+  - https://attack.mitre.org/techniques/T1552/004/
+  - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+  - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+custom_attributes:
+  original_rule_id: 5c1c2877-06c0-40ee-a1a2-db71f1372b5b
+  source_format: splunk_spl

@@ -1,0 +1,16 @@
+title: Kubernetes AWS detect suspicious kubectl calls
+id: ce4ba5ee-33e1-5534-96ff-fa007210725a
+status: experimental
+level: medium
+description: |
+  The following analytic detects anonymous and unauthenticated requests to a Kubernetes cluster. It identifies this behavior by monitoring API calls from users who have not provided any token or password in their request, using data from `kube_audit` logs. This activity is significant for a SOC as it indicates a severe misconfiguration, allowing unfettered access to the cluster with no traceability. If confirmed malicious, an attacker could gain access to sensitive data or control over the cluster
+author: Rod Soto, Patrick Bareiss, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    username: 'system:anonymous'
+  condition: selection
+custom_attributes:
+  original_rule_id: 042a3d32-8318-4763-9679-09db2644a8f2
+  source_format: splunk_spl

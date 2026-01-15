@@ -1,0 +1,23 @@
+title: Entra ID Add User To Admin Role
+id: b07ce560-a92b-54e4-8d8a-656bc0923476
+status: experimental
+level: medium
+description: |
+  Adding users to administrative roles is needed but due to sensitivity of these roles, validation should occur when this occurs
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_CHANGE_PERMISSIONS
+    metadata_product_event_type: Add member to role
+    metadata_product_name: Azure AD Directory Audit
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+    target_user_title: Exchange Administrator
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+custom_attributes:
+  original_rule_id: mr_069a282b-a605-4572-921e-f466b93d0cf3
+  source_format: chronicle_yaral

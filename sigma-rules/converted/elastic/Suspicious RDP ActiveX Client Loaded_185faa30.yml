@@ -1,0 +1,35 @@
+title: Suspicious RDP ActiveX Client Loaded
+id: 71c5cb27-eca5-4151-bb47-64bc3f883270
+status: stable
+level: medium
+description: 'Identifies suspicious Image Loading of the Remote Desktop Services ActiveX
+  Client (mstscax), this may indicate the
+
+  presence of RDP lateral movement capability.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-19'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_category: process
+    event_category|contains:
+    - library
+    - driver
+    process_executable|contains:
+    - ?:\\Windows\\System32\\mstsc.exe
+    - ?:\\Windows\\SysWOW64\\mstsc.exe
+    - ?:\\Windows\\System32\\vmconnect.exe
+    - ?:\\Windows\\System32\\WindowsSandboxClient.exe
+    - ?:\\Windows\\System32\\hvsirdpclient.exe
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.t1021.001
+- attack.t1021
+references:
+- https://posts.specterops.io/revisiting-remote-desktop-lateral-movement-8fb905cb46c3
+- https://www.elastic.co/security-labs/hunting-for-lateral-movement-using-event-query-language

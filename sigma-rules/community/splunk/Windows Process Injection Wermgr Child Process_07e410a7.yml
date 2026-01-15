@@ -1,0 +1,25 @@
+title: Windows Process Injection Wermgr Child Process
+id: 1d340aa3-77e3-50c6-bb71-348f4f0ef8ba
+status: stable
+level: medium
+description: |
+  The following analytic identifies a suspicious instance of wermgr.exe spawning a child process unrelated to error or fault handling. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process relationships and command-line executions. This activity is significant as it can indicate Qakbot malware, which injects malicious code into wermgr.exe to evade detection and execute malicious actions. If confirmed malicious, this behavior could allow an attacker to
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    parent_process_name: wermgr.exe
+    process_name:
+      - WerFaultSecure.exe
+      - wermgr.exe
+      - WerFault.exe
+  condition: selection
+tags:
+  - attack.t1055
+references:
+  - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
+custom_attributes:
+  original_rule_id: 360ae6b0-38b5-4328-9e2b-bc9436cddb17
+  source_format: splunk_spl

@@ -1,0 +1,27 @@
+title: SoftwareUpdate Preferences Modification
+id: f683dcdf-a018-4801-b066-193d4ae6c8e5
+status: stable
+level: medium
+description: 'Identifies changes to the SoftwareUpdate preferences using the built-in
+  defaults command. Adversaries may abuse this in
+
+  an attempt to disable security updates.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-15'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: defaults
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://blog.checkpoint.com/2017/07/13/osxdok-refuses-go-away-money/
+falsepositives:
+- Authorized SoftwareUpdate Settings Changes

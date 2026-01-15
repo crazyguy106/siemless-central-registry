@@ -1,0 +1,22 @@
+title: Windows Modify Registry AuthenticationLevelOverride
+id: 5f4c11da-8158-5178-9f6f-3ee4dc533643
+status: stable
+level: medium
+description: |
+  The following analytic detects modifications to the Windows registry key "AuthenticationLevelOverride" within the Terminal Server Client settings. It leverages data from the Endpoint.Registry datamodel to identify changes where the registry value is set to 0x00000000. This activity is significant as it may indicate an attempt to override authentication levels for remote connections, a tactic used by DarkGate malware for malicious installations. If confirmed malicious, this could allow attackers 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    registry_path: '*\\Terminal Server Client\\AuthenticationLevelOverride'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+custom_attributes:
+  original_rule_id: 6410a403-36bb-490f-a06a-11c3be7d2a41
+  source_format: splunk_spl

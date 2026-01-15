@@ -1,0 +1,20 @@
+title: GCP Service API Key Retrieved
+id: e93faef4-0c36-51af-8dcd-4cd8c2f88c99
+status: experimental
+level: high
+description: Detects a successful attempt to retrieve the service API Keys.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type: google.api.apikeys.v2.ApiKeys.GetKeyString
+    target_application: apikeys.googleapis.com
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1555
+custom_attributes:
+  original_rule_id: mr_ee63778e-20ac-482c-84ef-abf5ceacd36e
+  source_format: chronicle_yaral

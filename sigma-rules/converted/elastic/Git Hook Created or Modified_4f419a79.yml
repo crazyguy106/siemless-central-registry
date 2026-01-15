@@ -1,0 +1,43 @@
+title: Git Hook Created or Modified
+id: ac531fcc-1d3b-476d-bbb5-1357728c9a37
+status: stable
+level: low
+description: 'This rule detects the creation or modification of a Git hook file on
+  a Linux system. Git hooks are scripts that Git
+
+  executes before or after events such as commit, push, and receive. They are used
+  to automate tasks, enforce policies,
+
+  and customize Git''s behavior. Attackers can abuse Git hooks to maintain persistence
+  on a system by executing malicious
+
+  code whenever a specific Git event occurs.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-26'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+    process_name: perl
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /snap/*
+    - /dev/fd/*
+    file_path|endswith: .git/hooks/*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.execution
+- attack.t1574
+- attack.t1059.004
+- attack.t1059
+- attack.t1543
+references:
+- https://git-scm.com/docs/githooks/2.26.0
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

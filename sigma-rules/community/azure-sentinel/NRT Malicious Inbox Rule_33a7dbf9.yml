@@ -1,0 +1,20 @@
+title: NRT Malicious Inbox Rule
+id: ff4bff6e-53e4-561c-881e-ef13d90be572
+status: stable
+level: medium
+description: |
+  'Often times after the initial compromise the attackers create inbox rules to delete emails that contain certain keywords.  This is done so as to limit ability to warn compromised users that they've been compromised. Below is a sample query that tries to detect this. Reference: https://www.reddit.com/r/sysadmin/comments/7kyp0a/recent_phishing_attempts_my_experience_and_what/'
+author: Pete Bryan
+logsource:
+  product: azure
+detection:
+  selection:
+    OfficeWorkload: Exchange
+    Parameters|contains: Deleted Items
+  condition: selection
+tags:
+  - attack.t1098
+  - attack.t1078
+custom_attributes:
+  original_rule_id: b79f6190-d104-4691-b7db-823e05980895
+  source_format: azure_kql

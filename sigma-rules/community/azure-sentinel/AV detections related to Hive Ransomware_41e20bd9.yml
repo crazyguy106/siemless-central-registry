@@ -1,0 +1,18 @@
+title: AV detections related to Hive Ransomware
+id: 407766e9-ced9-5b72-a057-89be995b3489
+status: stable
+level: high
+description: |
+  'This query looks for Microsoft Defender AV detections related to Hive Ransomware. In Microsoft Sentinel the SecurityAlerts table includes only the Device Name of the affected device, this query joins the DeviceInfo table to clearly connect other information such as Device group, ip, logged on users etc. This would allow the Microsoft Sentinel analyst to have more context related to the alert, if available.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    ProviderName: MDATP
+  condition: selection
+tags:
+  - attack.t1486
+custom_attributes:
+  original_rule_id: 4e5914a4-2ccd-429d-a845-fa597f0bd8c5
+  source_format: azure_kql

@@ -1,0 +1,26 @@
+title: Windows System Script Proxy Execution Syncappvpublishingserver
+id: 4c7dcd40-733d-594a-bfad-2eb37b2bd813
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of Syncappvpublishingserver.vbs via wscript.exe or cscript.exe, which may indicate an attempt to download remote files or perform privilege escalation. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. Monitoring this activity is crucial as it can signify malicious use of a native Windows script for unauthorized actions. If confirmed malicious, this behavior could le
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process: '*syncappvpublishingserver.vbs*'
+    process_name:
+      - wscript.exe
+      - cscript.exe
+  condition: selection
+tags:
+  - attack.t1216
+  - attack.t1218
+references:
+  - https://lolbas-project.github.io/lolbas/Scripts/Syncappvpublishingserver/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1216/T1216.md#atomic-test-1---syncappvpublishingserver-signed-script-powershell-command-execution
+custom_attributes:
+  original_rule_id: 8dd73f89-682d-444c-8b41-8e679966ad3c
+  source_format: splunk_spl

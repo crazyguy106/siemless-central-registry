@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): System control $(osquery.columns.name) oid is $(osquery.columns.oid)'
+id: 3ac9d7f8-0a81-5a96-8836-a49c2a21f58a
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): System control $(osquery.columns.name) oid is $(osquery.columns.oid)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: darwin_kernel_system_controls
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24410
+  wazuh_level: 4

@@ -1,0 +1,20 @@
+title: TTP Detection Rule: Abusing PowerShell to disable Defender components
+id: d52ae421-4a60-47bc-a841-8a96ca8121d7
+status: experimental
+level: medium
+description: |
+  Detection opportunity: Abusing PowerShell to disable Defender components
+
+We also observed at least one of these adversaries abusing PowerShell to exclude certain files or processes from Windows Defender scanning. Luckily, this is common tradecraft for which we’ve shared similar detection ideas on multiple occasions. The following may unearth this and other threats:
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    //Detection opportunity 3: Abusing PowerShell to disable Defender components
+DeviceProcessEvents
+| where FileName =~ "powershell.exe" and ProcessCommandLine has_any ("Add-MpPreference","Set-MpPreference") and ProcessCommandLine has_any ("ExclusionProcess","ExclusionPath")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

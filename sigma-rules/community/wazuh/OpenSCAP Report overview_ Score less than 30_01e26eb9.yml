@@ -1,0 +1,22 @@
+title: 'OpenSCAP Report overview: Score less than 30'
+id: adec8968-21ce-556c-8e7d-2c0ad58916ae
+status: stable
+level: medium
+description: 'OpenSCAP Report overview: Score less than 30'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    oscap.scan.score|re: '2\d.|1\d.|^\d.'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81540
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81544
+  wazuh_level: 9

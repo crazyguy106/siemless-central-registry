@@ -1,0 +1,37 @@
+title: 'Asterisk: Extension IAX Enumeration.'
+id: f4832064-3b97-57f2-8b9c-6c0649cea988
+status: stable
+level: high
+description: 'Asterisk: Extension IAX Enumeration.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 300s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 5
+  - type: sequence
+    parent_rule: wazuh-6253
+    window:
+      maxspan: 300s
+    enforce_order: true
+tags:
+  - attack.t1133
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-6254
+  wazuh_level: 10

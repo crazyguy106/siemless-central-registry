@@ -1,0 +1,35 @@
+title: Azure Kubernetes Events Deleted
+id: 8b64d36a-1307-4b2e-a77b-a0027e4d27c8
+status: stable
+level: medium
+description: 'Identifies when events are deleted in Azure Kubernetes. Kubernetes events
+  are objects that log any state changes.
+
+  Example events are a container creation, an image pull, or a pod scheduling on a
+  node. An adversary may delete events in
+
+  Azure Kubernetes in an attempt to evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2021-06-24'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/EVENTS.K8S.IO/EVENTS/DELETE
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes
+falsepositives:
+- "    Events deletions may be done by a system or network administrator. Verify whether\
+  \ the username, hostname, and/or\n    resource name should be making changes in\
+  \ your environment. Events deletions by unfamiliar users or hosts should be\n  \
+  \  investigated. If known behavior is causing false positives, it can be exempted\
+  \ from the rule.\n    "

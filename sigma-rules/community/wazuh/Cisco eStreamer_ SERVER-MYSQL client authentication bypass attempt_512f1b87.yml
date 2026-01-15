@@ -1,0 +1,22 @@
+title: 'Cisco eStreamer: SERVER-MYSQL client authentication bypass attempt'
+id: a2bbe807-8af9-5630-a6c8-0bb81b4b6c36
+status: stable
+level: low
+description: 'Cisco eStreamer: SERVER-MYSQL client authentication bypass attempt'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: client authentication bypass attempt
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-82400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-82403
+  wazuh_level: 5

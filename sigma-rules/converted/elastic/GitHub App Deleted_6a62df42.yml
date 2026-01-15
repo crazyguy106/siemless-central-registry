@@ -1,0 +1,20 @@
+title: GitHub App Deleted
+id: fd01b949-81be-46d5-bcf8-284395d5f56d
+status: stable
+level: low
+description: Detects the deletion of a GitHub app either from a repo or an organization.
+author: Elastic (converted by SIEMLess)
+date: '2023-10-11'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: github.audit
+    github_category: integration_installation
+    event_type: deletion
+  condition: selection
+tags:
+- attack.execution
+- attack.t1648

@@ -1,0 +1,31 @@
+title: Forbidden Request from Unusual User Agent in Kubernetes
+id: 4b77d382-b78e-4aae-85a0-8841b80e4fc4
+status: stable
+level: medium
+description: 'This rule detects when a forbidden request is made from an unusual user
+  agent in a Kubernetes environment.
+
+  Adversary tooling may use non-standard or unexpected user agents to interact with
+  the Kubernetes API, which
+
+  can indicate an attempt to evade detection or blend in with legitimate traffic.
+  In combination with a forbidden
+
+  request, this behavior can suggest an adversary is attempting to exploit vulnerabilities
+  or misconfigurations
+
+  in the Kubernetes cluster.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-17'
+modified: '2025-07-07'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_dataset: kubernetes.audit_logs
+    kubernetes_audit_stage: ResponseComplete
+  condition: selection
+tags:
+- attack.execution

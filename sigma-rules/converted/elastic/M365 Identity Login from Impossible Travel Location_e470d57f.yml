@@ -1,0 +1,46 @@
+title: M365 Identity Login from Impossible Travel Location
+id: 3896d4c0-6ad1-11ef-8c7b-f661ea17fbcc
+status: stable
+level: medium
+description: 'Detects successful Microsoft 365 portal logins from impossible travel
+  locations. Impossible travel locations are defined
+
+  as two different countries within a short time frame. This behavior may indicate
+  an adversary attempting to access a
+
+  Microsoft 365 account from a compromised account or a malicious actor attempting
+  to access a Microsoft 365 account from
+
+  a different location.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-04'
+modified: '2025-10-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: AzureActiveDirectory
+    event_action: UserLoggedIn
+    event_outcome: success
+    o365_audit_Target_Type: (0
+    o365_audit_UserId: (*
+    source_geo_region_iso_code: '*'
+    o365_audit_ApplicationId: (
+    o365_audit_ExtendedProperties_RequestType: (
+    Cmsi: Cmsi
+    Consent: Set
+    Login: resume
+    MessagePrompt: MessagePrompt
+    SAS: EndAuth
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1078.004
+- attack.t1078
+references:
+- https://www.huntress.com/blog/time-travelers-busted-how-to-detect-impossible-travel-
+falsepositives:
+- "    False positives may occur when users are using a VPN or when users are traveling\
+  \ to different locations for\n    legitimate purposes.\n    "

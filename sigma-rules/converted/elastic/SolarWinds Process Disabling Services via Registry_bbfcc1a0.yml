@@ -1,0 +1,41 @@
+title: SolarWinds Process Disabling Services via Registry
+id: b9960fef-82c6-4816-befa-44745030e917
+status: stable
+level: medium
+description: 'Identifies a SolarWinds binary modifying the start type of a service
+  to be disabled. An adversary may abuse this
+
+  technique to manipulate relevant security services.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-14'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    process_name|contains:
+    - SolarWinds.BusinessLayerHost*.exe
+    - ConfigurationWizard*.exe
+    - NetflowDatabaseMaintenance*.exe
+    - NetFlowService*.exe
+    - SolarWinds.Administration*.exe
+    - SolarWinds.Collector.Service*.exe
+    - SolarwindsDiagnostics*.exe
+    registry_data_strings|contains:
+    - '4'
+    - '0x00000004'
+    registry_path|endswith: \\SYSTEM\\*ControlSet*\\Services\\*\\Start
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.initial_access
+- attack.t1195.002
+- attack.t1112
+- attack.t1562
+- attack.t1562.001
+- attack.t1195
+references:
+- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html

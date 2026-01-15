@@ -1,0 +1,20 @@
+title: Suspicious Rundll32 PluginInit
+id: 9698d22f-441a-5ab6-8a8b-50d39da77a0c
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of the rundll32.exe process with the "plugininit" parameter. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line arguments. This activity is significant because the "plugininit" parameter is commonly associated with IcedID malware, which uses it to execute an initial DLL stager to download additional payloads. If confirmed malicious, this behavior could lead to furthe
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1218.011
+references:
+  - https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+custom_attributes:
+  original_rule_id: 92d51712-ee29-11eb-b1ae-acde48001122
+  source_format: splunk_spl

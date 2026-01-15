@@ -1,0 +1,28 @@
+title: Windows Chromium Browser with Custom User Data Directory
+id: 648c6d64-502d-570e-8d3c-0a71b5fb164d
+status: stable
+level: medium
+description: |
+  The following analytic detects instances where the Chromium-based browser (e.g., Google Chrome, Microsoft Edge) is launched with the --user-data-dir command-line argument. While this flag is legitimate and used for multi-profile support or automation, it is frequently leveraged by malware and adversaries to run Chrome in an isolated environment for stealth operations, credential harvesting, phishing delivery, or evasion of user session artifacts.
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*--disable-gpu*'
+      - '*--disable-3d-apis*'
+    process_name:
+      - Chrome.exe
+      - Brave.exe
+      - Opera.exe
+      - Vivaldi.exe
+      - msedge.exe
+  condition: selection
+tags:
+  - attack.t1497
+references:
+  - https://chromium.googlesource.com/chromium/src/+/main/docs/user_data_dir.md
+custom_attributes:
+  original_rule_id: 4f546cf4-15aa-4368-80f7-940e92bc551e
+  source_format: splunk_spl

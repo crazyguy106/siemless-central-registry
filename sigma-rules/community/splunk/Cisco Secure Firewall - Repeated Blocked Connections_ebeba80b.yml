@@ -1,0 +1,30 @@
+title: Cisco Secure Firewall - Repeated Blocked Connections
+id: 6cdcc546-23b1-5ed8-a140-4f63b84349e0
+status: stable
+level: medium
+description: |
+  The following analytic detects repeated blocked connection attempts from the same initiator to the same responder within a short time window. It leverages Cisco Secure Firewall Threat Defense logs and identifies connections where the action is set to Block, and the number of occurrences reaches or exceeds a threshold of ten within a one-minute span. This pattern may indicate a misconfigured application, unauthorized access attempts, or early stages of a brute-force or scanning operation. If conf
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    eventtype: ConnectionEvent
+    span: 1m
+    action:
+      - Block with reset
+      - Block
+      - blocked
+  condition: selection
+tags:
+  - attack.t1018
+  - attack.t1046
+  - attack.t1110
+  - attack.t1203
+  - attack.t1595.002
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+custom_attributes:
+  original_rule_id: 1f57f10e-1dc5-47ea-852c-2e85b2503d79
+  source_format: splunk_spl

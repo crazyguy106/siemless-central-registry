@@ -1,0 +1,23 @@
+title: Windows Drivers Loaded by Signature
+id: 7fdd6436-b68d-5274-b1fe-dad8e443801c
+status: stable
+level: low
+description: |
+  The following analytic identifies all drivers being loaded on Windows systems using Sysmon EventCode 6 (Driver Load). It leverages fields such as driver path, signature status, and hash to detect potentially suspicious drivers. This activity is significant for a SOC as malicious drivers can be used to gain kernel-level access, bypass security controls, or persist in the environment. If confirmed malicious, this activity could allow an attacker to execute arbitrary code with high privileges, lead
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 6
+  condition: selection
+tags:
+  - attack.t1014
+  - attack.t1068
+references:
+  - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+  - https://attack.mitre.org/techniques/T1014/
+  - https://www.fuzzysecurity.com/tutorials/28.html
+custom_attributes:
+  original_rule_id: d2d4af6a-6c2b-4d79-80c5-fc2cf12a2f68
+  source_format: splunk_spl

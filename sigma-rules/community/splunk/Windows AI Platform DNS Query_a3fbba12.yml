@@ -1,0 +1,28 @@
+title: Windows AI Platform DNS Query
+id: c0358119-f29a-50a7-8826-fb600e92c827
+status: stable
+level: medium
+description: |
+  The following analytic detects DNS queries initiated by the Windows AI Platform to domains associated with Hugging Face, a popular provider of machine learning models and services. Monitoring for such DNS requests is important because it can reveal when systems are reaching out to external AI platforms, which may indicate the use of third-party AI resources or the transfer of sensitive data outside the organization’s environment. Detecting these queries helps organizations enforce data governanc
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    queryname: router.huggingface.co
+    eventcode: 22
+    process_name:
+      - python.exe
+      - cmd.exe
+      - rundll32.exe
+      - powershell.exe
+      - pwsh.exe
+  condition: selection
+tags:
+  - attack.t1071.004
+references:
+  - https://cert.gov.ua/article/6284730
+custom_attributes:
+  original_rule_id: 1ad89d24-c856-4a0e-8fdf-c20c7b9febe1
+  source_format: splunk_spl

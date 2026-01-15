@@ -1,0 +1,30 @@
+title: GitHub Workflow File Creation or Modification
+id: 4c21fbed-815d-540b-8fb3-08e96fdd991c
+status: stable
+level: low
+description: |
+  The following analytic hunts for any creations or modifications to GitHub Actions workflow YAML files across the organization's Linux or Windows endpoints. This hunting query tracks all workflow file activity under .github/workflows directories to help defenders establish baselines of legitimate CI/CD workflow creation patterns, identify unusual or unauthorized changes, and detect anomalies that may indicate supply chain compromise. GitHub Actions workflows execute with privileged access to secr
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/.github/workflows/*.yaml'
+      - '*/.github/workflows/*.yml'
+      - '*\\.github\\workflows\\*.yaml'
+      - '*\\.github\\workflows\\*.yml'
+  condition: selection
+tags:
+  - attack.t1574.006
+  - attack.t1554
+  - attack.t1195
+references:
+  - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+  - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+  - https://github.com/SigmaHQ/sigma/pull/5658/files
+  - https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+custom_attributes:
+  original_rule_id: 2a9f3a2e-2c07-4c5f-9e42-8f8f0b6b6a12
+  source_format: splunk_spl

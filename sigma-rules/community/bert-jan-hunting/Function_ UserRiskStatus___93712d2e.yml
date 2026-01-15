@@ -1,0 +1,25 @@
+title: Function: UserRiskStatus()
+id: 5caa108f-a852-4b5d-a02f-f981823eeb07
+status: experimental
+level: medium
+description: |
+  This function returns the RiskState of a UPN, if the results are empty then the user did not have a risky state in the last 90 days. This saves time to not having to lookup the user in Azure Active Directory, by leveraging a log analytics data which saves the content of the risk status of users.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // Function returns the RiskState of a UPN, if the results are empty then the user did not have a risky state in the last 90 days.
+let UserRiskStatus = (UPN: string) {
+    AADRiskyUsers
+    | where Timestamp > ago(90d)
+    | where UserPrincipalName =~ UPN
+    | summarize arg_max(Timestamp, *) by UserPrincipalName
+    | project Timestamp, UserPrincipalName, RiskState, RiskLevel, RiskDetail
+};
+// Example
+UserRiskStatus("test@domain.com")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,23 @@
+title: AWS Successful Login After Multiple Failed Attempts
+id: a421fe3a-5efa-5089-8667-c9ead45feb5d
+status: experimental
+level: medium
+description: Detects successful login after multiple failed attempts
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: ConsoleLogin
+    security_result_action: BLOCK
+    security_result_description: 'Reason: Failed authentication'
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_8ba028b6-98e3-4983-92e9-c0fe50419a20
+  source_format: chronicle_yaral

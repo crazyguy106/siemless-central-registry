@@ -1,0 +1,38 @@
+title: Network Connection via Recently Compiled Executable
+id: 64cfca9e-0f6f-4048-8251-9ec56a055e9e
+status: stable
+level: medium
+description: 'This rule monitors a sequence involving a program compilation event
+  followed by its execution and a subsequent network
+
+  connection event. This behavior can indicate the set up of a reverse tcp connection
+  to a command-and-control server.
+
+  Attackers may spawn reverse shells to establish persistence onto a target system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-28'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=1m\n  [process where host.os.type\
+      \ == \"linux\" and event.type == \"start\" and event.action == \"exec\" and\n\
+      \   process.name in (\"gcc\", \"g++\", \"cc\")] by process.args\n  [file where\
+      \ host.os.type == \"linux\" and event.action == \"creation\" and process.name\
+      \ == \"ld\"] by file.name\n  [process where host.os.type == \"linux\" and event.type\
+      \ == \"start\" and event.action == \"exec\"] by process.name\n  [network where\
+      \ host.os.type == \"linux\" and event.action == \"connection_attempted\" and\
+      \ destination.ip != null and not (\n     cidrmatch(destination.ip, \"127.0.0.0/8\"\
+      , \"169.254.0.0/16\", \"224.0.0.0/4\", \"::1\") or\n     process.name in (\"\
+      simpleX\", \"conftest\", \"ssh\", \"python\", \"ispnull\", \"pvtui\", \"npreal2d\"\
+      , \"ruby\", \"source\", \"ssh\")\n   )] by process.name"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1059.004
+- attack.t1071

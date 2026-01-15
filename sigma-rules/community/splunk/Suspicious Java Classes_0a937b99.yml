@@ -1,0 +1,17 @@
+title: Suspicious Java Classes
+id: d1010dae-b9a4-5fd7-872f-b931028e4d44
+status: experimental
+level: medium
+description: |
+  The following analytic identifies suspicious Java classes often used for remote command execution exploits in Java frameworks like Apache Struts. It detects this activity by analyzing HTTP POST requests with specific content patterns using Splunk's `stream_http` data source. This behavior is significant because it may indicate an attempt to exploit vulnerabilities in web applications, potentially leading to unauthorized remote code execution. If confirmed malicious, this activity could allow att
+author: Jose Hernandez, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    form_data: '(?i)java\.lang\.(?:runtime|processbuilder)'
+    http_method: POST
+  condition: selection
+custom_attributes:
+  original_rule_id: 6ed33786-5e87-4f55-b62c-cb5f1168b831
+  source_format: splunk_spl

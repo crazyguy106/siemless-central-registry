@@ -1,0 +1,22 @@
+title: Windows Modify Registry EnableLinkedConnections
+id: 362d0894-b2eb-5f5e-8f81-9a27fadcf6d2
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious modification to the Windows registry setting for EnableLinkedConnections. It leverages data from the Endpoint.Registry datamodel to identify changes where the registry path is "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLinkedConnections" and the value is set to "0x00000001". This activity is significant because enabling linked connections can allow network shares to be accessed with both standard and administrator-level privileges,
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLinkedConnections'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.microsoft.com/en-us/security/blog/2023/07/06/the-five-day-job-a-blackbyte-ransomware-intrusion-case-study/
+custom_attributes:
+  original_rule_id: 93048164-3358-4af0-8680-aa5f38440516
+  source_format: splunk_spl

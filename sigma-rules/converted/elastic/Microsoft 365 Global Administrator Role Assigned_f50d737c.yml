@@ -1,0 +1,41 @@
+title: Microsoft 365 Global Administrator Role Assigned
+id: 88671231-6626-4e1b-abb7-6e361a171fbb
+status: stable
+level: medium
+description: 'Identifies when the Microsoft 365 Global Administrator or Company Administrator
+  role is assigned to a user or service
+
+  principal. The Global Administrator role has extensive privileges across Entra ID
+  and Microsoft 365 services, making it
+
+  a high-value target for adversaries seeking persistent access. Successful assignments
+  of this role may indicate
+
+  potential privilege escalation or unauthorized access attempts, especially if performed
+  by accounts that do not
+
+  typically manage high-privilege roles.'
+author: Elastic (converted by SIEMLess)
+date: '2022-01-06'
+modified: '2025-11-08'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_code: AzureActiveDirectory
+    event_action: Add
+    event_outcome: success
+    o365_audit_ModifiedProperties_Role_DisplayName_NewValue: (
+    o365_audit_AzureActiveDirectoryEventType: '1'
+    o365_audit_RecordType: '8'
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+- attack.t1098.003
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#global-administrator
+- https://learn.microsoft.com/en-us/purview/audit-log-activities
+- https://www.blackhat.com/us-24/briefings/schedule/#unoauthorized-a-technique-to-privilege-escalation-to-global-administrator-39231

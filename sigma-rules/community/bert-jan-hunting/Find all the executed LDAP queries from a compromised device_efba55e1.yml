@@ -1,0 +1,29 @@
+title: Find all the executed LDAP queries from a compromised device
+id: 5997504c-427f-487b-b012-7475243a6f10
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Find all the executed LDAP queries from a compromised device
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedDevice = "laptop1.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+IdentityQueryEvents
+| where Timestamp > ago(SearchWindow)
+| where DeviceName == CompromisedDevice
+| where Protocol == "Ldap"
+| project
+     Timestamp,
+     QueryType,
+     Query,
+     Protocol,
+     DeviceName,
+     DestinationDeviceName,
+     TargetAccountUpn
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

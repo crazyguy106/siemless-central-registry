@@ -1,0 +1,30 @@
+title: Azure AD Unusual Number of Failed Authentications From Ip
+id: 578af431-cc2a-5a23-a7db-8948fbcefe25
+status: stable
+level: medium
+description: |
+  The following analytic identifies a single source IP failing to authenticate with multiple valid users, potentially indicating a Password Spraying attack against an Azure Active Directory tenant. It uses Azure SignInLogs data and calculates the standard deviation for source IPs, applying the 3-sigma rule to detect unusual numbers of failed authentication attempts. This activity is significant as it may signal an adversary attempting to gain initial access or elevate privileges. If confirmed mali
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    category: SignInLogs
+    errorcode: 50126
+    succeeded: 'false'
+    span: 5m
+    isoutlier: 1
+  condition: selection
+tags:
+  - attack.t1110.003
+  - attack.t1110.004
+  - attack.t1586.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+  - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+  - https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
+custom_attributes:
+  original_rule_id: 3d8d3a36-93b8-42d7-8d91-c5f24cec223d
+  source_format: splunk_spl

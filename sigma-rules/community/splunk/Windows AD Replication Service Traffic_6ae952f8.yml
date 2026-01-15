@@ -1,0 +1,27 @@
+title: Windows AD Replication Service Traffic
+id: 235ab2be-76b0-512f-b124-733ffe807d75
+status: experimental
+level: high
+description: |
+  The following analytic identifies unexpected Active Directory replication traffic from non-domain controller sources. It leverages data from the Network Traffic datamodel, specifically looking for applications related to AD replication. This activity is significant because AD replication traffic should typically only occur between domain controllers. Detection of such traffic from other sources may indicate malicious activities like DCSync or DCShadow, which are used for credential dumping. If c
+author: Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    datamodel: Network_Traffic
+    app:
+      - ms-dc-replication
+      - '*drsr*'
+      - ad drs
+  condition: selection
+tags:
+  - attack.t1003.006
+  - attack.t1207
+references:
+  - https://adsecurity.org/?p=1729
+  - https://attack.mitre.org/techniques/T1003/006/
+  - https://attack.mitre.org/techniques/T1207/
+custom_attributes:
+  original_rule_id: c6e24183-a5f4-4b2a-ad01-2eb456d09b67
+  source_format: splunk_spl

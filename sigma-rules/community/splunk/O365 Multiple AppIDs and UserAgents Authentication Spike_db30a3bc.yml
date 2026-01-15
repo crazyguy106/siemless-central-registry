@@ -1,0 +1,26 @@
+title: O365 Multiple AppIDs and UserAgents Authentication Spike
+id: 9bf1885f-74f9-5bcd-a3b2-eac3ce33d3c7
+status: stable
+level: medium
+description: |
+  The following analytic identifies unusual authentication activity in an O365 environment, where a single user account experiences more than 8 authentication attempts using 3 or more unique application IDs and over 5 unique user agents within a short timeframe. It leverages O365 audit logs, focusing on authentication events and applying statistical thresholds. This behavior is significant as it may indicate an adversary probing for multi-factor authentication weaknesses. If confirmed malicious, i
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    workload: AzureActiveDirectory
+    operation: UserLoggedIn
+    span: 5m
+  condition: selection
+tags:
+  - attack.t1078
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://www.blackhillsinfosec.com/exploiting-mfa-inconsistencies-on-microsoft-services/
+  - https://github.com/dafthack/MFASweep
+  - https://www.youtube.com/watch?v=SK1zgqaAZ2E
+custom_attributes:
+  original_rule_id: 66adc486-224d-45c1-8e4d-9e7eeaba988f
+  source_format: splunk_spl

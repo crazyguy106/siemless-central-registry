@@ -1,0 +1,25 @@
+title: 'Percona audit: authentication success.'
+id: 387e5626-53e0-5598-82cc-c443f8cfec20
+status: stable
+level: low
+description: 'Percona audit: authentication success.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit_record.name: ^Connect$
+    audit_record.status: ^0$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-88000
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-88001
+  wazuh_level: 3

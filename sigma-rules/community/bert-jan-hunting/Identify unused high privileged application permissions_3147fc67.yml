@@ -1,0 +1,21 @@
+title: Identify unused high privileged application permissions
+id: c18acb5b-c525-4a6c-9cc7-ba47281694e4
+status: experimental
+level: medium
+description: |
+  The query below identifies unused high privileged application permissions. These permissions can be revoked from the application to adhere to the least privileged principle.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    OAuthAppInfo
+| summarize arg_max(Timestamp, *) by OAuthAppId
+| mv-expand Permissions
+| extend PermissionValue = tostring(Permissions.PermissionValue), InUse = tobool(Permissions.InUse), PrivilegeLevel = tostring(Permissions.PrivilegeLevel)
+| where InUse == false and PrivilegeLevel == "High"
+| summarize TotalMailPermissions = dcount(PermissionValue), Permissions = make_set(PermissionValue) by OAuthAppId, AppName, AppOrigin
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

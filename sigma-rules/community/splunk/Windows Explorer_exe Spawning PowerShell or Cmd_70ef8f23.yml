@@ -1,0 +1,22 @@
+title: Windows Explorer.exe Spawning PowerShell or Cmd
+id: 7ff1aebc-217d-581c-9c00-1dd3585d8062
+status: stable
+level: low
+description: |
+  This detection identifies instances where Windows Explorer.exe spawns PowerShell or cmd.exe processes, particularly focusing on executions initiated by LNK files. This behavior is associated with the ZDI-CAN-25373 Windows shortcut zero-day vulnerability, where specially crafted LNK files are used to trigger malicious code execution through cmd.exe or powershell.exe. This technique has been actively exploited by multiple APT groups in targeted attacks through both HTTP and SMB delivery methods.
+author: Michael Haag, AJ King, Splunk, Jesse Hunter, Splunk Community Contributor
+logsource:
+  product: windows
+detection:
+  selection:
+    parent_process_path: '*\\explorer.exe'
+  condition: selection
+tags:
+  - attack.t1059.001
+  - attack.t1204.002
+references:
+  - https://www.zerodayinitiative.com/advisories/ZDI-CAN-25373/
+  - https://www.trendmicro.com/en_us/research/25/c/windows-shortcut-zero-day-exploit.html
+custom_attributes:
+  original_rule_id: 593854c5-2182-49dd-9f31-18ef697445b9
+  source_format: splunk_spl

@@ -1,0 +1,32 @@
+title: Suspicious Execution with NodeJS
+id: 55f711c1-6b4d-4787-930d-c9317a885adf
+status: stable
+level: high
+description: Identifies suspicious execution patterns using NodeJS interpeter like
+  process path and arguments.
+author: Elastic (converted by SIEMLess)
+date: '2025-08-21'
+modified: '2025-08-21'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: node.exe
+    process_executable|contains:
+    - ?:\\Users\\*\\AppData\\*\\node.exe
+    - \\Device\\HarddiskVolume?\\\\Users\\*\\AppData\\*\\node.exe
+    process_command_line|contains:
+    - '*eval(*'
+    - '*atob(*'
+    - '*require*child_process*'
+    process_args|endswith: .js
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.007
+references:
+- https://nodejs.org

@@ -1,0 +1,34 @@
+title: Wbemprox COM Object Execution
+id: 4d11785e-5b0f-5f19-ac45-b40248cae71b
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious process loading a COM object from wbemprox.dll, fastprox.dll, or wbemcomn.dll. It leverages Sysmon EventCode 7 to identify instances where these DLLs are loaded by processes not typically associated with them, excluding known legitimate processes and directories. This activity is significant as it may indicate an attempt by threat actors to abuse COM objects for privilege escalation or evasion of detection mechanisms. If confirmed malicious, this could
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 7
+    imageloaded:
+      - '*\\fastprox.dll'
+      - '*\\wbemprox.dll'
+      - '*\\wbemcomn.dll'
+    process_name:
+      - wmiprvse.exe
+      - WmiApSrv.exe
+      - unsecapp.exe
+    image:
+      - '*\\windows\\*'
+      - '*\\program files*'
+      - '*\\wbem\\*'
+  condition: selection
+tags:
+  - attack.t1218.003
+references:
+  - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+  - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+custom_attributes:
+  original_rule_id: 9d911ce0-c3be-11eb-b177-acde48001122
+  source_format: splunk_spl

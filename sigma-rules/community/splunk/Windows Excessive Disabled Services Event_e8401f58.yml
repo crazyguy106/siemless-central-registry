@@ -1,0 +1,20 @@
+title: Windows Excessive Disabled Services Event
+id: 6139fb8a-37ba-51b4-b55a-03d0bf45a815
+status: stable
+level: high
+description: |
+  The following analytic identifies an excessive number of system events where services are modified from start to disabled. It leverages Windows Event Logs (EventCode 7040) to detect multiple service state changes on a single host. This activity is significant as it may indicate an adversary attempting to disable security applications or other critical services, potentially leading to defense evasion or destructive actions. If confirmed malicious, this behavior could allow attackers to disable se
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 7040
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://blog.talosintelligence.com/2018/02/olympic-destroyer.html
+custom_attributes:
+  original_rule_id: c3f85976-94a5-11ec-9a58-acde48001122
+  source_format: splunk_spl

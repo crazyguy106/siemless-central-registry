@@ -1,0 +1,36 @@
+title: Attempt to Modify an Okta Network Zone
+id: e48236ca-b67a-4b4e-840c-fdc7782bc0c3
+status: stable
+level: medium
+description: 'Detects attempts to modify an Okta network zone. Okta network zones
+  can be configured to limit or restrict access to a
+
+  network based on IP addresses or geolocations. An adversary may attempt to modify,
+  delete, or deactivate an Okta network
+
+  zone in order to remove or weaken an organization''s security controls.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: (zone.update
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562.007
+- attack.t1562
+references:
+- https://help.okta.com/en/prod/Content/Topics/Security/network/network-zones.htm
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+falsepositives:
+- "    Consider adding exceptions to this rule to filter false positives if Oyour\
+  \ organization's Okta network zones are\n    regularly modified.\n    "

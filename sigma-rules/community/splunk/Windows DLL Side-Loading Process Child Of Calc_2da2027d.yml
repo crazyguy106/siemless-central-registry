@@ -1,0 +1,23 @@
+title: Windows DLL Side-Loading Process Child Of Calc
+id: 158a1fd1-f475-5358-a025-a6a96eec6017
+status: stable
+level: medium
+description: |
+  The following analytic identifies suspicious child processes spawned by calc.exe, indicative of DLL side-loading techniques. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs, names, and parent processes. This activity is significant as it is commonly associated with Qakbot malware, which uses calc.exe to load malicious DLLs via regsvr32.exe. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, maintain pe
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    parent_process_name: calc.exe
+  filter:
+    process_name: win32calc.exe
+  condition: selection and not filter
+tags:
+  - attack.t1574.001
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.qakbot
+custom_attributes:
+  original_rule_id: 295ca9ed-e97b-4520-90f7-dfb6469902e1
+  source_format: splunk_spl

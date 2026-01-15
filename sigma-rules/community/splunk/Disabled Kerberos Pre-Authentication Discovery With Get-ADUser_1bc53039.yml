@@ -1,0 +1,26 @@
+title: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser
+id: 5a377444-a7c5-59c7-aefa-b74793a1f3ca
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the `Get-ADUser` PowerShell cmdlet with parameters indicating a search for domain accounts with Kerberos Pre-Authentication disabled. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this specific activity. This behavior is significant because discovering accounts with Kerberos Pre-Authentication disabled can allow adversaries to perform offline password cracking. If confirmed malicious, this activity could lead to unauthor
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    scriptblocktext:
+      - '*Get-ADUser*'
+      - '*4194304*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1558.004
+references:
+  - https://attack.mitre.org/techniques/T1558/004/
+  - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
+  - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
+custom_attributes:
+  original_rule_id: 114c6bfe-9406-11ec-bcce-acde48001122
+  source_format: splunk_spl

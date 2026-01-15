@@ -1,0 +1,22 @@
+title: Linux Auditd Auditd Service Stop
+id: 999c5674-ebd2-519f-9135-76e9420d62d9
+status: stable
+level: medium
+description: |
+  The following analytic detects the suspicious auditd service stop. This behavior is critical for a SOC to monitor because it may indicate attempts to gain unauthorized access or maintain control over a system. Such actions could be signs of malicious activity. If confirmed, this could lead to serious consequences, including a compromised system, unauthorized access to sensitive data, or even a wider breach affecting the entire network. Detecting and responding to these signs early is essential t
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    type: SERVICE_STOP
+    unit:
+      - auditd
+  condition: selection
+tags:
+  - attack.t1489
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: 6cb9d0e1-eabe-41de-a11a-5efade354e9d
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: Conti Common Exec parameter
+id: 160061c0-f912-5cab-a3ec-9b9f99e5245e
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of suspicious command-line arguments commonly associated with Conti ransomware, specifically targeting local drives and network shares for encryption. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line details. This activity is significant because it indicates a potential ransomware attack, which can lead to widespread data encryption and operational disruption. If confirme
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*-m local*'
+      - '*-m net*'
+      - '*-m all*'
+      - '*-nomutex*'
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
+custom_attributes:
+  original_rule_id: 624919bc-c382-11eb-adcc-acde48001122
+  source_format: splunk_spl

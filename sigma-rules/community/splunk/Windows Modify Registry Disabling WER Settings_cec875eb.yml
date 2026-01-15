@@ -1,0 +1,23 @@
+title: Windows Modify Registry Disabling WER Settings
+id: bde9e47b-0b1e-5b20-b1fa-d54dca99b732
+status: stable
+level: high
+description: |
+  The following analytic detects modifications in the Windows registry to disable Windows Error Reporting (WER) settings. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to registry paths related to WER with a value set to "0x00000001". This activity is significant as adversaries may disable WER to suppress error notifications, hiding the presence of malicious activities. If confirmed malicious, this could allow attackers to operate undetected, potentially l
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\disable*'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-remoteassistance-exe-fallowtogethelp
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+custom_attributes:
+  original_rule_id: 21cbcaf1-b51f-496d-a0c1-858ff3070452
+  source_format: splunk_spl

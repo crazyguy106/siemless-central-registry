@@ -1,0 +1,27 @@
+title: Execution via Windows Subsystem for Linux
+id: db7dbad5-08d2-4d25-b9b1-d3a1e4a15efd
+status: stable
+level: medium
+description: 'Detects attempts to execute a program on the host from the Windows Subsystem
+  for Linux. Adversaries may enable and use
+
+  WSL for Linux to avoid detection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-12'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_dataset: crowdstrike.fdr
+    process_parent_name|contains:
+    - wsl.exe
+    - wslhost.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1202
+references:
+- https://learn.microsoft.com/en-us/windows/wsl/wsl-config

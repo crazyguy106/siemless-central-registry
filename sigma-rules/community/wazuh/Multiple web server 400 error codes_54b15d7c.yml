@@ -1,0 +1,35 @@
+title: Multiple web server 400 error codes
+id: 7dc7583e-53e2-5e05-a001-a7df8a7d12fa
+status: stable
+level: high
+description: Multiple web server 400 error codes
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 90s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 14
+  - type: sequence
+    parent_rule: wazuh-31101
+    window:
+      maxspan: 90s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31151
+  wazuh_level: 10

@@ -1,0 +1,36 @@
+title: Pluggable Authentication Module (PAM) Creation in Unusual Directory
+id: 5c832156-5785-4c9c-a2e7-0d80d2ba3daa
+status: stable
+level: low
+description: 'This rule detects the creation of Pluggable Authentication Module (PAM)
+  shared object files in unusual directories.
+
+  Attackers may compile PAM shared object files in temporary directories, to move
+  them to system directories later,
+
+  potentially allowing them to maintain persistence on a compromised system, or harvest
+  account credentials.'
+author: Elastic (converted by SIEMLess)
+date: '2024-12-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1556
+- attack.t1543
+references:
+- https://github.com/zephrax/linux-pam-backdoor
+- https://github.com/eurialo/pambd
+- http://0x90909090.blogspot.com/2016/06/creating-backdoor-in-pam-in-5-line-of.html
+- https://www.trendmicro.com/en_us/research/19/i/skidmap-linux-malware-uses-rootkit-capabilities-to-hide-cryptocurrency-mining-payload.html
+falsepositives:
+- Trusted system module updates or allowed Pluggable Authentication Module (PAM) daemon
+  configuration changes.

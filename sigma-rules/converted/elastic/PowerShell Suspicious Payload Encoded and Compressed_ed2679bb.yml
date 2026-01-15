@@ -1,0 +1,31 @@
+title: PowerShell Suspicious Payload Encoded and Compressed
+id: 81fe9dc6-a2d7-4192-a2d8-eed98afc766a
+status: stable
+level: high
+description: 'Identifies the use of .NET functionality for decompression and base64
+  decoding combined in PowerShell scripts, which
+
+  malware and security tools heavily use to deobfuscate payloads and load them directly
+  in memory to bypass defenses.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-19'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    user_id: S-1-5-18
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1027
+- attack.t1059
+- attack.t1059.001
+- attack.t1140
+falsepositives:
+- Legitimate PowerShell Scripts which makes use of compression and encoding.

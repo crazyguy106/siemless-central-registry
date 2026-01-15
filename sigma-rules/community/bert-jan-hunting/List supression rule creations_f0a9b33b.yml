@@ -1,0 +1,26 @@
+title: List supression rule creations
+id: a7504c51-bdd6-4a0d-9daa-a1629ab75fb4
+status: experimental
+level: medium
+description: |
+  This query lists supression rule creations.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "Write AlertsSuppressionRules"
+| project
+     Timestamp,
+     ActionType,
+     Application,
+     AccountId,
+     AccountDisplayName,
+     CreatedSupresionRule = ObjectName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

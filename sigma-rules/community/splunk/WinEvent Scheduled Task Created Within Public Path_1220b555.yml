@@ -1,0 +1,32 @@
+title: WinEvent Scheduled Task Created Within Public Path
+id: 508d3558-cd2a-5673-9e34-0b45e5c99906
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of scheduled tasks within user-writable paths using Windows Security EventCode 4698. It identifies tasks registered via schtasks.exe or TaskService that execute commands from directories like Public, ProgramData, Temp, and AppData. This behavior is significant as it may indicate an attempt to establish persistence or execute unauthorized commands. If confirmed malicious, an attacker could maintain long-term access, escalate privileges, or execute arbit
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    eventcode: 4698
+    taskcontent:
+      - '*\\users\\public\\*'
+      - '*\\programdata\\*'
+      - '*\\temp\\*'
+      - '*\\Windows\\Tasks\\*'
+      - '*\\appdata\\*'
+      - '*\\perflogs\\*'
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
+  - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4698
+  - https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+  - https://docs.microsoft.com/en-us/windows/win32/taskschd/time-trigger-example--scripting-?redirectedfrom=MSDN
+  - https://app.any.run/tasks/e26f1b2e-befa-483b-91d2-e18636e2faf3/
+custom_attributes:
+  original_rule_id: 5d9c6eee-988c-11eb-8253-acde48001122
+  source_format: splunk_spl

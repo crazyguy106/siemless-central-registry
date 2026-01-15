@@ -1,0 +1,28 @@
+title: LLM Model File Creation
+id: ccea6ee8-a214-5165-9475-189454bfe1ef
+status: stable
+level: low
+description: |
+  Detects the creation of Large Language Model (LLM) files on Windows endpoints by monitoring file creation events for specific model file formats and extensions commonly used by local AI frameworks. This detection identifies potential shadow AI deployments, unauthorized model downloads, and rogue LLM infrastructure by detecting file creation patterns associated with quantized models (.gguf, .ggml), safetensors model format files, and Ollama Modelfiles. These file types are characteristic of local
+author: Rod Soto
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    file_name:
+      - '*.gguf*'
+      - '*ggml*'
+      - '*Modelfile*'
+      - '*safetensors*'
+  condition: selection
+tags:
+  - attack.t1543
+references:
+  - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+  - https://www.ibm.com/think/topics/shadow-ai
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+custom_attributes:
+  original_rule_id: 23e5b797-378d-45d6-ab3e-d034ca12a99b
+  source_format: splunk_spl

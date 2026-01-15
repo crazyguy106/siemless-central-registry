@@ -1,0 +1,23 @@
+title: Cisco ASA - User Account Deleted From Local Database
+id: bb60f87d-8227-56ef-85a2-fddaee202608
+status: stable
+level: medium
+description: |
+  This analytic detects deletion of user accounts from Cisco ASA devices via CLI or ASDM. Adversaries may delete local accounts to cover their tracks, remove evidence of their activities, disrupt incident response efforts, or deny legitimate administrator access during an attack. Account deletion can also indicate an attempt to hide the creation of temporary accounts used during compromise. The detection monitors for ASA message ID 502102, which is generated whenever a local user account is delete
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    message_id:
+      - 502102
+  condition: selection
+tags:
+  - attack.t1531
+  - attack.t1070.008
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773969
+custom_attributes:
+  original_rule_id: 2d4b9e7f-5c3a-4d8e-9b1f-8a6c5e2d4f7a
+  source_format: splunk_spl

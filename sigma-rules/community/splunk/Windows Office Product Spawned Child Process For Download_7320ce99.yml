@@ -1,0 +1,34 @@
+title: Windows Office Product Spawned Child Process For Download
+id: cf45f222-b169-5ed2-a92f-a1ca8970e9c9
+status: stable
+level: high
+description: |
+  The following analytic identifies Office applications spawning child processes to download content via HTTP/HTTPS. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where Office applications like Word or Excel initiate network connections, excluding common browsers. This activity is significant as it often indicates the use of malicious documents to execute living-off-the-land binaries (LOLBins) for payload delivery. If confirmed malicious, 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*http:*'
+      - '*https:*'
+    original_file_name:
+      - firefox.exe
+      - chrome.exe
+      - iexplore.exe
+      - msedge.exe
+    process_name:
+      - firefox.exe
+      - chrome.exe
+      - iexplore.exe
+      - msedge.exe
+  condition: selection
+tags:
+  - attack.t1566.001
+references:
+  - https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+custom_attributes:
+  original_rule_id: f02b64b8-cbea-4f75-bf77-7a05111566b1
+  source_format: splunk_spl

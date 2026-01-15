@@ -1,0 +1,30 @@
+title: CyberArk Privileged Access Security Recommended Monitor
+id: c5f81243-56e0-47f9-b5bb-55a5ed89ba57
+status: stable
+level: high
+description: 'Identifies the occurrence of a CyberArk Privileged Access Security (PAS)
+  non-error level audit event which is
+
+  recommended for monitoring by the vendor. The event.code correlates to the CyberArk
+  Vault Audit Action Code.'
+author: Elastic (converted by SIEMLess)
+date: '2021-06-23'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: cyberarkpas.audit
+    event_code: (4
+    event_type: error
+  condition: selection
+tags:
+- attack.initial_access
+- attack.privilege_escalation
+- attack.t1078
+references:
+- https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/PASREF/Vault%20Audit%20Action%20Codes.htm?tocpath=Administration%7CReferences%7C_____3#RecommendedActionCodesforMonitoring
+falsepositives:
+- To tune this rule, add exceptions to exclude any event.code which should not trigger
+  this rule.

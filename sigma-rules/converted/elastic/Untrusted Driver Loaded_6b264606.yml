@@ -1,0 +1,29 @@
+title: Untrusted Driver Loaded
+id: d8ab1ec1-feeb-48b9-89e7-c12e189448aa
+status: stable
+level: high
+description: 'Identifies attempt to load an untrusted driver. Adversaries may modify
+  code signing policies to enable execution of
+
+  unsigned or self-signed code.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-27'
+modified: '2025-09-04'
+logsource:
+  product: windows
+  category: driver_load
+detection:
+  selection:
+    host_os_type: windows
+    dll_code_signature_status|contains:
+    - errorExpired
+    - errorRevoked
+    - errorCode_endpoint:*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036.001
+- attack.t1036
+references:
+- https://github.com/hfiref0x/TDL
+- https://docs.microsoft.com/en-us/previous-versions/windows/hardware/design/dn653559(v=vs.85)?redirectedfrom=MSDN

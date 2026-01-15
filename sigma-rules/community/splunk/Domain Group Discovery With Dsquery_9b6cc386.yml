@@ -1,0 +1,21 @@
+title: Domain Group Discovery With Dsquery
+id: 7b8c941b-6b22-50c8-b533-51d375fb9202
+status: stable
+level: medium
+description: |
+  The following analytic identifies the execution of `dsquery.exe` with command-line arguments used to query for domain groups. It leverages Endpoint Detection and Response (EDR) data, focusing on process names and command-line arguments. This activity is significant because both Red Teams and adversaries use `dsquery.exe` to enumerate domain groups, gaining situational awareness and facilitating further Active Directory discovery. If confirmed malicious, this behavior could allow attackers to map
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process_name: dsquery.exe
+    process: '*group*'
+  condition: selection
+tags:
+  - attack.t1069.002
+references:
+  - https://attack.mitre.org/techniques/T1069/002/
+custom_attributes:
+  original_rule_id: f0c9d62f-a232-4edd-b17e-bc409fb133d4
+  source_format: splunk_spl

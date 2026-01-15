@@ -1,0 +1,25 @@
+title: 'Docker: Plugin $(docker.Actor.Attributes.name) removed'
+id: 9a75378a-b9a8-5a94-a0e0-80f4dd1997c0
+status: stable
+level: low
+description: 'Docker: Plugin $(docker.Actor.Attributes.name) removed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^remove$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87942
+tags:
+  - attack.t1107
+  - attack.t1485
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87946
+  wazuh_level: 3

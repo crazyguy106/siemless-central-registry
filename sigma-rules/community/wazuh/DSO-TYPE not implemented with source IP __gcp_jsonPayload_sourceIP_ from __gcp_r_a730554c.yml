@@ -1,0 +1,22 @@
+title: 'DSO-TYPE not implemented with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+id: 2532577f-6682-5305-89d9-d8c98b61d353
+status: stable
+level: low
+description: 'DSO-TYPE not implemented with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.jsonPayload.responseCode: ^DSOTYPENI$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002,65003
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65029
+  wazuh_level: 5

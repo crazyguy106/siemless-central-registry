@@ -1,0 +1,31 @@
+title: 'Netscaler: Multiple commands failed'
+id: dec7c4ec-69a3-52fb-9a46-23d4e65e4b24
+status: stable
+level: high
+description: 'Netscaler: Multiple commands failed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-80104
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80105
+  wazuh_level: 10

@@ -1,0 +1,28 @@
+title: Windows PowerView Unconstrained Delegation Discovery
+id: f2c8173f-535f-5f5b-8266-3d0d3fe31c49
+status: stable
+level: high
+description: |
+  The following analytic detects the use of PowerView commandlets to discover Windows endpoints with Kerberos Unconstrained Delegation. It leverages PowerShell Script Block Logging (EventCode=4104) to identify specific commands like `Get-DomainComputer` or `Get-NetComputer` with the `-Unconstrained` parameter. This activity is significant as it indicates potential reconnaissance efforts by adversaries or Red Teams to map out privileged delegation settings in Active Directory. If confirmed maliciou
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*Get-DomainComputer*'
+      - '*Get-NetComputer*'
+      - '*-Unconstrained*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1018
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://adsecurity.org/?p=1667
+  - https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos
+  - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation
+  - https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation
+custom_attributes:
+  original_rule_id: fbf9e47f-e531-4fea-942d-5c95af7ed4d6
+  source_format: splunk_spl

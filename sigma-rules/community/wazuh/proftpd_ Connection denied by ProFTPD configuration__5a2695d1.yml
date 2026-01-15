@@ -1,0 +1,22 @@
+title: 'proftpd: Connection denied by ProFTPD configuration.'
+id: 79dae94e-ad29-5403-be87-62a38a5ff8cc
+status: stable
+level: low
+description: 'proftpd: Connection denied by ProFTPD configuration.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: 'Connection from \S+ [\S+] denied'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11206
+  wazuh_level: 5

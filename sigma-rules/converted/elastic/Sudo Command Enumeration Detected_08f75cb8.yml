@@ -1,0 +1,27 @@
+title: Sudo Command Enumeration Detected
+id: 28d39238-0c01-420a-b77a-24e5a7378663
+status: stable
+level: low
+description: 'This rule monitors for the usage of the sudo -l command, which is used
+  to list the allowed and forbidden commands for
+
+  the invoking user. Attackers may execute this command to enumerate commands allowed
+  to be executed with sudo
+
+  permissions, potentially allowing to escalate privileges to root.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-30'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: sudo
+    process_args: dpkg
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1033

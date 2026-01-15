@@ -1,0 +1,31 @@
+title: Authorization Plugin Modification
+id: e6c98d38-633d-4b3e-9387-42112cd5ac10
+status: stable
+level: medium
+description: 'Authorization plugins are used to extend the authorization services
+  API and implement mechanisms that are not natively
+
+  supported by the OS, such as multi-factor authentication with third party software.
+  Adversaries may abuse this feature
+
+  to persist and/or collect clear text credentials as they traverse the registered
+  plugins during user logon.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-13'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+    event_action: modification
+    process_name: shove
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1547.002
+- attack.t1547
+references:
+- https://developer.apple.com/documentation/security/authorization_plug-ins
+- https://www.xorrior.com/persistent-credential-theft/

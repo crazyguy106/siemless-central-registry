@@ -1,0 +1,24 @@
+title: 'telnetd: Connection refused by TCP Wrappers.'
+id: 2e07d571-3624-517b-84ec-f1c34dbb5afb
+status: stable
+level: low
+description: 'telnetd: Connection refused by TCP Wrappers.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: refused connect from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5600
+tags:
+  - attack.t1095
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5601
+  wazuh_level: 5

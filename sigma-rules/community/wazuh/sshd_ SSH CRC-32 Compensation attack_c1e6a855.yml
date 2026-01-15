@@ -1,0 +1,35 @@
+title: 'sshd: SSH CRC-32 Compensation attack'
+id: e51dfea0-a360-5ae0-b60f-d6a9d344183a
+status: stable
+level: critical
+description: 'sshd: SSH CRC-32 Compensation attack'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'Local: crc32 compensation attack'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 3
+  - type: sequence
+    parent_rule: wazuh-5713
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1210
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5714
+  wazuh_level: 14

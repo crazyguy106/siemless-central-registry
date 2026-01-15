@@ -1,0 +1,30 @@
+title: Unusual Child Processes of RunDLL32
+id: f036953a-4615-4707-a1ca-dc53bf69dcd5
+status: stable
+level: high
+description: 'Identifies child processes of unusual instances of RunDLL32 where the
+  command line parameters were suspicious. Misuse of
+
+  RunDLL32 could indicate malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-02'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence with maxspan=1h\n  [process where host.os.type == \"\
+      windows\" and event.type == \"start\" and\n     (process.name : \"rundll32.exe\"\
+      \ or process.pe.original_file_name == \"RUNDLL32.EXE\") and\n      (process.args_count\
+      \ == 1 and\n        /* Excludes bug where a missing closing quote sets args_count\
+      \ to 1 despite extra args */\n        not process.command_line regex~ \"\"\"\
+      \\\".*\\.exe[^\\\"].*\"\"\")\n  ] by process.entity_id\n  [process where host.os.type\
+      \ == \"windows\" and event.type == \"start\" and process.parent.name : \"rundll32.exe\"\
+      \n  ] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.t1218.011
+- attack.t1218

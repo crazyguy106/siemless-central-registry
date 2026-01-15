@@ -1,0 +1,24 @@
+title: O365 OneDrive Anonymous Link Created or Updated
+id: f10093e5-2aba-50bb-ad64-afa74352e441
+status: experimental
+level: medium
+description: |
+  Anonymous links can be used to export files from OneDrive. While this isn't always a sign of malicious activity, some organizations do not support the creation of anonymous links because of the risk of data leakage. This rule detects the creation or modification of anonymous links in OneDrive.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type:
+      - USER_RESOURCE_CREATION
+      - STATUS_UPDATE
+    metadata_product_event_type:
+      - AnonymousLinkCreated
+      - AnonymousLinkUpdated
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_3e2572c1-cc14-4c2b-b60b-434db1b0f4ae
+  source_format: chronicle_yaral

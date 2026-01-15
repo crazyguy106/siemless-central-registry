@@ -1,0 +1,26 @@
+title: Windows WinDBG Spawning AutoIt3
+id: 05adb8ae-bc92-5aa5-b33b-8929ca133215
+status: stable
+level: high
+description: |
+  The following analytic identifies instances of the WinDBG process spawning AutoIt3. This behavior is detected by monitoring endpoint telemetry for processes where 'windbg.exe' is the parent process and 'autoit3.exe' or similar is the child process. This activity is significant because AutoIt3 is frequently used by threat actors for scripting malicious automation, potentially indicating an ongoing attack. If confirmed malicious, this could allow attackers to automate tasks, execute arbitrary code
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    matches_extension: 'Yes'
+    process_name:
+      - autoit3.exe
+      - autoit*.exe
+    original_file_name:
+      - autoit3.exe
+      - autoit*.exe
+  condition: selection
+tags:
+  - attack.t1059
+references:
+  - https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2023-10-25-IOCs-from-DarkGate-activity.txt
+custom_attributes:
+  original_rule_id: 7aec015b-cd69-46c3-85ed-dac152056aa4
+  source_format: splunk_spl

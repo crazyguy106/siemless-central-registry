@@ -1,0 +1,23 @@
+title: GitHub Invitation Sent To Non Company Email Domain
+id: 24134ef8-85c7-5b2d-9882-a77fbccee850
+status: experimental
+level: high
+description: |
+  Detects when an invitation to join a GitHub enterprise or organization is sent to a non-company email address. This rule can be customized to alert you when a GitHub invitation is sent to an unexpected domain i.e. not one of your company's domains used for email.
+author: Google Cloud Security
+logsource:
+  product: github
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type:
+      - business.invite_admin
+      - business.invite_billing_manager
+      - org.invite_member
+  condition: selection
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_c191df42-006f-485a-b037-f0cbf737bdd4
+  source_format: chronicle_yaral

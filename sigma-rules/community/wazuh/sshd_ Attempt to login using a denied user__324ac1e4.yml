@@ -1,0 +1,24 @@
+title: 'sshd: Attempt to login using a denied user.'
+id: 6e3141a8-d4b0-5b4f-bb3e-e812b65e8340
+status: stable
+level: low
+description: 'sshd: Attempt to login using a denied user.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: not allowed because
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5718
+  wazuh_level: 5

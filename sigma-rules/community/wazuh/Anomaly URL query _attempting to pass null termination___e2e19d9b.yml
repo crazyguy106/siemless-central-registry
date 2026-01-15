@@ -1,0 +1,24 @@
+title: Anomaly URL query (attempting to pass null termination).
+id: a782bb98-6334-507e-9c29-0d65cdbf212b
+status: stable
+level: medium
+description: Anomaly URL query (attempting to pass null termination).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '"GET /\S+.php?\S+%00'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31100
+tags:
+  - attack.t1503
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31550
+  wazuh_level: 6

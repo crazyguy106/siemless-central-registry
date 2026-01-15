@@ -1,0 +1,22 @@
+title: 'Serv-U: Attempt to login using anonymous user'
+id: 6111b46d-b0a4-513a-8c46-8e1ecebf01b9
+status: stable
+level: informational
+description: 'Serv-U: Attempt to login using anonymous user'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '530 Sorry, no ANONYMOUS access allowed'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80500
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80521
+  wazuh_level: 2

@@ -1,0 +1,29 @@
+title: Disabling Windows Local Security Authority Defences via Registry
+id: 5a1bf744-aacc-5a5d-b994-f99d8c9dc0e0
+status: stable
+level: high
+description: |
+  The following analytic identifies the deletion of registry keys that disable Local Security Authority (LSA) protection and Microsoft Defender Device Guard. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on registry actions and paths associated with LSA and Device Guard settings. This activity is significant because disabling these defenses can leave a system vulnerable to various attacks, including credential theft and unauthorized code execution. If confirmed mali
+author: Dean Luxton,Teoderick Contreras Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    action: modified
+    registry_path:
+      - '*\\Lsa\\LsaCfgFlags'
+      - '*\\Lsa\\RunAsPPL'
+      - '*\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard\\*'
+    registry_value_data:
+      - 0x00000000
+      - 0
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection
+  - https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage
+custom_attributes:
+  original_rule_id: 45cd08f8-a2c9-4f4e-baab-e1a0c624b0ab
+  source_format: splunk_spl

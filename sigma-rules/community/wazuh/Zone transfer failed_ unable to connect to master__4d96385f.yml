@@ -1,0 +1,22 @@
+title: 'Zone transfer failed, unable to connect to master.'
+id: fcb0404d-01d4-544b-86ba-6b370513350d
+status: stable
+level: low
+description: 'Zone transfer failed, unable to connect to master.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'failed to connect: connection refused'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12128
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12129
+  wazuh_level: 4

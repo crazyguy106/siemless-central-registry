@@ -1,0 +1,18 @@
+title: Post Dilivery Events
+id: 8b668ab4-bf34-4a56-8347-84e77894b7cf
+status: experimental
+level: medium
+description: |
+  This query visualizes the post dilivery events from exchange to view the status of your environment.
+author: Bert-JanP
+logsource:
+  product: office_365
+  service: kql
+detection:
+  _kql_query: |
+    EmailPostDeliveryEvents
+| summarize TotalEvents = count() by Action
+| render piechart with(title="Post Delivery Events")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

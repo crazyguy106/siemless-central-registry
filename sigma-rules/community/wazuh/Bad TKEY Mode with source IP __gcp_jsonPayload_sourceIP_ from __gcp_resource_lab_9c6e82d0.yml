@@ -1,0 +1,22 @@
+title: 'Bad TKEY Mode with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+id: ebf8653d-4730-56ca-a003-20cfb04c0ac9
+status: stable
+level: medium
+description: 'Bad TKEY Mode with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.jsonPayload.responseCode: ^BADMODE$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002,65003
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65034
+  wazuh_level: 7

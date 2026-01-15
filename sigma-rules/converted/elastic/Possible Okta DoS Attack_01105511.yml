@@ -1,0 +1,30 @@
+title: Possible Okta DoS Attack
+id: e6e3ecff-03dd-48ec-acbd-54a04de10c68
+status: stable
+level: medium
+description: 'Detects possible Denial of Service (DoS) attacks against an Okta organization.
+  An adversary may attempt to disrupt an
+
+  organization''s business operations by performing a DoS attack against its Okta
+  service.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: (application.integration.rate_limit_exceeded
+  condition: selection
+tags:
+- attack.impact
+- attack.t1498
+- attack.t1499
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta

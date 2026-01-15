@@ -1,0 +1,28 @@
+title: Manual Memory Dumping via Proc Filesystem
+id: 6505e02e-28dd-41cd-b18f-64e649caa4e2
+status: stable
+level: low
+description: 'This rule monitors for manual memory dumping via the proc filesystem.
+  The proc filesystem in Linux provides a virtual filesystem
+
+  that contains information about system processes and their memory mappings. Attackers
+  may use this technique to dump the memory
+
+  of a process, potentially extracting sensitive information such as credentials or
+  encryption keys.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-25'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1003.007
+- attack.t1212

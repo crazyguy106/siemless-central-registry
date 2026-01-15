@@ -1,0 +1,19 @@
+title: List Antivirus Scan Activities
+id: 483b6037-c148-4b8c-8677-9022c260068c
+status: experimental
+level: medium
+description: |
+  This query lists all manual (and playbook related) anvitius actions that are initiated and the related comments per device.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "RunAntiVirusScan"
+| extend DeviceName = tostring(parse_json(RawEventData).DeviceName), ActionComment = tostring(parse_json(RawEventData).ActionComment), ActionScope = tostring(parse_json(RawEventData).ActionScope)
+| summarize TotalAntivirusScans = count(), ScanTypes = make_set(ActionScope), Comments = make_set(ActionComment) by DeviceName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

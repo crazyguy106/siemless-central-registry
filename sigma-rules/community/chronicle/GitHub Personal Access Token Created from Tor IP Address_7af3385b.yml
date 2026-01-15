@@ -1,0 +1,23 @@
+title: GitHub Personal Access Token Created from Tor IP Address
+id: e9025666-f5d7-5b1c-8111-97ee729e5720
+status: experimental
+level: high
+description: |
+  Detects when a GitHub Personal Access Token is created from a known Tor exit node IP address. An adversary may create a Personal Access Token before carrying out follow up actions such as cloning GitHub repositories to steal data.
+author: Google Cloud Security
+logsource:
+  product: github
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type: personal_access_token.request_created
+  condition: selection
+tags:
+  - attack.t1098
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_39b42a3c-6b7a-4fa7-a6ca-df084ca92da4
+  source_format: chronicle_yaral

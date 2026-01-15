@@ -1,0 +1,23 @@
+title: Azure AD External Guest User Invited
+id: 84c37db5-0dca-528e-a3cc-a678b8138db4
+status: stable
+level: high
+description: |
+  The following analytic detects the invitation of an external guest user within Azure AD. It leverages Azure AD AuditLogs to identify events where an external user is invited, using fields such as operationName and initiatedBy. Monitoring these invitations is crucial as they can lead to unauthorized access if abused. If confirmed malicious, this activity could allow attackers to gain access to internal resources, potentially leading to data breaches or further exploitation of the environment.
+author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: Invite external user
+  condition: selection
+tags:
+  - attack.t1136.003
+references:
+  - https://dirkjanm.io/assets/raw/US-22-Mollema-Backdooring-and-hijacking-Azure-AD-accounts_final.pdf
+  - https://www.blackhat.com/us-22/briefings/schedule/#backdooring-and-hijacking-azure-ad-accounts-by-abusing-external-identities-26999
+  - https://attack.mitre.org/techniques/T1136/003/
+  - https://docs.microsoft.com/en-us/azure/active-directory/external-identities/b2b-quickstart-add-guest-users-portal
+custom_attributes:
+  original_rule_id: c1fb4edb-cab1-4359-9b40-925ffd797fb5
+  source_format: splunk_spl

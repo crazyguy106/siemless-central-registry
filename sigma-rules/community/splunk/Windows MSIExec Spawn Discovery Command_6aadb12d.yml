@@ -1,0 +1,28 @@
+title: Windows MSIExec Spawn Discovery Command
+id: 018a0c4f-4299-5dcd-b9b2-0d2d1d0bc066
+status: stable
+level: high
+description: |
+  The following analytic detects MSIExec spawning multiple discovery commands, such as Cmd.exe or PowerShell.exe. This behavior is identified using data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where MSIExec is the parent process. This activity is significant because MSIExec typically does not spawn child processes other than itself, making this behavior highly suspicious. If confirmed malicious, an attacker could use these discovery commands to gather
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - powershell.exe
+      - pwsh.exe
+      - cmd.exe
+      - nltest.exe
+      - ipconfig.exe
+      - systeminfo.exe
+  condition: selection
+tags:
+  - attack.t1218.007
+references:
+  - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+custom_attributes:
+  original_rule_id: e9d05aa2-32f0-411b-930c-5b8ca5c4fcee
+  source_format: splunk_spl

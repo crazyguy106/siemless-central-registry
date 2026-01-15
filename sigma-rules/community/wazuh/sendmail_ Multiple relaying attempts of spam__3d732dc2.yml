@@ -1,0 +1,38 @@
+title: 'sendmail: Multiple relaying attempts of spam.'
+id: 6e514966-6687-5cab-a9ff-70f36e99c8ed
+status: stable
+level: medium
+description: 'sendmail: Multiple relaying attempts of spam.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-3104
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1114
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3153
+  wazuh_level: 6

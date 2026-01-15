@@ -1,0 +1,24 @@
+title: Okta Multi-Factor Authentication Disabled
+id: dc7589d3-8b7a-5ae5-9bb4-ca99a3c63108
+status: stable
+level: high
+description: |
+  The following analytic identifies an attempt to disable multi-factor authentication (MFA) for an Okta user. It leverages OktaIM2 logs to detect when the 'user.mfa.factor.deactivate' command is executed. This activity is significant because disabling MFA can allow an adversary to maintain persistence within the environment using a compromised valid account. If confirmed malicious, this action could enable attackers to bypass additional security layers, potentially leading to unauthorized access t
+author: Mauricio Velazco, Splunk
+logsource:
+  product: okta
+  category: authentication
+detection:
+  selection:
+    datamodel: Change
+    object_category: User
+    action: modified
+  condition: selection
+tags:
+  - attack.t1556.006
+references:
+  - https://attack.mitre.org/techniques/T1556/
+  - https://splunkbase.splunk.com/app/6553
+custom_attributes:
+  original_rule_id: 7c0348ce-bdf9-45f6-8a57-c18b5976f00a
+  source_format: splunk_spl

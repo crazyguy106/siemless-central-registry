@@ -1,0 +1,27 @@
+title: Ivanti EPM SQL Injection Remote Code Execution
+id: 1bf2c0a1-3c49-52b5-bd5c-4a7b04bdd62f
+status: stable
+level: high
+description: |
+  This detection identifies potential exploitation of a critical SQL injection vulnerability in Ivanti Endpoint Manager (EPM), identified as CVE-2024-29824. The vulnerability, which has a CVSS score of 9.8, allows for remote code execution through the `RecordGoodApp` function in the `PatchBiz.dll` file. An attacker can exploit this vulnerability by manipulating the `goodApp.md5` value in an HTTP POST request to the `/WSStatusEvents/EventHandler.asmx` endpoint, leading to unauthorized command execu
+author: Michael Haag
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    datamodel: Web
+    http_method: POST
+    status: 200
+    url:
+      - /WSStatusEvents/EventHandler.asmx
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://www.horizon3.ai/attack-research/attack-blogs/cve-2024-29824-deep-dive-ivanti-epm-sql-injection-remote-code-execution-vulnerability/
+  - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-29824
+  - https://github.com/projectdiscovery/nuclei-templates/pull/10020/files
+custom_attributes:
+  original_rule_id: e20564ca-c86c-4e30-acdb-a8486673426f
+  source_format: splunk_spl

@@ -1,0 +1,30 @@
+title: PowerShell Script with Windows Defender Tampering Capabilities
+id: c124dc1b-cef2-4d01-8d74-ff6b0d5096b6
+status: stable
+level: low
+description: 'Identifies PowerShell scripts containing cmdlets and parameters that
+  attackers can abuse to disable Windows Defender
+
+  features. Attackers can tamper with antivirus to reduce the risk of detection when
+  executing their payloads.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-11'
+modified: '2025-09-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    file_directory: C:\ProgramData\Microsoft\Windows
+    user_id: S-1-5-18
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+- attack.t1562
+- attack.t1562.001
+- attack.t1059.001

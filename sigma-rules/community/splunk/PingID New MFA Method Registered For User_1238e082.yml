@@ -1,0 +1,26 @@
+title: PingID New MFA Method Registered For User
+id: 5a5b1283-6898-5a95-bff2-99559ef38b67
+status: stable
+level: high
+description: |
+  The following analytic detects the registration of a new Multi-Factor Authentication (MFA) method for a PingID (PingOne) account. It leverages JSON logs from PingID, specifically looking for successful device pairing events. This activity is significant as adversaries who gain unauthorized access to a user account may register a new MFA method to maintain persistence. If confirmed malicious, this could allow attackers to bypass existing security measures, maintain long-term access, and potential
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    status: SUCCESS
+    reason: result.message
+  condition: selection
+tags:
+  - attack.t1621
+  - attack.t1556.006
+  - attack.t1098.005
+references:
+  - https://twitter.com/jhencinski/status/1618660062352007174
+  - https://attack.mitre.org/techniques/T1098/005/
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_subscriptions?tocId=3xhnxjX3VzKNs3SXigWnQA
+custom_attributes:
+  original_rule_id: 892dfeaf-461d-4a78-aac8-b07e185c9bce
+  source_format: splunk_spl

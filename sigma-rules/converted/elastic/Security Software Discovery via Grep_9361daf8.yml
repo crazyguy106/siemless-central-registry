@@ -1,0 +1,71 @@
+title: Security Software Discovery via Grep
+id: 870aecc0-cea4-4110-af3f-e02e9b373655
+status: stable
+level: medium
+description: 'Identifies the use of the grep command to discover known third-party
+  macOS and Linux security tools, such as Antivirus
+
+  or Host Firewall details.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-20'
+modified: '2024-10-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    event_type: start
+    process_args: osquery.conf
+    process_parent_executable|contains:
+    - /Library/Application Support/*
+    - /opt/McAfee/agent/scripts/ma
+    process_args|contains:
+    - Little Snitch*
+    - Avast*
+    - Avira*
+    - ESET*
+    - BlockBlock*
+    - 360Sec*
+    - LuLu*
+    - KnockKnock*
+    - kav
+    - KIS
+    - RTProtectionDaemon*
+    - Malware*
+    - VShieldScanner*
+    - WebProtection*
+    - webinspectord*
+    - McAfee*
+    - isecespd*
+    - macmnsvc*
+    - masvc*
+    - kesl*
+    - avscan*
+    - guard*
+    - rtvscand*
+    - symcfgd*
+    - scmdaemon*
+    - symantec*
+    - sophos*
+    - osquery*
+    - elastic-endpoint*
+    process_command_line|contains:
+    - grep ESET Command-line scanner, version %s -A2
+    - 'grep -i McAfee Web Gateway Core version:'
+    - grep --color=auto ESET Command-line scanner, version %s -A2
+    process_parent_command_line|contains:
+    - 'sh -c printf '
+    - '*; perl -pe '
+    - ' < /opt/eset/esets/sbin/esets_scan | grep '
+    - ' -A2 | tail -1; printf '
+    - ",\n       "
+    - 'bash -c perl -pe '
+    - ' < /opt/eset/esets/sbin/esets_scan | grep '
+    - ' -A2 | tail -1 '
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1518.001
+- attack.t1518
+falsepositives:
+- Endpoint Security installers, updaters and post installation verification scripts.

@@ -1,0 +1,26 @@
+title: Dovecot Invalid User Login Attempt.
+id: 2b572e23-2f1b-5a08-bd55-0cf04a2f35d6
+status: stable
+level: low
+description: Dovecot Invalid User Login Attempt.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - user not found
+      - User not known
+      - unknown user
+      - auth failed
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-9770
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9771
+  wazuh_level: 5

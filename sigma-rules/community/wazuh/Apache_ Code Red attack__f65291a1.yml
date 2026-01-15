@@ -1,0 +1,24 @@
+title: 'Apache: Code Red attack.'
+id: dbd7069a-9ad7-53be-9da3-c9fdd445023f
+status: stable
+level: medium
+description: 'Apache: Code Red attack.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Client sent malformed Host header
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-30101
+tags:
+  - attack.t1102
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-30107
+  wazuh_level: 6

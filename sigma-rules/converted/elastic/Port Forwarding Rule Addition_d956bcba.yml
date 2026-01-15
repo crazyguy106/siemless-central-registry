@@ -1,0 +1,27 @@
+title: Port Forwarding Rule Addition
+id: 3535c8bb-3bd5-40f4-ae32-b7cd589d5372
+status: stable
+level: medium
+description: 'Identifies the creation of a new port forwarding rule. An adversary
+  may abuse this technique to bypass network
+
+  segmentation restrictions.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-25'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|endswith: \\SYSTEM\\*ControlSet*\\Services\\PortProxy\\v4tov4\\*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.command_and_control
+- attack.t1572
+- attack.t1112
+references:
+- https://www.fireeye.com/blog/threat-research/2019/01/bypassing-network-restrictions-through-rdp-tunneling.html

@@ -1,0 +1,42 @@
+title: Kubernetes Suspicious Self-Subject Review
+id: 12a2f15d-597e-4334-88ff-38a02cb1330b
+status: stable
+level: medium
+description: 'This rule detects when a service account or node attempts to enumerate
+  their own permissions via the
+
+  selfsubjectaccessreview or selfsubjectrulesreview APIs. This is highly unusual behavior
+  for non-human identities like
+
+  service accounts and nodes. An adversary may have gained access to credentials/tokens
+  and this could be an attempt to
+
+  determine what privileges they have to facilitate further movement or execution
+  within the cluster.'
+author: Elastic (converted by SIEMLess)
+date: '2022-06-30'
+modified: '2025-06-18'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: kubernetes.audit_logs
+    decision: allow
+    kubernetes_audit_verb: create
+    kubernetes_audit_objectRef_resource: ("selfsubjectaccessreviews
+    kubernetes_audit_user_username: (system\:serviceaccount\:*
+    kubernetes_audit_impersonatedUser_username: (system\:serviceaccount\:*
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1613
+references:
+- https://www.paloaltonetworks.com/apps/pan/public/downloadResource?pagePath=/content/pan/en_US/resources/whitepapers/kubernetes-privilege-escalation-excessive-permissions-in-popular-platforms
+- https://kubernetes.io/docs/reference/access-authn-authz/authorization/#checking-api-access
+- https://techcommunity.microsoft.com/t5/microsoft-defender-for-cloud/detecting-identity-attacks-in-kubernetes/ba-p/3232340
+falsepositives:
+- "    An administrator may submit this request as an \"impersonatedUser\" to determine\
+  \ what privileges a particular service\n    account has been granted. However, an\
+  \ adversary may utilize the same technique as a means to determine the\n    privileges\
+  \ of another token other than that of the compromised account.\n    "

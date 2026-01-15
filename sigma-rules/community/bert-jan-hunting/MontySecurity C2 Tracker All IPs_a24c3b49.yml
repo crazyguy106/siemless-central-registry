@@ -1,0 +1,27 @@
+title: MontySecurity C2 Tracker All IPs
+id: 56eb6cb8-7d6f-40ed-b473-0aa865530696
+status: experimental
+level: medium
+description: |
+  KQL detection rule: MontySecurity C2 Tracker All IPs
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let ThreatIntelFeed = externaldata(DestIP: string)[@"https://raw.githubusercontent.com/montysecurity/C2-Tracker/main/data/all.txt"] with (format="txt", ignoreFirstRecord=True);
+let IPRegex = '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}';
+let MaliciousIP = materialize (
+       ThreatIntelFeed
+       | where DestIP matches regex IPRegex
+       | distinct DestIP
+        );
+DeviceNetworkEvents
+| where RemoteIP in (MaliciousIP)
+| extend GeoIPInfo = geo_info_from_ip_address(RemoteIP)
+| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
+| project-reorder Timestamp, DeviceName, RemoteIP, RemotePort, InitiatingProcessAccountName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

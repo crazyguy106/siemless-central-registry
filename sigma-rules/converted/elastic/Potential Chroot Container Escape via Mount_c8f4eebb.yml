@@ -1,0 +1,35 @@
+title: Potential Chroot Container Escape via Mount
+id: 5ae02ebc-a5de-4eac-afe6-c88de696477d
+status: stable
+level: medium
+description: 'Monitors for the execution of a file system mount followed by a chroot
+  execution. Given enough permissions, a user
+
+  within a container is capable of mounting the root file system of the host, and
+  leveraging chroot to escape its
+
+  containarized environment. This behavior pattern is very uncommon and should be
+  investigated.'
+author: Elastic (converted by SIEMLess)
+date: '2024-01-15'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.parent.entity_id with maxspan=5m\n\
+      \  [process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action in (\"exec\", \"start\", \"ProcessRollup2\") and\n   process.name\
+      \ == \"mount\" and process.args : \"/dev/sd*\" and process.args_count >= 3 and\n\
+      \   process.parent.name in (\"bash\", \"dash\", \"sh\", \"tcsh\", \"csh\", \"\
+      zsh\", \"ksh\", \"fish\")]\n  [process where host.os.type == \"linux\" and event.type\
+      \ == \"start\" and event.action in (\"exec\", \"start\", \"ProcessRollup2\"\
+      ) and\n   process.name == \"chroot\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.privilege_escalation
+- attack.t1611
+references:
+- https://book.hacktricks.xyz/v/portugues-ht/linux-hardening/privilege-escalation/escaping-from-limited-bash

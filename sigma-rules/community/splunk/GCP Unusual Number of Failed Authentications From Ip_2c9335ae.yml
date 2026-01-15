@@ -1,0 +1,29 @@
+title: GCP Unusual Number of Failed Authentications From Ip
+id: 05593fba-1a37-54c4-9113-cc792a13bbc2
+status: stable
+level: medium
+description: |
+  The following analytic identifies a single source IP failing to authenticate into Google Workspace with multiple valid users, potentially indicating a Password Spraying attack. It uses Google Workspace login failure events and calculates the standard deviation for source IPs, applying the 3-sigma rule to detect unusual failed authentication attempts. This activity is significant as it may signal an adversary attempting to gain initial access or elevate privileges. If confirmed malicious, this co
+author: Bhavin Patel, Splunk
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    type: login
+    name: login_failure
+    span: 5m
+    isoutlier: 1
+  condition: selection
+tags:
+  - attack.t1110.003
+  - attack.t1110.004
+  - attack.t1586.003
+references:
+  - https://cloud.google.com/blog/products/identity-security/how-google-cloud-can-help-stop-credential-stuffing-attacks
+  - https://www.slideshare.net/dafthack/ok-google-how-do-i-red-team-gsuite
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://www.blackhillsinfosec.com/wp-content/uploads/2020/05/Breaching-the-Cloud-Perimeter-Slides.pdf
+custom_attributes:
+  original_rule_id: bd8097ed-958a-4873-87d9-44f2b4d85705
+  source_format: splunk_spl

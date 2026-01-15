@@ -1,0 +1,23 @@
+title: Suspicious MSBuild Rename
+id: f72a78df-862a-559e-a137-179707933355
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of renamed instances of msbuild.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names within the Endpoint data model. This activity is significant because msbuild.exe is a legitimate tool often abused by attackers to execute malicious code while evading detection. If confirmed malicious, this behavior could allow an attacker to execute arbitrary code, potentially leading to system c
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1036.003
+  - attack.t1127.001
+references:
+  - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+  - https://github.com/infosecn1nja/MaliciousMacroMSBuild/
+custom_attributes:
+  original_rule_id: 4006adac-5937-11eb-ae93-0242ac130002
+  source_format: splunk_spl

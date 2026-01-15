@@ -1,0 +1,31 @@
+title: Launch Service Creation and Immediate Loading
+id: 082e3f8c-6f80-485c-91eb-5b112cb79b28
+status: stable
+level: low
+description: 'An adversary can establish persistence by installing a new launch agent
+  that executes at login by using launchd or
+
+  launchctl to load a plist into the appropriate directories.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-07'
+modified: '2025-04-21'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=30s\n [file where host.os.type\
+      \ == \"macos\" and event.action == \"launch_daemon\"] by process.entity_id\n\
+      \ [process where host.os.type == \"macos\" and event.type in (\"start\", \"\
+      process_started\") and process.name == \"launchctl\" and process.args == \"\
+      load\"] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.t1543.001
+- attack.t1543
+references:
+- https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html
+falsepositives:
+- Trusted applications persisting via LaunchAgent

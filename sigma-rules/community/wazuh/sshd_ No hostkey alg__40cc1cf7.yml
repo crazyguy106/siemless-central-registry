@@ -1,0 +1,24 @@
+title: 'sshd: No hostkey alg.'
+id: 2abe1738-1804-5e2d-822e-09c5dadd7c53
+status: stable
+level: informational
+description: 'sshd: No hostkey alg.'
+author: Wazuh, Inc.
+logsource:
+  category: authentication
+  service: sshd
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'no hostkey alg [preauth]'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5751
+  wazuh_level: 1

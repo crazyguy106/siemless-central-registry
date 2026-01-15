@@ -1,0 +1,21 @@
+title: Suspicious writes to windows Recycle Bin
+id: 287ecfcc-18b1-56d9-9144-dfed442cb276
+status: stable
+level: high
+description: |
+  The following analytic detects when a process other than explorer.exe writes to the Windows Recycle Bin. It leverages the Endpoint.Filesystem and Endpoint.Processes data models in Splunk to identify any process writing to the "*$Recycle.Bin*" file path, excluding explorer.exe. This activity is significant because it may indicate an attacker attempting to hide their actions, potentially leading to data theft, ransomware, or other malicious outcomes. If confirmed malicious, this behavior could all
+author: Rico Valdez, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    file_path: '*$Recycle.Bin*'
+  filter:
+    process_name: explorer.exe
+  condition: selection and not filter
+tags:
+  - attack.t1036
+custom_attributes:
+  original_rule_id: b5541828-8ffd-4070-9d95-b3da4de924cb
+  source_format: splunk_spl

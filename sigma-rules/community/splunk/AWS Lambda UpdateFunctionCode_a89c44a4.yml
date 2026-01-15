@@ -1,0 +1,22 @@
+title: AWS Lambda UpdateFunctionCode
+id: 03d5c8dc-baaf-52fb-9ce7-ab40e9102c81
+status: stable
+level: low
+description: |
+  The following analytic identifies IAM users attempting to update or modify AWS Lambda code via the AWS CLI. It leverages CloudTrail logs to detect successful `UpdateFunctionCode` events initiated by IAM users. This activity is significant as it may indicate an attempt to gain persistence, further access, or plant backdoors within your AWS environment. If confirmed malicious, an attacker could upload and execute malicious code automatically when the Lambda function is triggered, potentially compr
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    errorcode: success
+    user_type: IAMUser
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - http://detectioninthe.cloud/execution/modify_lambda_function_code/
+  - https://sysdig.com/blog/exploit-mitigate-aws-lambdas-mitre/
+custom_attributes:
+  original_rule_id: 211b80d3-6340-4345-11ad-212bf3d0d111
+  source_format: splunk_spl

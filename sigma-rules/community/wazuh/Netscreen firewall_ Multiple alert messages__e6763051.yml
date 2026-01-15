@@ -1,0 +1,34 @@
+title: 'Netscreen firewall: Multiple alert messages.'
+id: 5016fdb0-1dee-5027-a705-5aebb22cecd4
+status: stable
+level: high
+description: 'Netscreen firewall: Multiple alert messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 100s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-4513
+    window:
+      maxspan: 100s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4553
+  wazuh_level: 10

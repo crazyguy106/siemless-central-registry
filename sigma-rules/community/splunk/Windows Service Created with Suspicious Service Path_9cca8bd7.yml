@@ -1,0 +1,27 @@
+title: Windows Service Created with Suspicious Service Path
+id: fe438bfe-cd67-5e8b-a3c4-bd82d6cc502d
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of a Windows Service with a binary path located in uncommon directories, using Windows Event ID 7045. It leverages logs from the `wineventlog_system` to identify services installed outside typical system directories. This activity is significant as adversaries, including those deploying Clop ransomware, often create malicious services for lateral movement, remote code execution, persistence, and execution. If confirmed malicious, this could allow attac
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    imagepath:
+      - '*:\\Windows\\*'
+      - '*:\\Program File*'
+      - '*:\\Programdata\\*'
+      - '*%systemroot%\\*'
+    eventcode: 7045
+  condition: selection
+tags:
+  - attack.t1569.002
+references:
+  - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+  - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+custom_attributes:
+  original_rule_id: 429141be-8311-11eb-adb6-acde48001122
+  source_format: splunk_spl

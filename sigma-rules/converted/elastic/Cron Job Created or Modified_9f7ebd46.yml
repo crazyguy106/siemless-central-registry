@@ -1,0 +1,57 @@
+title: Cron Job Created or Modified
+id: ff10d4d8-fea7-422d-afb1-e5a2702369a9
+status: stable
+level: medium
+description: 'This rule monitors for (ana)cron jobs being created or renamed. Linux
+  cron jobs are scheduled tasks that can be
+
+  leveraged by system administrators to set up scheduled tasks, but may be abused
+  by malicious actors for persistence,
+
+  privilege escalation and command execution. By creating or modifying cron job configurations,
+  attackers can execute
+
+  malicious commands or scripts at predefined intervals, ensuring their continued
+  presence and enabling unauthorized
+
+  activities.'
+author: Elastic (converted by SIEMLess)
+date: '2023-06-09'
+modified: '2025-09-29'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+    file_path|contains:
+    - /etc/cron.allow
+    - /etc/cron.deny
+    - /etc/cron.d/*
+    - /etc/cron.hourly/*
+    - /etc/cron.daily/*
+    - /etc/cron.weekly/*
+    - /etc/cron.monthly/*
+    - /etc/crontab
+    - /var/spool/cron/crontabs/*
+    - /var/spool/anacron/*
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /tmp/vmis.*
+    - /snap/*
+    - /dev/fd/*
+    - /usr/libexec/platform-python*
+    - /var/lib/waagent/Microsoft*
+  condition: selection
+tags:
+- attack.execution
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1053
+- attack.t1053.003
+references:
+- https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

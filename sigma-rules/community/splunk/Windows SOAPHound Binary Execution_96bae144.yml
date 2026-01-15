@@ -1,0 +1,35 @@
+title: Windows SOAPHound Binary Execution
+id: d6a5fa80-03d1-510f-b5fe-78a3942ab5b1
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the SOAPHound binary (`soaphound.exe`) with specific command-line arguments. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, command-line arguments, and other process-related metadata. This activity is significant because SOAPHound is a known tool used for credential dumping and other malicious activities. If confirmed malicious, this behavior could allow an attacker to extract sensitive information, 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name: soaphound.exe
+    original_file_name: soaphound.exe
+    process:
+      - '*--buildcache *'
+      - '*--bhdump *'
+      - '*--certdump *'
+      - '*--dnsdump *'
+      - '*-c *'
+      - '*--cachefilename *'
+      - '*-o *'
+      - '*--outputdirectory *'
+  condition: selection
+tags:
+  - attack.t1069.001
+  - attack.t1069.002
+  - attack.t1087.001
+  - attack.t1087.002
+  - attack.t1482
+references:
+  - https://github.com/FalconForceTeam/SOAPHound
+custom_attributes:
+  original_rule_id: 8e53f839-e127-4d6d-a54d-a2f67044a57f
+  source_format: splunk_spl

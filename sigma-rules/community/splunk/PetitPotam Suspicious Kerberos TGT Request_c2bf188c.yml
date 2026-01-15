@@ -1,0 +1,23 @@
+title: PetitPotam Suspicious Kerberos TGT Request
+id: a05bb3db-6ae8-576d-8c8c-c1b89d22047f
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious Kerberos Ticket Granting Ticket (TGT) request, identified by Event Code 4768. This detection leverages Windows Security Event Logs to identify TGT requests with unusual fields, which may indicate the use of tools like Rubeus following the exploitation of CVE-2021-36942 (PetitPotam). This activity is significant as it can signal an attacker leveraging a compromised certificate to request Kerberos tickets, potentially leading to unauthorized access. If c
+author: Michael Haag, Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4768
+  filter:
+    src: '::1'
+  condition: selection and not filter
+tags:
+  - attack.t1003
+references:
+  - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4768
+  - https://isc.sans.edu/forums/diary/Active+Directory+Certificate+Services+ADCS+PKI+domain+admin+vulnerability/27668/
+custom_attributes:
+  original_rule_id: e3ef244e-0a67-11ec-abf2-acde48001122
+  source_format: splunk_spl

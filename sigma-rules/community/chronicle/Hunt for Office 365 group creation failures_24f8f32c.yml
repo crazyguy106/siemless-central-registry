@@ -1,0 +1,20 @@
+title: Hunt for Office 365 group creation failures
+id: 47d213ab-b070-54d6-af64-85a679111b26
+status: experimental
+level: low
+description: |
+  Detects when a group is attempted to be created but fails in Office 365. This could be due to insufficient permissions or other errors
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: GROUP_CREATION
+    metadata_product_event_type: Add group.
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    security_result_action: BLOCK
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_964c36cd-cf07-446d-bc85-68a937d4441a
+  source_format: chronicle_yaral

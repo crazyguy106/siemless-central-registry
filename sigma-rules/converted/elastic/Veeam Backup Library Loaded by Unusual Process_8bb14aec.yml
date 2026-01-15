@@ -1,0 +1,33 @@
+title: Veeam Backup Library Loaded by Unusual Process
+id: aaab30ec-b004-4191-95e1-4a14387ef6a6
+status: stable
+level: medium
+description: 'Identifies potential credential decrypt operations by PowerShell or
+  unsigned processes using the Veeam.Backup.Common.dll
+
+  library. Attackers can use Veeam Credentials to target backups as part of destructive
+  operations such as Ransomware
+
+  attacks.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-14'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: image_load
+detection:
+  selection:
+    host_os_type: windows
+    event_action: load
+    process_name|contains:
+    - powershell.exe
+    - pwsh.exe
+    - powershell_ise.exe
+  condition: selection
+tags:
+- attack.execution
+- attack.credential_access
+- attack.t1003
+- attack.t1059.001
+- attack.t1059
+- attack.t1555

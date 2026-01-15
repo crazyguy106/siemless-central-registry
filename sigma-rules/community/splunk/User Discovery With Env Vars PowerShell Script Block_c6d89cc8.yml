@@ -1,0 +1,23 @@
+title: User Discovery With Env Vars PowerShell Script Block
+id: 2bb7a1ed-d914-5511-bd16-3ec6eb8a051f
+status: stable
+level: low
+description: |
+  The following analytic detects the use of PowerShell environment variables to identify the current logged user by leveraging PowerShell Script Block Logging (EventCode=4104). This method monitors script blocks containing `$env:UserName` or `[System.Environment]::UserName`. Identifying this activity is significant as adversaries and Red Teams may use it for situational awareness and Active Directory discovery on compromised endpoints. If confirmed malicious, this activity could allow attackers to
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*$env:UserName*'
+      - '*[System.Environment]::UserName*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1033
+references:
+  - https://attack.mitre.org/techniques/T1033/
+custom_attributes:
+  original_rule_id: 77f41d9e-b8be-47e3-ab35-5776f5ec1d20
+  source_format: splunk_spl

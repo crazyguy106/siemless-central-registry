@@ -1,0 +1,21 @@
+title: Mshta spawning Rundll32 OR Regsvr32 Process
+id: 096df719-968f-57ef-89a9-efed6923f7a3
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious mshta.exe process spawning rundll32 or regsvr32 child processes. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process GUID, process name, and parent process fields. This activity is significant as it is a known technique used by malware like Trickbot to load malicious DLLs and execute payloads. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or download addi
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    parent_process_name: mshta.exe
+  condition: selection
+tags:
+  - attack.t1218.005
+references:
+  - https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+custom_attributes:
+  original_rule_id: 4aa5d062-e893-11eb-9eb2-acde48001122
+  source_format: splunk_spl

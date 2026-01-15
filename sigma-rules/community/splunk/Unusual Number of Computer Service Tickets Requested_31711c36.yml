@@ -1,0 +1,24 @@
+title: Unusual Number of Computer Service Tickets Requested
+id: 6dfa0ada-a0d9-5ecd-bc9c-11318b571945
+status: experimental
+level: low
+description: |
+  The following analytic identifies an unusual number of computer service ticket requests from a single source, leveraging Event ID 4769, "A Kerberos service ticket was requested." It uses statistical analysis, including standard deviation and the 3-sigma rule, to detect anomalies in service ticket requests. This activity is significant as it may indicate malicious behavior such as lateral movement, malware staging, or reconnaissance. If confirmed malicious, an attacker could gain unauthorized acc
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    service_name: '*$'
+    eventcode: 4769
+    span: 2m
+  filter:
+    account_name: '*$*'
+  condition: selection and not filter
+tags:
+  - attack.t1078
+references:
+  - https://attack.mitre.org/techniques/T1078/
+custom_attributes:
+  original_rule_id: ac3b81c0-52f4-11ec-ac44-acde48001122
+  source_format: splunk_spl

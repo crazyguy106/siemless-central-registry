@@ -1,0 +1,99 @@
+title: Suspicious JetBrains TeamCity Child Process
+id: 730ed57d-ae0f-444f-af50-78708b57edd5
+status: stable
+level: medium
+description: 'Identifies suspicious processes being spawned by the JetBrain TeamCity
+  process. This activity could be related to
+
+  JetBrains remote code execution vulnerabilities.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-24'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_executable|contains:
+    - ?:\\TeamCity\\jre\\bin\\java.exe
+    - ?:\\Program Files\\TeamCity\\jre\\bin\\java.exe
+    process_name|contains:
+    - cmd.exe
+    - powershell.exe
+    - msiexec.exe
+    - certutil.exe
+    - bitsadmin.exe
+    - wmic.exe
+    - curl.exe
+    - ssh.exe
+    - rundll32.exe
+    - regsvr32.exe
+    - mshta.exe
+    - certreq.exe
+    - net.exe
+    - nltest.exe
+    - whoami.exe
+    - hostname.exe
+    - tasklist.exe
+    - arp.exe
+    - nbtstat.exe
+    - netstat.exe
+    - reg.exe
+    - tasklist.exe
+    - Microsoft.Workflow.Compiler.exe
+    - arp.exe
+    - atbroker.exe
+    - bginfo.exe
+    - bitsadmin.exe
+    - cdb.exe
+    - cmstp.exe
+    - control.exe
+    - cscript.exe
+    - csi.exe
+    - dnx.exe
+    - dsget.exe
+    - dsquery.exe
+    - forfiles.exe
+    - fsi.exe
+    - ftp.exe
+    - gpresult.exe
+    - ieexec.exe
+    - iexpress.exe
+    - installutil.exe
+    - ipconfig.exe
+    - msxsl.exe
+    - netsh.exe
+    - odbcconf.exe
+    - ping.exe
+    - pwsh.exe
+    - qprocess.exe
+    - quser.exe
+    - qwinsta.exe
+    - rcsi.exe
+    - regasm.exe
+    - regsvcs.exe
+    - regsvr32.exe
+    - sc.exe
+    - schtasks.exe
+    - systeminfo.exe
+    - tracert.exe
+    - wmic.exe
+    - wscript.exe
+    - xwizard.exe
+    - explorer.exe
+    - msdt.exe
+  condition: selection
+tags:
+- attack.initial_access
+- attack.execution
+- attack.t1059
+- attack.t1059.001
+- attack.t1190
+- attack.t1059.003
+references:
+- https://www.trendmicro.com/en_us/research/24/c/teamcity-vulnerability-exploits-lead-to-jasmin-ransomware.html
+falsepositives:
+- "    Powershell and Windows Command Shell are often observed as legit child processes\
+  \ of the Jetbrains TeamCity service\n    and may require further tuning.\n    "

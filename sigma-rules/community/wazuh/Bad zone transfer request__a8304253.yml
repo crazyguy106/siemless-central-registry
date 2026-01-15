@@ -1,0 +1,22 @@
+title: Bad zone transfer request.
+id: cbd641fd-a913-5720-a697-bed7baa9bdc0
+status: stable
+level: low
+description: Bad zone transfer request.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: 'client \S+: bad zone transfer request: \S+: non-authoritative zone \(NOTAUTH\)'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12139
+  wazuh_level: 3

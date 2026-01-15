@@ -1,0 +1,20 @@
+title: Multiple failed unique file downloads from OneDrive observed in the Microsoft Graph API
+id: 6e87f889-f8e6-5b15-8921-3b00035e127f
+status: experimental
+level: low
+description: |
+  This detects when a 401 Unauthorized status code is returned when attempting to download multiple unique files from OneDrive and may indicate a permissions issue for the user.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_63f3d1b6-6d0c-4d35-8faf-2876aeb5c2e7
+  source_format: chronicle_yaral

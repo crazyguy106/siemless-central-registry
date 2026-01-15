@@ -1,0 +1,39 @@
+title: 'ms-exchange: Multiple e-mail 500 error code (spam).'
+id: 87c15be7-ad68-547a-9e4b-d32475e180cb
+status: stable
+level: medium
+description: 'ms-exchange: Multiple e-mail 500 error code (spam).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 14
+    ignore_window: 240s
+  - type: sequence
+    parent_rule: wazuh-3802
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1114
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3852
+  wazuh_level: 9

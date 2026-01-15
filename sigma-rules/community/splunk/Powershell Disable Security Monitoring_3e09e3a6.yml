@@ -1,0 +1,23 @@
+title: Powershell Disable Security Monitoring
+id: 870e9e34-d35f-5fa3-a7cd-c5145390be71
+status: stable
+level: high
+description: |
+  The following analytic identifies attempts to disable Windows Defender real-time behavior monitoring via PowerShell commands. It detects the use of specific `Set-MpPreference` parameters that disable various security features. This activity is significant as it is commonly used by malware such as RATs, bots, or Trojans to evade detection by disabling antivirus protections. If confirmed malicious, this action could allow an attacker to operate undetected, leading to potential data exfiltration, f
+author: Michael Haag, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '* $false*'
+      - '* 0*'
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-15---tamper-with-windows-defender-atp-powershell
+  - https://docs.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2022-ps
+custom_attributes:
+  original_rule_id: c148a894-dd93-11eb-bf2a-acde48001122
+  source_format: splunk_spl

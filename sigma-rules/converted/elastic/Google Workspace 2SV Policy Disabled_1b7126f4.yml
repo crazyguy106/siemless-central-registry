@@ -1,0 +1,39 @@
+title: Google Workspace 2SV Policy Disabled
+id: 5e161522-2545-11ed-ac47-f661ea17fbce
+status: stable
+level: medium
+description: 'Google Workspace admins may setup 2-step verification (2SV) to add an
+  extra layer of security to user accounts by asking
+
+  users to verify their identity when they use login credentials. Admins have the
+  ability to enforce 2SV from the admin
+
+  console as well as the methods acceptable for verification and enrollment period.
+  2SV requires enablement on admin
+
+  accounts prior to it being enabled for users within organization units. Adversaries
+  may disable 2SV to lower the
+
+  security requirements to access a valid account.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-26'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.login
+    event_action: 2sv_disable
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1556
+references:
+- https://support.google.com/a/answer/9176657?hl=en
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Administrators may remove 2-step verification (2SV) temporarily for testing\
+  \ or during maintenance. If 2SV was\n    previously enabled, it is not common to\
+  \ disable this policy for extended periods of time.\n    "

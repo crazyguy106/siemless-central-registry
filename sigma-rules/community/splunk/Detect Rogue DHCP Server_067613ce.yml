@@ -1,0 +1,21 @@
+title: Detect Rogue DHCP Server
+id: 6d487e3c-0e40-5e81-9123-7c09b65a42f2
+status: experimental
+level: high
+description: |
+  The following analytic identifies the presence of unauthorized DHCP servers on the network. It leverages logs from Cisco network devices with DHCP Snooping enabled, specifically looking for events where DHCP leases are issued from untrusted ports. This activity is significant because rogue DHCP servers can facilitate Man-in-the-Middle attacks, leading to potential data interception and network disruption. If confirmed malicious, this could allow attackers to redirect network traffic, capture sen
+author: Mikael Bjerkeland, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    facility: DHCP_SNOOPING
+    mnemonic: DHCP_SNOOPING_UNTRUSTED_PORT
+  condition: selection
+tags:
+  - attack.t1200
+  - attack.t1498
+  - attack.t1557
+custom_attributes:
+  original_rule_id: 6e1ada88-7a0d-4ac1-92c6-03d354686079
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: Failed attempt to perform a zone transfer.
+id: 5c055b94-5e3a-5238-99e0-7b849f45229f
+status: stable
+level: medium
+description: Failed attempt to perform a zone transfer.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: denied AXFR from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12102
+  wazuh_level: 9

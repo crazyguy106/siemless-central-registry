@@ -1,0 +1,31 @@
+title: Cisco Secure Firewall - Oracle E-Business Suite Correlation
+id: 4805dfaf-fc04-5712-9733-5b8923797c97
+status: stable
+level: high
+description: |
+  This correlation rule identifies potential exploitation attempts of Oracle E-Business Suite vulnerabilities (CVE-2025-61882 and CVE-2025-61884) by correlating multiple intrusion signatures from Cisco Secure Firewall Threat Defense logs. The detection looks for specific signatures that indicate attempts to exploit the TemplatePreview functionality and vulnerable SyncServlet endpoints as well as post compromise activity involving Cl0p. By correlating these signatures, the analytic aims to identify
+author: Nasreddine Bencherchali, Splunk, Talos NTDR
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: IntrusionEvent
+    span: 5m
+    signature_id:
+      - 65377
+      - 65378
+      - 65413
+      - 65414
+      - 65415
+      - 65456
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://www.oracle.com/security-alerts/alert-cve-2025-61882.html
+  - https://www.oracle.com/security-alerts/alert-cve-2025-61884.html
+  - https://labs.watchtowr.com/well-well-well-its-another-day-oracle-e-business-suite-pre-auth-rce-chain-cve-2025-61882well-well-well-its-another-day-oracle-e-business-suite-pre-auth-rce-chain-cve-2025-61882/
+  - https://cloud.google.com/blog/topics/threat-intelligence/oracle-ebusiness-suite-zero-day-exploitation
+custom_attributes:
+  original_rule_id: 9e995d21-6870-43de-acd9-76f372bcf323
+  source_format: splunk_spl

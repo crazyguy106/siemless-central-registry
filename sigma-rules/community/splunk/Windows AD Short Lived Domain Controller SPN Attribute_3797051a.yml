@@ -1,0 +1,32 @@
+title: Windows AD Short Lived Domain Controller SPN Attribute
+id: 9ce5d71f-ebb0-51c1-94b9-487a8b6191b8
+status: stable
+level: high
+description: |
+  The following analytic detects the temporary addition of a global catalog SPN or a DRS RPC SPN to an Active Directory computer object, indicative of a potential DCShadow attack. This detection leverages EventCode 5136 from the `wineventlog_security` data source, focusing on specific SPN attribute changes. This activity is significant as DCShadow attacks allow attackers with privileged access to register rogue Domain Controllers, enabling unauthorized changes to the AD infrastructure. If confirme
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    attributevalue:
+      - GC/*
+      - E3514235-4B06-11D1-AB04-00C04FC2DCD2/*
+    short_lived: 'TRUE'
+    search: search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$
+    eventcode:
+      - 5136
+      - 4624
+    attributeldapdisplayname: servicePrincipalName
+  condition: selection
+tags:
+  - attack.t1207
+references:
+  - https://www.dcshadow.com/
+  - https://blog.netwrix.com/2022/09/28/dcshadow_attack/
+  - https://gist.github.com/gentilkiwi/dcc132457408cf11ad2061340dcb53c2
+  - https://attack.mitre.org/techniques/T1207/
+  - https://blog.alsid.eu/dcshadow-explained-4510f52fc19d
+custom_attributes:
+  original_rule_id: 57e27f27-369c-4df8-af08-e8c7ee8373d4
+  source_format: splunk_spl

@@ -1,0 +1,35 @@
+title: Windows Suspicious VMWare Tools Child Process
+id: 9573751e-f531-54e2-8beb-b5bad96fbb23
+status: stable
+level: high
+description: |
+  The following analytic identifies child processes spawned by vmtoolsd.exe, the VMWare Tools service in Windows, which typically runs with SYSTEM privileges. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process relationships. Monitoring this activity is crucial as it can indicate exploitation attempts, such as CVE-2023-20867. If confirmed malicious, attackers could gain SYSTEM-level access, allowing them to execute arbitrary code,
+author: Raven Tait, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - powershell.exe
+      - cmd.exe
+      - msbuild.exe
+      - microsoft.workflow.compiler.exe
+      - searchprotocolhost.exe
+      - scrcons.exe
+      - cscript.exe
+      - wscript.exe
+      - bitsadmin.exe
+      - rundll32.exe
+      - wmic.exe
+      - mshta.exe
+      - certutil.exe
+      - schtasks.exe
+  condition: selection
+tags:
+  - attack.t1059
+references:
+  - https://cloud.google.com/blog/topics/threat-intelligence/vmware-esxi-zero-day-bypass/
+custom_attributes:
+  original_rule_id: 1f77661a-0fe3-4b8d-a62c-7dff06906d26
+  source_format: splunk_spl

@@ -1,0 +1,21 @@
+title: Threatview Domain High Confidence Feed
+id: 970308bc-5afd-4982-a513-b05ead9fdc5f
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Threatview Domain High Confidence Feed
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let ThreatIntelFeed = externaldata(Domain: string)[@"https://threatview.io/Downloads/DOMAIN-High-Confidence-Feed.txt"] with (format="txt", ignoreFirstRecord=True);
+DeviceNetworkEvents
+| where tolower(RemoteUrl) has_any (ThreatIntelFeed)
+| extend GeoIPInfo = geo_info_from_ip_address(RemoteIP)
+| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
+| project-reorder Timestamp, DeviceName, RemoteIP, RemotePort, InitiatingProcessAccountName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

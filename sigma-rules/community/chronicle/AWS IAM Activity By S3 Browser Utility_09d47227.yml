@@ -1,0 +1,28 @@
+title: AWS IAM Activity By S3 Browser Utility
+id: ebd1df71-5582-5b01-9f20-437ee37c0065
+status: experimental
+level: high
+description: Detect AWS IAM activities associated with the S3 Browser utility.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    target_application: iam.amazonaws.com
+    metadata_product_event_type:
+      - CreateUser
+      - CreateLoginProfile
+      - CreateAccessKey
+      - PutUserPolicy
+    security_result_action: ALLOW
+    network_http_user_agent: S3 Browser
+  condition: selection
+tags:
+  - attack.t1098
+references:
+  - https://permiso.io/blog/s/unmasking-guivil-new-cloud-threat-actor/
+custom_attributes:
+  original_rule_id: mr_003e618f-e099-4c72-a170-03d2e03836f9
+  source_format: chronicle_yaral

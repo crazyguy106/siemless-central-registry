@@ -1,0 +1,22 @@
+title: Base64 encoded Windows process command-lines (Normalized Process Events)
+id: 9d1b4467-6ce9-58c2-8d0a-2a77436b20cb
+status: stable
+level: medium
+description: |
+  'Identifies instances of a base64 encoded PE file header seen in the process command line parameter. To use this analytics rule, make sure you have deployed the [ASIM normalization parsers](https://aka.ms/ASimProcessEvent)'
+author: Yuval Naor
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine:
+      - TVqQAAMAAAAEAAA
+  condition: selection
+tags:
+  - attack.t1059
+  - attack.t1027
+  - attack.t1140
+custom_attributes:
+  original_rule_id: f8b3c49c-4087-499b-920f-0dcfaff0cbca
+  source_format: azure_kql

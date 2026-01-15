@@ -1,0 +1,24 @@
+title: Okta User Account Lockout
+id: 21483639-d276-5f46-b3fb-e742ce60e079
+status: experimental
+level: medium
+description: Detects when a user's account is locked out or a user account has reached the lockout limit.
+author: Google Cloud Security
+logsource:
+  product: okta
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_product_event_type:
+      - user.account.lock.limit
+      - user.account.lock
+    security_result_action: BLOCK
+  condition: selection
+tags:
+  - attack.t1078
+references:
+  - https://www.okta.com/resources/whitepaper/how-adaptive-mfa-helps-mitigate-brute-force-attacks/
+custom_attributes:
+  original_rule_id: mr_b7d1d908-77db-4217-a170-44e0423c7fbe
+  source_format: chronicle_yaral

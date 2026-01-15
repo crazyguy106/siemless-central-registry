@@ -1,0 +1,46 @@
+title: Systemd-udevd Rule File Creation
+id: 054db96b-fd34-43b3-9af2-587b3bd33964
+status: stable
+level: low
+description: 'Monitors for the creation of rule files that are used by systemd-udevd
+  to manage device nodes and handle kernel device
+
+  events in the Linux operating system. Systemd-udevd can be exploited for persistence
+  by adversaries by creating
+
+  malicious udev rules that trigger on specific events, executing arbitrary commands
+  or payloads whenever a certain device
+
+  is plugged in or recognized by the system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-26'
+modified: '2025-01-24'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_extension: rules
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+    file_path|contains:
+    - /lib/udev/*
+    - /etc/udev/rules.d/*
+    - /usr/lib/udev/rules.d/*
+    - /run/udev/rules.d/*
+    - /usr/local/lib/udev/rules.d/*
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /snap/*
+    - /dev/fd/*
+    - /usr/lib/*
+    - /usr/libexec/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037
+- attack.t1546
+references:
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

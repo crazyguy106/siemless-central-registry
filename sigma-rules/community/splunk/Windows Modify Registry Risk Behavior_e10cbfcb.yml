@@ -1,0 +1,25 @@
+title: Windows Modify Registry Risk Behavior
+id: dcd771ec-1fd4-5978-b728-4603b5260d48
+status: stable
+level: medium
+description: |
+  The following analytic identifies instances where three or more distinct registry modification events associated with MITRE ATT&CK Technique T1112 are detected. It leverages data from the Risk data model in Splunk, focusing on registry-related sources and MITRE technique annotations. This activity is significant because multiple registry modifications can indicate an attempt to persist, hide malicious configurations, or erase forensic evidence. If confirmed malicious, this behavior could allow a
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    mitre_technique_id:
+      - '*T1112*'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.splunk.com/en_us/blog/security/do-not-cross-the-redline-stealer-detections-and-analysis.html
+  - https://www.splunk.com/en_us/blog/security/asyncrat-crusade-detections-and-defense.html
+  - https://www.splunk.com/en_us/blog/security/from-registry-with-love-malware-registry-abuses.html
+  - https://www.splunk.com/en_us/blog/security/-applocker-rules-as-defense-evasion-complete-analysis.html
+custom_attributes:
+  original_rule_id: 5eb479b1-a5ea-4e01-8365-780078613776
+  source_format: splunk_spl

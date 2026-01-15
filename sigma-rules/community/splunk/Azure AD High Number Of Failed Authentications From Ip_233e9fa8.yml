@@ -1,0 +1,28 @@
+title: Azure AD High Number Of Failed Authentications From Ip
+id: 0de3c234-8bdc-5b03-b72d-e7fa98599e7e
+status: stable
+level: high
+description: |
+  The following analytic detects an IP address with 20 or more failed authentication attempts to an Azure AD tenant within 10 minutes. It leverages Azure AD SignInLogs to identify repeated failed logins from the same IP. This behavior is significant as it may indicate a brute force attack aimed at gaining unauthorized access or escalating privileges. If confirmed malicious, the attacker could potentially compromise user accounts, leading to unauthorized access to sensitive information and resource
+author: Mauricio Velazco, Bhavin Patel, Splunk
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    category: SignInLogs
+    errorcode: 50126
+    succeeded: 'false'
+    span: 10m
+    value: 'null'
+  condition: selection
+tags:
+  - attack.t1110.001
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/
+  - https://attack.mitre.org/techniques/T1110/001/
+  - https://attack.mitre.org/techniques/T1110/003/
+custom_attributes:
+  original_rule_id: e5ab41bf-745d-4f72-a393-2611151afd8e
+  source_format: splunk_spl

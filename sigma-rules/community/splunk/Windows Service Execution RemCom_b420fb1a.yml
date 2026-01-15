@@ -1,0 +1,24 @@
+title: Windows Service Execution RemCom
+id: b1ceb638-d580-5ce5-8e7d-a2a38560a821
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of RemCom.exe, an open-source alternative to PsExec, used for lateral movement and remote command execution. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, original file names, and command-line arguments. This activity is significant as it indicates potential lateral movement within the network. If confirmed malicious, this could allow an attacker to execute commands remotely, potentially leading to 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*/user:*'
+      - '*/pwd:*'
+  condition: selection
+tags:
+  - attack.t1569.002
+references:
+  - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+  - https://github.com/kavika13/RemCom
+custom_attributes:
+  original_rule_id: 7e3d68db-ea4d-419b-adbd-e14a525ecf09
+  source_format: splunk_spl

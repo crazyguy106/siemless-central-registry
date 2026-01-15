@@ -1,0 +1,22 @@
+title: Auto Admin Logon Registry Entry
+id: 8f4adf7f-b15e-5452-b714-dbf34a74dc7a
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious registry modification that enables auto admin logon on a host. It leverages data from the Endpoint.Registry data model, specifically looking for changes to the "AutoAdminLogon" value within the "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon" registry path. This activity is significant because it was observed in BlackMatter ransomware attacks to maintain access after a safe mode reboot, facilitating further encryption. If confirmed malicious
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon*'
+    registry_value_name: AutoAdminLogon
+  condition: selection
+tags:
+  - attack.t1552.002
+references:
+  - https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
+custom_attributes:
+  original_rule_id: 1379d2b8-0f18-11ec-8ca3-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: Private Key Searching Activity
+id: 627374ab-7080-4e4d-8316-bef1122444af
+status: stable
+level: low
+description: 'This rule detects private key searching activity on Linux systems. Searching
+  for private keys can be an indication of an
+
+  attacker attempting to escalate privileges or exfiltrate sensitive information.'
+author: Elastic (converted by SIEMLess)
+date: '2024-11-04'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: find
+  condition: selection
+tags:
+- attack.discovery

@@ -1,0 +1,26 @@
+title: HTTP Duplicated Header
+id: 5ca1c1d5-faff-501d-9006-871a6e3df0b1
+status: stable
+level: medium
+description: |
+  Detects when a request has more than one of the same header. This is commonly used in request smuggling and other web based attacks. HTTP Request Smuggling exploits inconsistencies in how front-end and back-end servers parse HTTP requests by using ambiguous or malformed headers to hide malicious requests within legitimate ones. Attackers leverage duplicate headers, particularly Content-Length and Transfer-Encoding, to cause different servers in the chain to disagree on where one request ends and
+author: Raven Tait, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    name: '*'
+    output: header_names
+  condition: selection
+tags:
+  - attack.t1071.001
+  - attack.t1190
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+custom_attributes:
+  original_rule_id: 1606cc5b-fd5f-4865-9fe3-0ed1eaec2df6
+  source_format: splunk_spl

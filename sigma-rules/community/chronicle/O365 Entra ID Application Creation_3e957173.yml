@@ -1,0 +1,20 @@
+title: O365 Entra ID Application Creation
+id: 630cb7d6-b341-569d-81d9-1652b9026d31
+status: experimental
+level: low
+description: |
+  Application creation is a legitimate activity but doesn't occur frequently. Alerts when a new application is created in Entra ID (formerly Azure AD).
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_CREATION
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    metadata_product_event_type: Add application.
+    security_result_action: ALLOW
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_c8daf9ab-2b39-46cc-bda9-7fd1ebb13a81
+  source_format: chronicle_yaral

@@ -1,0 +1,32 @@
+title: Suspicious Managed Code Hosting Process
+id: acf738b5-b5b2-4acc-bad9-1e18ee234f40
+status: stable
+level: high
+description: 'Identifies a suspicious managed code hosting process which could indicate
+  code injection or other form of suspicious
+
+  code execution.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-21'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_name|contains:
+    - wscript.exe.log
+    - cscript.exe.log
+    - mshta.exe.log
+    - wmic.exe.log
+    - svchost.exe.log
+    - dllhost.exe.log
+    - cmstp.exe.log
+    - regsvr32.exe.log
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1055
+references:
+- http://web.archive.org/web/20230329154538/https://blog.menasec.net/2019/07/interesting-difr-traces-of-net-clr.html

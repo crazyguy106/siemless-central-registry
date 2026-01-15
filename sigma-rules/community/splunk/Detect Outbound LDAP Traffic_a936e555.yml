@@ -1,0 +1,23 @@
+title: Detect Outbound LDAP Traffic
+id: 777270f2-1bc2-53d8-89fb-beaeb8e99db2
+status: stable
+level: low
+description: |
+  The following analytic identifies outbound LDAP traffic to external IP addresses. It leverages the Network_Traffic data model to detect connections on ports 389 or 636 that are not directed to private IP ranges (RFC1918). This activity is significant because outbound LDAP traffic can indicate potential data exfiltration or unauthorized access attempts. If confirmed malicious, attackers could exploit this to access sensitive directory information, leading to data breaches or further network compr
+author: Bhavin Patel, Johan Bjerke, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    dest_port:
+      - 389
+      - 636
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1059
+references:
+  - https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+custom_attributes:
+  original_rule_id: 5e06e262-d7cd-4216-b2f8-27b437e18458
+  source_format: splunk_spl

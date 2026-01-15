@@ -1,0 +1,37 @@
+title: HTTP Request to Reserved Name on IIS Server
+id: 541d0ed8-4232-5588-b0e9-3e99973b566e
+status: stable
+level: high
+description: |
+  Detects attempts to exploit a request smuggling technique against IIS that leverages a Windows quirk where requests for reserved Windows device names such as "/con" trigger an early server response before the request body is received. When combined with a Content-Length desynchronization, this behavior can lead to a parsing confusion between frontend and backend.
+author: Raven Tait, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    datamodel: Web
+    url:
+      - /con
+      - /prn
+      - /aux
+      - /nul
+      - /com1
+      - /com2
+      - /com3
+      - /com4
+      - /com5
+      - /com6
+      - /com7
+  condition: selection
+tags:
+  - attack.t1071.001
+  - attack.t1190
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+custom_attributes:
+  original_rule_id: 1e45e6a8-110b-4886-b815-8d69cf35bf0a
+  source_format: splunk_spl

@@ -1,0 +1,23 @@
+title: AWS Bedrock Delete GuardRails
+id: c9741f8a-2b14-568e-9f04-d92d96c6acd0
+status: stable
+level: high
+description: |
+  The following analytic identifies attempts to delete AWS Bedrock GuardRails, which are security controls designed to prevent harmful, biased, or inappropriate AI outputs. It leverages AWS CloudTrail logs to detect when a user or service calls the DeleteGuardrail API. This activity is significant as it may indicate an adversary attempting to remove safety guardrails after compromising credentials, potentially to enable harmful or malicious model outputs. Removing guardrails could allow attackers 
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    eventname: DeleteGuardrail
+  condition: selection
+tags:
+  - attack.t1562.008
+references:
+  - https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html
+  - https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteGuardrail.html
+  - https://attack.mitre.org/techniques/T1562/
+custom_attributes:
+  original_rule_id: 7a5e3d62-f743-11ee-9f6e-acde48001122
+  source_format: splunk_spl

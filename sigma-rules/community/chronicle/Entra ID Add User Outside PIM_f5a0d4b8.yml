@@ -1,0 +1,19 @@
+title: Entra ID Add User Outside PIM
+id: ca0d78bc-5a1b-5eac-82fd-add785bad808
+status: experimental
+level: medium
+description: Adding users to roles is expected but if it occurs outside of PIM, validation should occur
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_UNCATEGORIZED
+    metadata_product_name: Azure AD Directory Audit
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+    metadata_product_event_type: Add member to role outside of PIM (permanent)
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_bc0a22e2-7ab1-4368-9408-3e6a5b666bec
+  source_format: chronicle_yaral

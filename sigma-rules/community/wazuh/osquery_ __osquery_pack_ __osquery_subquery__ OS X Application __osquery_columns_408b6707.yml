@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): OS X Application $(osquery.columns.name) version $(osquery.columns.bundle_version) is installed'
+id: f8aa762d-2292-53e1-a042-bc77a78c1485
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): OS X Application $(osquery.columns.name) version $(osquery.columns.bundle_version) is installed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: installed_applications
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24133
+  wazuh_level: 4

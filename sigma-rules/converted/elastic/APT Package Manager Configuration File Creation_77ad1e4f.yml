@@ -1,0 +1,49 @@
+title: APT Package Manager Configuration File Creation
+id: 7c2e1297-7664-42bc-af11-6d5d35220b6b
+status: stable
+level: medium
+description: 'Detects file creation events in the configuration directory for the
+  APT package manager. In Linux, APT (Advanced Package
+
+  Tool) is a command-line utility used for handling packages on (by default) Debian-based
+  systems, providing functions for
+
+  installing, updating, upgrading, and removing software along with managing package
+  repositories. Attackers can backdoor
+
+  APT to gain persistence by injecting malicious code into scripts that APT runs,
+  thereby ensuring continued unauthorized
+
+  access or control each time APT is used for package management.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-03'
+modified: '2025-01-24'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+    file_path|contains: /etc/apt/apt.conf.d/*.tmp*
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /tmp/vmis.*
+    - /snap/*
+    - /dev/fd/*
+    - /usr/lib/*
+    - /usr/libexec/*
+    - /etc/kernel/*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1574
+- attack.t1546.016
+- attack.t1546
+- attack.t1543
+references:
+- https://packetstormsecurity.com/files/152668/APT-Package-Manager-Persistence.html
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

@@ -1,0 +1,33 @@
+title: Windows Process With NetExec Command Line Parameters
+id: fd11da0c-ac56-53b3-b290-9fdf2e2ca7d0
+status: stable
+level: high
+description: |
+  The following analytic detects the use of NetExec (formally CrackmapExec) a toolset used for post-exploitation enumeration and attack within Active Directory environments through command line parameters. It leverages Endpoint Detection and Response (EDR) data to identify specific command-line arguments associated with actions like ticket manipulation, kerberoasting, and password spraying. This activity is significant as NetExec is used by adversaries to exploit Kerberos for privilege escalation 
+author: Steven Dick, Github Community
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    os: Linux
+    process:
+      - '* -x *'
+      - '* -M *'
+      - '* --*'
+    process_name:
+      - nxc.exe
+    original_file_name:
+      - nxc.exe
+  condition: selection
+tags:
+  - attack.t1550.003
+  - attack.t1558.003
+  - attack.t1558.004
+references:
+  - https://www.netexec.wiki/
+  - https://www.johnvictorwolfe.com/2024/07/21/the-successor-to-crackmapexec/
+  - https://attack.mitre.org/software/S0488/
+custom_attributes:
+  original_rule_id: adbff89c-c1f2-4a2e-88a4-b5e645856510
+  source_format: splunk_spl

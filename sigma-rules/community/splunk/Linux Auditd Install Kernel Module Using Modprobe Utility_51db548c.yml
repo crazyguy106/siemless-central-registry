@@ -1,0 +1,23 @@
+title: Linux Auditd Install Kernel Module Using Modprobe Utility
+id: f6100d77-6389-533c-83b4-84d4c9172863
+status: stable
+level: medium
+description: |
+  The following analytic detects the installation of a Linux kernel module using the modprobe utility. It leverages data from Linux Auditd, focusing on process names and command-line executions. This activity is significant because installing a kernel module can indicate an attempt to deploy a rootkit or other malicious kernel-level code, potentially leading to elevated privileges and bypassing security detections. If confirmed malicious, this could allow an attacker to gain persistent, high-level
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    type: SYSCALL
+    comm: modprobe
+  condition: selection
+tags:
+  - attack.t1547.006
+references:
+  - https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/kernel-module-driver-configuration/Working_with_Kernel_Modules/
+  - https://security.stackexchange.com/questions/175953/how-to-load-a-malicious-lkm-at-startup
+  - https://0x00sec.org/t/kernel-rootkits-getting-your-hands-dirty/1485
+custom_attributes:
+  original_rule_id: 95165985-ace5-4d42-9c42-93a89a5af901
+  source_format: splunk_spl

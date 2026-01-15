@@ -1,0 +1,26 @@
+title: Machine Learning Detected a DNS Request With a High DGA Probability Score
+id: da7f5803-1cd4-42fd-a890-0173ae80ac69
+status: stable
+level: low
+description: 'A supervised machine learning model has identified a DNS question name
+  with a high probability of sourcing from a Domain
+
+  Generation Algorithm (DGA), which could indicate command and control network activity.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-14'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_kql: ml_is_dga.malicious_probability > 0.98
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1568.002
+- attack.t1568
+references:
+- https://www.elastic.co/guide/en/security/current/prebuilt-ml-jobs.html
+- https://docs.elastic.co/en/integrations/dga
+- https://www.elastic.co/security-labs/detect-domain-generation-algorithm-activity-with-new-kibana-integration

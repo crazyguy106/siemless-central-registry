@@ -1,0 +1,21 @@
+title: Windows Renamed Powershell Execution
+id: f75a6921-34e5-5b03-abac-f64cae40257f
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where the PowerShell executable has been renamed and executed under an alternate filename. This behavior is commonly associated with attempts to evade security controls or bypass logging mechanisms that monitor standard PowerShell usage. While rare in legitimate environments, renamed PowerShell binaries are frequently observed in malicious campaigns leveraging Living-off-the-Land Binaries (LOLBins) and fileless malware techniques. This detection flags 
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1036.003
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.xworm
+custom_attributes:
+  original_rule_id: c08014de-cc5a-42de-9775-76ecd5b37bbd
+  source_format: splunk_spl

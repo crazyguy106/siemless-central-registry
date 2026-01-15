@@ -1,0 +1,23 @@
+title: Find which devices have been accessed by a list of compromised accounts and which protocol was used to connect
+id: 4be5c846-082d-4703-a671-b3de18123dc0
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Find which devices have been accessed by a list of compromised accounts and which protocol was used to connect
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    let ComprimsedUsers = dynamic(['user1', 'user2']);
+let SearchWindow = 48h; //Customizable h = hours, d = days
+IdentityLogonEvents
+| where Timestamp > (now() - SearchWindow)
+| where AccountName has_any (ComprimsedUsers)
+| where isnotempty(TargetDeviceName)
+| where ActionType == "LogonSuccess"
+| project Timestamp, AccountName, Protocol, TargetDeviceName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

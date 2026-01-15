@@ -1,0 +1,41 @@
+title: Windows UAC Bypass Suspicious Child Process
+id: ee4aa37d-4f21-5266-885c-13b12a137b9f
+status: stable
+level: high
+description: |
+  The following analytic detects when an executable known for User Account Control (UAC) bypass exploitation spawns a child process in a user-controlled location or a command shell executable (e.g., cmd.exe, powershell.exe). This detection leverages Sysmon EventID 1 data, focusing on high or system integrity level processes with specific parent-child process relationships. This activity is significant as it may indicate an attacker has successfully used a UAC bypass exploit to escalate privileges.
+author: Steven Dick
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_integrity_level:
+      - high
+      - system
+    parent_process_name:
+      - '`uacbypass_process_name`'
+    process_name:
+      - cmd.exe
+      - powershell.exe
+      - pwsh.exe
+      - wscript
+      - cscript.exe
+      - bash.exe
+      - werfault.exe
+    process:
+      - '*\\\\*'
+      - '*\\Users\\*'
+      - '*\\ProgramData\\*'
+      - '*\\Temp\\*'
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://attack.mitre.org/techniques/T1548/002/
+  - https://atomicredteam.io/defense-evasion/T1548.002/
+  - https://hadess.io/user-account-control-uncontrol-mastering-the-art-of-bypassing-windows-uac/
+  - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+custom_attributes:
+  original_rule_id: 453a6b0f-b0ea-48fa-9cf4-20537ffdd22c
+  source_format: splunk_spl

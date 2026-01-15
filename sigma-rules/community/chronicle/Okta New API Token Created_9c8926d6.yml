@@ -1,0 +1,24 @@
+title: Okta New API Token Created
+id: a0d74e8f-4ea9-58d0-a0cc-1e0ec84dc174
+status: experimental
+level: medium
+description: Detects when a new API token is created.
+author: Google Cloud Security
+logsource:
+  product: okta
+  category: file_event
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_product_event_type: system.api_token.create
+    security_result_summary: Create API token
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1078
+references:
+  - https://developer.okta.com/docs/guides/tokens/
+custom_attributes:
+  original_rule_id: mr_beca4f13-9526-4095-ab77-f0fc0610200c
+  source_format: chronicle_yaral

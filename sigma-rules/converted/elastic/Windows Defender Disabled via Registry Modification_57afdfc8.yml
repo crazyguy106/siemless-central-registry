@@ -1,0 +1,36 @@
+title: Windows Defender Disabled via Registry Modification
+id: 2ffa1f1e-b6db-47fa-994b-1512743847eb
+status: stable
+level: low
+description: 'Identifies modifications to the Windows Defender registry settings to
+  disable the service or set the service to be
+
+  started manually.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-23'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\System\\*ControlSet*\\Services\\WinDefend\\Start
+    - \\REGISTRY\\MACHINE\\System\\*ControlSet*\\Services\\WinDefend\\Start
+    registry_data_strings|contains:
+    - '1'
+    - '0x00000001'
+    process_executable|contains:
+    - ?:\\WINDOWS\\system32\\services.exe
+    - ?:\\Windows\\System32\\svchost.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562.006
+- attack.t1112
+- attack.t1562.001
+- attack.t1562
+references:
+- https://thedfirreport.com/2020/12/13/defender-control/

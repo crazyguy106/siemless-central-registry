@@ -1,0 +1,43 @@
+title: Application Removed from Blocklist in Google Workspace
+id: 495e5f2e-2480-11ed-bea8-f661ea17fbce
+status: stable
+level: medium
+description: 'Google Workspace administrators may be aware of malicious applications
+  within the Google marketplace and block these
+
+  applications for user security purposes. An adversary, with administrative privileges,
+  may remove this application from
+
+  the explicit block list to allow distribution of the application amongst users.
+  This may also indicate the unauthorized
+
+  use of an application that had been previously blocked before by a user with admin
+  privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-25'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_category: iam
+    event_type: change
+    event_action: CHANGE_APPLICATION_SETTING
+    google_workspace_admin_application_name: Google
+    google_workspace_admin_old_value: '*allowed*false*'
+    google_workspace_admin_new_value: '*allowed*true*'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://support.google.com/a/answer/6328701?hl=en#
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Applications can be added and removed from blocklists by Google Workspace administrators.\
+  \ Verify that the\n    configuration change was expected. Exceptions can be added\
+  \ to this rule to filter expected behavior.\n    "

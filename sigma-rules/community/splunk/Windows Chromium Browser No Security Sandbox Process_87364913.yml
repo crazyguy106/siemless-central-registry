@@ -1,0 +1,27 @@
+title: Windows Chromium Browser No Security Sandbox Process
+id: 1f34c644-904f-5ea1-92e6-9532746e364b
+status: stable
+level: high
+description: |
+  The following analytic detects instances where a Chrome or Chromium-based browser is launched with the --no-sandbox flag, a known indicator of potentially malicious or suspicious behavior. While this flag is occasionally used during software development or testing, it is rarely seen in normal user activity. Threat actors often abuse this setting to disable Chrome's built-in security sandbox, making it easier to execute malicious code or escape browser isolation. This behavior is commonly observe
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process: '*--no-sandbox*'
+    process_name:
+      - Chrome.exe
+      - Brave.exe
+      - Opera.exe
+      - Vivaldi.exe
+      - msedge.exe
+  condition: selection
+tags:
+  - attack.t1497
+references:
+  - https://unix.stackexchange.com/questions/68832/what-does-the-chromium-option-no-sandbox-mean
+custom_attributes:
+  original_rule_id: 314cb263-7eeb-4d45-b693-bb21699c73d2
+  source_format: splunk_spl

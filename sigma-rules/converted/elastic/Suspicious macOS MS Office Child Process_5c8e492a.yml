@@ -1,0 +1,85 @@
+title: Suspicious macOS MS Office Child Process
+id: 66da12b1-ac83-40eb-814c-07ed1d82b7b9
+status: stable
+level: medium
+description: 'Identifies suspicious child processes of frequently targeted Microsoft
+  Office applications (Word, PowerPoint, and
+
+  Excel). These child processes are often launched during exploitation of Office applications
+  or by documents with
+
+  malicious macros.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-04'
+modified: '2025-02-04'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    event_action: exec
+    host_os_type: macos
+    process_parent_name|contains:
+    - Microsoft Word
+    - Microsoft Outlook
+    - Microsoft Excel
+    - Microsoft PowerPoint
+    - Microsoft OneNote
+    process_name|contains:
+    - curl
+    - nscurl
+    - bash
+    - sh
+    - osascript
+    - python*
+    - perl*
+    - mktemp
+    - chmod
+    - php
+    - nohup
+    - openssl
+    - plutil
+    - PlistBuddy
+    - xattr
+    - mktemp
+    - sqlite3
+    - funzip
+    - popen
+    process_args|contains:
+    - ProductVersion
+    - hw.model
+    - ioreg
+    - ProductName
+    - ProductUserVisibleVersion
+    - ProductBuildVersion
+    - /Library/Application Support/Microsoft/MERP*/Microsoft Error Reporting.app/Contents/MacOS/Microsoft
+      Error Reporting
+    - open -a Safari *
+    - defaults read *
+    - sysctl hw.model*
+    - ioreg -d2 -c IOPlatformExpertDevice *
+    - 'ps aux | grep '
+    - ' | grep -v grep'
+    - PIPE=\
+    process_parent_executable|contains:
+    - /Applications/ToDesk.app/Contents/MacOS/ToDesk_Service
+    - /usr/local/Privacy-i/PISupervisor
+    - /Library/Addigy/lan-cache
+    - /Library/Elastic/Agent/*
+    - /opt/jc/bin/jumpcloud-agent
+    - /usr/sbin/networksetup
+    process_Ext_effective_parent_executable|contains:
+    - /Applications/ToDesk.app/Contents/MacOS/ToDesk_Service
+    - /usr/local/Privacy-i/PISupervisor
+    - /Library/Addigy/auditor
+    - /Library/Elastic/Agent/*
+    - /opt/jc/bin/jumpcloud-agent
+    - /usr/sbin/networksetup
+    process_command_line|endswith: $CFFIXED_USER_HOME/.zoteroIntegrationPipe*
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1566
+- attack.t1566.001
+references:
+- https://blog.malwarebytes.com/cybercrime/2017/02/microsoft-office-macro-malware-targets-macs/

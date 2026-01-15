@@ -1,0 +1,21 @@
+title: Cloud Provisioning Activity From Previously Unseen City
+id: d641bd04-0ffb-5efd-9031-caf1b84fd113
+status: stable
+level: medium
+description: |
+  The following analytic detects cloud provisioning activities originating from previously unseen cities. It leverages cloud infrastructure logs and compares the geographic location of the source IP address against a baseline of known locations. This activity is significant as it may indicate unauthorized access or misuse of cloud resources from an unexpected location. If confirmed malicious, this could lead to unauthorized resource creation, potential data exfiltration, or further compromise of c
+author: Rico Valdez, Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Change
+    action: started
+    status: success
+    enough_data: 1
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: e7ecc5e0-88df-48b9-91af-51104c68f02f
+  source_format: splunk_spl

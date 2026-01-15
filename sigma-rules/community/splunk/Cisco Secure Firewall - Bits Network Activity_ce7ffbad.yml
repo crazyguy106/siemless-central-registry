@@ -1,0 +1,26 @@
+title: Cisco Secure Firewall - Bits Network Activity
+id: 4d644458-a005-543b-8ae4-b68123abff4c
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the Background Intelligent Transfer Service (BITS) client application in allowed outbound connections. It leverages logs from Cisco Secure Firewall Threat Defense devices and identifies instances where BITS is used to initiate downloads from non-standard or unexpected domains. While BITS is a legitimate Windows service used for downloading updates, it is also commonly abused by adversaries to stealthily retrieve payloads or tools. This analytic filters o
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    clientapplication: BITS
+    eventtype: ConnectionEvent
+    action:
+      - Trust
+      - Allow
+      - allowed
+    url:
+      - '*://msedge.b.tlu.dl*'
+  condition: selection
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+custom_attributes:
+  original_rule_id: b08e69d4-b42d-494c-bd30-abaaa3571ba4
+  source_format: splunk_spl

@@ -1,0 +1,28 @@
+title: WebProxy Settings Modification
+id: 10a500bb-a28f-418e-ba29-ca4c8d1a9f2f
+status: stable
+level: medium
+description: 'Identifies the use of the built-in networksetup command to configure
+  webproxy settings. This may indicate an attempt to
+
+  hijack web browser traffic for credential access via traffic sniffing or redirection.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-05'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    event_action: exec
+    process_name: networksetup
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1539
+references:
+- https://unit42.paloaltonetworks.com/mac-malware-steals-cryptocurrency-exchanges-cookies/
+- https://objectivebythesea.com/v2/talks/OBTS_v2_Zohar.pdf
+falsepositives:
+- Legitimate WebProxy Settings Modification

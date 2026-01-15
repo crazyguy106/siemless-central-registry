@@ -1,0 +1,24 @@
+title: 'Auditd: SELinux error'
+id: 2841640e-0f33-53e8-9986-0b0aaca07d2a
+status: stable
+level: high
+description: 'Auditd: SELinux error'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.type:
+      - SELINUX_ERR
+      - USER_SELINUX_ERR
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80732
+  wazuh_level: 10

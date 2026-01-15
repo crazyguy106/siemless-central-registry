@@ -1,0 +1,29 @@
+title: Gain Code Execution on ADFS Server via Remote WMI Execution
+id: ace5c94b-b466-5ad6-a73f-88a6fbbc10fb
+status: stable
+level: medium
+description: |
+  'This query detects instances where an attacker has gained the ability to execute code on an ADFS Server through remote WMI Execution. In order to use this query you need to be collecting Sysmon EventIDs 19, 20, and 21. If you do not have Sysmon data in your workspace this query will raise an error stating:      Failed to resolve scalar expression named "[@Name]" For more on how WMI was used in Solorigate see https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second
+author: Microsoft Security Research
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Source:
+      - Microsoft-Windows-Sysmon
+      - Microsoft-Windows-Sysmon
+    process: Microsoft.IdentityServer.ServiceHost.exe
+    ProcessName|contains:
+      - Microsoft.IdentityServer.ServiceHost.exe
+      - Microsoft.IdentityServer.ServiceHost.exe
+    ParentProcessName|contains:
+      - wmiprvse.exe
+      - wmiprvse.exe
+    EventData|contains: wmiprvse.exe
+  condition: selection
+tags:
+  - attack.t1210
+custom_attributes:
+  original_rule_id: 0bd65651-1404-438b-8f63-eecddcec87b4
+  source_format: azure_kql

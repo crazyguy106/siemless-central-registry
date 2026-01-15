@@ -1,0 +1,24 @@
+title: 'Serv-U: HTTP/HTTPS Permission denied'
+id: 1ccc7b1f-3407-5b56-b5f4-358af7c3d8b0
+status: stable
+level: low
+description: 'Serv-U: HTTP/HTTPS Permission denied'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: SESS_PERMISSION_DENIED
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80500
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80524
+  wazuh_level: 4

@@ -1,0 +1,22 @@
+title: Origin of zone and owner name of SOA do not match.
+id: 40c55b4d-abda-5adb-93d4-815b7b9e5c56
+status: stable
+level: informational
+description: Origin of zone and owner name of SOA do not match.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: 'loading from master file \S+ failed: not at top of zone$'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12127
+  wazuh_level: 1

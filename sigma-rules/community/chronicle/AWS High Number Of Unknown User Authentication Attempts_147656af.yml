@@ -1,0 +1,23 @@
+title: AWS High Number Of Unknown User Authentication Attempts
+id: f6059c28-ef7b-5d7f-8d6e-a3a80501d0c8
+status: experimental
+level: low
+description: Detects when a high number of failed authentication attempts happen for unknown users.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: ConsoleLogin
+    security_result_action: BLOCK
+    security_result_description: 'Reason: No username found in supplied account'
+  condition: selection
+tags:
+  - attack.t1110
+custom_attributes:
+  original_rule_id: mr_3ddfee11-c959-4283-8fb4-1f57bdaaf2b1
+  source_format: chronicle_yaral

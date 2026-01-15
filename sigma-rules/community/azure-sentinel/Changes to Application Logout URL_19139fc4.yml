@@ -1,0 +1,20 @@
+title: Changes to Application Logout URL
+id: 02e8fcd3-90c1-5272-a6aa-7ad702b1df86
+status: stable
+level: low
+description: |
+  'Detects changes to an applications sign out URL.   Look for any modifications to a sign out URL. Blank entries or entries to non-existent locations would stop a user from terminating a session.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-applications#logout-url-modified-or-removed'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Category: ApplicationManagement
+    Action:
+      - Url
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 492fbe35-cbac-4a8c-9059-826782e6915a
+  source_format: azure_kql

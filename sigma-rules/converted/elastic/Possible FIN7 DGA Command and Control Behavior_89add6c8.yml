@@ -1,0 +1,34 @@
+title: Possible FIN7 DGA Command and Control Behavior
+id: 4a4e23cf-78a2-449c-bac3-701924c269d3
+status: stable
+level: high
+description: 'This rule detects a known command and control pattern in network events.
+  The FIN7 threat group is known to use this
+
+  command and control technique, while maintaining persistence in their target''s
+  network.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-06'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_dataset: (network_traffic.tls
+    event_category: (network
+    type: (tls
+    network_transport: tcp))
+    destination_domain: zoom.us
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1568.002
+- attack.t1071
+- attack.t1568
+references:
+- https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
+falsepositives:
+- "    This rule could identify benign domains that are formatted similarly to FIN7's\
+  \ command and control algorithm. Alerts\n    should be investigated by an analyst\
+  \ to assess the validity of the individual observations.\n    "

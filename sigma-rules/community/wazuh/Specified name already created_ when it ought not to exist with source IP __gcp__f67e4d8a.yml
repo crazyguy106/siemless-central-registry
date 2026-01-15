@@ -1,0 +1,22 @@
+title: 'Specified name already created, when it ought not to exist with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $'
+id: bdf34b80-aa8e-5b5e-8265-78d2ce924d91
+status: stable
+level: high
+description: 'Specified name already created, when it ought not to exist with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.jsonPayload.responseCode: ^YXDOMAIN$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002,65003
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65024
+  wazuh_level: 10

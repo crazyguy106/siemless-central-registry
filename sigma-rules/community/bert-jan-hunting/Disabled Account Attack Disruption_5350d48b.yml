@@ -1,0 +1,21 @@
+title: Disabled Account Attack Disruption
+id: 70609ed4-c4fc-4c87-842f-241e1c31a50a
+status: experimental
+level: medium
+description: |
+  Attack disruption disabled a cloud/hybrid account due to suspicious activities. The query lists the accounts that have been disabled by MDI.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "Disable account."
+// Disabled by Microsoft Defender for Identity
+| where AccountId == "60ca1954-583c-4d1f-86de-39d835f3e452"
+| extend DisabledAccount = tostring(RawEventData.ObjectId)
+| project Timestamp, ActionType, DisabledAccount
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

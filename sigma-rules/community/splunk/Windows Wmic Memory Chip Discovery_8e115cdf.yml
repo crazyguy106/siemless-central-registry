@@ -1,0 +1,20 @@
+title: Windows Wmic Memory Chip Discovery
+id: d2e7a32a-2ab7-50a4-8aa0-bc3891f288cc
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of Windows Management Instrumentation Command-line (WMIC) commands related to memory chip discovery on a Windows system. Specifically, it monitors instances where commands such as “wmic memorychip” are used to retrieve detailed information about installed RAM modules. While these commands can serve legitimate administrative and troubleshooting purposes, they may also be employed by adversaries to gather system hardware specifications as part of their 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '* memorychip*'
+  condition: selection
+tags:
+  - attack.t1082
+references:
+  - https://cert.gov.ua/article/6284730
+custom_attributes:
+  original_rule_id: aecaddaa-5885-4e44-a724-1edd5ecbc79f
+  source_format: splunk_spl

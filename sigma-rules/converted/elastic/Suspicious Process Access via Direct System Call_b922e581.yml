@@ -1,0 +1,37 @@
+title: Suspicious Process Access via Direct System Call
+id: 2dd480be-1263-4d9c-8672-172928f6789a
+status: stable
+level: high
+description: 'Identifies suspicious process access events from an unknown memory region.
+  Endpoint security solutions usually hook
+
+  userland Windows APIs in order to decide if the code that is being executed is malicious
+  or not. It''s possible to bypass
+
+  hooked functions by writing malicious functions that call syscalls directly.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-11'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '10'
+    winlog_event_data_CallTrace|contains:
+    - ?:\\WINDOWS\\SYSTEM32\\ntdll.dll*
+    - ?:\\WINDOWS\\SysWOW64\\ntdll.dll*
+    - ?:\\Windows\\System32\\wow64cpu.dll*
+    - ?:\\WINDOWS\\System32\\wow64win.dll*
+    - ?:\\Windows\\System32\\win32u.dll*
+    process_executable|contains: ?:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\Acrobat.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1055
+- attack.t1106
+references:
+- https://twitter.com/SBousseaden/status/1278013896440324096
+- https://www.ired.team/offensive-security/defense-evasion/using-syscalls-directly-from-visual-studio-to-bypass-avs-edrs

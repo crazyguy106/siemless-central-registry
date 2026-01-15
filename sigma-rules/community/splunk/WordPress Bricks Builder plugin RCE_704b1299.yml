@@ -1,0 +1,28 @@
+title: WordPress Bricks Builder plugin RCE
+id: ac7e9c4c-d5f3-5d4a-a521-49ab9e57091d
+status: stable
+level: high
+description: |
+  The following analytic identifies potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability. It detects HTTP POST requests to the URL path "/wp-json/bricks/v1/render_element" with a status code of 200, leveraging the Web datamodel. This activity is significant as it indicates an attempt to exploit CVE-2024-25600, a known vulnerability that allows remote code execution. If confirmed malicious, an attacker could execute arbitrary commands on the target server, leading to pote
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Web
+    status: 200
+    http_method: POST
+    url:
+      - '*/wp-json/bricks/v1/render_element'
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://attack.mitre.org/techniques/T1190
+  - https://github.com/Tornad0007/CVE-2024-25600-Bricks-Builder-plugin-for-WordPress/blob/main/exploit.py
+  - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-25600
+  - https://op-c.net/blog/cve-2024-25600-wordpresss-bricks-builder-rce-flaw-under-active-exploitation/
+  - https://thehackernews.com/2024/02/wordpress-bricks-theme-under-active.html
+custom_attributes:
+  original_rule_id: 56a8771a-3fda-4959-b81d-2f266e2f679f
+  source_format: splunk_spl

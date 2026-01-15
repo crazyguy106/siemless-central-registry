@@ -1,0 +1,33 @@
+title: Windows NirSoft Tool Bundle File Created
+id: 08600e8c-8e90-5fba-946f-83ac36157473
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of files associated with the NirSoft tool bundles on Windows endpoints. NirSoft is a well-known provider of free, portable utilities that can be used for various system and network tasks. However, threat actors often leverage these tools for malicious purposes, such as credential harvesting, network reconnaissance, and data exfiltration. The detection focuses on the creation of specific NirSoft tool bundle files, which may indicate that an attacker is 
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    file_name:
+      - brtools.zip
+      - mailpv.zip
+      - networktools.zip
+      - passreccommandline.zip
+      - passrecenc.zip
+      - progtools.zip
+      - rdpv.zip
+      - systools.zip
+      - webbrowserpassview.zip
+  condition: selection
+tags:
+  - attack.t1588.002
+references:
+  - https://thedfirreport.com/2020/04/04/gogoogle-ransomware/
+  - https://asec.ahnlab.com/en/48940/
+  - https://www.trendmicro.com/en_gb/research/23/c/emotet-returns-now-adopts-binary-padding-for-evasion.html
+  - https://www.welivesecurity.com/2022/06/16/how-emotet-is-changing-tactics-microsoft-tightening-office-macro-security/
+custom_attributes:
+  original_rule_id: a2c8e8f8-18d6-4ad4-acf4-f58903bebe41
+  source_format: splunk_spl

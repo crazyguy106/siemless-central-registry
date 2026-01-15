@@ -1,0 +1,22 @@
+title: 'sshd: Unknown PAM module, PAM misconfiguration.'
+id: 22e5faa4-2095-5b1e-8981-6a423c396a1e
+status: stable
+level: low
+description: 'sshd: Unknown PAM module, PAM misconfiguration.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'error: PAM: Module is unknown for'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5726
+  wazuh_level: 5

@@ -1,0 +1,35 @@
+title: Initramfs Unpacking via unmkinitramfs
+id: c5fc788c-7576-4a02-b3d6-d2c016eb85a6
+status: stable
+level: low
+description: 'This rule detects the unpacking of an initramfs image using the `unmkinitramfs`
+  command on Linux systems. The
+
+  `unmkinitramfs` command is used to extract the contents of an initramfs image, which
+  is used to boot the system.
+
+  Attackers may use `unmkinitramfs` to unpack an initramfs image and modify its contents
+  to include malicious code or
+
+  backdoors, allowing them to maintain persistence on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: unmkinitramfs
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.execution
+- attack.t1574
+- attack.t1059
+- attack.t1542
+- attack.t1059.004
+- attack.t1543

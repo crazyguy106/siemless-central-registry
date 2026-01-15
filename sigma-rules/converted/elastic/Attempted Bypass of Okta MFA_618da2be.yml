@@ -1,0 +1,30 @@
+title: Attempted Bypass of Okta MFA
+id: 3805c3dc-f82c-4f8d-891e-63c24d3102b0
+status: stable
+level: high
+description: 'Detects attempts to bypass Okta multi-factor authentication (MFA). An
+  adversary may attempt to bypass the Okta MFA
+
+  policies configured for an organization in order to obtain unauthorized access to
+  an application.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: user.mfa.attempt_bypass
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1111
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/okta-and-lapsus-what-you-need-to-know
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta

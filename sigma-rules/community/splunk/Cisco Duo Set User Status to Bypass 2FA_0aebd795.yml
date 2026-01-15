@@ -1,0 +1,28 @@
+title: Cisco Duo Set User Status to Bypass 2FA
+id: 69bf631d-09fb-5f51-99e4-ffd26b81e2d5
+status: stable
+level: high
+description: |
+  The following analytic detects instances where a Duo user's status is changed to "Bypass" for 2FA, specifically when the  previous status was "Active." This behavior is identified by analyzing Duo activity logs for user update actions, extracting  the status transitions, and filtering for cases where a user is set to bypass multi-factor authentication. This is a critical  event for a Security Operations Center (SOC) to monitor, as bypassing 2FA significantly weakens account security and may  ind
+author: Patrick Bareiss, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    name: user_update
+    path:
+      - status
+      - status
+    output:
+      - status
+      - old_status
+    status: Bypass
+    old_status: Active
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://splunkbase.splunk.com/app/7404
+custom_attributes:
+  original_rule_id: 8728d224-9cd5-4aa7-b75f-f8520a569979
+  source_format: splunk_spl

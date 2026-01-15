@@ -1,0 +1,31 @@
+title: Windows Certutil Root Certificate Addition
+id: 41686745-2a40-5198-9298-e23179d615c4
+status: stable
+level: high
+description: |
+  The following analytic detects the use of certutil.exe to add a certificate to the Root certificate store using the "-addstore" flag. In this case, the certificate is loaded from a temporary file path (e.g., %TEMP%) or other uncommon locations (e.g. C:\\Users\\Public\\), which is highly suspicious and uncommon in legitimate administrative activity. This behavior may indicate an adversary is installing a malicious root certificate to intercept HTTPS traffic, impersonate trusted entities, or bypas
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*:\\PerfLogs\\*'
+      - '*:\\Windows\\Temp\\*'
+      - '*\\AppData\\Local\\Temp\\*'
+      - '*\\ProgramData\\*'
+      - '*\\Users\\Public\\*'
+      - '*%AppData%*'
+      - '*%Public%*'
+      - '*%Temp%*'
+      - '*%tmp%*'
+  condition: selection
+tags:
+  - attack.t1587.003
+references:
+  - https://www.microsoft.com/en-us/security/blog/2025/07/31/frozen-in-transit-secret-blizzards-aitm-campaign-against-diplomats/
+  - https://www.deepinstinct.com/blog/iranian-threat-actor-continues-to-develop-mass-exploitation-tools
+  - https://unit42.paloaltonetworks.com/retefe-banking-trojan-targets-sweden-switzerland-and-japan/
+custom_attributes:
+  original_rule_id: e9926391-ec0c-4bad-8a95-e450dbf6aae4
+  source_format: splunk_spl

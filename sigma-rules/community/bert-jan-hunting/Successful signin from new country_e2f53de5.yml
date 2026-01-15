@@ -1,0 +1,27 @@
+title: Successful signin from new country
+id: 897aebba-8364-4dfc-9b7f-39196e4122a2
+status: experimental
+level: medium
+description: |
+  This query detects successful signins from countries that have not been seen before. Depending on where you run this query the lookback period is different, M365D uses 30 days and Sentinel uses 90 days. If you have longer retention periods it is recommended to use longer thresholds.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    let KnownCountries = AADSignInEventsBeta
+    | where Timestamp > ago(30d) and Timestamp < ago(3d)
+    // Only filter on successful logins
+    | where ErrorCode == 0
+    | where isnotempty(Country)
+    | distinct Country;
+AADSignInEventsBeta
+| where Timestamp > ago(3d)
+| where ErrorCode == 0
+| where isnotempty(Country)
+| where Country !in (KnownCountries)
+| project Timestamp, Country, UserAgent, ErrorCode, AccountObjectId,AccountDisplayName, IPAddress
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,23 @@
+title: Cisco - firewall block but success logon to Microsoft Entra ID
+id: d39e932a-3c52-564d-bed8-620d8359073b
+status: stable
+level: medium
+description: |
+  'Correlate IPs blocked by a Cisco firewall appliance with successful Microsoft Entra ID signins. Because the IP was blocked by the firewall, that same IP logging on successfully to Entra ID is potentially suspect and could indicate credential compromise for the user account.'
+author: Microsoft Security Resarch
+logsource:
+  product: azure
+detection:
+  selection:
+    DeviceVendor: Cisco
+    DeviceAction: denied
+    ResultType:
+      - 0
+      - 50074
+      - 50076
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 157c0cfc-d76d-463b-8755-c781608cdc1a
+  source_format: azure_kql

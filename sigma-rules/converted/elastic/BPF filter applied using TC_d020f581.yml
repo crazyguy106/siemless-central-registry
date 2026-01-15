@@ -1,0 +1,36 @@
+title: BPF filter applied using TC
+id: ef04a476-07ec-48fc-8f3d-5e1742de76d3
+status: stable
+level: high
+description: 'Detects when the tc (transmission control) binary is utilized to set
+  a BPF (Berkeley Packet Filter) on a network
+
+  interface. Tc is used to configure Traffic Control in the Linux kernel. It can shape,
+  schedule, police and drop traffic.
+
+  A threat actor can utilize tc to set a bpf filter on an interface for the purpose
+  of manipulating the incoming traffic.
+
+  This technique is not at all common and should indicate abnormal, suspicious or
+  malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2022-07-11'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_executable: /usr/sbin/tc
+    process_args: bpf
+    process_parent_executable: /usr/sbin/libvirtd
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.004
+references:
+- https://github.com/h3xduck/TripleCross/blob/master/src/helpers/deployer.sh
+- https://man7.org/linux/man-pages/man8/tc.8.html

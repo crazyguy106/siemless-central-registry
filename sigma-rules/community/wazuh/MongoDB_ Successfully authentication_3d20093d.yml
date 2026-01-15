@@ -1,0 +1,25 @@
+title: 'MongoDB: Successfully authentication'
+id: 3ff335ec-b2ae-5fc1-ad97-3fb30227f4a0
+status: stable
+level: low
+description: 'MongoDB: Successfully authentication'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Successfully authenticated
+    mongodb.component: ACCESS
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-85755
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-85758
+  wazuh_level: 3

@@ -1,0 +1,39 @@
+title: Potential SYN-Based Port Scan Detected
+id: bbaa96b9-f36c-4898-ace2-581acb00a409
+status: stable
+level: low
+description: 'This rule identifies a potential SYN-Based port scan. A SYN port scan
+  is a technique employed by attackers to scan a
+
+  target network for open ports by sending SYN packets to multiple ports and observing
+  the response. Attackers use this
+
+  method to identify potential entry points or services that may be vulnerable to
+  exploitation, allowing them to launch
+
+  targeted attacks or gain unauthorized access to the system or network, compromising
+  its security and potentially leading
+
+  to data breaches or further malicious activities. This rule defines a threshold-based
+  approach to detect connection
+
+  attempts from a single source to a large number of unique destination ports, while
+  limiting the number of packets per port.'
+author: Elastic (converted by SIEMLess)
+date: '2023-05-17'
+modified: '2025-02-28'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_action: network_flow
+    destination_port: '*'
+    source_ip: (10.0.0.0/8
+  condition: selection
+tags:
+- attack.discovery
+- attack.reconnaissance
+- attack.t1595
+- attack.t1595.001
+- attack.t1046

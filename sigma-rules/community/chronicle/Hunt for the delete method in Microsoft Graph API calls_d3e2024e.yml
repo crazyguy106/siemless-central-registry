@@ -1,0 +1,20 @@
+title: Hunt for the delete method in Microsoft Graph API calls
+id: 62cafa9b-872f-59f3-bc9d-ded5643c27af
+status: experimental
+level: low
+description: Identify when the http delete method is being called within the Microsoft Graph API.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    network_http_method: DELETE
+    target_url: 'https:\'
+    network_http_user_agent: PowerShell
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_9e5f6adc-84f9-46f3-bf9e-abe38e14a77b
+  source_format: chronicle_yaral

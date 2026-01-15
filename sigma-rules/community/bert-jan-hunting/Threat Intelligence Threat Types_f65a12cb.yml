@@ -1,0 +1,18 @@
+title: Threat Intelligence Threat Types
+id: 7f3a1419-ae7a-4b91-89d9-89be6ade0286
+status: experimental
+level: medium
+description: |
+  The query can be used to visualize the different threat types you get from the MDTI connector to Sentinel. Some examples coult be botnet, phishing, MaliciousUrl or from a watchlist. This query can only be used in Sentinel.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    ThreatIntelligenceIndicator
+| summarize Total = count() by ThreatType
+| render piechart with(title="Threat Intelligence Threat Types")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

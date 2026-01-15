@@ -1,0 +1,23 @@
+title: 'Auditd: device enables promiscuous mode'
+id: 64febe58-7e7a-524d-8423-6228795bdc78
+status: stable
+level: high
+description: 'Auditd: device enables promiscuous mode'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: prom=256
+    audit.type: ANOM_PROMISCUOUS
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80710
+  wazuh_level: 10

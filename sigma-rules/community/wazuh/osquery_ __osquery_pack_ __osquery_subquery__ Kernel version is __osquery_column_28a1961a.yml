@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Kernel version is $(osquery.columns.version) with path $(osquery.columns.path) and kernel device identif'
+id: c9af9fc6-e5e1-5a87-af75-20efa97affd9
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Kernel version is $(osquery.columns.version) with path $(osquery.columns.path) and kernel device identifier $(osquery.columns.device)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: kernel_info
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24301
+  wazuh_level: 4

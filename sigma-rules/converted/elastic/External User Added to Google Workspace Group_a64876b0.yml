@@ -1,0 +1,32 @@
+title: External User Added to Google Workspace Group
+id: 38f384e0-aef8-11ed-9a38-f661ea17fbcc
+status: stable
+level: medium
+description: 'Detects an external Google Workspace user account being added to an
+  existing group. Adversaries may add external user
+
+  accounts as a means to intercept shared files or emails with that specific group.'
+author: Elastic (converted by SIEMLess)
+date: '2023-02-16'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_action: ADD_GROUP_MEMBER
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1078.004
+- attack.t1078
+references:
+- https://support.google.com/a/answer/33329
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Administrators may add external users to groups to share files and communication\
+  \ with them via the intended\n    recipient be the group they are added to. It is\
+  \ unlikely an external user account would be added to an\n    organization's group\
+  \ where administrators should create a new user account.\n    "

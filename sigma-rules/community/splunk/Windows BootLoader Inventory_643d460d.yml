@@ -1,0 +1,21 @@
+title: Windows BootLoader Inventory
+id: 4208657f-a682-5192-a1be-701748c0de22
+status: experimental
+level: low
+description: |
+  The following analytic identifies the bootloader paths on Windows endpoints. It leverages a PowerShell Scripted input to capture this data, which is then processed and aggregated using Splunk. Monitoring bootloader paths is significant for a SOC as it helps detect unauthorized modifications that could indicate bootkits or other persistent threats. If confirmed malicious, such activity could allow attackers to maintain persistence, bypass security controls, and potentially control the boot proces
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1542.001
+references:
+  - https://gist.github.com/MHaggis/26518cd2844b0e03de6126660bb45707
+  - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
+custom_attributes:
+  original_rule_id: 4f7e3913-4db3-4ccd-afe4-31198982305d
+  source_format: splunk_spl

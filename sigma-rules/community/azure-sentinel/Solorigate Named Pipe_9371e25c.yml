@@ -1,0 +1,28 @@
+title: Solorigate Named Pipe
+id: 943ee2b5-2bde-5982-9ae7-1b06222e8f76
+status: stable
+level: high
+description: |
+  'Identifies a match across various data feeds for named pipe IOCs related to the Solorigate incident.  For the sysmon events required for this detection, logging for Named Pipe Events needs to be configured in Sysmon config (Event ID 17 and Event ID 18)  Reference: https://techcommunity.microsoft.com/t5/azure-sentinel/solarwinds-post-compromise-hunting-with-azure-sentinel/ba-p/1995095'
+author: Microsoft Security Research
+logsource:
+  product: windows
+detection:
+  selection:
+    Source: Microsoft-Windows-Sysmon
+    EventID:
+      - 17
+      - 18
+    EventData|contains: 583da945-62af-10e8-4902-a8f205c72b2e
+    AccessList|contains:
+      - '%%4418'
+      - '%%4418'
+    RelativeTargetName|contains:
+      - 583da945-62af-10e8-4902-a8f205c72b2e
+      - 583da945-62af-10e8-4902-a8f205c72b2e
+  condition: selection
+tags:
+  - attack.t1055
+custom_attributes:
+  original_rule_id: 11b4c19d-2a79-4da3-af38-b067e1273dee
+  source_format: azure_kql

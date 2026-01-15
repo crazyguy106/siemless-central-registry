@@ -1,0 +1,33 @@
+title: Resize ShadowStorage volume
+id: d1979364-91b3-54b0-9b30-210a9c2ee6e1
+status: stable
+level: high
+description: |
+  The following analytic identifies the resizing of shadow storage volumes, a technique used by ransomware like CLOP to prevent the recreation of shadow volumes. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving "vssadmin.exe" with parameters related to resizing shadow storage. This activity is significant as it indicates an attempt to hinder recovery efforts by manipulating shadow copies. If confirmed malicious, this cou
+author: Teoderick Contreras
+logsource:
+  product: splunk
+detection:
+  selection:
+    parent_process_name:
+      - cmd.exe
+      - powershell.exe
+      - powershell_ise.exe
+      - wmic.exe
+    process_name: vssadmin.exe
+    process:
+      - '*resize*'
+      - '*shadowstorage*'
+      - '*/maxsize*'
+  condition: selection
+tags:
+  - attack.t1490
+references:
+  - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+  - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
+  - https://redcanary.com/blog/blackbyte-ransomware/
+  - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/vssadmin-resize-shadowstorage
+custom_attributes:
+  original_rule_id: bc760ca6-8336-11eb-bcbb-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,36 @@
+title: Administrator Privileges Assigned to an Okta Group
+id: b8075894-0b62-46e5-977c-31275da34419
+status: stable
+level: medium
+description: 'Detects when an administrator role is assigned to an Okta group. An
+  adversary may attempt to assign administrator
+
+  privileges to an Okta group in order to assign additional permissions to compromised
+  user accounts and maintain access
+
+  to their target organization.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: group.privilege.grant
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+references:
+- https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+falsepositives:
+- "    Administrator roles may be assigned to Okta users by a Super Admin user. Verify\
+  \ that the behavior was expected.\n    Exceptions can be added to this rule to filter\
+  \ expected behavior.\n    "

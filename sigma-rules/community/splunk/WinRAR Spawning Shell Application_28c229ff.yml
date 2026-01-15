@@ -1,0 +1,25 @@
+title: WinRAR Spawning Shell Application
+id: d0f31869-54a8-5601-9543-d131d0b7c397
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of Windows shell processes initiated by WinRAR, such as "cmd.exe", "powershell.exe", "certutil.exe", "mshta.exe", or "bitsadmin.exe". This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process relationships. This activity is significant because it may indicate exploitation of the WinRAR CVE-2023-38831 vulnerability, where malicious scripts are executed from spoofed ZIP archives. If confirmed
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name:
+      - certutil.exe
+      - mshta.exe
+      - bitsadmin.exe
+  condition: selection
+tags:
+  - attack.t1105
+references:
+  - https://www.group-ib.com/blog/cve-2023-38831-winrar-zero-day/
+  - https://github.com/BoredHackerBlog/winrar_CVE-2023-38831_lazy_poc
+  - https://github.com/b1tg/CVE-2023-38831-winrar-exploit
+custom_attributes:
+  original_rule_id: d2f36034-37fa-4bd4-8801-26807c15540f
+  source_format: splunk_spl

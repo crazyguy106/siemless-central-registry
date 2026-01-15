@@ -1,0 +1,26 @@
+title: Kirbi File Creation
+id: b8f8da2d-a9dc-48c0-90e4-955c0aa1259a
+status: stable
+level: high
+description: 'Identifies the creation of .kirbi files. The creation of this kind of
+  file is an indicator of an attacker running
+
+  Kerberos ticket dump utilities, such as Mimikatz, and precedes attacks such as Pass-The-Ticket
+  (PTT), which allows the
+
+  attacker to impersonate users using Kerberos tickets.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-23'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: creation
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1558

@@ -1,0 +1,23 @@
+title: Copy From Or To Admin Share Or Sysvol Folder
+id: 647399d5-beca-5eb2-9891-97b0f5ddeaea
+status: experimental
+level: medium
+description: Detects a copy command or a copy utility execution to or from an Admin share or remote
+author: Florian Roth (Nextron Systems), oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Nasreddine Bencherchali
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path:
+      - robocopy.exe
+      - xcopy.exe
+      - cmd.exe
+      - powershell.exe
+      - pwsh.dll
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_copy_lateral_movement.yml
+custom_attributes:
+  original_rule_id: mr_acc184c7-6291-47e2-b65d-c27d60abaa94
+  source_format: chronicle_yaral

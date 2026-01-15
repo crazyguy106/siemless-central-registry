@@ -1,0 +1,21 @@
+title: AWS Delete CloudWatch Log Group
+id: 4591917a-0bda-50a5-81e2-898dbf64fd7a
+status: experimental
+level: high
+description: Detects when a CloudWatch log group is deleted.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type: DeleteLogGroup
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_e1e4e137-341a-4302-af26-3bfe599bcc98
+  source_format: chronicle_yaral

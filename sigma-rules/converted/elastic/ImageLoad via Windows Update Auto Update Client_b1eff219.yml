@@ -1,0 +1,31 @@
+title: ImageLoad via Windows Update Auto Update Client
+id: edf8ee23-5ea7-4123-ba19-56b41e424ae3
+status: stable
+level: medium
+description: 'Identifies abuse of the Windows Update Auto Update Client (wuauclt.exe)
+  to load an arbitrary DLL. This behavior is used
+
+  as a defense evasion technique to blend-in malicious activity with legitimate Windows
+  software.'
+author: Elastic (converted by SIEMLess)
+date: '2020-10-13'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: wuauclt.exe
+    process_args|contains:
+    - C:\\Users\\*.dll
+    - C:\\ProgramData\\*.dll
+    - C:\\Windows\\Temp\\*.dll
+    - C:\\Windows\\Tasks\\*.dll
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1218
+references:
+- https://dtm.uk/wuauclt/

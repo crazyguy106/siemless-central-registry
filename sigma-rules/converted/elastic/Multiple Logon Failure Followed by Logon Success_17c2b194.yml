@@ -1,0 +1,43 @@
+title: Multiple Logon Failure Followed by Logon Success
+id: 4e85dc8a-3e41-40d8-bc28-91af7ac6cf60
+status: stable
+level: medium
+description: 'Identifies multiple logon failures followed by a successful one from
+  the same source address. Adversaries will often
+
+  brute force login attempts across multiple users with a common or known password,
+  in an attempt to gain access to
+
+  accounts.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-29'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by winlog.computer_name, source.ip with maxspan=5s\n\
+      \  [authentication where host.os.type == \"windows\" and event.action == \"\
+      logon-failed\" and\n    /* event 4625 need to be logged */\n    winlog.logon.type\
+      \ : \"Network\" and user.id != null and \n    source.ip != null and source.ip\
+      \ != \"127.0.0.1\" and source.ip != \"::1\" and \n    not winlog.event_data.TargetUserSid\
+      \ : \"S-1-0-0\" and not user.id : \"S-1-0-0\" and \n    not user.name : (\"\
+      ANONYMOUS LOGON\", \"-\", \"*$\") and not user.domain == \"NT AUTHORITY\" and\n\
+      \n    /* noisy failure status codes often associated to authentication misconfiguration\
+      \ */\n    not winlog.event_data.Status : (\"0xC000015B\", \"0XC000005E\", \"\
+      0XC0000133\", \"0XC0000192\")] with runs=5\n  [authentication where host.os.type\
+      \ == \"windows\" and event.action == \"logged-in\" and\n    /* event 4624 need\
+      \ to be logged */\n    winlog.logon.type : \"Network\" and\n    source.ip !=\
+      \ null and source.ip != \"127.0.0.1\" and source.ip != \"::1\" and\n    not\
+      \ user.name : (\"ANONYMOUS LOGON\", \"-\", \"*$\") and not user.domain == \"\
+      NT AUTHORITY\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1110.001
+- attack.t1110.003
+- attack.t1110
+references:
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625

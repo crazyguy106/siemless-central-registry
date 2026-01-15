@@ -1,0 +1,22 @@
+title: AWS GuardDuty Disabled
+id: a25ca880-78e6-59dd-a860-e40b26752a44
+status: experimental
+level: high
+description: Detects when a GuardDuty Detector is disabled or suspended.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - DeleteDetector
+      - UpdateDetector
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_22495d55-4177-425f-9a4e-8d836b01e976
+  source_format: chronicle_yaral

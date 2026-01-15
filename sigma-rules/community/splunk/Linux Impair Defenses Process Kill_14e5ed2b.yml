@@ -1,0 +1,25 @@
+title: Linux Impair Defenses Process Kill
+id: eeb4fe59-0a71-5076-8555-260dc7f538a4
+status: stable
+level: low
+description: |
+  The following analytic identifies the execution of the 'pkill' command, which is used to terminate processes on a Linux system. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because threat actors often use 'pkill' to disable security defenses or terminate critical processes, facilitating further malicious actions. If confirmed malicious, this behavior could lead to the disruption of securit
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    process: '*pkill *'
+    process_name:
+      - pgrep
+      - pkill
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+  - https://cert.gov.ua/article/3718487
+custom_attributes:
+  original_rule_id: 435c6b33-adf9-47fe-be87-8e29fd6654f5
+  source_format: splunk_spl

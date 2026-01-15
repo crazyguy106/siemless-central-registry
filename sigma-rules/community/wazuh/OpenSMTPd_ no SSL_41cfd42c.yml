@@ -1,0 +1,23 @@
+title: 'OpenSMTPd: no SSL'
+id: 895fcef9-bb09-5337-b208-11af28e2b475
+status: stable
+level: informational
+description: 'OpenSMTPd: no SSL'
+author: Wazuh, Inc.
+logsource:
+  service: smtpd
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'IO error: No SSL error$'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-53500
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-53507
+  wazuh_level: 2

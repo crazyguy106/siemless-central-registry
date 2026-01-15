@@ -1,0 +1,30 @@
+title: Potential Remote PowerShell Session Initiated
+id: 4d35c9ae-09e9-5106-b9bf-e0368019067a
+status: experimental
+level: high
+description: |
+  Detects a process that initiated a network connection over ports 5985 or 5986 from a non-network service account. This could potentially indicates a remote PowerShell connection.
+author: Roberto Rodriguez @Cyb3rWard0g
+logsource:
+  product: windows
+detection:
+  selection:
+    metadata_event_type: NETWORK_CONNECTION
+    metadata_product_event_type: 3
+    metadata_product_name: Microsoft-Windows-Sysmon
+    metadata_vendor_name: Microsoft
+    principal_ip:
+      - '::1'
+      - 127.0.0.1
+    target_ip:
+      - '::1'
+      - 127.0.0.1
+    principal_process_file_full_path:
+      - 'C:\\Program Files\\Avast Software\\Avast\\AvastSvc.exe'
+      - 'C:\\Program Files (x86)\\Avast Software\\Avast\\AvastSvc.exe'
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_susp_remote_powershell_session.yml
+custom_attributes:
+  original_rule_id: mr_7186feaf-ab01-4c41-b17f-994b08b5bc33
+  source_format: chronicle_yaral

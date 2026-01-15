@@ -1,0 +1,47 @@
+title: AWS IAM Virtual MFA Device Registration Attempt with Session Token
+id: e4feea34-3b62-4c83-b77f-018fbef48c00
+status: stable
+level: medium
+description: 'Detects attempts to create or enable a Virtual MFA device (CreateVirtualMFADevice,
+  EnableMFADevice) using temporary AWS
+
+  credentials (access keys beginning with ASIA). Session credentials are short-lived
+  and tied to existing authenticated
+
+  sessions, so using them to register or enable MFA devices is unusual. Adversaries
+  who compromise temporary credentials
+
+  may abuse this behavior to establish persistence by attaching new MFA devices to
+  maintain access to high-privilege
+
+  accounts despite key rotation or password resets.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-11'
+modified: '2025-11-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098.005
+- attack.t1098
+- attack.t1556
+- attack.t1556.006
+references:
+- https://www.sygnia.co/blog/sygnia-investigation-bybit-hack/
+falsepositives:
+- "    Some legitimate administrative workflows or CI/CD automation pipelines may\
+  \ temporarily configure or re-enable MFA\n    devices using session-based credentials.\
+  \ Validate the calling identity’s purpose, source IP, and user agent to\n    confirm\
+  \ whether this activity was authorized. Additionally, when a user creates or enables\
+  \ a Virtual MFA device\n    through the AWS Management Console, the underlying CloudTrail\
+  \ event will also show a temporary credential (access\n    key ID beginning with\
+  \ ASIA), because the console itself issues short-lived STS session credentials for\
+  \ every\n    logged-in user. These events are expected and should not be considered\
+  \ suspicious.\n    "

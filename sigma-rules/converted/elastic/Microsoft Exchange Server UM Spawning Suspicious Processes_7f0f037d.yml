@@ -1,0 +1,53 @@
+title: Microsoft Exchange Server UM Spawning Suspicious Processes
+id: 483c4daf-b0c6-49e0-adf3-0bfa93231d6b
+status: stable
+level: medium
+description: 'Identifies suspicious processes being spawned by the Microsoft Exchange
+  Server Unified Messaging (UM) service. This
+
+  activity has been observed exploiting CVE-2021-26857.'
+author: Elastic (converted by SIEMLess)
+date: '2021-03-04'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_name|contains:
+    - UMService.exe
+    - UMWorkerProcess.exe
+    process_executable|contains:
+    - ?:\\Windows\\System32\\werfault.exe
+    - ?:\\Windows\\System32\\wermgr.exe
+    - ?:\\Program Files\\Microsoft\\Exchange Server\\V??\\Bin\\UMWorkerProcess.exe
+    - ?:\\Program Files\\Microsoft\\Exchange Server\\Bin\\UMWorkerProcess.exe
+    - D:\\Exchange 2016\\Bin\\UMWorkerProcess.exe
+    - E:\\ExchangeServer\\Bin\\UMWorkerProcess.exe
+    - D:\\Exchange\\Bin\\UMWorkerProcess.exe
+    - D:\\Exchange Server\\Bin\\UMWorkerProcess.exe
+    - E:\\Exchange Server\\V15\\Bin\\UMWorkerProcess.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\werfault.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\wermgr.exe
+    - \\Device\\HarddiskVolume*\\Program Files\\Microsoft\\Exchange Server\\V??\\Bin\\UMWorkerProcess.exe
+    - \\Device\\HarddiskVolume*\\Program Files\\Microsoft\\Exchange Server\\Bin\\UMWorkerProcess.exe
+    - \\Device\\HarddiskVolume*\\Exchange 2016\\Bin\\UMWorkerProcess.exe
+    - \\Device\\HarddiskVolume*\\ExchangeServer\\Bin\\UMWorkerProcess.exe
+    - \\Device\\HarddiskVolume*\\Exchange\\Bin\\UMWorkerProcess.exe
+    - \\Device\\HarddiskVolume*\\Exchange Server\\Bin\\UMWorkerProcess.exe
+    - \\Device\\HarddiskVolume*\\Exchange Server\\V15\\Bin\\UMWorkerProcess.exe
+  condition: selection
+tags:
+- attack.initial_access
+- attack.lateral_movement
+- attack.t1190
+- attack.t1210
+references:
+- https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers
+- https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities
+falsepositives:
+- "    Legitimate processes may be spawned from the Microsoft Exchange Server Unified\
+  \ Messaging (UM) service. If known\n    processes are causing false positives, they\
+  \ can be exempted from the rule.\n    "

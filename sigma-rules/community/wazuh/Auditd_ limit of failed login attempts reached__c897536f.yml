@@ -1,0 +1,24 @@
+title: 'Auditd: limit of failed login attempts reached.'
+id: 0bdd53a5-eedc-5533-9c13-82d91cc99679
+status: stable
+level: low
+description: 'Auditd: limit of failed login attempts reached.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.type: ANOM_LOGIN_FAILURES
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80723
+  wazuh_level: 5

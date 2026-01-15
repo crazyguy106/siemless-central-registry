@@ -1,0 +1,36 @@
+title: AWS CloudTrail Log Evasion
+id: 9ebd48ac-a0e2-430a-a219-fe072a50146b
+status: stable
+level: medium
+description: Identifies the evasion of cloudtrail logging for IAM actions involving
+  policy creation, modification or attachment. When making certain policy-related
+  API calls, an adversary may pad the associated policy document with whitespaces
+  to trigger CloudTrail’s logging size constraints, resulting in incomplete logging
+  where critical details about the policy are omitted. By exploiting this gap, threat
+  actors can bypass monitoring performed through CloudTrail and can effectively obscure
+  unauthorized changes. This rule looks for IAM API calls with the requestParameters
+  property containing reason:”requestParameters too large” and omitted:true.
+author: Elastic (converted by SIEMLess)
+date: '2025-06-10'
+modified: '2025-06-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    aws_cloudtrail_flattened_request_parameters_reason: requestParameters
+    aws_cloudtrail_flattened_request_parameters_omitted: 'true'
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.008
+references:
+- https://permiso.io/blog/cloudtrail-logging-evasion-where-policy-size-matters
+falsepositives:
+- "    There is no known legitimate reason for padding policies with white spaces\
+  \ to the extent it would take to trigger Cloudtrail's logging constraints. Any instance\
+  \ of this should be investigated.\n    "

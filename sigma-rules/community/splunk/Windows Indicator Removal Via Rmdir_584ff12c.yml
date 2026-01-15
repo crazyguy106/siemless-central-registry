@@ -1,0 +1,23 @@
+title: Windows Indicator Removal Via Rmdir
+id: 3386766f-91f4-5e9d-9674-60fcac1d3ce0
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the 'rmdir' command with '/s' and '/q' options to delete files and directory trees. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process metadata. This activity is significant as it may indicate malware attempting to remove traces or components during cleanup operations. If confirmed malicious, this behavior could allow attackers to eliminate forensic evidence, hinder incid
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*rmdir*'
+      - '* /s *'
+      - '* /q *'
+  condition: selection
+tags:
+  - attack.t1070
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+custom_attributes:
+  original_rule_id: c4566d2c-b094-48a1-9c59-d66e22065560
+  source_format: splunk_spl

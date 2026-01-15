@@ -1,0 +1,29 @@
+title: File with Right-to-Left Override Character (RTLO) Created/Executed
+id: 7e763fd1-228a-4d43-be88-3ffc14cd7de1
+status: stable
+level: medium
+description: 'Identifies the creation or execution of files or processes with names
+  containing the Right-to-Left Override (RTLO)
+
+  character, which can be used to disguise the file extension and trick users into
+  executing malicious files.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-20'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    file_path|endswith: \u{202E}*
+    process_name|endswith: \u{202E}*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1204.002
+- attack.t1036.002
+- attack.t1204
+- attack.t1036

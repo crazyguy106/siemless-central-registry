@@ -1,0 +1,29 @@
+title: Suspicious Web Browser Sensitive File Access
+id: 20457e4f-d1de-4b92-ae69-142e27a4342a
+status: stable
+level: high
+description: 'Identifies the access or file open of web browser sensitive files by
+  an untrusted/unsigned process or osascript.
+
+  Adversaries may acquire credentials from web browsers by reading files specific
+  to the target browser.'
+author: Elastic (converted by SIEMLess)
+date: '2020-01-04'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    event_action: open
+    host_os_type: macos
+    process_name: osascript
+    process_code_signature_signing_id: org.mozilla.firefox
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1539
+- attack.t1555.003
+- attack.t1555
+references:
+- https://securelist.com/calisto-trojan-for-macos/86543/

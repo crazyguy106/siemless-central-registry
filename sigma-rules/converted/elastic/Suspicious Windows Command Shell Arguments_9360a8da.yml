@@ -1,0 +1,56 @@
+title: Suspicious Windows Command Shell Arguments
+id: d9ffc3d6-9de9-4b29-9395-5757d0695ecf
+status: stable
+level: high
+description: 'Identifies the execution of the Windows Command Shell process (cmd.exe)
+  with suspicious argument values. This behavior
+
+  is often observed during malware installation.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-06'
+modified: '2025-09-01'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    event_dataset: crowdstrike.fdr
+    process_args: '1073741824'
+    process_parent_name|contains:
+    - perl.exe
+    - node.exe
+    - pg_dumpall.exe
+    - PRTG Server.exe
+    - spiceworks-finder.exe
+    - leds.exe
+    - twexec.exe
+    - SonarScanner.MSBuild.exe
+    - Code.exe
+    - netbeans64.exe
+    - javaw.exe
+    - Bot Framework Composer.exe
+    - SessionMgr.exe
+    - Craneware.Pricing.Shell.exe
+    - jumpcloud-agent-app.exe
+    - vimrun.exe
+    process_args|contains:
+    - 1>?:\\*.vbs
+    - 1>?:\\*.js
+    process_command_line|contains:
+    - \
+    - ' /c %NETBEANS_MAVEN_COMMAND_LINE%'
+    - ?:\\Windows\\system32\\cmd.exe /q /d /s /c \
+    - install^\
+    - --no-bin-links^\
+    - --production^\
+    process_parent_executable|contains:
+    - ?:\\Perl64\\bin\\perl.exe
+    - ?:\\Program Files\\nodejs\\node.exe
+    - ?:\\Program Files\\HP\\RS\\pgsql\\bin\\pg_dumpall.exe
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.003

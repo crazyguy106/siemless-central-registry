@@ -1,0 +1,24 @@
+title: 'Docker: Container $(docker.Actor.Attributes.name) destroyed'
+id: df93cc0a-7fc4-5748-a926-8a1ceaf63adf
+status: stable
+level: low
+description: 'Docker: Container $(docker.Actor.Attributes.name) destroyed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^destroy$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+tags:
+  - attack.t1488
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87902
+  wazuh_level: 5

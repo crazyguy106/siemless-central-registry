@@ -1,0 +1,24 @@
+title: OneLogin Super User Privileges Assigned
+id: 48617218-3242-55be-bd3e-93dffbc925ec
+status: experimental
+level: high
+description: Detects when a user is assigned super user privileges.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_CHANGE_PERMISSIONS
+    metadata_product_name: ONELOGIN_SSO
+    metadata_vendor_name: ONELOGIN
+    metadata_product_event_type: 72
+    target_resource_name: Super user
+  condition: selection
+tags:
+  - attack.t1078
+references:
+  - https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010391
+custom_attributes:
+  original_rule_id: mr_5a2dc2cc-a66a-413c-83de-99e0ed698849
+  source_format: chronicle_yaral

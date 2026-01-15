@@ -1,0 +1,24 @@
+title: 'FTPD: Connection blocked by Tcp Wrappers.'
+id: 3d2237b9-61f7-5297-9f2d-64676bf9b874
+status: stable
+level: low
+description: 'FTPD: Connection blocked by Tcp Wrappers.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: refused connect from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11100
+tags:
+  - attack.t1095
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11107
+  wazuh_level: 5

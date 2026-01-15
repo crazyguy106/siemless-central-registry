@@ -1,0 +1,28 @@
+title: Windows Unusual Count Of Users Failed To Auth Using Kerberos
+id: 4c3d17b8-929d-5078-bb22-d6a179986347
+status: stable
+level: medium
+description: |
+  The following analytic identifies a source endpoint failing to authenticate multiple valid users using the Kerberos protocol, potentially indicating a Password Spraying attack. It leverages Event 4771, which is generated when the Key Distribution Center fails to issue a Kerberos Ticket Granting Ticket (TGT) due to a wrong password (failure code 0x18). This detection uses statistical analysis, specifically the 3-sigma rule, to identify unusual authentication failures. If confirmed malicious, this
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 4771
+    status: 0x18
+    span: 5m
+    isoutlier: 1
+  filter:
+    targetusername: '*$'
+  condition: selection and not filter
+tags:
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319109(v=ws.11)
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771
+custom_attributes:
+  original_rule_id: bc9cb715-08ba-40c3-9758-6e2b26e455cb
+  source_format: splunk_spl

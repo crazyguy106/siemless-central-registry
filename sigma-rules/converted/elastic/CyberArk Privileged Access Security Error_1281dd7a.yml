@@ -1,0 +1,28 @@
+title: CyberArk Privileged Access Security Error
+id: 3f0e5410-a4bf-4e8c-bcfc-79d67a285c54
+status: stable
+level: high
+description: 'Identifies the occurrence of a CyberArk Privileged Access Security (PAS)
+  error level audit event. The event.code
+
+  correlates to the CyberArk Vault Audit Action Code.'
+author: Elastic (converted by SIEMLess)
+date: '2021-06-23'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: cyberarkpas.audit
+    event_type: error
+  condition: selection
+tags:
+- attack.initial_access
+- attack.privilege_escalation
+- attack.t1078
+references:
+- https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/PASREF/Vault%20Audit%20Action%20Codes.htm?tocpath=Administration%7CReferences%7C_____3
+falsepositives:
+- To tune this rule, add exceptions to exclude any event.code which should not trigger
+  this rule.

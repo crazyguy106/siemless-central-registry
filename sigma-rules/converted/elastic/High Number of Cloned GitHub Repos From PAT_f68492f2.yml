@@ -1,0 +1,25 @@
+title: High Number of Cloned GitHub Repos From PAT
+id: fb0afac5-bbd6-49b0-b4f8-44e5381e1587
+status: stable
+level: low
+description: 'Detects a high number of unique private repo clone events originating
+  from a single personal access token within a short
+
+  time period.'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-11'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: github.audit
+    event_category: configuration
+    event_action: git.clone
+    github_programmatic_access_type: ("OAuth
+    github_repository_public: 'false'
+  condition: selection
+tags:
+- attack.execution
+- attack.t1648

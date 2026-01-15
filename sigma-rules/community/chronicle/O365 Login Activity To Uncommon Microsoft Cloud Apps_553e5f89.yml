@@ -1,0 +1,23 @@
+title: O365 Login Activity To Uncommon Microsoft Cloud Apps
+id: 829e216c-af41-5232-9485-35810054200f
+status: experimental
+level: medium
+description: |
+  This rule detects O365 login activity to apps other than a defined list of first party MS Cloud Apps. Note that Azure Active Directory PowerShell and custom Azure apps are not in this list by default
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: UserLoggedIn
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
+custom_attributes:
+  original_rule_id: mr_eca0cd3d-7d65-47f6-9df2-1a16664819ae
+  source_format: chronicle_yaral

@@ -1,0 +1,25 @@
+title: Azure AD New MFA Method Registered For User
+id: f9302c9a-2901-526c-bc89-90a4a4140217
+status: stable
+level: high
+description: |
+  The following analytic detects the registration of a new Multi-Factor Authentication (MFA) method for an Azure AD account. It leverages Azure AD AuditLogs to identify when a user registers new security information. This activity is significant because adversaries who gain unauthorized access to an account may add their own MFA method to maintain persistence. If confirmed malicious, this could allow attackers to bypass existing security controls, maintain long-term access, and potentially escalat
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: User registered security info
+    category: AuditLogs
+    operationtype: Add
+  condition: selection
+tags:
+  - attack.t1556.006
+references:
+  - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+  - https://attack.mitre.org/techniques/T1556/
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://twitter.com/jhencinski/status/1618660062352007174
+custom_attributes:
+  original_rule_id: 2628b087-4189-403f-9044-87403f777a1b
+  source_format: splunk_spl

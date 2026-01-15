@@ -1,0 +1,27 @@
+title: Detect when Regsvr32.exe is created as subprocess by an Office Application
+id: f4329c1b-e465-48ed-b339-672e4f0b4e97
+status: experimental
+level: medium
+description: |
+  Regsvr32 can be abused to proxy execution of malicious code. It can be spawned from a Office Application to infect the system with malware. The Office applications would not spawn Regsvr32 themselfs.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let OfficeApplications = dynamic(['winword.exe', 'powerpnt.exe', 'excel.exe']);
+DeviceProcessEvents
+| where FileName == "regsvr32.exe"
+| where InitiatingProcessFileName has_any (OfficeApplications)
+| project
+     Timestamp,
+     DeviceName,
+     AccountName,
+     AccountDomain,
+     ProcessCommandLine,
+     InitiatingProcessCommandLine,
+     InitiatingProcessFileName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,23 @@
+title: Cisco ASA - New Local User Account Created
+id: 353f7df7-31c6-5bac-9b2f-876868107593
+status: stable
+level: medium
+description: |
+  This analytic detects creation of new user accounts on Cisco ASA devices via CLI or ASDM. Adversaries may create unauthorized user accounts to establish persistence, maintain backdoor access, or elevate privileges on network infrastructure devices. These rogue accounts can provide attackers with continued access even after initial compromise vectors are remediated. The detection monitors for ASA message ID 502101, which is generated whenever a new user account is created on the device, capturing
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    message_id:
+      - 502101
+  condition: selection
+tags:
+  - attack.t1136.001
+  - attack.t1078.003
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773963
+custom_attributes:
+  original_rule_id: 9c8e4f2a-7d3b-4e5c-8a9f-1b6d4e8c3f5a
+  source_format: splunk_spl

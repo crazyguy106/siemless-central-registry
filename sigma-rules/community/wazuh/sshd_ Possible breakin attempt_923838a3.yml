@@ -1,0 +1,35 @@
+title: 'sshd: Possible breakin attempt'
+id: 0359ae81-5216-578a-94a1-18d9a3018128
+status: stable
+level: high
+description: 'sshd: Possible breakin attempt'
+author: Wazuh, Inc.
+logsource:
+  product: macos
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 360s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 6
+  - type: sequence
+    parent_rule: wazuh-64262
+    window:
+      maxspan: 360s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64263
+  wazuh_level: 10

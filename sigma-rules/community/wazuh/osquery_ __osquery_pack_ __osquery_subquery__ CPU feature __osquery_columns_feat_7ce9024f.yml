@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): CPU feature $(osquery.columns.feature) and value $(osquery.columns.value)'
+id: b92f2dba-a3fd-5555-9a43-dfaaa8487dda
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): CPU feature $(osquery.columns.feature) and value $(osquery.columns.value)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: cpuid
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24402
+  wazuh_level: 4

@@ -1,0 +1,28 @@
+title: ICACLS Grant Command
+id: 1b38a53f-00ca-5cc1-9a4f-20329b1a5cff
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the ICACLS command to grant additional access permissions to files or directories. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific process names and command-line arguments. This activity is significant because it is commonly used by Advanced Persistent Threats (APTs) and coinminer scripts to evade detection and maintain control over compromised systems. If confirmed malicious, this behavior could allow attackers 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - icacls.exe
+      - cacls.exe
+      - xcacls.exe
+    process:
+      - '*/grant*'
+      - '*/g:*'
+      - '*/g *'
+  condition: selection
+tags:
+  - attack.t1222
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: b1b1e316-accc-11eb-a9b4-acde48001122
+  source_format: splunk_spl

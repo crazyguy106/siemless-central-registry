@@ -1,0 +1,21 @@
+title: AWS Privilege Escalation Using IAM Access Key
+id: 4f9e2998-3987-5770-b7f8-60492f84dd64
+status: experimental
+level: low
+description: |
+  Detect when a user creates a new access key for another user and escalates privileges using this newly created access key from the same IP.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type: CreateAccessKey
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1136
+custom_attributes:
+  original_rule_id: mr_a28c56ea-b5e6-4e23-8cb8-f306587b832b
+  source_format: chronicle_yaral

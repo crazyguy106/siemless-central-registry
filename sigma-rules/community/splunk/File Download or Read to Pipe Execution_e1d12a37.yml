@@ -1,0 +1,27 @@
+title: File Download or Read to Pipe Execution
+id: db37d92a-2024-5274-bd8d-207c05e3a68c
+status: stable
+level: high
+description: |
+  The following analytic detects the use of download or file reading utilities from Windows, Linux or MacOS to download or read the contents of a file from a remote or local source and pipe it directly to a shell for execution. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions. This activity is significant as it is commonly associated with malicious actions like coinminers and exploits such as CVE-2021-44228 in Log4j. If confirmed 
+author: Michael Haag, Nasreddine Bencherchali, Splunk, DipsyTipsy
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*IEX*'
+      - '*Invoke-Expression*'
+  condition: selection
+tags:
+  - attack.t1105
+references:
+  - https://gist.github.com/nathanqthai/01808c569903f41a52e7e7b575caa890
+  - https://github.com/MHaggis/notes/blob/master/utilities/warp_pipe_tester.py
+  - https://www.huntress.com/blog/rapid-response-critical-rce-vulnerability-is-affecting-java
+  - https://www.lunasec.io/docs/blog/log4j-zero-day/
+  - https://securelist.com/bad-magic-apt/109087/
+custom_attributes:
+  original_rule_id: 26f86252-1549-45e1-a212-eb26840e86bc
+  source_format: splunk_spl

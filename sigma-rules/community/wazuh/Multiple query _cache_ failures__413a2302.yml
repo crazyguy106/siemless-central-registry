@@ -1,0 +1,35 @@
+title: Multiple query (cache) failures.
+id: 1da664d0-edb1-5a77-9e32-a4388c25537a
+status: stable
+level: high
+description: Multiple query (cache) failures.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-12108
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12149
+  wazuh_level: 10

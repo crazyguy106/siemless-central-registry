@@ -1,0 +1,43 @@
+title: 'Netscaler: Firewall violation'
+id: 9d9b2087-5b6c-5802-8467-50d66f47127d
+status: stable
+level: low
+description: 'Netscaler: Firewall violation'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - APPFW APPFW_STARTURL
+      - APPFW APPFW_DENYURL
+      - APPFW APPFW_CONTENT_TYPE
+      - APPFW APPFW_REFERER_HEADER
+      - APPFW APPFW_CSRF_TAG
+      - APPFW APPFW_XSS
+      - APPFW APPFW_XML_XSS
+      - APPFW APPFW_SQL
+      - APPFW APPFW_XML_SQL
+      - APPFW APPFW_COOKIE
+      - APPFW APPFW_FIELDCONSISTENCY
+      - APPFWAPPFW_BUFFEROVERFLOW_URL
+      - APPFW APPFW_BUFFEROVER FLOW_COOKIE
+      - APPFW APPFW_BUFFEROVERFLOW_HDR
+      - APPFW APPFW_FIELDFORMAT
+      - APPFW APPFW_SAFECOMMERCE
+      - APPFW APPFW_SAFECOMMERCE_XFORM
+      - APPFW APPFW_SAFEOBJECT
+      - APPFW APPFW_SIGNATURE_MATCH
+      - APPFW_RESP APPFW_XML_XSS
+      - APPFW_RESP APPFW_XML_SQL
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80127
+  wazuh_level: 3

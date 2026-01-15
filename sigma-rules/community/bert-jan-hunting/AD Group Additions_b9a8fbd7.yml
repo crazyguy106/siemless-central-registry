@@ -1,0 +1,24 @@
+title: AD Group Additions
+id: 090033bf-6e74-4660-9ec0-929c6e0a8dfd
+status: experimental
+level: medium
+description: |
+  This query can be used to list all Active Directory group additions. The query uses 2 variables as input, the Group names on which you want to search and the timeframe used for the search. This could help in your investigation by knowing if accounts have been added to high priviliged groups in order for them to have more privileges.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    let Groups = dynamic(['Domain Admins', 'GroupName2']); // Add your sensitive groups to this list
+let SearchWindow = 48h; //Customizable h = hours, d = days
+IdentityDirectoryEvents
+| where Timestamp > (now() - SearchWindow)
+| where ActionType == "Group Membership changed"
+| extend Group = parse_json(AdditionalFields).['TO.GROUP']
+| extend GroupAdditionInitiatedBy = parse_json(AdditionalFields).['ACTOR.ACCOUNT']
+| project-reorder Group, GroupAdditionInitiatedBy
+| where Group has_any (Groups)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

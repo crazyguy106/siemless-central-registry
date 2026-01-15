@@ -1,0 +1,22 @@
+title: 'Docker: Attached local standard input, output, and error streams to container $(docker.Actor.Attributes.name)'
+id: b6f36ec5-9f35-5879-83b3-296390076348
+status: stable
+level: low
+description: 'Docker: Attached local standard input, output, and error streams to container $(docker.Actor.Attributes.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^attach$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87922
+  wazuh_level: 3

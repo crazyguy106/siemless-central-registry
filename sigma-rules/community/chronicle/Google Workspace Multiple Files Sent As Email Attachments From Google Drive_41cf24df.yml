@@ -1,0 +1,23 @@
+title: Google Workspace Multiple Files Sent As Email Attachments From Google Drive
+id: 7d682d58-0032-54e3-8df1-1a85ff28cca6
+status: experimental
+level: high
+description: |
+  Identifies when a user sends multiple files from Google Drive as an email attachment to a free email domain, which may indicate data exfiltration.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: drive
+    metadata_event_type: EMAIL_TRANSACTION
+    metadata_product_event_type: email_as_attachment
+    target_user_email_addresses: .*@gmail\.com|.*@aol\.com|.*@ymail\.com|.*@ymail\.com|.*@hotmail\.com|.*@outlook\.com|.*@icloud\.com
+  condition: selection
+tags:
+  - attack.t1567
+custom_attributes:
+  original_rule_id: mr_125c517c-3ef9-4687-8af6-d71eff83d0e9
+  source_format: chronicle_yaral

@@ -1,0 +1,19 @@
+title: CreateDump Process Dump
+id: 8233c05e-9bc6-53d4-8702-83d77297ed8d
+status: experimental
+level: high
+description: Detects uses of the createdump.exe LOLOBIN utility to dump process memory
+author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: createdump.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_createdump_lolbin_execution.yml
+custom_attributes:
+  original_rule_id: mr_20772389-ecc9-4598-9241-843172e1dd43
+  source_format: chronicle_yaral

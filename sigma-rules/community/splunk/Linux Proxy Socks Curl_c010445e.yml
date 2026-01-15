@@ -1,0 +1,33 @@
+title: Linux Proxy Socks Curl
+id: 07fd823e-ae34-580c-9655-1e12e57bb9d0
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the `curl` command with proxy-related arguments such as `-x`, `socks`, `--preproxy`, and `--proxy`. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details. This activity is significant as it may indicate an adversary attempting to use a proxy to evade network monitoring and obscure their actions. If confirmed malicious, this behavior could allow attackers to bypass security
+author: Michael Haag, Splunk, 0xC0FFEEEE, Github Community
+logsource:
+  product: linux
+detection:
+  selection:
+    process_name: curl
+    process:
+      - '*-x *'
+      - '*socks4a://*'
+      - '*socks5h://*'
+      - '*socks4://*'
+      - '*socks5://*'
+      - '*--preproxy *'
+      - '--proxy*'
+  condition: selection
+tags:
+  - attack.t1090
+  - attack.t1095
+references:
+  - https://www.offensive-security.com/metasploit-unleashed/proxytunnels/
+  - https://curl.se/docs/manpage.html
+  - https://en.wikipedia.org/wiki/SOCKS
+  - https://oxylabs.io/blog/curl-with-proxy
+  - https://reqbin.com/req/c-ddxflki5/curl-proxy-server#:~:text=To%20use%20a%20proxy%20with,be%20URL%20decoded%20by%20Curl.
+custom_attributes:
+  original_rule_id: bd596c22-ad1e-44fc-b242-817253ce8b08
+  source_format: splunk_spl

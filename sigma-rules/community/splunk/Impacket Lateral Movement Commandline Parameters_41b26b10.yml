@@ -1,0 +1,30 @@
+title: Impacket Lateral Movement Commandline Parameters
+id: 89b0423f-9aab-5e18-b3ba-46173d377545
+status: stable
+level: high
+description: |
+  The following analytic identifies the use of suspicious command-line parameters associated with Impacket tools, such as `wmiexec.py`, `smbexec.py`, `dcomexec.py`, and `atexec.py`, which are used for lateral movement and remote code execution. It detects these activities by analyzing process execution logs from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns. This activity is significant because Impacket tools are commonly used by adversaries and Red Teams
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*2>&1*'
+      - '*2&gt;&amp;1*'
+  condition: selection
+tags:
+  - attack.t1021.002
+  - attack.t1021.003
+  - attack.t1047
+  - attack.t1543.003
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://attack.mitre.org/techniques/T1021/003/
+  - https://attack.mitre.org/techniques/T1047/
+  - https://attack.mitre.org/techniques/T1053/
+  - https://attack.mitre.org/techniques/T1053/005/
+custom_attributes:
+  original_rule_id: 8ce07472-496f-11ec-ab3b-3e22fbd008af
+  source_format: splunk_spl

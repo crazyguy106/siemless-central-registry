@@ -1,0 +1,18 @@
+title: Detect Excessive User Account Lockouts
+id: 7db22ab6-3993-5853-8451-ef858da293ed
+status: stable
+level: medium
+description: |
+  The following analytic identifies user accounts experiencing an excessive number of lockouts within a short timeframe. It leverages the 'Change' data model, specifically focusing on events where the result indicates a lockout. This activity is significant as it may indicate a brute-force attack or misconfiguration, both of which require immediate attention. If confirmed malicious, this behavior could lead to account compromise, unauthorized access, and potential lateral movement within the netwo
+author: David Dorsey, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    result: '*lock*'
+  condition: selection
+tags:
+  - attack.t1078.003
+custom_attributes:
+  original_rule_id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
+  source_format: splunk_spl

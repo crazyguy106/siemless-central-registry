@@ -1,0 +1,23 @@
+title: ClickFix Triage Query
+id: 51d04a54-650a-4a12-a79f-bc48bfb6edf9
+status: experimental
+level: medium
+description: |
+  To efficiently triage ClickFix incidents the *ClickFix Triage KQL Query* below is developed. The KQL query has the following input:
+- VictimDeviceId: DeviceId of the device that triggered the ClickFix incident
+- TopXEvents: Amount of events you want to collect before and after the Windows Run execution.
+- TimeFrame: Min and max timeframe between the Windows Run execution and the last event collected.
+
+These variables can be adjusted to your needs.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let VictimDeviceId = "xxxxxxxxx";
+let TopXEvents = 15;
+let TimeFrame = 5m;
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

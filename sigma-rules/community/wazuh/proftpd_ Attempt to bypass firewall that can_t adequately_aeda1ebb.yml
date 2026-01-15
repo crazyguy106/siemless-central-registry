@@ -1,0 +1,25 @@
+title: 'proftpd: Attempt to bypass firewall that can''t adequately'
+id: a669ae9c-bc05-5635-b81a-49ce48bceccc
+status: stable
+level: critical
+description: 'proftpd: Attempt to bypass firewall that can''t adequately'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Refused PORT
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+tags:
+  - attack.t1065
+  - attack.t1043
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11209
+  wazuh_level: 14

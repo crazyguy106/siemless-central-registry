@@ -1,0 +1,28 @@
+title: Windows PowerShell Script From WindowsApps Directory
+id: a415663d-e00e-5c42-b3fd-da76299ccf36
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of PowerShell scripts from the WindowsApps directory, which is a common technique used in malicious MSIX package execution. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command lines and parent process paths. This activity is significant as adversaries have been observed using MSIX packages with embedded PowerShell scripts (particularly StartingScriptWrapper.ps1) to execute malicious code. If 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: powershell.exe
+    parent_process_path: '*\\WindowsApps\\*'
+    process:
+      - '*WindowsApps*-file *'
+      - '*WindowsApps*.ps1*'
+  condition: selection
+tags:
+  - attack.t1059.001
+  - attack.t1204.002
+references:
+  - https://redcanary.com/blog/threat-intelligence/msix-installers/
+  - https://redcanary.com/threat-detection-report/techniques/installer-packages/
+  - https://learn.microsoft.com/en-us/windows/msix/package/package-support-framework
+  - https://attack.mitre.org/techniques/T1059/001/
+custom_attributes:
+  original_rule_id: 8c3d1f2e-7b4a-45e3-9d8f-6a2e4c9b1234
+  source_format: splunk_spl

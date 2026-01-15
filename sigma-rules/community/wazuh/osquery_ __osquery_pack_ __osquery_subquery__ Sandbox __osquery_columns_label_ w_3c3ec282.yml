@@ -1,0 +1,23 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Sandbox $(osquery.columns.label) with user $(osquery.columns.user) is enabled'
+id: a1c34243-a0aa-55f5-a08a-0d97e63678a2
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Sandbox $(osquery.columns.label) with user $(osquery.columns.user) is enabled'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: sandboxes
+    osquery.columns.enabled: 1
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24066
+  wazuh_level: 4

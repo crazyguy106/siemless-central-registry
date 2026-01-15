@@ -1,0 +1,22 @@
+title: GCP Multiple KMS Keys Disabled Or Destroyed
+id: b1fa34ae-b348-5829-9edc-65800ec5c041
+status: experimental
+level: high
+description: Detect when multiple KMS crypto key versions are disabled or destroyed from GCP Cloud KMS.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type:
+      - DestroyCryptoKeyVersion
+      - UpdateCryptoKeyVersion
+    target_application: cloudkms.googleapis.com
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1485
+custom_attributes:
+  original_rule_id: mr_1457dcf4-b20b-4ec0-a295-d04074889991
+  source_format: chronicle_yaral

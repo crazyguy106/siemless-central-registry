@@ -1,0 +1,34 @@
+title: Malicious email delivered in Microsoft 365
+id: f97a7109-8d2e-476e-8d7c-c42653df062d
+status: experimental
+level: medium
+description: |
+  This query lists all the emails that have been classified as malicious based on Threat Intelligence on the mailbox.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "TIMailData-Inline"
+| extend Classification = parse_json(RawEventData).['Verdict']
+| extend ClassificationReason = parse_json(RawEventData).['ThreatsAndDetectionTech']
+| extend ConfidentialityLevel = parse_json(RawEventData).['PhishConfidenceLevel']
+| extend InvestigationLink = parse_json(RawEventData).['EventDeepLink'],
+    NetworkMessageId = tostring(parse_json(RawEventData).NetworkMessageId)
+| join kind=leftouter (EmailEvents | project NetworkMessageId, SenderFromAddress, RecipientEmailAddress, Subject) on $left.NetworkMessageId == $right.NetworkMessageId
+| project-reorder
+     Timestamp,
+     Classification,
+     ClassificationReason,
+     ConfidentialityLevel,
+     SenderFromAddress,
+     Subject,
+     RecipientEmailAddress,
+     InvestigationLink
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

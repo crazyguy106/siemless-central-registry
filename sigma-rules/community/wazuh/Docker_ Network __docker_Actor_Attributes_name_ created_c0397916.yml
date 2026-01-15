@@ -1,0 +1,22 @@
+title: 'Docker: Network $(docker.Actor.Attributes.name) created'
+id: c23f625b-f95e-514c-af18-d91a234b532e
+status: stable
+level: low
+description: 'Docker: Network $(docker.Actor.Attributes.name) created'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^create$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87927
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87930
+  wazuh_level: 3

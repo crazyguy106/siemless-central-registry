@@ -1,0 +1,38 @@
+title: Control Panel Process with Unusual Arguments
+id: 416697ae-e468-4093-a93d-59661fa619ec
+status: stable
+level: high
+description: 'Identifies unusual instances of Control Panel with suspicious keywords
+  or paths in the process command line value.
+
+  Adversaries may abuse control.exe to proxy execution of malicious code.'
+author: Elastic (converted by SIEMLess)
+date: '2021-09-08'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_command_line|contains:
+    - '*.jpg*'
+    - '*.png*'
+    - '*.gif*'
+    - '*.bmp*'
+    - '*.jpeg*'
+    - '*.TIFF*'
+    - '*.inf*'
+    - '*.cpl:*/*'
+    - '*../../..*'
+    - '*/AppData/Local/*'
+    - '*:\\Users\\Public\\*'
+    - '*\\AppData\\Local\\*'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1218
+- attack.t1218.002
+references:
+- https://www.joesandbox.com/analysis/476188/1/html

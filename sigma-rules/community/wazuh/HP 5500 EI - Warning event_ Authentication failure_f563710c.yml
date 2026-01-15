@@ -1,0 +1,26 @@
+title: 'HP 5500 EI - Warning event: Authentication failure'
+id: 842cb952-9812-5edc-93dd-7c7350cf5ce6
+status: stable
+level: low
+description: 'HP 5500 EI - Warning event: Authentication failure'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - failed to log in
+      - failed to login
+      - authentication failed
+      - Authentication is failed
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81705
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81709
+  wazuh_level: 4

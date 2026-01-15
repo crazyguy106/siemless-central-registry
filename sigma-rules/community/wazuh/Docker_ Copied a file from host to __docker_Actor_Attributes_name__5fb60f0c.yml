@@ -1,0 +1,22 @@
+title: 'Docker: Copied a file from host to $(docker.Actor.Attributes.name)'
+id: e33bc40c-b60e-5976-b649-365db19fcbcb
+status: stable
+level: low
+description: 'Docker: Copied a file from host to $(docker.Actor.Attributes.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^extract-to-dir$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87910
+  wazuh_level: 3

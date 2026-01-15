@@ -1,0 +1,33 @@
+title: 'PIX: Multiple error messages.'
+id: 52c8c8c2-acf2-5ddf-9f4c-0af3100d053d
+status: stable
+level: high
+description: 'PIX: Multiple error messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-4312
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4382
+  wazuh_level: 10

@@ -1,0 +1,45 @@
+title: Network Connection by Cups or Foomatic-rip Child
+id: e80ee207-9505-49ab-8ca8-bc57d80e2cab
+status: stable
+level: high
+description: 'This detection rule addresses multiple vulnerabilities in the CUPS printing
+  system, including CVE-2024-47176,
+
+  CVE-2024-47076, CVE-2024-47175, and CVE-2024-47177. Specifically, this rule detects
+  network connections initiated by a
+
+  child processes of foomatic-rip. These flaws impact components like cups-browsed,
+  libcupsfilters, libppd, and
+
+  foomatic-rip, allowing remote unauthenticated attackers to manipulate IPP URLs or
+  inject malicious data through crafted
+
+  UDP packets or network spoofing. This can result in arbitrary command execution
+  when a print job is initiated.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-27'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=10s\n  [process where host.os.type\
+      \ == \"linux\" and event.type == \"start\" and event.action == \"exec\" and\n\
+      \   process.parent.name == \"foomatic-rip\" and\n   process.name in (\"bash\"\
+      , \"dash\", \"sh\", \"tcsh\", \"csh\", \"zsh\", \"ksh\", \"fish\")] by process.entity_id\n\
+      \  [network where host.os.type == \"linux\" and event.type == \"start\" and\n\
+      \   event.action == \"connection_attempted\"] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.exfiltration
+- attack.defense_evasion
+- attack.execution
+- attack.command_and_control
+- attack.t1203
+references:
+- https://www.elastic.co/security-labs/cups-overflow
+- https://www.evilsocket.net/2024/09/26/Attacking-UNIX-systems-via-CUPS-Part-I/
+- https://gist.github.com/stong/c8847ef27910ae344a7b5408d9840ee1
+- https://github.com/RickdeJager/cupshax/blob/main/cupshax.py

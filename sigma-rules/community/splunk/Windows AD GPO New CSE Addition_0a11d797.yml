@@ -1,0 +1,40 @@
+title: Windows AD GPO New CSE Addition
+id: d163eafb-d370-579c-b6a5-8ad754061fa2
+status: stable
+level: high
+description: |
+  This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    objectcategory: CN=Group-Policy-Container*
+    eventcode: 5136
+    objectclass: groupPolicyContainer
+    attributeldapdisplayname: gPCMachineExtensionNames
+    field:
+      - old_value
+      - new_value
+      - ObjectDN
+    max_match:
+      - 10000
+      - 10000
+      - 10000
+    admoneventtype: Update
+    new_values:
+      - old_values
+      - {00000000-0000-0000-0000-000000000000}
+      - policy_guid
+  condition: selection
+tags:
+  - attack.t1222.001
+  - attack.t1484.001
+references:
+  - https://wald0.com/?p=179
+  - https://learn.microsoft.com/en-gb/archive/blogs/mempson/group-policy-client-side-extension-list
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+  - https://github.com/FSecureLABS/SharpGPOAbuse
+custom_attributes:
+  original_rule_id: 700c11d1-da09-47b2-81aa-358c143c7986
+  source_format: splunk_spl

@@ -1,0 +1,39 @@
+title: Azure Command Execution on Virtual Machine
+id: 60884af6-f553-4a6c-af13-300047455491
+status: stable
+level: medium
+description: 'Identifies command execution on a virtual machine (VM) in Azure. A Virtual
+  Machine Contributor role lets you manage
+
+  virtual machines, but not access them, nor access the virtual network or storage
+  account they’re connected to. However,
+
+  commands can be run via PowerShell on the VM, which execute as System. Other roles,
+  such as certain Administrator roles
+
+  may be able to execute commands on a VM as well.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-17'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.COMPUTE/VIRTUALMACHINES/RUNCOMMAND/ACTION
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.execution
+- attack.t1651
+references:
+- https://adsecurity.org/?p=4277
+- https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#virtual-machine-contributor
+falsepositives:
+- "    Command execution on a virtual machine may be done by a system or network administrator.\
+  \ Verify whether the\n    username, hostname, and/or resource name should be making\
+  \ changes in your environment. Command execution from\n    unfamiliar users or hosts\
+  \ should be investigated. If known behavior is causing false positives, it can be\
+  \ exempted\n    from the rule.\n    "

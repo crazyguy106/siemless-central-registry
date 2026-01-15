@@ -1,0 +1,27 @@
+title: Windows WBAdmin File Recovery From Backup
+id: 18b1a86a-d046-5fa7-ba8c-d1e634089bef
+status: stable
+level: medium
+description: |
+  The following analytic identifies the execution of wbadmin.exe with arguments indicative of restoring files from an existing backup.  WBAdmin is a legitimate Windows Backup utility used for creating, managing, and restoring backups. However, adversaries may abuse it to restore specific files (e.g., sensitive credentials, configuration files, or malware stagers) from prior backups to regain access or re-establish persistence after cleanup or encryption events. Monitoring this behavior is importan
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*start*'
+      - '*recovery*'
+      - '*itemtype:file*'
+  condition: selection
+tags:
+  - attack.t1490
+  - attack.t1565.001
+references:
+  - https://lolbas-project.github.io/lolbas/Binaries/Wbadmin/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin-start-recovery
+  - https://redmondmag.com/articles/2025/07/18/restoring-a-file-from-a-windows-image-backup.aspx
+custom_attributes:
+  original_rule_id: 0175f0b7-728d-4038-bbf1-1c30d6ee3d31
+  source_format: splunk_spl

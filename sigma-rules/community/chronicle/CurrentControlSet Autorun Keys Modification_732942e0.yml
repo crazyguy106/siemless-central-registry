@@ -1,0 +1,27 @@
+title: CurrentControlSet Autorun Keys Modification
+id: 2b801aff-1a4e-5fe6-b73b-99878eec7f43
+status: experimental
+level: medium
+description: Detects modification of autostart extensibility point (ASEP) in registry
+author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+logsource:
+  product: windows
+detection:
+  selection:
+    metadata_event_type: REGISTRY_MODIFICATION
+    target_registry_registry_value_data:
+      - (Empty)
+      - cpwmon64_v40.dll
+      - CutePDF Writer
+      - VNCpm.dll
+    principal_process_file_full_path:
+      - 'c:\\windows\\system32\\spoolsv.exe'
+      - 'c:\\windows\\system32\\spoolsv.exe'
+      - 'c:\\windows\\system32\\poqexec.exe'
+      - 'c:\\windows\\system32\\spoolsv.exe'
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_currentcontrolset.yml
+custom_attributes:
+  original_rule_id: mr_701ab297-b615-4441-a78b-941c9737d117
+  source_format: chronicle_yaral

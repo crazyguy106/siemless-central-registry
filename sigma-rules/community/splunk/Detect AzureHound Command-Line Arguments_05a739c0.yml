@@ -1,0 +1,29 @@
+title: Detect AzureHound Command-Line Arguments
+id: 0c4b4871-6cca-5521-9ec8-873b6836e2ed
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the `Invoke-AzureHound` command-line argument, commonly used by the AzureHound tool. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because AzureHound is often used for reconnaissance in Azure environments, potentially exposing sensitive information. If confirmed malicious, this activity could allow an attacker to map out Azure Active Directory
+author: Michael Haag, Splunk
+logsource:
+  product: azure
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*invoke-azurehound*'
+  condition: selection
+tags:
+  - attack.t1069.001
+  - attack.t1069.002
+  - attack.t1087.001
+  - attack.t1087.002
+  - attack.t1482
+references:
+  - https://attack.mitre.org/software/S0521/
+  - https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+  - https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
+  - https://github.com/BloodHoundAD/Legacy-AzureHound.ps1/blob/master/AzureHound.ps1
+custom_attributes:
+  original_rule_id: 26f02e96-c300-11eb-b611-acde48001122
+  source_format: splunk_spl

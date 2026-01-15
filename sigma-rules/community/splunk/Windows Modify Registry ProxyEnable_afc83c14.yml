@@ -1,0 +1,22 @@
+title: Windows Modify Registry ProxyEnable
+id: 30b216ad-26c8-5306-aaf5-3d625f481178
+status: stable
+level: medium
+description: |
+  The following analytic detects modifications to the Windows registry key "ProxyEnable" to enable proxy settings. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the "Internet Settings\ProxyEnable" registry path. This activity is significant as it is commonly exploited by malware and adversaries to establish proxy communication, potentially connecting to malicious Command and Control (C2) servers. If confirmed malicious, this could allow attackers to red
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Internet Settings\\ProxyEnable'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+custom_attributes:
+  original_rule_id: b27f20bd-ef20-41d1-a1e9-25dedd5bf2f5
+  source_format: splunk_spl

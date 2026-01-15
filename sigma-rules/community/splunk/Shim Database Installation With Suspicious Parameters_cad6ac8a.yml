@@ -1,0 +1,23 @@
+title: Shim Database Installation With Suspicious Parameters
+id: 3590a0bb-5e1a-568a-91e6-c18e978ed32e
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of sdbinst.exe with parameters indicative of silently creating a shim database. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line arguments. This activity is significant because shim databases can be used to intercept and manipulate API calls, potentially allowing attackers to bypass security controls or achieve persistence. If confirmed malicious, this could enable unaut
+author: David Dorsey, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '\"C:\\Windows\\System32\\sdbinst.exe\'
+      - 'C:\\Windows\\System32\\sdbinst.exe'
+      - '*-mm'
+      - '*-?'
+      - '*-m -bg'
+  condition: selection
+tags:
+  - attack.t1546.011
+custom_attributes:
+  original_rule_id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: AWS IAM Access Analyzer Deleted
+id: 539e43ea-2167-5381-9226-6938e865611e
+status: experimental
+level: low
+description: Detects when AWS IAM Access Analyzer is deleted.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_event_type: RESOURCE_DELETION
+    metadata_product_event_type: DeleteAnalyzer
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_c1c8c5e4-ad04-40de-b42e-9d1086360796
+  source_format: chronicle_yaral

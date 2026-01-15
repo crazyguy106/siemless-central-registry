@@ -1,0 +1,24 @@
+title: Sunburst Correlation DLL and Network Event
+id: 79838222-032c-5f80-9295-c37e04f13458
+status: experimental
+level: high
+description: |
+  The following analytic identifies the loading of the malicious SolarWinds.Orion.Core.BusinessLayer.dll by SolarWinds.BusinessLayerHost.exe and subsequent DNS queries to avsvmcloud.com. It uses Sysmon EventID 7 for DLL loading and Event ID 22 for DNS queries, correlating these events within a 12-14 day period. This activity is significant as it indicates potential Sunburst malware infection, a known supply chain attack. If confirmed malicious, this could lead to unauthorized network access, data 
+author: Patrick Bareiss, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    eventcode:
+      - 7
+      - 22
+    dc_events: 2
+  condition: selection
+tags:
+  - attack.t1203
+references:
+  - https://www.mandiant.com/resources/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor
+custom_attributes:
+  original_rule_id: 701a8740-e8db-40df-9190-5516d3819787
+  source_format: splunk_spl

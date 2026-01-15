@@ -1,0 +1,23 @@
+title: Detect DNS Data Exfiltration using pretrained model in DSDL
+id: 4fa5a4ec-511a-5f7e-b65d-06a30ff71459
+status: experimental
+level: medium
+description: |
+  The following analytic identifies potential DNS data exfiltration using a pre-trained deep learning model. It leverages DNS request data from the Network Resolution datamodel and computes features from past events between the same source and domain. The model generates a probability score (pred_is_exfiltration_proba) indicating the likelihood of data exfiltration. This activity is significant as DNS tunneling can be used by attackers to covertly exfiltrate sensitive data. If confirmed malicious,
+author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    datamodel: Network_Resolution
+  condition: selection
+tags:
+  - attack.t1048.003
+references:
+  - https://attack.mitre.org/techniques/T1048/003/
+  - https://unit42.paloaltonetworks.com/dns-tunneling-how-dns-can-be-abused-by-malicious-actors/
+  - https://en.wikipedia.org/wiki/Data_exfiltration
+custom_attributes:
+  original_rule_id: 92f65c3a-168c-11ed-71eb-0242ac120012
+  source_format: splunk_spl

@@ -1,0 +1,21 @@
+title: List external applications with highly privileged permissions
+id: c94d65df-87f2-4db3-b9e1-44f75cb8a77f
+status: experimental
+level: medium
+description: |
+  The query below lists the external applications with highly privileged permissions. It is highly recommended to periodicly review the high priviliged external applications.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    OAuthAppInfo
+| where AppOrigin == "External"
+| where PrivilegeLevel == "High"
+| summarize arg_max(Timestamp, *) by OAuthAppId
+| extend PublisherName = tostring(VerifiedPublisher.displayName), DateAdded = todatetime(VerifiedPublisher.addedDateTime)
+| project AppName, OAuthAppId, ServicePrincipalId, AddedOnTime, PublisherName, AppOwnerTenantId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

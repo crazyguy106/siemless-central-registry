@@ -1,0 +1,38 @@
+title: 'MS-FTP: Multiple FTP errors from same source.'
+id: 1661d55b-575d-5335-9571-4691e241b4dc
+status: stable
+level: high
+description: 'MS-FTP: Multiple FTP errors from same source.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-11504
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1021
+  - attack.t1043
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11512
+  wazuh_level: 10

@@ -1,0 +1,23 @@
+title: $(vuls.scanned_cve) has a update date lower than $(vuls.days) days.
+id: a9074888-bf6a-50f3-9ac9-bbb724a7ec10
+status: stable
+level: medium
+description: $(vuls.scanned_cve) has a update date lower than $(vuls.days) days.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: has a update date lower
+    vuls.event: \.+
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-22401
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-22402
+  wazuh_level: 7

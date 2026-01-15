@@ -1,0 +1,22 @@
+title: 'AWS Trusted Advisor - [$(aws.uuid)] [$(aws.check-name)]: $(aws.status)'
+id: 001160ee-d1bf-51ce-84dc-15e027171d14
+status: stable
+level: low
+description: 'AWS Trusted Advisor - [$(aws.uuid)] [$(aws.check-name)]: $(aws.status)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.status: WARN
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80480
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80482
+  wazuh_level: 4

@@ -1,0 +1,36 @@
+title: Okta ThreatInsight Threat Suspected Promotion
+id: 6885d2ae-e008-4762-b98a-e8e1cd3a81e9
+status: stable
+level: medium
+description: 'Okta ThreatInsight is a feature that provides valuable debug data regarding
+  authentication and authorization processes,
+
+  which is logged in the system. Within this data, there is a specific field called
+  threat_suspected, which represents
+
+  Okta''s internal evaluation of the authentication or authorization workflow. When
+  this field is set to True, it suggests
+
+  the presence of potential credential access techniques, such as password-spraying,
+  brute-forcing, replay attacks, and
+
+  other similar threats.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: security.threat.detected
+    okta_debug_context_debug_data_threat_suspected: true)
+  condition: selection
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.html
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta

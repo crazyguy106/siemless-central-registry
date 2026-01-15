@@ -1,0 +1,23 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Integrity protection flag $(osquery.columns.config_flag) is disabled'
+id: 1bc54209-32da-5350-9604-ab8c06c97059
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Integrity protection flag $(osquery.columns.config_flag) is disabled'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: sip_config
+    osquery.columns.enabled: 0
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24138
+  wazuh_level: 4

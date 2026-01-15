@@ -1,0 +1,26 @@
+title: Linux Service Restarted
+id: 340b494d-b9d7-5fb3-81b2-4c3fd15c4f7a
+status: stable
+level: medium
+description: |
+  The following analytic detects the restarting or re-enabling of services on Linux systems using the `systemctl` or `service` commands. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line execution logs. This activity is significant as adversaries may use it to maintain persistence or execute unauthorized actions. If confirmed malicious, this behavior could lead to repeated execution of malicious payloads, unauthorized access, or data destruct
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process_name:
+      - systemctl
+      - service
+    process:
+      - '*restart*'
+      - '*reload*'
+      - '*reenable*'
+  condition: selection
+tags:
+  - attack.t1053.006
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+custom_attributes:
+  original_rule_id: 084275ba-61b8-11ec-8d64-acde48001122
+  source_format: splunk_spl

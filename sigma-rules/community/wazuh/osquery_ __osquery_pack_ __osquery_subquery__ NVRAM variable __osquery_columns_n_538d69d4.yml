@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): NVRAM variable $(osquery.columns.name) value $(osquery.columns.value)'
+id: 8f244822-9cc5-5d04-bf93-ddfe35cd7e3e
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): NVRAM variable $(osquery.columns.name) value $(osquery.columns.value)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: nvram
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24404
+  wazuh_level: 4

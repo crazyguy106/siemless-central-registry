@@ -1,0 +1,40 @@
+title: Network-Level Authentication (NLA) Disabled
+id: db65f5ba-d1ef-4944-b9e8-7e51060c2b42
+status: stable
+level: low
+description: 'Identifies the attempt to disable Network-Level Authentication (NLA)
+  via registry modification. Network Level
+
+  Authentication (NLA) is a feature on Windows that provides an extra layer of security
+  for Remote Desktop (RDP)
+
+  connections, as it requires users to authenticate before allowing a full RDP session.
+  Attackers can disable NLA to
+
+  enable persistence methods that require access to the Windows sign-in screen without
+  authenticating, such as
+
+  Accessibility Features persistence methods, like Sticky Keys.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-25'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    registry_path|contains:
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\UserAuthentication
+    - \\REGISTRY\\MACHINE\\SYSTEM\\*ControlSet*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\UserAuthentication
+    - MACHINE\\SYSTEM\\*ControlSet*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\UserAuthentication
+    registry_data_strings|contains:
+    - '0'
+    - '0x00000000'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1112
+- attack.t1562
+references:
+- https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/

@@ -1,0 +1,24 @@
+title: Log4Shell JNDI Payload Injection with Outbound Connection
+id: 49a37626-b609-527f-b784-be26585ceb84
+status: stable
+level: medium
+description: |
+  The following analytic detects Log4Shell JNDI payload injections via outbound connections. It identifies suspicious LDAP lookup functions in web logs, such as `${jndi:ldap://PAYLOAD_INJECTED}`, and correlates them with network traffic to known malicious IP addresses. This detection leverages the Web and Network_Traffic data models in Splunk. Monitoring this activity is crucial as it targets vulnerabilities in Java web applications using log4j, potentially leading to remote code execution. If con
+author: Jose Hernandez
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    field: _raw
+    max_match: 0
+    type: inner
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.lunasec.io/docs/blog/log4j-zero-day/
+custom_attributes:
+  original_rule_id: 69afee44-5c91-11ec-bf1f-497c9a704a72
+  source_format: splunk_spl

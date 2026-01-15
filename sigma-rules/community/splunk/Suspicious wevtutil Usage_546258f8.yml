@@ -1,0 +1,27 @@
+title: Suspicious wevtutil Usage
+id: 565ac444-6a41-5521-8b5c-682194fb7ca9
+status: stable
+level: high
+description: |
+  The following analytic detects the usage of wevtutil.exe with parameters for clearing event logs such as Application, Security, Setup, Trace, or System. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because clearing event logs can be an attempt to cover tracks after malicious actions, hindering forensic investigations. If confirmed malicious, this behavior could allow an attacker to erase ev
+author: David Dorsey, Michael Haag, Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*System*'
+      - '*Security*'
+      - '*Setup*'
+      - '*Application*'
+      - '*trace*'
+      - '*powershell*'
+      - Sysmon
+  condition: selection
+tags:
+  - attack.t1070.001
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+custom_attributes:
+  original_rule_id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
+  source_format: splunk_spl

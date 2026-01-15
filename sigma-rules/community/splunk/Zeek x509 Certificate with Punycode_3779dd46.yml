@@ -1,0 +1,24 @@
+title: Zeek x509 Certificate with Punycode
+id: e4e1df47-b5e7-5ff8-954b-24f0cb543b1e
+status: experimental
+level: low
+description: |
+  The following analytic detects the presence of punycode within x509 certificates using Zeek x509 logs. It identifies punycode in the subject alternative name email and other fields by searching for the "xn--" prefix. This activity is significant as punycode can be used in phishing attacks or to bypass domain filters, posing a security risk. If confirmed malicious, attackers could use these certificates to impersonate legitimate domains, potentially leading to unauthorized access or data breaches
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1573
+references:
+  - https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
+  - https://github.com/corelight/CVE-2022-3602/tree/master/scripts
+  - https://docs.zeek.org/en/master/logs/x509.html
+  - https://www.splunk.com/en_us/blog/security/nothing-puny-about-cve-2022-3602.html
+  - https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
+custom_attributes:
+  original_rule_id: 029d6fe4-a5fe-43af-827e-c78c50e81d81
+  source_format: splunk_spl

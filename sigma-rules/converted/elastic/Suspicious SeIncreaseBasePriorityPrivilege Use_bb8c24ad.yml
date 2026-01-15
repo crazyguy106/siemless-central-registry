@@ -1,0 +1,31 @@
+title: Suspicious SeIncreaseBasePriorityPrivilege Use
+id: 6fa0f15b-1926-419b-8de2-fce1429797ba
+status: stable
+level: high
+description: 'Identifies attempts to use the SeIncreaseBasePriorityPrivilege privilege
+  by an unusual process. This could be related to
+
+  hijack execution flow of a process via threats priority manipulation.'
+author: Elastic (converted by SIEMLess)
+date: '2025-09-25'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: iam
+    host_os_type: windows
+    event_code: '4674'
+    winlog_event_data_PrivilegeList: SeIncreaseBasePriorityPrivilege
+    event_outcome: success
+    winlog_event_data_AccessMask: '512'
+    winlog_event_data_SubjectUserSid: ("S-1-5-18
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1134
+references:
+- https://github.com/Octoberfest7/ThreadCPUAssignment_POC/tree/main
+- https://x.com/sixtyvividtails/status/1970721197617717483
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4674

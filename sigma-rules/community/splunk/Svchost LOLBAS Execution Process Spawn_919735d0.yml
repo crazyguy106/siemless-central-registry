@@ -1,0 +1,74 @@
+title: Svchost LOLBAS Execution Process Spawn
+id: 29585135-f31e-57dd-81e3-e2328e23b225
+status: stable
+level: high
+description: |
+  The following analytic detects instances of 'svchost.exe' spawning Living Off The Land Binaries and Scripts (LOLBAS) processes. It leverages Endpoint Detection and Response (EDR) data to monitor child processes of 'svchost.exe' that match known LOLBAS executables. This activity is significant as adversaries often use LOLBAS techniques to execute malicious code stealthily, potentially indicating lateral movement or code execution attempts. If confirmed malicious, this behavior could allow attacke
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - Regsvcs.exe
+      - Ftp.exe
+      - OfflineScannerShell.exe
+      - Rasautou.exe
+      - Schtasks.exe
+      - Xwizard.exe
+      - Pnputil.exe
+      - Atbroker.exe
+      - Pcwrun.exe
+      - Ttdinject.exe
+      - Mshta.exe
+      - Bitsadmin.exe
+      - Certoc.exe
+      - Ieexec.exe
+      - Microsoft.Workflow.Compiler.exe
+      - Runscripthelper.exe
+      - Forfiles.exe
+      - Msbuild.exe
+      - Register-cimprovider.exe
+      - Tttracer.exe
+      - Ie4uinit.exe
+      - Bash.exe
+      - Hh.exe
+      - SettingSyncHost.exe
+      - Cmstp.exe
+      - Stordiag.exe
+      - Scriptrunner.exe
+      - Odbcconf.exe
+      - Extexport.exe
+      - Msdt.exe
+      - WorkFolders.exe
+      - Diskshadow.exe
+      - Mavinject.exe
+      - Regasm.exe
+      - Gpscript.exe
+      - Regsvr32.exe
+      - Msiexec.exe
+      - Wuauclt.exe
+      - Presentationhost.exe
+      - Wmic.exe
+      - Runonce.exe
+      - Syncappvpublishingserver.exe
+      - Verclsid.exe
+      - Infdefaultinstall.exe
+      - Installutil.exe
+      - Netsh.exe
+      - Wab.exe
+      - Dnscmd.exe
+      - At.exe
+      - Pcalua.exe
+      - Msconfig.exe
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+  - https://www.ired.team/offensive-security/persistence/t1053-schtask
+  - https://lolbas-project.github.io/
+custom_attributes:
+  original_rule_id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
+  source_format: splunk_spl

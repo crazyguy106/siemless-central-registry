@@ -1,0 +1,27 @@
+title: Dumping Account Hashes via Built-In Commands
+id: 02ea4563-ec10-4974-b7de-12e65aa4f9b3
+status: stable
+level: high
+description: 'Identifies the execution of macOS built-in commands used to dump user
+  account hashes. Adversaries may attempt to dump
+
+  credentials to obtain account login information in the form of a hash. These hashes
+  can be cracked or leveraged for
+
+  lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-25'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+references:
+- https://apple.stackexchange.com/questions/186893/os-x-10-9-where-are-password-hashes-stored
+- https://www.unix.com/man-page/osx/8/mkpassdb/

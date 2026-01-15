@@ -1,0 +1,21 @@
+title: Windows Modify Registry WuServer
+id: 88ca5c1a-4583-5d7b-a7d3-1adb19a02227
+status: stable
+level: low
+description: |
+  The following analytic detects suspicious modifications to the Windows Update Server (WUServer) registry settings. It leverages data from the Endpoint.Registry data model to identify changes in the registry path associated with Windows Update configurations. This activity is significant because adversaries, including malware like RedLine Stealer, exploit this technique to bypass detection and deploy additional payloads. If confirmed malicious, this registry modification could allow attackers to 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\WUServer'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
+custom_attributes:
+  original_rule_id: a02ad386-e26d-44ce-aa97-6a46cee31439
+  source_format: splunk_spl

@@ -1,0 +1,28 @@
+title: Verclsid CLSID Execution
+id: f9db910f-f2dd-5648-955d-ea5823eb0389
+status: stable
+level: low
+description: |
+  The following analytic detects the potential abuse of the verclsid.exe utility to execute malicious files via generated CLSIDs. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns associated with verclsid.exe. This activity is significant because verclsid.exe is a legitimate Windows application used to verify CLSID COM objects, and its misuse can indicate an attempt to bypass security controls. If confirmed malicious, this technique cou
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name: verclsid.exe
+    original_file_name: verclsid.exe
+    process:
+      - '*/S*'
+      - '*/C*'
+      - '*{*'
+      - '*}*'
+  condition: selection
+tags:
+  - attack.t1218.012
+references:
+  - https://gist.github.com/NickTyrer/0598b60112eaafe6d07789f7964290d5
+  - https://bohops.com/2018/08/18/abusing-the-com-registry-structure-part-2-loading-techniques-for-evasion-and-persistence/
+custom_attributes:
+  original_rule_id: 61e9a56a-20fa-11ec-8ba3-acde48001122
+  source_format: splunk_spl

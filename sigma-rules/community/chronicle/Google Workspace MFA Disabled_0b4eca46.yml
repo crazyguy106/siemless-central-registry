@@ -1,0 +1,22 @@
+title: Google Workspace MFA Disabled
+id: 2f8a7fe9-d610-5ecd-b9bc-bb6a378d83af
+status: experimental
+level: high
+description: |
+  Identifies when multi-factor authentication (MFA) is disabled for a Google Workspace organization. Security teams can monitor for changes to MFA configuration that may weaken the organization's security posture.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: admin
+    metadata_product_event_type:
+      - ENFORCE_STRONG_AUTHENTICATION
+      - ALLOW_STRONG_AUTHENTICATION
+  condition: selection
+tags:
+  - attack.t1556
+custom_attributes:
+  original_rule_id: mr_63139204-0d18-4410-b4c4-839bc9ccd456
+  source_format: chronicle_yaral

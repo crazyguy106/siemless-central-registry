@@ -1,0 +1,22 @@
+title: Linux Auditd Unload Module Via Modprobe
+id: 41a62860-15c7-5178-a7f7-f3392461d096
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious use of the `modprobe` command to unload kernel modules, which may indicate an attempt to disable critical system components or evade detection. The `modprobe` utility manages kernel modules, and unauthorized unloading of modules can disrupt system security features, remove logging capabilities, or conceal malicious activities. By monitoring for unusual or unauthorized `modprobe` operations involving module unloading, this analytic helps identify potentia
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    execve_command:
+      - '*modprobe*'
+      - '*-r *'
+  condition: selection
+tags:
+  - attack.t1547.006
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: 90964d6a-4b5f-409a-85bd-95e261e03fe9
+  source_format: splunk_spl

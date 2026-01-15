@@ -1,0 +1,22 @@
+title: Hunt for successful group creation in the Microsoft Graph API
+id: e0b09d4c-6956-544d-bdcc-2eadea8ca89b
+status: experimental
+level: low
+description: |
+  Identify a successful group creation. Triggered through the use of GraphRunner's Invoke-SecurityGroupCloner function.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/v1.0/groups'
+    network_http_method: POST
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_04b3df2c-470f-4b4d-9382-cdbe0539e5ec
+  source_format: chronicle_yaral

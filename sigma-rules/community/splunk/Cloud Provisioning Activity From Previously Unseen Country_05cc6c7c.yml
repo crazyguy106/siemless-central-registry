@@ -1,0 +1,21 @@
+title: Cloud Provisioning Activity From Previously Unseen Country
+id: 5beedae9-871c-5872-874e-7ad2628ce667
+status: stable
+level: medium
+description: |
+  The following analytic detects cloud provisioning activities originating from previously unseen countries. It leverages cloud infrastructure logs and compares the geographic location of the source IP address against a baseline of known locations. This activity is significant as it may indicate unauthorized access or potential compromise of cloud resources. If confirmed malicious, an attacker could gain control over cloud assets, leading to data breaches, service disruptions, or further infiltrat
+author: Rico Valdez, Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Change
+    action: started
+    status: success
+    enough_data: 1
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 94994255-3acf-4213-9b3f-0494df03bb31
+  source_format: splunk_spl

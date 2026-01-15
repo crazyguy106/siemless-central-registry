@@ -1,0 +1,37 @@
+title: Detect RClone Command-Line Usage
+id: ed953b39-e7d1-51c7-9373-6f89dbde0362
+status: stable
+level: high
+description: |
+  The following analytic detects the usage of `rclone.exe` with specific command-line arguments indicative of file transfer activities. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details. This activity is significant as `rclone.exe` is often used by adversaries for data exfiltration, especially during ransomware attacks. If confirmed malicious, this behavior could lead to unauthorized data transfer, resulting in data breache
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    original_file_name: rclone.exe
+    process_name: rclone.exe
+    process:
+      - '*copy*'
+      - '*mega*'
+      - '*pcloud*'
+      - '*ftp*'
+      - '*--config*'
+      - '*--progress*'
+      - '*--no-check-certificate*'
+      - '*--ignore-existing*'
+      - '*--auto-confirm*'
+      - '*--transfers*'
+      - '*--multi-thread-streams*'
+  condition: selection
+tags:
+  - attack.t1020
+references:
+  - https://redcanary.com/blog/rclone-mega-extortion/
+  - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+  - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+  - https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/
+custom_attributes:
+  original_rule_id: 32e0baea-b3f1-11eb-a2ce-acde48001122
+  source_format: splunk_spl

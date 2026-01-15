@@ -1,0 +1,22 @@
+title: AWS Defense Evasion Delete Cloudtrail
+id: 1a6c2ed6-286f-5cff-b90b-240882fed425
+status: stable
+level: high
+description: |
+  The following analytic detects the deletion of AWS CloudTrail logs by identifying `DeleteTrail` events within CloudTrail logs. This detection leverages CloudTrail data to monitor for successful `DeleteTrail` actions, excluding those initiated from the AWS console. This activity is significant because adversaries may delete CloudTrail logs to evade detection and operate stealthily within the compromised environment. If confirmed malicious, this action could allow attackers to cover their tracks, 
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    eventname: DeleteTrail
+    errorcode: success
+  condition: selection
+tags:
+  - attack.t1562.008
+references:
+  - https://attack.mitre.org/techniques/T1562/008/
+custom_attributes:
+  original_rule_id: 82092925-9ca1-4e06-98b8-85a2d3889552
+  source_format: splunk_spl

@@ -1,0 +1,21 @@
+title: Windows Steal Authentication Certificates CryptoAPI
+id: 683ea32d-9371-5a67-bf95-50d4fecd0770
+status: stable
+level: medium
+description: |
+  The following analytic detects the extraction of authentication certificates using Windows Event Log - CAPI2 (CryptoAPI 2). It leverages EventID 70, which is generated when a certificate's private key is acquired. This detection is significant because it can identify potential misuse of certificates, such as those extracted by tools like Mimikatz or Cobalt Strike. If confirmed malicious, this activity could allow attackers to impersonate users, escalate privileges, or access sensitive informatio
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 70
+  condition: selection
+tags:
+  - attack.t1649
+references:
+  - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-vista/cc749296(v=ws.10)
+custom_attributes:
+  original_rule_id: 905d5692-6d7c-432f-bc7e-a6b4f464d40e
+  source_format: splunk_spl

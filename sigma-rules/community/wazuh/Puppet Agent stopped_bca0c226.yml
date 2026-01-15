@@ -1,0 +1,25 @@
+title: Puppet Agent stopped
+id: ba162033-0a03-5b6a-b4a9-210501733151
+status: stable
+level: low
+description: Puppet Agent stopped
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^Processing
+      - ^Caught
+    message|re: \.+stop
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80001
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80051
+  wazuh_level: 5

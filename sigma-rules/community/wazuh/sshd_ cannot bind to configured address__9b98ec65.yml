@@ -1,0 +1,22 @@
+title: 'sshd: cannot bind to configured address.'
+id: 094d52f8-493b-5718-b89c-9ec7f60114db
+status: stable
+level: low
+description: 'sshd: cannot bind to configured address.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^fatal: Cannot bind any address.$'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5737
+  wazuh_level: 5

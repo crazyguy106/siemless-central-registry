@@ -1,0 +1,33 @@
+title: Potential System Tampering via File Modification
+id: 1a3f2a4c-12d0-4b88-961a-2711ee295637
+status: stable
+level: high
+description: 'Identifies attempts to delete or modify critical files used during the
+  boot process to prevent the system from booting.
+
+  This may indicate a destructive attack behavior.'
+author: Elastic (converted by SIEMLess)
+date: '2025-09-01'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_name|contains:
+    - winload.exe
+    - winlod.efi
+    - ntoskrnl.exe
+    - bootmgr
+    file_path|contains:
+    - ?:\\Windows\\*
+    - \\Device\\HarddiskVolume*\\Windows\\*
+    process_executable|contains:
+    - ?:\\Windows\\System32\\poqexec.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\poqexec.exe
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+- attack.t1490

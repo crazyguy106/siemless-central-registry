@@ -1,0 +1,22 @@
+title: 'Docker: Container renamed from $(docker.Actor.Attributes.oldName) to $(docker.Actor.Attributes.name)'
+id: 77af01d0-bd6f-5022-938a-1096509113e5
+status: stable
+level: low
+description: 'Docker: Container renamed from $(docker.Actor.Attributes.oldName) to $(docker.Actor.Attributes.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^rename$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87935
+  wazuh_level: 3

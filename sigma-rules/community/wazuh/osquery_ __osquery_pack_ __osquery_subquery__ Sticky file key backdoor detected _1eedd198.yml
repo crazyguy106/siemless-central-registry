@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Sticky file key backdoor detected for program $(osquery.columns.path)'
+id: 8198deb3-0221-54bf-9a2a-46a2559c7e11
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Sticky file key backdoor detected for program $(osquery.columns.path)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: StickyKeys_File_Replace_Backdoor
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24707
+  wazuh_level: 4

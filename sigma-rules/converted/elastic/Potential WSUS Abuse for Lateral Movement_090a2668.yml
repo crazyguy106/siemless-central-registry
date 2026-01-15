@@ -1,0 +1,30 @@
+title: Potential WSUS Abuse for Lateral Movement
+id: 8e2485b6-a74f-411b-bf7f-38b819f3a846
+status: stable
+level: medium
+description: 'Identifies a potential Windows Server Update Services (WSUS) abuse to
+  execute psexec to enable for lateral movement.
+
+  WSUS is limited to executing Microsoft signed binaries, which limits the executables
+  that can be used to tools published
+
+  by Microsoft.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-19'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_executable|contains:
+    - ?:\\Windows\\SoftwareDistribution\\Download\\Install\\*
+    - \\Device\\HarddiskVolume?\\Windows\\SoftwareDistribution\\Download\\Install\\*
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.t1210
+references:
+- https://www.thehacker.recipes/a-d/movement/mitm-and-coerced-authentications/wsus-spoofing

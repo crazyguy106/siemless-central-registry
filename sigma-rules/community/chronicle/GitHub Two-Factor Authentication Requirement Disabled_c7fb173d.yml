@@ -1,0 +1,25 @@
+title: GitHub Two-Factor Authentication Requirement Disabled
+id: de5560cf-48e6-570a-9524-56614dacfb9c
+status: experimental
+level: high
+description: |
+  Detects when two-factor authentication requirements are disabled for a GitHub enterprise or organization.
+author: Google Cloud Security
+logsource:
+  product: github
+  category: authentication
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type:
+      - business.disable_two_factor_requirement
+      - org.disable_two_factor_requirement
+  condition: selection
+tags:
+  - attack.t1562
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_43f096a4-42dc-4da7-a6aa-c81379f529c6
+  source_format: chronicle_yaral

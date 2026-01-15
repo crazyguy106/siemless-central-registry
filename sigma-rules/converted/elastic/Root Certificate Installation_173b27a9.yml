@@ -1,0 +1,35 @@
+title: Root Certificate Installation
+id: 6ded0996-7d4b-40f2-bf4a-6913e7591795
+status: stable
+level: medium
+description: 'This rule detects the installation of root certificates on a Linux system.
+  Adversaries may install a root certificate on
+
+  a compromised system to avoid warnings when connecting to their command and control
+  servers. Root certificates are used
+
+  in public key cryptography to identify a root certificate authority (CA). When a
+  root certificate is installed, the
+
+  system or application will trust certificates in the root''s chain of trust that
+  have been signed by the root
+
+  certificate.'
+author: Elastic (converted by SIEMLess)
+date: '2024-08-28'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_args: -e
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1553
+- attack.t1553.004
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1553.004/T1553.004.md

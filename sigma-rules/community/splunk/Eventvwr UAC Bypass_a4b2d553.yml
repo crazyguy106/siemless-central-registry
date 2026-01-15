@@ -1,0 +1,23 @@
+title: Eventvwr UAC Bypass
+id: ea019b18-102c-5dd8-9603-826fcbb93895
+status: stable
+level: high
+description: |
+  The following analytic detects an Eventvwr UAC bypass by identifying suspicious registry modifications in the path that Eventvwr.msc references upon execution. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on registry changes and process execution details. This activity is significant because it indicates a potential privilege escalation attempt, allowing an attacker to execute arbitrary commands with elevated privileges. If confirmed malicious, this c
+author: Steven Dick, Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*mscfile\\shell\\open\\command\\*'
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md
+  - https://attack.mitre.org/techniques/T1548/002/
+  - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+custom_attributes:
+  original_rule_id: 9cf8fe08-7ad8-11eb-9819-acde48001122
+  source_format: splunk_spl

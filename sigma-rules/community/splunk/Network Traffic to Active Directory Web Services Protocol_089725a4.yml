@@ -1,0 +1,26 @@
+title: Network Traffic to Active Directory Web Services Protocol
+id: 4801398a-80fc-51ab-85e2-6aaab0aa49ea
+status: stable
+level: low
+description: |
+  The following analytic identifies network traffic directed to the Active Directory Web Services Protocol (ADWS) on port 9389. It leverages network traffic logs, focusing on source and destination IP addresses, application names, and destination ports. This activity is significant as ADWS is used to manage Active Directory, and unauthorized access could indicate malicious intent. If confirmed malicious, an attacker could manipulate Active Directory, potentially leading to privilege escalation, un
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    datamodel: Network_Traffic
+    dest_port: 9389
+  condition: selection
+tags:
+  - attack.t1069.001
+  - attack.t1069.002
+  - attack.t1087.001
+  - attack.t1087.002
+  - attack.t1482
+references:
+  - https://github.com/FalconForceTeam/SOAPHound
+custom_attributes:
+  original_rule_id: 68a0056c-34cb-455f-b03d-df935ea62c4f
+  source_format: splunk_spl

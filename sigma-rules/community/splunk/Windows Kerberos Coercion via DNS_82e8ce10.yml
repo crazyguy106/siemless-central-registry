@@ -1,0 +1,37 @@
+title: Windows Kerberos Coercion via DNS
+id: 122a7996-d525-54a0-8130-d7b8e330773e
+status: stable
+level: high
+description: |
+  Detects DNS-based Kerberos coercion attacks where adversaries inject marshaled credential structures into DNS records to spoof SPNs and redirect authentication such as in CVE-2025-33073. This detection leverages Windows Security Event Codes 5136, 5137, 4662, looking for DNS events with specific CREDENTIAL_TARGET_INFORMATION entries.
+author: Raven Tait, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    eventcode:
+      - 5136
+      - 5137
+      - 4662
+    objectclass: dnsNode
+    objectdn:
+      - '*1UWhRCA*'
+      - '*AAAAA*'
+      - '*YBAAAA*'
+    additionalinfo:
+      - '*1UWhRCA*'
+      - '*AAAAA*'
+      - '*YBAAAA*'
+  condition: selection
+tags:
+  - attack.t1071.004
+  - attack.t1557.001
+  - attack.t1187
+references:
+  - https://web.archive.org/web/20250617122747/https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025
+  - https://www.synacktiv.com/publications/relaying-kerberos-over-smb-using-krbrelayx
+  - https://www.guidepointsecurity.com/blog/the-birth-and-death-of-loopyticket/
+custom_attributes:
+  original_rule_id: 9029b575-6f6b-4ab1-b660-67b24b7e9c3d
+  source_format: splunk_spl

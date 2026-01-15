@@ -1,0 +1,27 @@
+title: Windows Multiple Users Failed To Authenticate Using Kerberos
+id: 5e122f4a-e528-5b61-a73e-9fd726457587
+status: stable
+level: high
+description: |
+  The following analytic identifies a single source endpoint failing to authenticate with 30 unique users using the Kerberos protocol. It leverages EventCode 4771 with Status 0x18, indicating wrong password attempts, and aggregates these events over a 5-minute window. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges in an Active Directory environment. If confirmed malicious, this activity could lead
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 4771
+    status: 0x18
+    span: 5m
+  filter:
+    targetusername: '*$'
+  condition: selection and not filter
+tags:
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319109(v=ws.11)
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771
+custom_attributes:
+  original_rule_id: 3a91a212-98a9-11eb-b86a-acde48001122
+  source_format: splunk_spl

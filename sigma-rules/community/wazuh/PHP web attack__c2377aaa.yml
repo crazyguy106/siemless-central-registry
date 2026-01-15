@@ -1,0 +1,24 @@
+title: PHP web attack.
+id: dd41f671-c0dd-5ebd-b054-3a429ec8af0d
+status: stable
+level: medium
+description: PHP web attack.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'expects parameter 1 to be string, array given in'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31410
+tags:
+  - attack.t1102
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31411
+  wazuh_level: 6

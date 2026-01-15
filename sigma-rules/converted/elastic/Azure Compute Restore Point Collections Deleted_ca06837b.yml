@@ -1,0 +1,40 @@
+title: Azure Compute Restore Point Collections Deleted
+id: d8f4e3b0-8a1b-11ef-9b4a-f661ea17fbce
+status: stable
+level: high
+description: 'Identifies multiple Azure Restore Point Collections being deleted by
+  a single user within a short time period. Restore
+
+  Point Collections contain recovery points for virtual machines, enabling point-in-time
+  recovery capabilities. Mass
+
+  deletion of these collections is a common tactic used by adversaries during ransomware
+  attacks to prevent victim
+
+  recovery or to maximize impact during destructive operations. Multiple deletions
+  in rapid succession may indicate
+
+  malicious intent.'
+author: Elastic (converted by SIEMLess)
+date: '2025-10-13'
+modified: '2025-10-13'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    event_action: MICROSOFT.COMPUTE/RESTOREPOINTCOLLECTIONS/DELETE
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1490
+references:
+- https://www.microsoft.com/en-us/security/blog/2023/07/25/storm-0501-ransomware-attacks-expanding-to-hybrid-cloud-environments/
+falsepositives:
+- "    Planned decommissioning activities or large-scale infrastructure changes may\
+  \ result in legitimate bulk deletion of\n    Restore Point Collections. Verify with\
+  \ the user and change management processes whether these deletions are\n    authorized.\
+  \ Large-scale migration or cleanup projects should be coordinated and documented\
+  \ to avoid false positives.\n    "

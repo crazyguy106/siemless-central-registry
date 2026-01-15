@@ -1,0 +1,68 @@
+title: Suspicious Service was Installed in the System
+id: da87eee1-129c-4661-a7aa-57d0b9645fad
+status: stable
+level: medium
+description: 'Identifies the creation of a new Windows service with suspicious Service
+  command values. Windows services typically run
+
+  as SYSTEM and can be used for privilege escalation and persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-30'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    winlog_event_data_ServiceFileName|contains:
+    - '*COMSPEC*'
+    - '*\\127.0.0.1*'
+    - '*Admin$*'
+    - '*powershell*'
+    - '*rundll32*'
+    - '*cmd.exe*'
+    - '*PSEXESVC*'
+    - '*echo*'
+    - '*RemComSvc*'
+    - '*.bat*'
+    - '*.cmd*'
+    - '*certutil*'
+    - '*vssadmin*'
+    - '*certmgr*'
+    - '*bitsadmin*'
+    - '*\\Users\\*'
+    - '*\\Windows\\Temp\\*'
+    - '*\\Windows\\Tasks\\*'
+    - '*\\PerfLogs\\*'
+    - '*\\Windows\\Debug\\*'
+    - '*regsvr32*'
+    - '*msbuild*'
+    winlog_event_data_ImagePath|contains:
+    - '*COMSPEC*'
+    - '*\\127.0.0.1*'
+    - '*Admin$*'
+    - '*powershell*'
+    - '*rundll32*'
+    - '*cmd.exe*'
+    - '*PSEXESVC*'
+    - '*echo*'
+    - '*RemComSvc*'
+    - '*.bat*'
+    - '*.cmd*'
+    - '*certutil*'
+    - '*vssadmin*'
+    - '*certmgr*'
+    - '*bitsadmin*'
+    - '*\\Users\\*'
+    - '*\\Windows\\Temp\\*'
+    - '*\\Windows\\Tasks\\*'
+    - '*\\PerfLogs\\*'
+    - '*\\Windows\\Debug\\*'
+    - '*regsvr32*'
+    - '*msbuild*'
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1543.003
+- attack.t1543

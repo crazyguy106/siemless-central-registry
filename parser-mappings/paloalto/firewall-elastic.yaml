@@ -1,0 +1,41 @@
+vendor: paloalto
+product: firewall
+siem_type: elastic
+parser_name: Paloalto Firewall - ELASTIC
+parser_description: ''
+parser_language: logstash
+parser_version: 1.0.0
+last_updated: '2026-01-08'
+source: siemless_v3_database
+metadata:
+  log_type: firewall
+  entity_types: []
+  relationship_types: []
+  confidence: 0.95
+  field_coverage_percent: 0
+  test_pass_rate: 0.0
+  ai_model_used: null
+  ai_cost_usd: 0.0
+  generation_time_seconds: 2
+  created_at: '2026-01-03T11:15:12.666054'
+deployment:
+  instructions: "# Deployment Instructions for Logstash\n\n1. Save this filter to:\
+    \ /etc/logstash/conf.d/paloalto_firewall.conf\n\n2. Test the configuration:\n\
+    \   sudo /usr/share/logstash/bin/logstash --config.test_and_exit -f /etc/logstash/conf.d/paloalto_firewall.conf\n\
+    \n3. Restart Logstash:\n   sudo systemctl restart logstash\n\n4. Verify in Kibana:\n\
+    \   - Navigate to Discover\n   - Search for: vendor:\"paloalto\" AND product:\"\
+    firewall\"\n   - Verify fields are parsed correctly\n\n5. Monitor Logstash logs:\n\
+    \   sudo tail -f /var/log/logstash/logstash-plain.log\n"
+  test_queries:
+  - '# Test Case 1: Send sample log to Logstash'
+  - echo '<sample_log>' | nc localhost 5000
+  - ''
+  - '# Test Case 2: Verify in Elasticsearch'
+  - curl -X GET 'localhost:9200/_search?q=vendor:paloalto'
+  sample_logs:
+  - type: TRAFFIC
+    action: allow
+    dest_ip: 10.0.0.5
+    source_ip: 192.168.1.10
+field_mappings: []
+field_count: 0

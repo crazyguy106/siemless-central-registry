@@ -1,0 +1,24 @@
+title: 'proftpd: Multiple failed login attempts.'
+id: 49505ef9-759b-5c21-9723-b235c4810596
+status: stable
+level: high
+description: 'proftpd: Multiple failed login attempts.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Maximum login attempts
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11210
+  wazuh_level: 10

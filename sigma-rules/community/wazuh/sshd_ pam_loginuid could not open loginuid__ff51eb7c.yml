@@ -1,0 +1,22 @@
+title: 'sshd: pam_loginuid could not open loginuid.'
+id: 0f74504e-9263-5ff1-bb67-48dcbd3b7aa8
+status: stable
+level: low
+description: 'sshd: pam_loginuid could not open loginuid.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: set_loginuid failed opening loginuid$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5738
+  wazuh_level: 5

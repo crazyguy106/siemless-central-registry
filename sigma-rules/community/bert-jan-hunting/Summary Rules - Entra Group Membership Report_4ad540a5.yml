@@ -1,0 +1,24 @@
+title: Summary Rules - Entra Group Membership Report
+id: 14b33e9a-51d6-4d1f-9f87-d50537fbce52
+status: experimental
+level: medium
+description: |
+  This summary rule focusses on the group memberships of users. The results of the summary rule can again be used to get insights into specific users, to for example see if their memberships increase or decrease overtime. These results can also serve as input for reporting on group memberships
+
+**Recommended Schedule:** 24 hours.
+
+**Recommended Delay:** 60 minutes.
+author: Bert-JanP
+logsource:
+  product: azure_sentinel
+  service: kql
+detection:
+  _kql_query: |
+    IdentityInfo
+| summarize arg_max(TimeGenerated, *) by AccountObjectId
+| mv-expand GroupMembership
+| summarize TotalMemberships = dcount(tostring(GroupMembership)), MemberOf = make_set(tostring(GroupMembership), 1000) by AccountObjectId, AccountDisplayName, AccountUPN
+| extend ReportDate = now()
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

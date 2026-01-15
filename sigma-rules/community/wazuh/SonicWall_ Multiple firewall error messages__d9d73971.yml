@@ -1,0 +1,36 @@
+title: 'SonicWall: Multiple firewall error messages.'
+id: 1ffa7ed9-c00c-57de-b82f-2213b6f5cd4b
+status: stable
+level: high
+description: 'SonicWall: Multiple firewall error messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-4803
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4851
+  wazuh_level: 10

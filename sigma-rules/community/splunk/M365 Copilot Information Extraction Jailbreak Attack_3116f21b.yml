@@ -1,0 +1,42 @@
+title: M365 Copilot Information Extraction Jailbreak Attack
+id: 5af0948c-3a77-5988-9bed-f529572e9fcb
+status: experimental
+level: high
+description: |
+  Detects M365 Copilot information extraction jailbreak attacks that attempt to obtain sensitive, classified, or comprehensive data through various social engineering techniques including fictional entity impersonation, bulk data requests, and privacy bypass attempts. The detection searches exported eDiscovery prompt logs for extraction keywords like "transcendent," "tell me everything," "confidential," "dump," "extract," "reveal," and "bypass" in the Subject_Title field, categorizing each attempt
+author: Rod Soto
+logsource:
+  product: splunk
+detection:
+  selection:
+    subject_title:
+      - '*transcendent*'
+      - '*incorporeal*'
+      - '*being who*'
+      - '*tell me everything*'
+      - '*give me all*'
+      - '*comprehensive*'
+      - '*step by step*'
+      - '*hidden*'
+      - '*secret*'
+      - '*confidential*'
+      - '*classified*'
+      - '*internal*'
+      - '*sensitive*'
+      - '*proprietary*'
+      - '*dump*'
+      - '*extract*'
+      - '*reveal*'
+      - '*disclose*'
+      - '*leak*'
+    user: Sender
+  filter:
+    severity: LOW
+  condition: selection and not filter
+tags:
+  - attack.t1562
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+custom_attributes:
+  original_rule_id: c0ee37bb-ed43-4632-8e38-060fba80b0b2
+  source_format: splunk_spl

@@ -1,0 +1,23 @@
+title: Kerberos TGT Request Using RC4 Encryption
+id: fe5da983-5773-5c0b-b89d-cb052e3d067e
+status: stable
+level: high
+description: |
+  The following analytic detects a Kerberos Ticket Granting Ticket (TGT) request using RC4-HMAC encryption (type 0x17) by leveraging Event 4768. This encryption type is outdated and its presence may indicate an OverPass The Hash attack. Monitoring this activity is crucial as it can signify credential theft, allowing adversaries to authenticate to the Kerberos Distribution Center (KDC) using a stolen NTLM hash. If confirmed malicious, this could enable unauthorized access to systems and resources, 
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4768
+    ticketencryptiontype: 0x17
+  condition: selection
+tags:
+  - attack.t1550
+references:
+  - https://stealthbits.com/blog/how-to-detect-overpass-the-hash-attacks/
+  - https://www.thehacker.recipes/ad/movement/kerberos/ptk
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4768
+custom_attributes:
+  original_rule_id: 18916468-9c04-11ec-bdc6-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,28 @@
+title: Windows Remote Service Rdpwinst Tool Execution
+id: 3754105e-655c-5f94-bf2b-9ef694e6d7e9
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the RDPWInst.exe tool, which is an RDP wrapper library used to enable remote desktop host support and concurrent RDP sessions. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, original file names, and specific command-line arguments. This activity is significant because adversaries can abuse this tool to establish unauthorized RDP connections, facilitating remote access and potential latera
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name: RDPWInst.exe
+    original_file_name: RDPWInst.exe
+    process:
+      - '* -i*'
+      - '* -s*'
+      - '* -o*'
+      - '* -w*'
+      - '* -r*'
+  condition: selection
+tags:
+  - attack.t1021.001
+references:
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+custom_attributes:
+  original_rule_id: c8127f87-c7c9-4036-89ed-8fe4b30e678c
+  source_format: splunk_spl

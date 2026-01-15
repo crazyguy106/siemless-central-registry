@@ -1,0 +1,18 @@
+title: Smoke Sandstorm - SnailResin and SlugResin Infection Detection
+id: 3a2587b6-1250-4b39-9761-c14b5c69c891
+status: experimental
+level: medium
+description: |
+  SlugResin infection involves the use of a legitimate file to load a malicious binary through DLL search order hijacking, delivering the SlugResin backdoor onto the target's device. This backdoor grants the actor access to the compromised device, potentially leading to further malicious activities like malware deployment, credential theft, privilege escalation, and lateral movement. The infection involves a two-stage process with the SnailResin loader and SlugResin backdoor, both associated with the Smoke Sandstorm threat group. The infection chain includes the use of a zip file ("bringthemhome.zip") containing malicious DLL files and a benign executable, which leads to the execution of the backdoor and establishment of a command-and-control connection.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceImageLoadEvents
+| where FileName == 'CoreUIComponent.dll'
+| where not(FolderPath has_any (@"\Windows\System32", @"\Windows\SysWOW64", @"\winsxs\", @"\program files"))
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

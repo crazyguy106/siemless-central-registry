@@ -1,0 +1,19 @@
+title: High count of connections by client IP on many ports
+id: a8876251-86ed-5dac-95b5-d940707b95a2
+status: stable
+level: medium
+description: |
+  'Identifies when 30 or more ports are used for a given client IP in 10 minutes occurring on the IIS server. This could be indicative of attempted port scanning or exploit attempt at internet facing web applications. This could also simply indicate a misconfigured service or device. References: IIS status code mapping - https://support.microsoft.com/help/943891/the-http-status-code-in-iis-7-0-iis-7-5-and-iis-8-0 Win32 Status code mapping - https://msdn.microsoft.com/library/cc231199.aspx'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: network_connection
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1190
+custom_attributes:
+  original_rule_id: 44a555d8-ecee-4a25-95ce-055879b4b14b
+  source_format: azure_kql

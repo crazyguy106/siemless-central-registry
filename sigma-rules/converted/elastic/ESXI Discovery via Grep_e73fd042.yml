@@ -1,0 +1,32 @@
+title: ESXI Discovery via Grep
+id: 2b662e21-dc6e-461e-b5cf-a6eb9b235ec4
+status: stable
+level: medium
+description: 'Identifies instances where a process named ''grep'', ''egrep'', or ''pgrep''
+  is started on a Linux system with arguments
+
+  related to virtual machine (VM) files, such as "vmdk", "vmx", "vmxf", "vmsd", "vmsn",
+  "vswp", "vmss", "nvram", or
+
+  "vmem". These file extensions are associated with VM-related file formats, and their
+  presence in grep command arguments
+
+  may indicate that a threat actor is attempting to search for, analyze, or manipulate
+  VM files on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-04-11'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_parent_executable: /usr/share/qemu/init/qemu-kvm-init
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1518
+references:
+- https://www.bleepingcomputer.com/news/security/massive-esxiargs-ransomware-attack-targets-vmware-esxi-servers-worldwide/

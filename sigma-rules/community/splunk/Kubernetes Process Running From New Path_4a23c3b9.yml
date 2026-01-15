@@ -1,0 +1,24 @@
+title: Kubernetes Process Running From New Path
+id: 69b39937-3ff6-5ced-9778-1de082998fb8
+status: experimental
+level: medium
+description: |
+  The following analytic identifies processes running from newly seen paths within a Kubernetes environment. It leverages process metrics collected via an OTEL collector and hostmetrics receiver, and data is pulled from Splunk Observability Cloud using the Splunk Infrastructure Monitoring Add-on. This detection compares processes observed in the last hour with those seen over the previous 30 days. This activity is significant as it may indicate unauthorized changes, compromised nodes, or the intro
+author: Matthew Moore, Splunk
+logsource:
+  product: kubernetes
+  category: process_creation
+detection:
+  selection:
+    current:
+      - 'True'
+      - 'True'
+    count: 1
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart
+custom_attributes:
+  original_rule_id: 454076fb-0e9e-4adf-b93a-da132621c5e6
+  source_format: splunk_spl

@@ -1,0 +1,25 @@
+title: Azure AD Concurrent Sessions From Different Ips
+id: 8922b74a-bc02-579f-bdb2-da17d81da659
+status: stable
+level: high
+description: |
+  The following analytic detects an Azure AD account with concurrent sessions originating from multiple unique IP addresses within a 5-minute window. It leverages Azure Active Directory NonInteractiveUserSignInLogs to identify this behavior by analyzing successful authentication events and counting distinct source IPs. This activity is significant as it may indicate session hijacking, where an attacker uses stolen session cookies to access corporate resources from a different location. If confirme
+author: Mauricio Velazco, Bhavin Patel, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    succeeded: 'true'
+    category: NonInteractiveUserSignInLogs
+    action: success
+    span: 5m
+  condition: selection
+tags:
+  - attack.t1185
+references:
+  - https://attack.mitre.org/techniques/T1185/
+  - https://breakdev.org/evilginx-2-next-generation-of-phishing-2fa-tokens/
+  - https://github.com/kgretzky/evilginx2
+custom_attributes:
+  original_rule_id: a9126f73-9a9b-493d-96ec-0dd06695490d
+  source_format: splunk_spl

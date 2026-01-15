@@ -1,0 +1,26 @@
+title: Microsoft Intune Device Health Scripts
+id: 9551d5b2-727a-5382-a084-293c6311d9de
+status: stable
+level: low
+description: |
+  Microsoft Intune device remediation scripts are a tool administrators can use to remotely manage devices, this functionality can also be abused for SYSTEM level code execution and lateral movement to intune managed devices.  This detection identifies when a new device health script has been added, updated or deleted.
+author: Dean Luxton
+logsource:
+  product: splunk
+detection:
+  selection:
+    operationname: '*DeviceHealthScript*'
+    field: operationName
+  condition: selection
+tags:
+  - attack.t1072
+  - attack.t1021.007
+  - attack.t1202
+  - attack.t1105
+references:
+  - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
+  - https://securityintelligence.com/x-force/detecting-intune-lateral-movement/
+  - https://posts.specterops.io/maestro-9ed71d38d546
+custom_attributes:
+  original_rule_id: 6fe42e07-15b1-4caa-b547-7885666cb1bd
+  source_format: splunk_spl

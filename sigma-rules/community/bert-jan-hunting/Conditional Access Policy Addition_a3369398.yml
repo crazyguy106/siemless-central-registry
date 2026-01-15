@@ -1,0 +1,19 @@
+title: Conditional Access Policy Addition
+id: 147e188a-748f-424a-895e-828fc201e6fb
+status: experimental
+level: medium
+description: |
+  This KQL query lists all conditional access policies that have been added.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AuditLogs
+| where OperationName == "Add conditional access policy"
+| extend DeletedPolicy = TargetResources.[0].displayName, Actor = InitiatedBy.user.userPrincipalName
+| project TimeGenerated, Actor, DeletedPolicy, TargetResources
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

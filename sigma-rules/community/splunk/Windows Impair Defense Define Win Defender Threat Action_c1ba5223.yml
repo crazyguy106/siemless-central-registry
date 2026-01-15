@@ -1,0 +1,24 @@
+title: Windows Impair Defense Define Win Defender Threat Action
+id: c3ee1ca9-15a6-5c85-8a5d-98c0554f9a39
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows Defender ThreatSeverityDefaultAction registry setting. It leverages data from the Endpoint.Registry datamodel to identify changes in registry values that define how Windows Defender responds to threats. This activity is significant because altering these settings can impair the system's defense mechanisms, potentially allowing threats to go unaddressed. If confirmed malicious, this could enable attackers to bypass antivirus protections,
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Windows Defender\\Threats\\ThreatSeverityDefaultAction*'
+    registry_value_data:
+      - 0x00000001
+      - 9
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://x.com/malmoeb/status/1742604217989415386?s=20
+  - https://github.com/undergroundwires/privacy.sexy
+custom_attributes:
+  original_rule_id: 7215831c-8252-4ae3-8d43-db588e82f952
+  source_format: splunk_spl

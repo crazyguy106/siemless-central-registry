@@ -1,0 +1,23 @@
+title: Okta User Login Out Of Hours
+id: 0af7ca59-176e-594c-b6bb-4d9bdd0cd4a2
+status: experimental
+level: low
+description: Detects out of hours successful authentication.
+author: Google Cloud Security
+logsource:
+  product: okta
+  category: authentication
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_event_type: USER_LOGIN
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1078
+references:
+  - https://support.okta.com/help/s/article/User-Signin-and-Recovery-Events-in-the-Okta-System-Log
+custom_attributes:
+  original_rule_id: mr_36840037-a41c-47d0-b0eb-4096f28855e1
+  source_format: chronicle_yaral

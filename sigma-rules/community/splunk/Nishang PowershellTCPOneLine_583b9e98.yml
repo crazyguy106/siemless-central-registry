@@ -1,0 +1,23 @@
+title: Nishang PowershellTCPOneLine
+id: 567ba804-1ec3-5f9f-a273-88ddf96cd943
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the Nishang Invoke-PowerShellTCPOneLine utility, which initiates a callback to a remote Command and Control (C2) server. It leverages Endpoint Detection and Response (EDR) data, focusing on PowerShell processes that include specific .NET classes like Net.Sockets.TCPClient and System.Text.ASCIIEncoding. This activity is significant as it indicates potential remote control or data exfiltration attempts by an attacker. If confirmed malicious, this could lea
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1059.001
+references:
+  - https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcpOneLine.ps1
+  - https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/
+  - https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
+  - https://www.rapid7.com/blog/post/2021/03/03/rapid7s-insightidr-enables-detection-and-response-to-microsoft-exchange-0-day/
+custom_attributes:
+  original_rule_id: 1a382c6c-7c2e-11eb-ac69-acde48001122
+  source_format: splunk_spl

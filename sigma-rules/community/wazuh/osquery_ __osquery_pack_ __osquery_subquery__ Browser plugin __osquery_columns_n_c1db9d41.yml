@@ -1,0 +1,23 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Browser plugin $(osquery.columns.name) is enabled'
+id: cfec013f-65aa-53f3-b2ae-d3b194815d67
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Browser plugin $(osquery.columns.name) is enabled'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: browser_plugins
+    osquery.columns.disabled: 0
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24113
+  wazuh_level: 4

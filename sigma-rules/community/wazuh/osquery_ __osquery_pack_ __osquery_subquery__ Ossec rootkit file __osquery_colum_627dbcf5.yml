@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Ossec rootkit file $(osquery.columns.path) detected'
+id: 5daf2e08-bf39-584f-a030-14bc4c839c14
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Ossec rootkit file $(osquery.columns.path) detected'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.pack: ^ossec-rootkit$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24010
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24500
+  wazuh_level: 4

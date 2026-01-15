@@ -1,0 +1,24 @@
+title: Microsoft Teams Emoji Reactions
+id: 969253e7-4ecd-4b13-938b-12b62daa4e6a
+status: experimental
+level: medium
+description: |
+  This query lists the statistics of the Emoji reactions that have been send via Microsoft Teams
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where Application == "Microsoft Teams"
+| where ActionType == "ReactedToMessage"
+| extend Emoji = tostring(RawEventData.MessageReactionType)
+| where isnotempty(Emoji)
+| summarize TotalUsage = count() by Emoji
+| sort by TotalUsage
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

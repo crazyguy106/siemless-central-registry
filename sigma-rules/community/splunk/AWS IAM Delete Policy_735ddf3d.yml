@@ -1,0 +1,22 @@
+title: AWS IAM Delete Policy
+id: c3bbbd72-a993-5895-89b1-18d1fe1aaa5b
+status: stable
+level: low
+description: |
+  The following analytic detects the deletion of an IAM policy in AWS. It leverages AWS CloudTrail logs to identify `DeletePolicy` events, excluding those from AWS internal services. This activity is significant as unauthorized policy deletions can disrupt access controls and weaken security postures. If confirmed malicious, an attacker could remove critical security policies, potentially leading to privilege escalation, unauthorized access, or data exfiltration. Monitoring this behavior helps ens
+author: Michael Haag, Splunk
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    eventname: DeletePolicy
+  condition: selection
+tags:
+  - attack.t1098
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html
+  - https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
+custom_attributes:
+  original_rule_id: ec3a9362-92fe-11eb-99d0-acde48001122
+  source_format: splunk_spl

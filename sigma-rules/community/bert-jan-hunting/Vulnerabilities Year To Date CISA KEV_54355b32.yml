@@ -1,0 +1,24 @@
+title: Vulnerabilities Year To Date CISA KEV
+id: b06add49-e303-43d8-b760-2c361257b668
+status: experimental
+level: medium
+description: |
+  This query uses the CISA Known Exploited Vulnerabilities Catalog to list the vulnerabilities year to date by vendor. This can be used to analyze how many vulnerabilities have been added for each vendor and their products.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let KnowExploitesVulnsCISA = externaldata(CVEId: string, Vendor: 
+    string, Product: string, VulnerabilityName: string, DateAdded: datetime, 
+    Description: string, RequiredAction: string, DueDate: datetime, 
+    Notes: string)
+    [@"https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"] 
+    with (format="csv", ignoreFirstRecord=True);
+KnowExploitesVulnsCISA
+| where DateAdded between (startofyear(now()) .. startofweek(endofyear(now())))
+| summarize Total = dcount(CVEId) by Vendor
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

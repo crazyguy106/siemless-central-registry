@@ -1,0 +1,25 @@
+title: O365 Entra ID App Permissions Threshold Exceeded
+id: 2c36b55b-7f05-50a5-84fe-485feb4854c5
+status: experimental
+level: medium
+description: |
+  Detects when an excessive number of permissions are assigned to an Entra ID application within a time window, potentially indicating a greedy permission grab, as a numeric value comparing old permissions to new permissions
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_CONTENT
+    metadata_product_name: Office 365
+    metadata_product_event_type: Update application.
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+    target_resource_attribute_labels_key:
+      - OldValue_EntitlementId-
+      - NewValue_EntitlementId-
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/graph/permissions-reference
+custom_attributes:
+  original_rule_id: mr_8d1bb5a8-94cf-437c-9754-6046b4ca3549
+  source_format: chronicle_yaral

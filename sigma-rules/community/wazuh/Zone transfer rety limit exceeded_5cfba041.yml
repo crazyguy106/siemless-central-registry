@@ -1,0 +1,22 @@
+title: Zone transfer rety limit exceeded
+id: 570346e8-6471-5f15-b321-341d86fa4b98
+status: stable
+level: informational
+description: Zone transfer rety limit exceeded
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: 'refresh: retry limit for master \S+ exceeded'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12117
+  wazuh_level: 1

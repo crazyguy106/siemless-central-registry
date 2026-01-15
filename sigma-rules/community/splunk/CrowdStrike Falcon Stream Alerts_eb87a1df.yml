@@ -1,0 +1,48 @@
+title: CrowdStrike Falcon Stream Alerts
+id: ea85cd80-0c8a-5840-9e85-d5fa417b73a2
+status: stable
+level: medium
+description: |
+  The following analytic is to leverage alerts from CrowdStrike Falcon Event Stream. This query aggregates and summarizes DetectionSummaryEvent and IdpDetectionSummaryEvent alerts from CrowdStrike Falcon Event Stream, providing details such as destination, user, severity, MITRE information, and Crowdstrike id and links. The evals in the search do multiple things to include align the severity, ensure the user, dest, title, description, MITRE fields are set properly, and the drilldowns are defined b
+author: Bryan Pluta, Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    severity:
+      - Critical
+      - High
+      - Medium
+      - Low
+      - Informational
+    sourceaccountname: ' + $SourceAccountName$),'
+    username: ' + $UserName$ ),'
+    sourceendpointhostname: ' + $SourceEndpointHostName$ +'
+    computername: ' + $ComputerName$ +'
+    dest:
+      - ' + $SourceEndpointHostName$ +'
+      - ' + $ComputerName$ +'
+    eventtype:
+      - DetectionSummaryEvent
+      - IdpDetectionSummaryEvent
+    templateinstanceid: ' + IOARuleInstanceID + '
+    ip: NetworkAccesses{}.RemoteAddress
+    type: left
+    append: t
+    mitre_attack: mitre_technique_id
+    description: description
+    pid: ProcessId
+    event_simplename:
+      - CustomIOABasicProcessDetectionInfoEvent
+      - CustomIOADomainNameDetectionInfoEvent
+      - CustomIOAFileWrittenDetectionInfoEvent
+      - CustomIOANetworkConnectionDetectionInfoEvent
+  filter:
+    tactic: Custom Intelligence
+  condition: selection and not filter
+references:
+  - https://www.crowdstrike.com/en-us/resources/guides/crowdstrike-falcon-event-streams-add-on-for-splunk-guide-v3/
+  - https://splunkbase.splunk.com/app/5082
+custom_attributes:
+  original_rule_id: cb6af2b3-29ab-441c-8d8d-679811c8b014
+  source_format: splunk_spl

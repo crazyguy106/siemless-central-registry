@@ -1,0 +1,42 @@
+title: Proxy Execution via Console Window Host
+id: fcd16fe8-eb29-42b3-8aee-6c9ad777a2f6
+status: stable
+level: high
+description: 'Identifies abuse of the Console Window Host (conhost.exe) to execute
+  commands via proxy. This behavior is used as a defense
+
+  evasion technique to blend-in malicious activity with legitimate Windows software.'
+author: Elastic (converted by SIEMLess)
+date: '2025-08-21'
+modified: '2025-08-21'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_command_line|contains:
+    - '*powershell*'
+    - '*cmd *'
+    - '*cmd.exe *'
+    - '*script*'
+    - '*mshta*'
+    - '*curl *'
+    - '*curl.exe *'
+    - '*^*^*^*'
+    - '*.bat*'
+    - '*.cmd*'
+    - '*schtasks*'
+    - '*@SSL*'
+    - '*http*'
+    - '* \\\\*'
+    - '*.vbs*'
+    - '*.js*'
+    - '*mhsta*'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1202
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Conhost/

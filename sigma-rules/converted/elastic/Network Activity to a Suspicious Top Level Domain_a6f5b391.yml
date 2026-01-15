@@ -1,0 +1,51 @@
+title: Network Activity to a Suspicious Top Level Domain
+id: e516bf56-d51b-43e8-91ec-9e276331f433
+status: stable
+level: high
+description: 'Identifies DNS queries to commonly abused Top Level Domains by common
+  LOLBINs or executable running from world writable
+
+  directories or unsigned binaries. This behavior matches on common malware C2 abusing
+  less formal domain names.'
+author: Elastic (converted by SIEMLess)
+date: '2025-08-20'
+modified: '2025-09-18'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    host_os_type: windows
+    process_name|contains:
+    - MSBuild.exe
+    - mshta.exe
+    - wscript.exe
+    - powershell.exe
+    - pwsh.exe
+    - msiexec.exe
+    - rundll32.exe
+    - bitsadmin.exe
+    - InstallUtil.exe
+    - python.exe
+    - regsvr32.exe
+    - dllhost.exe
+    - node.exe
+    - java.exe
+    - javaw.exe
+    - '*.pif'
+    - '*.com'
+    - '*.scr'
+    process_code_signature_subject_name|contains:
+    - AutoIt Consulting Ltd
+    - OpenJS Foundation
+    - Python Software Foundation
+    process_executable|contains:
+    - ?:\\Users\\*.exe
+    - ?:\\ProgramData\\*.exe
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1071.004
+- attack.t1071
+references:
+- https://www.cybercrimeinfocenter.org/top-20-tlds-by-malicious-phishing-domains

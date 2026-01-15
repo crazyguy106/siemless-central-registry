@@ -1,0 +1,25 @@
+title: Windows DnsAdmins New Member Added
+id: cddfec2e-422d-5e91-8cda-18eed939faa4
+status: stable
+level: high
+description: |
+  The following analytic detects the addition of a new member to the DnsAdmins group in Active Directory by leveraging Event ID 4732. This detection uses security event logs to identify changes to this high-privilege group. Monitoring this activity is crucial because members of the DnsAdmins group can manage the DNS service, often running on Domain Controllers, and potentially execute malicious code with SYSTEM privileges. If confirmed malicious, this activity could allow an attacker to escalate p
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    eventcode: 4732
+    targetusername: DnsAdmins
+  condition: selection
+tags:
+  - attack.t1098
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise
+  - https://www.hackingarticles.in/windows-privilege-escalation-dnsadmins-to-domainadmin/
+  - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732
+custom_attributes:
+  original_rule_id: 27e600aa-77f8-4614-bc80-2662a67e2f48
+  source_format: splunk_spl

@@ -1,0 +1,88 @@
+title: Connection to Common Large Language Model Endpoints
+id: 4ae94fc1-f08f-419f-b692-053d28219380
+status: stable
+level: medium
+description: 'Identifies DNS queries to known Large Language Model domains by unsigned
+  binaries or common Windows scripting utilities.
+
+  Malwares may leverage the capabilities of LLM to perform actions in the affected
+  system in a dynamic way.'
+author: Elastic (converted by SIEMLess)
+date: '2025-09-01'
+modified: '2025-09-05'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    host_os_type: windows
+    process_name|contains:
+    - MSBuild.exe
+    - mshta.exe
+    - wscript.exe
+    - powershell.exe
+    - pwsh.exe
+    - msiexec.exe
+    - rundll32.exe
+    - bitsadmin.exe
+    - InstallUtil.exe
+    - RegAsm.exe
+    - vbc.exe
+    - RegSvcs.exe
+    - python.exe
+    - regsvr32.exe
+    - dllhost.exe
+    - node.exe
+    - javaw.exe
+    - java.exe
+    - '*.pif'
+    - '*.com'
+    process_code_signature_subject_name|contains:
+    - Anthropic, PBC
+    - Google LLC
+    - Mozilla Corporation
+    - Brave Software, Inc.
+    - Island Technology Inc.
+    - Opera Norway AS
+    process_executable|contains: ?:\\Program Files\\*.exe
+    dns_question_name|contains:
+    - api.openai.com
+    - '*.openai.azure.com'
+    - api.anthropic.com
+    - api.mistral.ai
+    - api.cohere.ai
+    - api.ai21.com
+    - api.groq.com
+    - api.perplexity.ai
+    - api.x.ai
+    - api.deepseek.com
+    - api.gemini.google.com
+    - generativelanguage.googleapis.com
+    - api.azure.com
+    - api.bedrock.aws
+    - bedrock-runtime.amazonaws.com
+    - api-inference.huggingface.co
+    - inference-endpoint.huggingface.cloud
+    - '*.hf.space'
+    - '*.replicate.com'
+    - api.replicate.com
+    - api.runpod.ai
+    - '*.runpod.io'
+    - api.modal.com
+    - '*.forefront.ai'
+    - chat.openai.com
+    - chatgpt.com
+    - copilot.microsoft.com
+    - bard.google.com
+    - gemini.google.com
+    - claude.ai
+    - perplexity.ai
+    - poe.com
+    - chat.forefront.ai
+    - chat.deepseek.com
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1102
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/py.lamehug

@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): USB device from vendor $(osquery.columns.vendor) is attached to port $(osquery.columns.usb_port)'
+id: 13ac5dcd-9bd6-5648-8d83-c2ed974239cc
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): USB device from vendor $(osquery.columns.vendor) is attached to port $(osquery.columns.usb_port)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: usb_devices
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24122
+  wazuh_level: 4

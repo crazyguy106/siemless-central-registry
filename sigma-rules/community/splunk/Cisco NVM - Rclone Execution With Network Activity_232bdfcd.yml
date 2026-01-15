@@ -1,0 +1,29 @@
+title: Cisco NVM - Rclone Execution With Network Activity
+id: 3d3bb92b-5ab4-5504-a03b-b46a898eb9fc
+status: stable
+level: medium
+description: |
+  This detection identifies execution of the file synchronization utility "rclone". It leverages Cisco Network Visibility Module logs, specifically flow data in order to capture process executions initiating network connections. While rclone is a legitimate command-line tool for syncing data to cloud storage providers, it has been widely abused by threat actors for data exfiltration. This analytic inspects process name and arguments for rclone and flags usage of suspicious flags. If matched, this 
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process_name: rclone.exe
+    process_arguments:
+      - '*remote:*'
+      - '*mega:*'
+      - '*ftp:*'
+      - '*ftp1:*'
+  condition: selection
+tags:
+  - attack.t1567.002
+references:
+  - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+  - https://thedfirreport.com/2021/10/04/bazarloader-and-the-conti-leaks/
+  - https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/
+  - https://redcanary.com/blog/threat-detection/rclone-mega-extortion/
+custom_attributes:
+  original_rule_id: 719f8c78-b20d-4bb9-8c33-6d1a762e7a9a
+  source_format: splunk_spl

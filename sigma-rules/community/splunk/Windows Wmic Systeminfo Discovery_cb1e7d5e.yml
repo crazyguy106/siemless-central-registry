@@ -1,0 +1,20 @@
+title: Windows Wmic Systeminfo Discovery
+id: 3851980a-223f-5132-a876-2ea418b8d3f3
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of Windows Management Instrumentation Command-line (WMIC) commands used for computer system discovery on a Windows system. Specifically, it monitors for commands such as “wmic computersystem” that retrieve detailed information about the computer’s model, manufacturer, name, domain, and other system attributes. While these commands are commonly used by administrators for inventory and troubleshooting, they may also be exploited by adversaries to gain i
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '* computersystem*'
+  condition: selection
+tags:
+  - attack.t1082
+references:
+  - https://cert.gov.ua/article/6284730
+custom_attributes:
+  original_rule_id: 97937ece-cb13-4dbc-9684-c0dc3afd400a
+  source_format: splunk_spl

@@ -1,0 +1,26 @@
+title: Msmpeng Application DLL Side Loading
+id: 0b80aa27-eed3-502e-9fe4-88cb14d5d7dd
+status: stable
+level: high
+description: |
+  The following analytic detects the suspicious creation of msmpeng.exe or mpsvc.dll in non-default Windows Defender folders. It leverages the Endpoint.Filesystem datamodel to identify instances where these files are created outside their expected directories. This activity is significant because it is associated with the REvil ransomware, which uses DLL side-loading to execute malicious payloads. If confirmed malicious, this could lead to ransomware deployment, resulting in data encryption, syste
+author: Teoderick Contreras, Splunk, Sanjay Govind
+logsource:
+  product: windows
+detection:
+  selection:
+    file_name:
+      - msmpeng.exe
+      - mpsvc.dll
+    file_path:
+      - '*\\Program Files\\windows defender\\*'
+      - '*\\WinSxS\\*defender-service*'
+      - '*\\WinSxS\\Temp\\*defender-service*'
+  condition: selection
+tags:
+  - attack.t1574.001
+references:
+  - https://community.sophos.com/b/security-blog/posts/active-ransomware-attack-on-kaseya-customers
+custom_attributes:
+  original_rule_id: 8bb3f280-dd9b-11eb-84d5-acde48001122
+  source_format: splunk_spl

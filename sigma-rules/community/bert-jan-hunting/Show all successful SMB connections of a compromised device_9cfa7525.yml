@@ -1,0 +1,22 @@
+title: Show all successful SMB connections of a compromised device
+id: 73a39257-3ba7-445a-8bf8-ac12662940a2
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Show all successful SMB connections of a compromised device
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedDevice = "laptop1";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+DeviceNetworkEvents
+| where Timestamp > ago(SearchWindow)
+| where DeviceName == CompromisedDevice
+| where RemotePort == 445
+| where ActionType == "ConnectionSuccess"
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

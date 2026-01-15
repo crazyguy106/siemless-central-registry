@@ -1,0 +1,22 @@
+title: Hunt for Local Admins with the most RemoteInteractive logins
+id: 96585d5e-5e0a-4ab0-852e-d08f14ece353
+status: experimental
+level: medium
+description: |
+  Hunt for Local Admins with the most RemoteInteractive logins
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceLogonEvents
+| where IsLocalAdmin == "True"
+| where LogonType == "RemoteInteractive"
+| extend IsLocalLogon = tostring(todynamic(AdditionalFields).IsLocalLogon)
+| summarize DevicesAccessed = make_set(DeviceName) by AccountName, AccountDomain
+| extend TotalDevices = array_length(DevicesAccessed)
+| sort by TotalDevices
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

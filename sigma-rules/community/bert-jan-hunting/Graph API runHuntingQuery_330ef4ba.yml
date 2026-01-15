@@ -1,0 +1,21 @@
+title: Graph API runHuntingQuery
+id: 1df0ecaa-e24f-4f48-8d13-247d24b2639d
+status: experimental
+level: medium
+description: |
+  This query lists successful runHuntingQuery Graph API calls from applications.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    MicrosoftGraphActivityLogs
+| where RequestUri has "runHuntingQuery"
+// Only list app based results
+| where isnotempty(AppId)
+| where ResponseStatusCode == 200
+| project TimeGenerated, RequestUri, AppId, ResponseStatusCode, ResponseSizeBytes
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

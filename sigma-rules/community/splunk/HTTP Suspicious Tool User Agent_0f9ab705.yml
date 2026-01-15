@@ -1,0 +1,25 @@
+title: HTTP Suspicious Tool User Agent
+id: 253eef5c-c3af-5b27-8bac-15a58ea9cc31
+status: stable
+level: medium
+description: |
+  This Splunk query analyzes web access logs to identify and categorize non-browser user agents, detecting various types of security tools, scripting languages, automation frameworks, and suspicious patterns. This activity can signify malicious actors attempting to interact with web endpoints in non-standard ways.
+author: Raven Tait, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1071.001
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_ua_hacktool.yml
+custom_attributes:
+  original_rule_id: 1ca76190-4997-4d19-b5bc-9e220b70c7d3
+  source_format: splunk_spl

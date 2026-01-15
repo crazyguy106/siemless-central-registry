@@ -1,0 +1,30 @@
+title: Potential Privacy Control Bypass via TCCDB Modification
+id: eea82229-b002-470e-a9e1-00be38b14d32
+status: stable
+level: medium
+description: 'Identifies the use of sqlite3 to directly modify the Transparency, Consent,
+  and Control (TCC) SQLite database. This may
+
+  indicate an attempt to bypass macOS privacy controls, including access to sensitive
+  resources like the system camera,
+
+  microphone, address book, and calendar.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-23'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: sqlite*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://applehelpwriter.com/2016/08/29/discovering-how-dropbox-hacks-your-mac/
+- https://github.com/bp88/JSS-Scripts/blob/master/TCC.db%20Modifier.sh
+- https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8

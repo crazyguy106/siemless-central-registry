@@ -1,0 +1,24 @@
+title: Query cache denied (probably config error).
+id: d5703f8d-9a82-5e7d-832d-00f9edfd57d0
+status: stable
+level: low
+description: Query cache denied (probably config error).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - query (cache) denied
+      - ': query (cache)'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12108
+  wazuh_level: 5

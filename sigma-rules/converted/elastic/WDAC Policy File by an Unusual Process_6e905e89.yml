@@ -1,0 +1,35 @@
+title: WDAC Policy File by an Unusual Process
+id: 3aaf37f3-05a1-40a5-bb6e-e380c4f92c52
+status: stable
+level: high
+description: 'Identifies the creation of a Windows Defender Application Control (WDAC)
+  policy file by an unusual process. Adversaries
+
+  may use a secially crafted WDAC policy to restrict the execution of security products.'
+author: Elastic (converted by SIEMLess)
+date: '2025-02-28'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_extension|contains:
+    - p7b
+    - cip
+    file_path|contains:
+    - ?:\\Windows\\System32\\CodeIntegrity\\*.p7b
+    - ?:\\Windows\\System32\\CodeIntegrity\\CiPolicies\\Active\\*.cip
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\CodeIntegrity\\*.p7b
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\CodeIntegrity\\CiPolicies\\Active\\*.cip
+    process_executable|contains:
+    - C:\\Windows\\System32\\poqexec.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\poqexec.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+references:
+- https://github.com/logangoins/Krueger/tree/main
+- https://beierle.win/2024-12-20-Weaponizing-WDAC-Killing-the-Dreams-of-EDR/

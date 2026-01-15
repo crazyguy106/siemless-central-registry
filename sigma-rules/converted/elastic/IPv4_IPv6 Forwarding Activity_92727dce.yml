@@ -1,0 +1,27 @@
+title: IPv4/IPv6 Forwarding Activity
+id: 5a138e2e-aec3-4240-9843-56825d0bc569
+status: stable
+level: low
+description: 'This rule monitors for the execution of commands that enable IPv4 and
+  IPv6 forwarding on Linux systems. Enabling IP
+
+  forwarding can be used to route network traffic between different network interfaces,
+  potentially allowing attackers to
+
+  pivot between networks, exfiltrate data, or establish command and control channels.'
+author: Elastic (converted by SIEMLess)
+date: '2024-11-04'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: sysctl
+    process_args: -c
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1572

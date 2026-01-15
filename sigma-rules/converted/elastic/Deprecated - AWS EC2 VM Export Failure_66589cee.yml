@@ -1,0 +1,34 @@
+title: Deprecated - AWS EC2 VM Export Failure
+id: e919611d-6b6f-493b-8314-7ed6ac2e413b
+status: stable
+level: low
+description: 'Identifies an attempt to export an AWS EC2 instance. A virtual machine
+  (VM) export may indicate an attempt to extract or
+
+  exfiltrate information.'
+author: Elastic (converted by SIEMLess)
+date: '2021-04-22'
+modified: '2025-10-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: ec2.amazonaws.com
+    event_action: CreateInstanceExportTask
+    event_outcome: failure
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.collection
+- attack.t1005
+- attack.t1537
+references:
+- https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html#export-instance
+falsepositives:
+- "    VM exports may be done by a system or network administrator. Verify whether\
+  \ the user identity, user agent, and/or\n    hostname should be making changes in\
+  \ your environment. VM exports from unfamiliar users or hosts should be\n    investigated.\
+  \ If known behavior is causing false positives, it can be exempted from the rule.\n\
+  \    "

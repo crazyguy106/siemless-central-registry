@@ -1,0 +1,20 @@
+title: TTP Detection Rule: PowerShell -encodedcommand switch
+id: 3764da56-9eae-4ba7-bafc-371ff540db34
+status: experimental
+level: medium
+description: |
+  Detection opportunity 4: PowerShell -encodedcommand switch
+
+We also observed at least one of these adversaries abusing the shortened -encoded PowerShell command switch to encode PowerShell commands. This is another common bit of tradecraft. The following should help detect and hunt for the behaviour.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    //this will be noisy and no good for a SIEM analytic
+DeviceProcessEvents
+| where FileName =~ "powershell.exe" and ProcessCommandLine has_any ("-e","-en","-enc","-enco","-encod","-encode","-encoded","-encodedc","-encodedco","-encodedcom","-encodedcomm","-encodedcomma","-encodedcomman","-encodedcommand")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

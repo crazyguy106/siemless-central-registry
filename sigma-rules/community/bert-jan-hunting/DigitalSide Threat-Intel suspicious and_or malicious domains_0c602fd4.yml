@@ -1,0 +1,19 @@
+title: DigitalSide Threat-Intel suspicious and/or malicious domains
+id: 6eba0156-5fde-46da-8f00-ecb667aef2b0
+status: experimental
+level: medium
+description: |
+  KQL detection rule: DigitalSide Threat-Intel suspicious and/or malicious domains
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let ThreatIntelFeed = externaldata(Domain: string)[@"https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"] with (format="txt", ignoreFirstRecord=True);
+DeviceNetworkEvents
+| where RemoteUrl has_any (ThreatIntelFeed)
+| project Timestamp, RemoteUrl, RemoteIP, DeviceName, InitiatingProcessCommandLine, InitiatingProcessFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

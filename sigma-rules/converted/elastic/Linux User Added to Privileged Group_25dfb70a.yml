@@ -1,0 +1,26 @@
+title: Linux User Added to Privileged Group
+id: 43d6ec12-2b1c-47b5-8f35-e9de65551d3b
+status: stable
+level: low
+description: 'Identifies attempts to add a user to a privileged group. Attackers may
+  add users to a privileged group in order to
+
+  establish persistence on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-02-13'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: gpasswd
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1136.001
+- attack.t1136
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

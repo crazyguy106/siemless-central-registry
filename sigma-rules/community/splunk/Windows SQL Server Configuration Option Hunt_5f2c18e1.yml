@@ -1,0 +1,33 @@
+title: Windows SQL Server Configuration Option Hunt
+id: 452f4531-ba11-543d-96e3-ab3855edc284
+status: stable
+level: low
+description: |
+  This detection helps hunt for changes to SQL Server configuration options that could indicate malicious activity. It monitors for modifications to any SQL Server configuration settings, allowing analysts to identify potentially suspicious changes that may be part of an attack, such as enabling dangerous features or modifying security-relevant settings.
+author: Michael Haag, Splunk, sidoyle from Splunk Community
+logsource:
+  product: windows
+detection:
+  selection:
+    old_value:
+      - 0
+      - 1
+    new_value:
+      - 1
+      - 0
+    change_type:
+      - enabled
+      - disabled
+    risk_message: SQL Server 
+    eventcode: 15457
+    field: EventData_Xml
+  condition: selection
+tags:
+  - attack.t1505.001
+references:
+  - https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/server-configuration-options-sql-server
+  - https://attack.mitre.org/techniques/T1505/001/
+  - https://www.netspi.com/blog/technical/network-penetration-testing/sql-server-persistence-part-1-startup-stored-procedures/
+custom_attributes:
+  original_rule_id: 8dc9efd5-805a-460e-889e-bc79e5477af9
+  source_format: splunk_spl

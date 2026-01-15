@@ -1,0 +1,27 @@
+title: Windows Exchange Autodiscover SSRF Abuse
+id: da54c702-dd45-515c-b205-42b3ea9f23a5
+status: stable
+level: high
+description: |
+  This analytic identifies potential exploitation attempts of ProxyShell (CVE-2021-34473, CVE-2021-34523, CVE-2021-31207) and ProxyNotShell (CVE-2022-41040, CVE-2022-41082) vulnerabilities in Microsoft Exchange Server. The detection focuses on identifying the SSRF attack patterns used in these exploit chains. The analytic monitors for suspicious POST requests to /autodiscover/autodiscover.json endpoints that may indicate attempts to enumerate LegacyDN attributes as part of initial reconnaissance. 
+author: Michael Haag, Nathaniel Stearns, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    datamodel: Web
+    http_method: POST
+    fieldname: Score
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+  - https://msrc-blog.microsoft.com/2022/09/29/customer-guidance-for-reported-zero-day-vulnerabilities-in-microsoft-exchange-server/
+  - https://twitter.com/GossiTheDog/status/1575762721353916417?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://twitter.com/cglyer/status/1575793769814728705?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+custom_attributes:
+  original_rule_id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
+  source_format: splunk_spl

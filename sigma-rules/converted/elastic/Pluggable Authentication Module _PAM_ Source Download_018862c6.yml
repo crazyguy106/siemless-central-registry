@@ -1,0 +1,35 @@
+title: Pluggable Authentication Module (PAM) Source Download
+id: 53ef31ea-1f8a-493b-9614-df23d8277232
+status: stable
+level: low
+description: 'This rule detects the usage of `curl` or `wget` to download the source
+  code of a Pluggable Authentication Module (PAM)
+
+  shared object file. Attackers may download the source code of a PAM shared object
+  file to create a backdoor in the
+
+  authentication process.'
+author: Elastic (converted by SIEMLess)
+date: '2024-12-16'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1556
+- attack.t1543
+references:
+- https://github.com/zephrax/linux-pam-backdoor
+- https://github.com/eurialo/pambd
+- http://0x90909090.blogspot.com/2016/06/creating-backdoor-in-pam-in-5-line-of.html
+- https://www.trendmicro.com/en_us/research/19/i/skidmap-linux-malware-uses-rootkit-capabilities-to-hide-cryptocurrency-mining-payload.html
+falsepositives:
+- Trusted system module updates or allowed Pluggable Authentication Module (PAM) daemon
+  configuration changes.

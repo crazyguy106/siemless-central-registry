@@ -1,0 +1,46 @@
+title: Ingress Transfer via Windows BITS
+id: f95972d3-c23b-463b-89a8-796b3f369b49
+status: stable
+level: low
+description: 'Identifies downloads of executable and archive files via the Windows
+  Background Intelligent Transfer Service (BITS).
+
+  Adversaries could leverage Windows BITS transfer jobs to download remote payloads.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-13'
+modified: '2025-02-03'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_action: rename
+    file_extension|contains:
+    - exe
+    - zip
+    - rar
+    - bat
+    - dll
+    - ps1
+    - vbs
+    - wsh
+    - js
+    - vbe
+    - pif
+    - scr
+    - cmd
+    - cpl
+    file_path|contains:
+    - ?:\\Users\\*\\AppData\\Local\\Temp*\\wct*.tmp
+    - ?:\\Users\\*\\AppData\\Local\\Adobe\\ARM\\*\\RdrServicesUpdater*.exe
+    - ?:\\Users\\*\\AppData\\Local\\Adobe\\ARM\\*\\AcroServicesUpdater*.exe
+    - ?:\\Users\\*\\AppData\\Local\\Docker Desktop Installer\\update-*.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.command_and_control
+- attack.t1105
+- attack.t1197
+references:
+- https://attack.mitre.org/techniques/T1197/

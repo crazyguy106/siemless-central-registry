@@ -1,0 +1,44 @@
+title: Roshal Archive (RAR) or PowerShell File Downloaded from the Internet
+id: ff013cb4-274d-434a-96bb-fe15ddd3ae92
+status: stable
+level: medium
+description: 'Detects a Roshal Archive (RAR) file or PowerShell script downloaded
+  from the internet by an internal host. Gaining
+
+  initial access to a system and then downloading encoded or encrypted tools to move
+  laterally is a common practice for
+
+  adversaries as a way to protect their more valuable tools and tactics, techniques,
+  and procedures (TTPs). This may be
+
+  atypical behavior for a managed network and can be indicative of malware, exfiltration,
+  or command and control.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-02'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_dataset: (network_traffic.http
+    event_category: (network
+    network_protocol: http))
+    url_extension: (ps1
+    url_path: (*.ps1
+    destination_ip: (
+    FE80: :/10
+    FF00: :/8
+    source_ip: (
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1105
+references:
+- https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html
+- https://www.justice.gov/opa/press-release/file/1084361/download
+- https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml
+falsepositives:
+- "    Downloading RAR or PowerShell files from the Internet may be expected for certain\
+  \ systems. This rule should be\n    tailored to either exclude systems as sources\
+  \ or destinations in which this behavior is expected.\n    "

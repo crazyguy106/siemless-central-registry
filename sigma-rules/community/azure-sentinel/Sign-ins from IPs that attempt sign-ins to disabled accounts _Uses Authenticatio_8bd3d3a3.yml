@@ -1,0 +1,23 @@
+title: Sign-ins from IPs that attempt sign-ins to disabled accounts (Uses Authentication Normalization)
+id: 1ce14c0a-b326-5f6d-bb7f-ef0f59cdcb89
+status: stable
+level: medium
+description: |
+  'Identifies IPs with failed attempts to sign in to one or more disabled accounts signed in successfully to another account. To use this analytics rule, make sure you have deployed the [ASIM normalization parsers](https://aka.ms/ASimAuthentication)'
+author: Microsoft
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    EventResult:
+      - Failure
+      - Success
+    EventResultDetails: User disabled
+  condition: selection
+tags:
+  - attack.t1078
+  - attack.t1098
+custom_attributes:
+  original_rule_id: 95002681-4ecb-4da3-9ece-26d7e5feaa33
+  source_format: azure_kql

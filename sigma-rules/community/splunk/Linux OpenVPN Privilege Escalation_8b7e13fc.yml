@@ -1,0 +1,26 @@
+title: Linux OpenVPN Privilege Escalation
+id: a1fad0b2-c14f-520d-9849-9e812f66be02
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of OpenVPN with elevated privileges, specifically when combined with the `--dev`, `--script-security`, `--up`, and `sudo` options. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command-line arguments and execution details. This activity is significant because it indicates a potential privilege escalation attempt, allowing a user to execute system commands as root. If confirmed malicious, this coul
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*openvpn*'
+      - '*--dev*'
+      - '*--script-security*'
+      - '*--up*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/openvpn/
+  - https://en.wikipedia.org/wiki/OpenVPN
+custom_attributes:
+  original_rule_id: d25feebe-fa1c-4754-8a1e-afb03bedc0f2
+  source_format: splunk_spl

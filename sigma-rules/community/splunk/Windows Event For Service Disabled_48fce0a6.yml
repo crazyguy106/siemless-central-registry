@@ -1,0 +1,21 @@
+title: Windows Event For Service Disabled
+id: 08b1ed2a-8c0e-5493-b7be-54025618b521
+status: stable
+level: low
+description: |
+  The following analytic detects when a Windows service is modified from a start type to disabled. It leverages system event logs, specifically EventCode 7040, to identify this change. This activity is significant because adversaries often disable security or other critical services to evade detection and maintain control over a compromised host. If confirmed malicious, this action could allow attackers to bypass security defenses, leading to further exploitation and persistence within the environ
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventdata_xml: '*disabled*'
+    eventcode: 7040
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://blog.talosintelligence.com/2018/02/olympic-destroyer.html
+custom_attributes:
+  original_rule_id: 9c2620a8-94a1-11ec-b40c-acde48001122
+  source_format: splunk_spl

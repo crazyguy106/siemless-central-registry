@@ -1,0 +1,51 @@
+title: Potential Remote Install via MsiExec
+id: c9847fe9-3bed-4e6b-b319-f9956d6dd02a
+status: stable
+level: high
+description: Identifies attempts to install a file from a remote server using MsiExec.
+  Adversaries may abuse Windows Installers for initial access and delivery of malware.
+author: Elastic (converted by SIEMLess)
+date: '2025-08-19'
+modified: '2025-08-19'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_args|contains:
+    - /qn
+    - -qn
+    - -q
+    - /q
+    - /quiet
+    process_parent_name|contains:
+    - sihost.exe
+    - explorer.exe
+    - cmd.exe
+    - wscript.exe
+    - mshta.exe
+    - powershell.exe
+    - wmiprvse.exe
+    - pcalua.exe
+    - forfiles.exe
+    - conhost.exe
+    process_command_line|contains:
+    - '*--set-server=*'
+    - '*UPGRADEADD=*'
+    - '*--url=*'
+    - '*USESERVERCONFIG=*'
+    - '*RCTENTERPRISESERVER=*'
+    - '*app.ninjarmm.com*'
+    - '*zoom.us/client*'
+    - '*SUPPORTSERVERSTSURI=*'
+    - '*START_URL=*'
+    - '*AUTOCONFIG=*'
+    - '*awscli.amazonaws.com*'
+    process_command_line|endswith: http*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1218.007
+- attack.t1218

@@ -1,0 +1,27 @@
+title: Cisco IOS Suspicious Privileged Account Creation
+id: ad2afbad-51d0-5bf7-b90e-217bc151fa56
+status: stable
+level: medium
+description: |
+  This analytic detects the creation of privileged user accounts on Cisco IOS devices, which could indicate an attacker establishing backdoor access. The detection focuses on identifying when user accounts are created with privilege level 15 (the highest administrative privilege level in Cisco IOS) or when existing accounts have their privileges elevated. This type of activity is particularly concerning when performed by unauthorized users or during unusual hours, as it may represent a key step in
+author: Bhavin Patel, Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    command:
+      - '*username * privilege 15*'
+      - '*username * password*'
+      - '*USER TABLE MODIFIED*'
+      - '*USER_PRIVILEGE_UPDATE*priv-15*'
+  condition: selection
+tags:
+  - attack.t1136
+  - attack.t1078
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp3796044403
+custom_attributes:
+  original_rule_id: 63e3aff9-45d7-4d41-bcdb-9da561fb4533
+  source_format: splunk_spl

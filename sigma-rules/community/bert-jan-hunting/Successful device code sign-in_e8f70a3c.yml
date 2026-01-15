@@ -1,0 +1,25 @@
+title: Successful device code sign-in
+id: a0cd4ed1-a299-4174-908b-da36bf67bb80
+status: experimental
+level: medium
+description: |
+  **Note!!** if you ingest AADSignInEventsBeta or SigninLogs do not use this query. 
+
+This query lists successful Entra ID sign-ins were device code authentication is used.
+
+You can also include a filter for the Microsoft Authentication Broker application, appId = 29d9ed98-a469-4536-ade2-f981bc1d605e. This application can generate a bunch of false positives in the results, due to benign onboarding activities.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    IdentityLogonEvents 
+| where ActionType == @"LogonSuccess"
+| where LogonType == @"Cmsi:Cmsi"
+| extend Application = tostring(parse_json(AdditionalFields).['ARG.CLOUD_SERVICE']),
+         Country = geo_info_from_ip_address(IPAddress).country
+| project-reorder Timestamp, AccountUpn, LogonType, ActionType, Application, IPAddress, Country
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

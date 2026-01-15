@@ -1,0 +1,24 @@
+title: Triggers when a know ransomware note is found
+id: 23790f20-886d-4bad-8107-0ba8864c0bc6
+status: experimental
+level: medium
+description: |
+  This query triggers when a known ransomware note is found.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let RansomwareNotes  = externaldata(RansomwareNote: string)[@"https://raw.githubusercontent.com/eshlomo1/Ransomware-NOTE/main/ransomware-notes.txt"] with (format="txt", ignoreFirstRecord=True);
+let RansomwareNotesAddition = dynamic(['thisisanadditionalransomwarenote.txt']); // Add your missing / new extensions in this list.
+let FalsePostiveWhitelist = dynamic(['whitelist.txt']); // Add the files that trigger a lot of false positives to this whitelist.
+let RansomwareNoteRaw = RansomwareNotes
+     | extend RansomwareNoteRaw = replace_string(RansomwareNote, "*", '')
+     | distinct RansomwareNoteRaw;
+DeviceFileEvents
+| where (FileName has_any (RansomwareNoteRaw) or FileName has_any (RansomwareNotesAddition)) and not(FileName has_any (FalsePostiveWhitelist))
+| project-reorder Timestamp, FileName, FolderPath, DeviceName, InitiatingProcessAccountName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

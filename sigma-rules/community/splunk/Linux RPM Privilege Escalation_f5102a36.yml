@@ -1,0 +1,24 @@
+title: Linux RPM Privilege Escalation
+id: 5c22c2b1-9c9b-5cba-968b-2a2c8fc3e67d
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the RPM Package Manager with elevated privileges, specifically when it is used to run system commands as root via the `--eval` and `lua:os.execute` options. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process metadata. This activity is significant because it indicates a potential privilege escalation attempt, allowing a user to gain root access. If confirmed malicious, thi
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*rpm*--eval*'
+      - '*lua:os.execute*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/rpm/
+  - https://en.wikipedia.org/wiki/RPM_Package_Manager
+custom_attributes:
+  original_rule_id: f8e58a23-cecd-495f-9c65-6c76b4cb9774
+  source_format: splunk_spl

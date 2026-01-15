@@ -1,0 +1,27 @@
+title: Creation of Hidden Shared Object File
+id: 766d3f91-3f12-448c-b65f-20123e9e9e8c
+status: stable
+level: medium
+description: 'Identifies the creation of a hidden shared object (.so) file. Users
+  can mark specific files as hidden simply by putting
+
+  a "." as the first character in the file or folder name. Adversaries can use this
+  to their advantage to hide files and
+
+  folders on the system for persistence and defense evasion.'
+author: Elastic (converted by SIEMLess)
+date: '2022-07-20'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+    file_extension: so
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1564
+- attack.t1564.001

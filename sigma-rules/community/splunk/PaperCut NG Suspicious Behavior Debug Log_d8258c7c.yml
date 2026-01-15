@@ -1,0 +1,26 @@
+title: PaperCut NG Suspicious Behavior Debug Log
+id: d03aeb9d-f972-5c22-8fb9-eb59b0e9c810
+status: stable
+level: low
+description: |
+  The following analytic identifies potential exploitation attempts on a PaperCut NG server by analyzing its debug log data. It detects unauthorized or suspicious access attempts from public IP addresses and searches for specific URIs associated with known exploits. The detection leverages regex to parse unstructured log data, focusing on admin login activities. This activity is significant as it can indicate an active exploitation attempt on the server. If confirmed malicious, attackers could gai
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    logintype: Admin
+    sp: l1001
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.papercut.com/kb/Main/HowToCollectApplicationServerDebugLogs
+  - https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/HAFNIUM.md
+  - https://www.cisa.gov/news-events/alerts/2023/05/11/cisa-and-fbi-release-joint-advisory-response-active-exploitation-papercut-vulnerability
+  - https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
+  - https://www.horizon3.ai/papercut-cve-2023-27350-deep-dive-and-indicators-of-compromise/
+custom_attributes:
+  original_rule_id: 395163b8-689b-444b-86c7-9fe9ad624734
+  source_format: splunk_spl

@@ -1,0 +1,25 @@
+title: Find which devices have been accessed by a compromised device and which protocol was used to connect
+id: eb002344-26b4-42b0-b006-4b281b072173
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Find which devices have been accessed by a compromised device and which protocol was used to connect
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedDevice = "laptop.contoso.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+IdentityLogonEvents
+| where Timestamp > (now() - SearchWindow)
+| where DeviceName == CompromisedDevice
+| summarize
+     TotalDevicesAccessed = dcount(DestinationDeviceName),
+     DevicesAccessed = make_set(DestinationDeviceName),
+     ProtocolsUsed = make_set(Protocol)
+     by DeviceName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

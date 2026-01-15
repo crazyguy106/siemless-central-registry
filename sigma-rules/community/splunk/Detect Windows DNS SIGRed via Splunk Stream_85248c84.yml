@@ -1,0 +1,19 @@
+title: Detect Windows DNS SIGRed via Splunk Stream
+id: 5da0ff70-fd9a-581c-94e0-1b09ac49fccc
+status: experimental
+level: high
+description: |
+  The following analytic detects attempts to exploit the SIGRed vulnerability (CVE-2020-1350) in Windows DNS servers. It leverages Splunk Stream DNS and TCP data to identify DNS SIG and KEY records, as well as TCP payloads exceeding 65KB. This activity is significant because SIGRed is a critical wormable vulnerability that allows remote code execution. If confirmed malicious, an attacker could gain unauthorized access, execute arbitrary code, and potentially disrupt services, leading to severe dat
+author: Shannon Davis, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    protocol_stack: 'ip:tcp:dns'
+  condition: selection
+tags:
+  - attack.t1203
+custom_attributes:
+  original_rule_id: babd8d10-d073-11ea-87d0-0242ac130003
+  source_format: splunk_spl

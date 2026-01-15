@@ -1,0 +1,24 @@
+title: Linux High Frequency Of File Deletion In Etc Folder
+id: 2f3e3024-4df0-5944-bb3d-746165ca312e
+status: stable
+level: medium
+description: |
+  The following analytic detects a high frequency of file deletions in the /etc/ folder on Linux systems. It leverages the Endpoint.Filesystem data model to identify instances where 200 or more files are deleted within an hour, grouped by process name and process ID. This behavior is significant as it may indicate the presence of wiper malware, such as AcidRain, which aims to delete critical system files. If confirmed malicious, this activity could lead to severe system instability, data loss, and
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path: /etc/*
+    action: deleted
+    span: 1h
+  condition: selection
+tags:
+  - attack.t1070.004
+  - attack.t1485
+references:
+  - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+custom_attributes:
+  original_rule_id: 9d867448-2aff-4d07-876c-89409a752ff8
+  source_format: splunk_spl

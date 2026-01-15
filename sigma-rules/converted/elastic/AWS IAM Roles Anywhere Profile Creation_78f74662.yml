@@ -1,0 +1,43 @@
+title: AWS IAM Roles Anywhere Profile Creation
+id: 1d4ca9c0-ff1e-11ee-91cc-f661ea17fbce
+status: stable
+level: low
+description: 'Identifies the creation of an AWS Roles Anywhere profile. AWS Roles
+  Anywhere is a feature that allows you to use AWS
+
+  Identity and Access Management (IAM) profiles to manage access to your AWS resources
+  from any location via trusted
+
+  anchors. This rule detects the creation of a profile that can be assumed from any
+  service. Adversaries may create
+
+  profiles tied to overly permissive roles to maintain access to AWS resources. Ensure
+  that the profile creation is
+
+  expected and that the trust policy is configured securely.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-20'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: rolesanywhere.amazonaws.com
+    event_action: CreateProfile
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+- attack.t1098.003
+references:
+- https://docs.aws.amazon.com/rolesanywhere/latest/userguide/introduction.html
+- https://docs.datadoghq.com/security/default_rules/cloudtrail-aws-iam-roles-anywhere-trust-anchor-created/
+- https://ermetic.com/blog/aws/keep-your-iam-users-close-keep-your-third-parties-even-closer-part-1/
+- https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateProfile.html
+falsepositives:
+- "    AWS Roles Anywhere profiles are legitimate profiles that can be created by\
+  \ administrators to allow access from any\n    location. Ensure that the profile\
+  \ created is expected and that the trust policy is configured securely.\n    "

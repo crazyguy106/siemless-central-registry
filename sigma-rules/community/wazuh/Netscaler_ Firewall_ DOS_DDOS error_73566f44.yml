@@ -1,0 +1,26 @@
+title: 'Netscaler: Firewall: DOS\DDOS error'
+id: 117fe75d-a6db-57c4-b5db-1469fcb9e009
+status: stable
+level: low
+description: 'Netscaler: Firewall: DOS\DDOS error'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - APPFW APPFW_XML_ERR_DOS
+      - APPFW APPFW_XML_DDOS_ERR
+      - APPFW_RESP APPFW_XML_DDOS_ERR_MSG_SEND_FAI
+      - APPFW_RESP APPFW_XML_DOS_ERR_CHAR_DATA_LENGTH
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80129
+  wazuh_level: 4

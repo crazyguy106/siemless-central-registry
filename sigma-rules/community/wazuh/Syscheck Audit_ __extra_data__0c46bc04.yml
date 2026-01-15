@@ -1,0 +1,22 @@
+title: 'Syscheck Audit: $(extra_data)'
+id: 85b65299-339a-59d3-98c3-d2b275647dd4
+status: stable
+level: medium
+description: 'Syscheck Audit: $(extra_data)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^ossec: Audit:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-500
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-517
+  wazuh_level: 7

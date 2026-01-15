@@ -1,0 +1,39 @@
+title: Google Workspace Bitlocker Setting Disabled
+id: 7caa8e60-2df0-11ed-b814-f661ea17fbce
+status: stable
+level: medium
+description: 'Google Workspace administrators whom manage Windows devices and have
+  Windows device management enabled may also enable
+
+  BitLocker drive encryption to mitigate unauthorized data access on lost or stolen
+  computers. Adversaries with valid
+
+  account access may disable BitLocker to access sensitive data on an endpoint added
+  to Google Workspace device
+
+  management.'
+author: Elastic (converted by SIEMLess)
+date: '2022-09-06'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_action: CHANGE_APPLICATION_SETTING
+    event_category: (iam
+    google_workspace_admin_new_value: Disabled
+    google_workspace_admin_setting_name: BitLocker*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://support.google.com/a/answer/9176657?hl=en
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Administrators may temporarily disabled Bitlocker on managed devices for maintenance,\
+  \ testing or to resolve\n    potential endpoint conflicts.\n    "

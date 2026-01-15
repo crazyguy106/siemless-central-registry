@@ -1,0 +1,33 @@
+title: AWS Management Console Brute Force of Root User Identity
+id: 4d50a94f-2844-43fa-8395-6afbd5e1c5ef
+status: stable
+level: high
+description: 'Identifies a high number of failed authentication attempts to the AWS
+  management console for the Root user identity. An
+
+  adversary may attempt to brute force the password for the Root user identity, as
+  it has complete access to all services
+
+  and resources for the AWS account.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-21'
+modified: '2025-10-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: signin.amazonaws.com
+    event_action: ConsoleLogin
+    aws_cloudtrail_user_identity_type: Root
+    event_outcome: failure
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1110
+references:
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html
+falsepositives:
+- "    Automated processes that attempt to authenticate using expired credentials\
+  \ and unbounded retries may lead to false\n    positives.\n    "

@@ -1,0 +1,25 @@
+title: Storm-0539 AiTM URLs - EmailEvents
+id: d8990696-58e9-462d-8d13-dab459d8b797
+status: experimental
+level: medium
+description: |
+  Microsoft Threat Intelligence has identified that the following url parts are used by Storm-0539 to deploy AiTM phishing pages:
+- /Udlaps/
+- /Usrlop/
+- /adls/index.html
+- /saml2/index.html
+
+This query lists matches on the parts of the URL if found in emails.
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let URLs = dynamic([@'/Udlaps/', @'/Usrlop/', @'/adls/index.html', @'/saml2/index.html']);
+EmailUrlInfo
+| where Url has_any (URLs)
+| join EmailEvents on NetworkMessageId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

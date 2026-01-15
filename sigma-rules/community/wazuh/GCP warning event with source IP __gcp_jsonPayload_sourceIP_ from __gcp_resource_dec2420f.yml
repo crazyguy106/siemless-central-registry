@@ -1,0 +1,22 @@
+title: GCP warning event with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location) with response code $(gcp.jsonPayload.responseCode)
+id: a5a7dc4a-08b1-5436-9352-f2cc6414e6e5
+status: stable
+level: low
+description: GCP warning event with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location) with response code $(gcp.jsonPayload.responseCode)
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.severity: ^WARNING$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65005
+  wazuh_level: 5

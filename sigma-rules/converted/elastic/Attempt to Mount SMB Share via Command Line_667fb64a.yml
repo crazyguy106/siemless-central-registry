@@ -1,0 +1,26 @@
+title: Attempt to Mount SMB Share via Command Line
+id: 661545b4-1a90-4f45-85ce-2ebd7c6a15d0
+status: stable
+level: low
+description: 'Identifies the execution of macOS built-in commands to mount a Server
+  Message Block (SMB) network share. Adversaries may
+
+  use valid accounts to interact with a remote network share using SMB.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-25'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: osascript
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.t1021
+- attack.t1021.002
+references:
+- https://www.freebsd.org/cgi/man.cgi?mount_smbfs
+- https://ss64.com/osx/mount.html

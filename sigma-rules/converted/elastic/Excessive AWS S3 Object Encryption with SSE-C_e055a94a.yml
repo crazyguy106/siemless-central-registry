@@ -1,0 +1,34 @@
+title: Excessive AWS S3 Object Encryption with SSE-C
+id: 909bf7c8-d371-11ef-bcc3-f661ea17fbcd
+status: stable
+level: high
+description: Identifies a high-volume of AWS S3 objects stored in a bucket using using
+  Server-Side Encryption with Customer-Provided Keys (SSE-C). Adversaries with compromised
+  AWS credentials can encrypt objects in an S3 bucket using their own encryption keys,
+  rendering the objects unreadable or recoverable without the key. This can be used
+  as a form of ransomware to extort the bucket owner for the decryption key. This
+  is a Threshold rule that triggers when this behavior is observed multiple times
+  for a specific bucket in a short time-window.
+author: Elastic (converted by SIEMLess)
+date: '2025-01-15'
+modified: '2025-07-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: s3.amazonaws.com
+    event_action: PutObject
+    event_outcome: success
+    algorithm: AES256
+  condition: selection
+tags:
+- attack.impact
+- attack.t1486
+references:
+- https://www.halcyon.ai/blog/abusing-aws-native-services-ransomware-encrypting-s3-buckets-with-sse-c
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html
+falsepositives:
+- "    Legitimate use of Server-Side Encryption with Customer-Provided Keys (SSE-C)\
+  \ to encrypt objects in an S3 bucket.\n    "

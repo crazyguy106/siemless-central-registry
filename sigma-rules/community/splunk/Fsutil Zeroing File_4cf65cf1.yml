@@ -1,0 +1,22 @@
+title: Fsutil Zeroing File
+id: dc08a96d-4605-53c0-ad49-da778e610d98
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the 'fsutil' command with the 'setzerodata' parameter, which zeros out a target file. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because it is a technique used by ransomware, such as LockBit, to evade detection by erasing its malware path after encrypting the host. If confirmed malicious, this action could hinder forensic investi
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    process: '*setzerodata*'
+  condition: selection
+tags:
+  - attack.t1070
+references:
+  - https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
+  - https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+custom_attributes:
+  original_rule_id: 4e5e024e-fabb-11eb-8b8f-acde48001122
+  source_format: splunk_spl

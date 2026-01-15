@@ -1,0 +1,22 @@
+title: 'Systemd: Failed to get unit state for service. This means that the .service file is missing'
+id: dd18bc23-3c21-5456-93ce-7c3c2cf9ec38
+status: stable
+level: informational
+description: 'Systemd: Failed to get unit state for service. This means that the .service file is missing'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Failed to get unit file state for
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-40700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-40702
+  wazuh_level: 2

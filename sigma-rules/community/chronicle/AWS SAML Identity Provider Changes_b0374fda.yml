@@ -1,0 +1,23 @@
+title: AWS SAML Identity Provider Changes
+id: 7c3a3699-e788-58ab-a99b-1c21988bcc6f
+status: experimental
+level: medium
+description: Detects create, update or delete events of a SAML provider in AWS.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - CreateSAMLProvider
+      - UpdateSAMLProvider
+      - DeleteSAMLProvider
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_2f36760a-241d-4ace-9142-db0ccf1992b7
+  source_format: chronicle_yaral

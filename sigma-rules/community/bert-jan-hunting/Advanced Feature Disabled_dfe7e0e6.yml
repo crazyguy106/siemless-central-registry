@@ -1,0 +1,29 @@
+title: Advanced Feature Disabled
+id: 13494ae9-52da-458a-8d2d-92655965aaaa
+status: experimental
+level: medium
+description: |
+  Defender For Endpoint Advanced Features are very powerful, some examples are:
+- Enable/Disable EDR in block mode
+- Enable/Disable Live Response
+- Enable/Disable Live Response unsigned script execution
+- Enable/Disable Tamper protection
+
+The query below returns results if an Advanced Feature has been disabled in your tenant, disabling an advanced feature can increase your attack surface significantly.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "SetAdvancedFeatures"
+| extend WorkLoad = tostring(parse_json(RawEventData).Workload),
+    SettingsNewValue = tobool(parse_json(RawEventData).SettingsNewValue),
+    SettingName = tostring(parse_json(RawEventData).SettingName),
+    UserId = tostring(parse_json(RawEventData).UserId)
+| where SettingsNewValue == 0
+| project-reorder Timestamp, WorkLoad, SettingName, SettingsNewValue, UserId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

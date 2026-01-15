@@ -1,0 +1,21 @@
+title: Linux Auditd Unix Shell Configuration Modification
+id: c6ea6914-ce6f-522d-b830-6b72291c0625
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious access or modifications to Unix shell configuration files, which may indicate an attempt to alter system behavior or gain unauthorized access. Unix shell configuration files, such as `.bashrc` or `.profile`, control user environment settings and command execution. Unauthorized changes to these files can be used to execute malicious commands, escalate privileges, or hide malicious activities. By monitoring for unusual or unauthorized modifications to shel
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    type: PATH
+  condition: selection
+tags:
+  - attack.t1546.004
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+  - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+custom_attributes:
+  original_rule_id: 66f737c6-3f7f-46ed-8e9b-cc0e5bf01f04
+  source_format: splunk_spl

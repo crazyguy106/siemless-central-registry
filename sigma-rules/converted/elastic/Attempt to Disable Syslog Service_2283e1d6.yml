@@ -1,0 +1,27 @@
+title: Attempt to Disable Syslog Service
+id: 2f8a1226-5720-437d-9c20-e0029deb6194
+status: stable
+level: medium
+description: 'Adversaries may attempt to disable the syslog service in an attempt
+  to an attempt to disrupt event logging and evade
+
+  detection by security controls.'
+author: Elastic (converted by SIEMLess)
+date: '2020-04-27'
+modified: '2025-09-29'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    process_name: systemctl
+    process_args: HUP
+    process_parent_name: rsyslog-rotate
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://www.elastic.co/security-labs/detecting-log4j2-with-elastic-security

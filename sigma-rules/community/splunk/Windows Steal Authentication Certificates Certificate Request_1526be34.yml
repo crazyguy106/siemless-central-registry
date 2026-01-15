@@ -1,0 +1,21 @@
+title: Windows Steal Authentication Certificates Certificate Request
+id: 7573681b-9b67-5fe3-95db-bcdac7b9c25a
+status: stable
+level: medium
+description: |
+  The following analytic detects when a new certificate is requested from Certificate Services - AD CS. It leverages Event ID 4886, which indicates that a certificate request has been received. This activity is significant because unauthorized certificate requests can be part of credential theft or lateral movement tactics. If confirmed malicious, an attacker could use the certificate to impersonate users, gain unauthorized access to resources, or establish persistent access within the environment
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 4886
+  condition: selection
+tags:
+  - attack.t1649
+references:
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf
+custom_attributes:
+  original_rule_id: 747d7800-2eaa-422d-b994-04d8bb9e06d0
+  source_format: splunk_spl

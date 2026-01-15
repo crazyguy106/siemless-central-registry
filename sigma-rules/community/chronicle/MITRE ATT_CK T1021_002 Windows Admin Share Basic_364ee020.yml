@@ -1,0 +1,16 @@
+title: MITRE ATT&CK T1021.002 Windows Admin Share Basic
+id: e3357a9f-e81c-5a86-8cf0-4db4dd61931f
+status: experimental
+level: low
+description: Detect the use of net use for SMB/Windows admin shares
+author: Google Cloud Security
+logsource:
+  product: windows
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    target_process_command_line: net.*use.*(C|ADMIN|IPC)\$
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_ceadd402-7315-4462-9716-8b41a6329bdd
+  source_format: chronicle_yaral

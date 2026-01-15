@@ -1,0 +1,29 @@
+title: O365 Email Reported By User Found Malicious
+id: 02c3b28f-0926-5cbb-a98a-66a5c9fc8c7f
+status: stable
+level: high
+description: |
+  The following analytic detects when an email submitted to Microsoft using the built-in report button in Outlook is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    name: Email reported by user as*
+    pairdelim: ;
+    kvdelim: ':'
+    workload: SecurityComplianceCenter
+    operation: AlertEntityGenerated
+    field: tsd
+    rescanverdict:
+      - Phish
+      - Malware
+  condition: selection
+tags:
+  - attack.t1566.001
+  - attack.t1566.002
+references:
+  - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/submissions-outlook-report-messages?view=o365-worldwide
+custom_attributes:
+  original_rule_id: 7698b945-238e-4bb9-b172-81f5ca1685a1
+  source_format: splunk_spl

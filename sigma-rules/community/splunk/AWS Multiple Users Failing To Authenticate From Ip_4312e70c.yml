@@ -1,0 +1,26 @@
+title: AWS Multiple Users Failing To Authenticate From Ip
+id: 91328efc-b6c5-5bd4-8670-f3ac991b864e
+status: stable
+level: medium
+description: |
+  The following analytic identifies a single source IP failing to authenticate into the AWS Console with 30 unique valid users within 10 minutes. It leverages CloudTrail logs to detect multiple failed login attempts from the same IP address. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain unauthorized access or elevate privileges by trying common passwords across many accounts. If confirmed malicious, this activity could lead to unaut
+author: Bhavin Patel
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    eventname: ConsoleLogin
+    action: failure
+    span: 10m
+  condition: selection
+tags:
+  - attack.t1110.003
+  - attack.t1110.004
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
+  - https://softwaresecuritydotblog.wordpress.com/2019/09/28/how-to-protect-against-credential-stuffing-on-aws/
+custom_attributes:
+  original_rule_id: 71e1fb89-dd5f-4691-8523-575420de4630
+  source_format: splunk_spl

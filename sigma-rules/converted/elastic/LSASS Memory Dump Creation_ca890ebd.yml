@@ -1,0 +1,40 @@
+title: LSASS Memory Dump Creation
+id: f2f46686-6f3c-4724-bd7d-24e31c70f98f
+status: stable
+level: high
+description: 'Identifies the creation of a Local Security Authority Subsystem Service
+  (lsass.exe) default memory dump. This may
+
+  indicate a credential access attempt via trusted system utilities such as Task Manager
+  (taskmgr.exe) and SQL Dumper
+
+  (sqldumper.exe) or known pentesting tools such as Dumpert and AndrewSpecial.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-24'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_name|contains:
+    - lsass*.dmp
+    - dumpert.dmp
+    - Andrew.dmp
+    - SQLDmpr*.mdmp
+    - Coredump.dmp
+    process_executable|contains:
+    - ?:\\Windows\\system32\\WerFault.exe
+    - ?:\\Windows\\System32\\WerFaultSecure.exe
+    file_path|contains:
+    - ?:\\Windows\\System32\\config\\systemprofile\\AppData\\Local\\CrashDumps\\lsass.exe.*.dmp
+    - ?:\\Windows\\System32\\%LOCALAPPDATA%\\CrashDumps\\lsass.exe.*.dmp
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1003.001
+references:
+- https://github.com/outflanknl/Dumpert
+- https://github.com/hoangprod/AndrewSpecial

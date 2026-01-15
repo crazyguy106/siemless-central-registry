@@ -1,0 +1,28 @@
+title: Group created then added to built in domain local or global group
+id: bcb2288b-3d2c-59c0-b150-9836cebfdda4
+status: stable
+level: medium
+description: |
+  'Identifies when a recently created Group was added to a privileged built in domain local group or global group such as the Enterprise Admins, Cert Publishers or DnsAdmins.  Be sure to verify this is an expected addition. References: For AD SID mappings - https://docs.microsoft.com/windows/security/identity-protection/access-control/active-directory-security-groups.'
+author: Microsoft Security Research
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    AccountType:
+      - User
+      - User
+      - User
+      - User
+    EventID:
+      - 4727
+      - 4731
+      - 4754
+  condition: selection
+tags:
+  - attack.t1098
+  - attack.t1078
+custom_attributes:
+  original_rule_id: a7564d76-ec6b-4519-a66b-fcc80c42332b
+  source_format: azure_kql

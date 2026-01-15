@@ -1,0 +1,38 @@
+title: AWS IAM Group Deletion
+id: 867616ec-41e5-4edc-ada2-ab13ab45de8a
+status: stable
+level: low
+description: 'Detects when an IAM group is deleted using the DeleteGroup API call.
+  Deletion of an IAM group may represent a malicious
+
+  attempt to remove audit trails, disrupt operations, or hide adversary activity (for
+  example after using the group
+
+  briefly for privileged access). This can be an indicator of impact or cleanup in
+  an attack lifecycle.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-10-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    event_action: DeleteGroup
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1531
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+falsepositives:
+- "    Legitimate group deletion during decommissioning of projects, clean-up of service\
+  \ accounts, or identity lifecycle\n    changes may trigger this alert. Verify whether\
+  \ the user identity, user agent, and/or hostname should be making\n    changes in\
+  \ your environment. Resource group deletions by unfamiliar users or hosts should\
+  \ be investigated. If known\n    behavior is causing false positives, it can be\
+  \ exempted from the rule.\n    "

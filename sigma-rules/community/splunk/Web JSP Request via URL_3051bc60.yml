@@ -1,0 +1,29 @@
+title: Web JSP Request via URL
+id: ebd32e98-fedb-579a-aeb3-b8e8fbd3dce0
+status: stable
+level: high
+description: |
+  The following analytic identifies URL requests associated with CVE-2022-22965 (Spring4Shell) exploitation attempts, specifically targeting webshell access on a remote webserver. It detects HTTP GET requests with URLs containing ".jsp?cmd=" or "j&cmd=" patterns. This activity is significant as it indicates potential webshell deployment, which can lead to unauthorized remote command execution. If confirmed malicious, attackers could gain control over the webserver, execute arbitrary commands, and 
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Web
+    http_method:
+      - GET
+    url:
+      - '*.jsp?cmd=*'
+      - '*j&cmd=*'
+  condition: selection
+tags:
+  - attack.t1133
+  - attack.t1190
+  - attack.t1505.003
+references:
+  - https://www.microsoft.com/security/blog/2022/04/04/springshell-rce-vulnerability-guidance-for-protecting-against-and-detecting-cve-2022-22965/
+  - https://github.com/TheGejr/SpringShell
+  - https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
+custom_attributes:
+  original_rule_id: 2850c734-2d44-4431-8139-1a56f6f54c01
+  source_format: splunk_spl

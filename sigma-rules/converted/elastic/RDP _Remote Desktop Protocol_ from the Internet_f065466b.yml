@@ -1,0 +1,48 @@
+title: RDP (Remote Desktop Protocol) from the Internet
+id: 8c1bdde8-4204-45c0-9e0c-c85ca3902488
+status: stable
+level: medium
+description: 'This rule detects network events that may indicate the use of RDP traffic
+  from the Internet. RDP is commonly used by
+
+  system administrators to remotely control a system for maintenance or to use shared
+  resources. It should almost never be
+
+  directly exposed to the Internet, as it is frequently targeted and exploited by
+  threat actors as an initial access or
+
+  backdoor vector.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_dataset: zeek.rdp)
+    event_category: (network
+    network_transport: tcp
+    destination_port: '3389'
+    source_ip: (
+    FE80: :/10
+    FF00: :/8
+    destination_ip: (
+  condition: selection
+tags:
+- attack.initial_access
+- attack.lateral_movement
+- attack.command_and_control
+- attack.t1021
+- attack.t1190
+references:
+- https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml
+falsepositives:
+- "    Some network security policies allow RDP directly from the Internet but usage\
+  \ that is unfamiliar to server or\n    network owners can be unexpected and suspicious.\
+  \ RDP services may be exposed directly to the Internet in some\n    networks such\
+  \ as cloud environments. In such cases, only RDP gateways, bastions or jump servers\
+  \ may be expected\n    expose RDP directly to the Internet and can be exempted from\
+  \ this rule. RDP may be required by some work-flows such\n    as remote access and\
+  \ support for specialized software products and servers. Such work-flows are usually\
+  \ known and\n    not unexpected.\n    "

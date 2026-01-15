@@ -1,0 +1,21 @@
+title: Security Service Registry ACL Modification
+id: 01984373-f3b2-5003-a5a3-181a63f5cd62
+status: stable
+level: high
+description: |
+  'Identifies attempts to modify registry ACL to evade security solutions. In the Solorigate attack, the attackers were found modifying registry permissions so services.exe cannot access the relevant registry keys to start the service.  The detection leverages Security Event as well as MDE data to identify when specific security services registry permissions are modified.  Only some portions of this detection are related to Solorigate, it also includes coverage for some common tools that perform t
+author: Microsoft Security Research
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    ObjectType:
+      - Key
+      - Key
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: 473d57e6-f787-435c-a16b-b38b51fa9a4b
+  source_format: azure_kql

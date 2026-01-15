@@ -1,0 +1,29 @@
+title: Privilege Escalation via Named Pipe Impersonation
+id: 3ecbdc9e-e4f2-43fa-8cca-63802125e582
+status: stable
+level: high
+description: 'Identifies a privilege escalation attempt via named pipe impersonation.
+  An adversary may abuse this technique by
+
+  utilizing a framework such Metasploit''s meterpreter getsystem command.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-23'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - Cmd.Exe
+    - PowerShell.EXE
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1134
+references:
+- https://www.ired.team/offensive-security/privilege-escalation/windows-namedpipes-privilege-escalation
+- https://www.cobaltstrike.com/blog/what-happens-when-i-type-getsystem/
+- https://redcanary.com/blog/getsystem-offsec/

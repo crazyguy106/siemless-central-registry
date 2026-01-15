@@ -1,0 +1,39 @@
+title: 'ms-exchange: Multiple e-mail attempts to an invalid account.'
+id: 1b49fa9f-0fde-5508-8306-7f324bde3a6d
+status: stable
+level: medium
+description: 'ms-exchange: Multiple e-mail attempts to an invalid account.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 12
+    ignore_window: 120s
+  - type: sequence
+    parent_rule: wazuh-3801
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1114
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3851
+  wazuh_level: 9

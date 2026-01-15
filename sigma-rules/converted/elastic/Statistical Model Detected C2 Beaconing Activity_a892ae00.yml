@@ -1,0 +1,30 @@
+title: Statistical Model Detected C2 Beaconing Activity
+id: 5397080f-34e5-449b-8e9c-4c8083d7ccc6
+status: stable
+level: low
+description: 'A statistical model has identified command-and-control (C2) beaconing
+  activity. Beaconing can help attackers maintain
+
+  stealthy communication with their C2 servers, receive instructions and payloads,
+  exfiltrate data and maintain
+
+  persistence in a network.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-22'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    beacon_stats_is_beaconing: 'true'
+    process_name: ("WaAppAgent.exe
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1102
+- attack.t1102.002
+references:
+- https://www.elastic.co/guide/en/security/current/prebuilt-ml-jobs.html
+- https://docs.elastic.co/en/integrations/beaconing
+- https://www.elastic.co/security-labs/identifying-beaconing-malware-using-elastic

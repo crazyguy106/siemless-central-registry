@@ -1,0 +1,24 @@
+title: Courier (imap/pop3) authentication success.
+id: 695dd452-3377-5afa-b4c5-3fd70bc372cd
+status: stable
+level: low
+description: Courier (imap/pop3) authentication success.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^LOGIN,'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3900
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3904
+  wazuh_level: 3

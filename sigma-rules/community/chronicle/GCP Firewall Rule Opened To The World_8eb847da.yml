@@ -1,0 +1,21 @@
+title: GCP Firewall Rule Opened To The World
+id: 16d86186-4959-5f9b-acc0-49ea70784546
+status: experimental
+level: high
+description: Detect when a GCP Firewall rule is opened to the world (0.0.0.0/0) on all protocols.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: RESOURCE_CREATION
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_name: Google Compute Engine
+    security_result_action: ALLOW
+    metadata_product_event_type: compute.firewalls.insert$
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_340c7a66-56ea-498a-bf00-270e9e61fed0
+  source_format: chronicle_yaral

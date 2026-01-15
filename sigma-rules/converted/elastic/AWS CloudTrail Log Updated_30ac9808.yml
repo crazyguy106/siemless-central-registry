@@ -1,0 +1,42 @@
+title: AWS CloudTrail Log Updated
+id: 3e002465-876f-4f04-b016-84ef48ce7e5d
+status: stable
+level: low
+description: 'Detects updates to an existing CloudTrail trail via UpdateTrail API
+  which may reduce visibility, change destinations, or
+
+  weaken integrity (e.g., removing global events, moving the S3 destination, or disabling
+  validation). Adversaries can
+
+  modify trails to evade detection while maintaining a semblance of logging. Validate
+  any configuration change against
+
+  approved baselines.'
+author: Elastic (converted by SIEMLess)
+date: '2020-06-10'
+modified: '2025-11-07'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: cloudtrail.amazonaws.com
+    event_action: UpdateTrail
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.collection
+- attack.t1565.001
+- attack.t1565
+- attack.t1530
+references:
+- https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_UpdateTrail.html
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudtrail/update-trail.html
+falsepositives:
+- "    Trail updates may be made by a system or network administrator. Verify whether\
+  \ the user identity, user agent, and/or\n    hostname should be making changes in\
+  \ your environment. Trail updates from unfamiliar users or hosts should be\n   \
+  \ investigated. If known behavior is causing false positives, it can be exempted\
+  \ from the rule.\n    "

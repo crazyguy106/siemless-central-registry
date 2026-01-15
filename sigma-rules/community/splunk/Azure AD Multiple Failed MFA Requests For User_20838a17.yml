@@ -1,0 +1,31 @@
+title: Azure AD Multiple Failed MFA Requests For User
+id: 19f33482-aba3-5e67-a408-93742e2ad0c6
+status: stable
+level: high
+description: |
+  The following analytic identifies multiple failed multi-factor authentication (MFA) requests for a single user within an Azure AD tenant. It leverages Azure AD Sign-in Logs, specifically error code 500121, to detect more than 10 failed MFA attempts within 10 minutes. This behavior is significant as it may indicate an adversary attempting to bypass MFA by bombarding the user with repeated authentication prompts. If confirmed malicious, this activity could lead to unauthorized access, allowing att
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: Sign-in activity
+    category: SignInLogs
+    errorcode: 500121
+    span: 10m
+  filter:
+    additionaldetails: MFA denied; user declined the authentication
+  condition: selection and not filter
+tags:
+  - attack.t1078.004
+  - attack.t1586.003
+  - attack.t1621
+references:
+  - https://www.mandiant.com/resources/blog/russian-targeting-gov-business
+  - https://arstechnica.com/information-technology/2022/03/lapsus-and-solar-winds-hackers-both-use-the-same-old-trick-to-bypass-mfa/
+  - https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/
+  - https://attack.mitre.org/techniques/T1621/
+  - https://attack.mitre.org/techniques/T1078/004/
+custom_attributes:
+  original_rule_id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
+  source_format: splunk_spl

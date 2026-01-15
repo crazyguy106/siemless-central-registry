@@ -1,0 +1,25 @@
+title: Access to Vulnerable Ivanti Connect Secure Bookmark Endpoint
+id: 65a83694-5b20-5f47-974d-1a1c0c6ef38c
+status: stable
+level: high
+description: |
+  The following analytic identifies access to the /api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark endpoint, which is associated with CVE-2023-46805 and CVE-2024-21887 vulnerabilities. It detects this activity by monitoring for GET requests that receive a 403 Forbidden response with an empty body. This behavior is significant as it indicates potential exploitation attempts against Ivanti Connect Secure systems. If confirmed malicious, attackers could explo
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    url: '*/api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark*'
+    datamodel: Web
+    http_method: GET
+    status: 403
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://github.com/RootUp/PersonalStuff/blob/master/http-vuln-cve2023-46805_2024_21887.nse
+  - https://github.com/projectdiscovery/nuclei-templates/blob/c6b351e71b0fb0e40e222e97038f1fe09ac58194/http/misconfiguration/ivanti/CVE-2023-46085-CVE-2024-21887-mitigation-not-applied.yaml
+  - https://github.com/rapid7/metasploit-framework/pull/18708/files
+custom_attributes:
+  original_rule_id: 15838756-f425-43fa-9d88-a7f88063e81a
+  source_format: splunk_spl

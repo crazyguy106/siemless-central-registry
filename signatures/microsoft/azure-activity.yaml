@@ -7,7 +7,7 @@ source_document: Azure Activity Log Event Schema
 source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log-schema
 extraction_date: '2026-01-02'
 source_file: azure-activity-signatures.json
-generated_at: '2026-01-02T23:20:35.290701'
+generated_at: '2026-01-04T09:34:54.245647'
 categories:
 - Administrative
 - HttpRequest
@@ -23,270 +23,472 @@ fields:
   field_type: object
   description: Azure RBAC properties (action, role, scope)
   category: Administrative
+  ecs_field: vendor.authorization
+  cim_field: authorization
+  asim_field: authorization
 - field_name: caller
   field_type: string
   description: Email/UPN/SPN of the user/application performing operation
   category: Administrative
+  ecs_field: vendor.caller
+  cim_field: caller
+  asim_field: caller
 - field_name: category
   field_type: string
   description: Event category (Administrative, ServiceHealth, etc.)
   category: Administrative
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
 - field_name: channels
   field_type: string
   description: Admin or Operation channel
   category: Administrative
+  ecs_field: vendor.channels
+  cim_field: channels
+  asim_field: channels
 - field_name: claims
   field_type: object
   description: JWT token from Active Directory
   category: Administrative
+  ecs_field: vendor.claims
+  cim_field: claims
+  asim_field: claims
 - field_name: correlationId
   field_type: string
   description: Shared identifier across related events
   category: Administrative
+  ecs_field: vendor.correlationId
+  cim_field: correlationId
+  asim_field: correlationId
 - field_name: description
   field_type: string
   description: Static text description
   category: Administrative
+  ecs_field: message
+  cim_field: event_description
+  asim_field: EventMessage
 - field_name: eventDataId
   field_type: string
   description: Unique event identifier
   category: Administrative
+  ecs_field: vendor.eventDataId
+  cim_field: eventDataId
+  asim_field: eventDataId
 - field_name: eventName
   field_type: object
   description: Friendly name with value and localizedValue
   category: Administrative
+  ecs_field: vendor.eventName
+  cim_field: eventName
+  asim_field: eventName
 - field_name: eventTimestamp
   field_type: datetime
   description: When Azure service generated event
   category: Administrative
+  ecs_field: vendor.eventTimestamp
+  cim_field: eventTimestamp
+  asim_field: eventTimestamp
 - field_name: httpRequest.clientIpAddress
   field_type: ip
   description: Client IP address
   category: HttpRequest
+  ecs_field: vendor.httpRequest.clientIpAddress
+  cim_field: httpRequest.clientIpAddress
+  asim_field: httpRequest.clientIpAddress
 - field_name: httpRequest.clientRequestId
   field_type: string
   description: Client request identifier
   category: HttpRequest
+  ecs_field: vendor.httpRequest.clientRequestId
+  cim_field: httpRequest.clientRequestId
+  asim_field: httpRequest.clientRequestId
 - field_name: httpRequest.method
   field_type: string
   description: HTTP method used
   category: HttpRequest
+  ecs_field: vendor.httpRequest.method
+  cim_field: httpRequest.method
+  asim_field: httpRequest.method
 - field_name: id
   field_type: string
   description: Full resource URI with event ID
   category: Administrative
+  ecs_field: network.packet_id
+  cim_field: packet_id
+  asim_field: NetworkPacketId
 - field_name: level
   field_type: string
   description: Severity level (Critical/Error/Warning/Informational)
   category: Administrative
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
 - field_name: operationId
   field_type: string
   description: Shared among related operation events
   category: Administrative
+  ecs_field: vendor.operationId
+  cim_field: operationId
+  asim_field: operationId
 - field_name: operationName
   field_type: object
   description: Operation name (e.g., Microsoft.Network/networkSecurityGroups/write)
   category: Administrative
+  ecs_field: vendor.operationName
+  cim_field: operationName
+  asim_field: operationName
 - field_name: properties
   field_type: object
   description: Key-value pairs with event details
   category: Administrative
+  ecs_field: vendor.properties
+  cim_field: properties
+  asim_field: properties
 - field_name: properties.ActionTaken
   field_type: string
   description: Detected, Blocked, etc.
   category: Security
+  ecs_field: vendor.properties.ActionTaken
+  cim_field: properties.ActionTaken
+  asim_field: properties.ActionTaken
 - field_name: properties.Aggregation
   field_type: string
   description: Aggregation type (Average, Total, etc.)
   category: Alert
+  ecs_field: vendor.properties.Aggregation
+  cim_field: properties.Aggregation
+  asim_field: properties.Aggregation
 - field_name: properties.Description
   field_type: string
   description: Detailed autoscale action description
   category: Autoscale
+  ecs_field: vendor.properties.Description
+  cim_field: properties.Description
+  asim_field: properties.Description
 - field_name: properties.LastScaleActionTime
   field_type: string
   description: Timestamp of last scaling action
   category: Autoscale
+  ecs_field: vendor.properties.LastScaleActionTime
+  cim_field: properties.LastScaleActionTime
+  asim_field: properties.LastScaleActionTime
 - field_name: properties.MetricName
   field_type: string
   description: Metric name
   category: Alert
+  ecs_field: vendor.properties.MetricName
+  cim_field: properties.MetricName
+  asim_field: properties.MetricName
 - field_name: properties.MetricUnit
   field_type: string
   description: Metric unit (Count, Percent, etc.)
   category: Alert
+  ecs_field: vendor.properties.MetricUnit
+  cim_field: properties.MetricUnit
+  asim_field: properties.MetricUnit
 - field_name: properties.NewInstancesCount
   field_type: string
   description: New instance count
   category: Autoscale
+  ecs_field: vendor.properties.NewInstancesCount
+  cim_field: properties.NewInstancesCount
+  asim_field: properties.NewInstancesCount
 - field_name: properties.OldInstancesCount
   field_type: string
   description: Previous instance count
   category: Autoscale
+  ecs_field: vendor.properties.OldInstancesCount
+  cim_field: properties.OldInstancesCount
+  asim_field: properties.OldInstancesCount
 - field_name: properties.Operator
   field_type: string
   description: Conditional operator (LessThan, GreaterThan, etc.)
   category: Alert
+  ecs_field: vendor.properties.Operator
+  cim_field: properties.Operator
+  asim_field: properties.Operator
 - field_name: properties.ResourceName
   field_type: string
   description: Resource ID being scaled
   category: Autoscale
+  ecs_field: vendor.properties.ResourceName
+  cim_field: properties.ResourceName
+  asim_field: properties.ResourceName
 - field_name: properties.RuleDescription
   field_type: string
   description: Alert rule description
   category: Alert
+  ecs_field: vendor.properties.RuleDescription
+  cim_field: properties.RuleDescription
+  asim_field: properties.RuleDescription
 - field_name: properties.RuleName
   field_type: string
   description: Alert rule name
   category: Alert
+  ecs_field: vendor.properties.RuleName
+  cim_field: properties.RuleName
+  asim_field: properties.RuleName
 - field_name: properties.RuleUri
   field_type: string
   description: Resource ID of metric alert rule
   category: Alert
+  ecs_field: vendor.properties.RuleUri
+  cim_field: properties.RuleUri
+  asim_field: properties.RuleUri
 - field_name: properties.Severity
   field_type: string
   description: High, Medium, Low
   category: Security
+  ecs_field: vendor.properties.Severity
+  cim_field: properties.Severity
+  asim_field: properties.Severity
 - field_name: properties.Threshold
   field_type: string
   description: Threshold value for evaluation
   category: Alert
+  ecs_field: vendor.properties.Threshold
+  cim_field: properties.Threshold
+  asim_field: properties.Threshold
 - field_name: properties.UserSID
   field_type: string
   description: User security identifier
   category: Security
+  ecs_field: vendor.properties.UserSID
+  cim_field: properties.UserSID
+  asim_field: properties.UserSID
 - field_name: properties.WindowSizeInMinutes
   field_type: string
   description: Time window for evaluation
   category: Alert
+  ecs_field: vendor.properties.WindowSizeInMinutes
+  cim_field: properties.WindowSizeInMinutes
+  asim_field: properties.WindowSizeInMinutes
 - field_name: properties.accountLogonId
   field_type: string
   description: Account logon identifier
   category: Security
+  ecs_field: vendor.properties.accountLogonId
+  cim_field: properties.accountLogonId
+  asim_field: properties.accountLogonId
 - field_name: properties.ancestors
   field_type: string
   description: Comma-separated parent management groups
   category: Policy
+  ecs_field: vendor.properties.ancestors
+  cim_field: properties.ancestors
+  asim_field: properties.ancestors
 - field_name: properties.commandLine
   field_type: string
   description: Process command line executed
   category: Security
+  ecs_field: vendor.properties.commandLine
+  cim_field: properties.commandLine
+  asim_field: properties.commandLine
 - field_name: properties.communication
   field_type: string
   description: Detailed incident description
   category: ServiceHealth
+  ecs_field: vendor.properties.communication
+  cim_field: properties.communication
+  asim_field: properties.communication
 - field_name: properties.domainName
   field_type: string
   description: Domain of affected system
   category: Security
+  ecs_field: vendor.properties.domainName
+  cim_field: properties.domainName
+  asim_field: properties.domainName
 - field_name: properties.healthEventCategory
   field_type: string
   description: Planned or Unplanned
   category: ResourceHealth
+  ecs_field: vendor.properties.healthEventCategory
+  cim_field: properties.healthEventCategory
+  asim_field: properties.healthEventCategory
 - field_name: properties.healthEventCause
   field_type: string
   description: PlatformInitiated or UserInitiated
   category: ResourceHealth
+  ecs_field: vendor.properties.healthEventCause
+  cim_field: properties.healthEventCause
+  asim_field: properties.healthEventCause
 - field_name: properties.healthEventType
   field_type: string
   description: Downtime, etc.
   category: ResourceHealth
+  ecs_field: vendor.properties.healthEventType
+  cim_field: properties.healthEventType
+  asim_field: properties.healthEventType
 - field_name: properties.healthStatus
   field_type: string
   description: Available, Unavailable, Degraded, Unknown
   category: ResourceHealth
+  ecs_field: vendor.properties.healthStatus
+  cim_field: properties.healthStatus
+  asim_field: properties.healthStatus
 - field_name: properties.impactStartTime
   field_type: datetime
   description: When impact began
   category: ServiceHealth
+  ecs_field: vendor.properties.impactStartTime
+  cim_field: properties.impactStartTime
+  asim_field: properties.impactStartTime
 - field_name: properties.impactedServices
   field_type: array
   description: Services affected by region
   category: ServiceHealth
+  ecs_field: vendor.properties.impactedServices
+  cim_field: properties.impactedServices
+  asim_field: properties.impactedServices
 - field_name: properties.incidentType
   field_type: string
   description: Incident, Maintenance, Action Required, etc.
   category: ServiceHealth
+  ecs_field: vendor.properties.incidentType
+  cim_field: properties.incidentType
+  asim_field: properties.incidentType
 - field_name: properties.isComplianceCheck
   field_type: string
   description: False (new resources), True (evaluation triggers)
   category: Policy
+  ecs_field: vendor.properties.isComplianceCheck
+  cim_field: properties.isComplianceCheck
+  asim_field: properties.isComplianceCheck
 - field_name: properties.parentProcess
   field_type: string
   description: Parent process name
   category: Security
+  ecs_field: vendor.properties.parentProcess
+  cim_field: properties.parentProcess
+  asim_field: properties.parentProcess
 - field_name: properties.policies
   field_type: string
   description: JSON array with policy definition, assignment, effect, parameters
   category: Policy
+  ecs_field: vendor.properties.policies
+  cim_field: properties.policies
+  asim_field: properties.policies
 - field_name: properties.processId
   field_type: string
   description: Process ID
   category: Security
+  ecs_field: vendor.properties.processId
+  cim_field: properties.processId
+  asim_field: properties.processId
 - field_name: properties.processName
   field_type: string
   description: Process name/path
   category: Security
+  ecs_field: vendor.properties.processName
+  cim_field: properties.processName
+  asim_field: properties.processName
 - field_name: properties.region
   field_type: string
   description: Affected region
   category: ServiceHealth
+  ecs_field: vendor.properties.region
+  cim_field: properties.region
+  asim_field: properties.region
 - field_name: properties.resourceLocation
   field_type: string
   description: Azure region of evaluated resource
   category: Policy
+  ecs_field: vendor.properties.resourceLocation
+  cim_field: properties.resourceLocation
+  asim_field: properties.resourceLocation
 - field_name: properties.service
   field_type: string
   description: Service name
   category: ServiceHealth
+  ecs_field: vendor.properties.service
+  cim_field: properties.service
+  asim_field: properties.service
 - field_name: properties.stage
   field_type: string
   description: Active, Resolved, etc.
   category: ServiceHealth
+  ecs_field: vendor.properties.stage
+  cim_field: properties.stage
+  asim_field: properties.stage
 - field_name: properties.title
   field_type: string
   description: Infrastructure/service affected
   category: ServiceHealth
+  ecs_field: vendor.properties.title
+  cim_field: properties.title
+  asim_field: properties.title
 - field_name: properties.trackingId
   field_type: string
   description: Incident tracking ID
   category: ServiceHealth
+  ecs_field: vendor.properties.trackingId
+  cim_field: properties.trackingId
+  asim_field: properties.trackingId
 - field_name: properties.userName
   field_type: string
   description: User account name
   category: Security
+  ecs_field: vendor.properties.userName
+  cim_field: properties.userName
+  asim_field: properties.userName
 - field_name: resourceGroupName
   field_type: string
   description: Resource group name
   category: Administrative
+  ecs_field: vendor.resourceGroupName
+  cim_field: resourceGroupName
+  asim_field: resourceGroupName
 - field_name: resourceId
   field_type: string
   description: Full resource ID
   category: Administrative
+  ecs_field: vendor.resourceId
+  cim_field: resourceId
+  asim_field: resourceId
 - field_name: resourceProviderName
   field_type: object
   description: Provider name (e.g., Microsoft.Network)
   category: Administrative
+  ecs_field: vendor.resourceProviderName
+  cim_field: resourceProviderName
+  asim_field: resourceProviderName
 - field_name: resourceType
   field_type: object
   description: Resource type (e.g., Microsoft.Network/networkSecurityGroups)
   category: Administrative
+  ecs_field: vendor.resourceType
+  cim_field: resourceType
+  asim_field: resourceType
 - field_name: status
   field_type: object
   description: Succeeded, Failed, Started, In Progress
   category: Administrative
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
 - field_name: subStatus
   field_type: object
   description: HTTP status code or substatus
   category: Administrative
+  ecs_field: vendor.subStatus
+  cim_field: subStatus
+  asim_field: subStatus
 - field_name: submissionTimestamp
   field_type: datetime
   description: When event became available for querying
   category: Administrative
+  ecs_field: vendor.submissionTimestamp
+  cim_field: submissionTimestamp
+  asim_field: submissionTimestamp
 - field_name: subscriptionId
   field_type: string
   description: Azure Subscription ID
   category: Administrative
+  ecs_field: vendor.subscriptionId
+  cim_field: subscriptionId
+  asim_field: subscriptionId
+mapped_field_count: 5
 notes: Azure Activity Log provides insight into subscription-level events including
   Administrative, ServiceHealth, ResourceHealth, Alert, Autoscale, Security, Recommendation,
   and Policy categories.

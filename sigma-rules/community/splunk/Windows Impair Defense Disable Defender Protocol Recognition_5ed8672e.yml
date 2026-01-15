@@ -1,0 +1,22 @@
+title: Windows Impair Defense Disable Defender Protocol Recognition
+id: cdb9e30d-6c38-5cef-a818-7e96a4108b53
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry that disable the Windows Defender protocol recognition feature. It leverages data from the Endpoint.Registry data model, specifically looking for changes to the "DisableProtocolRecognition" setting. This activity is significant because disabling protocol recognition can hinder Windows Defender's ability to detect and respond to malware or suspicious software. If confirmed malicious, this action could allow an attacker to bypass
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Windows Defender\\NIS\\DisableProtocolRecognition'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://x.com/malmoeb/status/1742604217989415386?s=20
+  - https://github.com/undergroundwires/privacy.sexy
+custom_attributes:
+  original_rule_id: b2215bfb-6171-4137-af17-1a02fdd8d043
+  source_format: splunk_spl

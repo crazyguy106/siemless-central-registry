@@ -1,0 +1,23 @@
+title: ESXi System Clock Manipulation
+id: e29a2241-c77d-55ce-8bc5-b2cad344ec1d
+status: stable
+level: high
+description: |
+  This detection identifies a significant change to the system clock on an ESXi host, which may indicate an attempt to manipulate timestamps and evade detection or forensic analysis
+author: Raven Tait, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    message:
+      - '*NTPClock*'
+      - '*system clock stepped*'
+    field:
+      - _raw
+      - _raw
+  condition: selection
+tags:
+  - attack.t1070.006
+custom_attributes:
+  original_rule_id: 910df401-b215-4675-88c5-2ad7b06d82a5
+  source_format: splunk_spl

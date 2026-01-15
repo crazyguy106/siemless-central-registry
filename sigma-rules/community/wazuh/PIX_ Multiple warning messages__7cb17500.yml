@@ -1,0 +1,33 @@
+title: 'PIX: Multiple warning messages.'
+id: 5a6c7d79-99a9-5b37-8ef7-95d40b6d115a
+status: stable
+level: high
+description: 'PIX: Multiple warning messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-4313
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4383
+  wazuh_level: 10

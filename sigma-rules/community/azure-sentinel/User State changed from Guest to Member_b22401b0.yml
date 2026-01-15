@@ -1,0 +1,19 @@
+title: User State changed from Guest to Member
+id: 2fabd89f-4efe-5ebb-843d-9f10ad9c1bbe
+status: stable
+level: medium
+description: |
+  'Detects when a guest account in a tenant is converted to a member of the tenant.   Monitoring guest accounts and the access they are provided is important to detect potential account abuse.   Accounts converted to members should be investigated to ensure the activity was legitimate.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-user-accounts#monitoring-for-failed-unusual-sign-ins'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    OperationName: Update user
+    Result: success
+  condition: selection
+tags:
+  - attack.t1098
+custom_attributes:
+  original_rule_id: a09a0b8e-30fe-4ebf-94a0-cffe50f579cd
+  source_format: azure_kql

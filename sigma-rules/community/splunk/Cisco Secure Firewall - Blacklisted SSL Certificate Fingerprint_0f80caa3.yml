@@ -1,0 +1,23 @@
+title: Cisco Secure Firewall - Blacklisted SSL Certificate Fingerprint
+id: 969af705-2e4b-530d-989e-081f6aa971d8
+status: stable
+level: high
+description: |
+  The following analytic detects the use of known suspicious SSL certificates in any observed event where the SSL_CertFingerprint field is present. It leverages Cisco Secure Firewall logs and compares the SSL certificate SHA1 fingerprint against a blacklist of certificates associated with malware distribution, command and control (C2) infrastructure, or phishing campaigns. This activity is significant as adversaries often reuse or self-sign certificates across malicious infrastructure, allowing de
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1587.002
+  - attack.t1588.004
+  - attack.t1071.001
+  - attack.t1573.002
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+custom_attributes:
+  original_rule_id: c43f7b49-2dab-4e76-892e-7f971c2f20f1
+  source_format: splunk_spl

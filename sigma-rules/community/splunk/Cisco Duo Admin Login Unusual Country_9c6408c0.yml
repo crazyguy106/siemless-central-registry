@@ -1,0 +1,22 @@
+title: Cisco Duo Admin Login Unusual Country
+id: c23e09cc-55fa-5859-9495-c27b46d956d3
+status: stable
+level: high
+description: |
+  The following analytic detects instances where a Duo admin login originates from a country outside of the United States, which may indicate suspicious or unauthorized access attempts. Please adjust as needed to your environment. It works by analyzing Duo activity logs for admin login actions and filtering out events where the access device's country is not within the expected region. By correlating user, device, browser, and location details, the analytic highlights anomalies in geographic login
+author: Patrick Bareiss, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    country:
+      - United States
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://splunkbase.splunk.com/app/7404
+custom_attributes:
+  original_rule_id: 1bf631d1-44a0-472b-98c4-2975b8b281df
+  source_format: splunk_spl

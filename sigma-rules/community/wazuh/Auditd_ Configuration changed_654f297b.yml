@@ -1,0 +1,24 @@
+title: 'Auditd: Configuration changed'
+id: ebd706ec-c9cd-51ea-b26e-2ce10c2d9b85
+status: stable
+level: low
+description: 'Auditd: Configuration changed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.type:
+      - CONFIG_CHANGE
+      - DAEMON_CONFIG
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80705
+  wazuh_level: 3

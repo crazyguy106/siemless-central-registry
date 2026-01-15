@@ -1,0 +1,24 @@
+title: 'PAM: Login session opened.'
+id: 75013f7c-0d7f-58ff-ac5d-48af4adc5fca
+status: stable
+level: low
+description: 'PAM: Login session opened.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: session opened for user
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5500
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5501
+  wazuh_level: 3

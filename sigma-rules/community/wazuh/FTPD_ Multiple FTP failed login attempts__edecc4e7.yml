@@ -1,0 +1,24 @@
+title: 'FTPD: Multiple FTP failed login attempts.'
+id: 92b3994c-ede0-5e51-944a-cb33b7bb8466
+status: stable
+level: high
+description: 'FTPD: Multiple FTP failed login attempts.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: repeated login failures
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11100
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11109
+  wazuh_level: 10

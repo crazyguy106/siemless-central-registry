@@ -1,0 +1,22 @@
+title: 'PAM: Attempt to login with an invalid user.'
+id: b20c668b-00b3-5057-9ed1-3ba8dcc963bb
+status: stable
+level: low
+description: 'PAM: Attempt to login with an invalid user.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: check pass; user unknown
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5500
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5504
+  wazuh_level: 5

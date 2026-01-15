@@ -1,0 +1,28 @@
+title: Polkit Policy Creation
+id: 0f54e947-9ab3-4dff-9e8d-fb42493eaa2f
+status: stable
+level: low
+description: 'This rule monitors for the creation of Polkit policy files on Linux
+  systems. Polkit policy files are used to define the
+
+  permissions for system-wide services and applications. The creation of new Polkit
+  policy files may indicate an attempt
+
+  to modify the authentication process, which could be used for persistence by an
+  adversary.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1556
+- attack.t1543

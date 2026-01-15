@@ -1,0 +1,21 @@
+title: AWS Application Load Balancer Insecure SSL Policy
+id: f33b0902-78a1-547e-92d9-715158655814
+status: experimental
+level: low
+description: Detects when an insecure SSL policy is configured for an AWS Application Load Balancer.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - ModifyListener
+      - CreateListener
+  condition: selection
+tags:
+  - attack.t1600
+custom_attributes:
+  original_rule_id: mr_8aace83b-f9f0-45b8-95c5-a4b0bb2cbb85
+  source_format: chronicle_yaral

@@ -1,0 +1,32 @@
+title: Kernel Driver Load
+id: 3e12a439-d002-4944-bc42-171c0dcb9b96
+status: stable
+level: low
+description: 'Detects the loading of a Linux kernel module through system calls. Threat
+  actors may leverage Linux kernel modules to
+
+  load a rootkit on a system providing them with complete control and the ability
+  to hide from security products. As other
+
+  rules monitor for the addition of Linux kernel modules through system utilities
+  or .ko files, this rule covers the gap
+
+  that evasive rootkits leverage by monitoring for kernel module additions on the
+  lowest level through auditd_manager.'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-26'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: driver_load
+detection:
+  selection:
+    host_os_type: linux
+    event_action: loaded-kernel-module
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547
+- attack.t1014
+- attack.t1547.006

@@ -1,0 +1,40 @@
+title: Potential Privilege Escalation via SUID/SGID Proxy Execution
+id: 341c6e18-9ef1-437e-bf18-b513f3ae2130
+status: stable
+level: low
+description: 'Detects potential privilege escalation via SUID/SGID proxy execution
+  on Linux systems. Attackers may exploit binaries with the
+
+  SUID/SGID bit set to execute commands with elevated privileges. This rule identifies
+  instances where a process is executed with
+
+  root privileges (user ID 0 or group ID 0) while the real user or group ID is non-root,
+  indicating potential misuse of SUID/SGID
+
+  binaries.'
+author: Elastic (converted by SIEMLess)
+date: '2025-10-30'
+modified: '2025-11-11'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_user_id: '0'
+    process_group_id: '0'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1548.001
+- attack.t1218
+- attack.t1068
+- attack.t1548
+references:
+- https://dfir.ch/posts/today_i_learned_binfmt_misc/
+- https://gtfobins.github.io/#+suid
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

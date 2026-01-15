@@ -1,0 +1,31 @@
+title: GRUB Configuration Generation through Built-in Utilities
+id: aabdad51-51fb-4a66-9d82-3873e42accb8
+status: stable
+level: low
+description: 'This rule detects the generation of a new GRUB configuration file using
+  built-in Linux commands. The GRUB configuration
+
+  file is used to configure the GRUB bootloader, which is responsible for loading
+  the Linux kernel and initramfs image
+
+  during the boot process. Attackers may use these built-in utilities to generate
+  a new GRUB configuration file that
+
+  includes malicious kernel parameters or boot options, which can be leveraged to
+  maintain persistence on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1574
+- attack.t1543
+- attack.t1542

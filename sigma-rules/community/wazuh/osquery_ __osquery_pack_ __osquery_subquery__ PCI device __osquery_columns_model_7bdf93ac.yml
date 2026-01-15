@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): PCI device $(osquery.columns.model) with vendor $(osquery.columns.vendor) is active'
+id: acf3489e-f08b-5857-9500-cae747c48deb
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): PCI device $(osquery.columns.model) with vendor $(osquery.columns.vendor) is active'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: pci_devices
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24405
+  wazuh_level: 4

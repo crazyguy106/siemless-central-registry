@@ -1,0 +1,39 @@
+title: Suspicious Content Extracted or Decompressed via Funzip
+id: dc0b7782-0df0-47ff-8337-db0d678bdb66
+status: stable
+level: medium
+description: 'Identifies when suspicious content is extracted from a file and subsequently
+  decompressed using the funzip utility.
+
+  Malware may execute the tail utility using the "-c" option to read a sequence of
+  bytes from the end of a file. The
+
+  output from tail can be piped to funzip in order to decompress malicious code before
+  it is executed. This behavior is
+
+  consistent with malware families such as Bundlore.'
+author: Elastic (converted by SIEMLess)
+date: '2023-06-26'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    process_args: funzip
+    process_parent_executable|contains:
+    - /usr/bin/dracut
+    - /sbin/dracut
+    - /usr/bin/xargs
+    process_parent_command_line|endswith: nessus_su*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+- attack.t1059.004
+- attack.t1140
+- attack.t1027
+references:
+- https://attack.mitre.org/software/S0482/

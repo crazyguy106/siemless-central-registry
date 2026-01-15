@@ -1,0 +1,58 @@
+title: Potential Remote File Execution via MSIEXEC
+id: 3e441bdb-596c-44fd-8628-2cfdf4516ada
+status: stable
+level: low
+description: 'Identifies the execution of the built-in Windows Installer, msiexec.exe,
+  to install a remote package. Adversaries may
+
+  abuse msiexec.exe to launch local or network accessible MSI files.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-28'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence with maxspan=1m\n [process where host.os.type == \"windows\"\
+      \ and event.action == \"start\" and\n    process.name : \"msiexec.exe\" and\
+      \ process.args : \"/V\"] by process.entity_id\n [network where host.os.type\
+      \ == \"windows\" and process.name : \"msiexec.exe\" and\n    event.action ==\
+      \ \"connection_attempted\"] by process.entity_id\n [process where host.os.type\
+      \ == \"windows\" and event.action == \"start\" and\n  process.parent.name :\
+      \ \"msiexec.exe\" and user.id : (\"S-1-5-21-*\", \"S-1-5-12-1-*\") and\n  not\
+      \ process.executable : (\"?:\\\\Windows\\\\SysWOW64\\\\msiexec.exe\",\n    \
+      \                        \"?:\\\\Windows\\\\System32\\\\msiexec.exe\",\n   \
+      \                         \"?:\\\\Windows\\\\System32\\\\srtasks.exe\",\n  \
+      \                          \"?:\\\\Windows\\\\SysWOW64\\\\srtasks.exe\",\n \
+      \                           \"?:\\\\Windows\\\\System32\\\\taskkill.exe\",\n\
+      \                            \"?:\\\\Windows\\\\Installer\\\\MSI*.tmp\",\n \
+      \                           \"?:\\\\Program Files\\\\*.exe\",\n            \
+      \                \"?:\\\\Program Files (x86)\\\\*.exe\",\n                 \
+      \           \"?:\\\\Windows\\\\System32\\\\ie4uinit.exe\",\n               \
+      \             \"?:\\\\Windows\\\\SysWOW64\\\\ie4uinit.exe\",\n             \
+      \               \"?:\\\\Windows\\\\System32\\\\sc.exe\",\n                 \
+      \           \"?:\\\\Windows\\\\system32\\\\Wbem\\\\mofcomp.exe\",\n        \
+      \                    \"?:\\\\Windows\\\\twain_32\\\\fjscan32\\\\SOP\\\\crtdmprc.exe\"\
+      ,\n                            \"?:\\\\Windows\\\\SysWOW64\\\\taskkill.exe\"\
+      ,\n                            \"?:\\\\Windows\\\\SysWOW64\\\\schtasks.exe\"\
+      ,\n                            \"?:\\\\Windows\\\\system32\\\\schtasks.exe\"\
+      ,\n                            \"?:\\\\Windows\\\\System32\\\\sdbinst.exe\"\
+      ) and\n  not (process.code_signature.subject_name == \"Citrix Systems, Inc.\"\
+      \ and process.code_signature.trusted == true) and\n  not (process.name : (\"\
+      regsvr32.exe\", \"powershell.exe\", \"rundll32.exe\", \"wscript.exe\") and\n\
+      \       process.Ext.token.integrity_level_name == \"high\" and\n       process.args\
+      \ : (\"?:\\\\Program Files\\\\*\", \"?:\\\\Program Files (x86)\\\\*\")) and\n\
+      \  not (process.executable : (\"?:\\\\Program Files\\\\*.exe\", \"?:\\\\Program\
+      \ Files (x86)\\\\*.exe\") and process.code_signature.trusted == true) and\n\
+      \  not (process.name : \"rundll32.exe\" and process.args : \"printui.dll,PrintUIEntry\"\
+      )\n  ] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.initial_access
+- attack.t1566
+- attack.t1218
+- attack.t1218.007
+- attack.t1566.002

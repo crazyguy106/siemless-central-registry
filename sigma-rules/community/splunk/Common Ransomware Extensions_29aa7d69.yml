@@ -1,0 +1,21 @@
+title: Common Ransomware Extensions
+id: cb5c3a4f-46b2-51a0-a779-98d4b44ff27f
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to files with extensions commonly associated with ransomware. It leverages the Endpoint.Filesystem data model to identify changes in file extensions that match known ransomware patterns. This activity is significant because it suggests an attacker is attempting to encrypt or alter files, potentially leading to severe data loss and operational disruption. If confirmed malicious, this activity could result in the encryption of critical data, rendering i
+author: David Dorsey, Michael Haag, Splunk, Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    field: file_name
+    update: 'true'
+  condition: selection
+tags:
+  - attack.t1485
+references:
+  - https://github.com/splunk/security_content/issues/2448
+custom_attributes:
+  original_rule_id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
+  source_format: splunk_spl

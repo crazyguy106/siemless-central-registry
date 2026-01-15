@@ -1,0 +1,24 @@
+title: Detect New Local Admin account
+id: 823408d4-f0c0-5126-95ea-4f26e9641147
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of new accounts elevated to local administrators. It uses Windows event logs, specifically EventCode 4720 (user account creation) and EventCode 4732 (user added to Administrators group). This activity is significant as it indicates potential unauthorized privilege escalation, which is critical for SOC monitoring. If confirmed malicious, this could allow attackers to gain administrative access, leading to unauthorized data access, system modifications, 
+author: David Dorsey, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode:
+      - 4720
+      - 4732
+    group_name: Administrators
+    targetusername: Administrators
+    connected: 'false'
+    maxspan: 180m
+  condition: selection
+tags:
+  - attack.t1136.001
+custom_attributes:
+  original_rule_id: b25f6f62-0712-43c1-b203-083231ffd97d
+  source_format: splunk_spl

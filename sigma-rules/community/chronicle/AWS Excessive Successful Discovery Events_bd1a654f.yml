@@ -1,0 +1,20 @@
+title: AWS Excessive Successful Discovery Events
+id: 902cc9a0-3b41-5194-8371-156eb7274164
+status: experimental
+level: low
+description: Detects excessive successful events within a 5 minute timeframe from an IAM User.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    security_result_action: ALLOW
+    metadata_product_event_type: ^Describe.*|^List.*|^Get.*
+  condition: selection
+tags:
+  - attack.t1580
+custom_attributes:
+  original_rule_id: mr_087edc70-9943-498b-b579-aa6017026e39
+  source_format: chronicle_yaral

@@ -1,0 +1,27 @@
+title: Linux At Application Execution
+id: d52610de-945e-5874-934d-6df3570411fd
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the "At" application in Linux, which can be used by attackers to create persistence entries on a compromised host. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent process names associated with "at" or "atd". This activity is significant because the "At" application can be exploited to maintain unauthorized access or deliver additional malicious payloads. If confirmed malicious, t
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - at
+      - atd
+    parent_process_name:
+      - at
+      - atd
+  condition: selection
+tags:
+  - attack.t1053.002
+references:
+  - https://attack.mitre.org/techniques/T1053/001/
+  - https://www.linkedin.com/pulse/getting-attacker-ip-address-from-malicious-linux-job-craig-rowland/
+custom_attributes:
+  original_rule_id: bf0a378e-5f3c-11ec-a6de-acde48001122
+  source_format: splunk_spl

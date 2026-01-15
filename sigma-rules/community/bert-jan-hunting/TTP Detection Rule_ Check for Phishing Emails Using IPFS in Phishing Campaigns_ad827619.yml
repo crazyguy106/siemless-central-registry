@@ -1,0 +1,21 @@
+title: TTP Detection Rule: Check for Phishing Emails Using IPFS in Phishing Campaigns
+id: f88d6a08-257a-4fda-96fd-7e620a51459a
+status: experimental
+level: medium
+description: |
+  This detection rule focuses on identifying phishing emails that potentially use the InterPlanetary File System (IPFS) to host malicious content. The usage of IPFS in phishing campaigns is a sophisticated technique as it can bypass conventional security measures. The rule involves checking for subsequent connections to IPFS-hosted sites, which could indicate the execution of a phishing attack utilizing this decentralized file hosting system.
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    //check for phishing emails potentially using ipfs to host malicious content used in phishing campaigns.
+let domains = externaldata (data:string)[h@"https://raw.githubusercontent.com/volexity/threat-intel/main/2023/2023-06-28%20POWERSTAR/attachments/ipfs.txt"];
+EmailEvents
+| where Timestamp > ago (30d)
+| join EmailUrlInfo on NetworkMessageId
+| where Url has_any (domains) and DeliveryAction !~ "Blocked"
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

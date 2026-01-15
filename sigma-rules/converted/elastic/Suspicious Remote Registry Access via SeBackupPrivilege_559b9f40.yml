@@ -1,0 +1,38 @@
+title: Suspicious Remote Registry Access via SeBackupPrivilege
+id: 47e22836-4a16-4b35-beee-98f6c4ee9bf2
+status: stable
+level: medium
+description: 'Identifies remote access to the registry using an account with Backup
+  Operators group membership. This may indicate an
+
+  attempt to exfiltrate credentials by dumping the Security Account Manager (SAM)
+  registry hive in preparation for
+
+  credential access and privileges elevation.'
+author: Elastic (converted by SIEMLess)
+date: '2022-02-16'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by winlog.computer_name, winlog.event_data.SubjectLogonId\
+      \ with maxspan=1m\n [iam where host.os.type == \"windows\" and event.action\
+      \ == \"logged-in-special\" and\n  winlog.event_data.PrivilegeList : \"SeBackupPrivilege\"\
+      \ and\n\n  /* excluding accounts with existing privileged access */\n  not winlog.event_data.PrivilegeList\
+      \ : \"SeDebugPrivilege\"]\n [any where host.os.type == \"windows\" and event.code\
+      \ == \"5145\" and winlog.event_data.RelativeTargetName : \"winreg\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.credential_access
+- attack.t1003
+- attack.t1021
+- attack.t1003.004
+- attack.t1003.002
+references:
+- https://github.com/mpgn/BackupOperatorToDA
+- https://raw.githubusercontent.com/Wh04m1001/Random/main/BackupOperators.cpp
+- https://www.elastic.co/security-labs/detect-credential-access

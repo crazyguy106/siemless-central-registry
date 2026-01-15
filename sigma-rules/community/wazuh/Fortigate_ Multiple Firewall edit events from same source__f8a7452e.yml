@@ -1,0 +1,36 @@
+title: 'Fortigate: Multiple Firewall edit events from same source.'
+id: c15294d5-28b9-54e7-98f9-933aad248fe3
+status: stable
+level: low
+description: 'Fortigate: Multiple Firewall edit events from same source.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 45s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 18
+    ignore_window: 240s
+  - type: sequence
+    parent_rule: wazuh-81612
+    window:
+      maxspan: 45s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81613
+  wazuh_level: 4

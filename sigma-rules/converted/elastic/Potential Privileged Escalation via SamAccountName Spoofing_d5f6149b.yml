@@ -1,0 +1,38 @@
+title: Potential Privileged Escalation via SamAccountName Spoofing
+id: bdcf646b-08d4-492c-870a-6c04e3700034
+status: stable
+level: high
+description: 'Identifies a suspicious computer account name rename event, which may
+  indicate an attempt to exploit CVE-2021-42278 to
+
+  elevate privileges from a standard domain user to a user with domain admin privileges.
+  CVE-2021-42278 is a security
+
+  vulnerability that allows potential attackers to impersonate a domain controller
+  via samAccountName attribute spoofing.'
+author: Elastic (converted by SIEMLess)
+date: '2021-12-12'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_action: renamed-user-account
+    winlog_event_data_OldTargetUserName|endswith: $
+    winlog_event_data_NewTargetUserName|endswith: $
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1078
+- attack.t1078.002
+- attack.t1068
+- attack.t1098
+references:
+- https://support.microsoft.com/en-us/topic/kb5008102-active-directory-security-accounts-manager-hardening-changes-cve-2021-42278-5975b463-4c95-45e1-831a-d120004e258e
+- https://cloudbrothers.info/en/exploit-kerberos-samaccountname-spoofing/
+- https://github.com/cube0x0/noPac
+- https://twitter.com/exploitph/status/1469157138928914432
+- https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html

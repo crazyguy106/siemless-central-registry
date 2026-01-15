@@ -1,0 +1,30 @@
+title: Browser Process Spawned from an Unusual Parent
+id: 46b01bb5-cff2-4a00-9f87-c041d9eab554
+status: stable
+level: high
+description: 'Identifies instances where an unusual process spawns a chrome browser
+  child process. This behavior could be related to malware
+
+  stealing browser information.'
+author: Elastic (converted by SIEMLess)
+date: '2025-08-27'
+modified: '2025-08-27'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - chrome.exe
+    - msedge.exe
+    process_command_line|contains: \
+    process_parent_executable|contains: C:\\Windows\\explorer.exe
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1555.003
+- attack.t1555
+references:
+- https://www.elastic.co/security-labs/katz-and-mouse-game

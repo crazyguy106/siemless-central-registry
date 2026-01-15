@@ -1,0 +1,23 @@
+title: Potential Fodhelper UAC Bypass (ASIM Version)
+id: 6678768b-dc13-589d-b042-bff0b07f4792
+status: stable
+level: medium
+description: |
+  'This detection looks for the steps required to conduct a UAC bypass using Fodhelper.exe. By default this detection looks for the setting of the required registry keys and the invoking of the process within 1 hour - this can be tweaked as required.'
+author: Pete Bryan
+logsource:
+  product: windows
+detection:
+  selection:
+    RegistryKey|contains: Software\\Classes\\ms-settings\\shell\\open\\command
+    Process|endswith: fodhelper.exe
+    ParentProcessName|endswith: cmd.exe
+    EventType:
+      - RegistryValueSet
+      - RegistryKeyCreated
+  condition: selection
+tags:
+  - attack.t1548.002
+custom_attributes:
+  original_rule_id: ac9e233e-44d4-45eb-b522-6e47445f6582
+  source_format: azure_kql

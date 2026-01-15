@@ -1,0 +1,40 @@
+title: MFA Deactivation with no Re-Activation for Okta User Account
+id: cd89602e-9db0-48e3-9391-ae3bf241acd8
+status: stable
+level: low
+description: 'Detects multi-factor authentication (MFA) deactivation with no subsequent
+  re-activation for an Okta user account. An
+
+  adversary may deactivate MFA for an Okta user account in order to weaken the authentication
+  requirements for the
+
+  account.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-20'
+modified: '2025-09-08'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by okta.target.id with maxspan=12h\n    [any where event.dataset\
+      \ == \"okta.system\" and okta.event_type in (\"user.mfa.factor.deactivate\"\
+      , \"user.mfa.factor.reset_all\")\n        and okta.outcome.reason != \"User\
+      \ reset SECURITY_QUESTION factor\" and okta.outcome.result == \"SUCCESS\"]\n\
+      \    ![any where event.dataset == \"okta.system\" and okta.event_type == \"\
+      user.mfa.factor.activate\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.t1556.006
+- attack.t1556
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+falsepositives:
+- "    If the behavior of deactivating MFA for Okta user accounts is expected, consider\
+  \ adding exceptions to this rule to\n    filter false positives.\n    "

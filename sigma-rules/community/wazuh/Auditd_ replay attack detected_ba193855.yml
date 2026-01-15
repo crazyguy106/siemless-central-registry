@@ -1,0 +1,24 @@
+title: 'Auditd: replay attack detected'
+id: 0b4682c8-7729-5af7-ad02-d444fe15ef11
+status: stable
+level: high
+description: 'Auditd: replay attack detected'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.type: CRYPTO_REPLAY_USER
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+tags:
+  - attack.t1212
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80740
+  wazuh_level: 12

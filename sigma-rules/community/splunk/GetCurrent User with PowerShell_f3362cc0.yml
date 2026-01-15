@@ -1,0 +1,20 @@
+title: GetCurrent User with PowerShell
+id: f295494e-3648-540f-a01a-4b02b1e95081
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `powershell.exe` with command-line arguments invoking the `GetCurrent` method of the WindowsIdentity .NET class. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as adversaries may use this method to identify the logged-in user on a compromised endpoint, aiding in situational awareness and Active Directory discovery. If confirmed mali
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: powershell.exe
+  condition: selection
+tags:
+  - attack.t1033
+references:
+  - https://attack.mitre.org/techniques/T1033/
+custom_attributes:
+  original_rule_id: 7eb9c3d5-c98c-4088-acc5-8240bad15379
+  source_format: splunk_spl

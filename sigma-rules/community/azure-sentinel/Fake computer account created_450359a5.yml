@@ -1,0 +1,19 @@
+title: Fake computer account created
+id: 0b021236-8e30-5802-8d6f-bbc888fb64ed
+status: stable
+level: medium
+description: |
+  'This query detects domain user accounts creation (event ID 4720) where the username ends with $.  Accounts that end with $ are normally domain computer accounts and when they are created the event ID 4741 is generated instead. Ref: https://blog.menasec.net/2019/02/threat-hunting-6-hiding-in-plain-sights.html'
+author: Vasileios Paschalidis
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1564
+custom_attributes:
+  original_rule_id: c1faf5e8-6958-11ec-90d6-0242ac120003
+  source_format: azure_kql

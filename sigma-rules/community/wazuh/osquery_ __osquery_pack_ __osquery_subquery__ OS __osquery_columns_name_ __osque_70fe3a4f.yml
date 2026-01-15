@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): OS $(osquery.columns.name) $(osquery.columns.version) with minor $(osquery.columns.minor) and major $(os'
+id: 1be56b32-39a5-531d-b26c-6f216793cf99
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): OS $(osquery.columns.name) $(osquery.columns.version) with minor $(osquery.columns.minor) and major $(osquery.columns.major)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: os_version
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24302
+  wazuh_level: 4

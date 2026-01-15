@@ -1,0 +1,36 @@
+title: O365 Service Principal Privilege Escalation
+id: da277a18-891b-5635-9f34-a916cb897a58
+status: stable
+level: high
+description: |
+  This detection identifies when an Azure Service Principal elevates privileges by adding themself to a new app role assignment.
+author: Dean Luxton
+logsource:
+  product: azure
+detection:
+  selection:
+    operation: Add app role assignment to service principal.
+    src: NA
+    resultstatus: Success
+    output:
+      - targetResources
+      - appRole
+      - targetServicePrincipal
+    input:
+      - appRole
+      - targetServicePrincipal
+    path:
+      - NewValue
+      - NewValue
+    serviceprincipal: targetServicePrincipal
+  condition: selection
+tags:
+  - attack.t1098.003
+references:
+  - https://splunkbase.splunk.com/app/4055
+  - https://github.com/mvelazc0/BadZure
+  - https://www.splunk.com/en_us/blog/security/hunting-m365-invaders-navigating-the-shadows-of-midnight-blizzard.html
+  - https://posts.specterops.io/microsoft-breach-what-happened-what-should-azure-admins-do-da2b7e674ebc
+custom_attributes:
+  original_rule_id: b686d0bd-cca7-44ca-ae07-87f6465131d9
+  source_format: splunk_spl

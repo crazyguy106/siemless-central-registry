@@ -1,0 +1,33 @@
+title: Windows Increase in User Modification Activity
+id: b777298c-1aaf-57e8-8b31-4f1e38e7c9e9
+status: stable
+level: high
+description: |
+  This analytic detects an increase in modifications to AD user objects. A large volume of changes to user objects can indicate potential security risks, such as unauthorized access attempts, impairing defences or establishing persistence. By monitoring AD logs for unusual modification patterns, this detection helps identify suspicious behavior that could compromise the integrity and security of the AD environment.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    span: 5m
+    isoutlier: 1
+    eventcode:
+      - 4720
+      - 4722
+      - 4723
+      - 4724
+      - 4725
+      - 4726
+      - 4728
+      - 4732
+      - 4733
+      - 4738
+      - 4743
+      - 4780
+  condition: selection
+tags:
+  - attack.t1098
+  - attack.t1562
+custom_attributes:
+  original_rule_id: 0995fca1-f346-432f-b0bf-a66d14e6b428
+  source_format: splunk_spl

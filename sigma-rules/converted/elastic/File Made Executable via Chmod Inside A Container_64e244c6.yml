@@ -1,0 +1,30 @@
+title: File Made Executable via Chmod Inside A Container
+id: 30d94e59-e5c7-4828-bc4f-f5809ad1ffe1
+status: stable
+level: low
+description: 'This rule detects when chmod or chown are used to add the execute permission
+  to a file inside a container. Modifying file
+
+  permissions to make a file executable could indicate malicious activity, as an attacker
+  may attempt to run unauthorized
+
+  or malicious code inside the container.'
+author: Elastic (converted by SIEMLess)
+date: '2025-03-12'
+modified: '2025-03-12'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_entry_leader_entry_meta_type: container
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+- attack.t1222.002
+- attack.t1222

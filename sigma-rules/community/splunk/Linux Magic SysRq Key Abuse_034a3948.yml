@@ -1,0 +1,25 @@
+title: Linux Magic SysRq Key Abuse
+id: 3b390129-7d9c-52c1-9630-fb712c4e352f
+status: stable
+level: high
+description: |
+  Detects potential abuse of the Linux Magic SysRq (System Request) key by adversaries with root or sufficient privileges to manipulate or destabilize a system. Writing to /proc/sysrq-trigger can crash the system, kill processes, or bypass standard logging. Monitoring SysRq abuse helps detect stealthy post-exploitation activity. Correlate with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
+author: Milad Cheraghi
+logsource:
+  product: linux
+detection:
+  selection:
+    type: PATH
+  condition: selection
+tags:
+  - attack.t1059.004
+  - attack.t1529
+  - attack.t1489
+  - attack.t1499
+references:
+  - https://www.kernel.org/doc/html/v4.10/_sources/admin-guide/sysrq.txt
+  - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/reference_guide/s3-proc-sys-kernel
+  - https://www.splunk.com/en_us/blog/security/threat-update-awfulshred-script-wiper.html
+custom_attributes:
+  original_rule_id: 22c03600-f84a-47fa-abaa-ffbe3e72c782
+  source_format: splunk_spl

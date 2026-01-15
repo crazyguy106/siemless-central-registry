@@ -1,0 +1,21 @@
+title: PE file dropped in Color Profile Folder
+id: 6ea3d0ef-8915-500e-a510-c5465bfc645e
+status: stable
+level: medium
+description: |
+  'This query looks for writes of PE files to C:\Windows\System32\spool\drivers\color\.   This is a common directory used by malware, as well as some legitimate programs, and writes of PE files to the folder should be monitored.   Ref: https://www.microsoft.com/security/blog/2022/07/27/untangling-knotweed-european-private-sector-offensive-actor-using-0-day-exploits/'
+author: Pete Bryan
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    ActionType: FileCreated
+    FolderPath|contains: 'C:\\Windows\\System32\\spool\\drivers\\color\\'
+    FileName|endswith: .exe
+  condition: selection
+tags:
+  - attack.t1203
+custom_attributes:
+  original_rule_id: f68a5046-b7eb-4f69-9519-1e99708bb9e0
+  source_format: azure_kql

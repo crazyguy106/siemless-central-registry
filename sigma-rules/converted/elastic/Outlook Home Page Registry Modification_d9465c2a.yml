@@ -1,0 +1,32 @@
+title: Outlook Home Page Registry Modification
+id: ac5a2759-5c34-440a-b0c4-51fe674611d6
+status: stable
+level: high
+description: 'Identifies modifications in registry keys associated with abuse of the
+  Outlook Home Page functionality for command and
+
+  control or persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2024-08-01'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    registry_path|contains:
+    - '*\\SOFTWARE\\Microsoft\\Office\\*\\Outlook\\Webview\\*'
+    - '*\\SOFTWARE\\Microsoft\\Office\\*\\Outlook\\Today\\*'
+    registry_data_strings|contains:
+    - '*://*'
+    - '*:\\*'
+  condition: selection
+tags:
+- attack.persistence
+- attack.command_and_control
+- attack.t1137
+- attack.t1137.004
+references:
+- https://cloud.google.com/blog/topics/threat-intelligence/breaking-the-rules-tough-outlook-for-home-page-attacks/
+- https://github.com/trustedsec/specula

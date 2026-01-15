@@ -1,0 +1,25 @@
+title: Linux Auditd Hidden Files And Directories Creation
+id: 20a7da47-1134-569d-bc33-bac65dbe2b6a
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious creation of hidden files and directories, which may indicate an attacker's attempt to conceal malicious activities or unauthorized data. Hidden files and directories are often used to evade detection by security tools and administrators, providing a stealthy means for storing malware, logs, or sensitive information. By monitoring for unusual or unauthorized creation of hidden files and directories, this analytic helps identify potential attempts to hide 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    execve_command:
+      - '* ./.*'
+      - '* .*'
+      - '*/.*'
+  condition: selection
+tags:
+  - attack.t1083
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+  - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+custom_attributes:
+  original_rule_id: 555cc358-bf16-4e05-9b3a-0f89c73b7261
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: 'sshd: Reverse lookup error (bad ISP or attack).'
+id: 6c191df7-c784-5279-bc7f-c4b1ef134f37
+status: stable
+level: low
+description: 'sshd: Reverse lookup error (bad ISP or attack).'
+author: Wazuh, Inc.
+logsource:
+  product: macos
+detection:
+  selection:
+    message|contains:
+      - reverse mapping
+      - but this does not map back
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-64250
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64262
+  wazuh_level: 5

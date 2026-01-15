@@ -1,0 +1,22 @@
+title: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName). Error: $(aws.errorCode).'
+id: 66bb2b13-0f1e-5591-8e6f-0a6a1aae50a3
+status: stable
+level: low
+description: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName). Error: $(aws.errorCode).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.errorCode: \.+
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80202
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80203
+  wazuh_level: 4

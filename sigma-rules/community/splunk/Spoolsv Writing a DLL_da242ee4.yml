@@ -1,0 +1,23 @@
+title: Spoolsv Writing a DLL
+id: 9fa32f32-18c5-5622-8a1a-04e19d97fcf0
+status: stable
+level: high
+description: |
+  The following analytic detects `spoolsv.exe` writing a `.dll` file, which is unusual behavior and may indicate exploitation of vulnerabilities like CVE-2021-34527 (PrintNightmare). This detection leverages the Endpoint datamodel, specifically monitoring process and filesystem events to identify `.dll` file creation within the `\spool\drivers\x64\` path. This activity is significant as it may signify an attacker attempting to execute malicious code via the Print Spooler service. If confirmed mali
+author: Mauricio Velazco, Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    file_path: '*\\spool\\drivers\\x64\\*'
+    file_name: '*.dll'
+  condition: selection
+tags:
+  - attack.t1547.012
+references:
+  - https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
+  - https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
+  - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+custom_attributes:
+  original_rule_id: d5bf5cf2-da71-11eb-92c2-acde48001122
+  source_format: splunk_spl

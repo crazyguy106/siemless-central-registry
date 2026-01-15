@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) Environment variable $(osquery.columns.key) value $(osquery.columns.value'
+id: ed41ad72-ee74-5ab9-92b1-e7eb03455fb5
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) Environment variable $(osquery.columns.key) value $(osquery.columns.value)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: process_env
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24052
+  wazuh_level: 4

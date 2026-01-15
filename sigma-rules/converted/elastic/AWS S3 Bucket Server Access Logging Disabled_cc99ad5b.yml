@@ -1,0 +1,38 @@
+title: AWS S3 Bucket Server Access Logging Disabled
+id: a6788d4b-b241-4bf0-8986-a3b4315c5b70
+status: stable
+level: medium
+description: 'Identifies when server access logging is disabled for an Amazon S3 bucket.
+  Server access logs provide a detailed record
+
+  of requests made to an S3 bucket. When server access logging is disabled for a bucket,
+  it could indicate an adversary''s
+
+  attempt to impair defenses by disabling logs that contain evidence of malicious
+  activity.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-12'
+modified: '2025-10-27'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: s3.amazonaws.com
+    event_action: PutBucketLogging
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.008
+references:
+- https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html
+falsepositives:
+- "    Bucket logging may be disabled by a system or network administrator. Verify\
+  \ whether the user identity and/or user\n    agent should be making changes in your\
+  \ environment. Bucket component deletions by unfamiliar users should be\n    investigated.\
+  \ If known behavior is causing false positives, it can be exempted from the rule.\n\
+  \    "

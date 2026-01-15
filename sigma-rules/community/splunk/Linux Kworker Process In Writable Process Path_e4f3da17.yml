@@ -1,0 +1,27 @@
+title: Linux Kworker Process In Writable Process Path
+id: 97e4beb5-34ab-5f95-bc42-7acf6aa459c9
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of a kworker process with a command line in writable directories such as /home/, /var/log, and /tmp on a Linux machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process paths. This activity is significant as kworker processes are typically kernel threads, and their presence in writable directories is unusual and indicative of potential malware, such as CyclopsBlink. If confirmed malicious, thi
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    parent_process: '*[kworker/*'
+    process: '*iptables*'
+    parent_process_path:
+      - /home/*
+      - /tmp/*
+      - /var/log/*
+  condition: selection
+tags:
+  - attack.t1036.004
+references:
+  - https://www.ncsc.gov.uk/files/Cyclops-Blink-Malware-Analysis-Report.pdf
+  - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
+custom_attributes:
+  original_rule_id: 1cefb270-74a5-4e27-aa0c-2b6fa7c5b4ed
+  source_format: splunk_spl

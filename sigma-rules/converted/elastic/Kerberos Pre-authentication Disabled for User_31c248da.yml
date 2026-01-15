@@ -1,0 +1,36 @@
+title: Kerberos Pre-authentication Disabled for User
+id: e514d8cd-ed15-4011-84e2-d15147e059f1
+status: stable
+level: medium
+description: 'Identifies the modification of an account''s Kerberos pre-authentication
+  options. An adversary with
+
+  GenericWrite/GenericAll rights over the account can maliciously modify these settings
+  to perform offline password
+
+  cracking attacks such as AS-REP roasting.'
+author: Elastic (converted by SIEMLess)
+date: '2022-01-24'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '4738'
+    winlog_event_data_NewUACList: USER_DONT_REQUIRE_PREAUTH
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.credential_access
+- attack.t1558.004
+- attack.t1078.002
+- attack.t1562
+- attack.t1558
+- attack.t1078
+references:
+- https://harmj0y.medium.com/roasting-as-reps-e6179a65216b
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4738
+- https://github.com/atc-project/atomic-threat-coverage/blob/master/Atomic_Threat_Coverage/Logging_Policies/LP_0026_windows_audit_user_account_management.md

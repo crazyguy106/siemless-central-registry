@@ -1,0 +1,36 @@
+title: Windows Unsigned MS DLL Side-Loading
+id: 8cb93b79-afdb-5fbe-bffd-25ffb707e100
+status: stable
+level: medium
+description: |
+  The following analytic identifies potential DLL side-loading instances involving unsigned DLLs mimicking Microsoft signatures. It detects this activity by analyzing Sysmon logs for Event Code 7, where both the `Image` and `ImageLoaded` paths do not match system directories like `system32`, `syswow64`, and `programfiles`. This behavior is significant as adversaries often exploit DLL side-loading to execute malicious code via legitimate processes. If confirmed malicious, this activity could allow 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    company: Microsoft Corporation
+    eventcode: 7
+    signed: 'false'
+    field:
+      - Image
+      - ImageLoaded
+    imagefolderpath: ImageLoadedFolderPath
+    image:
+      - 'C:\\Windows\\System32\\*'
+      - 'C:\\Windows\\SysWow64\\*'
+      - 'C:\\Program Files*'
+    imageloaded:
+      - 'C:\\Windows\\System32\\*'
+      - 'C:\\Windows\\SysWow64\\*'
+      - 'C:\\Program Files*'
+  condition: selection
+tags:
+  - attack.t1574.001
+  - attack.t1547
+references:
+  - https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
+  - https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
+custom_attributes:
+  original_rule_id: 8d9e0e06-ba71-4dc5-be16-c1a46d58728c
+  source_format: splunk_spl

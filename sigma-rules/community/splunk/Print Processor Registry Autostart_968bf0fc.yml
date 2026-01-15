@@ -1,0 +1,22 @@
+title: Print Processor Registry Autostart
+id: b74f532d-4455-505f-92c0-b2e45f9f9b66
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious modifications or new entries in the Print Processor registry path. It leverages registry activity data from the Endpoint data model to identify changes in the specified registry path. This activity is significant because the Print Processor registry is known to be exploited by APT groups like Turla for persistence and privilege escalation. If confirmed malicious, this could allow an attacker to execute a malicious DLL payload by restarting the spoolsv.ex
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    registry_path: '*\\Control\\Print\\Environments\\Windows x64\\Print Processors*'
+  condition: selection
+tags:
+  - attack.t1547.012
+references:
+  - https://attack.mitre.org/techniques/T1547/012/
+  - https://www.welivesecurity.com/2020/05/21/no-game-over-winnti-group/
+custom_attributes:
+  original_rule_id: 1f5b68aa-2037-11ec-898e-acde48001122
+  source_format: splunk_spl

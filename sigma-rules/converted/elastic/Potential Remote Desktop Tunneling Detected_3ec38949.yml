@@ -1,0 +1,35 @@
+title: Potential Remote Desktop Tunneling Detected
+id: 76fd43b7-3480-4dd9-8ad7-8bd36bfad92f
+status: stable
+level: high
+description: 'Identifies potential use of an SSH utility to establish RDP over a reverse
+  SSH Tunnel. This can be used by attackers to
+
+  enable routing of network packets that would otherwise not reach their intended
+  destination.'
+author: Elastic (converted by SIEMLess)
+date: '2020-10-14'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_args|contains:
+    - -L
+    - -P
+    - -R
+    - -pw
+    - -ssh
+    process_args|endswith: :3389
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.command_and_control
+- attack.t1572
+- attack.t1021
+- attack.t1021.004
+references:
+- https://blog.netspi.com/how-to-access-rdp-over-a-reverse-ssh-tunnel/

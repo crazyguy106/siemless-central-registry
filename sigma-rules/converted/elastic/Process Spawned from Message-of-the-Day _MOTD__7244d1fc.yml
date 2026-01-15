@@ -1,0 +1,60 @@
+title: Process Spawned from Message-of-the-Day (MOTD)
+id: 4ec47004-b34a-42e6-8003-376a123ea447
+status: stable
+level: high
+description: 'Message of the day (MOTD) is the message that is presented to the user
+  when a user connects to a Linux server via SSH or
+
+  a serial connection. Linux systems contain several default MOTD files located in
+  the "/etc/update-motd.d/" directory.
+
+  These scripts run as the root user every time a user connects over SSH or a serial
+  connection. Adversaries may create
+
+  malicious MOTD files that grant them persistence onto the target every time a user
+  connects to the system by executing a
+
+  backdoor script or command. This rule detects the execution of potentially malicious
+  processes through the MOTD utility.'
+author: Elastic (converted by SIEMLess)
+date: '2023-02-28'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_type: start
+    host_os_type: linux
+    process_parent_name: system-crash-notification
+    process_parent_args: --force
+    event_action|contains:
+    - exec
+    - exec_event
+    - start
+    process_args|contains:
+    - ./*
+    - /boot/*
+    - /dev/shm/*
+    - /etc/cron.*/*
+    - /etc/init.d/*
+    - /etc/update-motd.d/*
+    - /run/*
+    - /srv/*
+    - /tmp/*
+    - /var/tmp/*
+    - /var/log/*
+    - /opt/*
+    process_name|contains:
+    - awk
+    - gawk
+    - mawk
+    - nawk
+    process_parent_args|endswith: exec*
+    process_args|endswith: /inet/tcp/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037
+references:
+- https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/#10-boot-or-logon-initialization-scripts-motd

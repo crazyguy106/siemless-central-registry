@@ -1,0 +1,27 @@
+title: Executable Fileattachment recieved
+id: 77c37335-5d9b-47d3-b93b-615b91e90cff
+status: experimental
+level: medium
+description: |
+  Adversaries may use executable files to gain initial access. A tactic that is used is to send executable files, when opening the files a script is directly run. This query detects a subset of the exectuble file extensions in Windows. The list can be increaded by appending additional extensions that you want to query. Some of those executable file extensions are already blocked by default in outlook, however administrators can change this behaviour.
+author: Bert-JanP
+logsource:
+  product: office_365
+  service: kql
+detection:
+  _kql_query: |
+    let ExecutableFileExtentions = dynamic(['bat', 'cmd', 'com', 'cpl', 'dll', 'ex', 'exe', 'jse', 'lnk','msc', 'ps1', 'reg', 'vb', 'vbe', 'ws', 'wsf']);
+EmailEvents
+// Only display inbound emails
+| where EmailDirection == 'Inbound'
+// Join the email events with the attachment information, that the email must have an attachment.
+| join kind=inner EmailAttachmentInfo on NetworkMessageId
+// extract the file extension from the filename
+| extend FileExtension = tostring(extract(@'.*\.(.*)', 1, FileName))
+| where isnotempty(FileExtension)
+// Filter on executable file extensions
+| where FileExtension in~ (ExecutableFileExtentions)
+| summarize ['Target Mailboxes'] = make_set(RecipientEmailAddress), ['Sender Addresses'] = make_set(SenderFromAddress), ['Email Subject'] = make_set(Subject) by SHA256, FileName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,25 @@
+title: Get DomainPolicy with Powershell
+id: e0f5d138-5a90-555c-8ea9-400f58d9b7ee
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `powershell.exe` running the `Get-DomainPolicy` cmdlet, which is used to retrieve password policies in a Windows domain. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it indicates potential reconnaissance efforts by adversaries to gather domain policy information, which is crucial for planning further attacks. If confirmed malicious, this c
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name:
+      - cmd.exe
+      - powershell*
+    process: '*Get-DomainPolicy*'
+  condition: selection
+tags:
+  - attack.t1201
+references:
+  - https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet
+  - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainPolicy/
+  - https://attack.mitre.org/techniques/T1201/
+custom_attributes:
+  original_rule_id: b8f9947e-065a-11ec-aafb-acde48001122
+  source_format: splunk_spl

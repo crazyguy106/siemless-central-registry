@@ -1,0 +1,48 @@
+title: Potential Backdoor Execution Through PAM_EXEC
+id: 96f29282-ffcc-4ce7-834b-b17aee905568
+status: stable
+level: medium
+description: 'This rule detects SSH session ID change followed by a suspicious SSHD
+  child process, this may
+
+  indicate the successful execution of a potentially malicious process through the
+  Pluggable
+
+  Authentication Module (PAM) utility. PAM is a framework used by Linux systems to
+  authenticate
+
+  users. Adversaries may create malicious PAM modules that grant them persistence
+  onto the
+
+  target every time a user logs in by executing a backdoor script or command.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-29'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id with maxspan=3s\n  [process where\
+      \ host.os.type == \"linux\" and event.type == \"change\" and event.action ==\
+      \ \"session_id_change\" and process.name in (\"ssh\", \"sshd\")]\n  [process\
+      \ where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ == \"exec\" and process.parent.name in (\"ssh\", \"sshd\") and\n   process.args_count\
+      \ == 2 and (\n     process.name like (\"perl*\", \"python*\", \"php*\", \"ruby*\"\
+      , \"lua*\") or\n     process.executable like (\n       \"/tmp/*\", \"/var/tmp/*\"\
+      , \"/dev/shm/*\", \"./*\", \"/boot/*\", \"/sys/*\", \"/lost+found/*\", \"/media/*\"\
+      , \"/proc/*\",\n       \"/var/backups/*\", \"/var/log/*\", \"/var/mail/*\",\
+      \ \"/var/spool/*\") or\n     process.name like \".*\"\n   )]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1556
+- attack.t1543
+references:
+- https://www.elastic.co/security-labs/approaching-the-summit-on-persistence
+- https://www.group-ib.com/blog/pluggable-authentication-module/
+falsepositives:
+- Trusted system module updates or allowed Pluggable Authentication Module (PAM) daemon
+  configuration changes.

@@ -1,0 +1,31 @@
+title: PowerShell Mailbox Collection Script
+id: a2d04374-187c-4fd9-b513-3ad4e7fdd67a
+status: stable
+level: medium
+description: 'Detects PowerShell scripts that can be used to collect data from mailboxes.
+  Adversaries may target user email to collect
+
+  sensitive information.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-11'
+modified: '2025-09-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: ("FindItems
+  condition: selection
+tags:
+- attack.execution
+- attack.collection
+- attack.t1114.002
+- attack.t1114.001
+- attack.t1059
+- attack.t1059.001
+- attack.t1114
+references:
+- https://github.com/dafthack/MailSniper/blob/master/MailSniper.ps1
+- https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/apt29/Archive/CALDERA_DIY/evals/payloads/stepSeventeen_email.ps1

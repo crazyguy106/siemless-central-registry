@@ -1,0 +1,36 @@
+title: Attempt to Delete an Okta Policy
+id: b4bb1440-0fcb-4ed1-87e5-b06d58efc5e9
+status: stable
+level: medium
+description: 'Detects attempts to delete an Okta policy. An adversary may attempt
+  to delete an Okta policy in order to weaken an
+
+  organization''s security controls. For example, an adversary may attempt to delete
+  an Okta multi-factor authentication
+
+  (MFA) policy in order to weaken the authentication requirements for user accounts.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-28'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: policy.lifecycle.delete
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562.007
+- attack.t1562
+references:
+- https://help.okta.com/en/prod/Content/Topics/Security/Security_Policies.htm
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+falsepositives:
+- "    Consider adding exceptions to this rule to filter false positives if Okta policies\
+  \ are regularly deleted in your\n    organization.\n    "

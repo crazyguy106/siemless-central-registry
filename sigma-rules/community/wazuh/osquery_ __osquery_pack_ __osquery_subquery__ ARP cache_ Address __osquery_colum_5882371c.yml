@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): ARP cache: Address $(osquery.columns.address) MAC $(osquery.columns.mac) Interface $(osquery.columns.int'
+id: 0d02d261-b845-539c-b3b9-560d54bfff2a
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): ARP cache: Address $(osquery.columns.address) MAC $(osquery.columns.mac) Interface $(osquery.columns.interface)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: arp_cache
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+tags:
+  - attack.t1095
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24061
+  wazuh_level: 4

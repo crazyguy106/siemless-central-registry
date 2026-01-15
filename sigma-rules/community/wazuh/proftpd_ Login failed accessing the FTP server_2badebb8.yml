@@ -1,0 +1,24 @@
+title: 'proftpd: Login failed accessing the FTP server'
+id: a5e0814f-b1e3-54cb-b585-ba0d411be1cf
+status: stable
+level: low
+description: 'proftpd: Login failed accessing the FTP server'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - Incorrect password.$
+      - Login failed
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11204
+  wazuh_level: 5

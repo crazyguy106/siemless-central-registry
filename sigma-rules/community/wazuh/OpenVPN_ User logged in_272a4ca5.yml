@@ -1,0 +1,24 @@
+title: 'OpenVPN: User logged in'
+id: 918461b9-3844-5846-9a5a-c307b26285cb
+status: stable
+level: low
+description: 'OpenVPN: User logged in'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Peer Connection Initiated with
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81800
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81801
+  wazuh_level: 3

@@ -1,0 +1,27 @@
+title: Rundll32 Control RunDLL World Writable Directory
+id: 9e627c4f-98da-54b4-a73e-82b39dafa06e
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of rundll32.exe with the `Control_RunDLL` command, loading files from world-writable directories such as windows\temp, programdata, or appdata. This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process command-line data and specific directory paths. This activity is significant as it may indicate an attempt to exploit CVE-2021-40444 or similar vulnerabilities, allowing attackers to execute arbitrary code. If confirm
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*\\appdata\\*'
+      - '*\\windows\\temp\\*'
+      - '*\\programdata\\*'
+  condition: selection
+tags:
+  - attack.t1218.011
+references:
+  - https://strontic.github.io/xcyclopedia/library/rundll32.exe-111474C61232202B5B588D2B512CBB25.html
+  - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
+  - https://attack.mitre.org/techniques/T1218/011/
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
+custom_attributes:
+  original_rule_id: 1adffe86-10c3-11ec-8ce6-acde48001122
+  source_format: splunk_spl

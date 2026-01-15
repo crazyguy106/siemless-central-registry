@@ -1,0 +1,23 @@
+title: Windows Registry Payload Injection
+id: 2e7d6ffe-bcc2-5cdc-856a-97fed231d4f3
+status: stable
+level: high
+description: |
+  The following analytic detects suspiciously long data written to the Windows registry, a behavior often linked to fileless malware or persistence techniques. It leverages Endpoint Detection and Response (EDR) telemetry, focusing on registry events with data lengths exceeding 512 characters. This activity is significant as it can indicate an attempt to evade traditional file-based defenses, making it crucial for SOC monitoring. If confirmed malicious, this technique could allow attackers to maint
+author: Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    span: 1h
+  condition: selection
+tags:
+  - attack.t1027.011
+references:
+  - https://www.mandiant.com/resources/blog/tracking-evolution-gootloader-operations
+  - https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/kovter-an-evolving-malware-gone-fileless
+  - https://attack.mitre.org/techniques/T1027/011/
+custom_attributes:
+  original_rule_id: c6b2d80f-179a-41a1-b95e-ce5601d7427a
+  source_format: splunk_spl

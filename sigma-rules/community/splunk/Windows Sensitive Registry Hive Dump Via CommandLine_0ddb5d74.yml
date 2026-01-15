@@ -1,0 +1,30 @@
+title: Windows Sensitive Registry Hive Dump Via CommandLine
+id: d87ee999-d3f4-5a71-b60b-66e2da4466b5
+status: stable
+level: high
+description: |
+  The following analytic detects the use of `reg.exe` to export Windows Registry hives, which may contain sensitive credentials. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving `save` or `export` actions targeting the `sam`, `system`, or `security` hives. This activity is significant as it indicates potential offline credential access attacks, often executed from untrusted processes or scripts. If confirmed malicious, a
+author: Michael Haag, Patrick Bareiss, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*HKEY_LOCAL_MACHINE\\SAM*'
+      - '*HKEY_LOCAL_MACHINE\\Security*'
+      - '*HKEY_LOCAL_MACHINE\\System*'
+      - '*HKLM\\SAM*'
+      - '*HKLM\\Security*'
+      - '*HKLM\\System*'
+      - ''
+  condition: selection
+tags:
+  - attack.t1003.002
+references:
+  - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md
+  - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
+custom_attributes:
+  original_rule_id: 5aaff29d-0cce-405b-9ee8-5d06b49d045e
+  source_format: splunk_spl

@@ -1,0 +1,26 @@
+title: Remote Image Loads
+id: 15695c36-f87a-45c6-8029-48d2616c933b
+status: experimental
+level: medium
+description: |
+  This query can be used to summarize the remote image loads to a (potentially) compromised domain.
+
+NOTE! For Unfied XDR and Sentinel the columns have not been deployed (yet), thus the query will fail.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedDevice = "laptop.contoso.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+let Threshold = 50; // Customizable
+DeviceImageLoadEvents
+| where Timestamp > ago(SearchWindow)
+| where DeviceName == CompromisedDevice
+| where IsInitiatingProcessRemoteSession == 1
+| summarize TotalEvents = count(), Commands = make_set(InitiatingProcessCommandLine) by InitiatingProcessRemoteSessionDeviceName, InitiatingProcessRemoteSessionIP, InitiatingProcessAccountUpn
+| where TotalEvents <= Threshold
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

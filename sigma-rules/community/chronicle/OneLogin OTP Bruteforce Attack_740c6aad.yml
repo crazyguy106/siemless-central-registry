@@ -1,0 +1,23 @@
+title: OneLogin OTP Bruteforce Attack
+id: 871eac39-5722-5735-bc5b-dab7c2cb1c5c
+status: experimental
+level: high
+description: Detects a successful login after multiple failed OTP intents
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_ACCESS
+    metadata_product_name: ONELOGIN_SSO
+    metadata_vendor_name: ONELOGIN
+    metadata_product_event_type: 1002
+  condition: selection
+tags:
+  - attack.t1110
+references:
+  - https://www.onelogin.com/blog/brute-force-attacks
+custom_attributes:
+  original_rule_id: mr_cc37e0cf-c8c5-4e46-be0e-b2b992775500
+  source_format: chronicle_yaral

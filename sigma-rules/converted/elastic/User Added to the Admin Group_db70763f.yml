@@ -1,0 +1,27 @@
+title: User Added to the Admin Group
+id: 04e65517-16e9-4fc4-b7f1-94dc21ecea0d
+status: stable
+level: low
+description: 'Identifies users being added to the admin group. This could be an indication
+  of privilege
+
+  escalation activity.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-12'
+modified: '2025-02-03'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    event_type: change
+    event_action: od_group_add
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1078.003
+- attack.t1078
+references:
+- https://www.loobins.io/binaries/dscl/
+- https://managingosx.wordpress.com/2010/01/14/add-a-user-to-the-admin-group-via-command-line-3-0/

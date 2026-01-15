@@ -1,0 +1,22 @@
+title: AWS KMS Key Disabled Or Scheduled For Deletion
+id: 3ff52bb7-788a-530e-9243-3a30c825dcf2
+status: experimental
+level: high
+description: Detect when a KMS (Key Management Service) key is disabled or scheduled for deletion.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - DisableKey
+      - ScheduleKeyDeletion
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1485
+custom_attributes:
+  original_rule_id: mr_b1947fef-7b98-4c10-8303-d6c9c032d84e
+  source_format: chronicle_yaral

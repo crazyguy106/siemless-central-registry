@@ -1,0 +1,28 @@
+title: Backup Deletion with Wbadmin
+id: 581add16-df76-42bb-af8e-c979bfb39a59
+status: stable
+level: low
+description: 'Detects use of wbadmin.exe to delete backup catalogs, system state backups,
+  or other backup data. Ransomware and other
+
+  malware may do this to prevent system recovery.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-05-09'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: WBADMIN.EXE
+    process_args|contains:
+    - catalog
+    - backup
+    - systemstatebackup
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+- attack.t1490

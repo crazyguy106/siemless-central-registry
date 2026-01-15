@@ -1,0 +1,49 @@
+title: SUID/SGID Bit Set
+id: 8a1b0278-0f9a-487d-96bd-d4833298e87a
+status: stable
+level: low
+description: 'An adversary may add the setuid or setgid bit to a file or directory
+  in order to run a file with the privileges of the
+
+  owning user or group. An adversary can take advantage of this to either do a shell
+  escape or exploit a vulnerability in
+
+  an application with the setuid or setgid bit to get code running in a different
+  user’s context. Additionally,
+
+  adversaries can use this mechanism on their own malware to make sure they''re able
+  to execute in elevated contexts in the
+
+  future.'
+author: Elastic (converted by SIEMLess)
+date: '2020-04-23'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_name: install
+    process_args|contains:
+    - /run/*
+    - /var/run/*
+    - /usr/bin/keybase-redirector
+    - /usr/local/share/fonts
+    - /usr/bin/ssh-agent
+    process_parent_executable|contains:
+    - /usr/NX/*
+    - /var/lib/docker/*
+    - /var/lib/dpkg/info*
+    - /tmp/newroot/*
+    - /System/Library/PrivateFrameworks/PackageKit.framework/Versions/A/XPCServices/package_script_service.xpc/Contents/MacOS/package_script_service
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1548.001
+- attack.t1548
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

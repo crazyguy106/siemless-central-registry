@@ -1,0 +1,20 @@
+title: ASL AWS Defense Evasion Update Cloudtrail
+id: f6b024f8-a4d1-59c1-a03d-68f478b8fd27
+status: stable
+level: high
+description: |
+  The following analytic detects `UpdateTrail` events within AWS CloudTrail logs, aiming to identify attempts by attackers to evade detection by altering logging configurations. By updating CloudTrail settings with incorrect parameters, such as changing multi-regional logging to a single region, attackers can impair the logging of their activities across other regions. This behavior is crucial for Security Operations Centers (SOCs) to identify, as it indicates an adversary's intent to operate unde
+author: Patrick Bareiss, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    operation: UpdateTrail
+  condition: selection
+tags:
+  - attack.t1562.008
+references:
+  - https://attack.mitre.org/techniques/T1562/008/
+custom_attributes:
+  original_rule_id: f3eb471c-16d0-404d-897c-7653f0a78cba
+  source_format: splunk_spl

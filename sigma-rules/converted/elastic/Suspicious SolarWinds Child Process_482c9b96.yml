@@ -1,0 +1,50 @@
+title: Suspicious SolarWinds Child Process
+id: 93b22c0a-06a0-4131-b830-b10d5e166ff4
+status: stable
+level: medium
+description: A suspicious SolarWinds child process was detected, which may indicate
+  an attempt to execute malicious programs.
+author: Elastic (converted by SIEMLess)
+date: '2020-12-14'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_name|contains:
+    - SolarWinds.BusinessLayerHost.exe
+    - SolarWinds.BusinessLayerHostx64.exe
+    process_name|contains:
+    - APMServiceControl*.exe
+    - ExportToPDFCmd*.Exe
+    - SolarWinds.Credentials.Orion.WebApi*.exe
+    - SolarWinds.Orion.Topology.Calculator*.exe
+    - Database-Maint.exe
+    - SolarWinds.Orion.ApiPoller.Service.exe
+    - WerFault.exe
+    - WerMgr.exe
+    - SolarWinds.BusinessLayerHost.exe
+    - SolarWinds.BusinessLayerHostx64.exe
+    - SolarWinds.Topology.Calculator.exe
+    - SolarWinds.Topology.Calculatorx64.exe
+    - SolarWinds.APM.RealTimeProcessPoller.exe
+    process_executable|contains:
+    - ?:\\Windows\\SysWOW64\\ARP.EXE
+    - ?:\\Windows\\SysWOW64\\lodctr.exe
+    - ?:\\Windows\\SysWOW64\\unlodctr.exe
+  condition: selection
+tags:
+- attack.initial_access
+- attack.execution
+- attack.t1195.002
+- attack.t1195
+- attack.t1106
+references:
+- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+- https://github.com/mandiant/sunburst_countermeasures/blob/main/rules/SUNBURST/hxioc/SUNBURST%20SUSPICIOUS%20CHILD%20PROCESSES%20(METHODOLOGY).ioc
+falsepositives:
+- Trusted SolarWinds child processes, verify process details such as network connections
+  and file writes.

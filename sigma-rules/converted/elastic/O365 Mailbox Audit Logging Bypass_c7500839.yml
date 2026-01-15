@@ -1,0 +1,45 @@
+title: O365 Mailbox Audit Logging Bypass
+id: 675239ea-c1bc-4467-a6d3-b9e2cc7f676d
+status: stable
+level: medium
+description: 'Detects the occurrence of mailbox audit bypass associations. The mailbox
+  audit is responsible for logging specified
+
+  mailbox events (like accessing a folder or a message or permanently deleting a message).
+  However, actions taken by some
+
+  authorized accounts, such as accounts used by third-party tools or accounts used
+  for lawful monitoring, can create a
+
+  large number of mailbox audit log entries and may not be of interest to your organization.
+  Because of this,
+
+  administrators can create bypass associations, allowing certain accounts to perform
+  their tasks without being logged.
+
+  Attackers can abuse this allowlist mechanism to conceal actions taken, as the mailbox
+  audit will log no activity done by
+
+  the account.'
+author: Elastic (converted by SIEMLess)
+date: '2022-01-13'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_action: Set-MailboxAuditBypassAssociation
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+- attack.t1562.008
+references:
+- https://twitter.com/misconfig/status/1476144066807140355
+falsepositives:
+- Legitimate allowlisting of noisy accounts

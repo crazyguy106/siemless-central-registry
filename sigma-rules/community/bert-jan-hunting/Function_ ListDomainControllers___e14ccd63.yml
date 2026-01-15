@@ -1,0 +1,24 @@
+title: Function: ListDomainControllers()
+id: e1f554ec-b2ac-4acc-8bb8-4e46e5ce1e14
+status: experimental
+level: medium
+description: |
+  This function list all the domain controllers in your environment. Which might be usefull if you are not aware of the syntax to identify them, alternatively this function can also be used to build detections specifically for or filter on domain controllers.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // This function list all domain controllers that have been active in the last 7 days. 
+let ListDomainControllers =
+    DeviceNetworkEvents
+    | where Timestamp > ago(7d)
+    | where LocalPort == 88
+    | where LocalIPType == "FourToSixMapping"
+    | distinct DeviceName;
+// Example    
+ListDomainControllers
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

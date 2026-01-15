@@ -1,0 +1,25 @@
+title: Linux Auditd Virtual Disk File And Directory Discovery
+id: ae8a56bd-9e76-5fb1-87c0-13aa9cdc3edc
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious discovery of virtual disk files and directories, which may indicate an attacker's attempt to locate and access virtualized storage environments. Virtual disks can contain sensitive data or critical system configurations, and unauthorized discovery attempts could signify preparatory actions for data exfiltration or further compromise. By monitoring for unusual or unauthorized searches for virtual disk files and directories, this analytic helps identify po
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    execve_command:
+      - '*.vhd*'
+      - '*.vhdx*'
+      - '*.vmdk*'
+  condition: selection
+tags:
+  - attack.t1083
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+  - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+custom_attributes:
+  original_rule_id: eec78cef-d4c8-4b35-8f5b-6922102a4a41
+  source_format: splunk_spl

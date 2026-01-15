@@ -1,0 +1,29 @@
+title: Microsoft IIS Connection Strings Decryption
+id: c25e9c87-95e1-4368-bfab-9fd34cf867ec
+status: stable
+level: high
+description: 'Identifies use of aspnet_regiis to decrypt Microsoft IIS connection
+  strings. An attacker with Microsoft IIS web server
+
+  access via a webshell or alike can decrypt and dump any hardcoded connection strings,
+  such as the MSSQL service account
+
+  password using aspnet_regiis command.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: aspnet_regiis.exe
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+references:
+- https://blog.netspi.com/decrypting-iis-passwords-to-break-out-of-the-dmz-part-1/
+- https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/greenbug-espionage-telco-south-asia

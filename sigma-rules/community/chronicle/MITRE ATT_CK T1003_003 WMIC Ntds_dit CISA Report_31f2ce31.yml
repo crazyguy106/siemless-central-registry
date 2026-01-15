@@ -1,0 +1,27 @@
+title: MITRE ATT&CK T1003.003 WMIC Ntds.dit CISA Report
+id: e1e8876b-ca29-5356-aca6-f91a38c35b3f
+status: experimental
+level: high
+description: |
+  Detects extraction of ntds.dit file using vssadmin.exe or ntdsutil.exe with wmic as identified in CISA Living off the Land pdf
+author: Google Cloud Security
+logsource:
+  product: windows
+detection:
+  selection:
+    metadata_event_type:
+      - PROCESS_LAUNCH
+      - FILE_CREATION
+    metadata_product_name: ESENT
+    metadata_vendor_name: Microsoft
+    metadata_product_event_type:
+      - 216
+      - 325
+      - 326
+      - 327
+  condition: selection
+references:
+  - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
+custom_attributes:
+  original_rule_id: mr_b1719d37-6689-485d-b80c-b509fdaa1af8
+  source_format: chronicle_yaral

@@ -1,0 +1,31 @@
+title: AWS Route 53 Domain Transferred to Another Account
+id: 2045567e-b0af-444a-8c0b-0b6e2dae9e13
+status: stable
+level: low
+description: Identifies when a request has been made to transfer a Route 53 domain
+  to another AWS account.
+author: Elastic (converted by SIEMLess)
+date: '2021-05-10'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: route53.amazonaws.com
+    event_action: TransferDomainToAnotherAwsAccount
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1098
+references:
+- https://docs.aws.amazon.com/Route53/latest/APIReference/API_Operations_Amazon_Route_53.html
+falsepositives:
+- "    A domain may be transferred to another AWS account by a system or network administrator.\
+  \ Verify whether the user\n    identity, user agent, and/or hostname should be making\
+  \ changes in your environment. Domain transfers from unfamiliar\n    users or hosts\
+  \ should be investigated. If known behavior is causing false positives, it can be\
+  \ exempted from the\n    rule.\n    "

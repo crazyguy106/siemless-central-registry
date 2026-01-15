@@ -1,0 +1,22 @@
+title: Windows Modify Registry Auto Minor Updates
+id: 3f19cc0e-3cdf-5b17-bcd5-e405c1188ae6
+status: stable
+level: low
+description: |
+  The following analytic identifies a suspicious modification to the Windows auto update configuration registry. It detects changes to the registry path "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\AutoInstallMinorUpdates" with a value of "0x00000000". This activity is significant as it is commonly used by adversaries, including malware like RedLine Stealer, to bypass detection and deploy additional payloads. If confirmed malicious, this modification could allow attackers to evad
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\AutoInstallMinorUpdates'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
+custom_attributes:
+  original_rule_id: be498b9f-d804-4bbf-9fc0-d5448466b313
+  source_format: splunk_spl

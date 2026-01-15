@@ -1,0 +1,31 @@
+title: Dynamic Linker (ld.so) Creation
+id: 06d555e4-c8ce-4d90-90e1-ec7f66df5a6a
+status: stable
+level: medium
+description: 'This rule detects the creation of the dynamic linker (ld.so). The dynamic
+  linker is used to load shared libraries
+
+  needed by an executable. Attackers may attempt to replace the dynamic linker with
+  a malicious version to execute
+
+  arbitrary code.'
+author: Elastic (converted by SIEMLess)
+date: '2024-12-16'
+modified: '2025-09-29'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.execution
+- attack.t1574
+- attack.t1059
+- attack.t1574.006
+- attack.t1059.004
+- attack.t1218

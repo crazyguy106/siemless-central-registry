@@ -1,0 +1,22 @@
+title: DNS Query Length With High Standard Deviation
+id: dcebc0c8-4bf7-5ade-b8a2-7918c4eb0fbb
+status: stable
+level: medium
+description: |
+  The following analytic identifies DNS queries with unusually large lengths by computing the standard deviation of query lengths and filtering those exceeding twice the standard deviation. It leverages DNS query data from the Network_Resolution data model, focusing on the length of the domain names being resolved. This activity is significant as unusually long DNS queries can indicate data exfiltration or command-and-control communication attempts. If confirmed malicious, this activity could allo
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    datamodel: Network_Resolution
+    record_type:
+      - Pointer
+      - PTR
+  condition: selection
+tags:
+  - attack.t1048.003
+custom_attributes:
+  original_rule_id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
+  source_format: splunk_spl

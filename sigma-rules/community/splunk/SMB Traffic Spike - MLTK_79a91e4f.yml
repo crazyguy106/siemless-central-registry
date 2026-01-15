@@ -1,0 +1,22 @@
+title: SMB Traffic Spike - MLTK
+id: 51860725-e8a7-589a-88d6-5cdc17de3fec
+status: experimental
+level: medium
+description: |
+  The following analytic identifies spikes in the number of Server Message Block (SMB) connections using the Machine Learning Toolkit (MLTK). It leverages the Network_Traffic data model to monitor SMB traffic on ports 139 and 445, applying a machine learning model to detect anomalies. This activity is significant because sudden increases in SMB traffic can indicate lateral movement or data exfiltration attempts by attackers. If confirmed malicious, this behavior could lead to unauthorized access, 
+author: Rico Valdez, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Network_Traffic
+    dest_port:
+      - 139
+      - 445
+    app: smb
+  condition: selection
+tags:
+  - attack.t1021.002
+custom_attributes:
+  original_rule_id: d25773ba-9ad8-48d1-858e-07ad0bbeb828
+  source_format: splunk_spl

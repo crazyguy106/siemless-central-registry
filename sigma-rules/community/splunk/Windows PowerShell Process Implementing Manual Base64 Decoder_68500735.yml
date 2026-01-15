@@ -1,0 +1,27 @@
+title: Windows PowerShell Process Implementing Manual Base64 Decoder
+id: d866f20b-5154-5e9d-bf2d-43b90ca11b68
+status: stable
+level: medium
+description: |
+  The following analytic identifies Windows PowerShell processes that implement a manual Base64 decoder. Threat actors often use Base64 encoding to obfuscate malicious payloads or commands within PowerShell scripts. By manually decoding Base64 strings, attackers can evade detection mechanisms that look for standard decoding functions like using the "-enc" flag or the "FromBase64String" function. This detection focuses on PowerShell processes that exhibit characteristics of manual Base64 decoding, 
+author: Nasreddine Bencherchali
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*-shl*'
+      - '*-shr*'
+      - '*-bxor*'
+      - '*-bor*'
+      - '*-band*'
+  condition: selection
+tags:
+  - attack.t1027.010
+  - attack.t1059.001
+references:
+  - https://www.virustotal.com/gui/file/4b3ab4d9f2332da6b6cd8d9d0f4910a5eb85ac8c969108acb3ad49631812f998/behavior
+custom_attributes:
+  original_rule_id: 08d67349-0808-4f55-b431-1037269fa517
+  source_format: splunk_spl

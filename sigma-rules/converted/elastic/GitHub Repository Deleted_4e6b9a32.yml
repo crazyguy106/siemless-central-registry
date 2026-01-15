@@ -1,0 +1,30 @@
+title: GitHub Repository Deleted
+id: 345889c4-23a8-4bc0-b7ca-756bd17ce83b
+status: stable
+level: medium
+description: 'This rule detects when a GitHub repository is deleted within your organization.
+  Repositories are a critical component
+
+  used within an organization to manage work, collaborate with others and release
+  products to the public. Any delete
+
+  action against a repository should be investigated to determine it''s validity.
+  Unauthorized deletion of organization
+
+  repositories could cause irreversible loss of intellectual property and indicate
+  compromise within your organization.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-29'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_module: github
+    event_dataset: github.audit
+    event_action: repo.destroy
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485

@@ -1,0 +1,29 @@
+title: Shai-Hulud 2 Exfiltration Artifact Files
+id: e757961d-ecd5-5974-be40-d20af59d45a3
+status: stable
+level: high
+description: |
+  Detects creation of exfiltration artifact files associated with Shai-Hulud 2.0 npm supply chain malware. The malware creates cloud.json, contents.json, environment.json, truffleSecrets.json, and actionsSecrets.json files containing harvested credentials from AWS, Azure, GCP, GitHub secrets, and environment variables. These files are staged before being pushed to attacker-controlled repositories.
+author: Michael Haag, Splunk
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    file_name:
+      - cloud.json
+      - contents.json
+      - environment.json
+      - truffleSecrets.json
+      - actionsSecrets.json
+  condition: selection
+tags:
+  - attack.t1074.001
+  - attack.t1552.001
+  - attack.t1195.002
+references:
+  - https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
+  - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+custom_attributes:
+  original_rule_id: 9e7d3c0f-4a5b-6c8d-1e2f-3a4b5c6d7e8f
+  source_format: splunk_spl

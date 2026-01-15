@@ -1,0 +1,22 @@
+title: Anomalous login followed by Teams action
+id: 0efd72e8-b691-5643-942f-390c2fb5db34
+status: stable
+level: medium
+description: |
+  'Detects anomalous IP address usage by user accounts and then checks to see if a suspicious Teams action is performed. Query calculates IP usage Delta for each user account and selects accounts where a delta >= 90% is observed between the most and least used IP. To further reduce results the query performs a prevalence check on the lowest used IP's country, only keeping IP's where the country is unusual for the tenant (dynamic ranges).  Please note,  if the initial logic of prevalence to find su
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    AppDisplayName|contains: Teams
+  condition: selection
+tags:
+  - attack.t1199
+  - attack.t1136
+  - attack.t1078
+  - attack.t1098
+custom_attributes:
+  original_rule_id: 2b701288-b428-4fb8-805e-e4372c574786
+  source_format: azure_kql

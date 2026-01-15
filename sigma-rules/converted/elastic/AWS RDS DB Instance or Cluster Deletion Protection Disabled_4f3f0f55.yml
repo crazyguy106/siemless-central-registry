@@ -1,0 +1,32 @@
+title: AWS RDS DB Instance or Cluster Deletion Protection Disabled
+id: f6652fb5-cd8e-499c-8311-2ce2bb6cac62
+status: stable
+level: medium
+description: Identifies the modification of an AWS RDS DB instance or cluster to remove
+  the deletionProtection feature. Deletion protection is enabled automatically for
+  instances set up through the console and can be used to protect them from unintentional
+  deletion activity. If disabled an instance or cluster can be deleted, destroying
+  sensitive or critical information. Adversaries with the proper permissions can take
+  advantage of this to set up future deletion events against a compromised environment.
+author: Elastic (converted by SIEMLess)
+date: '2024-06-28'
+modified: '2025-01-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: rds.amazonaws.com
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+references:
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBInstance.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html
+falsepositives:
+- "    The deletionProtection feature must be disabled as a prerequisite for deletion\
+  \ of a DB instance or cluster. Ensure that the instance should not be modified in\
+  \ this way before taking action.\n    "

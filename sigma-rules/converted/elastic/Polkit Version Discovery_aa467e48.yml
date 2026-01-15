@@ -1,0 +1,25 @@
+title: Polkit Version Discovery
+id: ca3bcacc-9285-4452-a742-5dae77538f61
+status: stable
+level: low
+description: 'This rule detects Polkit version discovery activity on Linux systems.
+  Polkit version discovery can be an indication of
+
+  an attacker attempting to exploit misconfigurations or vulnerabilities in the Polkit
+  service.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: pkaction
+    process_args: --version
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1082

@@ -1,0 +1,39 @@
+title: AWS EC2 EBS Snapshot Access Removed
+id: 713e0f5f-caf7-4dc2-88a7-3561f61f262a
+status: stable
+level: medium
+description: 'Identifies the removal of access permissions from a shared AWS EC2 EBS
+  snapshot. EBS snapshots are essential for data
+
+  retention and disaster recovery. Adversaries may revoke or modify snapshot permissions
+  to prevent legitimate users from
+
+  accessing backups, thereby obstructing recovery efforts after data loss or destructive
+  actions. This tactic can also be
+
+  used to evade detection or maintain exclusive access to critical backups, ultimately
+  increasing the impact of an attack
+
+  and complicating incident response.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-02'
+modified: '2025-10-24'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_action: ModifySnapshotAttribute
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+- attack.t1490
+references:
+- https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html
+- https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html
+falsepositives:
+- Access removal may be a part of normal operations and should be verified before
+  taking action.

@@ -1,0 +1,25 @@
+title: Invalid DNS packet. Possibility of attack.
+id: 14072f6d-9cfd-5e3a-b962-e97707d42048
+status: stable
+level: high
+description: Invalid DNS packet. Possibility of attack.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: dropping source port zero packet from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+tags:
+  - attack.t1499
+  - attack.t1071
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12101
+  wazuh_level: 12

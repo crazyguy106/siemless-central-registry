@@ -1,0 +1,25 @@
+title: Living Off The Land Detection
+id: b53a4eb2-bc69-5f73-8538-013961600b03
+status: stable
+level: medium
+description: |
+  The following correlation identifies multiple risk events associated with the "Living Off The Land" analytic story, indicating potentially suspicious behavior. It leverages the Risk data model to aggregate and correlate events tagged under this story, focusing on systems with a high count of distinct sources. This activity is significant as it often involves the use of legitimate tools for malicious purposes, making detection challenging. If confirmed malicious, this behavior could allow attacke
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    analyticstories: Living Off The Land
+    risk_object_type: system
+  condition: selection
+tags:
+  - attack.t1105
+  - attack.t1190
+  - attack.t1059
+  - attack.t1133
+references:
+  - https://www.splunk.com/en_us/blog/security/living-off-the-land-threat-research-february-2022-release.html
+  - https://research.splunk.com/stories/living_off_the_land/
+custom_attributes:
+  original_rule_id: 1be30d80-3a39-4df9-9102-64a467b24abc
+  source_format: splunk_spl

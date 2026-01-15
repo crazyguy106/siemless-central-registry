@@ -1,0 +1,60 @@
+title: Linux Common Process For Elevation Control
+id: 2600f2e8-c602-5550-bc73-964427578209
+status: stable
+level: low
+description: |
+  The following analytic identifies the execution of common Linux processes used for elevation control, such as `chmod`, `chown`, and `setuid`. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because these processes are often abused by adversaries to gain persistence or escalate privileges on compromised hosts. If confirmed malicious, this behavior could allow attackers to modify file attribute
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - chmod
+      - chown
+      - fchmod
+      - fchmodat
+      - fchown
+      - fchownat
+      - fremovexattr
+      - fsetxattr
+      - lchown
+      - lremovexattr
+      - lsetxattr
+      - removexattr
+      - setuid
+      - setgid
+      - setreuid
+      - setregid
+      - chattr
+    process:
+      - '*chmod *'
+      - '*chown *'
+      - '*fchmod *'
+      - '*fchmodat *'
+      - '*fchown *'
+      - '*fchownat *'
+      - '*fremovexattr *'
+      - '*fsetxattr *'
+      - '*lchown *'
+      - '*lremovexattr *'
+      - '*lsetxattr *'
+      - '*removexattr *'
+      - '*setuid *'
+      - '*setgid *'
+      - '*setreuid *'
+      - '*setregid *'
+      - '*setcap *'
+      - '*chattr *'
+  condition: selection
+tags:
+  - attack.t1548.001
+references:
+  - https://attack.mitre.org/techniques/T1548/001/
+  - https://github.com/Neo23x0/auditd/blob/master/audit.rules#L285-L297
+  - https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules#L269-L270
+  - https://github.com/microsoft/MSTIC-Sysmon/blob/main/linux/configs/attack-based/privilege_escalation/T1548.001_ElevationControl_CommonProcesses.xml
+custom_attributes:
+  original_rule_id: 66ab15c0-63d0-11ec-9e70-acde48001122
+  source_format: splunk_spl

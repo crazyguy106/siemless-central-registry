@@ -1,0 +1,26 @@
+title: Browser Extension Install
+id: f97504ac-1053-498f-aeaa-c6d01e76b379
+status: stable
+level: low
+description: 'Identifies the install of browser extensions. Malicious browser extensions
+  can be installed via app store downloads
+
+  masquerading as legitimate extensions, social engineering, or by an adversary that
+  has already compromised a system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-22'
+modified: '2025-05-05'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_name|contains:
+    - langpack-*@firefox.mozilla.org.xpi
+    - '*@dictionaries.addons.mozilla.org.xpi'
+    file_name|endswith: .crx
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1176

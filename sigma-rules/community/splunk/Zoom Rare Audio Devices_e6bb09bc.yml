@@ -1,0 +1,23 @@
+title: Zoom Rare Audio Devices
+id: 66911af5-647e-50ac-9ba8-8b3cd4322ebd
+status: experimental
+level: low
+description: |
+  Detects rare audio devices from Zoom logs. Actors performing Remote Employment Fraud (REF) typically use unusual device information compared to a majority of employees. Detecting this activity requires careful analysis, regular review, and a thorough understanding of the audio and video devices commonly used within your environment.
+author: Marissa Bower, Raven Tait
+logsource:
+  product: splunk
+detection:
+  selection:
+    camera:
+      - '*FaceTime*'
+      - '*MacBook*'
+    speaker: '*AirPods*'
+    microphone: '*MacBook Pro Microphone*'
+    limit: 50
+  condition: selection
+tags:
+  - attack.t1123
+custom_attributes:
+  original_rule_id: 9fdbf709-4c46-4819-9fb6-98b2d72059ed
+  source_format: splunk_spl

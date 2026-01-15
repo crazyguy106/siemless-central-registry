@@ -1,0 +1,45 @@
+title: Windows MSHTA Writing to World Writable Path
+id: 05cd0cc8-014d-5b46-81d1-225252001345
+status: stable
+level: high
+description: |
+  The following analytic identifies instances of `mshta.exe` writing files to world-writable directories. It leverages Sysmon EventCode 11 logs to detect file write operations by `mshta.exe` to directories like `C:\Windows\Tasks` and `C:\Windows\Temp`. This activity is significant as it often indicates an attempt to establish persistence or execute malicious code, deviating from the utility's legitimate use. If confirmed malicious, this behavior could lead to the execution of multi-stage payloads,
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    image: '*\\mshta.exe'
+    eventcode: 11
+    targetfilename:
+      - '*\\Windows\\Tasks\\*'
+      - '*\\Windows\\Temp\\*'
+      - '*\\Windows\\tracing\\*'
+      - '*\\Windows\\PLA\\Reports\\*'
+      - '*\\Windows\\PLA\\Rules\\*'
+      - '*\\Windows\\PLA\\Templates\\*'
+      - '*\\Windows\\PLA\\Reports\\en-US\\*'
+      - '*\\Windows\\PLA\\Rules\\en-US\\*'
+      - '*\\Windows\\Registration\\CRMLog\\*'
+      - '*\\Windows\\System32\\Tasks\\*'
+      - '*\\Windows\\System32\\Com\\dmp\\*'
+      - '*\\Windows\\System32\\LogFiles\\WMI\\*'
+      - '*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*'
+      - '*\\Windows\\System32\\spool\\PRINTERS\\*'
+      - '*\\Windows\\System32\\spool\\SERVERS\\*'
+      - '*\\Windows\\System32\\spool\\drivers\\color\\*'
+      - '*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\RemoteApp and Desktop Connections Update\\*'
+      - '*\\Windows\\SysWOW64\\Tasks\\*'
+      - '*\\Windows\\SysWOW64\\Com\\dmp\\*'
+      - '*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\*'
+      - '*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\RemoteApp and Desktop Connections Update\\*'
+      - '*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*'
+  condition: selection
+tags:
+  - attack.t1218.005
+references:
+  - https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
+  - https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
+custom_attributes:
+  original_rule_id: efbcf8ee-bc75-47f1-8985-a5c638c4faf0
+  source_format: splunk_spl

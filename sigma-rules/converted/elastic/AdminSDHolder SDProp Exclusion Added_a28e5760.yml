@@ -1,0 +1,39 @@
+title: AdminSDHolder SDProp Exclusion Added
+id: 61d29caf-6c15-4d1e-9ccb-7ad12ccc0bc7
+status: stable
+level: high
+description: 'Identifies a modification on the dsHeuristics attribute on the bit that
+  holds the configuration of groups excluded from
+
+  the SDProp process. The SDProp compares the permissions on protected objects with
+  those defined on the AdminSDHolder
+
+  object. If the permissions on any of the protected accounts and groups do not match,
+  the permissions on the protected
+
+  accounts and groups are reset to match those of the domain''s AdminSDHolder object,
+  meaning that groups excluded will
+
+  remain unchanged. Attackers can abuse this misconfiguration to maintain long-term
+  access to privileged accounts in these
+
+  groups.'
+author: Elastic (converted by SIEMLess)
+date: '2022-02-24'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '5136'
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+- attack.t1078.002
+- attack.t1078
+references:
+- https://www.cert.ssi.gouv.fr/uploads/guide-ad.html#dsheuristics_bad
+- https://petri.com/active-directory-security-understanding-adminsdholder-object

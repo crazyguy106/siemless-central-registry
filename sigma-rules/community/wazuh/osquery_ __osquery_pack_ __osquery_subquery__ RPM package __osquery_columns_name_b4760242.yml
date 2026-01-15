@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): RPM package $(osquery.columns.name) version $(osquery.columns.version) is installed on the system'
+id: bc6ff092-6fe8-5cd6-a419-51b8d5824ccf
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): RPM package $(osquery.columns.name) version $(osquery.columns.version) is installed on the system'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: rpm_packages
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24317
+  wazuh_level: 4

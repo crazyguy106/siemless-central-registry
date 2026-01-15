@@ -1,0 +1,39 @@
+title: Entra ID Device Code Auth with Broker Client
+id: a83b3dac-325a-11ef-b3e6-f661ea17fbce
+status: stable
+level: medium
+description: Identifies device code authentication with an Azure broker client for
+  Entra ID. Adversaries abuse Primary Refresh Tokens (PRTs) to bypass multi-factor
+  authentication (MFA) and gain unauthorized access to Azure resources. PRTs are used
+  in Conditional Access policies to enforce device-based controls. Compromising PRTs
+  allows attackers to bypass these policies and gain unauthorized access. This rule
+  detects successful sign-ins using device code authentication with the Entra ID broker
+  client application ID (29d9ed98-a469-4536-ade2-f981bc1d605e).
+author: Elastic (converted by SIEMLess)
+date: '2024-06-24'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: (azure.activitylogs
+    azure_signinlogs_properties_authentication_protocol: deviceCode
+    azure_signinlogs_properties_conditional_access_audiences_application_id: 29d9ed98-a469-4536-ade2-f981bc1d605e
+    event_outcome: success
+    azure_activitylogs_properties_appId: 29d9ed98-a469-4536-ade2-f981bc1d605e
+    azure_activitylogs_properties_authentication_protocol: deviceCode)
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.initial_access
+- attack.t1550.001
+- attack.t1566
+- attack.t1550
+- attack.t1078.004
+- attack.t1078
+- attack.t1566.002
+references:
+- https://dirkjanm.io/assets/raw/Phishing%20the%20Phishing%20Resistant.pdf
+- https://learn.microsoft.com/en-us/troubleshoot/azure/entra/entra-id/governance/verify-first-party-apps-sign-in
+- https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/signinlogs

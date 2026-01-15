@@ -1,0 +1,20 @@
+title: *NTDS.DIT File Modifications*
+id: bd2a3e8f-53ba-46f8-9e9f-5e2721896acb
+status: experimental
+level: medium
+description: |
+  NTDS.DIT stands for New Technology Directory Services Directory Information Tree. It serves as the primary database file within Microsoft’s Active Directory Domain Services (AD DS). Adversaries may attempt to access or modify the Active Directory domain database in order to steal credential information or perform other types of attack. By default, the NTDS file (NTDS.dit) is located in %SystemRoot%\NTDS\Ntds.dit of a domain controller.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    // Author: Alex Teixeira (alex@opstune.com)
+search in(DeviceFileEvents) "ntds" and "dit" and ActionType:"FileModified"
+| where Timestamp > ago(90d)
+| summarize Device_Count=dcount(DeviceId), Device_Sample=take_any(DeviceName), File_Count=dcount(FolderPath), File_Sample=take_any(FolderPath), Last_Seen=max(Timestamp) by InitiatingProcessParentFileName, InitiatingProcessFolderPath, InitiatingProcessAccountName
+| sort by Device_Count desc, File_Count desc
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

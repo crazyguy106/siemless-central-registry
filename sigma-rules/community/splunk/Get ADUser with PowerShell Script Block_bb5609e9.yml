@@ -1,0 +1,25 @@
+title: Get ADUser with PowerShell Script Block
+id: c1cd25ff-551d-57b9-a79f-59fe3ab933a5
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of the `Get-AdUser` PowerShell cmdlet, which is used to enumerate all domain users. It leverages PowerShell Script Block Logging (EventCode=4104) to identify instances where this command is executed with a filter. This activity is significant as it may indicate an attempt by adversaries or Red Teams to gather information about domain users for situational awareness and Active Directory discovery. If confirmed malicious, this behavior could lead to fur
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*get-aduser*'
+      - '*-filter*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1087.002
+references:
+  - https://www.blackhillsinfosec.com/red-blue-purple/
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2019-ps
+custom_attributes:
+  original_rule_id: 21432e40-04f4-11ec-b7e6-acde48001122
+  source_format: splunk_spl

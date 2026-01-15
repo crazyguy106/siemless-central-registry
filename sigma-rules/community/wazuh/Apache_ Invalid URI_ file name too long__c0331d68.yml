@@ -1,0 +1,24 @@
+title: 'Apache: Invalid URI, file name too long.'
+id: ec14e5dd-b0d3-5914-abe7-bd8a374a628b
+status: stable
+level: high
+description: 'Apache: Invalid URI, file name too long.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - File name too long
+      - 'request failed: URI too long'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-30101
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-30117
+  wazuh_level: 10

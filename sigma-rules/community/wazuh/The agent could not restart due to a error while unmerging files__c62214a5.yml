@@ -1,0 +1,22 @@
+title: The agent could not restart due to a error while unmerging files.
+id: 0288aefa-9c5c-5846-863e-bd6a6ce11e40
+status: stable
+level: medium
+description: The agent could not restart due to a error while unmerging files.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^wazuh: Could not unmerge shared file.'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-222
+  wazuh_level: 7

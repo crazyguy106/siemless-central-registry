@@ -1,0 +1,22 @@
+title: AWS EC2 AMI Or Snapshot Shared Publicly
+id: fa6ac55d-42c6-56aa-84c2-76a473004683
+status: experimental
+level: high
+description: Detects when an Amazon EC2 AMI or Snapshot is shared publicly.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - ModifyImageAttribute
+      - ModifySnapshotAttribute
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1537
+custom_attributes:
+  original_rule_id: mr_843a37db-dcd5-40b2-8b55-a00397fd5c0d
+  source_format: chronicle_yaral

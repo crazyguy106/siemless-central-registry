@@ -1,0 +1,28 @@
+title: Windows AD Short Lived Server Object
+id: d0df3710-0768-5b82-9a37-049701fa9131
+status: stable
+level: high
+description: |
+  The following analytic identifies the creation and quick deletion of a Domain Controller (DC) object within 30 seconds in an Active Directory environment, indicative of a potential DCShadow attack. This detection leverages Windows Security Event Codes 5137 and 5141, analyzing the duration between these events. This activity is significant as DCShadow allows attackers with privileged access to register a rogue DC, enabling unauthorized changes to AD objects, including credentials. If confirmed ma
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    objectdn: '*CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration*'
+    eventcode:
+      - 5137
+      - 5141
+    short_lived: 'TRUE'
+  condition: selection
+tags:
+  - attack.t1207
+references:
+  - https://www.dcshadow.com/
+  - https://attack.mitre.org/techniques/T1207/
+  - https://stealthbits.com/blog/detecting-dcshadow-with-event-logs/
+  - https://pentestlab.blog/2018/04/16/dcshadow/
+  - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5137
+custom_attributes:
+  original_rule_id: 193769d3-1e33-43a9-970e-ad4a88256cdb
+  source_format: splunk_spl

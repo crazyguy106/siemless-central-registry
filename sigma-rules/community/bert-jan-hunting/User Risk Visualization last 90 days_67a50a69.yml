@@ -1,0 +1,24 @@
+title: User Risk Visualization last 90 days
+id: 9a60168e-8bf7-4308-8990-f282c5f65d04
+status: experimental
+level: medium
+description: |
+  This visualization list the User Risk Events that have triggered in the last 90 days. The count per day is classified by the RiskEventType, those can amongs others be:
+- AnonymizedIPAddress
+- NewCountry
+- UnfamliliarFeatures
+
+This visualization can give insight in the amount of risky events that have happened.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AADUserRiskEvents
+| where TimeGenerated > ago(90d)
+| summarize count() by bin(TimeGenerated, 1d), RiskEventType
+| render columnchart
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

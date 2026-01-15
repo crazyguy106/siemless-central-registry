@@ -1,0 +1,34 @@
+title: 'Puppet Master: Manifest Error'
+id: be67c81d-5a5a-5350-b584-cf519979e2df
+status: stable
+level: low
+description: 'Puppet Master: Manifest Error'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^Could not
+      - ^You cannot
+      - ^too few arguments
+      - ^Duplicate declaration
+      - ^Unrecognised escape sequence
+      - ^Invalid parameter
+      - is not
+      - has not been tested
+      - Unknown function
+      - failed
+      - has failure
+    message|re: manifests
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80000
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80007
+  wazuh_level: 5

@@ -1,0 +1,29 @@
+title: Suspicious ImagePath Service Creation
+id: 36a8e048-d888-4f61-a8b9-0f9e2e40f317
+status: stable
+level: high
+description: 'Identifies the creation of a suspicious ImagePath value. This could
+  be an indication of an adversary attempting to
+
+  stealthily persist or escalate privileges through abnormal service creation.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-23'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_data_strings|contains:
+    - '%COMSPEC%*'
+    - '*\\.\\pipe\\*'
+    registry_path|endswith: \\SYSTEM\\ControlSet*\\Services\\*\\ImagePath
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1112
+- attack.t1543.003
+- attack.t1543

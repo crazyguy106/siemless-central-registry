@@ -1,0 +1,22 @@
+title: Windows RDP Server Registry Entry Created
+id: 58177442-dd85-5c81-b60b-0b981113f9b1
+status: stable
+level: medium
+description: |
+  This detection identifies the creation of registry keys under HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers\, which occur when a user initiates a Remote Desktop Protocol (RDP) connection using the built-in Windows RDP client (mstsc.exe). These registry entries store information about previously connected remote hosts, including usernames and display settings. Their creation is a strong indicator that an outbound RDP session was initiated from the system. While the presence 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Terminal Server Client\\Servers\\*'
+  condition: selection
+tags:
+  - attack.t1021.001
+references:
+  - https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+  - https://thelocalh0st.github.io/posts/rdp/
+custom_attributes:
+  original_rule_id: 61f10919-c360-4e56-9cda-f1f34500cfda
+  source_format: splunk_spl

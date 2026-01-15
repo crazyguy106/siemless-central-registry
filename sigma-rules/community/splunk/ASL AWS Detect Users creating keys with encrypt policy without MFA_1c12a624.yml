@@ -1,0 +1,28 @@
+title: ASL AWS Detect Users creating keys with encrypt policy without MFA
+id: 3fd66f21-0048-557c-93bc-6e52d450f861
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of AWS KMS keys with an encryption policy accessible to everyone, including external entities. It leverages AWS CloudTrail logs from Amazon Security Lake to identify `CreateKey` or `PutKeyPolicy` events where the `kms:Encrypt` action is granted to all principals. This activity is significant as it may indicate a compromised account, allowing an attacker to misuse the encryption key to target other organizations. If confirmed malicious, this could lead 
+author: Patrick Bareiss, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    principal: \*
+    operation:
+      - PutKeyPolicy
+      - CreateKey
+    path: policy
+    output: policy
+    input: policy
+  condition: selection
+tags:
+  - attack.t1486
+references:
+  - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+  - https://github.com/d1vious/git-wild-hunt
+  - https://www.youtube.com/watch?v=PgzNib37g0M
+custom_attributes:
+  original_rule_id: 16ae9076-d1d5-411c-8fdd-457504b33dac
+  source_format: splunk_spl

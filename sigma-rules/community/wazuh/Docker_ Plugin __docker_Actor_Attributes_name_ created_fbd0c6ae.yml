@@ -1,0 +1,22 @@
+title: 'Docker: Plugin $(docker.Actor.Attributes.name) created'
+id: 5f8ebc1e-9fb1-5bf3-9e54-0926d4e1d294
+status: stable
+level: low
+description: 'Docker: Plugin $(docker.Actor.Attributes.name) created'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^create$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87942
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87947
+  wazuh_level: 3

@@ -1,0 +1,32 @@
+title: Renamed Automation Script Interpreter
+id: 2e1e835d-01e5-48ca-b9fc-7a61f7f11902
+status: stable
+level: high
+description: 'Identifies renamed Automation Script Interpreter process. Malware written
+  as an AutoIt/AutoHotKey script tends to rename
+
+  the main executable to avoid detection.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-01'
+modified: '2025-09-01'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: KIX32.EXE
+    process_name|contains:
+    - AutoHotkey*.exe
+    - InternalAHK.exe
+    process_executable|contains:
+    - ?:\\Users\\*.exe
+    - ?:\\ProgramData\\*.exe
+    - \\Device\\HarddiskVolume*\\Users\\*.exe
+    - \\Device\\HarddiskVolume*\\ProgramData\\*.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1036.003
+- attack.t1036

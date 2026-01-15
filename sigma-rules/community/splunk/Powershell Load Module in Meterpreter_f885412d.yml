@@ -1,0 +1,25 @@
+title: Powershell Load Module in Meterpreter
+id: 438a1acf-7f7d-524c-9700-4a929374a55b
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of suspicious PowerShell commands associated with Meterpreter modules, such as "MSF.Powershell" and "MSF.Powershell.Meterpreter". It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command sent to PowerShell. This activity is significant as it indicates potential post-exploitation actions, including credential dumping and persistence mechanisms. If confirmed malicious, an attacker could gain extensive control
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4104
+    scriptblocktext:
+      - '*MSF.Powershell*'
+      - '*MSF.Powershell.Meterpreter*'
+      - '*MSF.Powershell.Meterpreter.Kiwi*'
+      - '*MSF.Powershell.Meterpreter.Transport*'
+  condition: selection
+tags:
+  - attack.t1059.001
+references:
+  - https://github.com/OJ/metasploit-payloads/blob/master/powershell/MSF.Powershell/Scripts.cs
+custom_attributes:
+  original_rule_id: d5905da5-d050-48db-9259-018d8f034fcf
+  source_format: splunk_spl

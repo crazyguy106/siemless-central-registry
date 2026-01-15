@@ -1,0 +1,27 @@
+title: Web Spring4Shell HTTP Request Class Module
+id: 87c8a36f-4a28-5daa-bd10-b6b22b6ea6e0
+status: stable
+level: high
+description: |
+  The following analytic detects HTTP requests containing payloads related to the Spring4Shell vulnerability (CVE-2022-22965). It leverages Splunk Stream HTTP data to inspect the HTTP request body and form data for specific fields such as "class.module.classLoader.resources.context.parent.pipeline.first". This activity is significant as it indicates an attempt to exploit a critical vulnerability in Spring Framework, potentially leading to remote code execution. If confirmed malicious, this could a
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    http_method:
+      - POST
+    http_request_body:
+      - '*class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat=_*'
+      - '*class.module.classLoader.resources.context.parent.pipeline.first.pattern*'
+      - '*suffix=.jsp*'
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://github.com/DDuarte/springshell-rce-poc/blob/master/poc.py
+custom_attributes:
+  original_rule_id: fcdfd69d-0ca3-4476-920e-9b633cb4593e
+  source_format: splunk_spl

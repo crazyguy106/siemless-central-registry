@@ -1,0 +1,34 @@
+title: Linux Service File Created In Systemd Directory
+id: 6fff266b-22fd-5ad5-939f-6891527b5031
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of suspicious service files within the systemd directories on Linux platforms. It leverages logs containing file name, file path, and process GUID data from endpoints. This activity is significant for a SOC as it may indicate an adversary attempting to establish persistence on a compromised host. If confirmed malicious, this could lead to system compromise or data exfiltration, allowing attackers to maintain control over the system and execute further 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/etc/systemd/system*'
+      - '*/lib/systemd/system*'
+      - '*/usr/lib/systemd/system*'
+      - '*/run/systemd/system*'
+      - '*~/.config/systemd/*'
+      - '*~/.local/share/systemd/*'
+      - '*/etc/systemd/user*'
+      - '*/lib/systemd/user*'
+      - '*/usr/lib/systemd/user*'
+      - '*/run/systemd/user*'
+  condition: selection
+tags:
+  - attack.t1053.006
+references:
+  - https://attack.mitre.org/techniques/T1053/006/
+  - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+  - https://redcanary.com/blog/attck-t1501-understanding-systemd-service-persistence/
+  - https://github.com/microsoft/MSTIC-Sysmon/blob/main/linux/configs/attack-based/persistence/T1053.003_Cron_Activity.xml
+custom_attributes:
+  original_rule_id: c7495048-61b6-11ec-9a37-acde48001122
+  source_format: splunk_spl

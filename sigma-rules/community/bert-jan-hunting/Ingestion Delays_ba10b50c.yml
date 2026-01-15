@@ -1,0 +1,19 @@
+title: Ingestion Delays
+id: 9d3ae6fb-1c0c-4fb0-827f-e66dd5c833be
+status: experimental
+level: medium
+description: |
+  This query can be used to calculate ingestion delays of the unified security platform. In this specific case the GraphAPIAuditEvents and MicrosoftGraphActivityLogs are compared, but these tablenames can be changed to any other table. For all EDR logs you can for example use *union withsource=TableName Device* * to filter on all tables starting with Device.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    union withsource=TableName GraphAPIAuditEvents, MicrosoftGraphActivityLogs
+| extend IngestionTime = ingestion_time()
+| extend IngestionDelay = datetime_diff('minute',  IngestionTime, Timestamp)
+| summarize Average = round(avg(IngestionDelay), 1), percentiles(IngestionDelay, 50, 75, 90, 95, 97, 99) by TableName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

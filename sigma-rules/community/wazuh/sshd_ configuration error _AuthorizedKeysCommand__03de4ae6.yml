@@ -1,0 +1,22 @@
+title: 'sshd: configuration error (AuthorizedKeysCommand)'
+id: 60ba0929-38f7-5655-94ed-ebb78ce2aa36
+status: stable
+level: low
+description: 'sshd: configuration error (AuthorizedKeysCommand)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^error: Could not stat AuthorizedKeysCommand'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5739
+  wazuh_level: 4

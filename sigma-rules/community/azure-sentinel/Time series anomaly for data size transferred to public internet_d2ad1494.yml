@@ -1,0 +1,19 @@
+title: Time series anomaly for data size transferred to public internet
+id: 6b5949e1-8218-5d81-a844-6e7531cee174
+status: stable
+level: medium
+description: |
+  'Identifies anomalous data transfer to public networks. The query leverages built-in KQL anomaly detection algorithms that detects large deviations from a baseline pattern. A sudden increase in data transferred to unknown public networks is an indication of data exfiltration attempts and should be investigated. The higher the score, the further it is from the baseline value. The output is aggregated to provide summary view of unique source IP to destination IP address and port bytes sent traffic
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    DateHour:
+      - (AnomalyHours
+  condition: selection
+tags:
+  - attack.t1030
+custom_attributes:
+  original_rule_id: f2dd4a3a-ebac-4994-9499-1a859938c947
+  source_format: azure_kql

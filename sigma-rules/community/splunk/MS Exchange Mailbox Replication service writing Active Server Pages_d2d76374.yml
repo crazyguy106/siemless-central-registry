@@ -1,0 +1,29 @@
+title: MS Exchange Mailbox Replication service writing Active Server Pages
+id: 407eaf70-94f3-5ed1-91fa-ee0ba5bcc2ac
+status: experimental
+level: high
+description: |
+  The following analytic identifies the creation of suspicious .aspx files in specific directories associated with Exchange exploitation by the HAFNIUM group and the ProxyShell vulnerability. It detects this activity by monitoring the MSExchangeMailboxReplication.exe process, which typically does not write .aspx files. This behavior is significant as it may indicate an active exploitation attempt on Exchange servers. If confirmed malicious, attackers could gain unauthorized access, execute arbitra
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    file_name: '*.aspx'
+    span:
+      - 1h
+      - 1h
+    file_path:
+      - '*\\HttpProxy\\owa\\auth\\*'
+      - '*\\inetpub\\wwwroot\\aspnet_client\\*'
+      - '*\\HttpProxy\\OAB\\*'
+  condition: selection
+tags:
+  - attack.t1133
+  - attack.t1190
+  - attack.t1505.003
+references:
+  - https://redcanary.com/blog/blackbyte-ransomware/
+custom_attributes:
+  original_rule_id: 985f322c-57a5-11ec-b9ac-acde48001122
+  source_format: splunk_spl

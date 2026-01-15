@@ -1,0 +1,22 @@
+title: Hunt for Undocumented API - Estimate Access called in Microsoft Graph API
+id: 874d841b-d896-5967-849c-e5d1a8cfddcd
+status: experimental
+level: low
+description: |
+  Estimate Access is an undocumented API in MS Graph and is used in the following GraphRunner functions Get-UpdatableGroups, Get-DynamicGroups and Invoke-GraphRecon. Although not inherently malicious, it does submit an action and then determines if the user can perform it
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/beta/roleManagement/directory/estimateAccess'
+    network_http_method: POST
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_381921b8-e935-4720-9ff6-2d966aa00a32
+  source_format: chronicle_yaral

@@ -1,0 +1,24 @@
+title: Disable Defender AntiVirus Registry
+id: 6b1c478c-5b86-59c1-af6d-3b4d6fcf6f9a
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of Windows Defender registry settings to disable antivirus and antispyware protections. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to registry paths associated with Windows Defender policies. This activity is significant because disabling antivirus protections is a common tactic used by adversaries to evade detection and maintain persistence on compromised systems. If confirmed malicious, this action co
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Policies\\Microsoft\\Windows Defender*'
+    registry_value_name:
+      - DisableAntiSpyware
+      - DisableAntiVirus
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: aa4f695a-3024-11ec-9987-acde48001122
+  source_format: splunk_spl

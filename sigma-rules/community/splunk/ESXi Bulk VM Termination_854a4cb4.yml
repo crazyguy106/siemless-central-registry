@@ -1,0 +1,29 @@
+title: ESXi Bulk VM Termination
+id: fa922310-ff59-5b26-a842-87ab6bcd46ca
+status: stable
+level: high
+description: |
+  This detection identifies when all virtual machines on an ESXi host are abruptly terminated, which may indicate malicious activity such as a deliberate denial-of-service, ransomware staging, or an attempt to destroy critical workloads.
+author: Raven Tait, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    command:
+      - pkill -9 vmx-*
+      - '*esxcli*'
+      - '*--format-param*'
+      - '*vm process list*'
+      - '*awk*'
+      - '*esxcli vm process kill*'
+    field:
+      - _raw
+      - _raw
+  condition: selection
+tags:
+  - attack.t1673
+  - attack.t1529
+  - attack.t1499
+custom_attributes:
+  original_rule_id: cfe094b4-0737-4a33-9d63-e0562ce2b883
+  source_format: splunk_spl

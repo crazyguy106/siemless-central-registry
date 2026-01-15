@@ -1,0 +1,28 @@
+title: Azure AD Multiple Denied MFA Requests For User
+id: 20c3ab7d-8017-535f-a8ef-c28be0be83f5
+status: stable
+level: high
+description: |
+  The following analytic detects an unusually high number of denied Multi-Factor Authentication (MFA) requests for a single user within a 10-minute window, specifically when more than nine MFA prompts are declined. It leverages Azure Active Directory (Azure AD) sign-in logs, focusing on "Sign-in activity" events with error code 500121 and additional details indicating "MFA denied; user declined the authentication." This behavior is significant as it may indicate a targeted attack or account compro
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: Sign-in activity
+    additionaldetails: MFA denied; user declined the authentication
+    category: SignInLogs
+    errorcode: 500121
+    span: 10m
+  condition: selection
+tags:
+  - attack.t1621
+references:
+  - https://www.mandiant.com/resources/blog/russian-targeting-gov-business
+  - https://arstechnica.com/information-technology/2022/03/lapsus-and-solar-winds-hackers-both-use-the-same-old-trick-to-bypass-mfa/
+  - https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/
+  - https://attack.mitre.org/techniques/T1621/
+  - https://attack.mitre.org/techniques/T1078/004/
+custom_attributes:
+  original_rule_id: d0895c20-de71-4fd2-b56c-3fcdb888eba1
+  source_format: splunk_spl

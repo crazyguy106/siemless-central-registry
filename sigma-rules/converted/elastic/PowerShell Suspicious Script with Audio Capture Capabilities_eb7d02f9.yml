@@ -1,0 +1,28 @@
+title: PowerShell Suspicious Script with Audio Capture Capabilities
+id: 2f2f4939-0b34-40c2-a0a3-844eb7889f43
+status: stable
+level: high
+description: Detects PowerShell scripts that can record audio, a common feature in
+  popular post-exploitation tooling.
+author: Elastic (converted by SIEMLess)
+date: '2021-10-19'
+modified: '2025-09-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    user_id: S-1-5-18
+  condition: selection
+tags:
+- attack.execution
+- attack.collection
+- attack.t1059
+- attack.t1123
+- attack.t1059.001
+- attack.t1106
+references:
+- https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-MicrophoneAudio.ps1

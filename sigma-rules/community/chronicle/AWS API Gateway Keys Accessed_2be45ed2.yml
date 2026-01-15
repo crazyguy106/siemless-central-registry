@@ -1,0 +1,22 @@
+title: AWS API Gateway Keys Accessed
+id: b7e9ee7b-0a2c-54b5-a6d3-25a8905373c8
+status: experimental
+level: low
+description: Detects when AWS API Gateway keys are accessed.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - GetApiKey
+      - GetApiKeys
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1555
+custom_attributes:
+  original_rule_id: mr_1d8ffb2e-ca26-4f8f-8ca1-3dd4694776f5
+  source_format: chronicle_yaral

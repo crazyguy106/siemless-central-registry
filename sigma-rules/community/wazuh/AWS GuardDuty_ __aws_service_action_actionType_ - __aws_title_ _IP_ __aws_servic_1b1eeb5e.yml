@@ -1,0 +1,23 @@
+title: 'AWS GuardDuty: $(aws.service.action.actionType) - $(aws.title) [IP: $(aws.service.action.portProbeAction.portProbeDetails.remoteIpDetails.ipAddressV4)'
+id: 5e8f04bd-d4b6-5d91-93e5-ee1d046aaa8a
+status: stable
+level: low
+description: |
+  AWS GuardDuty: $(aws.service.action.actionType) - $(aws.title) [IP: $(aws.service.action.portProbeAction.portProbeDetails.remoteIpDetails.ipAddressV4)] [Port: $(aws.service.action.portProbeAction.portProbeDetails.localPortDetails.port)]
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.service.action.actionType: PORT_PROBE
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80301
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80305
+  wazuh_level: 3

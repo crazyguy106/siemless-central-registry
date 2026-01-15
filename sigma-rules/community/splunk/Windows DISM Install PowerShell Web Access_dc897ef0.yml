@@ -1,0 +1,24 @@
+title: Windows DISM Install PowerShell Web Access
+id: 609b4afa-976b-5771-b48c-919ea1f139ff
+status: stable
+level: high
+description: |
+  The following analytic detects the installation of PowerShell Web Access using the Deployment Image Servicing and Management (DISM) tool. It leverages Sysmon EventID 1 to identify the execution of `dism.exe` with specific parameters related to enabling the WindowsPowerShellWebAccess feature. This activity is significant because enabling PowerShell Web Access can facilitate remote execution of PowerShell commands, potentially allowing an attacker to gain unauthorized access to systems and network
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*WindowsPowerShellWebAccess*'
+      - '*/online*'
+      - '*/enable-feature*'
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
+  - https://gist.github.com/MHaggis/7e67b659af9148fa593cf2402edebb41
+custom_attributes:
+  original_rule_id: fa6142a7-c364-4d11-9954-895dd9efb2d4
+  source_format: splunk_spl

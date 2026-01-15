@@ -1,0 +1,35 @@
+title: Openssl Client or Server Activity
+id: ad5a3757-c872-4719-8c72-12d3f08db655
+status: stable
+level: low
+description: 'This rule identifies when the openssl client or server is used to establish
+  a connection. Attackers may use openssl to
+
+  establish a secure connection to a remote server or to create a secure server to
+  receive connections. This activity may
+
+  be used to exfiltrate data or establish a command and control channel.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-30'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: openssl
+    process_args: -port
+    process_args|contains:
+    - -connect
+    - '*:*'
+  condition: selection
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1059.004
+- attack.t1071
+references:
+- https://gtfobins.github.io/gtfobins/openssl/

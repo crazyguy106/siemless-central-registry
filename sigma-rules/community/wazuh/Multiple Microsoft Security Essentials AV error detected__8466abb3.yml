@@ -1,0 +1,33 @@
+title: Multiple Microsoft Security Essentials AV error detected.
+id: 62909d4b-23a2-574b-9444-ab10b9bfb703
+status: stable
+level: high
+description: Multiple Microsoft Security Essentials AV error detected.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 240s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-7703
+    window:
+      maxspan: 240s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-7720
+  wazuh_level: 10

@@ -1,0 +1,28 @@
+title: Potential Microsoft Office Sandbox Evasion
+id: d22a85c6-d2ad-4cc4-bf7b-54787473669a
+status: stable
+level: high
+description: 'Identifies the creation of a suspicious zip file prepended with special
+  characters. Sandboxed Microsoft Office
+
+  applications on macOS are allowed to write files that start with special characters,
+  which can be combined with an
+
+  AutoStart location to achieve sandbox evasion.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-11'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1497
+references:
+- https://i.blackhat.com/USA-20/Wednesday/us-20-Wardle-Office-Drama-On-macOS.pdf
+- https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/
+- https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c

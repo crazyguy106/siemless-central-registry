@@ -1,0 +1,23 @@
+title: ASL AWS New MFA Method Registered For User
+id: 57bbe58c-c6c4-51d4-941b-c1cf89392f13
+status: stable
+level: high
+description: |
+  The following analytic identifies the registration of a new Multi-Factor Authentication (MFA) method for an AWS account, as logged through Amazon Security Lake (ASL). It detects this activity by monitoring the `CreateVirtualMFADevice` API operation within ASL logs. This behavior is significant because adversaries who gain unauthorized access to an AWS account may register a new MFA method to maintain persistence. If confirmed malicious, this activity could allow attackers to secure their access,
+author: Patrick Bareiss, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    operation: CreateVirtualMFADevice
+  condition: selection
+tags:
+  - attack.t1556.006
+references:
+  - https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
+  - https://attack.mitre.org/techniques/T1556/
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://twitter.com/jhencinski/status/1618660062352007174
+custom_attributes:
+  original_rule_id: 33ae0931-2a03-456b-b1d7-b016c5557fbd
+  source_format: splunk_spl

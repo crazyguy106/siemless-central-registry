@@ -1,0 +1,30 @@
+title: Windows LOLBAS Executed Outside Expected Path
+id: d606ac8e-0120-574e-a581-842245474710
+status: stable
+level: high
+description: |
+  The following analytic identifies a LOLBAS process being executed outside of it's expected location. Processes being executed outside of expected locations may be an indicator that an adversary is attempting to evade defenses or execute malicious code. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
+author: Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    is_lolbas_path: 'false'
+    process_path:
+      - '*\\Program Files*'
+      - '*\\PROGRA~*'
+      - '*\\Windows\\System32\\*'
+      - '*\\Windows\\Syswow64\\*'
+  filter:
+    process: unknown
+    desc: 'false'
+  condition: selection and not filter
+tags:
+  - attack.t1036.005
+  - attack.t1218.011
+references:
+  - https://attack.mitre.org/techniques/T1036/
+  - https://attack.mitre.org/techniques/T1036/005/
+custom_attributes:
+  original_rule_id: 326fdf44-b90c-4d2e-adca-1fd140b10536
+  source_format: splunk_spl

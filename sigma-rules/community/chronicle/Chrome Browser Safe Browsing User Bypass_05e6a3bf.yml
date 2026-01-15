@@ -1,0 +1,24 @@
+title: Chrome Browser Safe Browsing User Bypass
+id: e5ba5eb8-97c4-55d1-9d70-a9cc9b400295
+status: experimental
+level: low
+description: |
+  Detects and alerts on users bypassing Chrome Safe Browsing warnings and accessing potentially dangerous content or downloads
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_product_name: Chrome Management
+    metadata_product_event_type:
+      - badNavigationEvent
+      - dangerousDownloadEvent
+      - contentTransferEvent
+      - unscannedFileEvent
+    security_result_action_details: EVENT_RESULT_BYPASSED
+  condition: selection
+tags:
+  - attack.t1566
+custom_attributes:
+  original_rule_id: mr_73e2a3d4-13ba-47ef-b250-a2bdcd98dc48
+  source_format: chronicle_yaral

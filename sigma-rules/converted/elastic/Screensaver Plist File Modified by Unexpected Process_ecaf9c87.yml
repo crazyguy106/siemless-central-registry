@@ -1,0 +1,28 @@
+title: Screensaver Plist File Modified by Unexpected Process
+id: e6e8912f-283f-4d0d-8442-e0dcaf49944b
+status: stable
+level: medium
+description: 'Identifies when a screensaver plist file is modified by an unexpected
+  process. An adversary can maintain persistence on
+
+  a macOS endpoint by creating a malicious screensaver (.saver) file and configuring
+  the screensaver plist file to execute
+
+  code each time the screensaver is activated.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-05'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+    event_action: modification
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1546
+references:
+- https://posts.specterops.io/saving-your-access-d562bf5bf90b
+- https://github.com/D00MFist/PersistentJXA

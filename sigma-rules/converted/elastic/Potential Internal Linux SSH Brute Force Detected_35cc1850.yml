@@ -1,0 +1,36 @@
+title: Potential Internal Linux SSH Brute Force Detected
+id: 1c27fa22-7727-4dd3-81c0-de6da5555feb
+status: stable
+level: medium
+description: 'Identifies multiple internal consecutive login failures targeting a
+  user account from the same source address within a
+
+  short time interval. Adversaries will often brute force login attempts across multiple
+  users with a common or known
+
+  password, in an attempt to gain access to these accounts.'
+author: Elastic (converted by SIEMLess)
+date: '2023-02-21'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, source.ip, user.name with maxspan=15s\n \
+      \ [ authentication where host.os.type == \"linux\" and \n   event.action in\
+      \ (\"ssh_login\", \"user_login\") and event.outcome == \"failure\" and\n   cidrmatch(source.ip,\
+      \ \"10.0.0.0/8\", \"127.0.0.0/8\", \"169.254.0.0/16\", \"172.16.0.0/12\", \"\
+      192.0.0.0/24\",\n       \"192.0.0.0/29\", \"192.0.0.8/32\", \"192.0.0.9/32\"\
+      , \"192.0.0.10/32\", \"192.0.0.170/32\", \"192.0.0.171/32\",\n       \"192.0.2.0/24\"\
+      , \"192.31.196.0/24\", \"192.52.193.0/24\", \"192.168.0.0/16\", \"192.88.99.0/24\"\
+      , \"224.0.0.0/4\",\n       \"100.64.0.0/10\", \"192.175.48.0/24\",\"198.18.0.0/15\"\
+      , \"198.51.100.0/24\", \"203.0.113.0/24\", \"240.0.0.0/4\", \n       \"::1\"\
+      , \"FE80::/10\", \"FF00::/8\") ] with runs = 10"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1110.001
+- attack.t1110.003
+- attack.t1110

@@ -1,0 +1,23 @@
+title: 'The file limit set for this agent is $(file_limit). Now, $(file_count) files are being monitored and no more files will be monitored. Change this sett'
+id: 91a0488e-eae4-59e7-a7dd-d77cd7ce9999
+status: stable
+level: high
+description: |
+  The file limit set for this agent is $(file_limit). Now, $(file_count) files are being monitored and no more files will be monitored. Change this setting in centralized configuration or locally on the agent.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    alert_type: full
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-230
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-233
+  wazuh_level: 12

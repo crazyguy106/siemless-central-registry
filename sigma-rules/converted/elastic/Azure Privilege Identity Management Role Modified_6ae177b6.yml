@@ -1,0 +1,36 @@
+title: Azure Privilege Identity Management Role Modified
+id: 7882cebf-6cf1-4de3-9662-213aa13e8b80
+status: stable
+level: medium
+description: 'Azure Active Directory (AD) Privileged Identity Management (PIM) is
+  a service that enables you to manage, control, and
+
+  monitor access to important resources in an organization. PIM can be used to manage
+  the built-in Azure resource roles
+
+  such as Global Administrator and Application Administrator. An adversary may add
+  a user to a PIM role in order to
+
+  maintain persistence in their target''s environment or modify a PIM role to weaken
+  their target''s security controls.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-01'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.auditlogs
+    azure_auditlogs_operation_name: Update
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1098
+- attack.t1098.003
+- attack.t1078
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-resource-roles-assign-roles
+- https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure

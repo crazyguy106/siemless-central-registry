@@ -1,0 +1,27 @@
+title: Windows Suspicious Driver Loaded Path
+id: b5d62b56-731c-5ea0-93a4-209b4cf78690
+status: stable
+level: high
+description: |
+  The following analytic detects the loading of drivers from suspicious paths, which is a technique often used by malicious software such as coin miners (e.g., xmrig). It leverages Sysmon EventCode 6 to identify drivers loaded from non-standard directories. This activity is significant because legitimate drivers typically reside in specific system directories, and deviations may indicate malicious activity. If confirmed malicious, this could allow an attacker to execute code at the kernel level, p
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    imageloaded:
+      - '*\\WINDOWS\\inf'
+      - '*\\WINDOWS\\System32\\drivers\\*'
+      - '*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*'
+      - '*:\Windows\\WinSxS\\*'
+      - '*\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\*'
+    eventcode: 6
+  condition: selection
+tags:
+  - attack.t1543.003
+references:
+  - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+  - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+custom_attributes:
+  original_rule_id: 2ca1c4a1-8342-4750-9363-905650e0c933
+  source_format: splunk_spl

@@ -1,0 +1,37 @@
+title: Proxmox VE brute force (multiple failed logins).
+id: 6b658f3d-a3ee-5d40-b4ee-06c4514231cb
+status: stable
+level: high
+description: Proxmox VE brute force (multiple failed logins).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-87201
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87202
+  wazuh_level: 10

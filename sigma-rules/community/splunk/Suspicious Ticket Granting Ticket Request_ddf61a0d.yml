@@ -1,0 +1,29 @@
+title: Suspicious Ticket Granting Ticket Request
+id: 607dba3e-1a41-516b-8728-5825513ccb8c
+status: stable
+level: low
+description: |
+  The following analytic detects suspicious Kerberos Ticket Granting Ticket (TGT) requests that may indicate exploitation of CVE-2021-42278 and CVE-2021-42287. It leverages Event ID 4781 (account name change) and Event ID 4768 (TGT request) to identify sequences where a newly renamed computer account requests a TGT. This behavior is significant as it could represent an attempt to escalate privileges by impersonating a Domain Controller. If confirmed malicious, this activity could allow attackers t
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    oldtargetusername: '*$'
+    eventcode:
+      - 4781
+      - 4768
+    short_lived: 'TRUE'
+  filter:
+    newtargetusername: '*$'
+    targetusername: '*$'
+  condition: selection and not filter
+tags:
+  - attack.t1078.002
+references:
+  - https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287
+custom_attributes:
+  original_rule_id: d77d349e-6269-11ec-9cfe-acde48001122
+  source_format: splunk_spl

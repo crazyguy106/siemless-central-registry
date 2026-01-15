@@ -1,0 +1,31 @@
+title: Bypass UAC via Event Viewer
+id: 31b4c719-f2b4-41f6-a9bd-fce93c2eaf62
+status: stable
+level: high
+description: 'Identifies User Account Control (UAC) bypass via eventvwr.exe. Attackers
+  bypass UAC to stealthily execute code with
+
+  elevated permissions.'
+author: Elastic (converted by SIEMLess)
+date: '2020-03-17'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_executable|contains:
+    - ?:\\Windows\\SysWOW64\\mmc.exe
+    - ?:\\Windows\\System32\\mmc.exe
+    - ?:\\Windows\\SysWOW64\\WerFault.exe
+    - ?:\\Windows\\System32\\WerFault.exe
+    - \\Device\\HarddiskVolume*\\Windows\\Sys?????\\mmc.exe
+    - \\Device\\HarddiskVolume*\\Windows\\Sys?????\\WerFault.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548.002
+- attack.t1548

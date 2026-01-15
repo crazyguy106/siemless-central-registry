@@ -1,0 +1,27 @@
+title: Persistence via Microsoft Outlook VBA
+id: 397945f3-d39a-4e6f-8bcb-9656c2031438
+status: stable
+level: medium
+description: Detects attempts to establish persistence on an endpoint by installing
+  a rogue Microsoft Outlook VBA Template.
+author: Elastic (converted by SIEMLess)
+date: '2020-11-23'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_path|contains:
+    - ?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Outlook\\VbaProject.OTM
+    - \\Device\\HarddiskVolume*\\Users\\*\\AppData\\Roaming\\Microsoft\\Outlook\\VbaProject.OTM
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1137
+references:
+- https://www.mdsec.co.uk/2020/11/a-fresh-outlook-on-mail-based-persistence/
+- https://www.linkedin.com/pulse/outlook-backdoor-using-vba-samir-b-/
+falsepositives:
+- A legitimate VBA for Outlook is usually configured interactively via OUTLOOK.EXE.

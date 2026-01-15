@@ -1,0 +1,24 @@
+title: Command & Control intel Feeds (IP Based)
+id: 6aca166a-0bbe-430c-8d50-f5e81e8ae1d1
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Command & Control intel Feeds (IP Based)
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let C2IntelFeeds = externaldata(IP: string, ioc:string)[@"https://raw.githubusercontent.com/drb-ra/C2IntelFeeds/master/feeds/IPC2s-30day.csv"] with (format="csv", ignoreFirstRecord=True);
+let IPList = C2IntelFeeds
+| project IP;
+DeviceNetworkEvents
+| where RemoteIP in (IPList)
+| join C2IntelFeeds on $left.RemoteIP == $right.IP
+| extend GeoIPInfo = geo_info_from_ip_address(RemoteIP)
+| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
+| project Timestamp, DeviceName, RemoteIP, RemotePort, RemoteUrl, ioc
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

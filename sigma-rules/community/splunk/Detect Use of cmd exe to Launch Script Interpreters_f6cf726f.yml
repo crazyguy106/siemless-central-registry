@@ -1,0 +1,21 @@
+title: Detect Use of cmd exe to Launch Script Interpreters
+id: 27d75eb0-67e7-5097-9b60-9f6b7530e446
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of cscript.exe or wscript.exe processes initiated by cmd.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes within the Endpoint data model. This activity is significant as it may indicate script-based attacks or administrative actions that could be leveraged for malicious purposes. If confirmed malicious, this behavior could allow attackers to execute scripts, potentially leading to
+author: Bhavin Patel, Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    parent_process_name: cmd.exe
+  condition: selection
+tags:
+  - attack.t1059.003
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+custom_attributes:
+  original_rule_id: b89919ed-fe5f-492c-b139-95dbb162039e
+  source_format: splunk_spl

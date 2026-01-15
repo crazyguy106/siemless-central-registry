@@ -1,0 +1,42 @@
+title: Azure Event Hub Authorization Rule Created or Updated
+id: b6dce542-2b75-4ffb-b7d6-38787298ba9d
+status: stable
+level: medium
+description: 'Identifies when an Event Hub Authorization Rule is created or updated
+  in Azure. An authorization rule is associated with
+
+  specific rights, and carries a pair of cryptographic keys. When you create an Event
+  Hubs namespace, a policy rule named
+
+  RootManageSharedAccessKey is created for the namespace. This has manage permissions
+  for the entire namespace and it''s
+
+  recommended that you treat this rule like an administrative root account and don''t
+  use it in your application.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-18'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.EVENTHUB/NAMESPACES/AUTHORIZATIONRULES/WRITE
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1098
+- attack.t1552
+- attack.t1552.005
+references:
+- https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-shared-access-signature
+falsepositives:
+- "    Authorization rule additions or modifications may be done by a system or network\
+  \ administrator. Verify whether the\n    username, hostname, and/or resource name\
+  \ should be making changes in your environment. Authorization rule additions\n \
+  \   or modifications from unfamiliar users or hosts should be investigated. If known\
+  \ behavior is causing false\n    positives, it can be exempted from the rule.\n\
+  \    "

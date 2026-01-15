@@ -1,0 +1,21 @@
+title: Silk Typhoon Suspicious File Downloads.
+id: 181bd94a-afd4-5ae2-859d-289ea4cfd0d4
+status: stable
+level: medium
+description: |
+  'This query looks for messages related to file downloads of suspicious file types. This query uses the Exchange HttpProxy AOBGeneratorLog, you will need to onboard this log as a custom log under the table http_proxy_oab_CL before using this query.  Reference: https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    InteractiveFile: 'Yes'
+    RawData:
+      - Download failed and temporary file
+  condition: selection
+tags:
+  - attack.t1190
+custom_attributes:
+  original_rule_id: 03e04c97-8cae-48b3-9d2f-4ab262e4ffff
+  source_format: azure_kql

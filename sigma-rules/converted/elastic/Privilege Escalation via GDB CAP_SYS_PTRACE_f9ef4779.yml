@@ -1,0 +1,39 @@
+title: Privilege Escalation via GDB CAP_SYS_PTRACE
+id: c296f888-eac6-4543-8da5-b6abb0d3304f
+status: stable
+level: medium
+description: 'Identifies instances where GDB (granted the CAP_SYS_PTRACE capability)
+  is executed, after which the user''s access is
+
+  elevated to UID/GID 0 (root). In Linux, the CAP_SYS_PTRACE capability grants a process
+  the ability to use the ptrace
+
+  system call, which is typically used for debugging and allows the process to trace
+  and control other processes.
+
+  Attackers may leverage this capability to hook and inject into a process that is
+  running with root permissions in order
+
+  to escalate their privileges to root.'
+author: Elastic (converted by SIEMLess)
+date: '2024-01-09'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.entry_leader.entity_id with maxspan=1m\n\
+      \  [process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action == \"exec\" and process.name == \"gdb\" and\n   (process.thread.capabilities.effective\
+      \ : \"CAP_SYS_PTRACE\" or process.thread.capabilities.permitted : \"CAP_SYS_PTRACE\"\
+      ) and\n   user.id != \"0\"]\n  [process where host.os.type == \"linux\" and\
+      \ event.type == \"start\" and event.action == \"exec\" and\n   process.name\
+      \ != null and user.id == \"0\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.privilege_escalation
+- attack.t1055.008
+- attack.t1055
+- attack.t1068

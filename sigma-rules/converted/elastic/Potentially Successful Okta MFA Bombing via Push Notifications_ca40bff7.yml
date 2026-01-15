@@ -1,0 +1,41 @@
+title: Potentially Successful Okta MFA Bombing via Push Notifications
+id: 97a8e584-fd3b-421f-9b9d-9c9d9e57e9d7
+status: stable
+level: high
+description: 'Detects when an attacker abuses the Multi-Factor authentication mechanism
+  by repeatedly issuing login requests until the
+
+  user eventually accepts the Okta push notification. An adversary may attempt to
+  bypass the Okta MFA policies configured
+
+  for an organization to obtain unauthorized access.'
+author: Elastic (converted by SIEMLess)
+date: '2022-01-05'
+modified: '2025-09-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by okta.actor.id with maxspan=10m\n  [ any\n    where\
+      \ event.dataset == \"okta.system\"\n      and (\n        okta.event_type ==\
+      \ \"user.mfa.okta_verify.deny_push\"\n        or (\n          okta.event_type\
+      \ == \"user.authentication.auth_via_mfa\"\n          and okta.debug_context.debug_data.factor\
+      \ == \"OKTA_VERIFY_PUSH\"\n          and okta.outcome.reason == \"INVALID_CREDENTIALS\"\
+      \n        )\n      )\n  ] with runs=5\n  [ any\n    where event.dataset == \"\
+      okta.system\"\n      and okta.event_type in (\n        \"user.authentication.sso\"\
+      ,\n        \"user.authentication.auth_via_mfa\",\n        \"user.authentication.verify\"\
+      ,\n        \"user.session.start\"\n      )\n      and okta.outcome.result ==\
+      \ \"SUCCESS\"\n  ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1621
+references:
+- https://www.mandiant.com/resources/russian-targeting-gov-business
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection
+- https://www.rezonate.io/blog/okta-logs-decoded-unveiling-identity-threats-through-threat-hunting/
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta

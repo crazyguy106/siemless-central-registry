@@ -1,0 +1,37 @@
+title: Modification of WDigest Security Provider
+id: d703a5af-d5b0-43bd-8ddb-7a5d500b7da5
+status: stable
+level: high
+description: 'Identifies attempts to modify the WDigest security provider in the registry
+  to force the user''s password to be stored in
+
+  clear text in memory. This behavior can be indicative of an adversary attempting
+  to weaken the security configuration of
+
+  an endpoint. Once the UseLogonCredential value is modified, the adversary may attempt
+  to dump clear text passwords from
+
+  memory.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-19'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    registry_data_strings|contains:
+    - '1'
+    - '0x00000001'
+    registry_path|endswith: \\SYSTEM\\*ControlSet*\\Control\\SecurityProviders\\WDigest\\UseLogonCredential
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1003.001
+references:
+- https://www.csoonline.com/article/3438824/how-to-detect-and-halt-credential-theft-via-windows-wdigest.html
+- https://www.praetorian.com/blog/mitigating-mimikatz-wdigest-cleartext-credential-theft?edition=2019
+- https://frsecure.com/compromised-credentials-response-playbook
+- https://www.elastic.co/security-labs/detect-credential-access

@@ -1,0 +1,45 @@
+title: Local Scheduled Task Creation
+id: afcce5ad-65de-4ed2-8516-5e093d3ac99a
+status: stable
+level: low
+description: 'Indicates the creation of a scheduled task. Adversaries can use these
+  to establish persistence, move laterally, and/or
+
+  escalate privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence with maxspan=1m\n  [process where host.os.type == \"\
+      windows\" and event.type == \"start\" and\n    ((process.name : (\"cmd.exe\"\
+      , \"wscript.exe\", \"rundll32.exe\", \"regsvr32.exe\", \"wmic.exe\", \"mshta.exe\"\
+      ,\n                      \"powershell.exe\", \"pwsh.exe\", \"powershell_ise.exe\"\
+      , \"WmiPrvSe.exe\", \"wsmprovhost.exe\", \"winrshost.exe\") or\n    process.pe.original_file_name\
+      \ : (\"cmd.exe\", \"wscript.exe\", \"rundll32.exe\", \"regsvr32.exe\", \"wmic.exe\"\
+      , \"mshta.exe\",\n                                     \"powershell.exe\", \"\
+      pwsh.dll\", \"powershell_ise.exe\", \"WmiPrvSe.exe\", \"wsmprovhost.exe\",\n\
+      \                                     \"winrshost.exe\")) or\n    ?process.code_signature.trusted\
+      \ == false)] by process.entity_id\n  [process where host.os.type == \"windows\"\
+      \ and event.type == \"start\" and\n    (process.name : \"schtasks.exe\" or process.pe.original_file_name\
+      \ == \"schtasks.exe\") and\n    process.args : (\"/create\", \"-create\") and\
+      \ process.args : (\"/RU\", \"/SC\", \"/TN\", \"/TR\", \"/F\", \"/XML\") and\n\
+      \    /* exclude SYSTEM Integrity Level - look for task creations by non-SYSTEM\
+      \ user */\n    not (?process.Ext.token.integrity_level_name : \"System\" or\
+      \ ?winlog.event_data.IntegrityLevel : \"System\")\n  ] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.t1053.005
+- attack.t1053
+references:
+- https://www.elastic.co/security-labs/hunting-for-persistence-using-elastic-security-part-1
+- https://www.elastic.co/security-labs/hunting-for-persistence-using-elastic-security-part-2
+- https://www.elastic.co/security-labs/invisible-miners-unveiling-ghostengine
+- https://www.elastic.co/security-labs/elastic-protects-against-data-wiper-malware-targeting-ukraine-hermeticwiper
+falsepositives:
+- Legitimate scheduled tasks may be created during installation of new software.

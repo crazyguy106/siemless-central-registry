@@ -1,0 +1,27 @@
+title: Okta Mismatch Between Source and Response for Verify Push Request
+id: c4011ed6-0147-5241-99e9-da8599b35330
+status: stable
+level: high
+description: |
+  The following analytic identifies discrepancies between the source and response events for Okta Verify Push requests, indicating potential suspicious behavior. It leverages Okta System Log events, specifically `system.push.send_factor_verify_push` and `user.authentication.auth_via_mfa` with the factor "OKTA_VERIFY_PUSH." The detection groups events by SessionID, calculates the ratio of successful sign-ins to push requests, and checks for session roaming and new device/IP usage. This activity is 
+author: John Murphy and Jordan Ruocco, Okta, Michael Haag, Bhavin Patel, Splunk
+logsource:
+  product: okta
+detection:
+  selection:
+    factor: OKTA_VERIFY_PUSH
+    groupby: authenticationContext.externalSessionId
+    eventtype:
+      - user.authentication.auth_via_mfa
+    group_push_time: _time
+    span: 2s
+    value: 'NULL'
+  condition: selection
+tags:
+  - attack.t1621
+references:
+  - https://attack.mitre.org/techniques/T1621
+  - https://splunkbase.splunk.com/app/6553
+custom_attributes:
+  original_rule_id: 8085b79b-9b85-4e67-ad63-351c9e9a5e9a
+  source_format: splunk_spl

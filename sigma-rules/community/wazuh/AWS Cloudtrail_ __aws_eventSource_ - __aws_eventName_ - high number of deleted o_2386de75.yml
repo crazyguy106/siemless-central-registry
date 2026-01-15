@@ -1,0 +1,35 @@
+title: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName) - high number of deleted object.'
+id: add3d2c3-1aa9-5bf7-ad36-f2fdcc376e07
+status: stable
+level: high
+description: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName) - high number of deleted object.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 600s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 22
+  - type: sequence
+    parent_rule: wazuh-80251
+    window:
+      maxspan: 600s
+    enforce_order: true
+tags:
+  - attack.t1485
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80252
+  wazuh_level: 10

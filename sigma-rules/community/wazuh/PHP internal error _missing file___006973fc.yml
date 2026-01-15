@@ -1,0 +1,24 @@
+title: PHP internal error (missing file).
+id: 77875fcb-feb3-5063-8e86-9ca865545184
+status: stable
+level: low
+description: PHP internal error (missing file).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - Failed opening
+      - failed to open stream
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31410
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31412
+  wazuh_level: 5

@@ -1,0 +1,24 @@
+title: Windows Scheduled Task Created Via XML
+id: 890dd6a5-a136-5448-9159-7b1d1dcda949
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of scheduled tasks in Windows using schtasks.exe with the "XML" parameter. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details. This activity is significant as it is a common technique for establishing persistence or achieving privilege escalation, often used by malware like Trickbot and Winter-Vivern. While creating a scheduled task via XML may be legitimate, it can a
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '* /xml *'
+      - '* -xml *'
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://twitter.com/_CERT_UA/status/1620781684257091584
+  - https://cert.gov.ua/article/3761104
+custom_attributes:
+  original_rule_id: 7e03b682-3965-4598-8e91-a60a40a3f7e4
+  source_format: splunk_spl

@@ -1,0 +1,26 @@
+title: Linux Possible Cronjob Modification With Editor
+id: b745b4da-d384-5e02-a290-454debfac521
+status: stable
+level: low
+description: |
+  The following analytic detects potential unauthorized modifications to Linux cronjobs using text editors like "nano," "vi," or "vim." It identifies this activity by monitoring command-line executions that interact with cronjob configuration paths. This behavior is significant for a SOC as it may indicate attempts at privilege escalation or establishing persistent access. If confirmed malicious, the impact could be severe, allowing attackers to execute damaging actions such as data theft, system 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process_name:
+      - nano
+      - vim.basic
+    process:
+      - '*/etc/cron*'
+      - '*/var/spool/cron/*'
+      - '*/etc/anacrontab*'
+  condition: selection
+tags:
+  - attack.t1053.003
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+custom_attributes:
+  original_rule_id: dcc89bde-5f24-11ec-87ca-acde48001122
+  source_format: splunk_spl

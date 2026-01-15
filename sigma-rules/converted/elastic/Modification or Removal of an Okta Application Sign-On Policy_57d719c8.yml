@@ -1,0 +1,34 @@
+title: Modification or Removal of an Okta Application Sign-On Policy
+id: cd16fb10-0261-46e8-9932-a0336278cdbe
+status: stable
+level: medium
+description: 'Detects attempts to modify or delete a sign on policy for an Okta application.
+  An adversary may attempt to modify or
+
+  delete the sign on policy for an Okta application in order to remove or weaken an
+  organization''s security controls.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-01'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: (application.policy.sign_on.update
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1556
+references:
+- https://help.okta.com/en/prod/Content/Topics/Security/App_Based_Signon.htm
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+falsepositives:
+- "    Consider adding exceptions to this rule to filter false positives if sign on\
+  \ policies for Okta applications are\n    regularly modified or deleted in your\
+  \ organization.\n    "

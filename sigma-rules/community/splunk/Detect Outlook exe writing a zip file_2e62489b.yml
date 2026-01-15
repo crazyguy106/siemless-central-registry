@@ -1,0 +1,21 @@
+title: Detect Outlook exe writing a zip file
+id: 7ce32bf3-f850-554b-a96a-283f9a70674f
+status: experimental
+level: high
+description: |
+  The following analytic identifies the execution of `outlook.exe` writing a `.zip` file to the disk. It leverages data from the Endpoint data model, specifically monitoring process and filesystem activities. This behavior is significant as it may indicate the use of Outlook to deliver malicious payloads or exfiltrate data via compressed files. If confirmed malicious, this activity could lead to unauthorized data access, data exfiltration, or the delivery of malware, potentially compromising the s
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    span:
+      - 5m
+      - 5m
+  condition: selection
+tags:
+  - attack.t1566.001
+custom_attributes:
+  original_rule_id: a51bfe1a-94f0-4822-b1e4-16ae10145893
+  source_format: splunk_spl

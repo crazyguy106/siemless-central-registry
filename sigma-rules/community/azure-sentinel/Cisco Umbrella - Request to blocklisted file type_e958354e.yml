@@ -1,0 +1,19 @@
+title: Cisco Umbrella - Request to blocklisted file type
+id: b82bc1fa-3162-5d87-ae52-353cab06304a
+status: stable
+level: medium
+description: '''Detects request to potentially harmful file types (.ps1, .bat, .vbs, etc.).'''
+author: Microsoft
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    EventType: proxylogs
+    DvcAction: Allowed
+    file_ext:
+      - file_ext_blocklist
+  condition: selection
+custom_attributes:
+  original_rule_id: de58ee9e-b229-4252-8537-41a4c2f4045e
+  source_format: azure_kql

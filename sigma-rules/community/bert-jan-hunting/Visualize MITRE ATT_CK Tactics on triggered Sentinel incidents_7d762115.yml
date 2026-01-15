@@ -1,0 +1,26 @@
+title: Visualize MITRE ATT&CK Tactics on triggered Sentinel incidents
+id: b698c713-a4f9-4bfd-95f5-11929933ca42
+status: experimental
+level: medium
+description: |
+  This query visualizes the incidents that have been triggered for each MITRE ATT&CK Tactic. This will give an overview of the amount of incidents that have triggered for each specific tactic.
+author: Bert-JanP
+logsource:
+  product: azure_sentinel
+  service: kql
+detection:
+  _kql_query: |
+    SecurityIncident
+// Collect last argumtent of incident
+| summarize arg_max(TimeGenerated, *) by IncidentNumber
+| extend MitreTactic = todynamic(parse_json(AdditionalData).tactics)
+// Filter only on Incidents that contain Mitre Tactic
+| where MitreTactic != "[]"
+| mv-expand MitreTactic
+| extend MitreTactic = tostring(MitreTactic)
+| summarize count() by MitreTactic
+| sort by count_
+| render columnchart  with (title="Incidents triggered by MITRE ATT&CK Tactics", ytitle="Incidents Triggered")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

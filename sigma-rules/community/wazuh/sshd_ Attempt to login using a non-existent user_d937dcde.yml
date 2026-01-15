@@ -1,0 +1,26 @@
+title: 'sshd: Attempt to login using a non-existent user'
+id: 6da64ae7-501c-5b8d-947e-798a71a2c0f2
+status: stable
+level: low
+description: 'sshd: Attempt to login using a non-existent user'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - illegal user
+      - invalid user
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5710
+  wazuh_level: 5

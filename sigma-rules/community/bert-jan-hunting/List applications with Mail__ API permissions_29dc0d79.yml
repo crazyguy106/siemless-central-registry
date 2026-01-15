@@ -1,0 +1,22 @@
+title: List applications with Mail.* API permissions
+id: a173be0a-03ab-464c-82e7-f2316b881eb7
+status: experimental
+level: medium
+description: |
+  The query below lists the applications that have Mail.* Graph API permissions. These permissions are highly sensitive as it can give access to individual or shared mailboxes.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    OAuthAppInfo
+| where Permissions has "Mail."
+| summarize arg_max(Timestamp, *) by OAuthAppId
+| mv-expand Permissions
+| extend PermissionValue = tostring(Permissions.PermissionValue), InUse = tobool(Permissions.InUse), PrivilegeLevel = tostring(Permissions.PrivilegeLevel)
+| where PermissionValue startswith "Mail."
+| summarize TotalMailPermissions = dcount(PermissionValue), Permissions = make_set(PermissionValue) by OAuthAppId, AppName, AppOrigin
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

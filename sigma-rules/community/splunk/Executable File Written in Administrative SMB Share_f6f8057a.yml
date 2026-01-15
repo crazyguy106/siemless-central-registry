@@ -1,0 +1,34 @@
+title: Executable File Written in Administrative SMB Share
+id: 08deafea-bffa-594b-930c-b7427821c80f
+status: stable
+level: high
+description: |
+  The following analytic detects executable files (.exe or .dll) being written to Windows administrative SMB shares (Admin$, IPC$, C$). It leverages Windows Security Event Logs with EventCode 5145 to identify this activity. This behavior is significant as it is commonly used by tools like PsExec/PaExec for staging binaries before creating and starting services on remote endpoints, a technique often employed for lateral movement and remote code execution. If confirmed malicious, this activity could
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    accessmask: 0x2
+    eventcode: 5145
+    objecttype: File
+    relativetargetname:
+      - '*.exe'
+      - '*.dll'
+    sharename:
+      - \\\\*\\C$
+      - \\\\*\\IPC$
+      - \\\\*\\admin$
+  condition: selection
+tags:
+  - attack.t1021.002
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/
+  - https://labs.vipre.com/trickbot-and-its-modules/
+  - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
+  - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+custom_attributes:
+  original_rule_id: f63c34fe-a435-11eb-935a-acde48001122
+  source_format: splunk_spl

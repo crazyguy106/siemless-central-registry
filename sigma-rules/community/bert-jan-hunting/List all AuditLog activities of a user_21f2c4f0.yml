@@ -1,0 +1,23 @@
+title: List all AuditLog activities of a user
+id: 138bb538-c45d-4a49-94aa-fc11847cef2d
+status: experimental
+level: medium
+description: |
+  KQL detection rule: List all AuditLog activities of a user
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let AccountUPN = "test@kqlquery.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+AuditLogs
+| where TimeGenerated > ago(SearchWindow)
+| extend InitiatingUser = parse_json(InitiatedBy.user)
+| extend InitatingUPN = parse_json(InitiatingUser).userPrincipalName
+| where InitatingUPN == AccountUPN
+| project-reorder TimeGenerated, InitatingUPN, OperationName, ResultDescription, ActivityDisplayName, Resource, Result
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

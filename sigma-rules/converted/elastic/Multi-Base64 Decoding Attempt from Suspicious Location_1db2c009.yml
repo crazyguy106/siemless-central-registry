@@ -1,0 +1,44 @@
+title: Multi-Base64 Decoding Attempt from Suspicious Location
+id: 03d856c2-7f74-4540-a530-e20af5e39789
+status: stable
+level: low
+description: 'This rule detects the execution of multiple base64 decoding commands
+  to decode data. multi-decoded
+
+  data is suspicious, and may be used by attackers to obfuscate malicious payloads
+  or commands.'
+author: Elastic (converted by SIEMLess)
+date: '2025-07-24'
+modified: '2025-09-01'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.parent.entity_id with maxspan=3s\n  [process\
+      \ where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ == \"exec\" and process.parent.executable != null and\n   process.name in\
+      \ (\"base64\", \"base64plain\", \"base64url\", \"base64mime\", \"base64pem\"\
+      , \"base32\", \"base16\") and\n   // Only including potentially suspicious locations\n\
+      \   process.args like~ (\"-d*\", \"--d*\") and process.working_directory like\
+      \ (\n     \"/tmp/*\", \"/var/tmp*\", \"/dev/shm/*\", \"/var/www/*\", \"/home/*\"\
+      , \"/root/*\"\n   ) and not (\n     process.parent.executable in (\n       \"\
+      /usr/share/ec2-instance-connect/eic_curl_authorized_keys\", \"/etc/cron.daily/vivaldi\"\
+      ,\n       \"/etc/cron.daily/opera-browser\"\n     ) or\n     process.working_directory\
+      \ like (\n       \"/opt/microsoft/omsagent/plugin\", \"/opt/rapid7/ir_agent/*\"\
+      , \"/tmp/newroot/*\"\n      )\n   )]\n  [process where host.os.type == \"linux\"\
+      \ and event.type == \"start\" and event.action == \"exec\" and process.parent.executable\
+      \ != null and\n   process.name in (\"base64\", \"base64plain\", \"base64url\"\
+      , \"base64mime\", \"base64pem\", \"base32\", \"base16\") and\n   process.args\
+      \ like~ (\"-d*\", \"--d*\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+- attack.t1204
+- attack.t1140
+- attack.t1027
+- attack.t1059.004
+- attack.t1204.002

@@ -1,0 +1,22 @@
+title: VMWare ESX user authentication failure.
+id: 6576340c-6e68-59b6-aa7a-69246de9c317
+status: stable
+level: low
+description: VMWare ESX user authentication failure.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Rejected password for
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-19101
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-19113
+  wazuh_level: 3

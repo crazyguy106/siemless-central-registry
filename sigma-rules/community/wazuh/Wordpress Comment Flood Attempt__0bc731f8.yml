@@ -1,0 +1,24 @@
+title: Wordpress Comment Flood Attempt.
+id: 56cdcff2-62a0-5fcf-85cc-edfdd865a191
+status: stable
+level: medium
+description: Wordpress Comment Flood Attempt.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'Warning: Comment flood attempt'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-9500
+tags:
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9505
+  wazuh_level: 7

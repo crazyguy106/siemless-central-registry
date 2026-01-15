@@ -1,0 +1,38 @@
+title: Scheduled Task Execution at Scale via GPO
+id: 15a8ba77-1c13-4274-88fe-6bd14133861e
+status: stable
+level: medium
+description: 'Detects the modification of Group Policy Object attributes to execute
+  a scheduled task in the objects controlled by the
+
+  GPO.'
+author: Elastic (converted by SIEMLess)
+date: '2021-11-08'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    winlog_event_data_AttributeLDAPDisplayName|contains:
+    - gPCMachineExtensionNames
+    - gPCUserExtensionNames
+    winlog_event_data_AttributeValue|endswith: AADCED64-746C-4633-A97C-D61349046527*
+    winlog_event_data_RelativeTargetName|endswith: ScheduledTasks.xml
+    winlog_event_data_AccessList|endswith: '%%4417*'
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.privilege_escalation
+- attack.t1053
+- attack.t1484.001
+- attack.t1570
+- attack.t1484
+- attack.t1053.005
+references:
+- https://github.com/atc-project/atc-data/blob/master/docs/Logging_Policies/LP_0025_windows_audit_directory_service_changes.md
+- https://github.com/atc-project/atc-data/blob/f2bbb51ecf68e2c9f488e3c70dcdd3df51d2a46b/docs/Logging_Policies/LP_0029_windows_audit_detailed_file_share.md
+- https://labs.f-secure.com/tools/sharpgpoabuse
+- https://twitter.com/menasec1/status/1106899890377052160
+- https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_gpo_scheduledtasks.yml

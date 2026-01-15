@@ -1,0 +1,20 @@
+title: Potential re-named sdelete usage (ASIM Version)
+id: e6253eb2-3d62-546b-b8c8-0289c03eb159
+status: stable
+level: low
+description: |
+  'This detection looks for command line parameters associated with the use of Sysinternals sdelete (https://docs.microsoft.com/sysinternals/downloads/sdelete) to delete multiple files on a host's C drive. A threat actor may re-name the tool to avoid detection and then use it for destructive attacks on a host. This detection uses the ASIM imProcess parser, this will need to be deployed before use - https://docs.microsoft.com/azure/sentinel/normalization'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1485
+  - attack.t1036
+custom_attributes:
+  original_rule_id: 5b6ae038-f66e-4f74-9315-df52fd492be4
+  source_format: azure_kql

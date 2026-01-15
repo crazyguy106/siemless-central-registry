@@ -1,0 +1,42 @@
+title: Mercury - Domain, Hash and IP IOCs - August 2022
+id: bed2bb7a-bbdc-5daf-b666-0b97df032a5c
+status: stable
+level: high
+description: |
+  'Identifies a match across various data feeds for domains, hashes and IP IOC related to Mercury  Reference:  https://www.microsoft.com/security/blog/2022/08/25/mercury-leveraging-log4j-2-vulnerabilities-in-unpatched-systems-to-target-israeli-organizations/'
+author: Ajeet Prakash
+logsource:
+  product: azure
+detection:
+  selection:
+    Source:
+      - Microsoft-Windows-Sysmon
+      - Microsoft-Windows-Sysmon
+    ResourceType:
+      - AZUREFIREWALLS
+      - AZUREFIREWALLS
+      - AZUREFIREWALLS
+    Category:
+      - AzureFirewallApplicationRule
+      - AzureFirewallNetworkRule
+      - AzureFirewallDnsProxy
+    Type:
+      - sha256
+      - ip
+      - domainname
+    SourceIP:
+      - IPList
+    IPAddresses:
+      - IPList
+    SourceIp:
+      - IPList
+    ClientIP:
+      - IPList
+    FileHash:
+      - sha256Hashes
+  condition: selection
+tags:
+  - attack.t1071
+custom_attributes:
+  original_rule_id: ae10c588-7ff7-486c-9920-ab8b0bdb6ede
+  source_format: azure_kql

@@ -1,0 +1,20 @@
+title: Excessive number of HTTP authentication failures from a source (ASIM Web Session schema)
+id: 42885eff-a56d-5c76-8a42-01d87ed12bba
+status: stable
+level: low
+description: |
+  This rule identifies a source that repeatedly fails to authenticate to a web service (HTTP response code 403). This may indicate a [brute force](https://en.wikipedia.org/wiki/Brute-force_attack) or [credential stuffing](https://en.wikipedia.org/wiki/Credential_stuffing) attack. This rule uses the [Advanced Security Information Model (ASIM)](https://aka.ms/AboutSIM) and supports any web session source that complies with ASIM.
+author: Yaron
+logsource:
+  product: azure
+  category: network_connection
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1110
+  - attack.t1556
+custom_attributes:
+  original_rule_id: a1bddaf8-982b-4089-ba9e-6590dfcf80ea
+  source_format: azure_kql

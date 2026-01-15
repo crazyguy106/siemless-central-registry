@@ -1,0 +1,20 @@
+title: GetAdComputer with PowerShell
+id: b0906654-cb69-5b90-97ca-47d5a26a8c69
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `powershell.exe` with the `Get-AdComputer` commandlet, which is used to discover remote systems within a domain. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because it indicates potential reconnaissance efforts by adversaries to map out domain computers, which is a common step in the attack lifecycle. If confirmed malicious, this 
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: powershell.exe
+  condition: selection
+tags:
+  - attack.t1018
+references:
+  - https://attack.mitre.org/techniques/T1018/
+custom_attributes:
+  original_rule_id: c5a31f80-5888-4d81-9f78-1cc65026316e
+  source_format: splunk_spl

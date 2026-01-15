@@ -1,0 +1,33 @@
+title: Hidden Directory Creation via Unusual Parent
+id: b15a15f2-becf-475d-aa69-45c9e0ff1c49
+status: stable
+level: low
+description: 'This rule detects the creation of a hidden directory via an unusual
+  parent executable. Hidden directories are
+
+  directories that are not visible to the user by default. They are often used by
+  attackers to hide malicious files or
+
+  tools.'
+author: Elastic (converted by SIEMLess)
+date: '2024-11-01'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: mkdir
+    process_args: /root/.ssh
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1564
+- attack.t1564.001
+falsepositives:
+- "    Certain tools may create hidden temporary directories upon installation or\
+  \ as part of their normal behavior. These\n    events can be filtered by the process\
+  \ arguments, username, or process name values.\n    "

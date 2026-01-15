@@ -1,0 +1,22 @@
+title: 'Docker: Image $(docker.Actor.Attributes.name) tagged'
+id: d3ea1950-66a3-5ede-bc90-43563d464b7f
+status: stable
+level: low
+description: 'Docker: Image $(docker.Actor.Attributes.name) tagged'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^tag$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87918
+  wazuh_level: 3

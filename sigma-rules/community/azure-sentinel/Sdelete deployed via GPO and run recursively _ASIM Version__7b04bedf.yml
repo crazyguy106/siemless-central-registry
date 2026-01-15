@@ -1,0 +1,25 @@
+title: Sdelete deployed via GPO and run recursively (ASIM Version)
+id: 6cf84470-5d3e-5adb-809b-1f4843be263a
+status: stable
+level: medium
+description: |
+  'This query looks for the Sdelete process being run recursively after being deployed to a host via GPO. Attackers could use this technique to deploy Sdelete to multiple host and delete data on them.   This query uses the Advanced Security Information Model. Parsers will need to be deployed before use: https://docs.microsoft.com/azure/sentinel/normalization'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    EventType:
+      - ProcessCreated
+      - ProcessCreated
+    Process: sdelete.exe
+    CommandLine|contains: '-k GPSvcGroup'
+    Process|endswith: svchost.exe
+    ActingProcessName|endswith: svchost.exe
+  condition: selection
+tags:
+  - attack.t1485
+custom_attributes:
+  original_rule_id: 30c8b802-ace1-4408-bc29-4c5c5afb49e1
+  source_format: azure_kql

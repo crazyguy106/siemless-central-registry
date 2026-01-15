@@ -1,0 +1,32 @@
+title: Virtual Machine Fingerprinting
+id: 5b03c9fb-9945-4d2f-9568-fd690fee3fba
+status: stable
+level: high
+description: 'An adversary may attempt to get detailed information about the operating
+  system and hardware. This rule identifies
+
+  common locations used to discover virtual machine hardware by a non-root user. This
+  technique has been used by the Pupy
+
+  RAT and other malware.'
+author: Elastic (converted by SIEMLess)
+date: '2020-04-27'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: linux
+    event_type: (start
+    process_args: ("/sys/class/dmi/id/bios_version
+    user_name: root
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1082
+falsepositives:
+- "    Certain tools or automated software may enumerate hardware information. These\
+  \ tools can be exempted via user name or\n    process arguments to eliminate potential\
+  \ noise.\n    "

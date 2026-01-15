@@ -1,0 +1,22 @@
+title: AWS Enable Or Disable Region
+id: a5588452-0e29-525d-b745-1e25ae4f8458
+status: experimental
+level: medium
+description: Detects when an AWS region is enabled or disabled.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - EnableRegion
+      - DisableRegion
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1535
+custom_attributes:
+  original_rule_id: mr_905d6ae2-4acc-4969-a85d-707c78db687f
+  source_format: chronicle_yaral

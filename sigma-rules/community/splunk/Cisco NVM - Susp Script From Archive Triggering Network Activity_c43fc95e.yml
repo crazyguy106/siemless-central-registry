@@ -1,0 +1,32 @@
+title: Cisco NVM - Susp Script From Archive Triggering Network Activity
+id: 79359455-6d76-594d-bd91-9cb06db5382d
+status: stable
+level: medium
+description: |
+  This analytic detects script execution (`wscript.exe` or `cscript.exe`) triggered from compressed files opened directly using `explorer.exe`, `winrar.exe`, or `7zFM.exe`. When a user double clicks on a ".js" file from within one of these compressed files. Its extracted temporally in the temp directory in folder with certain markers. It leverages Cisco Network Visibility Module (NVM) flow data, in order to look for a specific parent/child relationship and an initiated network connection. This beh
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    process_arguments:
+      - '*\\rar*'
+      - '*\\7z*'
+      - '*.zip*'
+    parent_process_name:
+      - explorer.exe
+      - winrar.exe
+      - 7zFM.exe
+    process_name:
+      - wscript.exe
+      - cscript.exe
+  condition: selection
+tags:
+  - attack.t1059.005
+  - attack.t1204.002
+references:
+  - https://redcanary.com/threat-detection-report/threats/scarlet-goldfinch/
+custom_attributes:
+  original_rule_id: 8b07c2c9-0cde-4c44-9fa6-59dcf2b25777
+  source_format: splunk_spl

@@ -1,0 +1,45 @@
+title: Potential Execution of rc.local Script
+id: 7318affb-bfe8-4d50-a425-f617833be160
+status: stable
+level: medium
+description: 'This rule detects the potential execution of the `/etc/rc.local` script
+  through the `already_running` event action
+
+  created by the `rc-local.service` systemd service. The `/etc/rc.local` script is
+  a legacy initialization script that is
+
+  executed at the end of the boot process. The `/etc/rc.local` script is not enabled
+  by default on most Linux
+
+  distributions. The `/etc/rc.local` script can be used by attackers to persistently
+  execute malicious commands or scripts
+
+  on a compromised system at reboot. As the rc.local file is executed prior to the
+  initialization of Elastic Defend, the
+
+  execution event is not ingested, and therefore the `already_running` event is leveraged
+  to provide insight into the
+
+  potential execution of `rc.local`.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-21'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: info
+    event_action: already_running
+    process_parent_args: start
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037.004
+- attack.t1037
+references:
+- https://www.intezer.com/blog/malware-analysis/hiddenwasp-malware-targeting-linux-systems/
+- https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/#8-boot-or-logon-initialization-scripts-rc-scripts
+- https://www.cyberciti.biz/faq/how-to-enable-rc-local-shell-script-on-systemd-while-booting-linux-system/
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

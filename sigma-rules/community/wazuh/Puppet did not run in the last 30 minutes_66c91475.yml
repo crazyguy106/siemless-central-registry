@@ -1,0 +1,22 @@
+title: Puppet did not run in the last 30 minutes
+id: 4d818a4f-aa67-5a86-a9c3-8d627e0f0fa5
+status: stable
+level: low
+description: Puppet did not run in the last 30 minutes
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'Puppet: KO'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80090
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80092
+  wazuh_level: 5

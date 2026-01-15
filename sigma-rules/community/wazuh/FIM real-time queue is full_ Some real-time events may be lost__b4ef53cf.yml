@@ -1,0 +1,22 @@
+title: FIM real-time queue is full. Some real-time events may be lost.
+id: 9a2b5cd2-8e45-5d59-9b64-72d569cf7d5f
+status: stable
+level: medium
+description: FIM real-time queue is full. Some real-time events may be lost.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^ossec: Real-time inotify kernel queue is full.'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-500
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-560
+  wazuh_level: 7

@@ -1,0 +1,19 @@
+title: Application ID URI Changed
+id: c9d017fe-1291-5d55-af7e-e7fe4fee21d4
+status: stable
+level: medium
+description: |
+  'Detects changes to an Application ID URI.   Monitor these changes to make sure that they were authorized.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-applications#appid-uri-added-modified-or-removed'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Category: ApplicationManagement
+    TargetResources|contains: AppIdentifierUri
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 9fb2ee72-959f-4c2b-bc38-483affc539e4
+  source_format: azure_kql

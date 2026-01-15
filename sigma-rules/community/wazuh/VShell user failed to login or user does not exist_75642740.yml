@@ -1,0 +1,22 @@
+title: VShell user failed to login or user does not exist
+id: 14e519b0-bf74-5237-bb1a-df95a326138f
+status: stable
+level: low
+description: VShell user failed to login or user does not exist
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: 'Login failed|Authentication for (\w+) failed'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-86800
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-86802
+  wazuh_level: 5

@@ -1,0 +1,45 @@
+vendor: paloalto
+product: firewall
+siem_type: splunk
+parser_name: Paloalto Firewall - SPLUNK
+parser_description: ''
+parser_language: spl
+parser_version: 1.0.0
+last_updated: '2026-01-08'
+source: siemless_v3_database
+metadata:
+  log_type: firewall
+  entity_types: []
+  relationship_types: []
+  confidence: 0.95
+  field_coverage_percent: 0
+  test_pass_rate: 0.0
+  ai_model_used: null
+  ai_cost_usd: 0.0
+  generation_time_seconds: 2
+  created_at: '2026-01-03T11:15:12.681470'
+deployment:
+  instructions: "# Deployment Instructions for Splunk\n\n1. Save props.conf and transforms.conf\
+    \ to:\n   $SPLUNK_HOME/etc/system/local/\n\n2. Set sourcetype for your data:\n\
+    \   - In Splunk Web: Settings > Data Inputs > Files & Directories\n   - Set sourcetype\
+    \ to: paloalto_firewall\n\n3. Restart Splunk:\n   $SPLUNK_HOME/bin/splunk restart\n\
+    \n4. Test the extraction:\n   index=* sourcetype=paloalto_firewall | head 10\n\
+    \n5. Verify fields extracted:\n   index=* sourcetype=paloalto_firewall\n   | stats\
+    \ count by vendor, product\n\n6. Create field aliases if needed:\n   Settings\
+    \ > Fields > Field Aliases\n"
+  test_queries:
+  - '# Test Case 1: Search for logs'
+  - index=* sourcetype=paloalto_firewall | head 10
+  - ''
+  - '# Test Case 2: Verify field extraction'
+  - index=* sourcetype=paloalto_firewall | stats count by vendor, product
+  - ''
+  - '# Test Case 3: Check specific entity'
+  - index=* sourcetype=paloalto_firewall | table _time, field
+  sample_logs:
+  - type: TRAFFIC
+    action: allow
+    dest_ip: 10.0.0.5
+    source_ip: 192.168.1.10
+field_mappings: []
+field_count: 0

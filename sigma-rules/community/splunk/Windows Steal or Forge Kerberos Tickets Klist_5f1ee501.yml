@@ -1,0 +1,25 @@
+title: Windows Steal or Forge Kerberos Tickets Klist
+id: 61621d53-f498-546a-bccc-f2c116610108
+status: stable
+level: low
+description: |
+  The following analytic identifies the execution of the Windows OS tool klist.exe, often used by post-exploitation tools like winpeas. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process details. Monitoring klist.exe is significant as it can indicate attempts to list or gather cached Kerberos tickets, which are crucial for lateral movement or privilege escalation. If confirmed malicious, this activity could enable attackers to mo
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: klist.exe
+    original_file_name: klist.exe
+    parent_process_name:
+      - cmd.exe
+      - powershell*
+  condition: selection
+tags:
+  - attack.t1558
+references:
+  - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+  - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+custom_attributes:
+  original_rule_id: 09d88404-1e29-46cb-806c-1eedbc85ad5d
+  source_format: splunk_spl

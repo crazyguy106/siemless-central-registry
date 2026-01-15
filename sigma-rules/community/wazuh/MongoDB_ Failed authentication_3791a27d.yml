@@ -1,0 +1,23 @@
+title: 'MongoDB: Failed authentication'
+id: 4ff82efe-6030-5c2c-8968-888f344d3cb2
+status: stable
+level: low
+description: 'MongoDB: Failed authentication'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: authentication failed for
+    mongodb.component: ACCESS
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-85755
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-85759
+  wazuh_level: 4

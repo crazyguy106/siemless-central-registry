@@ -1,0 +1,28 @@
+title: Finder Sync Plugin Registered and Enabled
+id: 37f638ea-909d-4f94-9248-edd21e4a9906
+status: stable
+level: medium
+description: 'Finder Sync plugins enable users to extend Finder’s functionality by
+  modifying the user interface. Adversaries may abuse
+
+  this feature by adding a rogue Finder Plugin to repeatedly execute malicious payloads
+  for persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-18'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: pluginkit
+    process_args: -i
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1543
+references:
+- https://github.com/specterops/presentations/raw/master/Leo%20Pitt/Hey_Im_Still_in_Here_Modern_macOS_Persistence_SO-CON2020.pdf
+falsepositives:
+- Trusted Finder Sync Plugins

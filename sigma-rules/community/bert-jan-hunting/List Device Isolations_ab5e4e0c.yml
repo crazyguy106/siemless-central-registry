@@ -1,0 +1,21 @@
+title: List Device Isolations
+id: a477f726-bfbf-426d-a7ea-a4e410e37f7e
+status: experimental
+level: medium
+description: |
+  This query lists all the device isolation activities that have been performed by Defender For Endpoint. It is good practice to review those once every x period. The query extracts multiple events from the isolation action, ssuch as which device is isolated, what isolation comment has been used and the type of isolation that has been executed.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where Timestamp > ago(30d)
+| where ActionType == "IsolateDevice"
+| extend IsolatedDevice = tostring(parse_json(RawEventData).DeviceName), IsolationComment = tostring(parse_json(RawEventData).ActionComment), IsolationScope = tostring(parse_json(RawEventData).ActionScope)
+| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+|project-reorder Timestamp, IsolatedDevice, IsolationComment, IsolationScope, InitiatedByAccountName, InitiatedByAccounttId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

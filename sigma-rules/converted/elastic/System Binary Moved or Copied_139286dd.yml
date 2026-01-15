@@ -1,0 +1,46 @@
+title: System Binary Moved or Copied
+id: fda1d332-5e08-4f27-8a9b-8c802e3292a6
+status: stable
+level: medium
+description: 'This rule monitors for the copying or moving of a system binary. Adversaries
+  may copy/move and rename system binaries to
+
+  evade detection. Copying a system binary to a different location should not occur
+  often, so if it does, the activity
+
+  should be investigated.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-29'
+modified: '2025-05-05'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: change
+    event_action: rename
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+    file_Ext_original_path|contains:
+    - /bin/*.tmp
+    - /usr/bin/*.tmp
+    - /usr/local/bin/*.tmp
+    - /sbin/*.tmp
+    - /usr/sbin/*.tmp
+    - /usr/local/sbin/*.tmp
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /tmp/vmis.*
+    - /snap/*
+    - /dev/fd/*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1564
+- attack.t1036.003
+- attack.t1036
+references:
+- https://intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

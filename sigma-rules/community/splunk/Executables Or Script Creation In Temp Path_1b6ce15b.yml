@@ -1,0 +1,39 @@
+title: Executables Or Script Creation In Temp Path
+id: bfc73400-a06b-5834-8a9a-24d6859d6535
+status: stable
+level: medium
+description: |
+  The following analytic identifies the creation of executables or scripts in suspicious file paths on Windows systems. It leverages the Endpoint.Filesystem data model to detect files with specific extensions (e.g., .exe, .dll, .ps1) created in uncommon directories (e.g., \windows\fonts\, \users\public\). This activity is significant as adversaries often use these paths to evade detection and maintain persistence. If confirmed malicious, this behavior could allow attackers to execute unauthorized 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    file_name:
+      - '*.exe'
+      - '*.dll'
+      - '*.sys'
+      - '*.com'
+      - '*.vbs'
+      - '*.vbe'
+      - '*.js'
+      - '*.ps1'
+      - '*.bat'
+      - '*.cmd'
+      - '*.pif'
+      - '*.msc'
+    file_path:
+      - '*\\AppData\\Local\\Temp\\*'
+      - '*:\\Windows\\Temp\\*'
+      - '*:\\Temp*'
+  condition: selection
+tags:
+  - attack.t1036
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+  - https://twitter.com/pr0xylife/status/1590394227758104576
+  - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+custom_attributes:
+  original_rule_id: e0422b71-2c05-4f32-8754-01fb415f49c9
+  source_format: splunk_spl

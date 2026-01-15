@@ -1,0 +1,24 @@
+title: Windows PowerSploit GPP Discovery
+id: 7fb644bb-ff34-5069-807a-f4419b2ba286
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the Get-GPPPassword PowerShell cmdlet, which is used to search for unsecured credentials in Group Policy Preferences (GPP). This detection leverages PowerShell Script Block Logging to identify specific script block text associated with this cmdlet. Monitoring this activity is crucial as it can indicate an attempt to retrieve and decrypt stored credentials from SYSVOL, potentially leading to unauthorized access. If confirmed malicious, this activity
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1552.006
+references:
+  - https://attack.mitre.org/techniques/T1552/006/
+  - https://pentestlab.blog/2017/03/20/group-policy-preferences/
+  - https://adsecurity.org/?p=2288
+  - https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
+  - https://adsecurity.org/?p=2288
+custom_attributes:
+  original_rule_id: 0130a0df-83a1-4647-9011-841e950ff302
+  source_format: splunk_spl

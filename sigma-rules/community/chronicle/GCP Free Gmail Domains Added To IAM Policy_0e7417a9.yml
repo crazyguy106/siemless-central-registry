@@ -1,0 +1,23 @@
+title: GCP Free Gmail Domains Added To IAM Policy
+id: 2714920a-c304-54cb-ab5f-f1ac76a05eae
+status: experimental
+level: high
+description: |
+  Detect when free Google Email addressess are added to IAM Policy such as gmail.com, googlemail.com or googlegroups.com.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_PERMISSIONS
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type: SetIamPolicy
+    metadata_product_name: Google Cloud Platform
+    metadata_vendor_name: Google Cloud Platform
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1136
+custom_attributes:
+  original_rule_id: mr_eec293b2-75d6-48f1-871d-182d67345a9c
+  source_format: chronicle_yaral

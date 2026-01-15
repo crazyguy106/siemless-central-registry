@@ -1,0 +1,24 @@
+title: Windows Outlook Macro Security Modified
+id: bfb5bdbc-6fc1-5d6e-bf8b-db1aa180a85c
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of the Windows Registry key "Level" under Outlook Security. This allows macros to execute without warning, which could allow malicious scripts to run without notice. This detection leverages data from the Endpoint.Registry datamodel, specifically looking for the registry value name "Level" with a value of "0x00000001". This activity is significant as it is commonly associated with some malware infections, indicating potential malicious intent to ha
+author: Raven Tait, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Outlook\\Security*'
+    registry_value_name: Level
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1137
+  - attack.t1008
+references:
+  - https://lab52.io/blog/analyzing-notdoor-inside-apt28s-expanding-arsenal/
+  - https://hackread.com/russian-apt28-notdoor-backdoor-microsoft-outlook/
+custom_attributes:
+  original_rule_id: 47872bb4-9987-4c33-a897-4d2d1ac7d4c2
+  source_format: splunk_spl

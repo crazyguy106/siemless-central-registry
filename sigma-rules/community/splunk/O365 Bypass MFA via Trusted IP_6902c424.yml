@@ -1,0 +1,26 @@
+title: O365 Bypass MFA via Trusted IP
+id: dab96051-8832-5efd-9169-70a7c56568f7
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where new IP addresses are added to the trusted IPs list in Office 365, potentially allowing users from these IPs to bypass Multi-Factor Authentication (MFA) during login. It leverages O365 audit logs, specifically focusing on events related to the modification of trusted IP settings. This activity is significant because adding trusted IPs can weaken the security posture by bypassing MFA, which is a critical security control. If confirmed malicious, th
+author: Bhavin Patel, Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    operation: Set Company Information.
+    name: StrongAuthenticationPolicy
+    max_match:
+      - 100
+      - 100
+  condition: selection
+tags:
+  - attack.t1562.007
+references:
+  - https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
+  - https://attack.mitre.org/techniques/T1562/007/
+  - https://learn.microsoft.com/en-us/azure/active-directory/authentication/howto-mfa-mfasettings
+custom_attributes:
+  original_rule_id: c783dd98-c703-4252-9e8a-f19d9f66949e
+  source_format: splunk_spl

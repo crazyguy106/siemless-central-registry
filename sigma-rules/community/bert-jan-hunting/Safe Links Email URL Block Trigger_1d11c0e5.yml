@@ -1,0 +1,24 @@
+title: Safe Links Email URL Block Trigger
+id: 6dd81317-2989-4556-a95e-602ce4024a3f
+status: experimental
+level: medium
+description: |
+  This query lists the emails that have triggered a URL block by safelinks. This is done by collecting the safelinks logs where the action is ClickBlocked and then joining the email events to collect the information about the mail that was send. The URL click of the user will also generate a indincident itself, this enriches the information required to investigate this incident. 
+
+Note: This query will only give results if safe links is enabled in your environment.
+author: Bert-JanP
+logsource:
+  product: office_365
+  service: kql
+detection:
+  _kql_query: |
+    UrlClickEvents
+| where ActionType == 'ClickBlocked'
+// Only filter on Safe Links actions from mail
+| where Workload == 'Email'
+// join the email events
+| join kind=leftouter (EmailEvents | project NetworkMessageId, Subject, SenderFromAddress) on NetworkMessageId
+| project Timestamp, AccountUpn, Product = Workload, Url, ThreatTypes, Subject, SenderFromAddress, UrlChain
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,38 @@
+title: SIP Provider Modification
+id: f2c7b914-eda3-40c2-96ac-d23ef91776ca
+status: stable
+level: medium
+description: 'Identifies modifications to the registered Subject Interface Package
+  (SIP) providers. SIP providers are used by the
+
+  Windows cryptographic system to validate file signatures on the system. This may
+  be an attempt to bypass signature
+
+  validation checks or inject code into critical processes.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-20'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_data_strings: WINTRUST.DLL
+    registry_value|contains:
+    - Dll
+    - $Dll
+    registry_path|contains:
+    - '*\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllPutSignedDataMsg\\{*}\\Dll'
+    - '*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllPutSignedDataMsg\\{*}\\Dll'
+    - '*\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\FinalPolicy\\{*}\\$Dll'
+    - '*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\Providers\\Trust\\FinalPolicy\\{*}\\$Dll'
+    registry_data_strings|endswith: .dll
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1553
+- attack.t1553.003
+references:
+- https://github.com/mattifestation/PoCSubjectInterfacePackage

@@ -1,0 +1,30 @@
+title: ADFS DKM Master Key Export
+id: d2dc18cb-0d79-5398-9832-66a16069765b
+status: stable
+level: medium
+description: |
+  'Identifies an export of the ADFS DKM Master Key from Active Directory. References: https://blogs.microsoft.com/on-the-issues/2020/12/13/customers-protect-nation-state-cyberattacks/,  https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html?1 To understand further the details behind this detection, please review the details in the original PR and subequent PR update to this: https://github.com/Azure/Azure-Sent
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    ObjectServer:
+      - DS
+      - DS
+    OperationType:
+      - Object Access
+      - Object Access
+    ActionType: LdapSearch
+    ObjectName:
+      - <GUID of ADFS Policy Store DKM Group object
+    ObjectType:
+      - 5cb41ed0-0e4c-11d0-a286-00aa003049e2
+    Properties:
+      - 8d3bca50-1d7e-11d0-a081-00aa006c33ed
+  condition: selection
+tags:
+  - attack.t1005
+custom_attributes:
+  original_rule_id: 18e6a87e-9d06-4a4e-8b59-3469cd49552d
+  source_format: azure_kql

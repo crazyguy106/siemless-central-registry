@@ -1,0 +1,35 @@
+title: Multiple web server 503 error code (Service unavailable).
+id: 101e923d-aea9-57e3-b3e9-a8789935d3d2
+status: stable
+level: high
+description: Multiple web server 503 error code (Service unavailable).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 14
+  - type: sequence
+    parent_rule: wazuh-31123
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31163
+  wazuh_level: 10

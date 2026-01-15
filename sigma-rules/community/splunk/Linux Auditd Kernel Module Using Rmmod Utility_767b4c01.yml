@@ -1,0 +1,21 @@
+title: Linux Auditd Kernel Module Using Rmmod Utility
+id: 4dc06071-37c9-5080-a0d5-2cd7370763c3
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious use of the `rmmod` utility for kernel module removal, which may indicate an attacker attempt to unload critical or security-related kernel modules. The `rmmod` command is used to remove modules from the Linux kernel, and unauthorized use can be a tactic to disable security features, conceal malicious activities, or disrupt system operations. By monitoring for unusual or unauthorized `rmmod` activity, this analytic helps identify potential tampering with 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    type: SYSCALL
+    comm: rmmod
+  condition: selection
+tags:
+  - attack.t1547.006
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: 31810b7a-0abe-42be-a210-0dec8106afee
+  source_format: splunk_spl

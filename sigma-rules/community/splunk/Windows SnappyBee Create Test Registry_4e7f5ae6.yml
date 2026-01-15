@@ -1,0 +1,21 @@
+title: Windows SnappyBee Create Test Registry
+id: 8d88b910-2fc9-59ad-92a8-4116110cfbdc
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry under `SOFTWARE\Microsoft\Test`, a location rarely used by legitimate applications in a production environment. Monitoring this key is crucial, as adversaries may create or alter values here for monitoring update of itself file path, updated configuration file, or system mark compromised. The detection leverages **Sysmon Event ID 13** (Registry Value Set) to identify unauthorized changes. Analysts should investigate processes a
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Test\\*'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+custom_attributes:
+  original_rule_id: 80402396-d78a-4c6e-ade5-7697ea670adf
+  source_format: splunk_spl

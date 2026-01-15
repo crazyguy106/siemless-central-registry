@@ -1,0 +1,21 @@
+title: Linux Auditd Preload Hijack Via Preload File
+id: ce654300-f868-5ea2-ab89-63443ac6ba7a
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious preload hijacking via the `preload` file, which may indicate an attacker's attempt to intercept or manipulate library loading processes. The `preload` file can be used to force the loading of specific libraries before others, potentially allowing malicious code to execute or alter application behavior. By monitoring for unusual or unauthorized modifications to the `preload` file, this analytic helps identify attempts to hijack preload mechanisms, enablin
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    type: PATH
+  condition: selection
+tags:
+  - attack.t1574.006
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: c1b7abca-55cb-4a39-bdfb-e28c1c12745f
+  source_format: splunk_spl

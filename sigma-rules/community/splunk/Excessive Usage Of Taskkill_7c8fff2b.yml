@@ -1,0 +1,22 @@
+title: Excessive Usage Of Taskkill
+id: e9a1e220-5f74-5bbb-a216-327db990d1fa
+status: stable
+level: medium
+description: |
+  The following analytic identifies excessive usage of `taskkill.exe`, a command-line utility used to terminate processes. The detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on instances where `taskkill.exe` is executed ten or more times within a one-minute span. This behavior is significant as adversaries often use `taskkill.exe` to disable security tools or other critical processes to evade detection. If confirmed malicious, this activity could allow attacke
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process_name: taskkill.exe
+    span: 1m
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+  - https://www.joesandbox.com/analysis/702680/0/html
+custom_attributes:
+  original_rule_id: fe5bca48-accb-11eb-a67c-acde48001122
+  source_format: splunk_spl

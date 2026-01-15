@@ -1,0 +1,31 @@
+title: Potential Privacy Control Bypass via Localhost Secure Copy
+id: c02c8b9f-5e1d-463c-a1b0-04edcdfe1a3d
+status: stable
+level: high
+description: 'Identifies use of the Secure Copy Protocol (SCP) to copy files locally
+  by abusing the auto addition of the Secure Shell
+
+  Daemon (sshd) to the authorized application list for Full Disk Access. This may
+  indicate attempts to bypass macOS
+
+  privacy controls to access sensitive files.'
+author: Elastic (converted by SIEMLess)
+date: '2020-01-11'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: scp
+    process_command_line|contains:
+    - scp *localhost:/*
+    - scp *127.0.0.1:/*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1548
+references:
+- https://www.trendmicro.com/en_us/research/20/h/xcsset-mac-malware--infects-xcode-projects--uses-0-days.html

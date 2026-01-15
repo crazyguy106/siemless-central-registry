@@ -1,0 +1,22 @@
+title: 'Unbound: Can''t assign requested address.'
+id: 0ac8664b-c6f6-5ed2-9715-695dfd7782e2
+status: stable
+level: informational
+description: 'Unbound: Can''t assign requested address.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'sendto failed: Can''t assign requested address'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-500001
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-500100
+  wazuh_level: 2

@@ -1,0 +1,28 @@
+title: Suspicious Path Mounted
+id: 68e90a9b-0eab-425e-be3b-902b0cd1fe9c
+status: stable
+level: low
+description: 'This rule detects suspicious paths mounted on Linux systems. The mount
+  command is used to attach filesystems to
+
+  the system, and attackers may use it to mount malicious filesystems or directories
+  for data exfiltration or
+
+  persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-25'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_name: mount
+    process_parent_name: snapd
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1564

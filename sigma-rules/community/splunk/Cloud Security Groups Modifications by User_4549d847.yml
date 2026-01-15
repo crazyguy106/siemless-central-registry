@@ -1,0 +1,26 @@
+title: Cloud Security Groups Modifications by User
+id: fcecc3cb-39e0-5d61-946f-81dc259e699a
+status: stable
+level: medium
+description: |
+  The following analytic identifies unusual modifications to security groups in your cloud environment by users, focusing on actions such as modifications, deletions, or creations over 30-minute intervals. It leverages cloud infrastructure logs and calculates the standard deviation for each user, using the 3-sigma rule to detect anomalies. This activity is significant as it may indicate a compromised account or insider threat. If confirmed malicious, attackers could alter security group configurat
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    object_category: security_group
+    datamodel: Change
+    action:
+      - modified
+      - deleted
+    span: 30m
+    isoutlier: 1
+  condition: selection
+tags:
+  - attack.t1578.005
+references:
+  - https://attack.mitre.org/techniques/T1578/005/
+custom_attributes:
+  original_rule_id: cfe7cca7-2746-4bdf-b712-b01ed819b9de
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: Windows User Execution Malicious URL Shortcut File
+id: 31fe8d19-b00c-539b-ab50-b01f6c97dea8
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation URL shortcut files, often used by malware like CHAOS ransomware. It leverages the Endpoint.Filesystem datamodel to identify ".url" files created outside common directories, such as "Program Files". This activity can be significant as ".URL" files can be used as mean to trick the user into visiting certain websites unknowingly, or when placed in certain locations such as "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\", it may a
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    file_path:
+      - '*:\\Program Files\\*'
+      - '*:\\Program Files (x86'
+  condition: selection
+tags:
+  - attack.t1204.002
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://www.fortinet.com/blog/threat-research/chaos-ransomware-variant-sides-with-russia
+custom_attributes:
+  original_rule_id: 5c7ee6ad-baf4-44fb-b2f0-0cfeddf82dbc
+  source_format: splunk_spl

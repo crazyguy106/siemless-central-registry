@@ -1,0 +1,36 @@
+title: 'sshd: Possible scan or breakin attempt'
+id: b3d2b685-164b-5c98-a43b-89e6f9270044
+status: stable
+level: high
+description: 'sshd: Possible scan or breakin attempt'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 360s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 6
+  - type: sequence
+    parent_rule: wazuh-5704
+    window:
+      maxspan: 360s
+    enforce_order: true
+tags:
+  - attack.t1110
+  - attack.t1190
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5705
+  wazuh_level: 10

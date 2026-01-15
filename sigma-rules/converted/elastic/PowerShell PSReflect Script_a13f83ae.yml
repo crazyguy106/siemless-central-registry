@@ -1,0 +1,31 @@
+title: PowerShell PSReflect Script
+id: 56f2e9b5-4803-4e44-a0a4-a52dc79d57fe
+status: stable
+level: high
+description: 'Detects the use of PSReflect in PowerShell scripts. Attackers leverage
+  PSReflect as a library that enables PowerShell to
+
+  access win32 API functions.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-15'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    user_id: S-1-5-18
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.001
+- attack.t1106
+references:
+- https://github.com/mattifestation/PSReflect/blob/master/PSReflect.psm1
+- https://github.com/atc-project/atc-data/blob/master/docs/Logging_Policies/LP_0109_windows_powershell_script_block_log.md
+falsepositives:
+- Legitimate PowerShell scripts that make use of PSReflect to access the win32 API

@@ -1,0 +1,24 @@
+title: AWS Multi-Factor Authentication Disabled
+id: 2f6e63a3-a83e-58f2-b191-644941857835
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to disable multi-factor authentication (MFA) for an AWS IAM user. It leverages AWS CloudTrail logs to identify events where MFA devices are deleted or deactivated. This activity is significant because disabling MFA can indicate an adversary attempting to weaken account security, potentially to maintain persistence using a compromised account. If confirmed malicious, this action could allow attackers to retain access to the AWS environment without detection
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    eventname: DeleteVirtualMFADevice
+  condition: selection
+tags:
+  - attack.t1556.006
+  - attack.t1586.003
+  - attack.t1621
+references:
+  - https://attack.mitre.org/techniques/T1621/
+  - https://aws.amazon.com/what-is/mfa/
+custom_attributes:
+  original_rule_id: 374832b1-3603-420c-b456-b373e24d34c0
+  source_format: splunk_spl

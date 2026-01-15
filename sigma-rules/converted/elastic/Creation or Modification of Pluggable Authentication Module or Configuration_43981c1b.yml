@@ -1,0 +1,38 @@
+title: Creation or Modification of Pluggable Authentication Module or Configuration
+id: f48ecc44-7d02-437d-9562-b838d2c41987
+status: stable
+level: medium
+description: 'This rule monitors for the creation or modification of Pluggable Authentication
+  Module (PAM) shared object files or
+
+  configuration files. Attackers may create or modify these files to maintain persistence
+  on a compromised system, or
+
+  harvest account credentials.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-06'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_extension: so
+    file_path: /etc/pam.conf
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1556
+- attack.t1543
+references:
+- https://github.com/zephrax/linux-pam-backdoor
+- https://github.com/eurialo/pambd
+- http://0x90909090.blogspot.com/2016/06/creating-backdoor-in-pam-in-5-line-of.html
+- https://www.trendmicro.com/en_us/research/19/i/skidmap-linux-malware-uses-rootkit-capabilities-to-hide-cryptocurrency-mining-payload.html
+falsepositives:
+- Trusted system module updates or allowed Pluggable Authentication Module (PAM) daemon
+  configuration changes.

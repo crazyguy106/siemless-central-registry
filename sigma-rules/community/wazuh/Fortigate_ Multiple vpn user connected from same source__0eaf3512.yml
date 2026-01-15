@@ -1,0 +1,38 @@
+title: 'Fortigate: Multiple vpn user connected from same source.'
+id: 99010f3f-a059-546b-9d03-da8e59e7940e
+status: stable
+level: low
+description: 'Fortigate: Multiple vpn user connected from same source.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 45s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 18
+    ignore_window: 240s
+  - type: sequence
+    parent_rule: wazuh-81622
+    window:
+      maxspan: 45s
+    enforce_order: true
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81623
+  wazuh_level: 4

@@ -1,0 +1,36 @@
+title: Multiple VMWare ESX error messages.
+id: bb16a3a4-c672-5074-b750-974a9954abbc
+status: stable
+level: high
+description: Multiple VMWare ESX error messages.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-19103
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1497
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-19151
+  wazuh_level: 10

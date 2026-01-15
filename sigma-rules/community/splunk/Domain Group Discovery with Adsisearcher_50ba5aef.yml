@@ -1,0 +1,24 @@
+title: Domain Group Discovery with Adsisearcher
+id: aeb2efe8-9946-5ce4-a0a8-d89494998655
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell to query Active Directory for domain groups. It leverages PowerShell Script Block Logging (EventCode=4104) to identify specific script blocks containing `[adsisearcher]` and group-related queries. This activity is significant as it may indicate an attempt by adversaries or Red Teams to enumerate domain groups for situational awareness and Active Directory discovery. If confirmed malicious, this behavior
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*[adsisearcher]*'
+      - '*(objectcategory=group)*'
+      - '*findAll()*'
+  condition: selection
+tags:
+  - attack.t1069.002
+references:
+  - https://attack.mitre.org/techniques/T1069/002/
+  - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
+custom_attributes:
+  original_rule_id: 089c862f-5f83-49b5-b1c8-7e4ff66560c7
+  source_format: splunk_spl

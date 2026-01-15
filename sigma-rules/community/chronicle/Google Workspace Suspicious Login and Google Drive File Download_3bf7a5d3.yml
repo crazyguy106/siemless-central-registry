@@ -1,0 +1,21 @@
+title: Google Workspace Suspicious Login and Google Drive File Download
+id: 2202418e-5795-5e57-a5f8-75f6642f0782
+status: experimental
+level: high
+description: |
+  Identifies when a Google Workspace user downloads a file from Google Drive after a suspicious login event occurred.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: login
+    metadata_product_event_type: login_success
+  condition: selection
+tags:
+  - attack.t1567
+custom_attributes:
+  original_rule_id: mr_3c55c930-d9be-4d34-a90e-baf92c22ae40
+  source_format: chronicle_yaral

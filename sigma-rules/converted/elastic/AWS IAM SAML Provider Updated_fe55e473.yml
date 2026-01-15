@@ -1,0 +1,47 @@
+title: AWS IAM SAML Provider Updated
+id: 979729e7-0c52-4c4c-b71e-88103304a79f
+status: stable
+level: medium
+description: 'Detects when an AWS IAM SAML provider is updated, which manages federated
+  authentication between AWS and external
+
+  identity providers (IdPs). Adversaries with administrative access may modify a SAML
+  provider’s metadata or certificate
+
+  to redirect authentication flows, enable unauthorized federation, or escalate privileges
+  through identity trust
+
+  manipulation. Because SAML providers underpin single sign-on (SSO) access for users
+  and applications, unauthorized
+
+  modifications may allow persistent or covert access even after credentials are revoked.
+  Monitoring  "UpdateSAMLProvider"
+
+  API activity is critical to detect potential compromise of federated trust relationships.'
+author: Elastic (converted by SIEMLess)
+date: '2021-09-22'
+modified: '2025-11-05'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    event_action: UpdateSAMLProvider
+    event_outcome: success
+    source_address: sso.amazonaws.com
+    user_agent_original: sso.amazonaws.com")
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1484.002
+- attack.t1484
+references:
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html
+falsepositives:
+- "    SAML Provider could be updated by a system administrator. Verify whether the\
+  \ user identity, user agent, and/or\n    hostname should be making changes in your\
+  \ environment. SAML Provider updates by unfamiliar users should be\n    investigated.\
+  \ If known behavior is causing false positives, it can be exempted from the rule.\n\
+  \    "

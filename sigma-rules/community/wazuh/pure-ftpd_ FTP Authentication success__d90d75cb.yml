@@ -1,0 +1,26 @@
+title: 'pure-ftpd: FTP Authentication success.'
+id: cc57ee10-1443-5018-b354-2263b06b4f4e
+status: stable
+level: low
+description: 'pure-ftpd: FTP Authentication success.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - '[INFO] \S+ is now logged in'
+      - is now logged in
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11300
+tags:
+  - attack.t1078
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11309
+  wazuh_level: 3

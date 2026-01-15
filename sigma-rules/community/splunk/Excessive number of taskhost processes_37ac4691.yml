@@ -1,0 +1,24 @@
+title: Excessive number of taskhost processes
+id: 30a4347e-9933-562c-88dd-d17bb29f98f9
+status: stable
+level: medium
+description: |
+  The following analytic identifies an excessive number of taskhost.exe and taskhostex.exe processes running within a short time frame. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and their counts. This behavior is significant as it is commonly associated with post-exploitation tools like Meterpreter and Koadic, which use multiple instances of these processes for actions such as discovery and lateral movement. If confirmed malicious, this activity
+author: Michael Hart
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - taskhost.exe
+      - taskhostex.exe
+    span: 1h
+  condition: selection
+tags:
+  - attack.t1059
+references:
+  - https://attack.mitre.org/software/S0250/
+custom_attributes:
+  original_rule_id: f443dac2-c7cf-11eb-ab51-acde48001122
+  source_format: splunk_spl

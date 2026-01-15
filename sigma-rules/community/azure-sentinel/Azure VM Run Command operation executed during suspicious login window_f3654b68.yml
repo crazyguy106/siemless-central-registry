@@ -1,0 +1,22 @@
+title: Azure VM Run Command operation executed during suspicious login window
+id: afa94c3a-38ee-5033-addf-c1af9dc35de4
+status: stable
+level: high
+description: |
+  'Identifies when the Azure Run Command operation is executed by a UserPrincipalName and IP Address that has resulted in a recent user entity behaviour alert.'
+author: Microsoft Security Rearch
+logsource:
+  product: azure
+  category: process_creation
+detection:
+  selection:
+    EventSource: Azure AD
+    OperationNameValue: MICROSOFT.COMPUTE/VIRTUALMACHINES/RUNCOMMAND/ACTION
+    Authorization|contains: virtualMachines
+  condition: selection
+tags:
+  - attack.t1570
+  - attack.t1212
+custom_attributes:
+  original_rule_id: 11bda520-a965-4654-9a45-d09f372f71aa
+  source_format: azure_kql

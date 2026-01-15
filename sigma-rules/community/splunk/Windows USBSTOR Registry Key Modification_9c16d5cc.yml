@@ -1,0 +1,27 @@
+title: Windows USBSTOR Registry Key Modification
+id: 2a6c4ac0-57ff-5207-90d2-59ddebb00f2e
+status: stable
+level: medium
+description: |
+  This analytic is used to identify when a USB removable media device is attached to a Windows host. In this scenario we are querying the Endpoint Registry data model to look for modifications to the HKLM\System\CurrentControlSet\Enum\USBSTOR\ key. Adversaries and Insider Threats may use removable media devices for several malicious activities, including initial access, execution, and exfiltration.
+author: Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_value_name: FriendlyName
+    registry_path:
+      - HKLM\\System\\CurrentControlSet\\Enum\\USBSTOR\\*
+  condition: selection
+tags:
+  - attack.t1200
+  - attack.t1025
+  - attack.t1091
+references:
+  - https://attack.mitre.org/techniques/T1200/
+  - https://www.cisa.gov/news-events/news/using-caution-usb-drives
+  - https://www.bleepingcomputer.com/news/security/fbi-hackers-use-badusb-to-target-defense-firms-with-ransomware/
+custom_attributes:
+  original_rule_id: a345980a-417d-4ed3-9fb4-cac30c9405a0
+  source_format: splunk_spl

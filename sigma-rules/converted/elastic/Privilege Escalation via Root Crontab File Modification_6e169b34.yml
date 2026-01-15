@@ -1,0 +1,26 @@
+title: Privilege Escalation via Root Crontab File Modification
+id: 0ff84c42-873d-41a2-a4ed-08d74d352d01
+status: stable
+level: high
+description: 'Identifies modifications to the root crontab file. Adversaries may overwrite
+  this file to gain code execution with root
+
+  privileges by exploiting privileged file write or move related vulnerabilities.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-27'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+    event_action: modification
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1053
+- attack.t1053.003
+references:
+- https://phoenhex.re/2017-06-09/pwn2own-diskarbitrationd-privesc
+- https://www.exploit-db.com/exploits/42146

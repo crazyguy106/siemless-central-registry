@@ -1,0 +1,40 @@
+title: Windows AD Self DACL Assignment
+id: 9d9d5875-19b1-568c-8371-46b4973d04da
+status: stable
+level: high
+description: Detect when a user creates a new DACL in AD for their own AD object.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    aceaccessrights:
+      - CCDCLCSWRPWPDTLOCRSDRCWDWO
+      - All validated writes
+    controlaccessrights: Write member
+    aceobjectguid: bf9679c0-0de6-11d0-a285-00aa003049e2
+    accessrights: SW
+    eventcode: 5136
+    field:
+      - old_value
+      - new_value
+      - new_ace
+      - aceAccessRights
+      - aceFlags
+      - user
+    max_match:
+      - 10000
+      - 10000
+      - 100
+      - 100
+    new_ace:
+      - old_values
+  condition: selection
+tags:
+  - attack.t1484
+  - attack.t1098
+references:
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+custom_attributes:
+  original_rule_id: 16132445-da9f-4d03-ad44-56d717dcd67d
+  source_format: splunk_spl

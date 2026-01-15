@@ -1,0 +1,24 @@
+title: Windows WMIC Shadowcopy Delete
+id: fb2fff9b-b123-5e2a-83c9-641ce00f5802
+status: stable
+level: medium
+description: |
+  This analytic detects the use of WMIC to delete volume shadow copies, which is a common technique used by ransomware actors to prevent system recovery. Ransomware like Cactus often delete shadow copies before encrypting files to ensure victims cannot recover their data without paying the ransom. This behavior is particularly concerning as it indicates potential ransomware activity or malicious actors attempting to prevent system recovery.
+author: Michael Haag, AJ King, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*shadowcopy*'
+      - '*delete*'
+  condition: selection
+tags:
+  - attack.t1490
+references:
+  - https://any.run/malware-trends/cactus
+  - https://attack.mitre.org/techniques/T1490/
+custom_attributes:
+  original_rule_id: 0a8c4b26-a4e2-4ef1-b0d9-62af6d36bdc8
+  source_format: splunk_spl

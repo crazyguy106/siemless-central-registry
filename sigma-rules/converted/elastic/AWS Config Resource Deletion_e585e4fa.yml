@@ -1,0 +1,35 @@
+title: AWS Config Resource Deletion
+id: 7024e2a0-315d-4334-bb1a-552d604f27bc
+status: stable
+level: low
+description: 'Identifies attempts to delete an AWS Config Service resource. An adversary
+  may tamper with Config services in order to
+
+  reduce visibility into the security posture of an account and / or its workload
+  instances.'
+author: Elastic (converted by SIEMLess)
+date: '2020-06-26'
+modified: '2024-05-21'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: config.amazonaws.com
+    event_action: (DeleteConfigRule
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://docs.aws.amazon.com/config/latest/developerguide/how-does-config-work.html
+- https://docs.aws.amazon.com/config/latest/APIReference/API_Operations.html
+falsepositives:
+- "    Privileged IAM users with security responsibilities may be expected to make\
+  \ changes to the Config service in order\n    to align with local security policies\
+  \ and requirements. Automation, orchestration, and security tools may also make\n\
+  \    changes to the Config service, where they are used to automate setup or configuration\
+  \ of AWS accounts. Other kinds\n    of user or service contexts do not commonly\
+  \ make changes to this service.\n    "

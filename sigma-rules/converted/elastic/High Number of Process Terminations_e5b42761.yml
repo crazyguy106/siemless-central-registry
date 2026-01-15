@@ -1,0 +1,23 @@
+title: High Number of Process Terminations
+id: 67f8443a-4ff3-4a70-916d-3cfa3ae9f02b
+status: stable
+level: medium
+description: This rule identifies a high number (10) of process terminations via pkill
+  from the same host within a short time period.
+author: Elastic (converted by SIEMLess)
+date: '2022-07-27'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: linux
+    event_type: start
+    process_name: pkill
+    process_args: -f
+  condition: selection
+tags:
+- attack.impact
+- attack.t1489

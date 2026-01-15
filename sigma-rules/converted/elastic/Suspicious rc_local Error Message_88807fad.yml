@@ -1,0 +1,39 @@
+title: Suspicious rc.local Error Message
+id: 69c116bb-d86f-48b0-857d-3648511a6cac
+status: stable
+level: low
+description: 'This rule monitors the syslog log file for error messages related to
+  the rc.local process. The rc.local file is a script
+
+  that is executed during the boot process on Linux systems. Attackers may attempt
+  to modify the rc.local file to execute
+
+  malicious commands or scripts during system startup. This rule detects error messages
+  such as "Connection refused," "No
+
+  such file or directory," or "command not found" in the syslog log file, which may
+  indicate that the rc.local file has
+
+  been tampered with.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-21'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_dataset: system.syslog
+    process_name: rc.local
+    message: ("Connection
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037.004
+- attack.t1037
+references:
+- https://www.intezer.com/blog/malware-analysis/hiddenwasp-malware-targeting-linux-systems/
+- https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/#8-boot-or-logon-initialization-scripts-rc-scripts
+- https://www.cyberciti.biz/faq/how-to-enable-rc-local-shell-script-on-systemd-while-booting-linux-system/
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

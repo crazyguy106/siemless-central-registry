@@ -1,0 +1,38 @@
+title: Multiple VMWare ESX user authentication failures.
+id: 1b7eaab1-ce39-5829-8bcd-fee2950af6a4
+status: stable
+level: high
+description: Multiple VMWare ESX user authentication failures.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-19113
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1110
+  - attack.t1497
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-19153
+  wazuh_level: 10

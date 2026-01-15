@@ -1,0 +1,23 @@
+title: 'Percona audit: authentication failure.'
+id: 916918b3-a6f8-5c2d-af35-9ddaed4632ad
+status: stable
+level: medium
+description: 'Percona audit: authentication failure.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit_record.name: ^Connect$
+    audit_record.status: ^1
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-88000
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-88003
+  wazuh_level: 9

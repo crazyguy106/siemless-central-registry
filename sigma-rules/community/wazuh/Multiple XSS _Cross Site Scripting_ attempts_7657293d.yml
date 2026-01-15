@@ -1,0 +1,37 @@
+title: Multiple XSS (Cross Site Scripting) attempts
+id: 75bc73d2-e65d-5b4f-ad7e-1d2edc480899
+status: stable
+level: high
+description: Multiple XSS (Cross Site Scripting) attempts
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-31105
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1064
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31154
+  wazuh_level: 10

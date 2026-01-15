@@ -1,0 +1,26 @@
+title: Windows AD GPO Disabled
+id: 8ceca95b-339e-500f-b37d-0868864ce5f3
+status: stable
+level: high
+description: |
+  This detection identifies when an Active Directory Group Policy is disabled using the Group Policy Management Console.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    operationtype: '%%14674'
+    objectcategory: CN=Group-Policy-Container*
+    eventcode: 5136
+    attributeldapdisplayname: flags
+    type: inner
+    admoneventtype: Update
+  condition: selection
+tags:
+  - attack.t1562.001
+  - attack.t1484.001
+references:
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+custom_attributes:
+  original_rule_id: 72793bc0-c0cd-400e-9e60-fdf36f278917
+  source_format: splunk_spl

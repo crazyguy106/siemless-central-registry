@@ -1,0 +1,26 @@
+title: Anomalous amount of SMB sessions created (BloodHound)
+id: 2cf9c2a3-08d3-44f6-b311-ccd2b6589a62
+status: experimental
+level: medium
+description: |
+  This detection rule is aimed to detect a host that performs SMB Discovery by alerting if a device creates more then 50 unique SMB sessions within 15 minutes. That is one of the characteristics of bloodhound. The SMB sessions can be used to identify remote systems.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let Threshold = 50; // Can be adjusted to reduce false positives
+DeviceNetworkEvents
+| where ingestion_time() > ago(1h)
+| where RemotePort == 445
+| summarize
+     TotalIpsAccessed = dcount(RemoteIP),
+     RemoteIPs = make_set(RemoteIP),
+     arg_max(Timestamp, *)
+     by DeviceName, bin(Timestamp, 15m)
+| where TotalIpsAccessed >= Threshold 
+| project-reorder Timestamp, DeviceName, InitiatingProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessFolderPath
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

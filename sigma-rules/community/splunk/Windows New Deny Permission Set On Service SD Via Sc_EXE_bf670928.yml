@@ -1,0 +1,36 @@
+title: Windows New Deny Permission Set On Service SD Via Sc.EXE
+id: 0ca3a7b8-a6ec-54b4-adee-65fbc9dab3bf
+status: stable
+level: medium
+description: |
+  The following analytic detects changes in a service security descriptor where a new deny ace has been added. It leverages data from Endpoint Detection and Response (EDR) agents, specifically searching for any process execution involving the "sc.exe" binary with the "sdset" flag targeting any service and adding a dedicated deny ace. If confirmed malicious, this could allow an attacker to escalate their privileges, blind defenses and more.
+author: Nasreddine Bencherchali, Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*;IU*'
+      - '*;S-1-5-4*'
+      - '*;SU*'
+      - '*;S-1-5-6*'
+      - '*;BA*'
+      - '*;S-1-5-32-544*'
+      - '*;SY*'
+      - '*;S-1-5-18*'
+      - '*;WD*'
+      - '*;S-1-1-0*'
+      - '*;AU*'
+      - '*;S-1-5-11*'
+      - '*;LS*'
+      - '*;S-1-5-19*'
+  condition: selection
+tags:
+  - attack.t1564
+references:
+  - https://www.sans.org/blog/red-team-tactics-hiding-windows-services/
+  - https://news.sophos.com/wp-content/uploads/2020/06/glupteba_final-1.pdf
+  - https://attack.mitre.org/techniques/T1564/
+custom_attributes:
+  original_rule_id: d0f6a5e5-dbfd-46e1-8bd5-2e2905947c33
+  source_format: splunk_spl

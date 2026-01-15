@@ -1,0 +1,30 @@
+title: O365 SharePoint Suspicious Search Behavior
+id: 9dd6c6c1-7196-5a22-94e1-f27f89507208
+status: stable
+level: medium
+description: |
+  The following analytic identifies when Office 365 users search for suspicious keywords or have an excessive number of queries to a SharePoint site within a limited timeframe. This behavior may indicate that a malicious actor has gained control of a user account and is conducting discovery or enumeration activities.
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    operation:
+      - SearchQueryPerformed
+      - SearchQueryInitiatedSharepoint
+    workload: SharePoint
+    span: 1hr
+  filter:
+    command: (*)
+  condition: selection and not filter
+tags:
+  - attack.t1213.002
+  - attack.t1552
+references:
+  - https://learn.microsoft.com/en-us/purview/audit-get-started#step-3-enable-searchqueryinitiated-events
+  - https://www.cisa.gov/sites/default/files/2025-01/microsoft-expanded-cloud-logs-implementation-playbook-508c.pdf
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a
+  - https://attack.mitre.org/techniques/T1213/002/
+custom_attributes:
+  original_rule_id: 6ca919db-52f3-4c95-a4e9-7b189e8a043d
+  source_format: splunk_spl

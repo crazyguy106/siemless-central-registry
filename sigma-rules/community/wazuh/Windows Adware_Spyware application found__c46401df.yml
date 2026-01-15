@@ -1,0 +1,26 @@
+title: Windows Adware/Spyware application found.
+id: 552697cd-06d8-5103-a028-8d0a0b86feb8
+status: stable
+level: medium
+description: Windows Adware/Spyware application found.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - Adware
+      - Spyware
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-514
+tags:
+  - attack.t1017
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-518
+  wazuh_level: 9

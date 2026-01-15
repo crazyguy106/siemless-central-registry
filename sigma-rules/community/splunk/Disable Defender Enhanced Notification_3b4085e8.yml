@@ -1,0 +1,21 @@
+title: Disable Defender Enhanced Notification
+id: 215e5d99-2c89-527a-b093-8fafaec58ef4
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of the registry to disable Windows Defender's Enhanced Notification feature. It leverages data from Endpoint Detection and Response (EDR) agents, specifically monitoring changes to the registry path associated with Windows Defender reporting. This activity is significant because disabling Enhanced Notifications can prevent users and administrators from receiving critical security alerts, potentially allowing malicious activities to go unnoticed. If
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*Microsoft\\Windows Defender\\Reporting*'
+    registry_value_name: DisableEnhancedNotifications
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: dc65678c-301f-11ec-8e30-acde48001122
+  source_format: splunk_spl

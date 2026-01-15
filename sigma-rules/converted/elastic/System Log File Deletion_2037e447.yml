@@ -1,0 +1,39 @@
+title: System Log File Deletion
+id: aa895aea-b69c-4411-b110-8d7599634b30
+status: stable
+level: medium
+description: 'Identifies the deletion of sensitive Linux system logs. This may indicate
+  an attempt to evade detection or destroy
+
+  forensic evidence on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-03'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: deletion
+    file_path|contains:
+    - /var/run/utmp
+    - /var/log/wtmp
+    - /var/log/btmp
+    - /var/log/lastlog
+    - /var/log/faillog
+    - /var/log/syslog
+    - /var/log/messages
+    - /var/log/secure
+    - /var/log/auth.log
+    - /var/log/boot.log
+    - /var/log/kern.log
+    - /var/log/dmesg
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.002
+- attack.t1070
+references:
+- https://www.fireeye.com/blog/threat-research/2020/11/live-off-the-land-an-overview-of-unc1945.html
+- https://www.elastic.co/security-labs/detecting-log4j2-with-elastic-security

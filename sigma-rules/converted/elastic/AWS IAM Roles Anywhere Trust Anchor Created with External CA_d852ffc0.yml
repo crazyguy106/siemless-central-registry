@@ -1,0 +1,44 @@
+title: AWS IAM Roles Anywhere Trust Anchor Created with External CA
+id: 71de53ea-ff3b-11ee-b572-f661ea17fbce
+status: stable
+level: medium
+description: 'Identifies when an AWS IAM Roles Anywhere Trust Anchor with an external
+  certificate authority is created. AWS Roles
+
+  Anywhere profiles are legitimate profiles that can be created by administrators
+  to allow access from any location. This
+
+  rule detects when a trust anchor is created with an external certificate authority
+  that is not managed by AWS
+
+  Certificate Manager Private Certificate Authority (ACM PCA). Adversaries may accomplish
+  this to maintain persistence in
+
+  the environment.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-20'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: rolesanywhere.amazonaws.com
+    event_action: CreateTrustAnchor
+    event_outcome: success
+    aws_cloudtrail_request_parameters: '*sourceType=AWS_ACM_PCA*'
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+- attack.t1098.003
+references:
+- https://docs.aws.amazon.com/rolesanywhere/latest/userguide/introduction.html
+- https://ermetic.com/blog/aws/keep-your-iam-users-close-keep-your-third-parties-even-closer-part-1/
+- https://docs.aws.amazon.com/rolesanywhere/latest/APIReference/API_CreateTrustAnchor.html
+falsepositives:
+- "    AWS IAM Roles Anywhere Trust Anchors are legitimate profiles that can be created\
+  \ by administrators to allow access\n    from any location. Ensure that the trust\
+  \ anchor is created by a legitimate administrator and that the external\n    certificate\
+  \ authority is authorized.\n    "

@@ -1,0 +1,22 @@
+title: Windows MSTSC RDP Commandline
+id: 50819de4-44de-5bb3-aef0-b22cbe3ad59c
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the mstsc.exe command-line, which is commonly used to initiate Remote Desktop Protocol (RDP) connections. This detection focuses on instances where mstsc.exe is executed with specific parameters that may indicate suspicious or unauthorized remote access attempts. Monitoring command-line arguments such as /v:<target> for direct connections or /admin for administrative sessions can help identify potential misuse or lateral movement within a network.
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name: mstsc.exe
+    process: '*/v:*'
+  condition: selection
+tags:
+  - attack.t1021.001
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
+custom_attributes:
+  original_rule_id: 3718549b-867e-4084-b770-790e8dab6ab8
+  source_format: splunk_spl

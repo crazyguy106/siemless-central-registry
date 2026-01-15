@@ -1,0 +1,33 @@
+title: 'PIX: Multiple critical messages.'
+id: 0109ef82-8b85-5b83-929e-f909c56c5fcf
+status: stable
+level: high
+description: 'PIX: Multiple critical messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 360s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-4311
+    window:
+      maxspan: 360s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4381
+  wazuh_level: 10

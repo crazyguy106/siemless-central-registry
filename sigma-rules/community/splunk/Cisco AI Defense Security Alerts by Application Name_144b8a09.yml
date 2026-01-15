@@ -1,0 +1,27 @@
+title: Cisco AI Defense Security Alerts by Application Name
+id: b6bc0d80-07f3-596a-9966-f464b21cbbaf
+status: stable
+level: medium
+description: |
+  The search surfaces alerts from the Cisco AI Defense product for potential attacks against the AI models running in your environment. This analytic identifies security events within Cisco AI Defense by examining event messages, actions, and policy names. It focuses on connections and applications associated with specific guardrail entities and ruleset types. By aggregating and analyzing these elements, the search helps detect potential policy violations and security threats, enabling proactive d
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    severity:
+      - critical
+      - high
+      - medium
+      - low
+    policy_name:
+      - AI Runtime Latency Testing - Code Detection
+    guardrail_ruleset_type:
+      - Toxicity
+  condition: selection
+references:
+  - https://www.robustintelligence.com/blog-posts/prompt-injection-attack-on-gpt-4
+  - https://docs.aws.amazon.com/prescriptive-guidance/latest/llm-prompt-engineering-best-practices/common-attacks.html
+custom_attributes:
+  original_rule_id: 105e4a69-ec55-49fc-be1f-902467435ea8
+  source_format: splunk_spl

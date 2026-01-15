@@ -1,0 +1,27 @@
+title: Cisco SNMP Community String Configuration Changes
+id: 371141c0-5317-56f8-a132-293ef0cb6813
+status: stable
+level: medium
+description: |
+  This analytic detects changes to SNMP community strings on Cisco devices, which could indicate an attacker establishing persistence or attempting to extract credentials. After gaining initial access to network devices, threat actors like Static Tundra often modify SNMP configurations to enable unauthorized monitoring and data collection. This detection specifically looks for the configuration of SNMP community strings with read-write (rw) or read-only (ro) permissions, as well as the configurati
+author: Bhavin Patel, Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    command:
+      - '*snmp-server community*rw*'
+      - '*snmp-server community*ro*'
+      - '*snmp-server host*'
+  condition: selection
+tags:
+  - attack.t1562.001
+  - attack.t1040
+  - attack.t1552
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/snmp/command/snmp-cr-book/snmp-s1.html#wp1307296356
+custom_attributes:
+  original_rule_id: b0ce5521-2533-4f24-b8d5-c2ff977aae08
+  source_format: splunk_spl

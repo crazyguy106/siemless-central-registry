@@ -1,0 +1,32 @@
+title: AWS WAF Rule or Rule Group Deletion
+id: 5beaebc1-cc13-4bfc-9949-776f9e0dc318
+status: stable
+level: medium
+description: Identifies the deletion of a specified AWS Web Application Firewall (WAF)
+  rule or rule group.
+author: Elastic (converted by SIEMLess)
+date: '2020-06-09'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: (waf.amazonaws.com
+    event_action: (DeleteRule
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/waf/delete-rule-group.html
+- https://docs.aws.amazon.com/waf/latest/APIReference/API_waf_DeleteRuleGroup.html
+falsepositives:
+- "    WAF rules or rule groups may be deleted by a system or network administrator.\
+  \ Verify whether the user identity, user\n    agent, and/or hostname should be making\
+  \ changes in your environment. Rule deletions by unfamiliar users or hosts\n   \
+  \ should be investigated. If known behavior is causing false positives, it can be\
+  \ exempted from the rule.\n    "

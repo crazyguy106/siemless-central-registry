@@ -1,0 +1,28 @@
+title: Potential Buffer Overflow Attack Detected
+id: b7c05aaf-78c2-4558-b069-87fa25973489
+status: stable
+level: low
+description: 'Detects potential buffer overflow attacks by querying the "Segfault
+  Detected" pre-built rule signal index, through a
+
+  threshold rule, with a minimum number of 100 segfault alerts in a short timespan.
+  A large amount of segfaults in a short
+
+  time interval could indicate application exploitation attempts.'
+author: Elastic (converted by SIEMLess)
+date: '2023-12-11'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    kibana_alert_rule_rule_id: 5c81fc9d-1eae-437f-ba07-268472967013
+    host_os_type: linux
+    event_kind: signal
+  condition: selection
+tags:
+- attack.initial_access
+- attack.privilege_escalation
+- attack.t1190
+- attack.t1068

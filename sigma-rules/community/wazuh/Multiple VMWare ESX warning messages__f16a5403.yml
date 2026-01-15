@@ -1,0 +1,36 @@
+title: Multiple VMWare ESX warning messages.
+id: 0c0c0ddb-038f-51cd-b2ea-359851c7c15c
+status: stable
+level: high
+description: Multiple VMWare ESX warning messages.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-19104
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1497
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-19150
+  wazuh_level: 10

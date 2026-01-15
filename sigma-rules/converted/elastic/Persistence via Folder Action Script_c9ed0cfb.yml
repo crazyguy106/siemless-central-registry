@@ -1,0 +1,30 @@
+title: Persistence via Folder Action Script
+id: c292fa52-4115-408a-b897-e14f684b3cb7
+status: stable
+level: medium
+description: 'Detects modification of a Folder Action script. A Folder Action script
+  is executed when the folder to which it is
+
+  attached has items added or removed, or when its window is opened, closed, moved,
+  or resized. Adversaries may abuse this
+
+  feature to establish persistence by utilizing a malicious script.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-07'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_parent_name: com.apple.foundation.UserScriptService
+    process_args: -c
+  condition: selection
+tags:
+- attack.persistence
+- attack.execution
+- attack.t1037
+- attack.t1059
+references:
+- https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d

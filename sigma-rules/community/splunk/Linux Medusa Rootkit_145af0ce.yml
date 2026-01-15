@@ -1,0 +1,35 @@
+title: Linux Medusa Rootkit
+id: a007f134-f94d-5f5b-987a-7c8c616f3e4d
+status: stable
+level: high
+description: |
+  This detection identifies file creation events associated with the installation of the Medusa rootkit, a userland LD_PRELOAD-based rootkit known for deploying shared objects, loader binaries, and configuration files into specific system directories. These files typically facilitate process hiding, credential theft, and backdoor access. Monitoring for such file creation patterns enables early detection of rootkit deployment before full compromise.
+author: Raven Tait, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    file_path:
+      - '*/lib/libseconf'
+      - '*.backup_ld.so'
+      - '*.boot.sh'
+      - '*.logpam'
+      - '*sshpass.txt'
+      - '*sshpass2.txt'
+      - '*/lib/libdsx.so'
+      - '*rkload'
+      - '*/lib/libseconf/local.txt'
+      - '*/lib/locate/local.txt'
+      - '*/var/log/remote.txt'
+      - '*/lib/libseconf/.pts'
+      - '*/lib/locate /.pts'
+      - '*/libseconf/.ports'
+  condition: selection
+tags:
+  - attack.t1014
+  - attack.t1589.001
+references:
+  - https://cloud.google.com/blog/topics/threat-intelligence/uncovering-unc3886-espionage-operations
+custom_attributes:
+  original_rule_id: 7add8520-71d5-43aa-b262-ee082b1f0238
+  source_format: splunk_spl

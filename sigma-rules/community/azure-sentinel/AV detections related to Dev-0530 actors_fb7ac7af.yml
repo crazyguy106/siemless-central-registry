@@ -1,0 +1,18 @@
+title: AV detections related to Dev-0530 actors
+id: 85b5d3df-d1a5-57b5-8261-1b9e88bcd32a
+status: stable
+level: high
+description: |
+  'This query looks for Microsoft Defender AV detections related to  Dev-0530 actors. In Microsoft Sentinel the SecurityAlerts table includes only the Device Name of the affected device, this query joins the DeviceInfo table to clearly connect other information such as Device group, ip, logged on users etc. This would allow the Microsoft Sentinel analyst to have more context related to the alert, if available.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    ProviderName: MDATP
+  condition: selection
+tags:
+  - attack.t1486
+custom_attributes:
+  original_rule_id: 5f171045-88ab-4634-baae-a7b6509f483b
+  source_format: azure_kql

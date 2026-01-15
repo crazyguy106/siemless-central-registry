@@ -1,0 +1,21 @@
+title: List all the vulnerabilities each device has in a pivot table
+id: ce10f3f2-7c28-496c-a0a9-5dae098e32c5
+status: experimental
+level: medium
+description: |
+  This query returns a row for each device with the amount of Critical, High, Medium and Low Vulnerabilities that device has.  
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSoftwareVulnerabilities
+| project DeviceName, VulnerabilitySeverityLevel
+| evaluate pivot(VulnerabilitySeverityLevel): (DeviceName: string,Critical: long, High: long, Medium: long, Low: long)
+| sort by Critical, High, Medium, Low
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

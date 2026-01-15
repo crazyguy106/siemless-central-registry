@@ -1,0 +1,30 @@
+title: Quarantine Attrib Removed by Unsigned or Untrusted Process
+id: f0b48bbc-549e-4bcf-8ee0-a7a72586c6a7
+status: stable
+level: medium
+description: 'Detects deletion of the quarantine attribute by an unusual process (xattr).
+  In macOS, when applications or programs are
+
+  downloaded from the internet, there is a quarantine flag set on the file. This attribute
+  is read by Apple''s Gatekeeper
+
+  defense program at execution time. An adversary may disable this attribute to evade
+  defenses.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-14'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    event_action: extended_attributes_delete
+    host_os_type: macos
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://nixhacker.com/security-protection-in-macos-1/
+- https://eclecticlight.co/2020/10/29/quarantine-and-the-quarantine-flag/

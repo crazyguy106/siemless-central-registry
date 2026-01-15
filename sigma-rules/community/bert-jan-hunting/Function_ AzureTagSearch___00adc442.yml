@@ -1,0 +1,23 @@
+title: Function: AzureTagSearch()
+id: cdf8b279-d827-4bb7-8629-8d2970318936
+status: experimental
+level: medium
+description: |
+  This function returns all resources based on the *SearchTag* variable that has been used as input. Note that only the resources that your account has access to are returned.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let AzureTagSearch = (SearchTag: string) {
+    arg("").Resources
+    | extend StringTags = tolower(tostring(tags))
+    | extend SearchTagToLower = SearchTag
+    | where StringTags has SearchTagToLower
+    | project tags, type, name, kind, resourceGroup
+};
+AzureTagSearch("Test")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

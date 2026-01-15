@@ -1,0 +1,21 @@
+title: OneLogin User Logins From Multiple Countries
+id: 85da3127-7b03-569e-8715-18deddc1e16c
+status: experimental
+level: medium
+description: Detects user logins for the same user from different cities within 24 hours.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_name: ONELOGIN_SSO
+    metadata_vendor_name: ONELOGIN
+    metadata_product_event_type: 5
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_92eb87fb-0310-460f-9640-8bc0bb87a8a3
+  source_format: chronicle_yaral

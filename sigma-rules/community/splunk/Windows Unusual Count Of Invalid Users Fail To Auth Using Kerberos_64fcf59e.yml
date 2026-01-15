@@ -1,0 +1,24 @@
+title: Windows Unusual Count Of Invalid Users Fail To Auth Using Kerberos
+id: acc41548-2de8-5774-b590-b3f5dff2e007
+status: stable
+level: medium
+description: |
+  The following analytic identifies a source endpoint failing to authenticate with multiple invalid domain users using the Kerberos protocol. It leverages Event ID 4768, which is generated when the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT) and detects failure code 0x6, indicating the user is not found in the Kerberos database. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privil
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 4768
+    status: 0x6
+    span: 5m
+    isoutlier: 1
+  condition: selection
+tags:
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+custom_attributes:
+  original_rule_id: f122cb2e-d773-4f11-8399-62a3572d8dd7
+  source_format: splunk_spl

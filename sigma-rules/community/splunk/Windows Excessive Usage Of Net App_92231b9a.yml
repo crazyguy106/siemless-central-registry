@@ -1,0 +1,20 @@
+title: Windows Excessive Usage Of Net App
+id: d849a745-3899-59ee-b0f3-80deee490601
+status: stable
+level: medium
+description: |
+  The following analytic detects excessive usage of `net.exe` within a one-minute interval. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line executions. This behavior is significant as it may indicate an adversary attempting to create, delete, or disable multiple user accounts rapidly, a tactic observed in Monero mining incidents. If confirmed malicious, this activity could lead to unauthorized user account manipulat
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    span: 1m
+  condition: selection
+tags:
+  - attack.t1531
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: 355ba810-0a20-4215-8485-9ce3f87f2e38
+  source_format: splunk_spl

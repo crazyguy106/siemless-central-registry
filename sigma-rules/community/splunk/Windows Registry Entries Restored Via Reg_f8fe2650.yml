@@ -1,0 +1,23 @@
+title: Windows Registry Entries Restored Via Reg
+id: de714d0b-055b-5cae-aa13-6d4aacd9b630
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of reg.exe with the "restore" parameter, indicating an attempt to restore registry backup data on a host. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs and command-line arguments. This activity is significant as it may indicate post-exploitation actions, such as those performed by tools like winpeas, which use "reg save" and "reg restore" to manipulate registry settings. If confirme
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    process: '* restore *'
+  condition: selection
+tags:
+  - attack.t1012
+references:
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/quser
+  - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+  - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+custom_attributes:
+  original_rule_id: a17af481-e2ad-494c-9da6-afb4d243a019
+  source_format: splunk_spl

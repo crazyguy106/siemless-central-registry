@@ -1,0 +1,34 @@
+title: AWS SQS Queue Purge
+id: bab88bb8-cdd9-11ef-bd9a-f661ea17fbcd
+status: stable
+level: medium
+description: 'Identifies when an AWS Simple Queue Service (SQS) queue is purged. Adversaries
+  may purge SQS queues to disrupt
+
+  operations, delete messages, or impair monitoring and alerting mechanisms. This
+  action can be used to evade detection
+
+  and cover tracks by removing evidence of malicious activities.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-08'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: sqs.amazonaws.com
+    event_action: PurgeQueue
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.008
+references:
+- https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_PurgeQueue.html
+- https://hackingthe.cloud/aws/exploitation/Misconfigured_Resource-Based_Policies/exploting_public_resources_attack_playbook/
+falsepositives:
+- Administrators may purge SQS queues for legitimate reasons, such as removing outdated
+  or sensitive data.

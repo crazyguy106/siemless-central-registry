@@ -1,0 +1,29 @@
+title: Windows BitLocker Suspicious Command Usage
+id: 40e80be9-c069-54b5-a580-c09cc15ec01d
+status: stable
+level: high
+description: |
+  This analytic is developed to detect the usage of BitLocker commands used to disable or impact boot settings. The malware ShrinkLocker uses various commands change how BitLocker handles encryption, potentially bypassing TPM requirements, enabling BitLocker without TPM, and enforcing specific startup key and PIN configurations. Such modifications can weaken system security, making it easier for unauthorized access and data breaches. Detecting these changes is crucial for maintaining robust encryp
+author: Steven Dick
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '* -protectors -disable *'
+      - '* -protectors -delete *'
+      - '* -forcerecovery *'
+      - '* -lock *'
+  condition: selection
+tags:
+  - attack.t1486
+  - attack.t1490
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://www.nccgroup.com/us/research-blog/nameless-and-shameless-ransomware-encryption-via-bitlocker/
+  - https://www.bitdefender.com/en-us/blog/businessinsights/shrinklocker-decryptor-from-friend-to-foe-and-back-again
+  - https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+custom_attributes:
+  original_rule_id: d0e6ec70-6e40-41a2-8b93-8d9ff077a746
+  source_format: splunk_spl

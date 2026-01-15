@@ -1,0 +1,24 @@
+title: 'sendmail: Sendmail rejected due to pre-greeting.'
+id: 6e7cae77-3765-5813-8986-04208da20bae
+status: stable
+level: medium
+description: 'sendmail: Sendmail rejected due to pre-greeting.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: rejecting commands from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3100
+tags:
+  - attack.t1114
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3108
+  wazuh_level: 6

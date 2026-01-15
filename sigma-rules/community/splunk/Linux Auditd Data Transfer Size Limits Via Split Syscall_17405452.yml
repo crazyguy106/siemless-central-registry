@@ -1,0 +1,22 @@
+title: Linux Auditd Data Transfer Size Limits Via Split Syscall
+id: d433fd48-f15c-512a-8246-17fc8e0d5aca
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious data transfer activities that involve the use of the `split` syscall, potentially indicating an attempt to evade detection by breaking large files into smaller parts. Attackers may use this technique to bypass size-based security controls, facilitating the covert exfiltration of sensitive data. By monitoring for unusual or unauthorized use of the `split` syscall, this analytic helps identify potential data exfiltration attempts, allowing security teams t
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    exe: '*/split'
+    type: SYSCALL
+    comm: split
+  condition: selection
+tags:
+  - attack.t1030
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: c03d4a49-cf9d-435b-86e9-c6f8c9b6c42e
+  source_format: splunk_spl

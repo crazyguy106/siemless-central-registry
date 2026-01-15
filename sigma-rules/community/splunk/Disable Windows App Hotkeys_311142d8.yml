@@ -1,0 +1,23 @@
+title: Disable Windows App Hotkeys
+id: f773e27a-1de6-53d1-86ba-379716497710
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious registry modification aimed at disabling Windows hotkeys for native applications. It leverages data from the Endpoint.Registry data model, focusing on specific registry paths and values indicative of this behavior. This activity is significant as it can impair an analyst's ability to use essential tools like Task Manager and Command Prompt, hindering incident response efforts. If confirmed malicious, this technique can allow an attacker to maintain per
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Windows NT\\CurrentVersion\\Image File Execution Options\\*'
+    registry_value_data: HotKey Disabled
+    registry_value_name: Debugger
+  condition: selection
+tags:
+  - attack.t1112
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: 1490f224-ad8b-11eb-8c4f-acde48001122
+  source_format: splunk_spl

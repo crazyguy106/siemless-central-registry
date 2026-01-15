@@ -1,0 +1,21 @@
+title: Silk Typhoon Suspicious Exchange Request
+id: 94f88f27-9c72-5200-8031-94166ede9a6b
+status: stable
+level: medium
+description: |
+  'This query looks for suspicious request patterns to Exchange servers that fit a pattern observed by Silk Typhoon actors. The same query can be run on HTTPProxy logs from on-premise hosted Exchange servers. Reference: https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    sSiteName: Exchange Back End
+    csUriQuery|startswith: t=
+    Computer:
+      - exchange_servers
+  condition: selection
+tags:
+  - attack.t1190
+custom_attributes:
+  original_rule_id: 23005e87-2d3a-482b-b03d-edbebd1ae151
+  source_format: azure_kql

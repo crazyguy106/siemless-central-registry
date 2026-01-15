@@ -1,0 +1,22 @@
+title: GCP BigQuery Results Downloaded From Multiple Tables
+id: 66b86f06-65b9-561b-88b5-9b599e06555d
+status: experimental
+level: high
+description: |
+  Detect a user downloads GCP BigQuery results from multiple tables which might indicate data exfiltration activity.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_ACCESS
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type: jobservice.getqueryresults
+    metadata_product_name: BigQuery
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1567
+custom_attributes:
+  original_rule_id: mr_dc6b1f68-734d-4b4b-91c2-1675f2422c11
+  source_format: chronicle_yaral

@@ -1,0 +1,24 @@
+title: List the top 10 external applications with the most consented users
+id: 42bc935c-7be2-4627-b65d-1db3716c1ef2
+status: experimental
+level: medium
+description: |
+  The query below lists the top 10 external applications with the most consented users. It is highly recommended to review newly added applications in which only user consent is given.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let PrivilegeLevelInput = pack_array('Medium', 'High');
+OAuthAppInfo
+| where AppOrigin == "External"
+| where ConsentedUsersCount > 0
+| summarize arg_max(Timestamp, *) by OAuthAppId
+| where PrivilegeLevel in (PrivilegeLevelInput)
+| extend PublisherName = tostring(VerifiedPublisher.displayName), DateAdded = todatetime(VerifiedPublisher.addedDateTime)
+| project AppName, OAuthAppId, ServicePrincipalId, AddedOnTime, PublisherName, AppOwnerTenantId, ConsentedUsersCount
+| top 10 by ConsentedUsersCount
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

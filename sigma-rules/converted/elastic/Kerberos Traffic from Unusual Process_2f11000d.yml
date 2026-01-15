@@ -1,0 +1,26 @@
+title: Kerberos Traffic from Unusual Process
+id: 897dc6b5-b39f-432a-8d75-d3730d50c782
+status: stable
+level: medium
+description: 'Identifies network connections to the standard Kerberos port from an
+  unusual process. On Windows, the only process that
+
+  normally performs Kerberos traffic from a domain joined host is lsass.exe.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-02'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    network_direction: egress
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1558
+falsepositives:
+- "    HTTP traffic on a non standard port. Verify that the destination IP address\
+  \ is not related to a Domain Controller.\n    "

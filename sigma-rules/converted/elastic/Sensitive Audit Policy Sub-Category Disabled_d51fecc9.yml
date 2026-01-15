@@ -1,0 +1,31 @@
+title: Sensitive Audit Policy Sub-Category Disabled
+id: 0ef5d3eb-67ef-43ab-93b7-305cfa5a21f6
+status: stable
+level: medium
+description: 'Identifies attempts to disable auditing for some security sensitive
+  audit policy sub-categories. This is often done by
+
+  attackers in an attempt to evade detection and forensics on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-14'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_code: '4719'
+    host_os_type: windows
+    winlog_event_data_AuditPolicyChangesDescription: Success
+    winlog_event_data_SubCategory: (
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.001
+- attack.t1070
+- attack.t1562
+- attack.t1562.006
+- attack.t1562.002
+references:
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4719
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/77878370-0712-47cd-997d-b07053429f6d

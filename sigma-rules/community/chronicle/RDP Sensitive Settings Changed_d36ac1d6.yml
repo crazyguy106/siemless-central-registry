@@ -1,0 +1,24 @@
+title: RDP Sensitive Settings Changed
+id: c51c99cf-a1e5-5e04-835e-346e47cb124e
+status: experimental
+level: high
+description: |
+  Detects tampering of RDP Terminal Service/Server sensitive settings. Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections'...etc
+author: Samir Bousseaden, David ANDRE, Roberto Rodriguez @Cyb3rWard0g, Nasreddine Bencherchali
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: REGISTRY_MODIFICATION
+    target_registry_registry_value_data:
+      - DWORD (0x00000001)
+      - DWORD (0x00000002)
+      - DWORD (0x00000003)
+      - DWORD (0x00000004)
+      - DWORD (0x00000001)
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_terminal_server_tampering.yml
+custom_attributes:
+  original_rule_id: mr_4c75375c-7ebf-4f9f-9b30-7aaab63dba8d
+  source_format: chronicle_yaral

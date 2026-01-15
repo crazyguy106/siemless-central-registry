@@ -1,0 +1,30 @@
+title: Docker Escape via Nsenter
+id: 5f3ab3ce-7b41-4168-a06a-68d2af8ebc88
+status: stable
+level: medium
+description: 'This rule identifies a UID change event via `nsenter`. The `nsenter`
+  command is used to enter a namespace, which is a
+
+  way to isolate processes and resources. Attackers can use `nsenter` to escape from
+  a container to the host, which can
+
+  lead to privilege escalation and lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2024-07-10'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: change
+    event_action: uid_change
+    process_entry_leader_entry_meta_type: container
+    process_args: nsenter
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1611
+references:
+- https://www.cyberark.com/resources/threat-research-blog/the-route-to-root-container-escape-using-kernel-exploitation

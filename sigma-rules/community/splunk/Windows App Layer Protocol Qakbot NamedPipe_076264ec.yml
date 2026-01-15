@@ -1,0 +1,40 @@
+title: Windows App Layer Protocol Qakbot NamedPipe
+id: 3acf8518-0f59-5c86-94e7-d9567a449720
+status: stable
+level: medium
+description: |
+  The following analytic detects a suspicious process creating or connecting to a potential Qakbot named pipe. It leverages Sysmon EventCodes 17 and 18, focusing on specific processes known to be abused by Qakbot and identifying randomly generated named pipes in GUID form. This activity is significant as Qakbot malware uses named pipes for inter-process communication after code injection, facilitating data theft. If confirmed malicious, this behavior could indicate a Qakbot infection, leading to u
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    pipename: ^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}
+    eventcode:
+      - 17
+      - 18
+    eventtype:
+      - CreatePipe
+      - ConnectPipe
+    image:
+      - '*\\calc.exe'
+      - '*\\notepad.exe'
+      - '*\\rdpclip.exe'
+      - '*\\explorer.exe'
+      - '*\\wermgr.exe'
+      - '*\\ping.exe'
+      - '*\\OneDriveSetup.exe'
+      - '*\\dxdiag.exe'
+      - '*\\mobsync.exe'
+      - '*\\msra.exe'
+      - '*\\xwizard.exe'
+  condition: selection
+tags:
+  - attack.t1071
+references:
+  - https://strontic.github.io/xcyclopedia/library/wermgr.exe-0F652BF7ADA772981E8AAB0D108FCC92.html
+  - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+  - https://www.elastic.co/security-labs/qbot-malware-analysis
+custom_attributes:
+  original_rule_id: 63a2c15e-9448-43c5-a4a8-9852266aaada
+  source_format: splunk_spl

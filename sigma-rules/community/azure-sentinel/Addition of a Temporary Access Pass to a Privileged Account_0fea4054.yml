@@ -1,0 +1,21 @@
+title: Addition of a Temporary Access Pass to a Privileged Account
+id: 2313292d-38bc-5cbc-ab56-5c348da48068
+status: stable
+level: high
+description: |
+  'Detects when a Temporary Access Pass (TAP) is created for a Privileged Account.   A Temporary Access Pass is a time-limited passcode issued by an admin that satisfies strong authentication requirements and can be used to onboard other authentication methods, including Passwordless ones such as Microsoft Authenticator or even Windows Hello.   A threat actor could use a TAP to register a new authentication method to maintain persistance to an account.   Review any TAP creations to ensure they wer
+author: Microsoft Security Research
+logsource:
+  product: windows
+detection:
+  selection:
+    OperationName: Admin registered security info
+    ResultReason: Admin registered temporary access pass method for user
+    AssignedRoles:
+      - admin
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: d7feb859-f03e-4e8d-8b21-617be0213b13
+  source_format: azure_kql

@@ -1,0 +1,31 @@
+title: Protocols passing authentication in cleartext
+id: 95ba1376-7803-52ef-8ba8-ac9c48b81c31
+status: stable
+level: medium
+description: |
+  The following analytic identifies the use of cleartext protocols that risk leaking sensitive information. It detects network traffic on legacy protocols such as Telnet (port 23), POP3 (port 110), IMAP (port 143), and non-anonymous FTP (port 21). The detection leverages the Network_Traffic data model to identify TCP traffic on these ports. Monitoring this activity is crucial as it can expose credentials and other sensitive data to interception. If confirmed malicious, attackers could capture auth
+author: Rico Valdez, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    transport: tcp
+    dest_port:
+      - 23
+      - 143
+      - 110
+      - 21
+    datamodel: Network_Traffic
+    action:
+      - blocked
+      - block
+  filter:
+    user: anonymous
+  condition: selection and not filter
+references:
+  - https://www.rackaid.com/blog/secure-your-email-and-file-transfers/
+  - https://www.infosecmatter.com/capture-passwords-using-wireshark/
+custom_attributes:
+  original_rule_id: 6923cd64-17a0-453c-b945-81ac2d8c6db9
+  source_format: splunk_spl

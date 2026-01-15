@@ -1,0 +1,25 @@
+title: Gsuite Outbound Email With Attachment To External Domain
+id: 2aefee17-51b5-583f-b194-920ae6f3a4d5
+status: stable
+level: low
+description: |
+  The following analytic detects outbound emails with attachments sent from an internal email domain to an external domain. It leverages Gsuite Gmail logs, parsing the source and destination email domains, and flags emails with fewer than 20 outbound instances. This activity is significant as it may indicate potential data exfiltration or insider threats. If confirmed malicious, an attacker could use this method to exfiltrate sensitive information, leading to data breaches and compliance violation
+author: Teoderick Contreras, Stanislav Miskovic, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    source_domain: internal_test_email.com
+    dest_domain: internal_test_email.com
+    phase: plan
+    severity: low
+  filter:
+    dest_domain: internal_test_email.com
+  condition: selection and not filter
+tags:
+  - attack.t1048.003
+references:
+  - https://www.redhat.com/en/topics/devops/what-is-devsecops
+custom_attributes:
+  original_rule_id: dc4dc3a8-ff54-11eb-8bf7-acde48001122
+  source_format: splunk_spl

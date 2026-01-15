@@ -1,0 +1,37 @@
+title: A scheduled task was created
+id: 92a6faf5-78ec-4e25-bea1-73bacc9b59d9
+status: stable
+level: low
+description: 'Indicates the creation of a scheduled task using Windows event logs.
+  Adversaries can use these to establish persistence,
+
+  move laterally, and/or escalate privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-29'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_action: scheduled-task-created
+    winlog_event_data_TaskName|contains:
+    - \\CreateExplorerShellUnelevatedTask
+    - \\Hewlett-Packard\\HPDeviceCheck
+    - \\Hewlett-Packard\\HP Support Assistant\\WarrantyChecker
+    - \\Hewlett-Packard\\HP Support Assistant\\WarrantyChecker_backup
+    - \\Hewlett-Packard\\HP Web Products Detection
+    - \\Microsoft\\VisualStudio\\Updates\\BackgroundDownload
+    - \\OneDrive Standalone Update Task-S-1-5-21*
+    - \\OneDrive Standalone Update Task-S-1-12-1-*
+    user_name|endswith: $
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1053.005
+- attack.t1053
+references:
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698
+falsepositives:
+- Legitimate scheduled tasks may be created during installation of new software.

@@ -1,0 +1,25 @@
+title: PowerShell 4104 Hunting
+id: 67941129-70e9-5c43-933c-f8631db74cc8
+status: stable
+level: low
+description: |
+  The following analytic identifies suspicious PowerShell execution using Script Block Logging (EventCode 4104). It leverages specific patterns and keywords within the ScriptBlockText field to detect potentially malicious activities. This detection is significant for SOC analysts as PowerShell is commonly used by attackers for various malicious purposes, including code execution, privilege escalation, and persistence. If confirmed malicious, this activity could allow attackers to execute arbitrary
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4104
+    fieldname: Score
+  condition: selection
+tags:
+  - attack.t1059.001
+references:
+  - https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/powershell_qualifiers.md
+  - https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba
+  - https://github.com/marcurdy/dfir-toolset/blob/master/Powershell%20Blueteam.txt
+  - https://devblogs.microsoft.com/powershell/powershell-the-blue-team/
+  - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1
+custom_attributes:
+  original_rule_id: d6f2b006-0041-11ec-8885-acde48001122
+  source_format: splunk_spl

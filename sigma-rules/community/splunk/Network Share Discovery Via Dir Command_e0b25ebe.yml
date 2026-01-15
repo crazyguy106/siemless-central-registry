@@ -1,0 +1,26 @@
+title: Network Share Discovery Via Dir Command
+id: 2eb1dace-dd27-5126-a2b0-884c2aac39ea
+status: stable
+level: low
+description: |
+  The following analytic detects access to Windows administrative SMB shares (Admin$, IPC$, C$) using the 'dir' command. It leverages Windows Security Event Logs with EventCode 5140 to identify this activity. This behavior is significant as it is commonly used by tools like PsExec/PaExec for staging binaries before creating and starting services on remote endpoints, a technique often employed by adversaries for lateral movement and remote code execution. If confirmed malicious, this activity could
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 5140
+    accessmask: 0x1
+    sharename:
+      - \\\\*\\ADMIN$
+      - \\\\*\\C$
+      - '*\\\\*\\IPC$'
+  condition: selection
+tags:
+  - attack.t1135
+references:
+  - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+custom_attributes:
+  original_rule_id: dc1457d0-1d9b-422e-b5a7-db46c184d9aa
+  source_format: splunk_spl

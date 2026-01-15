@@ -1,0 +1,20 @@
+title: GetWmiObject User Account with PowerShell
+id: 86f531c2-2586-50d8-8690-54a8c47f98db
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `powershell.exe` with command-line arguments that utilize the `Get-WmiObject` cmdlet and the `Win32_UserAccount` parameter to query local user accounts. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it may indicate an attempt by adversaries to enumerate user accounts for situational awareness or Active Directory discovery. If confirmed mali
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: powershell.exe
+  condition: selection
+tags:
+  - attack.t1087.001
+references:
+  - https://attack.mitre.org/techniques/T1087/001/
+custom_attributes:
+  original_rule_id: b44f6ac6-0429-11ec-87e9-acde48001122
+  source_format: splunk_spl

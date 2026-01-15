@@ -1,0 +1,20 @@
+title: AWS IAM Access Denied Discovery Events
+id: fb7e6c5f-ef27-56ec-ac34-a7b35c298d0b
+status: experimental
+level: low
+description: Detects excessive AccessDenied events within an hour timeframe from an IAM User
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    security_result_rule_id: AccessDenied
+    security_result_action: BLOCK
+  condition: selection
+tags:
+  - attack.t1580
+custom_attributes:
+  original_rule_id: mr_a175b0d9-4488-46cc-880a-2408cb301f41
+  source_format: chronicle_yaral

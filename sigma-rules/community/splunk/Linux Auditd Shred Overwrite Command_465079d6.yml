@@ -1,0 +1,26 @@
+title: Linux Auditd Shred Overwrite Command
+id: 818f1136-876f-5525-8068-7cc1299d7354
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the 'shred' command on a Linux machine, which is used to overwrite files to make them unrecoverable. It leverages data from Linux Auditd, focusing on process names and command-line arguments. This activity is significant because the 'shred' command can be used in destructive attacks, such as those seen in the Industroyer2 malware targeting energy facilities. If confirmed malicious, this activity could lead to the permanent destruction of critical f
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    proctitle:
+      - '*-n*'
+      - '*-z*'
+      - '*-u*'
+      - '*-s*'
+  condition: selection
+tags:
+  - attack.t1485
+references:
+  - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+  - https://cert.gov.ua/article/39518
+custom_attributes:
+  original_rule_id: ce2bde4d-a1d4-4452-8c87-98440e5adfb3
+  source_format: splunk_spl

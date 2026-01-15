@@ -1,0 +1,19 @@
+title: Suspicious Sign In by Entra ID Connect Sync Account
+id: bda136e5-a6f5-5078-b2be-16e1fab69889
+status: stable
+level: medium
+description: |
+  'This query looks for sign ins by the Microsoft Entra ID Connect Sync account to Azure where properties about the logon are anomalous. This query uses Microsoft Sentinel's UEBA features to detect these suspicious properties. A threat actor may attempt to steal the Sync account credentials and use them to access Azure resources. This alert should be  reviewed to ensure that the log in came was from a legitimate source.'
+author: Microsoft Security Community
+logsource:
+  product: azure
+detection:
+  selection:
+    ActivityType: LogOn
+    UserName|startswith: Sync_
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 2cd8b3d5-c9e0-4be3-80f7-0469d511c3f6
+  source_format: azure_kql

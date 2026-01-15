@@ -1,0 +1,42 @@
+title: Service Creation via Local Kerberos Authentication
+id: e4e31051-ee01-4307-a6ee-b21b186958f4
+status: stable
+level: high
+description: 'Identifies a suspicious local successful logon event where the Logon
+  Package is Kerberos, the remote address is set to
+
+  localhost, followed by a sevice creation from the same LogonId. This may indicate
+  an attempt to leverage a Kerberos
+
+  relay attack variant that can be used to elevate privilege locally from a domain
+  joined user to local System privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2022-04-27'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by winlog.computer_name with maxspan=5m\n [authentication\
+      \ where host.os.type == \"windows\" and\n\n  /* event 4624 need to be logged\
+      \ */\n  event.action == \"logged-in\" and event.outcome == \"success\" and winlog.event_data.ElevatedToken\
+      \ == \"%%1843\" and process.pid == 0 and \n\n  /* authenticate locally using\
+      \ relayed kerberos Ticket */\n  winlog.event_data.AuthenticationPackageName\
+      \ :\"Kerberos\" and winlog.logon.type == \"Network\" and cidrmatch(source.ip,\
+      \ \"127.0.0.0/8\", \"::1\")] by winlog.event_data.TargetLogonId\n\n  [any where\
+      \ host.os.type == \"windows\" and\n   /* event 4697 need to be logged */\n \
+      \  event.action : \"service-installed\"] by winlog.event_data.SubjectLogonId"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.privilege_escalation
+- attack.credential_access
+- attack.t1558
+- attack.t1543.003
+- attack.t1543
+references:
+- https://github.com/Dec0ne/KrbRelayUp
+- https://googleprojectzero.blogspot.com/2021/10/using-kerberos-for-authentication-relay.html
+- https://github.com/cube0x0/KrbRelay
+- https://gist.github.com/tyranid/c24cfd1bd141d14d4925043ee7e03c82

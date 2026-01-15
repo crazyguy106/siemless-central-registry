@@ -1,0 +1,23 @@
+title: IP with multiple failed Microsoft Entra ID logins successfully logs in to Palo Alto VPN
+id: eea0eb11-1023-5250-b4ca-6ada86a324d6
+status: stable
+level: medium
+description: |
+  This query creates a list of IP addresses with the number of failed login attempts to Entra ID  above a set threshold ( default of 5 ).  It then looks for any successful Palo Alto VPN logins from any of these IPs within the same timeframe.
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    DeviceVendor: Palo Alto Networks
+    Message|contains: GlobalProtect gateway user authentication succeeded
+    SourceIP:
+      - suspicious_signins
+  condition: selection
+tags:
+  - attack.t1078
+  - attack.t1110
+custom_attributes:
+  original_rule_id: ba144bf8-75b8-406f-9420-ed74397f9479
+  source_format: azure_kql

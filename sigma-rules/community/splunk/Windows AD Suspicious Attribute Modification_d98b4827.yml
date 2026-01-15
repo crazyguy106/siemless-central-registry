@@ -1,0 +1,34 @@
+title: Windows AD Suspicious Attribute Modification
+id: 7df03fca-ff9d-5651-b68b-ce9c4492e83e
+status: stable
+level: high
+description: |
+  This detection monitors changes to the following Active Directory attributes: "msDS-AllowedToDelegateTo", "msDS-AllowedToActOnBehalfOfOtherIdentity", "msDS-KeyCredentialLink", "scriptPath", and "msTSInitialProgram".  Modifications to these attributes can indicate potential malicious activity or privilege escalation attempts. Immediate investigation is recommended upon alert.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    search: search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$
+    objectclass:
+      - computer
+      - user
+    eventcode:
+      - 5136
+      - 4624
+    field: ObjectDN
+    attributeldapdisplayname:
+      - msDS-AllowedToDelegateTo
+      - msDS-AllowedToActOnBehalfOfOtherIdentity
+      - scriptPath
+      - msTSInitialProgram
+  condition: selection
+tags:
+  - attack.t1222.001
+  - attack.t1550
+references:
+  - https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+custom_attributes:
+  original_rule_id: 5682052e-ce55-4f9f-8d28-59191420b7e0
+  source_format: splunk_spl

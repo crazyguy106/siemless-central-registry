@@ -1,0 +1,23 @@
+title: AWS ECR Container Scanning Findings Medium
+id: 917fcdae-68e6-5a2c-a07a-44e99e9526b2
+status: stable
+level: medium
+description: |
+  The following analytic identifies medium-severity findings from AWS Elastic Container Registry (ECR) image scans. It leverages AWS CloudTrail logs, specifically the DescribeImageScanFindings event, to detect vulnerabilities in container images. This activity is significant for a SOC as it highlights potential security risks in containerized applications, which could be exploited if not addressed. If confirmed malicious, these vulnerabilities could lead to unauthorized access, data breaches, or f
+author: Patrick Bareiss, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventname: DescribeImageScanFindings
+    output: findings
+    input: findings
+    severity: MEDIUM
+  condition: selection
+tags:
+  - attack.t1204.003
+references:
+  - https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
+custom_attributes:
+  original_rule_id: 0b80e2c8-c746-4ddb-89eb-9efd892220cf
+  source_format: splunk_spl

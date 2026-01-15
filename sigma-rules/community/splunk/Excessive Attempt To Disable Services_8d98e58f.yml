@@ -1,0 +1,24 @@
+title: Excessive Attempt To Disable Services
+id: 3bba267d-a70e-5a43-8811-76e726e090d3
+status: stable
+level: medium
+description: |
+  The following analytic identifies a suspicious series of command-line executions attempting to disable multiple services. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on processes where "sc.exe" is used with parameters like "config" or "Disabled" within a short time frame. This activity is significant as it may indicate an adversary's attempt to disable security or other critical services to further compromise the system. If confirmed malicious, this could lead t
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process_name: sc.exe
+    process:
+      - '*config*'
+      - '*Disabled*'
+    span: 1m
+  condition: selection
+tags:
+  - attack.t1489
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: 8fa2a0f0-acd9-11eb-8994-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: Hunt for Expired Tokens Attempting to sign-in to Entra ID
+id: e195761f-9fc3-5f6e-955d-3d1b308c9a9d
+status: experimental
+level: low
+description: |
+  Identify Entra ID OAuth refresh tokens are attempted to be used but have expired. This could be because the token hasn't been used for 90 days or it has been revoked
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_name: Azure Activity
+    metadata_product_event_type: Sign-in activity
+    metadata_vendor_name: Microsoft
+    security_result_action: BLOCK
+    metadata_description: Fresh auth token is needed. Have the user re-sign using fresh credentials.
+    security_result_action_details: 50173
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_88826f0a-e964-4d11-8765-8732ae83b1f1
+  source_format: chronicle_yaral

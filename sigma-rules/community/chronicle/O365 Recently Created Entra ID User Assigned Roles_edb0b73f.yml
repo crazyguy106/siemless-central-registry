@@ -1,0 +1,27 @@
+title: O365 Recently Created Entra ID User Assigned Roles
+id: 69042040-f6d8-50d8-a1ec-f53da27cee83
+status: experimental
+level: medium
+description: Detects when a user is created in Entra ID and assigned roles within a defined time window.
+author: Google Cloud Security
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    metadata_event_type:
+      - USER_CREATION
+      - USER_UNCATEGORIZED
+    metadata_product_event_type:
+      - Add user.
+      - Add member to role.
+    metadata_product_name:
+      - Office 365
+      - Office 365
+    security_result_action:
+      - ALLOW
+      - ALLOW
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_c0406a96-4ed1-4dd2-9629-aa5a2c881222
+  source_format: chronicle_yaral

@@ -1,0 +1,19 @@
+title: Upcomming End of Support software used
+id: e30a981f-d34f-4aaa-b52b-9553ca108b69
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Upcomming End of Support software used
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSoftwareInventory
+| where EndOfSupportStatus == "Upcoming EOS Version"
+| project DeviceName, OSPlatform, OSArchitecture, SoftwareVendor, 
+SoftwareName, SoftwareVersion, EndOfSupportDate
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

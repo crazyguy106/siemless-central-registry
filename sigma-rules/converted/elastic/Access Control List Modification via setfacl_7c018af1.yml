@@ -1,0 +1,26 @@
+title: Access Control List Modification via setfacl
+id: 999565a2-fc52-4d72-91e4-ba6712c0377e
+status: stable
+level: low
+description: This rule detects Linux Access Control List (ACL) modification via the
+  setfacl command.
+author: Elastic (converted by SIEMLess)
+date: '2024-08-23'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: setfacl
+    process_command_line: /bin/setfacl --restore=-
+    process_args: /var/log/journal/
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1222.002
+- attack.t1222
+references:
+- https://www.uptycs.com/blog/threat-research-report-team/evasive-techniques-used-by-malicious-linux-shell-scripts

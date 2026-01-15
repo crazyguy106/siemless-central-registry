@@ -1,0 +1,19 @@
+title: GCP_Uunauthorized_GKE_Pod_Token_Endpoint_Usage
+id: f46e036d-2877-515a-88a5-b45783673856
+status: experimental
+level: medium
+description: |
+  Alerts when an authorization token originating from GKE activity is subsequently used within a command line on an endpoint system, suggesting potential credential exfiltration and reuse.
+author: Drew Pilarski - Tempus AI
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    metadata_vendor_name: Google
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_base_labels_log_types: KUBERNETES_NODE
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_c9a0cb63-0e35-45eb-8b43-ae48385985dc
+  source_format: chronicle_yaral

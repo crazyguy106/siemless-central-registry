@@ -1,0 +1,34 @@
+title: AWS WAF - Multiple Blocked request.
+id: a811f644-32cf-5129-a844-963007b87baa
+status: stable
+level: high
+description: AWS WAF - Multiple Blocked request.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-80442
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80443
+  wazuh_level: 10

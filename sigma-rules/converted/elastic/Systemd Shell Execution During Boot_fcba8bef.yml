@@ -1,0 +1,33 @@
+title: Systemd Shell Execution During Boot
+id: 0b76ad27-c3f3-4769-9e7e-3237137fdf06
+status: stable
+level: medium
+description: 'This rule detects the execution of shell commands by systemd during
+  the boot process on Linux systems. Systemd
+
+  is a system and service manager for Linux operating systems. Attackers may execute
+  shell commands during the
+
+  boot process to maintain persistence on the system. This may be a sign of malicious
+  systemd services, initramfs
+
+  or GRUB bootloader manipulation, or other persistence mechanisms.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-01-22'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: info
+    event_action: already_running
+    process_parent_name: systemd
+    process_parent_command_line: /sbin/init
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1543.002
+- attack.t1543

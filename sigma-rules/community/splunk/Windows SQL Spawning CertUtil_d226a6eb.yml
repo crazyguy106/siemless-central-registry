@@ -1,0 +1,28 @@
+title: Windows SQL Spawning CertUtil
+id: c45dda72-4f0c-5658-ba99-79d6367b86f5
+status: experimental
+level: high
+description: |
+  The following analytic detects the use of certutil to download software, specifically when spawned by SQL-related processes. This detection leverages Endpoint Detection and Response (EDR) data, focusing on command-line executions involving certutil with parameters like *urlcache* and *split*. This activity is significant as it may indicate a compromise by threat actors, such as Flax Typhoon, who use certutil to establish persistent VPN connections. If confirmed malicious, this behavior could all
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*urlcache*'
+      - '*verifyctl*'
+    parent_process_name:
+      - sqlservr.exe
+      - sqlagent.exe
+      - sqlps.exe
+      - launchpad.exe
+      - sqldumper.exe
+  condition: selection
+tags:
+  - attack.t1105
+references:
+  - https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/
+custom_attributes:
+  original_rule_id: dfc18a5a-946e-44ee-a373-c0f60d06e676
+  source_format: splunk_spl

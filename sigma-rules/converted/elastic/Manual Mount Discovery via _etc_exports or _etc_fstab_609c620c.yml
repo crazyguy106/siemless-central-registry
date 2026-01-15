@@ -1,0 +1,26 @@
+title: Manual Mount Discovery via /etc/exports or /etc/fstab
+id: bd18f4a3-c4c6-43b9-a1e4-b05e09998110
+status: stable
+level: low
+description: 'This rule detects manual mount discovery via the /etc/exports or /etc/fstab
+  file on Linux systems. These files are used
+
+  by NFS (Network File System) to define which directories are shared with remote
+  hosts. Attackers may access this
+
+  file to gather information about shared directories and potential targets for further
+  exploitation.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-25'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1082

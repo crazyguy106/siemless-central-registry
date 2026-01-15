@@ -1,0 +1,22 @@
+title: Disable Internal Tools or Feature in Registry
+id: 4edc1b10-14f0-508d-bbd8-1e56e63b3bcc
+status: experimental
+level: medium
+description: |
+  Detects registry modifications that change features of internal Windows tools (malware like Agent Tesla uses this technique)
+author: frack113, Nasreddine Bencherchali (Nextron Systems), CrimpSec
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    metadata_event_type: REGISTRY_MODIFICATION
+    target_registry_registry_value_data:
+      - DWORD (0x00000001)
+      - DWORD (0x00000000)
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_disable_function_user.yml
+custom_attributes:
+  original_rule_id: mr_5840c962-0e51-47e6-9941-d143ebaae00d
+  source_format: chronicle_yaral

@@ -1,0 +1,38 @@
+title: AWS Lambda Function Policy Updated to Allow Public Invocation
+id: 151d8f72-0747-11ef-a0c2-f661ea17fbcc
+status: stable
+level: medium
+description: 'Identifies when an AWS Lambda function policy is updated to allow public
+  invocation. This rule specifically looks for
+
+  the `AddPermission` API call with the `Principal` set to `*` which allows any AWS
+  account to invoke the Lambda function.
+
+  Adversaries may abuse this permission to create a backdoor in the Lambda function
+  that allows them to execute arbitrary
+
+  code.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-30'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: lambda.amazonaws.com
+    event_outcome: success
+    event_action: AddPermission*
+    aws_cloudtrail_request_parameters: (*lambda\:InvokeFunction*
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1546
+references:
+- https://cloud.hacktricks.xyz/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence
+- https://stratus-red-team.cloud/attack-techniques/AWS/aws.persistence.lambda-backdoor-function/
+- https://docs.aws.amazon.com/lambda/latest/api/API_AddPermission.html
+falsepositives:
+- Lambda function owners may legitimately update the function policy to allow public
+  invocation.

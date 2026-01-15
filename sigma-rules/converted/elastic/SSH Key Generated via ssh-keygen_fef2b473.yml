@@ -1,0 +1,40 @@
+title: SSH Key Generated via ssh-keygen
+id: 7df3cb8b-5c0c-4228-b772-bb6cd619053c
+status: stable
+level: low
+description: 'This rule identifies the creation of SSH keys using the ssh-keygen tool,
+  which is the standard utility for generating
+
+  SSH keys. Users often create SSH keys for authentication with remote services. However,
+  threat actors can exploit this
+
+  tool to move laterally across a network or maintain persistence by generating unauthorized
+  SSH keys, granting them SSH
+
+  access to systems.'
+author: Elastic (converted by SIEMLess)
+date: '2024-05-31'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    process_executable: /usr/bin/ssh-keygen
+    file_path|contains:
+    - /home/*/.ssh/*
+    - /root/.ssh/*
+    - /etc/ssh/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.lateral_movement
+- attack.t1098
+- attack.t1098.004
+- attack.t1021.004
+- attack.t1021
+- attack.t1563
+- attack.t1563.001
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

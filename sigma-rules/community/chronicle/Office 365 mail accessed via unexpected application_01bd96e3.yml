@@ -1,0 +1,20 @@
+title: Office 365 mail accessed via unexpected application
+id: 5d0cb364-2e3d-5a85-939b-b926638068fd
+status: experimental
+level: medium
+description: Detect mail items accessed via API through an unapproved Entra ID application.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: EMAIL_UNCATEGORIZED
+    metadata_product_event_type: MailItemsAccessed
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+    network_http_user_agent: Client=REST;
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_c8d8368c-db01-4903-a81f-bab51fc1a732
+  source_format: chronicle_yaral

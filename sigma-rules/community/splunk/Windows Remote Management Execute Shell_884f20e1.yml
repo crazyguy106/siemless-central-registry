@@ -1,0 +1,24 @@
+title: Windows Remote Management Execute Shell
+id: 68789934-d94f-5c19-86ec-96418e18bf49
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of winrshost.exe initiating CMD or PowerShell processes as part of a potential payload execution. winrshost.exe is associated with Windows Remote Management (WinRM) and is typically used for remote execution. By monitoring for this behavior, the detection identifies instances where winrshost.exe is leveraged to run potentially malicious commands or payloads via CMD or PowerShell. This behavior may indicate exploitation of remote management tools for u
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    parent_process_name: winrshost.exe
+    process_name:
+      - cmd.exe
+      - '*powershell*'
+      - pwsh.exe
+  condition: selection
+tags:
+  - attack.t1021.006
+references:
+  - https://strontic.github.io/xcyclopedia/library/winrshost.exe-6790044CEB4BA5BE6AA8161460D990FD.html
+custom_attributes:
+  original_rule_id: 28b80028-851d-4b8d-88a5-375ba115418a
+  source_format: splunk_spl

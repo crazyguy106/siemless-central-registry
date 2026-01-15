@@ -1,0 +1,48 @@
+title: SMB Connections via LOLBin or Untrusted Process
+id: c82c7d8f-fb9e-4874-a4bd-fd9e3f9becf1
+status: stable
+level: medium
+description: 'Identifies potentially suspicious processes that are not trusted or
+  living-off-the-land binaries (LOLBin) making Server
+
+  Message Block (SMB) network connections over port 445. Windows File Sharing is typically
+  implemented over SMB, which
+
+  communicates between hosts using port 445. Legitimate connections are generally
+  established by the kernel (PID 4). This
+
+  rule helps to detect processes that might be port scanners, exploits, or user-level
+  processes attempting lateral
+
+  movement within the network by leveraging SMB connections.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-02-04'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id with maxspan=1m\n\n  /* first sequence\
+      \ to capture the start of Windows processes */\n  [process where host.os.type\
+      \ == \"windows\" and event.type == \"start\" and process.pid != 4 and\n\n  \
+      \  /* ignore NT Authority and Network Service accounts */\n    not user.id in\
+      \ (\"S-1-5-19\", \"S-1-5-20\") and\n\n    /* filter out anything trusted but\
+      \ not from Microsoft */\n    /* LOLBins will be inherently trusted and signed,\
+      \ so ignore everything else trusted */\n    not (process.code_signature.trusted\
+      \ == true and not startsWith(process.code_signature.subject_name, \"Microsoft\"\
+      )) and\n\n    /* filter out PowerShell scripts from Windows Defender ATP */\n\
+      \    not (\n      process.name : \"powershell.exe\" and\n      process.args\
+      \ :\"?:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection\\\
+      \\Downloads\\\\PSScript_*.ps1\")]\n\n  /* second sequence to capture network\
+      \ connections over port 445 related to SMB */\n  [network where host.os.type\
+      \ == \"windows\" and destination.port == 445 and process.pid != 4]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.t1021
+- attack.t1021.002
+references:
+- https://www.elastic.co/security-labs/elastic-protects-against-data-wiper-malware-targeting-ukraine-hermeticwiper
+- https://www.elastic.co/security-labs/hunting-for-lateral-movement-using-event-query-language

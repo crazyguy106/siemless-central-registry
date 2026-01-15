@@ -1,0 +1,37 @@
+title: AdminSDHolder Backdoor
+id: 6e9130a5-9be6-48e5-943a-9628bfc74b18
+status: stable
+level: high
+description: 'Detects modifications in the AdminSDHolder object. Attackers can abuse
+  the SDProp process to implement a persistent
+
+  backdoor in Active Directory. SDProp compares the permissions on protected objects
+  with those defined on the
+
+  AdminSDHolder object. If the permissions on any of the protected accounts and groups
+  do not match, the permissions on
+
+  the protected accounts and groups are reset to match those of the domain''s AdminSDHolder
+  object, regaining their
+
+  Administrative Privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2022-01-31'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_code: '5136'
+    host_os_type: windows
+    winlog_event_data_ObjectDN: CN=AdminSDHolder,CN=System*
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+- attack.t1078.002
+- attack.t1078
+references:
+- https://adsecurity.org/?p=1906
+- https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory#adminsdholder

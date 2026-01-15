@@ -1,0 +1,23 @@
+title: 'CIS-CAT: $(cis.rule_title) (error)'
+id: c5704190-2c0c-5726-9048-5d3e370c6dca
+status: stable
+level: low
+description: 'CIS-CAT: $(cis.rule_title) (error)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    type: ^scan_result$
+    cis.result: ^error$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87401, 87402
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87412
+  wazuh_level: 3

@@ -1,0 +1,29 @@
+title: Windows Access Token Winlogon Duplicate Handle In Uncommon Path
+id: 9553ec55-8326-574d-b900-499adb36a8a0
+status: stable
+level: medium
+description: |
+  The following analytic detects a process attempting to duplicate the handle of winlogon.exe from an uncommon or public source path. This is identified using Sysmon EventCode 10, focusing on processes targeting winlogon.exe with specific access rights and excluding common system paths. This activity is significant because it may indicate an adversary trying to escalate privileges by leveraging the high-privilege tokens associated with winlogon.exe. If confirmed malicious, this could allow the att
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 10
+    grantedaccess: 0x1040
+    targetimage:
+      - '*\\system32\\winlogon.exe*'
+      - '*\\SysWOW64\\winlogon.exe*'
+    sourceimage:
+      - 'C:\\Windows\\*'
+      - 'C:\\Program File*'
+      - '%systemroot%\\*'
+  condition: selection
+tags:
+  - attack.t1134.001
+references:
+  - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
+  - https://attack.mitre.org/techniques/T1134/001/
+custom_attributes:
+  original_rule_id: b8f7ed6b-0556-4c84-bffd-839c262b0278
+  source_format: splunk_spl

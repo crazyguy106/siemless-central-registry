@@ -1,0 +1,33 @@
+title: Unix Socket Connection
+id: 41284ba3-ed1a-4598-bfba-a97f75d9aba2
+status: stable
+level: low
+description: 'This rule monitors for inter-process communication via Unix sockets.
+  Adversaries may attempt to communicate with local
+
+  Unix sockets to enumerate application details, find vulnerabilities/configuration
+  mistakes and potentially escalate
+
+  privileges or set up malicious communication channels via Unix sockets for inter-process
+  communication to attempt to
+
+  evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-04'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_args: /var/run/libvirt/libvirt-sock
+    process_name: curl
+    process_args|contains:
+    - --unix-socket
+    - --abstract-unix-socket
+  condition: selection
+tags:
+- attack.execution
+- attack.t1559

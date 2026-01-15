@@ -1,0 +1,42 @@
+title: Kernel Load or Unload via Kexec Detected
+id: 4d4c35f4-414e-4d0c-bb7e-6db7c80a6957
+status: stable
+level: medium
+description: 'This detection rule identifies the usage of kexec, helping to uncover
+  unauthorized kernel replacements and potential
+
+  compromise of the system''s integrity. Kexec is a Linux feature that enables the
+  loading and execution of a different
+
+  kernel without going through the typical boot process. Malicious actors can abuse
+  kexec to bypass security measures,
+
+  escalate privileges, establish persistence or hide their activities by loading a
+  malicious kernel, enabling them to
+
+  tamper with the system''s trusted state, allowing e.g. a VM Escape.'
+author: Elastic (converted by SIEMLess)
+date: '2023-06-09'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: kexec
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1601.001
+- attack.t1601
+- attack.t1547
+- attack.t1611
+- attack.t1547.006
+references:
+- https://www.crowdstrike.com/blog/venom-vulnerability-details/
+- https://www.makeuseof.com/what-is-venom-vulnerability/
+- https://madaidans-insecurities.github.io/guides/linux-hardening.html

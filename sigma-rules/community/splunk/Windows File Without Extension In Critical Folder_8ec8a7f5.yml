@@ -1,0 +1,24 @@
+title: Windows File Without Extension In Critical Folder
+id: 5ecee5cb-8c15-58c0-a097-b50ddcac1da3
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of files without extensions in critical folders like "System32\Drivers." It leverages data from the Endpoint.Filesystem datamodel, focusing on file paths and creation times. This activity is significant as it may indicate the presence of destructive malware, such as HermeticWiper, which drops driver components in these directories. If confirmed malicious, this behavior could lead to severe system compromise, including boot sector wiping, resulting in p
+author: Teoderick Contreras, Bhavin Patel, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    field: file_name
+    file_path:
+      - '*\\System32\\drivers\\*'
+      - '*\\syswow64\\drivers\\*'
+  condition: selection
+tags:
+  - attack.t1485
+references:
+  - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
+custom_attributes:
+  original_rule_id: 0dbcac64-963c-11ec-bf04-acde48001122
+  source_format: splunk_spl

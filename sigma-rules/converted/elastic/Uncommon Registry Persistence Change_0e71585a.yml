@@ -1,0 +1,96 @@
+title: Uncommon Registry Persistence Change
+id: 54902e45-3467-49a4-8abc-529f2c8cfb80
+status: stable
+level: medium
+description: 'Detects changes to registry persistence keys that are not commonly used
+  or modified by legitimate programs. This could
+
+  be an indication of an adversary''s attempt to persist in a stealthy manner.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Terminal Server\\Install\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\*
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Terminal Server\\Install\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Runonce\\*
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\Load
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\Run
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\IconServiceLib
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\AppSetup
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Taskman
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\VmApplet
+    - HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*
+    - HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Shell
+    - HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Logoff\\Script
+    - HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Logon\\Script
+    - HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Shutdown\\Script
+    - HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Startup\\Script
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Shell
+    - HKEY_USERS\\*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Logoff\\Script
+    - HKEY_USERS\\*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Logon\\Script
+    - HKEY_USERS\\*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Shutdown\\Script
+    - HKEY_USERS\\*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\Scripts\\Startup\\Script
+    - HKLM\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\*\\ShellComponent
+    - HKLM\\SOFTWARE\\Microsoft\\Windows CE Services\\AutoStartOnConnect\\MicrosoftActiveSync
+    - HKLM\\SOFTWARE\\Microsoft\\Windows CE Services\\AutoStartOnDisconnect\\MicrosoftActiveSync
+    - HKLM\\SOFTWARE\\Microsoft\\Ctf\\LangBarAddin\\*\\FilePath
+    - HKLM\\SOFTWARE\\Microsoft\\Internet Explorer\\Extensions\\*\\Exec
+    - HKLM\\SOFTWARE\\Microsoft\\Internet Explorer\\Extensions\\*\\Script
+    - HKLM\\SOFTWARE\\Microsoft\\Command Processor\\Autorun
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Ctf\\LangBarAddin\\*\\FilePath
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Internet Explorer\\Extensions\\*\\Exec
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Internet Explorer\\Extensions\\*\\Script
+    - HKEY_USERS\\*\\SOFTWARE\\Microsoft\\Command Processor\\Autorun
+    - HKEY_USERS\\*\\Control Panel\\Desktop\\scrnsave.exe
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution
+      Options\\*\\VerifierDlls
+    - HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\GpExtensions\\*\\DllName
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\SafeBoot\\AlternateShell
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Terminal Server\\Wds\\rdpwd\\StartupPrograms
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Session Manager\\BootExecute
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Session Manager\\BootExecuteNoPnpSync
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Session Manager\\SetupExecute
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Session Manager\\SetupExecuteNoPnpSync
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Session Manager\\PlatformExecute
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Session Manager\\Execute
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\Session Manager\\S0InitialCommand
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\ServiceControlManagerExtension
+    - HKLM\\SYSTEM\\ControlSet*\\Control\\BootVerificationProgram\\ImagePath
+    - HKLM\\SYSTEM\\Setup\\CmdLine
+    - HKEY_USERS\\*\\Environment\\UserInitMprLogonScript
+    registry_data_strings|contains:
+    - '%windir%\\system32\\rundll32.exe user32.dll,LockWorkStation'
+    - scrnsave.scr
+    - '%windir%\\system32\\Ribbons.scr'
+    process_executable|contains:
+    - C:\\Windows\\System32\\msiexec.exe
+    - C:\\Windows\\SysWOW64\\msiexec.exe
+    - C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*\\MsMpEng.exe
+    - C:\\Program Files\\*.exe
+    process_name|contains:
+    - TiWorker.exe
+    - poqexec.exe
+    registry_path|endswith: \\Software\\Microsoft\\Internet Explorer\\Extensions\\*\\Script
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1546
+- attack.t1547.001
+- attack.t1547
+- attack.t1112
+- attack.t1546.002
+references:
+- https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2
+- https://github.com/rad9800/BootExecuteEDR

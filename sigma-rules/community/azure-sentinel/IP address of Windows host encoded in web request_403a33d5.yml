@@ -1,0 +1,19 @@
+title: IP address of Windows host encoded in web request
+id: 9dc9026c-f10d-528b-a1a9-822d36402e86
+status: stable
+level: medium
+description: |
+  'This detection will identify network requests in HTTP proxy data that contains Base64 encoded IP addresses. After identifying candidates the query joins with DeviceNetworkEvents to idnetify any machine within the network using that IP address. Alerts indicate that the IP address of a machine within your network was seen with it's IP address base64 encoded in an outbound web request. This method of egressing the IP was seen used in POLONIUM's RunningRAT tool, however the detection is generic.'
+author: Thomas McElroy
+logsource:
+  product: windows
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1041
+  - attack.t1071.001
+custom_attributes:
+  original_rule_id: a4ce20ae-a2e4-4d50-b40d-d49f1353b6cc
+  source_format: azure_kql

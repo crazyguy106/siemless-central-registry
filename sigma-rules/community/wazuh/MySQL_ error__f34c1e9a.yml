@@ -1,0 +1,22 @@
+title: 'MySQL: error.'
+id: 92958134-655b-5874-a372-fc43b6f2f1ef
+status: stable
+level: low
+description: 'MySQL: error.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '^MySQL log: \d+ \S+ \d+ [ERROR]'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-50100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-50125
+  wazuh_level: 5

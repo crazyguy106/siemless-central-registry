@@ -1,0 +1,25 @@
+title: Windows DNS Query Request by Telegram Bot API
+id: 96862ce2-8e5c-59d3-ad25-09d1ce4da738
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of a DNS query by a process to the associated Telegram API domain, which could indicate access via a Telegram bot commonly used by malware for command and control (C2) communications. By monitoring DNS queries related to Telegram's infrastructure, the detection identifies potential attempts to establish covert communication channels between a compromised system and external malicious actors. This behavior is often observed in cyberattacks where Telegr
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    query: api.telegram.org
+    eventcode: 22
+  filter:
+    process_name: telegram.exe
+  condition: selection and not filter
+tags:
+  - attack.t1071.004
+  - attack.t1102.002
+references:
+  - https://www.splunk.com/en_us/blog/security/threat-advisory-telegram-crypto-botnet-strt-ta01.html
+custom_attributes:
+  original_rule_id: 86f66f44-94d9-412d-a71d-5d8ed0fef72e
+  source_format: splunk_spl

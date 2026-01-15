@@ -1,0 +1,22 @@
+title: Linux Deletion Of Cron Jobs
+id: 7b365629-2fcd-59e9-b2be-417df7d1b515
+status: stable
+level: medium
+description: |
+  The following analytic detects the deletion of cron jobs on a Linux machine. It leverages filesystem event logs to identify when files within the "/etc/cron.*" directory are deleted. This activity is significant because attackers or malware may delete cron jobs to disable scheduled security tasks or evade detection mechanisms. If confirmed malicious, this action could allow an attacker to disrupt system operations, evade security measures, or facilitate further malicious activities such as data 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    file_path: /etc/cron.*
+    action: deleted
+  condition: selection
+tags:
+  - attack.t1070.004
+  - attack.t1485
+references:
+  - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+custom_attributes:
+  original_rule_id: 3b132a71-9335-4f33-9932-00bb4f6ac7e8
+  source_format: splunk_spl

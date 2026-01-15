@@ -1,0 +1,22 @@
+title: 'Docker: $(docker.Actor.Attributes.name) config deleted'
+id: 3e12a278-0fc5-5a76-9665-bc2fe41010ea
+status: stable
+level: low
+description: 'Docker: $(docker.Actor.Attributes.name) config deleted'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^remove$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87936
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87938
+  wazuh_level: 5

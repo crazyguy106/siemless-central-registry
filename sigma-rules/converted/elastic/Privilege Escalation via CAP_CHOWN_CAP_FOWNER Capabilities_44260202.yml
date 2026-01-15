@@ -1,0 +1,37 @@
+title: Privilege Escalation via CAP_CHOWN/CAP_FOWNER Capabilities
+id: d55abdfb-5384-402b-add4-6c401501b0c3
+status: stable
+level: medium
+description: 'Identifies instances where a processes (granted CAP_CHOWN and/or CAP_FOWNER
+  capabilities) is executed, after which the
+
+  ownership of a suspicious file or binary is changed. In Linux, the CAP_CHOWN capability
+  allows a process to change the
+
+  owner of a file, while CAP_FOWNER permits it to bypass permission checks on operations
+  that require file ownership (like
+
+  reading, writing, and executing). Attackers may abuse these capabilities to obtain
+  unauthorized access to files.'
+author: Elastic (converted by SIEMLess)
+date: '2024-01-08'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.pid with maxspan=1s\n  [process where\
+      \ host.os.type == \"linux\" and event.type == \"start\" and event.action ==\
+      \ \"exec\" and\n   process.name != null and process.thread.capabilities.effective\
+      \ : (\"CAP_CHOWN\", \"CAP_FOWNER\") and\n   process.command_line : (\"*sudoers*\"\
+      , \"*passwd*\", \"*shadow*\", \"*/root/*\") and user.id != \"0\"]\n  [file where\
+      \ host.os.type == \"linux\" and event.action == \"changed-file-ownership-of\"\
+      \ and event.type == \"change\" and\n   event.outcome == \"success\" and file.path\
+      \ in (\n     \"/etc/passwd\",\n     \"/etc/shadow\",\n     \"/etc/sudoers\"\
+      ,\n     \"/root/.ssh/*\"\n   ) and user.id != \"0\"\n  ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.privilege_escalation
+- attack.t1068

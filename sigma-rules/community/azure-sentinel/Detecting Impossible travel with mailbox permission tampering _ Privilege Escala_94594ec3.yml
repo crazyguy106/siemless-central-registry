@@ -1,0 +1,25 @@
+title: Detecting Impossible travel with mailbox permission tampering & Privilege Escalation attempt
+id: f7607df1-0fd4-55c5-8cf5-9cf3c7bfcae4
+status: stable
+level: medium
+description: |
+  'This hunting query will alert on any Impossible travel activity in correlation with mailbox permission tampering followed by account being added to a PIM managed privileged group. Ensure this impossible travel incident with increase of privileges is legitimate in your environment.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    AlertName: Impossible travel activity
+    ResultStatus: 'True'
+    Operation: Add-MailboxPermission
+    ActivityDisplayName: Add eligible member to role in PIM requested (timebound)
+    AADOperationType: CreateRequestEligibleRole
+    value:
+      - FullAccess
+  condition: selection
+tags:
+  - attack.t1078
+  - attack.t1548
+custom_attributes:
+  original_rule_id: 1399664f-9434-497c-9cde-42e4d74ae20e
+  source_format: azure_kql

@@ -1,0 +1,25 @@
+title: Failed AWS Console logons but success logon to AzureAD
+id: dcb64b15-e45b-5e5a-b0fc-c140e8bd5825
+status: stable
+level: medium
+description: |
+  'Identifies a list of IP addresses with a minimum number (default of 5) of failed logon attempts to AWS Console. Uses that list to identify any successful Microsoft Entra ID logons from these IPs within the same timeframe.'
+author: Microsoft Security Research
+logsource:
+  product: aws
+detection:
+  selection:
+    EventName: ConsoleLogin
+    ResultType:
+      - 0
+      - 50125
+      - 50140
+    IPAddress:
+      - aws_fails
+  condition: selection
+tags:
+  - attack.t1078
+  - attack.t1110
+custom_attributes:
+  original_rule_id: 910124df-913c-47e3-a7cd-29e1643fa55e
+  source_format: azure_kql

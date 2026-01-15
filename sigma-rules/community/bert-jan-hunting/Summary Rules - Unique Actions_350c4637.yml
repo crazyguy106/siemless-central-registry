@@ -1,0 +1,27 @@
+title: Summary Rules - Unique Actions
+id: 7ff0bdc9-f29f-4375-88f9-9d0194b4abd4
+status: experimental
+level: medium
+description: |
+  This summary rule saves all unique actions and how often they appear in your environment to the custom table or your choice.
+
+This allows for easy retrieval of statistics and trends on how many unique actions are found in the environment each day.
+
+**Recommended Schedule:** 24 hours.
+
+**Recommended Delay:** 60 minutes.
+author: Bert-JanP
+logsource:
+  product: azure_sentinel
+  service: kql
+detection:
+  _kql_query: |
+    union * 
+| extend Action = coalesce(Operation, OperationName, OperationNameValue, ActionType) 
+| where isnotempty(Action) 
+| summarize TotalEvents = count() by Type, Action
+| extend RetrievalDate = StartDate
+| sort by Type
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

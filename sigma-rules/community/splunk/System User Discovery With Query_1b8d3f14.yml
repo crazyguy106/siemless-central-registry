@@ -1,0 +1,24 @@
+title: System User Discovery With Query
+id: 5af216a4-c9ca-5ffa-bba9-9eefe66d90a5
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `query.exe` with command-line arguments aimed at discovering logged-in users. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as adversaries may use `query.exe` to gain situational awareness and perform Active Directory discovery on compromised endpoints. If confirmed malicious, this behavior could allow attackers to identify active users, aidin
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process_name: query.exe
+    original_file_name: query.exe
+    process:
+      - '*/server:localhost*'
+      - '*/server:127.0.0.1*'
+  condition: selection
+tags:
+  - attack.t1033
+references:
+  - https://attack.mitre.org/techniques/T1033/
+custom_attributes:
+  original_rule_id: ad03bfcf-8a91-4bc2-a500-112993deba87
+  source_format: splunk_spl

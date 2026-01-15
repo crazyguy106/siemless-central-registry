@@ -1,0 +1,22 @@
+title: Windows Service Stop By Deletion
+id: e2e67c20-bb15-5a58-93b4-49738fdaac9f
+status: stable
+level: high
+description: |
+  The following analytic detects the use of `sc.exe` to delete a Windows service. It leverages Endpoint Detection and Response (EDR) data, focusing on process execution logs that capture command-line arguments. This activity is significant because adversaries often delete services to disable security mechanisms or critical system functions, aiding in evasion and persistence. If confirmed malicious, this action could lead to the termination of essential security services, allowing attackers to oper
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '* delete *'
+  condition: selection
+tags:
+  - attack.t1489
+references:
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md
+custom_attributes:
+  original_rule_id: 196ff536-58d9-4d1b-9686-b176b04e430b
+  source_format: splunk_spl

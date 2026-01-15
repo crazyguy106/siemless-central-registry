@@ -1,0 +1,18 @@
+title: Common Ransomware Notes
+id: f0903c3d-9616-59b1-a25e-dd98780d8874
+status: stable
+level: low
+description: |
+  The following analytic detects the creation of files with names commonly associated with ransomware notes. It leverages file-system activity data from the Endpoint Filesystem data model, typically populated by endpoint detection and response (EDR) tools or Sysmon logs. This activity is significant because ransomware notes indicate a potential ransomware attack, which can lead to data encryption and extortion. If confirmed malicious, this activity could result in significant data loss, operationa
+author: David Dorsey, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1485
+custom_attributes:
+  original_rule_id: ada0f478-84a8-4641-a3f1-d82362d6bd71
+  source_format: splunk_spl

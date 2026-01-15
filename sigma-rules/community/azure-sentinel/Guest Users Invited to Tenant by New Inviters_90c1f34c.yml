@@ -1,0 +1,23 @@
+title: Guest Users Invited to Tenant by New Inviters
+id: a9ec89c0-b0e8-5da4-af79-8316d21fe4b6
+status: stable
+level: medium
+description: |
+  'Detects when a Guest User is added by a user account that has not been seen adding a guest in the previous 14 days.   Monitoring guest accounts and the access they are provided is important to detect potential account abuse.   Accounts added should be investigated to ensure the activity was legitimate.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-user-accounts#monitoring-for-failed-unusual-sign-ins'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    OperationName:
+      - Invite external user
+      - Invite external user
+    Result:
+      - success
+      - success
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 572e75ef-5147-49d9-9d65-13f2ed1e3a86
+  source_format: azure_kql

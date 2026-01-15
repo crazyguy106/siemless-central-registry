@@ -1,0 +1,36 @@
+title: Windows Sandbox with Sensitive Configuration
+id: 56d9cf6c-46ea-4019-9c7f-b1fdb855fee3
+status: stable
+level: medium
+description: 'Identifies Windows sanfbox processes indicating the start of a new container
+  with sensitive configurations like write
+
+  access to the host file system, network connection and automatic execution via logon
+  command. Malware may abuse the
+
+  sandbox feature to evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-14'
+modified: '2025-07-07'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - wsb.exe
+    - WindowsSandboxClient.exe
+    process_command_line|contains:
+    - '*<Networking>Enable</Networking>*'
+    - '*<HostFolder>C:\\*<ReadOnly>false*'
+    - '*<LogonCommand>*'
+    - '*<NetworkingEnabled>true*'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1564.006
+- attack.t1564
+references:
+- https://blog-en.itochuci.co.jp/entry/2025/03/12/140000

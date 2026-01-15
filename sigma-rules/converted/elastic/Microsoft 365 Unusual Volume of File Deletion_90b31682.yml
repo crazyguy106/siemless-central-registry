@@ -1,0 +1,28 @@
+title: Microsoft 365 Unusual Volume of File Deletion
+id: b2951150-658f-4a60-832f-a00d1e6c6745
+status: stable
+level: medium
+description: Identifies that a user has deleted an unusually large volume of files
+  as reported by Microsoft Cloud App Security.
+author: Elastic (converted by SIEMLess)
+date: '2021-07-15'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: SecurityComplianceCenter
+    event_category: web
+    event_action: Unusual
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+references:
+- https://docs.microsoft.com/en-us/cloud-app-security/anomaly-detection-policy
+- https://docs.microsoft.com/en-us/cloud-app-security/policy-template-reference
+falsepositives:
+- Users or System Administrator cleaning out folders.

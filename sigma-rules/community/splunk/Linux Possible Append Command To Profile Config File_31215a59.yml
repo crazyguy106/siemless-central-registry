@@ -1,0 +1,28 @@
+title: Linux Possible Append Command To Profile Config File
+id: a8f1da8d-e6d1-59fb-bd85-cd5629c1c9c8
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious command-lines that modify user profile files to automatically execute scripts or executables upon system reboot. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving profile files like ~/.bashrc and /etc/profile. This activity is significant as it indicates potential persistence mechanisms used by adversaries to maintain access to compromised hosts. If confirmed malicious, this could allow att
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*~/.bashrc'
+      - '*~/.bash_profile'
+      - '*/etc/profile'
+      - ~/.bash_login
+      - '*~/.profile'
+      - ~/.bash_logout
+  condition: selection
+tags:
+  - attack.t1546.004
+references:
+  - https://unix.stackexchange.com/questions/129143/what-is-the-purpose-of-bashrc-and-how-does-it-work
+  - https://attack.mitre.org/techniques/T1546/004/
+custom_attributes:
+  original_rule_id: 9c94732a-61af-11ec-91e3-acde48001122
+  source_format: splunk_spl

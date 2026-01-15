@@ -1,0 +1,42 @@
+title: Suspicious ADRS Token Request by Microsoft Auth Broker
+id: d121f0a8-4875-11f0-bb2b-f661ea17fbcd
+status: stable
+level: medium
+description: 'Detects suspicious OAuth 2.0 token requests where the Microsoft Authentication
+  Broker
+
+  (29d9ed98-a469-4536-ade2-f981bc1d605e) requests access to the Device Registration
+  Service
+
+  (01cb2876-7ebd-4aa4-9cc9-d28bd4d359a9) on behalf of a user principal. The presence
+  of the adrs_access scope in the
+
+  authentication processing details suggests an attempt to access ADRS, which is atypical
+  for standard user sign-ins. This
+
+  behavior may reflect an effort to abuse device registration for unauthorized persistence,
+  such as acquiring a Primary
+
+  Refresh Token (PRT) or establishing a trusted session.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-13'
+modified: '2025-06-13'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.signinlogs
+    azure_signinlogs_properties_app_id: 29d9ed98-a469-4536-ade2-f981bc1d605e
+    azure_signinlogs_properties_resource_id: 01cb2876-7ebd-4aa4-9cc9-d28bd4d359a9
+    azure_signinlogs_category: NonInteractiveUserSignInLogs
+    azure_signinlogs_properties_authentication_processing_details: '*adrs_access*'
+    azure_signinlogs_properties_incoming_token_type: refreshToken
+    azure_signinlogs_properties_user_type: Member
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098.005
+- attack.t1098
+references:
+- https://www.volexity.com/blog/2025/04/22/phishing-for-codes-russian-threat-actors-target-microsoft-365-oauth-workflows/

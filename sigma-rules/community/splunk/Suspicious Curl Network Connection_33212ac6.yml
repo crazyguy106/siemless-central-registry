@@ -1,0 +1,21 @@
+title: Suspicious Curl Network Connection
+id: 5be3ec93-a571-5b3c-be66-3ce806e571ee
+status: experimental
+level: high
+description: |
+  The following analytic detects the use of the curl command contacting suspicious remote domains, such as s3.amazonaws.com, which is indicative of Command and Control (C2) activity or downloading further implants. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs and command-line arguments. This activity is significant as it may indicate the presence of MacOS adware or other malicious software attempting to establish persistence or
+author: Michael Haag, Splunk
+logsource:
+  product: macos
+  category: network_connection
+detection:
+  selection:
+    process_name: curl
+  condition: selection
+tags:
+  - attack.t1105
+references:
+  - https://redcanary.com/blog/clipping-silver-sparrows-wings/
+custom_attributes:
+  original_rule_id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
+  source_format: splunk_spl

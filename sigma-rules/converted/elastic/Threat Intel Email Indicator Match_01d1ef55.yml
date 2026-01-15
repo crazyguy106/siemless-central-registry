@@ -1,0 +1,26 @@
+title: Threat Intel Email Indicator Match
+id: fcf18de8-ad7d-4d01-b3f7-a11d5b3883af
+status: stable
+level: high
+description: 'This rule is triggered when an email indicator from the Threat Intel
+  Filebeat module or integrations matches an event
+
+  containing email-related data, such as logs from email security gateways or email
+  service providers.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-11'
+modified: '2025-04-22'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    email_from_address: '*'
+    email_sender_address: '*'
+    email_reply_to_address: '*'
+    email_to_address: '*'
+  condition: selection
+references:
+- https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-module-threatintel.html
+- https://www.elastic.co/guide/en/security/current/es-threat-intel-integrations.html
+- https://www.elastic.co/security/tip

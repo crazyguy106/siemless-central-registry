@@ -1,0 +1,31 @@
+title: ATP Detection events triggered
+id: e9a56da6-e9c7-4f0a-aaca-a383fdadaa09
+status: experimental
+level: medium
+description: |
+  Displays the *AtpDetection* events in CloudAppEvents.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "AtpDetection"
+| extend
+     DetectionMethod = parse_json(RawEventData).DetectionMethod,
+     EventDeepLink = parse_json(RawEventData).EventDeepLink,
+     FileData = parse_json(RawEventData).FileData
+| project-reorder
+     Timestamp,
+     ActionType,
+     Application,
+     AccountId,
+     DetectionMethod,
+     FileData,
+     EventDeepLink
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,21 @@
+title: Detect Renamed PSExec
+id: 15cde021-1ce2-58eb-879e-89de41c49fbf
+status: stable
+level: low
+description: |
+  The following analytic identifies instances where `PsExec.exe` has been renamed and executed on an endpoint. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names. This activity is significant because renaming `PsExec.exe` is a common tactic to evade detection. If confirmed malicious, this could allow an attacker to execute commands remotely, potentially leading to unauthorized access, lateral movement, or further compromise of the
+author: Michael Haag, Splunk, Alex Oberkircher, Github Community
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1569.002
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
+  - https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
+custom_attributes:
+  original_rule_id: 683e6196-b8e8-11eb-9a79-acde48001122
+  source_format: splunk_spl

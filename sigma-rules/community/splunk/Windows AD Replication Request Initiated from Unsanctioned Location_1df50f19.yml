@@ -1,0 +1,44 @@
+title: Windows AD Replication Request Initiated from Unsanctioned Location
+id: fa4c9a52-6e1d-5206-bb30-ad971a900609
+status: stable
+level: high
+description: |
+  The following analytic identifies unauthorized Active Directory replication requests initiated from non-domain controller locations. It leverages EventCode 4662 to detect when a computer account with replication permissions creates a handle to domainDNS, filtering out known domain controller IP addresses. This activity is significant as it may indicate a DCSync attack, where an attacker with privileged access can request password hashes for any or all users within the domain. If confirmed malici
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    accessmask: 0x100
+    subjectusersid:
+      - NT AUT*
+      - S-1-5-18
+    subjectdomainname: Window Manager
+    subjectusername: '*$'
+    search: search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$
+    src_category: domain_controller
+    eventcode:
+      - 4662
+      - 4624
+    objecttype:
+      - '%{19195a5b-6da0-11d0-afd3-00c04fd930c9}'
+      - domainDNS
+    properties:
+      - '*Replicating Directory Changes All*'
+      - '*Manage Replication Topology*'
+      - '*Remove Replica In Domain*'
+      - '*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*'
+      - '*{9923a32a-3607-11d2-b9be-0000f87a36b2}*'
+      - '*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*'
+  filter:
+    src_category: domain_controller
+  condition: selection and not filter
+tags:
+  - attack.t1003.006
+references:
+  - https://adsecurity.org/?p=1729
+  - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
+  - https://github.com/SigmaHQ/sigma/blob/0.22-699-g29a5c6278/rules/windows/builtin/security/win_security_dcsync.yml
+custom_attributes:
+  original_rule_id: 50998483-bb15-457b-a870-965080d9e3d3
+  source_format: splunk_spl

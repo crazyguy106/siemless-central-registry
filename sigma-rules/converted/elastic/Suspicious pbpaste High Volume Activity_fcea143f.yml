@@ -1,0 +1,28 @@
+title: Suspicious pbpaste High Volume Activity
+id: e29599ee-d6ad-46a9-9c6a-dc39f361890d
+status: stable
+level: medium
+description: 'Identifies a high volume of `pbpaste` executions, which may indicate
+  a bash loop continuously collecting clipboard
+
+  contents, potentially allowing an attacker to harvest user credentials or other
+  sensitive information.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-12'
+modified: '2025-02-03'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    _original_eql: 'sequence by host.hostname, host.id with maxspan=1m
+
+      [process where host.os.type == "macos" and event.type == "start" and event.action
+      == "exec" and process.name: "pbpaste"] with runs = 5'
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1056
+references:
+- https://www.loobins.io/binaries/pbpaste/

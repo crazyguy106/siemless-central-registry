@@ -1,0 +1,25 @@
+title: 'Docker: Network $(docker.Actor.Attributes.name) deleted'
+id: b16013b1-ade2-5567-80c0-e6e76046f1c5
+status: stable
+level: low
+description: 'Docker: Network $(docker.Actor.Attributes.name) deleted'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^destroy$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87927
+tags:
+  - attack.t1107
+  - attack.t1485
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87931
+  wazuh_level: 5

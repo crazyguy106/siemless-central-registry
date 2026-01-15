@@ -1,0 +1,29 @@
+title: ESXi Shared or Stolen Root Account
+id: ace599a1-9e5f-5184-8b2d-76ec68ae4895
+status: stable
+level: medium
+description: |
+  This detection monitors for signs of a shared or potentially compromised root account on ESXi hosts by tracking the number of unique IP addresses logging in as root within a short time window. Multiple logins from different IPs in a brief period may indicate credential misuse, lateral movement, or account compromise.
+author: Raven Tait, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    message:
+      - '*root*'
+      - '*logged in*'
+      - '*root@127.0.0.1*'
+    field:
+      - _raw
+      - _raw
+    span: 15m
+  filter:
+    message: '*root@127.0.0.1*'
+  condition: selection and not filter
+tags:
+  - attack.t1078
+references:
+  - https://detect.fyi/detecting-and-responding-to-esxi-compromise-with-splunk-f33998ce7823
+custom_attributes:
+  original_rule_id: 1bc8f235-5d7c-457c-95ca-5e92edcb52ea
+  source_format: splunk_spl

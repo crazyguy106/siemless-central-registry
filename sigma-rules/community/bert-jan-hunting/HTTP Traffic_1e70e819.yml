@@ -1,0 +1,24 @@
+title: HTTP Traffic
+id: 92e97cf4-4d88-4ede-ac96-51bc4fd4cfd0
+status: experimental
+level: medium
+description: |
+  KQL detection rule: HTTP Traffic
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where ActionType == "NetworkSignatureInspected"
+| extend
+     SignatureName = tostring(parse_json(AdditionalFields).SignatureName),
+     SignatureMatchedContent = tostring(parse_json(AdditionalFields).SignatureMatchedContent),
+     SamplePacketContent = tostring(parse_json(AdditionalFields).SamplePacketContent)
+| where SignatureName == "HTTP_Client"
+| extend HTTP_Request_Method = tostring(split(SignatureMatchedContent, " /", 0)[0])
+| summarize count() by HTTP_Request_Method
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

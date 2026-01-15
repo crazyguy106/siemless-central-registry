@@ -1,0 +1,24 @@
+title: Linux pkexec Privilege Escalation
+id: b302e1b6-8d3c-5a6d-bfc3-194d3758d106
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `pkexec` without any command-line arguments. This behavior leverages data from Endpoint Detection and Response (EDR) agents, focusing on process telemetry. The significance lies in the fact that this pattern is associated with the exploitation of CVE-2021-4034 (PwnKit), a critical vulnerability in Polkit's pkexec component. If confirmed malicious, this activity could allow an attacker to gain full root privileges on the affected Linux system, leadi
+author: Michael Haag, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process: (^.{1}$)
+    process_name: pkexec
+  condition: selection
+tags:
+  - attack.t1068
+references:
+  - https://www.reddit.com/r/crowdstrike/comments/sdfeig/20220126_cool_query_friday_hunting_pwnkit_local/
+  - https://linux.die.net/man/1/pkexec
+  - https://www.bleepingcomputer.com/news/security/linux-system-service-bug-gives-root-on-all-major-distros-exploit-released/
+  - https://access.redhat.com/security/security-updates/#/?q=polkit&p=1&sort=portal_publication_date%20desc&rows=10&portal_advisory_type=Security%20Advisory&documentKind=PortalProduct
+custom_attributes:
+  original_rule_id: 03e22c1c-8086-11ec-ac2e-acde48001122
+  source_format: splunk_spl

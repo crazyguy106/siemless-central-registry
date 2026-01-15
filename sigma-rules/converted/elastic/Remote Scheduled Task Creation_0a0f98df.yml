@@ -1,0 +1,33 @@
+title: Remote Scheduled Task Creation
+id: 954ee7c8-5437-49ae-b2d6-2960883898e9
+status: stable
+level: medium
+description: Identifies remote scheduled task creations on a target host. This could
+  be indicative of adversary lateral movement.
+author: Elastic (converted by SIEMLess)
+date: '2020-11-20'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "/* Task Scheduler service incoming connection followed by TaskCache\
+      \ registry modification  */\n\nsequence by host.id, process.entity_id with maxspan\
+      \ = 1m\n   [network where host.os.type == \"windows\" and process.name : \"\
+      svchost.exe\" and\n   network.direction : (\"incoming\", \"ingress\") and source.port\
+      \ >= 49152 and destination.port >= 49152 and\n   source.ip != \"127.0.0.1\"\
+      \ and source.ip != \"::1\"\n   ]\n   [registry where host.os.type == \"windows\"\
+      \ and event.type == \"change\" and registry.value : \"Actions\" and\n    registry.path\
+      \ : \"*\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Schedule\\\
+      \\TaskCache\\\\Tasks\\\\*\\\\Actions\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.execution
+- attack.t1053.005
+- attack.t1053
+- attack.t1021
+references:
+- https://www.elastic.co/security-labs/hunting-for-lateral-movement-using-event-query-language

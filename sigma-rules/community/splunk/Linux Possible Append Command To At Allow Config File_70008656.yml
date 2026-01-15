@@ -1,0 +1,24 @@
+title: Linux Possible Append Command To At Allow Config File
+id: 9677f0c3-edf6-5daf-8e26-27c9f4e476cf
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious command lines that append user entries to /etc/at.allow or /etc/at.deny files. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving these files. This activity is significant because altering these configuration files can allow attackers to schedule tasks with elevated permissions, facilitating persistence on a compromised Linux host. If confirmed malicious, this could enable attackers to execu
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*/etc/at.allow'
+      - '*/etc/at.deny'
+  condition: selection
+tags:
+  - attack.t1053.002
+references:
+  - https://linuxize.com/post/at-command-in-linux/
+  - https://attack.mitre.org/techniques/T1053/001/
+custom_attributes:
+  original_rule_id: 7bc20606-5f40-11ec-a586-acde48001122
+  source_format: splunk_spl

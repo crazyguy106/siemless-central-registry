@@ -1,0 +1,28 @@
+title: Ngrok Reverse Proxy on Network
+id: e66b7ec7-13c9-5eb7-80e5-cf5571013263
+status: stable
+level: medium
+description: |
+  The following analytic detects DNS queries to common Ngrok domains, indicating potential use of the Ngrok reverse proxy tool. It leverages the Network Resolution datamodel to identify queries to domains such as "*.ngrok.com" and "*.ngrok.io". While Ngrok usage is not inherently malicious, it has been increasingly adopted by adversaries for covert communication and data exfiltration. If confirmed malicious, this activity could allow attackers to bypass network defenses, establish persistent conne
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    datamodel: Network_Resolution
+    query:
+      - '*.ngrok.com'
+      - '*.ngrok.io'
+      - ngrok.*.tunnel.com
+      - korgn.*.lennut.com
+  condition: selection
+tags:
+  - attack.t1572
+  - attack.t1090
+  - attack.t1102
+references:
+  - https://www.cisa.gov/uscert/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf
+custom_attributes:
+  original_rule_id: 5790a766-53b8-40d3-a696-3547b978fcf0
+  source_format: splunk_spl

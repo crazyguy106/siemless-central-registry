@@ -1,0 +1,25 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Sticky registry key backdoor detected for key $(osquery.columns.path)'
+id: e608f387-08fa-579a-bebc-30b448c51524
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Sticky registry key backdoor detected for key $(osquery.columns.path)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: StickyKeys_Registry_Backdoor
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+tags:
+  - attack.t1060
+  - attack.t1112
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24708
+  wazuh_level: 4

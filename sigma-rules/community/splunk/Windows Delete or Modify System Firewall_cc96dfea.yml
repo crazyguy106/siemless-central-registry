@@ -1,0 +1,23 @@
+title: Windows Delete or Modify System Firewall
+id: c4566723-4348-56f0-817b-5bbc38de89ae
+status: stable
+level: medium
+description: |
+  The following analytic identifies 'netsh' processes that delete or modify firewall configurations. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions containing specific keywords. This activity is significant because it can indicate malware, such as NJRAT, attempting to alter firewall settings to evade detection or remove traces. If confirmed malicious, this behavior could allow an attacker to disable security measures, facilitating further c
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '* firewall *'
+      - '* del*'
+  condition: selection
+tags:
+  - attack.t1562.004
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
+custom_attributes:
+  original_rule_id: b188d11a-eba7-419d-b8b6-cc265b4f2c4f
+  source_format: splunk_spl

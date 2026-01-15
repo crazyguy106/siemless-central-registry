@@ -1,0 +1,23 @@
+title: Linux Auditd Disable Or Modify System Firewall
+id: c757c9e3-8c1b-5fca-b8e6-f9717c4dfab7
+status: stable
+level: medium
+description: |
+  The following analytic detects the suspicious disable or modify system firewall. This behavior is critical for a SOC to monitor because it may indicate attempts to gain unauthorized access or maintain control over a system. Such actions could be signs of malicious activity. If confirmed, this could lead to serious consequences, including a compromised system, unauthorized access to sensitive data, or even a wider breach affecting the entire network. Detecting and responding to these signs early 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    type: SERVICE_STOP
+    unit:
+      - firewalld
+      - ufw
+  condition: selection
+tags:
+  - attack.t1562.004
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: 07052556-d4b5-4bae-89aa-cbdc1bb11250
+  source_format: splunk_spl

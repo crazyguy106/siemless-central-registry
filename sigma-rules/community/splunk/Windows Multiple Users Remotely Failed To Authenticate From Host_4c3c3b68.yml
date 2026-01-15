@@ -1,0 +1,28 @@
+title: Windows Multiple Users Remotely Failed To Authenticate From Host
+id: b35d9b88-db79-5702-81c7-dbd1ff23f8c5
+status: stable
+level: high
+description: |
+  The following analytic identifies a source host failing to authenticate against a remote host with 30 unique users. It leverages Windows Event 4625 with Logon Type 3, indicating remote authentication attempts. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges in an Active Directory environment. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, and potent
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 4625
+    logon_type: 3
+    span: 5m
+  filter:
+    ipaddress: '-'
+  condition: selection and not filter
+tags:
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
+  - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
+custom_attributes:
+  original_rule_id: 80f9d53e-9ca1-11eb-b0d6-acde48001122
+  source_format: splunk_spl

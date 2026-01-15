@@ -1,0 +1,27 @@
+title: Windows Cisco Secure Endpoint Uninstall Immunet Service Via Sfc
+id: f0e6225d-98bc-5ff1-a003-147e141b53f5
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the sfc.exe utility with the "-u" parameter, which is part of the Cisco Secure Endpoint installation. The "-u" flag allows the uninstallation of Cisco Secure Endpoint components. This detection leverages endpoint telemetry to monitor command-line executions that include the "-u" parameter. The use of this flag is significant as it could indicate an attempt to disable or remove endpoint protection, potentially leaving the system vulnerable to further expl
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: sfc.exe
+    process:
+      - '* -u*'
+      - '* -unblock *'
+    process_path:
+      - '*:\\Windows\\System32\\*'
+      - '*:\\Windows\\SysWOW64\\*'
+      - ':\\Windows\\WinSxS\\*'
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://www.cisco.com/c/en/us/support/docs/security/amp-endpoints/213690-amp-for-endpoint-command-line-switches.html
+custom_attributes:
+  original_rule_id: ba6e7f4d-a85e-4a14-8e7d-41f4b82e3c9a
+  source_format: splunk_spl

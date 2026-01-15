@@ -1,0 +1,35 @@
+title: AWS EC2 Security Group Configuration Change
+id: 29052c19-ff3e-42fd-8363-7be14d7c5469
+status: stable
+level: low
+description: Identifies a change to an AWS Security Group Configuration. A security
+  group is like a virtual firewall, and modifying configurations may allow unauthorized
+  access. Threat actors may abuse this to establish persistence, exfiltrate data,
+  or pivot in an AWS environment.
+author: Elastic (converted by SIEMLess)
+date: '2021-05-05'
+modified: '2025-07-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: ec2.amazonaws.com
+    event_outcome: success
+    event_action: ModifyInstanceAttribute
+    aws_cloudtrail_flattened_request_parameters_groupSet_items_groupId: '*))'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1562.007
+- attack.t1562
+references:
+- https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-security-groups.html
+falsepositives:
+- "    A security group may be created by a system or network administrator. Verify\
+  \ whether the user identity, user agent, and/or hostname should be making changes\
+  \ in your environment. Security group creations by unfamiliar users or hosts should\
+  \ be investigated. If known behavior is causing false positives, it can be exempted\
+  \ from the rule.\n    "

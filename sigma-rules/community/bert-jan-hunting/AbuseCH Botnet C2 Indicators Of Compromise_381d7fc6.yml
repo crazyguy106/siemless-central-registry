@@ -1,0 +1,36 @@
+title: AbuseCH Botnet C2 Indicators Of Compromise
+id: 7960a7cd-0c2b-4635-9fbb-c19ee25520fa
+status: experimental
+level: medium
+description: |
+  KQL detection rule: AbuseCH Botnet C2 Indicators Of Compromise
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let BotnetIP = externaldata(IP: string)[@"https://feodotracker.abuse.ch/downloads/ipblocklist.txt"] with (format="txt", ignoreFirstRecord=True);
+let IPRegex = '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}';
+let MaliciousIP = materialize (
+     BotnetIP
+     | where IP matches regex IPRegex
+     | distinct IP
+     );
+DeviceNetworkEvents
+| where RemoteIP in (MaliciousIP)
+| extend GeoIPInfo = geo_info_from_ip_address(RemoteIP)
+| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
+| project-reorder
+     Timestamp,
+     ActionType,
+     RemoteIP,
+     RemotePort,
+     LocalPort,
+     Protocol,
+     DeviceName,
+     InitiatingProcessCommandLine,
+     InitiatingProcessFolderPath
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

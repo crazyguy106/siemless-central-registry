@@ -1,0 +1,20 @@
+title: Google Workspace Ownership Transferred On Google Drive
+id: c6d61360-2d9b-5faf-affb-d8091eed3dcc
+status: experimental
+level: high
+description: Identifies when a Google Workspace user transfers the ownership of a file.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: admin
+    metadata_product_event_type: CREATE_DATA_TRANSFER_REQUEST
+    security_result_category_details: USER_SETTINGS
+  condition: selection
+tags:
+  - attack.t1074
+custom_attributes:
+  original_rule_id: mr_05cddcc9-abf6-4c4c-9518-e2218a1f5c84
+  source_format: chronicle_yaral

@@ -1,0 +1,29 @@
+title: Potential Machine Account Relay Attack via SMB
+id: d84a11c0-eb12-4e7d-8a0a-718e38351e29
+status: stable
+level: high
+description: 'Identifies potential relay attacks against a machine account by identifying
+  network share access events coming from a
+
+  remote source.ip but using the target server computer account. This may indicate
+  a successful SMB relay attack.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-16'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '5145'
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1187
+- attack.t1557
+- attack.t1557.001
+references:
+- https://github.com/p0dalirius/windows-coerced-authentication-methods
+- https://www.thehacker.recipes/a-d/movement/mitm-and-coerced-authentications
+- https://attack.mitre.org/techniques/T1187/

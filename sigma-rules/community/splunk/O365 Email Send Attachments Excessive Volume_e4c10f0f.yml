@@ -1,0 +1,33 @@
+title: O365 Email Send Attachments Excessive Volume
+id: f0a321fe-e6db-5f65-b1b3-20a7d70a33a9
+status: stable
+level: medium
+description: |
+  The following analytic identifies when an O365 email account sends an excessive number of email attachments to external recipients within a short period (within 1 hour). This behavior may indicate a compromised account where the threat actor is attempting to exfiltrate data from the mailbox. Threat actors may attempt to transfer data through email as a simple means of exfiltration from the compromised mailbox. Some account owner legitimate behaviors can trigger this alert, however these actions 
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    status: Delivered
+    mailtime: _time
+    span:
+      - 1hr
+      - 1hr
+    max: 0
+    workload: Exchange
+    operation:
+      - Send
+      - SendAs
+      - SendOnBehalf
+  condition: selection
+tags:
+  - attack.t1070.008
+  - attack.t1485
+references:
+  - https://attack.mitre.org/techniques/T1114/
+  - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+  - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+custom_attributes:
+  original_rule_id: 70a050a2-8537-488a-a628-b60a9558d96a
+  source_format: splunk_spl

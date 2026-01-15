@@ -1,0 +1,27 @@
+title: O365 Excessive Single Sign-On Logon Errors
+id: 2de10e77-c144-4e69-afb7-344e7127abd0
+status: stable
+level: high
+description: 'Identifies accounts with a high number of single sign-on (SSO) logon
+  errors. Excessive logon errors may indicate an
+
+  attempt to brute force a password or SSO token.'
+author: Elastic (converted by SIEMLess)
+date: '2021-05-17'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: AzureActiveDirectory
+    event_category: authentication
+    o365_audit_LogonError: SsoArtifactInvalidOrExpired
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1110
+falsepositives:
+- "    Automated processes that attempt to authenticate using expired credentials\
+  \ and unbounded retries may lead to false\n    positives.\n    "

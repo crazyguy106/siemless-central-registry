@@ -1,0 +1,26 @@
+title: Windows Audit Policy Cleared via Auditpol
+id: 64704d0e-55aa-5d62-bbfe-0b61af7b9cc7
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of `auditpol.exe` with the "/clear" command-line argument used to clears the audit policy. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity can be significant as it indicates potential defense evasion by adversaries or Red Teams, aiming to limit data that can be leveraged for detections and audits. If confirmed malicious, this behavior could allow attackers to 
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*/resourceSACL*'
+      - '*/?*'
+  condition: selection
+tags:
+  - attack.t1562.002
+references:
+  - https://www.microsoft.com/en-us/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+  - https://www.cybereason.com/blog/research/prometei-botnet-exploiting-microsoft-exchange-vulnerabilities
+  - https://attack.mitre.org/techniques/T1562/002/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-clear
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-remove
+custom_attributes:
+  original_rule_id: f067f7cf-f41b-4a60-985e-c23e268a13cb
+  source_format: splunk_spl

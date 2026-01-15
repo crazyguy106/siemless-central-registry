@@ -1,0 +1,23 @@
+title: High Process Termination Frequency
+id: f9f7f938-a0fd-5ee6-a24f-4056d5b6b882
+status: stable
+level: medium
+description: |
+  The following analytic identifies a high frequency of process termination events on a computer within a short period. It leverages Sysmon EventCode 5 logs to detect instances where 15 or more processes are terminated within a 3-second window. This behavior is significant as it is commonly associated with ransomware attempting to avoid exceptions during file encryption. If confirmed malicious, this activity could indicate an active ransomware attack, potentially leading to widespread file encrypt
+author: Teoderick Contreras
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 5
+    span: 3s
+  condition: selection
+tags:
+  - attack.t1486
+references:
+  - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+  - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+custom_attributes:
+  original_rule_id: 17cd75b2-8666-11eb-9ab4-acde48001122
+  source_format: splunk_spl

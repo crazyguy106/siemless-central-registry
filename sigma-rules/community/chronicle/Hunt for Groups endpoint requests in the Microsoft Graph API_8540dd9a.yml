@@ -1,0 +1,22 @@
+title: Hunt for Groups endpoint requests in the Microsoft Graph API
+id: 7ee4663f-71bf-5203-b1a2-c5f92f3eeb52
+status: experimental
+level: low
+description: |
+  This detects when the groups endpoint is called in the Graph API. GraphRunner contains a function called Get-DynamicGroups but other tools may as well.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/v1.0/groups'
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_cb4ec70d-811b-477c-9b0c-c50e54058f2d
+  source_format: chronicle_yaral

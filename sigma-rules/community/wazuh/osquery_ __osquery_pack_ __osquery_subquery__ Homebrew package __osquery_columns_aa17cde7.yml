@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Homebrew package $(osquery.columns.name) version is $(osquery.columns.version)'
+id: ba74b8f4-c4a8-5d90-ac21-eb32bc3f96d0
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Homebrew package $(osquery.columns.name) version is $(osquery.columns.version)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: homebrew_packages
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24118
+  wazuh_level: 4

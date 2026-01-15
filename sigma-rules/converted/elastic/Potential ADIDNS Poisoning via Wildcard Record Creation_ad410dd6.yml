@@ -1,0 +1,37 @@
+title: Potential ADIDNS Poisoning via Wildcard Record Creation
+id: 8f242ffb-b191-4803-90ec-0f19942e17fd
+status: stable
+level: high
+description: 'Active Directory Integrated DNS (ADIDNS) is one of the core components
+  of AD DS, leveraging AD''s access control and
+
+  replication to maintain domain consistency. It stores DNS zones as AD objects, a
+  feature that, while robust, introduces
+
+  some security issues, such as wildcard records, mainly because of the default permission
+  (Any authenticated users) to
+
+  create DNS-named records. Attackers can create wildcard records to redirect traffic
+  that doesn''t explicitly match
+
+  records contained in the zone, becoming the Man-in-the-Middle and being able to
+  abuse DNS similarly to LLMNR/NBNS
+
+  spoofing.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-26'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '5137'
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1557
+references:
+- https://www.netspi.com/blog/technical/network-penetration-testing/exploiting-adidns/
+- https://www.thehacker.recipes/a-d/movement/mitm-and-coerced-authentications/adidns-spoofing

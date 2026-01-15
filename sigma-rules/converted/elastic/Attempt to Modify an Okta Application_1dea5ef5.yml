@@ -1,0 +1,33 @@
+title: Attempt to Modify an Okta Application
+id: c74fd275-ab2c-4d49-8890-e2943fa65c09
+status: stable
+level: low
+description: 'Detects attempts to modify an Okta application. An adversary may attempt
+  to modify, deactivate, or delete an Okta
+
+  application in order to weaken an organization''s security controls or disrupt their
+  business operations.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-06'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: application.lifecycle.update
+  condition: selection
+tags:
+- attack.impact
+references:
+- https://help.okta.com/en/prod/Content/Topics/Apps/Apps_Apps.htm
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+falsepositives:
+- "    Consider adding exceptions to this rule to filter false positives if your organization's\
+  \ Okta applications are\n    regularly modified and the behavior is expected.\n\
+  \    "

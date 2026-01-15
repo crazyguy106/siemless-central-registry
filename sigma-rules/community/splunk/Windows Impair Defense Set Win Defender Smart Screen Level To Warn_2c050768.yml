@@ -1,0 +1,22 @@
+title: Windows Impair Defense Set Win Defender Smart Screen Level To Warn
+id: 05708d2d-bfa5-5ae6-a208-b0024650e176
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry that set the Windows Defender SmartScreen level to "warn." This detection leverages data from the Endpoint.Registry data model, specifically monitoring changes to the ShellSmartScreenLevel registry value. This activity is significant because altering SmartScreen settings to "warn" can reduce immediate suspicion from users, allowing potentially malicious executables to run with just a warning prompt. If confirmed malicious, this
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Windows\\System\\ShellSmartScreenLevel'
+    registry_value_data: Warn
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://x.com/malmoeb/status/1742604217989415386?s=20
+  - https://github.com/undergroundwires/privacy.sexy
+custom_attributes:
+  original_rule_id: cc2a3425-2703-47e7-818f-3dca1b0bc56f
+  source_format: splunk_spl

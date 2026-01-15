@@ -1,0 +1,29 @@
+title: Nginx ConnectWise ScreenConnect Authentication Bypass
+id: a315faa8-98a6-5bb4-bab2-75d7b1a9662d
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1709 vulnerability, which allows attackers to bypass authentication via alternate paths or channels. It leverages Nginx access logs to identify web requests to the SetupWizard.aspx page, indicating potential exploitation. This activity is significant as it can lead to unauthorized administrative access and remote code execution. If confirmed malicious, attackers could create administrative users and gain fu
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    status: 200
+    http_method: POST
+    uri_path:
+      - '*/SetupWizard.aspx/*'
+      - '*/SetupWizard/'
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://docs.splunk.com/Documentation/AddOns/released/NGINX/Sourcetypes
+  - https://gist.github.com/MHaggis/26f59108b04da8f1d870c9cc3a3c8eec
+  - https://www.huntress.com/blog/a-catastrophe-for-control-understanding-the-screenconnect-authentication-bypass
+  - https://www.huntress.com/blog/detection-guidance-for-connectwise-cwe-288-2
+  - https://www.connectwise.com/company/trust/security-bulletins/connectwise-screenconnect-23.9.8
+custom_attributes:
+  original_rule_id: b3f7a803-e802-448b-8eb2-e796b223bccc
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: Cisco ASA - Logging Message Suppression
+id: d530d703-f9ec-544d-9f24-a1a5437bfc96
+status: stable
+level: medium
+description: |
+  This analytic detects suppression of specific logging messages on Cisco ASA devices using the "no logging message" command. Adversaries may suppress specific log message IDs to selectively disable logging of security-critical events such as authentication failures, configuration changes, or suspicious network activity. This targeted approach allows attackers to evade detection while maintaining normal logging operations that might otherwise alert administrators to complete logging disablement. T
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    command: no logging message *
+    message_id:
+      - 111008
+      - 111010
+  condition: selection
+tags:
+  - attack.t1562.002
+  - attack.t1070
+references:
+  - https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/RayInitiator-LINE-VIPER/ncsc-mar-rayinitiator-line-viper.pdf
+custom_attributes:
+  original_rule_id: 4e6c9d2a-8f3b-4c7e-9a5f-2d8b6e1c4a9f
+  source_format: splunk_spl

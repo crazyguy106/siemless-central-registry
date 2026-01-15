@@ -1,0 +1,28 @@
+title: Privilege Escalation via Rogue Named Pipe Impersonation
+id: 76ddb638-abf7-42d5-be22-4a70b0bf7241
+status: stable
+level: high
+description: 'Identifies a privilege escalation attempt via rogue named pipe impersonation.
+  An adversary may abuse this technique by
+
+  masquerading as a known named pipe and manipulating a privileged process to connect
+  to it.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-13'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_provider: Microsoft-Windows-Sysmon
+    event_code: '17'
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1134
+references:
+- https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/
+- https://github.com/zcgonvh/EfsPotato
+- https://twitter.com/SBousseaden/status/1429530155291193354

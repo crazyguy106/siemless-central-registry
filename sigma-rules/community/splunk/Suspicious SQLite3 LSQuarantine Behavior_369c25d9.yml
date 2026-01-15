@@ -1,0 +1,21 @@
+title: Suspicious SQLite3 LSQuarantine Behavior
+id: 9f04994e-fe2d-57d5-9f64-cef9907645ad
+status: experimental
+level: high
+description: |
+  The following analytic identifies the use of SQLite3 querying the MacOS preferences to determine the original URL from which a package was downloaded. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions involving LSQuarantine. This activity is significant as it is commonly associated with MacOS adware and other malicious software. If confirmed malicious, this behavior could indicate an attempt to track or manipula
+author: Michael Haag, Splunk
+logsource:
+  product: macos
+detection:
+  selection:
+    process_name: sqlite3
+  condition: selection
+tags:
+  - attack.t1074
+references:
+  - https://redcanary.com/blog/clipping-silver-sparrows-wings/
+  - https://www.marcosantadev.com/manage-plist-files-plistbuddy/
+custom_attributes:
+  original_rule_id: e1997b2e-655f-4561-82fd-aeba8e1c1a86
+  source_format: splunk_spl

@@ -1,0 +1,69 @@
+title: Suspicious Utility Launched via ProxyChains
+id: 6ace94ba-f02c-4d55-9f53-87d99b6f9af4
+status: stable
+level: low
+description: 'This rule monitors for the execution of suspicious linux tools through
+  ProxyChains. ProxyChains is a command-line tool
+
+  that enables the routing of network connections through intermediary proxies, enhancing
+  anonymity and enabling access to
+
+  restricted resources. Attackers can exploit the ProxyChains utility to hide their
+  true source IP address, evade
+
+  detection, and perform malicious activities through a chain of proxy servers, potentially
+  masking their identity and
+
+  intentions.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-23'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: proxychains
+    process_args|contains:
+    - ssh
+    - sshd
+    - sshuttle
+    - socat
+    - iodine
+    - iodined
+    - dnscat
+    - hans
+    - hans-ubuntu
+    - ptunnel-ng
+    - ssf
+    - 3proxy
+    - ngrok
+    - gost
+    - pivotnacci
+    - chisel*
+    - nmap
+    - ping
+    - python*
+    - php*
+    - perl
+    - ruby
+    - lua*
+    - openssl
+    - nc
+    - netcat
+    - ncat
+    - telnet
+    - awk
+    - java
+    - telnet
+    - ftp
+    - curl
+    - wget
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1572
+references:
+- https://blog.bitsadmin.com/living-off-the-foreign-land-windows-as-offensive-platform

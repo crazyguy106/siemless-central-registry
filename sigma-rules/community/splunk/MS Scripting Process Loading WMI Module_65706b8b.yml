@@ -1,0 +1,32 @@
+title: MS Scripting Process Loading WMI Module
+id: 2d280c81-44a0-5f80-812f-db0537ad86b0
+status: stable
+level: medium
+description: |
+  The following analytic detects the loading of WMI modules by Microsoft scripting processes like wscript.exe or cscript.exe. It leverages Sysmon EventCode 7 to identify instances where these scripting engines load specific WMI-related DLLs. This activity is significant because it can indicate the presence of malware, such as the FIN7 implant, which uses JavaScript to execute WMI queries for gathering host information to send to a C2 server. If confirmed malicious, this behavior could allow attack
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 7
+    image:
+      - '*\\wscript.exe'
+      - '*\\cscript.exe'
+    imageloaded:
+      - '*\\fastprox.dll'
+      - '*\\wbemdisp.dll'
+      - '*\\wbemprox.dll'
+      - '*\\wbemsvc.dll'
+      - '*\\wmiutils.dll'
+      - '*\\wbemcomn.dll'
+  condition: selection
+tags:
+  - attack.t1059.007
+references:
+  - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+  - https://attack.mitre.org/groups/G0046/
+custom_attributes:
+  original_rule_id: 2eba3d36-14a6-11ec-a682-acde48001122
+  source_format: splunk_spl

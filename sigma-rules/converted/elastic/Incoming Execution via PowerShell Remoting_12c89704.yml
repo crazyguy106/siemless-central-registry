@@ -1,0 +1,38 @@
+title: Incoming Execution via PowerShell Remoting
+id: 2772264c-6fb9-4d9d-9014-b416eed21254
+status: stable
+level: medium
+description: 'Identifies remote execution via Windows PowerShell remoting. Windows
+  PowerShell remoting allows a user to run any
+
+  Windows PowerShell command on one or more remote computers. This could be an indication
+  of lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-24'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan = 30s\n   [network where host.os.type\
+      \ == \"windows\" and network.direction : (\"incoming\", \"ingress\") and destination.port\
+      \ in (5985, 5986) and\n    source.ip != \"127.0.0.1\" and source.ip != \"::1\"\
+      ]\n   [process where host.os.type == \"windows\" and\n    event.type == \"start\"\
+      \ and process.parent.name : \"wsmprovhost.exe\" and not process.executable :\
+      \ \"?:\\\\Windows\\\\System32\\\\conhost.exe\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.execution
+- attack.t1059
+- attack.t1021
+- attack.t1059.001
+- attack.t1021.006
+references:
+- https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7.1
+falsepositives:
+- "    PowerShell remoting is a dual-use protocol that can be used for benign or malicious\
+  \ activity. It's important to\n    baseline your environment to determine the amount\
+  \ of noise to expect from this tool.\n    "

@@ -1,0 +1,24 @@
+title: 'sendmail: Attempt to use mail server as relay'
+id: 85c2f90b-60c8-5425-82b0-70d69f31e938
+status: stable
+level: medium
+description: 'sendmail: Attempt to use mail server as relay'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: reject=550 5.7.1
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3101
+tags:
+  - attack.t1114
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3104
+  wazuh_level: 6

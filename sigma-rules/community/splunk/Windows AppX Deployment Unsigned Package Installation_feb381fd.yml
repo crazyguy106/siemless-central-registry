@@ -1,0 +1,25 @@
+title: Windows AppX Deployment Unsigned Package Installation
+id: 805e9d0a-e87b-51ae-a007-d2a191eb0e67
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to install unsigned MSIX/AppX packages using the -AllowUnsigned parameter. This detection leverages Windows event logs from the AppXDeployment-Server, specifically focusing on EventID 603 which indicates the start of a deployment operation with specific deployment flags. The flag value 8388608 corresponds to the -AllowUnsigned option in PowerShell's Add-AppxPackage cmdlet. This activity is significant as adversaries have been observed leveraging unsigned M
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    flags: 8388608
+    eventcode: 603
+  condition: selection
+tags:
+  - attack.t1553.005
+  - attack.t1204.002
+references:
+  - https://learn.microsoft.com/en-us/powershell/module/appx/add-appxpackage
+  - https://learn.microsoft.com/en-us/windows/msix/package/unsigned-package
+  - https://redcanary.com/blog/threat-intelligence/msix-installers/
+  - https://attack.mitre.org/techniques/T1553/005/
+custom_attributes:
+  original_rule_id: 9b5e7c14-f8d2-4a3b-b1a7-e5c9f2a8d123
+  source_format: splunk_spl

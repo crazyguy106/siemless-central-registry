@@ -1,0 +1,33 @@
+title: Persistence via Login or Logout Hook
+id: 5d0265bf-dea9-41a9-92ad-48a8dcd05080
+status: stable
+level: medium
+description: 'Identifies use of the Defaults command to install a login or logoff
+  hook in MacOS. An adversary may abuse this
+
+  capability to establish persistence in an environment by inserting code to be executed
+  at login or logout.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-07'
+modified: '2025-02-04'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    event_type: start
+    process_name: defaults
+    process_args: write
+    process_args|contains:
+    - Support/JAMF/ManagementFrameworkScripts/logouthook.sh
+    - Support/JAMF/ManagementFrameworkScripts/loginhook.sh
+    - /Library/Application Support/JAMF/ManagementFrameworkScripts/logouthook.sh
+    - /Library/Application Support/JAMF/ManagementFrameworkScripts/loginhook.sh
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1037
+references:
+- https://www.virusbulletin.com/uploads/pdf/conference_slides/2014/Wardle-VB2014.pdf
+- https://www.manpagez.com/man/1/defaults/

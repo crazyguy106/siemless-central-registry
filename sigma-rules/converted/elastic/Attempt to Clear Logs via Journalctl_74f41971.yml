@@ -1,0 +1,32 @@
+title: Attempt to Clear Logs via Journalctl
+id: 09073bf4-a8ea-4bce-9fd5-2bb56b4d31f4
+status: stable
+level: low
+description: 'This rule monitors for attempts to clear logs using the "journalctl"
+  command on Linux systems. Adversaries may use this
+
+  technique to cover their tracks by deleting or truncating log files, making it harder
+  for defenders to investigate their
+
+  activities. The rule looks for the execution of "journalctl" with arguments that
+  indicate log clearing actions, such as
+
+  "--vacuum-time", "--vacuum-size", or "--vacuum-files".'
+author: Elastic (converted by SIEMLess)
+date: '2025-10-01'
+modified: '2025-10-06'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: journalctl
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.002
+- attack.t1562
+- attack.t1562.001
+- attack.t1070

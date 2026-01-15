@@ -1,0 +1,22 @@
+title: WMI Temporary Event Subscription
+id: c8fd76ae-2d6f-5f56-974d-58d5513edbf0
+status: experimental
+level: high
+description: |
+  The following analytic detects the creation of WMI temporary event subscriptions. It leverages Windows Event Logs, specifically EventCode 5860, to identify these activities. This detection is significant because attackers often use WMI to execute commands, gather information, or maintain persistence within a compromised system. If confirmed malicious, this activity could allow an attacker to execute arbitrary code, escalate privileges, or persist in the environment. Analysts should review the sp
+author: Rico Valdez, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    processname: wsmprovhost.exe
+    eventcode: 5860
+    field: Message
+  filter:
+    query: SELECT * FROM __InstanceOperationEvent WHERE TargetInstance ISA 
+  condition: selection and not filter
+tags:
+  - attack.t1047
+custom_attributes:
+  original_rule_id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
+  source_format: splunk_spl

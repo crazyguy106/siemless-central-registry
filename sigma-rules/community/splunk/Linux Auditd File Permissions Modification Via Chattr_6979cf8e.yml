@@ -1,0 +1,23 @@
+title: Linux Auditd File Permissions Modification Via Chattr
+id: c3b2b9b3-bb40-50d5-b483-08254525318b
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious file permissions modifications using the chattr command, which may indicate an attacker attempting to manipulate file attributes to evade detection or prevent alteration. The chattr command can be used to make files immutable or restrict deletion, which can be leveraged to protect malicious files or disrupt system operations. By monitoring for unusual or unauthorized chattr usage, this analytic helps identify potential tampering with critical files, enab
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    proctitle:
+      - '*chattr *'
+      - '* -i*'
+  condition: selection
+tags:
+  - attack.t1222.002
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: f2d1110d-b01c-4a58-9975-90a9edeb083a
+  source_format: splunk_spl

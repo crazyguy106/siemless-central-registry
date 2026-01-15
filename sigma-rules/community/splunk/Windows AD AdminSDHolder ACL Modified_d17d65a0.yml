@@ -1,0 +1,64 @@
+title: Windows AD AdminSDHolder ACL Modified
+id: 46957cf0-1f79-520b-b966-110285ed2a7b
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Access Control List (ACL) of the AdminSDHolder object in a Windows domain, specifically the addition of new rules. It leverages EventCode 5136 from the Security Event Log, focusing on changes to the nTSecurityDescriptor attribute. This activity is significant because the AdminSDHolder object secures privileged group members, and unauthorized changes can allow attackers to establish persistence and escalate privileges. If confirmed malicious, th
+author: Mauricio Velazco, Dean Luxton, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    objectdn: CN=AdminSDHolder,CN=System*
+    aceaccessrights:
+      - Full control
+      - All extended rights
+      - All validated writes
+      - Create all child objects
+      - Delete all child objects
+      - Delete subtree
+      - Delete
+      - Modify permissions
+      - Modify owner
+      - Write all properties
+      - CC
+      - CR
+      - DC
+      - DT
+      - SD
+      - SW
+      - WD
+      - WO
+      - WP
+    eventcode: 5136
+    objectclass: container
+    field:
+      - old_value
+      - new_value
+      - new_ace
+      - aceAccessRights
+      - aceFlags
+    max_match:
+      - 10000
+      - 10000
+      - 100
+      - 100
+    new_ace:
+      - old_values
+    acetype:
+      - '*denied*'
+      - D
+      - OD
+      - XD
+  condition: selection
+tags:
+  - attack.t1546
+references:
+  - https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory
+  - https://social.technet.microsoft.com/wiki/contents/articles/22331.adminsdholder-protected-groups-and-security-descriptor-propagator.aspx
+  - https://adsecurity.org/?p=1906
+  - https://pentestlab.blog/2022/01/04/domain-persistence-adminsdholder/
+  - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136
+custom_attributes:
+  original_rule_id: 00d877c3-7b7b-443d-9562-6b231e2abab9
+  source_format: splunk_spl

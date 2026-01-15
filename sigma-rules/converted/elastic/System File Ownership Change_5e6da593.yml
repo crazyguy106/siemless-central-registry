@@ -1,0 +1,22 @@
+title: System File Ownership Change
+id: 7eb54028-ca72-4eb7-8185-b6864572347db
+status: stable
+level: medium
+description: Adversaries may modify file or directory ownership to evade access control
+  lists (ACLs) and access protected files.
+author: Elastic (converted by SIEMLess)
+date: '2025-09-01'
+modified: '2025-09-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_command_line|endswith: .exe *C:\\Windows\\*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1222.001
+- attack.t1222

@@ -1,0 +1,52 @@
+title: Suspicious HTML File Creation
+id: f0493cb4-9b15-43a9-9359-68c23a7f2cf3
+status: stable
+level: medium
+description: 'Identifies the execution of a browser process to open an HTML file with
+  high entropy and size. Adversaries may smuggle
+
+  data and files past content filters by hiding malicious payloads inside of seemingly
+  benign HTML files.'
+author: Elastic (converted by SIEMLess)
+date: '2022-07-03'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by user.id with maxspan=2m\n\n [file where host.os.type\
+      \ == \"windows\" and event.action in (\"creation\", \"rename\") and\n\n  /*\
+      \ Check for HTML files with high entropy and size */\n  file.extension : (\"\
+      htm\", \"html\") and ((file.Ext.entropy >= 5 and file.size >= 150000) or file.size\
+      \ >= 1000000) and\n\n  /* Check for file paths in common download and temporary\
+      \ directories */\n  file.path : (\n    \"?:\\\\Users\\\\*\\\\Downloads\\\\*\"\
+      ,\n    \"?:\\\\Users\\\\*\\\\Content.Outlook\\\\*\",\n    \"?:\\\\Users\\\\\
+      *\\\\AppData\\\\Local\\\\Temp\\\\Temp?_*\",\n    \"?:\\\\Users\\\\*\\\\AppData\\\
+      \\Local\\\\Temp\\\\7z*\",\n    \"?:\\\\Users\\\\*\\\\AppData\\\\Local\\\\Temp\\\
+      \\Rar$*\")]\n [process where host.os.type == \"windows\" and event.action ==\
+      \ \"start\" and\n  (\n   /* Check for browser processes opening HTML files with\
+      \ single argument */\n   (process.name in (\"chrome.exe\", \"msedge.exe\", \"\
+      brave.exe\", \"whale.exe\", \"browser.exe\", \"dragon.exe\", \"vivaldi.exe\"\
+      , \"opera.exe\")\n    and process.args == \"--single-argument\") or\n\n   /*\
+      \ Optionally, check for browser processes opening HTML files with two arguments\
+      \ */\n   (process.name == \"iexplore.exe\" and process.args_count == 2) or\n\
+      \n   /* Optionally, check for browser processes opening HTML files with URL\
+      \ argument */\n   (process.name in (\"firefox.exe\", \"waterfox.exe\") and process.args\
+      \ == \"-url\")\n  )\n  /* Check for file paths in common download and temporary\
+      \ directories targeted in the process arguments */\n  and process.args : (\"\
+      ?:\\\\Users\\\\*\\\\Downloads\\\\*.htm*\",\n                      \"?:\\\\Users\\\
+      \\*\\\\Content.Outlook\\\\*.htm*\",\n                      \"?:\\\\Users\\\\\
+      *\\\\AppData\\\\Local\\\\Temp\\\\Temp?_*.htm*\",\n                      \"?:\\\
+      \\Users\\\\*\\\\AppData\\\\Local\\\\Temp\\\\7z*.htm*\",\n                  \
+      \    \"?:\\\\Users\\\\*\\\\AppData\\\\Local\\\\Temp\\\\Rar$*.htm*\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.initial_access
+- attack.t1027.006
+- attack.t1566
+- attack.t1566.001
+- attack.t1027
+- attack.t1566.002

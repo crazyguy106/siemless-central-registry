@@ -1,0 +1,23 @@
+title: Steal or Forge Authentication Certificates Behavior Identified
+id: 14bd9b9f-95d9-509f-9204-9db77a6000dd
+status: stable
+level: medium
+description: |
+  The following analytic identifies potential threats related to the theft or forgery of authentication certificates. It detects when five or more analytics from the Windows Certificate Services story trigger within a specified timeframe. This detection leverages aggregated risk scores and event counts from the Risk data model. This activity is significant as it may indicate an ongoing attack aimed at compromising authentication mechanisms. If confirmed malicious, attackers could gain unauthorized
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    analyticstories: Windows Certificate Services
+    risk_object_type: system
+  condition: selection
+tags:
+  - attack.t1649
+references:
+  - https://research.splunk.com/stories/windows_certificate_services/
+  - https://attack.mitre.org/techniques/T1649/
+custom_attributes:
+  original_rule_id: 87ac670e-bbfd-44ca-b566-44e9f835518d
+  source_format: splunk_spl

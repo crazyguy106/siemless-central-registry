@@ -1,0 +1,29 @@
+title: Host Files System Changes via Windows Subsystem for Linux
+id: e88d1fe9-b2f4-48d4-bace-a026dc745d4b
+status: stable
+level: medium
+description: 'Detects files creation and modification on the host system from the
+  the Windows Subsystem for Linux. Adversaries may
+
+  enable and use WSL for Linux to avoid detection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-12'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id with maxspan=5m\n [process where\
+      \ host.os.type == \"windows\" and event.type == \"start\" and\n  process.name\
+      \ : \"dllhost.exe\" and\n   /* Plan9FileSystem CLSID - WSL Host File System\
+      \ Worker */\n  process.command_line : \"*{DFB65C4C-B34F-435D-AFE9-A86218684AA8}*\"\
+      ]\n [file where host.os.type == \"windows\" and process.name : \"dllhost.exe\"\
+      \ and not file.path : \"?:\\\\Users\\\\*\\\\Downloads\\\\*\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.t1202
+references:
+- https://github.com/microsoft/WSL

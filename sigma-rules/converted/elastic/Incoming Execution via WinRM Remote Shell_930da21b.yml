@@ -1,0 +1,32 @@
+title: Incoming Execution via WinRM Remote Shell
+id: 1cd01db9-be24-4bef-8e7c-e923f0ff78ab
+status: stable
+level: medium
+description: 'Identifies remote execution via Windows Remote Management (WinRM) remote
+  shell on a target host. This could be an
+
+  indication of lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-24'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id with maxspan=30s\n   [network where host.os.type\
+      \ == \"windows\" and process.pid == 4 and network.direction : (\"incoming\"\
+      , \"ingress\") and\n    destination.port in (5985, 5986) and source.ip != \"\
+      127.0.0.1\" and source.ip != \"::1\"]\n   [process where host.os.type == \"\
+      windows\" and\n    event.type == \"start\" and process.parent.name : \"winrshost.exe\"\
+      \ and not process.executable : \"?:\\\\Windows\\\\System32\\\\conhost.exe\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.t1021
+- attack.t1021.006
+falsepositives:
+- "    WinRM is a dual-use protocol that can be used for benign or malicious activity.\
+  \ It's important to baseline your\n    environment to determine the amount of noise\
+  \ to expect from this tool.\n    "

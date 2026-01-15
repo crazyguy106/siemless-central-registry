@@ -1,0 +1,42 @@
+title: Shai-Hulud Workflow File Creation or Modification
+id: 29639a9a-09bc-5c8d-8802-12be6fa01268
+status: stable
+level: high
+description: |
+  Detects creation or deletion of malicious GitHub Actions workflow files associated with Shai-Hulud worm variants on Linux or Windows endpoints. This includes the original shai-hulud-workflow.yml, the 2.0 backdoor discussion.yaml (enables command injection via GitHub Discussions on self-hosted runners named SHA1HULUD), and the secrets exfiltration workflow formatter_*.yml pattern. These files are used to exfiltrate credentials and propagate across repositories.
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/.github/workflows/discussion.yaml'
+      - '*/.github/workflows/discussion.yml'
+      - '*/.github/workflows/formatter_*.yaml'
+      - '*/.github/workflows/formatter_*.yml'
+      - '*/.github/workflows/shai-hulud-workflow.yaml'
+      - '*/.github/workflows/shai-hulud-workflow.yml'
+      - '*/.github/workflows/shai-hulud.yaml'
+      - '*/.github/workflows/shai-hulud.yml'
+      - '*\\.github\\workflows\\discussion.yaml'
+      - '*\\.github\\workflows\\discussion.yml'
+      - '*\\.github\\workflows\\formatter_*.yaml'
+      - '*\\.github\\workflows\\formatter_*.yml'
+      - '*\\.github\\workflows\\shai-hulud-workflow.yaml'
+      - '*\\.github\\workflows\\shai-hulud-workflow.yml'
+      - '*\\.github\\workflows\\shai-hulud.yaml'
+      - '*\\.github\\workflows\\shai-hulud.yml'
+  condition: selection
+tags:
+  - attack.t1574.006
+  - attack.t1554
+  - attack.t1195
+references:
+  - https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
+  - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+  - https://github.com/SigmaHQ/sigma/pull/5658/files
+  - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+custom_attributes:
+  original_rule_id: 6b4a0a7f-10d1-4d72-9c4c-5c6a3d9f9d6a
+  source_format: splunk_spl

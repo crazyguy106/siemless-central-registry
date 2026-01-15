@@ -1,0 +1,26 @@
+title: Windows Vulnerable Driver Installed
+id: 4bfed435-7369-562a-91e5-3b29354236e3
+status: stable
+level: high
+description: |
+  The following analytic detects the loading of known vulnerable Windows drivers, which may indicate potential persistence or privilege escalation attempts. It leverages Windows System service install EventCode 7045 to identify driver loading events and cross-references them with a list of vulnerable drivers. This activity is significant as attackers often exploit vulnerable drivers to gain elevated privileges or maintain persistence on a system. If confirmed malicious, this could allow attackers 
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    servicetype: kernel mode driver
+    eventcode: 7045
+    is_driver: 'TRUE'
+  condition: selection
+tags:
+  - attack.t1543.003
+references:
+  - https://loldrivers.io/
+  - https://github.com/SpikySabra/Kernel-Cactus
+  - https://github.com/wavestone-cdt/EDRSandblast
+  - https://research.splunk.com/endpoint/a2b1f1ef-221f-4187-b2a4-d4b08ec745f4/
+  - https://www.splunk.com/en_us/blog/security/these-are-the-drivers-you-are-looking-for-detect-and-prevent-malicious-drivers.html
+custom_attributes:
+  original_rule_id: 1dda7586-57be-4a1b-8de1-a9ad802b9a7f
+  source_format: splunk_spl

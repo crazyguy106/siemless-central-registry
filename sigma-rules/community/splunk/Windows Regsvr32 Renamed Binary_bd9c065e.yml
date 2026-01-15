@@ -1,0 +1,20 @@
+title: Windows Regsvr32 Renamed Binary
+id: 6cc257c6-ccfc-516c-9fb5-28ec877ca5c7
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where the regsvr32.exe binary has been renamed and executed. This detection leverages Endpoint Detection and Response (EDR) data, specifically focusing on the original filename metadata. Renaming regsvr32.exe is significant as it can be an evasion technique used by attackers to bypass security controls. If confirmed malicious, this activity could allow an attacker to execute arbitrary DLLs, potentially leading to code execution, privilege escalation, o
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1218.010
+references:
+  - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
+custom_attributes:
+  original_rule_id: 7349a9e9-3cf6-4171-bb0c-75607a8dcd1a
+  source_format: splunk_spl

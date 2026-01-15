@@ -1,0 +1,27 @@
+title: Suspicious CronTab Creation or Modification
+id: 530178da-92ea-43ce-94c2-8877a826783d
+status: stable
+level: medium
+description: 'Identifies attempts to create or modify a crontab via a process that
+  is not crontab (i.e python, osascript, etc.). This
+
+  activity should not be highly prevalent and could indicate the use of cron as a
+  persistence mechanism by a threat actor.'
+author: Elastic (converted by SIEMLess)
+date: '2022-04-25'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+    process_executable: /usr/bin/crontab
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1053
+- attack.t1053.003
+references:
+- https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf
+- https://theevilbit.github.io/beyond/beyond_0004/

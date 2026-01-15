@@ -1,0 +1,31 @@
+title: Cisco Secure Firewall - Static Tundra Smart Install Abuse
+id: 13b23c5d-e2d7-54d4-acdb-a29eab1f19e3
+status: stable
+level: high
+description: |
+  This analytic detects activity associated with "Static Tundra" threat actor abuse of the Cisco Smart Install (SMI) protocol using Cisco Secure Firewall Intrusion Events. It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify occurrences of Smart Install exploitation and protocol abuse, including denial-of-service and buffer overflow attempts. The detection triggers when multiple Cisco Smart Install-related Snort signatures are observed in a short period from the same s
+author: Bhavin Patel, Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: IntrusionEvent
+    span: 15m
+    signature_id:
+      - 46468
+      - 46096
+      - 41722
+      - 41723
+      - 41724
+      - 41725
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1210
+  - attack.t1499
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+custom_attributes:
+  original_rule_id: 7e9a5a2c-2f1a-4b6a-9a4b-9e7d9c8f5a21
+  source_format: splunk_spl

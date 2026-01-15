@@ -1,0 +1,19 @@
+title: Changes to PIM Settings
+id: ee5aee6f-4ea3-57ec-ad2f-b65e5827b7db
+status: stable
+level: high
+description: |
+  'PIM provides a key mechanism for assigning privileges to accounts, this query detects changes to PIM role settings.   Monitor these changes to ensure they are being made legitimately and don't confer more privileges than expected or reduce the security of a PIM elevation.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-privileged-accounts#changes-to-privileged-accounts'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Category: RoleManagement
+    OperationName: Update role setting in PIM
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 0ed0fe7c-af29-4990-af7f-bb5ccb231198
+  source_format: azure_kql

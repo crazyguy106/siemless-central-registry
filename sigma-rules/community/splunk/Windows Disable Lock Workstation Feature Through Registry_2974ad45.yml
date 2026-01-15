@@ -1,0 +1,23 @@
+title: Windows Disable Lock Workstation Feature Through Registry
+id: c1372d3c-9527-5117-9945-4b4d0f204c94
+status: stable
+level: medium
+description: |
+  The following analytic detects a suspicious registry modification that disables the Lock Computer feature in Windows. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation" with a value of "0x00000001". This activity is significant because it prevents users from locking their screens, a tactic often used by malware, including ransomware, to maintain c
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.bleepingcomputer.com/news/security/in-dev-ransomware-forces-you-do-to-survey-before-unlocking-computer/
+  - https://heimdalsecurity.com/blog/fatalrat-targets-telegram/
+custom_attributes:
+  original_rule_id: c82adbc6-9f00-11ec-a81f-acde48001122
+  source_format: splunk_spl

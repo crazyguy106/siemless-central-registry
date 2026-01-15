@@ -1,0 +1,22 @@
+title: 'sshd: Corrupted bytes on SSHD.'
+id: a53167de-5640-5006-9d02-d79d0e22f1de
+status: stable
+level: medium
+description: 'sshd: Corrupted bytes on SSHD.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: Corrupted check bytes on
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5713
+  wazuh_level: 6

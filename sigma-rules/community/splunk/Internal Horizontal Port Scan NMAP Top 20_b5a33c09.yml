@@ -1,0 +1,44 @@
+title: Internal Horizontal Port Scan NMAP Top 20
+id: b3295f2b-5687-5202-98d6-45813420e8a7
+status: stable
+level: high
+description: |
+  This analytic identifies instances where an internal host has attempted to communicate with 250 or more destination IP addresses using on of the NMAP top 20 ports. Horizontal port scans from internal hosts can indicate reconnaissance or scanning activities, potentially signaling malicious intent or misconfiguration. By monitoring network traffic logs, this detection helps detect and respond to such behavior promptly, enhancing network security and preventing potential threats.
+author: Dean Luxton
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Network_Traffic
+    span: 1h
+    dest_port:
+      - 21
+      - 22
+      - 23
+      - 25
+      - 53
+      - 80
+      - 110
+      - 111
+      - 135
+      - 139
+      - 143
+      - 443
+      - 445
+      - 993
+      - 995
+      - 1723
+      - 3306
+      - 3389
+      - 5900
+      - 8080
+    src_ip:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+  condition: selection
+tags:
+  - attack.t1046
+custom_attributes:
+  original_rule_id: 3141a041-4f57-4277-9faa-9305ca1f8e5b
+  source_format: splunk_spl

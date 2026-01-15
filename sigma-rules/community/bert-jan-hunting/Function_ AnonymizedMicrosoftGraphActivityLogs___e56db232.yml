@@ -1,0 +1,22 @@
+title: Function: AnonymizedMicrosoftGraphActivityLogs()
+id: 981fc027-1b48-4ff4-8595-8a756e03eedd
+status: experimental
+level: medium
+description: |
+  This function removes the Azure Ids from the MicrosoftGraphActivityLogs and replaces them with an Id of your liking. This allows you to easily share your screen without showing the particular groups/users that are being queries with the GraphApi.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let AzureIdRegex = "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}";
+let ReplacementId = "<--AnonymizedAzureId-->";
+let AnonymizedMicrosoftGraphActivityLogs = () {
+    MicrosoftGraphActivityLogs
+    | extend RequestUri = replace_regex(RequestUri, AzureIdRegex, ReplacementId)
+};
+AnonymizedMicrosoftGraphActivityLogs
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

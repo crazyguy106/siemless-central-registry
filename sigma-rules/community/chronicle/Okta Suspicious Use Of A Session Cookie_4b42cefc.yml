@@ -1,0 +1,27 @@
+title: Okta Suspicious Use Of A Session Cookie
+id: 7d16eae9-c5ab-58d8-b95b-39aa26aa443f
+status: experimental
+level: medium
+description: |
+  Detects when an adversary attempts to reuse a stolen web session cookie in a different device that has a different OS, IP, Browser or User Agent.
+author: Google Cloud Security
+logsource:
+  product: okta
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_event_type: USER_UNCATEGORIZED
+    metadata_product_event_type: policy.evaluate_sign_on
+    security_result_action:
+      - ALLOW
+      - ALLOW_WITH_MODIFICATION
+      - CHALLENGE
+  condition: selection
+tags:
+  - attack.t1539
+references:
+  - https://sec.okta.com/sessioncookietheft
+custom_attributes:
+  original_rule_id: mr_913cbc7a-86c9-46a4-b822-023b4aa17106
+  source_format: chronicle_yaral

@@ -1,0 +1,22 @@
+title: 'Docker: Volume mounted on $(docker.Actor.Attributes.destination)'
+id: 30741cd6-3313-5490-82ea-9f7055f1cbfd
+status: stable
+level: low
+description: 'Docker: Volume mounted on $(docker.Actor.Attributes.destination)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^mount$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87912
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87915
+  wazuh_level: 3

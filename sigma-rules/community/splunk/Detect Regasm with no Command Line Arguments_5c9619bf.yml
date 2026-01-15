@@ -1,0 +1,26 @@
+title: Detect Regasm with no Command Line Arguments
+id: 3c44853f-5dd5-5fb0-9193-be7fcdf3ae9e
+status: stable
+level: high
+description: |
+  The following analytic detects instances of regasm.exe running without command line arguments. This behavior typically indicates process injection, where another process manipulates regasm.exe. The detection leverages Endpoint Detection and Response (EDR) data, focusing on process names and command-line executions. This activity is significant as it may signal an attempt to evade detection or execute malicious code. If confirmed malicious, attackers could achieve code execution, potentially lead
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*regasm'
+      - '*regasm.exe'
+      - '*regasm.exe\'
+  condition: selection
+tags:
+  - attack.t1218.009
+references:
+  - https://attack.mitre.org/techniques/T1218/009/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+  - https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+custom_attributes:
+  original_rule_id: c3bc1430-04e7-4178-835f-047d8e6e97df
+  source_format: splunk_spl

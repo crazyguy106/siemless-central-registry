@@ -1,0 +1,26 @@
+title: O365 Multiple Service Principals Created by SP
+id: b9742f69-9d52-5b45-86ae-a41532be96b9
+status: stable
+level: medium
+description: |
+  The following analytic identifies instances where a single service principal creates more than three unique OAuth applications within a 10-minute timeframe. It leverages O365 logs from the Unified Audit Log, focusing on the 'Add service principal' operation in the Office 365 Azure Active Directory environment. This activity is significant as it may indicate a compromised or malicious service principal attempting to expand control or access within the network. If confirmed malicious, this could l
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    operation: Add service principal.
+    usertype: ServicePrincipal
+    workload: AzureActiveDirectory
+    span: 10m
+    displayname: object
+  condition: selection
+tags:
+  - attack.t1136.003
+references:
+  - https://attack.mitre.org/techniques/T1136/003/
+  - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+custom_attributes:
+  original_rule_id: ef4c3f20-d1ad-4ad1-a3f4-d5f391c005fe
+  source_format: splunk_spl

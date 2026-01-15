@@ -1,0 +1,23 @@
+title: O365 ZAP Activity Detection
+id: 86269f74-d3dd-5b62-b490-0e6f422e6d38
+status: stable
+level: medium
+description: |
+  The following analytic detects when the Microsoft Zero-hour Automatic Purge (ZAP) capability takes action against a user's mailbox. This capability is an enhanced protection feature that retro-actively removes email with known malicious content for user inboxes. Since this is a retroactive capability, there is still a window in which the user may fall victim to the malicious content.
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    name: '*messages containing malicious*'
+    workload: SecurityComplianceCenter
+    operation: AlertEntityGenerated
+  condition: selection
+tags:
+  - attack.t1566.001
+  - attack.t1566.002
+references:
+  - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/zero-hour-auto-purge?view=o365-worldwide
+custom_attributes:
+  original_rule_id: 4df275fd-a0e5-4246-8b92-d3201edaef7a
+  source_format: splunk_spl

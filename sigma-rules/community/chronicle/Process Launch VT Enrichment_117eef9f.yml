@@ -1,0 +1,19 @@
+title: Process Launch VT Enrichment
+id: 64a6096a-3d98-57cb-a506-69e2b5302f3c
+status: experimental
+level: high
+description: Identify process creations that are tagged exploit in VT
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type:
+      - PROCESS_LAUNCH
+      - FILE_CREATION
+    target_file_tags: exploit
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_cf022210-8063-4aa0-9ad3-b2a2f7a7f725
+  source_format: chronicle_yaral

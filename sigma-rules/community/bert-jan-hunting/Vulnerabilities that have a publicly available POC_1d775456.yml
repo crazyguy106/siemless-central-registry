@@ -1,0 +1,25 @@
+title: Vulnerabilities that have a publicly available POC
+id: a9027454-ace0-42ca-a17a-bf6fe0f22db8
+status: experimental
+level: medium
+description: |
+  A list has been made on Github with links to available POCs for CVE's. This query lists the vulnerabilities in your environment that have a publicly available POC. This might help to prioritize which vulnerabilities need to be patches first.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // Extract the CVE IDs that have an available POC
+let VulnerabilitiesWithPOC = externaldata(CVE: string, URL: string )[@"https://raw.githubusercontent.com/tg12/PoC_CVEs/main/cve_links.csv"] with (format="csv", ignoreFirstRecord=True);
+DeviceTvmSoftwareVulnerabilities
+// Join POC information with the Software Vulnerabilities based on CVE
+| join kind=inner (VulnerabilitiesWithPOC
+| summarize POCLinks = make_set(URL), POCTotal = dcount(URL) by CVE) on $left.CveId == $right.CVE
+// Summarize Results to get statistics
+| summarize TotalVulnerableDevices = dcount(DeviceName), arg_max(CveId, POCTotal, POCLinks) by CveId
+// Sort the results
+| sort by POCTotal, TotalVulnerableDevices
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

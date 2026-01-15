@@ -1,0 +1,28 @@
+title: Linux Possible Access Or Modification Of sshd Config File
+id: cbf71e5b-b857-53dc-a836-a20da56ffd90
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious access or modification of the sshd_config file on Linux systems. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving processes like "cat," "nano," "vim," and "vi" accessing the sshd_config file. This activity is significant because unauthorized changes to sshd_config can allow threat actors to redirect port connections or use unauthorized keys, potentially compromising the system. If confirme
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    process_name:
+      - cat
+      - nano*
+      - vim*
+      - vi*
+    process:
+      - '*/etc/ssh/sshd_config'
+  condition: selection
+tags:
+  - attack.t1098.004
+references:
+  - https://www.hackingarticles.in/ssh-penetration-testing-port-22/
+  - https://attack.mitre.org/techniques/T1098/004/
+custom_attributes:
+  original_rule_id: 7a85eb24-72da-11ec-ac76-acde48001122
+  source_format: splunk_spl

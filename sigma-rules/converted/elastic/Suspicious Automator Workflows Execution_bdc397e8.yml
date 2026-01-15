@@ -1,0 +1,30 @@
+title: Suspicious Automator Workflows Execution
+id: 5d9f8cfc-0d03-443e-a167-2b0597ce0965
+status: stable
+level: medium
+description: 'Identifies the execution of the Automator Workflows process followed
+  by a network connection from it''s XPC service.
+
+  Adversaries may drop a custom workflow template that hosts malicious JavaScript
+  for Automation (JXA) code as an
+
+  alternative to using osascript.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-23'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.entity_id with maxspan=15s\n [process\
+      \ where host.os.type == \"macos\" and event.type in (\"start\", \"process_started\"\
+      ) and process.name == \"Automator\"]\n [network where host.os.type == \"macos\"\
+      ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.t1059
+references:
+- https://posts.specterops.io/persistent-jxa-66e1c3cd1cf5

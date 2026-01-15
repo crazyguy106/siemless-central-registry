@@ -1,0 +1,21 @@
+title: Enumeration of users and group membership observed in the Microsoft Graph API
+id: dd7eeeb5-f795-520f-9b74-031e29c3940a
+status: experimental
+level: low
+description: |
+  Identify the enumeration of both the users and members of groups in the Entra ID tenant. While these are two separate functions in GraphRunner, they are often run in support of one another.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_1c65d59f-9b9c-4023-b98c-7d6cff503b1b
+  source_format: chronicle_yaral

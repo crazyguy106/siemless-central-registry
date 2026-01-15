@@ -1,0 +1,26 @@
+title: Windows MSExchange Management Mailbox Cmdlet Usage
+id: 255e2579-f6e2-5e90-b28f-52abbc1e937d
+status: stable
+level: medium
+description: |
+  The following analytic identifies suspicious Cmdlet usage in Exchange Management logs, focusing on commands like New-MailboxExportRequest and New-ManagementRoleAssignment. It leverages EventCode 1 and specific Message patterns to detect potential ProxyShell and ProxyNotShell abuse. This activity is significant as it may indicate unauthorized access or manipulation of mailboxes and roles, which are critical for maintaining email security. If confirmed malicious, attackers could export mailbox dat
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 1
+    message:
+      - '*New-MailboxExportRequest*'
+      - '*New-ManagementRoleAssignment*'
+      - '*New-MailboxSearch*'
+      - '*Get-Recipient*'
+      - '*Search-Mailbox*'
+  condition: selection
+tags:
+  - attack.t1059.001
+references:
+  - https://gist.github.com/MHaggis/f66f1d608ea046efb9157020cd34c178
+custom_attributes:
+  original_rule_id: 396de86f-25e7-4b0e-be09-a330be35249d
+  source_format: splunk_spl

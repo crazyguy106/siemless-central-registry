@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) has local port $(osquery.columns.local_port) opened'
+id: 077c8131-b21c-567e-807f-f3c7a5515b54
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Process $(osquery.columns.pid) has local port $(osquery.columns.local_port) opened'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: open_sockets
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24048
+  wazuh_level: 4

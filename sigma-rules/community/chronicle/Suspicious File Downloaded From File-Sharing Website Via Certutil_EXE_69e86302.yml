@@ -1,0 +1,20 @@
+title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+id: dcd9a713-76cd-5fb5-8fdc-3459a23ef19c
+status: experimental
+level: high
+description: |
+  Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites
+author: Nasreddine Bencherchali (Nextron Systems)
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: certutil.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_certutil_download_file_sharing_domains.yml
+custom_attributes:
+  original_rule_id: mr_f61b63c4-96f0-4c2c-9f63-2e1dc16ddcf8
+  source_format: chronicle_yaral

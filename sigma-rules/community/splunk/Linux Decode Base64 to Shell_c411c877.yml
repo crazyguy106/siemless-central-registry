@@ -1,0 +1,24 @@
+title: Linux Decode Base64 to Shell
+id: dd9e6a95-ccf3-50a9-9284-3c4a120809a2
+status: stable
+level: high
+description: |
+  The following analytic detects the behavior of decoding base64-encoded data and passing it to a Linux shell. Additionally, it mitigates the potential damage and protects the organization's systems and data.The detection is made by searching for specific commands in the Splunk query, namely "base64 -d" and "base64 --decode", within the Endpoint.Processes data model. The analytic also includes a filter for Linux shells. The detection is important because  it indicates the presence of malicious act
+author: Michael Haag, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process: '*|*'
+    field: process
+  condition: selection
+tags:
+  - attack.t1027
+  - attack.t1059.004
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1027/T1027.md#atomic-test-1---decode-base64-data-into-script
+  - https://redcanary.com/blog/lateral-movement-with-secure-shell/
+  - https://linux.die.net/man/1/base64
+custom_attributes:
+  original_rule_id: 637b603e-1799-40fd-bf87-47ecbd551b66
+  source_format: splunk_spl

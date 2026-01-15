@@ -1,0 +1,20 @@
+title: File Download Using Notepad++ GUP Utility
+id: 02f7bbf2-80e8-5ef0-9ade-1ebee7e96611
+status: experimental
+level: high
+description: |
+  Detects execution of the Notepad++ updater (gup) from a process other than Notepad++ to download files
+author: Nasreddine Bencherchali (Nextron Systems)
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: gup.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_gup_download.yml
+custom_attributes:
+  original_rule_id: mr_0e2db84a-0176-460c-b0b6-572e17842acd
+  source_format: chronicle_yaral

@@ -1,0 +1,18 @@
+title: Possible Resource-Based Constrained Delegation Abuse
+id: 276f9f9f-3240-5d88-9300-7deec5d54451
+status: stable
+level: medium
+description: |
+  'This query identifies Active Directory computer objects modifications that allow an adversary to abuse the Resource-based constrained delegation.  This query checks for event id 5136 that the Object Class field is "computer" and the LDAP Display Name is "msDS-AllowedToActOnBehalfOfOtherIdentity" which is an indicator of Resource-based constrained delegation. Ref: https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html'
+author: Vasileios Paschalidis
+logsource:
+  product: azure
+detection:
+  selection:
+    ObjectClass: computer
+  condition: selection
+tags:
+  - attack.t1134
+custom_attributes:
+  original_rule_id: 2937bc6b-7cda-4fba-b452-ea43ba8e835f
+  source_format: azure_kql

@@ -1,0 +1,26 @@
+title: Function: ListAllActionsAndOperations()
+id: acc441b5-759c-418b-a56f-ef99fc4ddb47
+status: experimental
+level: medium
+description: |
+  If you want to get quick insight into all the ActionTypes, Operations and OperationNames in your Sentinel environment, the function below can be used. This function summarizes all different actions in different tables in a single view, which is optimal when you want to quickly know if some activities can be seen/detected in your environment.
+
+Note: This query only works in Sentinel and **NOT** in Defender XDR, if you have Unified XDR Enabled it will also work in Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // List all ActionTypes, Operations and OperationNames in a single view. This can be used to get insight into the activities that are logged.
+let ListAllActionsAndOperations = () {
+union *
+| extend Action = coalesce(Operation, OperationName, OperationNameValue, ActionType)
+| where isnotempty(Action)
+| distinct Action, Type
+};
+// Example
+ListAllActionsAndOperations
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

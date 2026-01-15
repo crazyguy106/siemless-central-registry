@@ -1,0 +1,22 @@
+title: Windows Modify Registry Disable WinDefender Notifications
+id: 944bfcca-749a-5606-8fb6-660d7f81dab3
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious registry modification aimed at disabling Windows Defender notifications. It leverages data from the Endpoint.Registry data model, specifically looking for changes to the registry path "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\\DisableNotifications" with a value of "0x00000001". This activity is significant as it indicates an attempt to evade detection by disabling security alerts, a technique used by adversaries
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\Notifications\\DisableNotifications'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+custom_attributes:
+  original_rule_id: 8e207707-ad40-4eb3-b865-3a52aec91f26
+  source_format: splunk_spl

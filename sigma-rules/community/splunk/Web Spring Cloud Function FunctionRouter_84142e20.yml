@@ -1,0 +1,25 @@
+title: Web Spring Cloud Function FunctionRouter
+id: ca9762a7-6ab6-53ff-9f0e-b0dbc44b38a9
+status: stable
+level: high
+description: |
+  The following analytic identifies HTTP POST requests to the Spring Cloud Function endpoint containing "functionRouter" in the URL. It leverages the Web data model to detect these requests based on specific fields such as http_method, url, and http_user_agent. This activity is significant because it targets CVE-2022-22963, a known vulnerability in Spring Cloud Function, which has multiple proof-of-concept exploits available. If confirmed malicious, this activity could allow attackers to execute a
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    url: '*/functionRouter*'
+    datamodel: Web
+    http_method:
+      - POST
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://github.com/rapid7/metasploit-framework/pull/16395
+  - https://github.com/hktalent/spring-spel-0day-poc
+custom_attributes:
+  original_rule_id: 89dddbad-369a-4f8a-ace2-2439218735bc
+  source_format: splunk_spl

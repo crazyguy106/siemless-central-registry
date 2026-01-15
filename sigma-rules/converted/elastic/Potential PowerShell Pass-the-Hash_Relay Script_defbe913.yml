@@ -1,0 +1,36 @@
+title: Potential PowerShell Pass-the-Hash/Relay Script
+id: 951779c2-82ad-4a6c-82b8-296c1f691449
+status: stable
+level: high
+description: 'Detects PowerShell scripts that can execute pass-the-hash (PtH) attacks,
+  intercept and relay NTLM challenges, and carry
+
+  out other man-in-the-middle (MitM) attacks.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-27'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    file_directory: C:\ProgramData\Microsoft\Windows
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.execution
+- attack.credential_access
+- attack.t1059
+- attack.t1550
+- attack.t1557
+- attack.t1550.002
+- attack.t1059.001
+references:
+- https://github.com/Kevin-Robertson/Invoke-TheHash/blob/master/Invoke-WMIExec.ps1
+- https://github.com/Kevin-Robertson/Invoke-TheHash/blob/master/Invoke-SMBExec.ps1
+- https://github.com/dafthack/Check-LocalAdminHash/blob/master/Check-LocalAdminHash.ps1
+- https://github.com/nettitude/PoshC2/blob/master/resources/modules/Invoke-Tater.ps1
+- https://github.com/Kevin-Robertson/Inveigh/blob/master/Inveigh.ps1

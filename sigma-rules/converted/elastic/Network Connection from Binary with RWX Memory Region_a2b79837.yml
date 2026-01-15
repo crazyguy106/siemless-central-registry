@@ -1,0 +1,46 @@
+title: Network Connection from Binary with RWX Memory Region
+id: 32300431-c2d5-432d-8ec8-0e03f9924756
+status: stable
+level: medium
+description: 'Monitors for the execution of a unix binary with read, write and execute
+  memory region permissions, followed by a
+
+  network connection. The mprotect() system call is used to change the access protections
+  on a region of memory that has
+
+  already been allocated. This syscall allows a process to modify the permissions
+  of pages in its virtual address space,
+
+  enabling or disabling permissions such as read, write, and execute for those pages.
+  RWX permissions on memory is in many
+
+  cases overly permissive, and should (especially in conjunction with an outbound
+  network connection) be analyzed
+
+  thoroughly.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-13'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sample by host.id, process.pid, process.name\n  /* auditd.data.a2\
+      \ == \"7\" translates to RWX memory region protection (PROT_READ | PROT_WRITE\
+      \ | PROT_EXEC) */\n  [process where host.os.type == \"linux\" and auditd.data.syscall\
+      \ == \"mprotect\" and auditd.data.a2 == \"7\" and\n   not process.name == \"\
+      httpd\"]\n  [network where host.os.type == \"linux\" and event.type == \"start\"\
+      \ and event.action == \"connection_attempted\" and\n   not cidrmatch(destination.ip,\
+      \ \"127.0.0.0/8\", \"169.254.0.0/16\", \"224.0.0.0/4\", \"::1\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sample - requires manual review
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1059.004
+- attack.t1071
+references:
+- https://man7.org/linux/man-pages/man2/mprotect.2.html
+- https://www.elastic.co/security-labs/linux-detection-engineering-with-auditd

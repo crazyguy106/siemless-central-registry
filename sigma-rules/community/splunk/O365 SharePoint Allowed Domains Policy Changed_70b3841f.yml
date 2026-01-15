@@ -1,0 +1,22 @@
+title: O365 SharePoint Allowed Domains Policy Changed
+id: 462eba06-acf3-5500-80d7-3b1101a07759
+status: stable
+level: high
+description: |
+  The following analytic identifies when the allowed domain settings for O365 SharePoint have been changed. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations may also need access to OneDrive/SharePoint resources. These changed should be monitored by security teams as they could potentially lead to unauthorized access.
+author: Steven Dick
+logsource:
+  product: azure
+detection:
+  selection:
+    object_name: ModifiedProperties{}.Name
+    workload: SharePoint
+    operation: SharingPolicyChanged
+  condition: selection
+tags:
+  - attack.t1136.003
+references:
+  - https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview
+custom_attributes:
+  original_rule_id: b0cc6fa8-39b1-49ac-a4fe-f2f2a668e06c
+  source_format: splunk_spl

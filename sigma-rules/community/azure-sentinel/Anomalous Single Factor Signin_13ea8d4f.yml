@@ -1,0 +1,18 @@
+title: Anomalous Single Factor Signin
+id: 6f517d4a-6020-5dfe-9419-22b51ec25d4b
+status: stable
+level: low
+description: |
+  'Detects successful signins using single factor authentication where the device, location, and ASN are abnormal.  Single factor authentications pose an opportunity to access compromised accounts, investigate these for anomalous occurrencess.  Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-devices#non-compliant-device-sign-in'
+author: Pete Bryan
+logsource:
+  product: azure
+detection:
+  selection:
+    AuthenticationRequirement: singleFactorAuthentication
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: f7c3f5c8-71ea-49ff-b8b3-148f0e346291
+  source_format: azure_kql

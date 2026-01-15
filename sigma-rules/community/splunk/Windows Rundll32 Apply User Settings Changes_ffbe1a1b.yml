@@ -1,0 +1,24 @@
+title: Windows Rundll32 Apply User Settings Changes
+id: 3e1de267-bfa7-53f4-a10c-83c28922edad
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of rundll32 with a call to the user32 DLL, specifically the UpdatePerUserSystemParameters function. This function is responsible for updating system parameters, such as desktop backgrounds, display settings, and visual themes.  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions. This activity can be significant as it is an uncommon way to apply settings. It was also observed as part of Rhysida Rans
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*user32.dll*'
+      - '*UpdatePerUserSystemParameters*'
+  condition: selection
+tags:
+  - attack.t1218.011
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a
+  - https://www.cisa.gov/sites/default/files/publications/aa22-264a-iranian-cyber-actors-conduct-cyber-operations-against-the-government-of-albania.pdf
+  - https://cdn.pathfactory.com/assets/10555/contents/400686/13f4424c-05b4-46db-bb9c-6bf9b5436ec4.pdf
+custom_attributes:
+  original_rule_id: b9fb8d97-dbc9-4a09-804c-ff0e3862bb2d
+  source_format: splunk_spl

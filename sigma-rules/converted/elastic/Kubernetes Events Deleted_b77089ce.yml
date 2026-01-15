@@ -1,0 +1,29 @@
+title: Kubernetes Events Deleted
+id: 33c27b4e-8ec6-406f-b8e5-345dc024aa97
+status: stable
+level: low
+description: 'This rule detects the deletion of Kubernetes events, which can indicate
+  an attempt to cover up malicious
+
+  activity or misconfigurations. Adversaries may delete events to remove traces of
+  their actions, making it
+
+  harder for defenders to investigate and respond to incidents.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-27'
+modified: '2025-07-07'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_dataset: kubernetes.audit_logs
+    kubernetes_audit_verb: delete
+    kubernetes_audit_objectRef_resource: events
+    kubernetes_audit_stage: ResponseComplete
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.004
+- attack.t1070

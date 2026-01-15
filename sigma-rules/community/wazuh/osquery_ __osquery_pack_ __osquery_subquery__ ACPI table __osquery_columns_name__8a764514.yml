@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): ACPI table $(osquery.columns.name) size is $(osquery.columns.size)'
+id: f5e44083-171b-5d7c-88bd-51e87e5e4d5e
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): ACPI table $(osquery.columns.name) size is $(osquery.columns.size)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: acpi_tables
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24401
+  wazuh_level: 4

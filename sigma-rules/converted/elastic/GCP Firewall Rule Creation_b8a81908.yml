@@ -1,0 +1,35 @@
+title: GCP Firewall Rule Creation
+id: 30562697-9859-4ae0-a8c5-dab45d664170
+status: stable
+level: low
+description: 'Identifies when a firewall rule is created in Google Cloud Platform
+  (GCP) for Virtual Private Cloud (VPC) or App Engine.
+
+  These firewall rules can be configured to allow or deny connections to or from virtual
+  machine (VM) instances or
+
+  specific applications. An adversary may create a new firewall rule in order to weaken
+  their target''s security controls
+
+  and allow more permissive ingress or egress traffic flows for their benefit.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-21'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: gcp.audit
+    event_action: (*.compute.firewalls.insert
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+references:
+- https://cloud.google.com/vpc/docs/firewalls
+- https://cloud.google.com/appengine/docs/standard/python/understanding-firewalls
+falsepositives:
+- "    Firewall rules may be created by system administrators. Verify that the firewall\
+  \ configuration change was expected.\n    Exceptions can be added to this rule to\
+  \ filter expected behavior.\n    "

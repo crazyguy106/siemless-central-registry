@@ -1,0 +1,24 @@
+title: PHP internal error (server out of space).
+id: 00dd1907-c630-5d72-9e20-6d923bd2218c
+status: stable
+level: low
+description: PHP internal error (server out of space).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'bytes written, possibly out of free disk space in'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31410
+tags:
+  - attack.t1488
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31413
+  wazuh_level: 5

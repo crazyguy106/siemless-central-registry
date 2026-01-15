@@ -1,0 +1,22 @@
+title: Windows Terminating Lsass Process
+id: f974958a-e88a-5a5d-915e-7aa9881fb8ed
+status: stable
+level: medium
+description: |
+  The following analytic detects a suspicious process attempting to terminate the Lsass.exe process. It leverages Sysmon EventCode 10 logs to identify processes granted PROCESS_TERMINATE access to Lsass.exe. This activity is significant because Lsass.exe is a critical process responsible for enforcing security policies and handling user credentials. If confirmed malicious, this behavior could indicate an attempt to perform credential dumping, privilege escalation, or evasion of security policies, 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 10
+    grantedaccess: 0x1
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+custom_attributes:
+  original_rule_id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
+  source_format: splunk_spl

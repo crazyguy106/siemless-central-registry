@@ -1,0 +1,32 @@
+title: Executable Masquerading as Kernel Process
+id: 202829f6-0271-4e88-b882-11a655c590d4
+status: stable
+level: low
+description: 'Monitors for kernel processes with associated process executable fields
+  that are not empty. Unix kernel processes such
+
+  as kthreadd and kworker typically do not have process.executable fields associated
+  to them. Attackers may attempt to
+
+  hide their malicious programs by masquerading as legitimate kernel processes.'
+author: Elastic (converted by SIEMLess)
+date: '2024-02-01'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name|contains:
+    - kworker*
+    - kthread*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1564
+- attack.t1036.004
+- attack.t1036
+references:
+- https://sandflysecurity.com/blog/linux-stealth-rootkit-malware-with-edr-evasion-analyzed/

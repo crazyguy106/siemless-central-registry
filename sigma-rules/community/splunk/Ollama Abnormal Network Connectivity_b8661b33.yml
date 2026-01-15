@@ -1,0 +1,33 @@
+title: Ollama Abnormal Network Connectivity
+id: a5357083-d87f-592a-a322-b94a4cc49807
+status: experimental
+level: medium
+description: |
+  Detects abnormal network activity and connectivity issues in Ollama including non-localhost API access attempts and warning-level network errors such as DNS lookup failures, TCP connection issues, or host resolution problems that may indicate network-based attacks, unauthorized access attempts, or infrastructure reconnaissance activity.
+author: Rod Soto
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    msg:
+      - '*failed*'
+      - '*dial tcp*'
+      - '*lookup*'
+      - '*no such host*'
+      - '*connection*'
+      - '*network*'
+      - '*timeout*'
+      - '*unreachable*'
+      - '*refused*'
+    severity: medium
+    attack_type: Abnormal Network Connectivity
+    level: WARN
+  condition: selection
+tags:
+  - attack.t1571
+references:
+  - https://github.com/rosplk/ta-ollama
+custom_attributes:
+  original_rule_id: 19ec30ad-faa2-496a-a6a9-f2e5f778fbdb
+  source_format: splunk_spl

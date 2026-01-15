@@ -1,0 +1,19 @@
+title: Service Principal Assigned App Role With Sensitive Access
+id: b7cbf548-d808-575b-8598-fb2ea8e92eb2
+status: stable
+level: medium
+description: |
+  'Detects a Service Principal being assigned an app role that has sensitive access such as Mail.Read.   A threat actor who compromises a Service Principal may assign it an app role to allow it to access sensitive data, or to perform other actions.   Ensure that any assignment to a Service Principal is valid and appropriate.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-applications#application-granted-highly-privileged-permissions'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    displayName: ServicePrincipal.ObjectID
+    OperationName: Add app role assignment to service principal
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: dd78a122-d377-415a-afe9-f22e08d2112c
+  source_format: azure_kql

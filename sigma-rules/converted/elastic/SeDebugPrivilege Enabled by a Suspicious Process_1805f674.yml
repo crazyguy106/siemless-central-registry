@@ -1,0 +1,35 @@
+title: SeDebugPrivilege Enabled by a Suspicious Process
+id: 97020e61-e591-4191-8a3b-2861a2b887cd
+status: stable
+level: medium
+description: 'Identifies the creation of a process running as SYSTEM and impersonating
+  a Windows core binary privileges. Adversaries
+
+  may create a new process with a different token to escalate privileges and bypass
+  access controls.'
+author: Elastic (converted by SIEMLess)
+date: '2022-10-20'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    winlog_event_data_SubjectUserSid|contains:
+    - S-1-5-18
+    - S-1-5-19
+    - S-1-5-20
+    winlog_event_data_ProcessName|contains:
+    - ?:\\Windows\\System32\\msiexec.exe
+    - ?:\\Windows\\SysWOW64\\msiexec.exe
+    - ?:\\Windows\\System32\\lsass.exe
+    - ?:\\Windows\\WinSxS\\*
+    - ?:\\Program Files\\*
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1134
+references:
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4703
+- https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e

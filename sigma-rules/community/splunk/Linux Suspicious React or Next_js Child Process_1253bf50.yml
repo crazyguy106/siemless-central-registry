@@ -1,0 +1,60 @@
+title: Linux Suspicious React or Next.js Child Process
+id: 9a23c8ff-5dd2-5435-b2c9-93b92db7530b
+status: stable
+level: high
+description: |
+  This analytic detects Linux processes such as sh, bash, and common Linux LOLBINs being spawned by React or Next.js application servers. In the context of CVE-2025-55182 / React2Shell / CVE-2025-66478 for Next.js, successful exploitation can lead to arbitrary JavaScript execution on the server, which in turn is commonly used to invoke Node's child_process APIs (for example child_process.execSync) to run OS-level commands. Public proof-of-concept payloads and observed in-the-wild exploit traffic s
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    parent_process_name: node
+    process:
+      - '*/dev/tcp/*'
+      - '*/dev/udp/*'
+      - '*0>&1*'
+      - '*curl*'
+      - '*exec *>&*'
+      - '*fsockopen*'
+      - '*ifconfig*'
+      - '*mkfifo*'
+      - '*nc *'
+      - '*ncat*'
+      - '*netcat*'
+      - '*proc_open*'
+      - '*s_client*'
+      - '*socat*'
+      - '*socket*'
+      - '*subprocess*'
+      - '*TCPSocket*'
+      - '*wget*'
+    parent_process:
+      - '*--experimental-https*'
+      - '*--experimental-next-config-strip-types*'
+      - '*/node_modules/next*'
+      - '*next dev*'
+      - '*next start*'
+      - '*node_modules/.bin*'
+      - '*react-scripts start*'
+      - '*start-server.js*'
+    process_name:
+      - bash
+      - dash
+      - ksh
+      - sh
+      - zsh
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1059.004
+references:
+  - https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components
+  - https://nextjs.org/blog/CVE-2025-66478
+  - https://nvd.nist.gov/vuln/detail/CVE-2025-55182
+  - https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3
+  - https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182
+custom_attributes:
+  original_rule_id: cda04e9c-1950-43ab-87d6-e333a3d7f107
+  source_format: splunk_spl

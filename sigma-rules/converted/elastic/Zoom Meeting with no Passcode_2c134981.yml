@@ -1,0 +1,38 @@
+title: Zoom Meeting with no Passcode
+id: 58ac2aa5-6718-427c-a845-5f3ac5af00ba
+status: stable
+level: medium
+description: 'This rule identifies Zoom meetings that are created without a passcode.
+  Meetings without a passcode are susceptible to
+
+  Zoombombing. Zoombombing is carried out by taking advantage of Zoom sessions that
+  are not protected with a passcode.
+
+  Zoombombing refers to the unwanted, disruptive intrusion, generally by Internet
+  trolls and hackers, into a video
+
+  conference call. In a typical Zoombombing incident, a teleconferencing session is
+  hijacked by the insertion of material
+
+  that is lewd, obscene, racist, or antisemitic in nature, typically resulting of
+  the shutdown of the session.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-14'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_type: creation
+    event_module: zoom
+    event_dataset: zoom.webhook
+    event_action: meeting.created
+    zoom_meeting_password: '*'
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1190
+references:
+- https://blog.zoom.us/a-message-to-our-users/
+- https://www.fbi.gov/contact-us/field-offices/boston/news/press-releases/fbi-warns-of-teleconferencing-and-online-classroom-hijacking-during-covid-19-pandemic

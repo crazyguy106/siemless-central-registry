@@ -1,0 +1,22 @@
+title: AWS RDS Snapshot Shared Publicly
+id: 877ffcc4-b7db-54db-b62d-ee3b0e7ff9bf
+status: experimental
+level: high
+description: Detects when an Amazon RDS Snapshot is shared publicly.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - ModifyDBSnapshotAttribute
+      - ModifyDBClusterSnapshotAttribute
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1537
+custom_attributes:
+  original_rule_id: mr_d87cf718-8a9c-4f1d-bcf0-20f4f5f59d02
+  source_format: chronicle_yaral

@@ -1,0 +1,32 @@
+title: Route53 Resolver Query Log Configuration Deleted
+id: 453183fa-f903-11ee-8e88-f661ea17fbce
+status: stable
+level: medium
+description: 'Identifies when a Route53 Resolver Query Log Configuration is deleted.
+  When a Route53 Resolver query log configuration
+
+  is deleted, Resolver stops logging DNS queries and responses for the specified configuration.
+  Adversaries may delete
+
+  query log configurations to evade detection or cover their tracks.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-12'
+modified: '2025-01-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: route53resolver.amazonaws.com
+    event_action: DeleteResolverQueryLogConfig
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.008
+references:
+- https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverQueryLogConfig.html
+falsepositives:
+- Legitimate deletion of Route53 Resolver Query Log Configuration by authorized personnel.

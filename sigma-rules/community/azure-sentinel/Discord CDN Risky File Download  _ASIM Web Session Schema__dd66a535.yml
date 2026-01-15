@@ -1,0 +1,19 @@
+title: Discord CDN Risky File Download  (ASIM Web Session Schema)
+id: ca7d20ed-fb98-5b20-85c2-0dd67b2bf1ff
+status: stable
+level: medium
+description: |
+  'Identifies callouts to Discord CDN addresses for risky file extensions. This detection will trigger when a callout for a risky file is made to a discord server that has only been seen once in your environment.   Unique discord servers are identified using the server ID that is included in the request URL (DiscordServerId in query). Discord CDN has been used in multiple campaigns to download additional payloads.  This analytic rule uses [ASIM](https://aka.ms/AboutASIM) and supports any built-in 
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    Url|contains: attachments
+  condition: selection
+tags:
+  - attack.t1071.001
+custom_attributes:
+  original_rule_id: 01e8ffff-dc0c-43fe-aa22-d459c4204553
+  source_format: azure_kql

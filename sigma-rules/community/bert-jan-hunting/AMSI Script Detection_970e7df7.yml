@@ -1,0 +1,21 @@
+title: AMSI Script Detection
+id: 6a2ea2ae-150b-4a96-95cf-2d75892e941b
+status: experimental
+level: medium
+description: |
+  The Windows Antimalware Scan Interface (AMSI) is a versatile interface standard that allows your applications and services to integrate with any antimalware product that's present on a machine. AMSI provides enhanced malware protection for your end-users and their data, applications, and workloads.
+
+This detection lists all *AmsiScriptDetection* events that happened in your tenant. Note that those events do not necessary results in incidents in Defender For Endpoint, therefore it is recommended to monitor or report on those actions.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents 
+| where ActionType == "AmsiScriptDetection" 
+| extend Description = tostring(parse_json(AdditionalFields).Description) 
+| project Timestamp, DeviceName, DeviceId, InitiatingProcessCommandLine, Description, ReportId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

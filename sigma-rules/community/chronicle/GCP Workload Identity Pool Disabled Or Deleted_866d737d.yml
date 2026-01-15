@@ -1,0 +1,24 @@
+title: GCP Workload Identity Pool Disabled Or Deleted
+id: 77812326-c6ad-5337-8721-ca8926f8eec2
+status: experimental
+level: high
+description: |
+  Detect when GCP Workload identity pools are disabled or deleted. Disabling or deleting a pool will prevent any connected identities from accessing all GCP resources.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type:
+      - google.iam.v1.WorkloadIdentityPools.DeleteWorkloadIdentityPool
+      - google.iam.v1.WorkloadIdentityPools.UpdateWorkloadIdentityPool
+    target_application: iam.googleapis.com
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_265fbe68-80c6-48b0-a211-dca6bcef0fd2
+  source_format: chronicle_yaral

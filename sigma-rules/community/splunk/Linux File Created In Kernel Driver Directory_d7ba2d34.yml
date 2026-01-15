@@ -1,0 +1,24 @@
+title: Linux File Created In Kernel Driver Directory
+id: 65209c84-252b-5eb7-81e7-92efd9cf6d87
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of files in the Linux kernel/driver directory. It leverages filesystem data to identify new files in this critical directory. This activity is significant because the kernel/driver directory is typically reserved for kernel modules, and unauthorized file creation here can indicate a rootkit installation. If confirmed malicious, this could allow an attacker to gain high-level privileges, potentially compromising the entire system by executing code at th
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/kernel/drivers/*'
+  condition: selection
+tags:
+  - attack.t1547.006
+references:
+  - https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/kernel-module-driver-configuration/Working_with_Kernel_Modules/
+  - https://security.stackexchange.com/questions/175953/how-to-load-a-malicious-lkm-at-startup
+  - https://0x00sec.org/t/kernel-rootkits-getting-your-hands-dirty/1485
+custom_attributes:
+  original_rule_id: b85bbeec-6326-11ec-9311-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,63 @@
+title: Windows AD Dangerous User ACL Modification
+id: 7c1fcb9f-2f5c-53f6-b946-001ef55884fb
+status: stable
+level: high
+description: |
+  This detection monitors the addition of the following ACLs to an Active Directory user object: "Full control","All extended rights","All validated writes", "Create all child objects","Delete all child objects","Delete subtree","Delete","Modify permissions","Modify owner","Write all properties".  Such modifications can indicate potential privilege escalation or malicious activity. Immediate investigation is recommended upon alert.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    aceaccessrights:
+      - Full control
+      - All extended rights
+      - All validated writes
+      - Create all child objects
+      - Delete all child objects
+      - Delete subtree
+      - Delete
+      - Modify permissions
+      - Modify owner
+      - Write all properties
+      - CC
+      - CR
+      - DC
+      - DT
+      - SD
+      - SW
+      - WD
+      - WO
+      - WP
+    eventcode: 5136
+    objectclass: user
+    field:
+      - old_value
+      - new_value
+      - new_ace
+      - aceAccessRights
+      - aceFlags
+    max_match:
+      - 10000
+      - 10000
+      - 100
+      - 100
+    new_ace:
+      - old_values
+    acetype:
+      - '*denied*'
+      - D
+      - OD
+      - XD
+  condition: selection
+tags:
+  - attack.t1222.001
+  - attack.t1484
+references:
+  - https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
+  - https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+custom_attributes:
+  original_rule_id: ec5b6790-595a-4fb8-ad43-56e5b55a9617
+  source_format: splunk_spl

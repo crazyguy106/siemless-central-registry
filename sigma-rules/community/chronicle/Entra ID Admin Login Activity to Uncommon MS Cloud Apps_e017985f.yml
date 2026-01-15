@@ -1,0 +1,22 @@
+title: Entra ID Admin Login Activity to Uncommon MS Cloud Apps
+id: a9dcf0f0-53db-5f70-9624-d68f50bbe0f9
+status: experimental
+level: medium
+description: |
+  Detects Azure AD admin login activity to apps other than a defined list of first party MS Cloud Apps. Note that Azure Active Directory PowerShell and custom Azure apps are not in this list by default
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_name: Azure AD
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
+custom_attributes:
+  original_rule_id: mr_59c94dc1-b7af-412c-aa2d-4b5834474f19
+  source_format: chronicle_yaral

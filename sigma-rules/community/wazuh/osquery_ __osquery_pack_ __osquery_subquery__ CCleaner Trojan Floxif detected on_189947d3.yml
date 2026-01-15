@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): CCleaner Trojan Floxif detected on service $(osquery.columns.name) for user $(osquery.columns.user_accou'
+id: 8985e8af-b881-5cb7-9352-a95fd42bfb51
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): CCleaner Trojan Floxif detected on service $(osquery.columns.name) for user $(osquery.columns.user_account)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: CCleaner_Trojan_stage2.Floxif
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+tags:
+  - attack.t1035
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24702
+  wazuh_level: 4

@@ -1,0 +1,30 @@
+title: VMware Server Side Template Injection Hunt
+id: da701940-40f4-57e2-b00d-72e21b082d6d
+status: stable
+level: low
+description: |
+  The following analytic identifies potential server-side template injection attempts related to CVE-2022-22954. It detects suspicious URL patterns containing "deviceudid" and keywords like "java.lang.ProcessBuilder" or "freemarker.template.utility.ObjectConstructor" using web or proxy logs within the Web Datamodel. This activity is significant as it may indicate an attempt to exploit a known vulnerability in VMware, potentially leading to remote code execution. If confirmed malicious, attackers c
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    url:
+      - '*java.lang.ProcessBuilder*'
+      - '*freemarker.template.utility.ObjectConstructor*'
+    datamodel: Web
+    http_method:
+      - GET
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.cisa.gov/uscert/ncas/alerts/aa22-138b
+  - https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb
+  - https://github.com/sherlocksecurity/VMware-CVE-2022-22954
+  - https://www.vmware.com/security/advisories/VMSA-2022-0011.html
+  - https://attackerkb.com/topics/BDXyTqY1ld/cve-2022-22954/rapid7-analysis
+custom_attributes:
+  original_rule_id: 5796b570-ad12-44df-b1b5-b7e6ae3aabb0
+  source_format: splunk_spl

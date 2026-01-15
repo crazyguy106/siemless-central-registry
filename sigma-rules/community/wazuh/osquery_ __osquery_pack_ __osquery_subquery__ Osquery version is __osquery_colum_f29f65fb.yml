@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Osquery version is $(osquery.columns.version) build on $(osquery.columns.build_platform) $(osquery.colum'
+id: 6de82459-3560-5431-bc2a-748355222a6e
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Osquery version is $(osquery.columns.version) build on $(osquery.columns.build_platform) $(osquery.columns.build_distro)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: osquery_info
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24020
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24023
+  wazuh_level: 4

@@ -1,0 +1,26 @@
+title: GCP BigQuery Datasets Opened To Public
+id: cd7042e3-5bbb-5481-84e4-ebc72b5cdd5c
+status: experimental
+level: high
+description: |
+  Detect when GCP BigQuery datasets are opened to public by adding allUsers or allAuthenticatedUsers to the access policy.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_PERMISSIONS
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_vendor_name: Google Cloud Platform
+    metadata_product_name: BigQuery
+    metadata_product_event_type: google.iam.v1.IAMPolicy.SetIamPolicy
+    target_application: bigquery.googleapis.com
+    security_result_action: ALLOW
+    target_resource_resource_subtype: bigquery_dataset
+    target_resource_resource_type: DATABASE
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_6d331411-347b-432e-ba52-ff78e4c66a3f
+  source_format: chronicle_yaral

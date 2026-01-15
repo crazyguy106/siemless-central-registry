@@ -1,0 +1,24 @@
+title: Google Workspace Encryption Key File Accessed By An Anonymous User
+id: 1f76f9cb-7b19-5764-b8f4-5b2312a25f8f
+status: experimental
+level: medium
+description: |
+  Identifies when an encryption key file is accessed by an anonymous user in Google Drive. An adversary may attempt to access encryption keys before moving laterally and compromising sensitive data.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: drive
+    metadata_product_event_type:
+      - download
+      - view
+      - copy
+  condition: selection
+tags:
+  - attack.t1552
+custom_attributes:
+  original_rule_id: mr_5d7defeb-13d4-48f3-b6b0-d2cdab30ab57
+  source_format: chronicle_yaral

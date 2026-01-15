@@ -1,0 +1,22 @@
+title: 'Docker: Committed an image from container $(docker.Actor.Attributes.name)'
+id: 14da2043-f772-5360-b0bb-4b9ac2f84189
+status: stable
+level: low
+description: 'Docker: Committed an image from container $(docker.Actor.Attributes.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^commit$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87917
+  wazuh_level: 3

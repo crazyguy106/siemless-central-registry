@@ -1,0 +1,28 @@
+title: Icacls Deny Command
+id: 49366df2-17d8-5b98-a30b-de52996e3c72
+status: stable
+level: medium
+description: |
+  The following analytic detects instances where an adversary modifies security permissions of a file or directory using commands like "icacls.exe", "cacls.exe", or "xcacls.exe" with deny options. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it is commonly used by Advanced Persistent Threats (APTs) and coinminer scripts to evade detection and impede access to critical files. If confirmed 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - icacls.exe
+      - cacls.exe
+      - xcacls.exe
+    process:
+      - '*/deny*'
+      - '*/d:*'
+      - '*/d '
+  condition: selection
+tags:
+  - attack.t1222
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: cf8d753e-a8fe-11eb-8f58-acde48001122
+  source_format: splunk_spl

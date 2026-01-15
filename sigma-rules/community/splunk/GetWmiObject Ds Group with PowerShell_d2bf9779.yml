@@ -1,0 +1,24 @@
+title: GetWmiObject Ds Group with PowerShell
+id: 9b6e5ddc-3f8f-59d2-82d8-05e924a7299b
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of `powershell.exe` with command-line arguments used to query domain groups via the `Get-WmiObject` cmdlet and the `-class ds_group` parameter. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it indicates potential reconnaissance efforts by adversaries to enumerate domain groups, which is a common step in Active Directory Discover
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: powershell.exe
+    process:
+      - '*namespace root\\directory\\ldap*'
+      - '*class ds_group*'
+  condition: selection
+tags:
+  - attack.t1069.002
+references:
+  - https://attack.mitre.org/techniques/T1069/002/
+  - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-wmiobject?view=powershell-5.1
+custom_attributes:
+  original_rule_id: df275a44-4527-443b-b884-7600e066e3eb
+  source_format: splunk_spl

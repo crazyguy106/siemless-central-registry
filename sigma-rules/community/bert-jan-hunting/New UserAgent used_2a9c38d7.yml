@@ -1,0 +1,24 @@
+title: New UserAgent used
+id: bbaddf94-b882-463d-8472-0699c3250bed
+status: experimental
+level: medium
+description: |
+  This query can be used to detect new UserAgents that have been used to perform sign in activities (succesful or failed). If you company only uses windows devices it will be interesting to investigate the other UserAgents that have been used. 
+
+False positives can be new browser updates that trigger new UserAgents, this will can be detected by a lot of entries for a specific agent.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    let KnownUserAgents = AADSignInEventsBeta
+  | where Timestamp > ago(30d) and Timestamp < ago(3d)
+  | distinct UserAgent;
+AADSignInEventsBeta
+| where Timestamp > ago(3d)
+| where UserAgent !in (KnownUserAgents)
+| project Timestamp, UserAgent, ErrorCode, AccountObjectId,AccountDisplayName, IPAddress
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

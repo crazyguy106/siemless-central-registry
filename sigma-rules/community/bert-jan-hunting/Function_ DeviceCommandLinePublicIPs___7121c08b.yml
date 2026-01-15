@@ -1,0 +1,28 @@
+title: Function: DeviceCommandLinePublicIPs()
+id: 11307b76-6a70-43e2-83c0-bd5b1246ae3b
+status: experimental
+level: medium
+description: |
+  This function returns all public IPv4 addresses that have been seen on the commandline of the searched device. If you also want to include the remote calls that are initiated by the system account ensure that IncludeSystemExecutions is set to *true*.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let IPRegex = '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}';
+// Returns all commandlines that contain a public IP addres from a specific device
+let DeviceCommandLinePublicIPs = (DeviceName: string, IncludeSystemExecutions: bool){
+DeviceProcessEvents
+| where DeviceName == DeviceName
+| extend IPAddress = extract(IPRegex, 0, ProcessCommandLine)
+| where not(ipv4_is_private(IPAddress))
+| where not(InitiatingProcessAccountSid == "S-1-5-18" and IncludeSystemExecutions == false)
+| project Timestamp, ProcessCommandLine, IPAddress
+| sort by Timestamp
+};
+// Example
+DeviceCommandLinePublicIPs("devicename.tld", false)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

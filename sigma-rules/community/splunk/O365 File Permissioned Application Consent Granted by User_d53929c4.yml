@@ -1,0 +1,36 @@
+title: O365 File Permissioned Application Consent Granted by User
+id: e989f36a-d9ee-50a9-98aa-6a062eb175b6
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where a user in the Office 365 environment grants consent to an application requesting file permissions for OneDrive or SharePoint. It leverages O365 audit logs, focusing on OAuth application consent events. This activity is significant because granting such permissions can allow applications to access, modify, or delete files, posing a risk if the application is malicious or overly permissive. If confirmed malicious, this could lead to data breaches, 
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    operation: Consent to application.
+    delim: ' '
+    workload: AzureActiveDirectory
+    resultstatus: Success
+    admin_consent: 'False'
+    field: permissions
+    scope:
+      - Files.Read
+      - Files.Read.All
+      - Files.ReadWrite
+      - Files.ReadWrite.All
+      - Files.ReadWrite.AppFolder
+  condition: selection
+tags:
+  - attack.t1528
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
+  - https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+  - https://www.alteredsecurity.com/post/introduction-to-365-stealer
+  - https://github.com/AlteredSecurity/365-Stealer
+custom_attributes:
+  original_rule_id: 6c382336-22b8-4023-9b80-1689e799f21f
+  source_format: splunk_spl

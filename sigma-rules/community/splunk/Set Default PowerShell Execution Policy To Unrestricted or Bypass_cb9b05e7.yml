@@ -1,0 +1,20 @@
+title: Set Default PowerShell Execution Policy To Unrestricted or Bypass
+id: eec1bbac-7cdf-55ec-97cc-d607927ff352
+status: stable
+level: high
+description: |
+  The following analytic detects changes to the PowerShell ExecutionPolicy in the registry to "Unrestricted" or "Bypass." It leverages data from Endpoint Detection and Response (EDR) agents, focusing on registry modifications under the path *Software\Microsoft\Powershell\1\ShellIds\Microsoft.PowerShell*. This activity is significant because setting the ExecutionPolicy to these values can allow the execution of potentially malicious scripts without restriction. If confirmed malicious, this could en
+author: Steven Dick, Patrick Bareiss, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    registry_value_name: ExecutionPolicy
+    registry_value_data: Unrestricted
+  condition: selection
+tags:
+  - attack.t1059.001
+custom_attributes:
+  original_rule_id: c2590137-0b08-4985-9ec5-6ae23d92f63d
+  source_format: splunk_spl

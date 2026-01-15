@@ -1,0 +1,28 @@
+title: Visualisation of the users with the most HardDelete actions performed
+id: 4f4f9c78-cab5-469e-a8ad-064709539d09
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Visualisation of the users with the most HardDelete actions performed
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == 'HardDelete'
+| extend
+     Workload = parse_json(RawEventData).Workload,
+     UserId = parse_json(RawEventData).UserId,
+     ResultStatus = parse_json(RawEventData).ResultStatus,
+     AffectedItemsJson = parse_json(RawEventData).AffectedItems
+| extend ParentFolderPath = extract('"Path":"([^"]*)"', 1, tostring(AffectedItemsJson))
+| where ResultStatus == 'Succeeded'
+| where not(ParentFolderPath has_any ("Calendar", 'Agenda')) // Remove personal deletions of Calendar items
+| summarize count() by tostring(UserId)
+| top 50 by count_
+| render columnchart with (title='HardDeletions by User')
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

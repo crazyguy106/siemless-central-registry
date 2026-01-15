@@ -1,0 +1,24 @@
+title: GetCurrent User with PowerShell Script Block
+id: df2dba0d-7938-5489-be9a-93e7d5d26a16
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of the `GetCurrent` method from the WindowsIdentity .NET class using PowerShell Script Block Logging (EventCode=4104). This method identifies the current Windows user. The detection leverages PowerShell script block logs to identify when this method is called. This activity is significant because adversaries and Red Teams may use it to gain situational awareness and perform Active Directory discovery on compromised endpoints. If confirmed malicious, t
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*[System.Security.Principal.WindowsIdentity]*'
+      - '*GetCurrent()*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1033
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-6.0&viewFallbackFrom=net-5.0
+custom_attributes:
+  original_rule_id: 80879283-c30f-44f7-8471-d1381f6d437a
+  source_format: splunk_spl

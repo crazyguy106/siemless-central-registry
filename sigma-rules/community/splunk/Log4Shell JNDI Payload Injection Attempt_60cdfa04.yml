@@ -1,0 +1,21 @@
+title: Log4Shell JNDI Payload Injection Attempt
+id: eb8b8c9a-2006-5e63-b714-8504c74c05cd
+status: stable
+level: medium
+description: |
+  The following analytic identifies attempts to inject Log4Shell JNDI payloads via web calls. It leverages the Web datamodel and uses regex to detect patterns like `${jndi:ldap://` in raw web event data, including HTTP headers. This activity is significant because it targets vulnerabilities in Java web applications using Log4j, such as Apache Struts and Solr. If confirmed malicious, this could allow attackers to execute arbitrary code, potentially leading to full system compromise. Immediate inves
+author: Jose Hernandez
+logsource:
+  product: splunk
+detection:
+  selection:
+    _raw: '[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)\w+(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?'
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.lunasec.io/docs/blog/log4j-zero-day/
+custom_attributes:
+  original_rule_id: c184f12e-5c90-11ec-bf1f-497c9a704a72
+  source_format: splunk_spl

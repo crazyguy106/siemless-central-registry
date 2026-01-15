@@ -1,0 +1,25 @@
+title: Possible webshell on the endpoint
+id: eade7889-4c49-4ba6-a871-fe6b4ba9bf88
+status: experimental
+level: medium
+description: |
+  Attackers install web shells on servers by taking advantage of security gaps, typically vulnerabilities in web applications, in internet-facing servers. These attackers scan the internet, often using public scanning interfaces like shodan.io, to locate servers to target. They may use previously fixed vulnerabilities that unfortunately remain unpatched in many servers, but they are also known to quickly take advantage of newly disclosed vulnerabilities.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let webservers = dynamic(["beasvc.exe", "coldfusion.exe", "httpd.exe", "owstimer.exe", "visualsvnserver.exe", "w3wp.exe", "tomcat", "apache2", "nginx"]);
+let linuxShells = dynamic(["/bin/bash", "/bin/sh", "python", "python3"]);
+let windowsShells = dynamic(["powershell.exe", "powershell_ise.exe", "cmd.exe"]);
+let exclusions = dynamic(["csc.exe", "php-cgi.exe", "vbc.exe", "conhost.exe"]);
+DeviceProcessEvents
+| where (InitiatingProcessParentFileName in~(webservers) or InitiatingProcessCommandLine in~(webservers))
+| where (InitiatingProcessFileName in~(windowsShells) or InitiatingProcessCommandLine has_any(linuxShells))
+| where FileName !in~ (exclusions)
+| extend Reason = iff(InitiatingProcessParentFileName in~ (webservers), "Suspicious web shell execution", "Suspicious webserver process")
+| summarize by FileName, DeviceName, Reason, InitiatingProcessParentFileName, InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

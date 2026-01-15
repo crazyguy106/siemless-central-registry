@@ -1,0 +1,22 @@
+title: List All Role Additions
+id: f6587d85-07ec-472d-9ef6-007ab53b1891
+status: experimental
+level: medium
+description: |
+  This query list all role additions that have been performed in your tenant. See the Microsoft Link for the default roles that exsits in Azure Active Directory. They contain reader, operator, administrator and other roles. It is good practice to gain insight into the roles that have been assigned to accounts. Based on this query you can build a detection for specific roles with high priviliges such as Global Admin, Security Admin or Exchange Admin.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AuditLogs
+| where OperationName == 'Add member to role'
+// If you do want to show PIM activations remove this filter
+| where Identity != 'MS-PIM'
+| extend RoleLine = tostring(extract(@'Role.DisplayName(.*?)"}', 1, tostring(TargetResources)))
+| extend Role = tostring(extract(@'newValue":"\\"(.*?)\\', 1, RoleLine)), userPrincipalName = parse_json(TargetResources).[0].userPrincipalName
+| project TimeGenerated, Role, OperationName, userPrincipalName, Identity
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,53 @@
+title: Suspicious Kernel Feature Activity
+id: 3aff6ab1-18bd-427e-9d4c-c5732110c261
+status: stable
+level: low
+description: 'This rule detects the modification and reading of kernel features through
+  built-in commands. Attackers may collect
+
+  information, disable or weaken Linux kernel protections. For example, an attacker
+  may modify ASLR protection by
+
+  disabling kernel.randomize_va_space, allow ptrace by setting kernel.yama.ptrace_scope
+  to 0, or disable the
+
+  NMI watchdog by setting kernel.nmi_watchdog to 0. These changes may be used to impair
+  defenses and evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-29'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: sysctl
+    process_args: -c
+    process_command_line|contains:
+    - '*/etc/sysctl.conf*'
+    - '*/etc/sysctl.d/*'
+    - '*/proc/sys/kernel/nmi_watchdog*'
+    - '*/proc/sys/vm/nr_hugepages*'
+    - '*/proc/sys/kernel/yama/ptrace_scope*'
+    - '*/proc/sys/kernel/randomize_va_space*'
+    - '*/proc/sys/vm/drop_caches*'
+    - '*/proc/sys/kernel/sysrq*'
+    - '*grsecurity*'
+    - '*exec-shield*'
+    - '*kernel.randomize_va_space*'
+    - '*kernel.yama.ptrace_scope*'
+    - '*kernel.nmi_watchdog*'
+    - '*vm.nr_hugepages*'
+    - '*vm.drop_caches*'
+    - '*kernel.sysrq*'
+    process_args|endswith: echo *
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.discovery
+- attack.t1562.006
+- attack.t1553
+- attack.t1562
+- attack.t1082

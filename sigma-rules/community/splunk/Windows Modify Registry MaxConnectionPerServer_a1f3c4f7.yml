@@ -1,0 +1,25 @@
+title: Windows Modify Registry MaxConnectionPerServer
+id: 2f6e86f0-cd05-5bb0-82f9-d9386d5d1d33
+status: stable
+level: medium
+description: |
+  The following analytic identifies a suspicious modification of the Windows registry setting for max connections per server. It detects changes to specific registry paths using data from the Endpoint.Registry datamodel. This activity is significant because altering this setting can be exploited by attackers to increase the number of concurrent connections to a remote server, potentially facilitating DDoS attacks or enabling more effective lateral movement within a compromised network. If confirme
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    registry_path:
+      - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\MaxConnectionsPerServer*'
+      - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\MaxConnectionsPer1_0Server*'
+    registry_value_data: 0x0000000a
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://asec.ahnlab.com/en/17692/
+  - https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
+custom_attributes:
+  original_rule_id: 064cd09f-1ff4-4823-97e0-45c2f5b087ec
+  source_format: splunk_spl

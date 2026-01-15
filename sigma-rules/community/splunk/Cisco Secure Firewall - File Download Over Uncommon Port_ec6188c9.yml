@@ -1,0 +1,26 @@
+title: Cisco Secure Firewall - File Download Over Uncommon Port
+id: 86fb00e4-49e2-5441-b424-4371101cdd65
+status: stable
+level: medium
+description: |
+  The following analytic detects file transfers flagged as malware that occurred over non-standard ports (other than 80 and 443). Adversaries may attempt to bypass protocol-based detection or use alternate ports to blend in with other traffic. This analytic identifies these non-conventional flows and surfaces potential evasion techniques. If confirmed malicious this indicate potential malware delivery or other nefarious activity.
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    filedirection: Download
+    eventtype: FileEvent
+    dest_port:
+      - 80
+      - 443
+  condition: selection
+tags:
+  - attack.t1105
+  - attack.t1571
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+custom_attributes:
+  original_rule_id: f26445a8-a6a2-4855-bec0-0c39e52e5b8f
+  source_format: splunk_spl

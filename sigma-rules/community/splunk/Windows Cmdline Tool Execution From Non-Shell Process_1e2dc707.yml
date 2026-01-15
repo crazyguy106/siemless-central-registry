@@ -1,0 +1,40 @@
+title: Windows Cmdline Tool Execution From Non-Shell Process
+id: 9eaec220-1b3d-5331-9cf9-19640bf43647
+status: stable
+level: medium
+description: |
+  The following analytic identifies instances where `ipconfig.exe`, `systeminfo.exe`, or similar tools are executed by a non-standard shell parent process, excluding CMD, PowerShell, or Explorer. This detection leverages Endpoint Detection and Response (EDR) telemetry to monitor process creation events. Such behavior is significant as it may indicate adversaries using injected processes to perform system discovery, a tactic observed in FIN7's JSSLoader. If confirmed malicious, this activity could 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - ipconfig.exe
+      - systeminfo.exe
+      - net1.exe
+      - arp.exe
+      - nslookup.exe
+      - route.exe
+      - netstat.exe
+      - hostname.exe
+      - whoami.exe
+    parent_process_name:
+      - cmd.exe
+      - powershell.exe
+      - powershell_ise.exe
+      - pwsh.exe
+      - explorer.exe
+      - '-'
+      - unknown
+  condition: selection
+tags:
+  - attack.t1059.007
+references:
+  - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+  - https://attack.mitre.org/groups/G0046/
+  - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+custom_attributes:
+  original_rule_id: 2afa393f-b88d-41b7-9793-623c93a2dfde
+  source_format: splunk_spl

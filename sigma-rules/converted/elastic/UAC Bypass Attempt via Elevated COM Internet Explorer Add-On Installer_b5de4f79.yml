@@ -1,0 +1,31 @@
+title: UAC Bypass Attempt via Elevated COM Internet Explorer Add-On Installer
+id: fc7c0fa4-8f03-4b3e-8336-c5feab0be022
+status: stable
+level: medium
+description: 'Identifies User Account Control (UAC) bypass attempts by abusing an
+  elevated COM Interface to launch a malicious
+
+  program. Attackers may attempt to bypass UAC to stealthily execute code with elevated
+  permissions.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-03'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_code_signature_subject_name: Microsoft Corporation
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.privilege_escalation
+- attack.t1559
+- attack.t1548.002
+- attack.t1559.001
+- attack.t1548
+references:
+- https://swapcontext.blogspot.com/2020/11/uac-bypasses-from-comautoapprovallist.html

@@ -1,0 +1,49 @@
+title: Unusual Persistence via Services Registry
+id: 403ef0d3-8259-40c9-a5b6-d48354712e49
+status: stable
+level: low
+description: 'Identifies processes modifying the services registry key directly, instead
+  of through the expected Windows APIs. This
+
+  could be an indication of an adversary attempting to stealthily persist through
+  abnormal service creation or
+
+  modification of an existing service.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-10-07'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_value|contains:
+    - ServiceDLL
+    - ImagePath
+    registry_path|contains:
+    - HKLM\\SYSTEM\\ControlSet*\\Services\\*\\ServiceDLL
+    - HKLM\\SYSTEM\\ControlSet*\\Services\\*\\ImagePath
+    - \\REGISTRY\\MACHINE\\SYSTEM\\ControlSet*\\Services\\*\\ServiceDLL
+    - \\REGISTRY\\MACHINE\\SYSTEM\\ControlSet*\\Services\\*\\ImagePath
+    - MACHINE\\SYSTEM\\ControlSet*\\Services\\*\\ServiceDLL
+    - MACHINE\\SYSTEM\\ControlSet*\\Services\\*\\ImagePath
+    registry_data_strings|contains:
+    - ?:\\windows\\system32\\Drivers\\*.sys
+    - \\SystemRoot\\System32\\drivers\\*.sys
+    - \\??\\?:\\Windows\\system32\\Drivers\\*.SYS
+    - \\??\\?:\\Windows\\syswow64\\*.sys
+    - system32\\DRIVERS\\USBSTOR
+    - system32\\drivers\\*.sys
+    - C:\\WindowsAzure\\GuestAgent*.exe
+    - \
+    - ", \n      "
+    process_executable|contains: ?:\\Program Files\\*.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1112
+- attack.t1543.003
+- attack.t1543

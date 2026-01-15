@@ -1,0 +1,27 @@
+title: New user created and added to the built-in administrators group
+id: 841bf152-a6b1-5ed8-912a-6efe54094bf4
+status: stable
+level: low
+description: |
+  'Identifies when a user account was created and then added to the builtin Administrators group in the same day. This should be monitored closely and all additions reviewed.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    AccountType:
+      - User
+      - User
+      - User
+      - User
+    TargetSid:
+      - S-1-5-32-544
+      - S-1-5-32-544
+  condition: selection
+tags:
+  - attack.t1098
+  - attack.t1078
+custom_attributes:
+  original_rule_id: aa1eff90-29d4-49dc-a3ea-b65199f516db
+  source_format: azure_kql

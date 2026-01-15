@@ -1,0 +1,30 @@
+title: Short Lived Windows Accounts
+id: 405b3870-88bc-5026-a460-a48713e25a1f
+status: stable
+level: high
+description: |
+  The following analytic detects the rapid creation and deletion of Windows accounts within a short time frame of 1 hour. It leverages the "Change" data model in Splunk, specifically monitoring events with result IDs 4720 (account creation) and 4726 (account deletion). This behavior is significant as it may indicate an attacker attempting to create and remove accounts quickly to evade detection or gain unauthorized access. If confirmed malicious, this activity could lead to unauthorized access, pr
+author: David Dorsey, Bhavin Patel, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    datamodel: Change
+    result_id:
+      - 4720
+      - 4726
+    span: 1h
+    connected: 'false'
+    maxspan: 60m
+    create_result_id: 4720
+    delete_result_id: 4726
+  condition: selection
+tags:
+  - attack.t1078.003
+  - attack.t1136.001
+references:
+  - https://www.youtube.com/watch?v=D4Cd-KK4ctk
+  - https://attack.mitre.org/techniques/T1078/
+custom_attributes:
+  original_rule_id: b25f6f62-0782-43c1-b403-083231ffd97d
+  source_format: splunk_spl

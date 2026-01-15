@@ -1,0 +1,21 @@
+title: GCP Multiple Service APIs Disabled
+id: d07a8ed7-47ba-51ab-b1e5-fadf7021db08
+status: experimental
+level: high
+description: Detect when multiple GCP Service APIs are disabled in a short period of time.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_CONTENT
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type: google.api.serviceusage.v1.ServiceUsage.DisableService
+    security_result_action: ALLOW
+    target_application: serviceusage.googleapis.com
+  condition: selection
+tags:
+  - attack.t1489
+custom_attributes:
+  original_rule_id: mr_5a4ce357-e4da-4a4b-8cc2-ed5515f1043d
+  source_format: chronicle_yaral

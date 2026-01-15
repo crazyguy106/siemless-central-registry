@@ -1,0 +1,31 @@
+title: New GitHub App Installed
+id: 1ca62f14-4787-4913-b7af-df11745a49da
+status: stable
+level: medium
+description: 'This rule detects when a new GitHub App has been installed in your organization
+  account. GitHub Apps extend GitHub''s
+
+  functionality both within and outside of GitHub. When an app is installed it is
+  granted permissions to read or modify
+
+  your repository and organization data. Only trusted apps should be installed and
+  any newly installed apps should be
+
+  investigated to verify their legitimacy. Unauthorized app installation could lower
+  your organization''s security posture
+
+  and leave you exposed for future attacks.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-29'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: github.audit
+    event_action: integration_installation.create
+  condition: selection
+tags:
+- attack.execution
+- attack.t1072

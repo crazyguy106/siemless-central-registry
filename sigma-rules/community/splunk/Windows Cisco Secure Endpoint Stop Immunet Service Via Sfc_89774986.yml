@@ -1,0 +1,25 @@
+title: Windows Cisco Secure Endpoint Stop Immunet Service Via Sfc
+id: 54b6eda2-2b96-5315-9e31-08773b7bb44e
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the `sfc.exe` utility, in order to stop the Immunet Protect service. The Sfc.exe utility is part of Cisco Secure Endpoint installation. This detection leverages telemetry from the endpoint, focusing on command-line executions involving the `-k` parameter. This activity is significant as it indicates potential tampering with defensive mechanisms. If confirmed malicious, attackers could partially blind the EDR, enabling further compromise and lateral movem
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: sfc.exe
+    process: '* -k*'
+    process_path:
+      - '*:\\Windows\\System32\\*'
+      - '*:\\Windows\\SysWOW64\\*'
+      - ':\\Windows\\WinSxS\\*'
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://www.cisco.com/c/en/us/support/docs/security/amp-endpoints/213690-amp-for-endpoint-command-line-switches.html
+custom_attributes:
+  original_rule_id: 44badcb1-2e8c-4628-9537-021bbae571ad
+  source_format: splunk_spl

@@ -1,0 +1,29 @@
+title: Microsoft Build Engine Using an Alternate Name
+id: 9d110cb3-5f4b-4c9a-b9f5-53f0a1707ae4
+status: stable
+level: low
+description: 'An instance of MSBuild, the Microsoft Build Engine, was started after
+  being renamed. This is uncommon behavior and may
+
+  indicate an attempt to run unnoticed or undetected.'
+author: Elastic (converted by SIEMLess)
+date: '2020-03-25'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: MSBuild.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1127
+- attack.t1127.001
+- attack.t1036.003
+- attack.t1036
+falsepositives:
+- The Build Engine is commonly used by Windows developers but use by non-engineers
+  is unusual.

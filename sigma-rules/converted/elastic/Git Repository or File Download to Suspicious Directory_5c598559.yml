@@ -1,0 +1,31 @@
+title: Git Repository or File Download to Suspicious Directory
+id: 70089609-c41a-438e-b132-5b3b43c5fc07
+status: stable
+level: low
+description: 'This rule detects the use of git to clone a repository or download files
+  from GitHub using wget or curl, followed by
+
+  the creation of files in suspicious directories such as /tmp, /var/tmp, or /dev/shm.
+  This behavior may indicate an
+
+  attempt to download a payload, exploit or tool.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-25'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id, host.id with maxspan=10s\n  [process\
+      \ where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ == \"exec\" and (\n     (process.name == \"git\" and process.args == \"clone\"\
+      ) or\n     (process.name in (\"wget\", \"curl\") and process.command_line like~\
+      \ \"*github*\")\n  )]\n  [file where host.os.type == \"linux\" and event.type\
+      \ == \"creation\" and file.path like (\"/tmp/*\", \"/var/tmp/*\", \"/dev/shm/*\"\
+      )]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.command_and_control
+- attack.t1071

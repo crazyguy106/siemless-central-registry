@@ -1,0 +1,31 @@
+title: Linux SSH X11 Forwarding
+id: 29f0cf93-d17c-4b12-b4f3-a433800539fa
+status: stable
+level: low
+description: 'This rule monitors for X11 forwarding via SSH. X11 forwarding is a feature
+  that allows users to run graphical
+
+  applications on a remote server and display the application''s graphical user interface
+  on their local machine. Attackers
+
+  can abuse X11 forwarding for tunneling their GUI-based tools, pivot through compromised
+  systems, and create covert
+
+  communication channels, enabling lateral movement and facilitating remote control
+  of systems within a network.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-23'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1572
+references:
+- https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding

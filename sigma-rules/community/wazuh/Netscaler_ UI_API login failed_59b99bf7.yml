@@ -1,0 +1,25 @@
+title: 'Netscaler: UI/API login failed'
+id: 20b55f45-af70-52f8-8916-1624405be9e5
+status: stable
+level: medium
+description: 'Netscaler: UI/API login failed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - UI CMD_EXECUTED
+      - API CMD_EXECUTED
+    message|re: 'Command "login'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80139
+  wazuh_level: 6

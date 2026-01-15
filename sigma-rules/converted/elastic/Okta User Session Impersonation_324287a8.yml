@@ -1,0 +1,30 @@
+title: Okta User Session Impersonation
+id: cdbebdc1-dc97-43c6-a538-f26a20c0a911
+status: stable
+level: high
+description: 'A user has initiated a session impersonation granting them access to
+  the environment with the permissions of the user
+
+  they are impersonating. This would likely indicate Okta administrative access and
+  should only ever occur if requested
+
+  and expected.'
+author: Elastic (converted by SIEMLess)
+date: '2022-03-22'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: user.session.impersonation.initiate
+  condition: selection
+tags:
+- attack.credential_access
+references:
+- https://blog.cloudflare.com/cloudflare-investigation-of-the-january-2022-okta-compromise/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+- https://www.elastic.co/security-labs/okta-and-lapsus-what-you-need-to-know

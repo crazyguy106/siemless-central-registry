@@ -1,0 +1,22 @@
+title: Log permission misconfiguration in Named.
+id: bcfe264e-f78b-5fe1-8bc6-3decf5d75e50
+status: stable
+level: low
+description: Log permission misconfiguration in Named.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: unable to rename log file
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12104
+  wazuh_level: 4

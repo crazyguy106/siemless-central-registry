@@ -1,0 +1,20 @@
+title: GitHub Application Installed
+id: 7b810239-3505-5ab2-bf72-48ab7d7efbfa
+status: experimental
+level: low
+description: |
+  Detects when a GitHub application is installed within an organization. An untrusted application can be installed and granted permissions to access data within a GitHub organization.
+author: Google Cloud Security
+logsource:
+  product: github
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type: integration_installation.create
+  condition: selection
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_d1c8d420-774f-4fab-af11-2e5cac2023b2
+  source_format: chronicle_yaral

@@ -1,0 +1,21 @@
+title: Hunt for group members enumeration in the Microsoft Graph API
+id: 29b4f882-26eb-5d3e-a8a4-efee8b1ddce5
+status: experimental
+level: low
+description: |
+  Identify the enumeration of members within groups in Entra ID. This is based on GraphRunner Get-SecurityGroups function behavior so modifications may be needed for other scenarios
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_a7af3e4e-19b0-4102-a794-ed2ca151df8c
+  source_format: chronicle_yaral

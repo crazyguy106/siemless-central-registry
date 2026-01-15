@@ -1,0 +1,23 @@
+title: Windows System Discovery Using ldap Nslookup
+id: c86a8067-2263-5aab-a536-47f3e2e30f70
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of nslookup.exe to query domain information using LDAP. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant as nslookup.exe can be abused by malware like Qakbot to gather critical domain details, such as SRV records and server names. If confirmed malicious, this behavior could allow attackers to map the network, identify key servers, and plan further at
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: nslookup.exe
+    original_file_name: nslookup.exe
+    process: '*_ldap._tcp.dc._msdcs*'
+  condition: selection
+tags:
+  - attack.t1033
+references:
+  - https://securelist.com/qakbot-technical-analysis/103931/
+  - https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/verify-srv-dns-records-have-been-created
+custom_attributes:
+  original_rule_id: 2418780f-7c3e-4c45-b8b4-996ea850cd49
+  source_format: splunk_spl

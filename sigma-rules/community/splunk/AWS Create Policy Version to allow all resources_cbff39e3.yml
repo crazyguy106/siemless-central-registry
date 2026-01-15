@@ -1,0 +1,29 @@
+title: AWS Create Policy Version to allow all resources
+id: 92425589-1c07-5e9e-bb23-250ff7d3114d
+status: stable
+level: high
+description: |
+  The following analytic identifies the creation of a new AWS IAM policy version that allows access to all resources. It detects this activity by analyzing AWS CloudTrail logs for the CreatePolicyVersion event with a policy document that grants broad permissions. This behavior is significant because it violates the principle of least privilege, potentially exposing the environment to misuse or abuse. If confirmed malicious, an attacker could gain extensive access to AWS resources, leading to unaut
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    key_policy_action_1: '*'
+    eventname: CreatePolicyVersion
+    errorcode: success
+    output:
+      - key_policy_statements
+      - key_policy_action_1
+    input: key_policy_statements
+    path: Action
+  condition: selection
+tags:
+  - attack.t1078.004
+references:
+  - https://bishopfox.com/blog/privilege-escalation-in-aws
+  - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+custom_attributes:
+  original_rule_id: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
+  source_format: splunk_spl

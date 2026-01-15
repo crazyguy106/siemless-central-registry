@@ -1,0 +1,27 @@
+title: Adobe Hijack Persistence
+id: 2bf78aa2-9c56-48de-b139-f169bf99cf86
+status: stable
+level: low
+description: Detects writing executable files that will be automatically launched
+  by Adobe on launch.
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: creation
+    process_name|contains:
+    - msiexec.exe
+    - AdobeARM.exe
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1574.010
+- attack.t1574
+- attack.t1554
+references:
+- https://twitter.com/pabraeken/status/997997818362155008

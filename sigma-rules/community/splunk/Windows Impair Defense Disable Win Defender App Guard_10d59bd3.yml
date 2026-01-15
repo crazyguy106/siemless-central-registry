@@ -1,0 +1,22 @@
+title: Windows Impair Defense Disable Win Defender App Guard
+id: f561333c-f6b0-5140-bd04-1172caf14843
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry that disable Windows Defender Application Guard auditing. It leverages data from the Endpoint.Registry data model, focusing on specific registry paths and values. This activity is significant because disabling auditing can hinder security monitoring and threat detection within the isolated environment, making it easier for malicious activities to go unnoticed. If confirmed malicious, this action could allow attackers to bypass 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Policies\\Microsoft\\AppHVSI\\AuditApplicationGuard'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://x.com/malmoeb/status/1742604217989415386?s=20
+  - https://github.com/undergroundwires/privacy.sexy
+custom_attributes:
+  original_rule_id: 8b700d7e-54ad-4d7d-81cc-1456c4703306
+  source_format: splunk_spl

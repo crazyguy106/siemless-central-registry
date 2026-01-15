@@ -1,0 +1,19 @@
+title: New EXE deployed via Default Domain or Default Domain Controller Policies (ASIM Version)
+id: 828ea189-f9d3-507e-9d1c-844334c7581f
+status: stable
+level: high
+description: |
+  'This detection highlights executables deployed to hosts via either the Default Domain or Default Domain Controller Policies. These policies apply to all hosts or Domain Controllers and best practice is that these policies should not be used for deployment of files.   A threat actor may use these policies to deploy files or scripts to all hosts in a domain.   This query uses the ASIM parsers and will need them deployed before usage - https://docs.microsoft.com/azure/sentinel/normalization'
+author: Microsoft Security Community
+logsource:
+  product: azure
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1072
+  - attack.t1570
+custom_attributes:
+  original_rule_id: 0dd2a343-4bf9-4c93-a547-adf3658ddaec
+  source_format: azure_kql

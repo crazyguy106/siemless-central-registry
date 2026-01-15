@@ -1,0 +1,21 @@
+title: Windows DiskCryptor Usage
+id: b1f1947d-8afe-52f9-9d40-177e477271ee
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of DiskCryptor, identified by the process names "dcrypt.exe" or "dcinst.exe". This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names. DiskCryptor is significant because adversaries use it to manually encrypt disks during an operation, potentially leading to data inaccessibility. If confirmed malicious, this activity could result in complete disk encryption, causing data loss a
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: dcrypt.exe
+  condition: selection
+tags:
+  - attack.t1486
+references:
+  - https://thedfirreport.com/2021/11/15/exchange-exploit-leads-to-domain-wide-ransomware/
+  - https://github.com/DavidXanatos/DiskCryptor
+custom_attributes:
+  original_rule_id: d56fe0c8-4650-11ec-a8fa-acde48001122
+  source_format: splunk_spl

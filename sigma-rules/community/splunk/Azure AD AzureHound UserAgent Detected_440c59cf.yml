@@ -1,0 +1,25 @@
+title: Azure AD AzureHound UserAgent Detected
+id: 24b7c9a3-7dfe-56cb-abcf-1ee34c500b07
+status: stable
+level: high
+description: |
+  This detection identifies the presence of the default AzureHound user-agent string within Microsoft Graph Activity logs and NonInteractive SignIn Logs. AzureHound is a tool used for gathering information about Azure Active Directory environments, often employed by security professionals for legitimate auditing purposes. However, it can also be leveraged by malicious actors to perform reconnaissance activities, mapping out the Azure AD infrastructure to identify potential vulnerabilities and targ
+author: Dean Luxton
+logsource:
+  product: azure
+detection:
+  selection:
+    category:
+      - MicrosoftGraphActivityLogs
+      - NonInteractiveUserSignInLogs
+  condition: selection
+tags:
+  - attack.t1087.004
+  - attack.t1526
+references:
+  - https://github.com/SpecterOps/AzureHound
+  - https://splunkbase.splunk.com/app/3110
+  - https://splunk.github.io/splunk-add-on-for-microsoft-cloud-services/Install/
+custom_attributes:
+  original_rule_id: d62852db-a1f1-40db-a7fc-c3d56fa8bda3
+  source_format: splunk_spl

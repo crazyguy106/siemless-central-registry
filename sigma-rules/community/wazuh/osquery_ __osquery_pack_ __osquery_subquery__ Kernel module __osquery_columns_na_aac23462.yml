@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Kernel module $(osquery.columns.name) version $(osquery.columns.version)'
+id: 615d3ef4-6b3b-52ab-ad5b-3366b17c8447
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Kernel module $(osquery.columns.name) version $(osquery.columns.version)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: kextstat
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24044
+  wazuh_level: 4

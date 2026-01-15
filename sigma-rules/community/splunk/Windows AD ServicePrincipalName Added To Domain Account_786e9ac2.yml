@@ -1,0 +1,27 @@
+title: Windows AD ServicePrincipalName Added To Domain Account
+id: 72b61f60-fcda-5d57-9014-b93e232cf424
+status: stable
+level: high
+description: |
+  The following analytic detects the addition of a Service Principal Name (SPN) to a domain account. It leverages Windows Event Code 5136 and monitors changes to the servicePrincipalName attribute. This activity is significant because it may indicate an attempt to perform Kerberoasting, a technique where attackers extract and crack service account passwords offline. If confirmed malicious, this could allow an attacker to obtain cleartext passwords, leading to unauthorized access and potential late
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    operationtype: '%%14674'
+    eventcode: 5136
+    attributeldapdisplayname: servicePrincipalName
+    objectclass: user
+    field: ObjectDN
+  condition: selection
+tags:
+  - attack.t1098
+references:
+  - https://adsecurity.org/?p=3466
+  - https://www.thehacker.recipes/ad/movement/dacl/targeted-kerberoasting
+  - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136
+  - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+custom_attributes:
+  original_rule_id: 8a1259cb-0ea7-409c-8bfe-74bad89259f9
+  source_format: splunk_spl

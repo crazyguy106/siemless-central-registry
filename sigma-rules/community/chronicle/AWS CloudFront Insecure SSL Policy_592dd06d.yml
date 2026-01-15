@@ -1,0 +1,21 @@
+title: AWS CloudFront Insecure SSL Policy
+id: 5196f8fd-dcb6-5282-8717-1352b364c4e5
+status: experimental
+level: low
+description: Detects when an insecure SSL policy is configured for an AWS CloudFront distribution.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - CreateDistribution
+      - UpdateDistribution
+  condition: selection
+tags:
+  - attack.t1600
+custom_attributes:
+  original_rule_id: mr_dc0d66a6-121c-4b01-9370-3bf7fd25de1e
+  source_format: chronicle_yaral

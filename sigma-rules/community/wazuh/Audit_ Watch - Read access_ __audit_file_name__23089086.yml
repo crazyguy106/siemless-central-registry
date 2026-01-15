@@ -1,0 +1,22 @@
+title: 'Audit: Watch - Read access: $(audit.file.name)'
+id: 951d927f-e851-5139-a18a-9a09e3e388ba
+status: stable
+level: low
+description: 'Audit: Watch - Read access: $(audit.file.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.file.name: \.+
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80783
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80784
+  wazuh_level: 3

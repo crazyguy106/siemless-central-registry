@@ -1,0 +1,22 @@
+title: O365 Login Activity To Azure AD PowerShell App
+id: b1d89e5e-a39c-529e-8fa5-d37eb9688954
+status: experimental
+level: medium
+description: |
+  Logins to Azure AD PowerShell app can have legitimate purposes, but are also abused to gain access to user information. Programmatic access to Entra ID (Azure AD) should generally be through apps, so reviewing these activities is needed.
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: UserLoggedIn
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    target_resource_product_object_id: 1b730954-1685-4b74-9bfd-dac224a7b894
+    security_result_action: ALLOW
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_0cc56eaf-4176-444d-874d-9780bbb29d4f
+  source_format: chronicle_yaral

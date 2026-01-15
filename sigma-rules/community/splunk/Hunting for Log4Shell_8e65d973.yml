@@ -1,0 +1,25 @@
+title: Hunting for Log4Shell
+id: 79b9f5ea-56ef-5485-9620-0e9eb46aa447
+status: stable
+level: low
+description: |
+  The following analytic detects potential exploitation attempts of the Log4Shell vulnerability (CVE-2021-44228) by analyzing HTTP headers for specific patterns. It leverages the Web Datamodel and evaluates various indicators such as the presence of `{jndi:`, environment variables, and common URI paths. This detection is significant as Log4Shell allows remote code execution, posing a severe threat to systems. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code,
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
+  - https://gist.github.com/Neo23x0/e4c8b03ff8cdf1fa63b7d15db6e3860b#gistcomment-3994449
+  - https://regex101.com/r/OSrm0q/1/
+  - https://github.com/Neo23x0/signature-base/blob/master/yara/expl_log4j_cve_2021_44228.yar
+  - https://news.sophos.com/en-us/2021/12/12/log4shell-hell-anatomy-of-an-exploit-outbreak/
+custom_attributes:
+  original_rule_id: 158b68fa-5d1a-11ec-aac8-acde48001122
+  source_format: splunk_spl

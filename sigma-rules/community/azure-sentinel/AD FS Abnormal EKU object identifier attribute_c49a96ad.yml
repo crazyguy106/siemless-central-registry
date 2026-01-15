@@ -1,0 +1,19 @@
+title: AD FS Abnormal EKU object identifier attribute
+id: 02724d9b-fa4b-5850-8b0b-5c1282dbe764
+status: stable
+level: high
+description: |
+  'This detection uses Security events from the "AD FS Auditing" provider to detect suspicious object identifiers (OIDs) as part EventID 501 and specifically part of the Enhanced Key Usage attributes. This query checks to see if you have any new OIDs in the last hour that have not been seen in the previous day. New OIDs should be validated and OIDs that are very long, as indicated by the OID_Length field, could also be an indicator of malicious activity. In order to use this query you need to enab
+author: Microsoft Security Research
+logsource:
+  product: windows
+detection:
+  selection:
+    EventSourceName: AD FS Auditing
+    EventData|contains: /eku
+  condition: selection
+tags:
+  - attack.t1552
+custom_attributes:
+  original_rule_id: cfc1ae62-db63-4a3e-b88b-dc04030c2257
+  source_format: azure_kql

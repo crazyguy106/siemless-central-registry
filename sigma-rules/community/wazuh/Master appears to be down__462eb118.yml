@@ -1,0 +1,22 @@
+title: Master appears to be down.
+id: 6cd889ad-f692-540a-add8-50521b7a04ee
+status: stable
+level: low
+description: Master appears to be down.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'failed to connect: host unreachable'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12128
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12136
+  wazuh_level: 4

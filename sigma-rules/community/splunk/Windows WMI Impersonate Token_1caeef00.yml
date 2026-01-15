@@ -1,0 +1,25 @@
+title: Windows WMI Impersonate Token
+id: bdd0307f-d624-5b7f-80c3-c0ccefb075c9
+status: stable
+level: medium
+description: |
+  The following analytic detects potential WMI token impersonation activities in a process or command. It leverages Sysmon EventCode 10 to identify instances where `wmiprvse.exe` has a duplicate handle or full granted access in a target process. This behavior is significant as it is commonly used by malware like Qakbot for privilege escalation or defense evasion. If confirmed malicious, this activity could allow an attacker to gain elevated privileges, evade defenses, and maintain persistence with
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    sourceimage: '*\\wmiprvse.exe'
+    eventcode: 10
+    grantedaccess:
+      - 0x1478
+      - 0x1fffff
+  condition: selection
+tags:
+  - attack.t1047
+references:
+  - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/process-access.md
+  - https://www.joesandbox.com/analysis/278341/0/html
+custom_attributes:
+  original_rule_id: cf192860-2d94-40db-9a51-c04a2e8a8f8b
+  source_format: splunk_spl

@@ -1,0 +1,19 @@
+title: GraphAPI URI Request Statistics
+id: f4acae93-bd62-4d08-b706-1899fa77bf02
+status: experimental
+level: medium
+description: |
+  Retrieving request statistics gives us the opportunity for new use cases. One can now summarize all the GraphAPI request types easily with the following query. The unique deltatokens have been removed from the data, returning a better overview of the executed requests.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    GraphAPIAuditEvents
+| extend ParsedUri = tostring(parse_url(RequestUri).Path)
+| summarize TotalRequest = count() by ParsedUri
+| sort by TotalRequest
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

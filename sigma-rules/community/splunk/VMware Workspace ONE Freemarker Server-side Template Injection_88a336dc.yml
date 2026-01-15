@@ -1,0 +1,30 @@
+title: VMware Workspace ONE Freemarker Server-side Template Injection
+id: d3d4f9be-cbd2-50b7-aad6-bb63bd7f9925
+status: stable
+level: medium
+description: |
+  The following analytic detects server-side template injection attempts related to CVE-2022-22954 in VMware Workspace ONE. It leverages web or proxy logs to identify HTTP GET requests to the endpoint catalog-portal/ui/oauth/verify with the freemarker.template.utility.Execute command. This activity is significant as it indicates potential exploitation attempts that could lead to remote code execution. If confirmed malicious, an attacker could execute arbitrary commands on the server, leading to fu
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    url:
+      - '*/catalog-portal/ui/oauth/verify?error=&deviceudid=*'
+      - '*freemarker.template.utility.Execute*'
+    datamodel: Web
+    http_method:
+      - GET
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.cisa.gov/uscert/ncas/alerts/aa22-138b
+  - https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb
+  - https://github.com/sherlocksecurity/VMware-CVE-2022-22954
+  - https://www.vmware.com/security/advisories/VMSA-2022-0011.html
+  - https://attackerkb.com/topics/BDXyTqY1ld/cve-2022-22954/rapid7-analysis
+custom_attributes:
+  original_rule_id: 9e5726fe-8fde-460e-bd74-cddcf6c86113
+  source_format: splunk_spl

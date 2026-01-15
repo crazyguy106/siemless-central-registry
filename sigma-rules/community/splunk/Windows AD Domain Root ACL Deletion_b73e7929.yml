@@ -1,0 +1,39 @@
+title: Windows AD Domain Root ACL Deletion
+id: be89db19-55ed-5902-a547-818e41152b3e
+status: stable
+level: high
+description: |
+  ACL deletion performed on the domain root object, significant AD change with high impact. Following MS guidance all changes at this level should be reviewed. Drill into the logonID within EventCode 4624 for information on the source device during triage.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    aceaccessrights: CCDCLCSWRPWPDTLOCRSDRCWDWO
+    eventcode: 5136
+    objectclass: domainDNS
+    field:
+      - old_value
+      - new_value
+      - old_values
+      - aceAccessRights
+      - aceFlags
+    max_match:
+      - 10000
+      - 10000
+      - 100
+      - 100
+    old_values:
+      - new_values
+  condition: selection
+tags:
+  - attack.t1222.001
+  - attack.t1484
+references:
+  - https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
+  - https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+custom_attributes:
+  original_rule_id: 3cb56e57-5642-4638-907f-8dfde9afb889
+  source_format: splunk_spl

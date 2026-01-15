@@ -1,0 +1,35 @@
+title: Dracut Module Creation
+id: dc765fb2-0c99-4e57-8c11-dafdf1992b66
+status: stable
+level: low
+description: 'This rule detects the creation of Dracut module files on Linux systems.
+  Dracut is a tool used to generate an initramfs
+
+  image that is used to boot the system. Dracut modules are scripts that are executed
+  during the initramfs image
+
+  generation process. Attackers may create malicious Dracut modules to execute arbitrary
+  code at boot time, which can be
+
+  leveraged to maintain persistence on a Linux system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+    process_name: sed
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.execution
+- attack.t1574
+- attack.t1059
+- attack.t1542
+- attack.t1059.004
+- attack.t1543

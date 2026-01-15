@@ -1,0 +1,29 @@
+title: O365 Multiple OS Vendors Authenticating From User
+id: 332d3294-b1bc-589d-8a11-56de30937dc7
+status: stable
+level: high
+description: |
+  The following analytic identifies when multiple operating systems are used to authenticate to Azure/EntraID/Office 365 by the same user account over a short period of time. This activity could be indicative of attackers enumerating various logon capabilities of Azure/EntraID/Office 365 and attempting to discover weaknesses in the organizational MFA or conditional access configurations. Usage of the tools like "MFASweep" will trigger this detection.
+author: Steven Dick
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    time: _time
+    span: 15m
+    user: UserId
+    operation:
+      - UserLoginFailed
+      - UserLoggedIn
+  condition: selection
+tags:
+  - attack.t1110
+references:
+  - https://attack.mitre.org/techniques/T1110
+  - https://www.blackhillsinfosec.com/exploiting-mfa-inconsistencies-on-microsoft-services/
+  - https://sra.io/blog/msspray-wait-how-many-endpoints-dont-have-mfa/
+  - https://github.com/dafthack/MFASweep/tree/master
+custom_attributes:
+  original_rule_id: 3451e58a-9457-4985-a600-b616b0cbfda1
+  source_format: splunk_spl

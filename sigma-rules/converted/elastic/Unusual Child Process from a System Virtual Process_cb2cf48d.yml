@@ -1,0 +1,25 @@
+title: Unusual Child Process from a System Virtual Process
+id: de9bd7e0-49e9-4e92-a64d-53ade2e66af1
+status: stable
+level: high
+description: Identifies a suspicious child process of the Windows virtual system process,
+  which could indicate code injection.
+author: Elastic (converted by SIEMLess)
+date: '2020-08-19'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_executable|contains:
+    - Registry
+    - MemCompression
+    - ?:\\Windows\\System32\\smss.exe
+    - HotPatch
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1055

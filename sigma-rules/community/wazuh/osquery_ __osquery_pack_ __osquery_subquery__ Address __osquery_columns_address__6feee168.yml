@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Address $(osquery.columns.address) Hostnames $(osquery.columns.hostnames)'
+id: 5c11f1b6-ca1a-5d47-8fc2-99556990395c
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Address $(osquery.columns.address) Hostnames $(osquery.columns.hostnames)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: etc_hosts
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24043
+  wazuh_level: 4

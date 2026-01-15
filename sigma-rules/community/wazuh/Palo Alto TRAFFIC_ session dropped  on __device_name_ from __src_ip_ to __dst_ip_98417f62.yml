@@ -1,0 +1,24 @@
+title: 'Palo Alto TRAFFIC: session dropped  on $(device_name) from $(src_ip) to $(dst_ip). Reason: $(session_end_reason). Action: $(action).'
+id: 08c79f6f-2d51-5f7b-9251-1c262b326129
+status: stable
+level: medium
+description: 'Palo Alto TRAFFIC: session dropped  on $(device_name) from $(src_ip) to $(dst_ip). Reason: $(session_end_reason). Action: $(action).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    content_type: drop
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-64507
+tags:
+  - attack.t1190
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64510
+  wazuh_level: 6

@@ -1,0 +1,24 @@
+title: AWS Privilege Escalation Using IAM Login Profile
+id: 67415740-1e29-5266-887c-771180a9867b
+status: experimental
+level: low
+description: |
+  Detect when a user creates or updates a login profile for another user and escalates privileges using this new user from the same IP.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - CreateLoginProfile
+      - UpdateLoginProfile
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1136
+custom_attributes:
+  original_rule_id: mr_b0d13079-dbe7-4c19-a8e9-23f98655a29b
+  source_format: chronicle_yaral

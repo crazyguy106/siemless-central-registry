@@ -1,0 +1,24 @@
+title: 'proftpd: Mismatch in server''s hostname.'
+id: d9e98ef6-c0ec-5c92-ba94-7745483d120d
+status: stable
+level: low
+description: 'proftpd: Mismatch in server''s hostname.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - host name/name mismatch
+      - host name/address mismatch
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11211
+  wazuh_level: 4

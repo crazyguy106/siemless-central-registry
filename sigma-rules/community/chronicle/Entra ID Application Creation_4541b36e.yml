@@ -1,0 +1,20 @@
+title: Entra ID Application Creation
+id: baf4e26b-81cb-576d-b8d7-48ccbcd47233
+status: experimental
+level: low
+description: |
+  Application creation can be legitimate but aren't frequently created. Validating application creation may be appropriate to ensure rogue apps aren't being created.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: SERVICE_CREATION
+    metadata_product_name: Azure AD Directory Audit
+    metadata_vendor_name: Microsoft
+    metadata_product_event_type: Add application
+    security_result_action: ALLOW
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_0c137994-a9d9-4cd2-8c2d-b8a9c0f223d0
+  source_format: chronicle_yaral

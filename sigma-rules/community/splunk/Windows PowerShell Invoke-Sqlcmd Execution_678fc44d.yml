@@ -1,0 +1,30 @@
+title: Windows PowerShell Invoke-Sqlcmd Execution
+id: 7c1f04ac-a2f6-5947-a8cd-181cee28dd7a
+status: stable
+level: low
+description: |
+  This detection identifies potentially suspicious usage of Invoke-Sqlcmd PowerShell cmdlet, which can be used for database operations and potential data exfiltration. The detection looks for suspicious parameter combinations and query patterns that may indicate unauthorized database access, data theft, or malicious database operations. Threat actors may prefer using PowerShell Invoke-Sqlcmd over sqlcmd.exe as it provides a more flexible programmatic interface and can better evade detection.
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    scriptblocktext: '*invoke-sqlcmd*'
+    risk_message: 'PowerShell Invoke-Sqlcmd execution with risk factors: '
+    eventcode: 4104
+    risk_score: 0
+    has_suspicious_query:
+      - 1
+      - 1
+  condition: selection
+tags:
+  - attack.t1059.001
+  - attack.t1059.003
+references:
+  - https://learn.microsoft.com/en-us/powershell/module/sqlserver/invoke-sqlcmd
+  - https://attack.mitre.org/techniques/T1059.001/
+  - https://attack.mitre.org/techniques/T1059.003/
+custom_attributes:
+  original_rule_id: 5eb76fe2-a869-4865-8c4c-8cff424b18a1
+  source_format: splunk_spl

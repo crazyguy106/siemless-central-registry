@@ -1,0 +1,49 @@
+title: Kubernetes Privileged Pod Created
+id: c7908cac-337a-4f38-b50d-5eeb78bdb531
+status: stable
+level: medium
+description: 'This rule detects when a user creates a pod/container running in privileged
+  mode. A highly privileged container has
+
+  access to the node''s resources and breaks the isolation between containers. If
+  compromised, an attacker can use the
+
+  privileged container to gain access to the underlying host. Gaining access to the
+  host may provide the adversary with
+
+  the opportunity to achieve follow-on objectives, such as establishing persistence,
+  moving laterally within the
+
+  environment, or setting up a command and control channel on the host.'
+author: Elastic (converted by SIEMLess)
+date: '2022-07-05'
+modified: '2025-06-18'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: kubernetes.audit_logs
+    decision: allow
+    kubernetes_audit_objectRef_resource: pods
+    kubernetes_audit_verb: create
+    kubernetes_audit_requestObject_spec_containers_securityContext_privileged: 'true'
+    kubernetes_audit_requestObject_spec_containers_image: ("docker.elastic.co/beats/elastic-agent:8.4.0")
+  condition: selection
+tags:
+- attack.execution
+- attack.privilege_escalation
+- attack.t1610
+- attack.t1611
+references:
+- https://media.defense.gov/2021/Aug/03/2002820425/-1/-1/1/CTR_KUBERNETES%20HARDENING%20GUIDANCE.PDF
+- https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+falsepositives:
+- "    By default a container is not allowed to access any devices on the host, but\
+  \ a \"privileged\" container is given\n    access to all devices on the host. This\
+  \ allows the container nearly all the same access as processes running on the\n\
+  \    host. An administrator may want to run a privileged container to use operating\
+  \ system administrative capabilities\n    such as manipulating the network stack\
+  \ or accessing hardware devices from within the cluster. Add exceptions for\n  \
+  \  trusted container images using the query field \"kubernetes.audit.requestObject.spec.container.image\"\
+  \n    "

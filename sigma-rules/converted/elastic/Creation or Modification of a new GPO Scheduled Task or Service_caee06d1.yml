@@ -1,0 +1,34 @@
+title: Creation or Modification of a new GPO Scheduled Task or Service
+id: c0429aa8-9974-42da-bfb6-53a0a515a145
+status: stable
+level: low
+description: 'Detects the creation or modification of a new Group Policy based scheduled
+  task or service. These methods are used for
+
+  legitimate system administration, but can also be abused by an attacker with domain
+  admin permissions to execute a
+
+  malicious payload remotely on all or a subset of the domain joined machines.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-13'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_name|contains:
+    - ScheduledTasks.xml
+    - Services.xml
+    file_path|contains:
+    - ?:\\Windows\\SYSVOL\\domain\\Policies\\*\\MACHINE\\Preferences\\ScheduledTasks\\ScheduledTasks.xml
+    - ?:\\Windows\\SYSVOL\\domain\\Policies\\*\\MACHINE\\Preferences\\Services\\Services.xml
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1053.005
+- attack.t1484.001
+- attack.t1053
+- attack.t1484

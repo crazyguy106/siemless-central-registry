@@ -1,0 +1,25 @@
+title: Linux Setuid Using Chmod Utility
+id: 647da1bb-f6f9-5dd2-a049-3a55ebec69e2
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the chmod utility to set the SUID or SGID bit on files, which can allow users to temporarily gain root or group-level access. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments related to chmod. This activity is significant as it can indicate an attempt to escalate privileges or maintain persistence on a system. If confirmed malicious, an attacker could gain elevated
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '* g+s *'
+      - '* u+s *'
+      - '* 4777 *'
+      - '* 4577 *'
+    process_name: chmod
+  condition: selection
+tags:
+  - attack.t1548.001
+references:
+  - https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
+custom_attributes:
+  original_rule_id: bf0304b6-6250-11ec-9d7c-acde48001122
+  source_format: splunk_spl

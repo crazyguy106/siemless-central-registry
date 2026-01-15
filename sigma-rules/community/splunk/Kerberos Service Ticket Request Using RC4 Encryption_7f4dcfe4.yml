@@ -1,0 +1,29 @@
+title: Kerberos Service Ticket Request Using RC4 Encryption
+id: e3217a3d-c012-5ca0-96e8-05129ecfb291
+status: stable
+level: high
+description: |
+  The following analytic detects Kerberos service ticket requests using RC4 encryption, leveraging Kerberos Event 4769. This method identifies potential Golden Ticket attacks, where adversaries forge Kerberos Granting Tickets (TGT) using the Krbtgt account NTLM password hash to gain unrestricted access to an Active Directory environment. Monitoring for RC4 encryption usage is significant as it is rare in modern networks, indicating possible malicious activity. If confirmed malicious, attackers cou
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    servicename: '*$'
+    eventcode: 4769
+    ticketoptions:
+      - 0x40810000
+      - 0x40800000
+    ticketencryptiontype: 0x17
+  condition: selection
+tags:
+  - attack.t1558.001
+references:
+  - https://attack.mitre.org/techniques/T1558/001/
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4769
+  - https://adsecurity.org/?p=1515
+  - https://gist.github.com/TarlogicSecurity/2f221924fef8c14a1d8e29f3cb5c5c4a
+  - https://en.hackndo.com/kerberos-silver-golden-tickets/
+custom_attributes:
+  original_rule_id: 7d90f334-a482-11ec-908c-acde48001122
+  source_format: splunk_spl

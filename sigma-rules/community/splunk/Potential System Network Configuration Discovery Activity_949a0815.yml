@@ -1,0 +1,40 @@
+title: Potential System Network Configuration Discovery Activity
+id: 78b14e55-42e0-5ef8-8e10-10dc4f3a9f76
+status: stable
+level: medium
+description: |
+  The following analytic identifies the rapid execution of processes used for system network configuration discovery on an endpoint. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs, names, parent processes, and command-line executions. This activity can be significant as it may indicate an attacker attempting to map the network, which is a common precursor to lateral movement or further exploitation. If confirmed malicious, this behavior could allow a
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    connected: 'false'
+    maxpause: 5m
+    user:
+      - ''
+      - unknown
+    process_name:
+      - arp.exe
+      - dsquery.exe
+      - hostname.exe
+      - ipconfig.exe
+      - nbstat.exe
+      - net.exe
+      - net1.exe
+      - nltest.exe
+      - netsh.exe
+      - nslookup.exe
+      - ping.exe
+      - quser.exe
+      - qwinsta.exe
+      - telnet.exe
+      - tracert.exe
+      - ''
+  condition: selection
+tags:
+  - attack.t1016
+custom_attributes:
+  original_rule_id: 3f0b95e3-3195-46ac-bea3-84fb59e7fac5
+  source_format: splunk_spl

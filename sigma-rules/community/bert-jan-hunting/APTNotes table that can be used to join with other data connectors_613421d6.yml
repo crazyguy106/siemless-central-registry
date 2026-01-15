@@ -1,0 +1,23 @@
+title: APTNotes table that can be used to join with other data connectors
+id: d5741f2d-d578-4d30-8e89-77116a5029b2
+status: experimental
+level: medium
+description: |
+  APTNotes table that can be used to join with other data connectors
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let APTInfo = externaldata(Filename: string, Title: string, Source: 
+string, Link: string, SHA1: string, Date: datetime, Year: int)
+[@"https://raw.githubusercontent.com/aptnotes/data/master/APTnotes.csv"] 
+with (format="csv", ignoreFirstRecord=True);
+APTInfo
+| where Year > 2015
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,37 @@
+title: MsBuild Making Network Connections
+id: 0e79980b-4250-4a50-a509-69294c14e84b
+status: stable
+level: medium
+description: 'Identifies MsBuild.exe making outbound network connections. This may
+  indicate adversarial activity as MsBuild is often
+
+  leveraged by adversaries to execute code and evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id with maxspan=30s\n\n  /* Look for\
+      \ MSBuild.exe process execution */\n  /* The events for this first sequence\
+      \ may be noisy, consider adding exceptions */\n  [process where host.os.type\
+      \ == \"windows\" and event.type == \"start\" and\n    (\n      process.pe.original_file_name:\
+      \ \"MSBuild.exe\" or\n      process.name: \"MSBuild.exe\"\n    ) and\n    not\
+      \ user.id == \"S-1-5-18\"]\n\n  /* Followed by a network connection to an external\
+      \ address */\n  /* Exclude domains that are known to be benign */\n  [network\
+      \ where host.os.type == \"windows\" and\n    event.action: (\"connection_attempted\"\
+      , \"lookup_requested\") and\n    (\n      process.pe.original_file_name: \"\
+      MSBuild.exe\" or\n      process.name: \"MSBuild.exe\"\n    ) and\n    not user.id\
+      \ == \"S-1-5-18\" and\n    not cidrmatch(destination.ip, \"127.0.0.1\", \"::1\"\
+      ) and\n    not dns.question.name : (\n      \"localhost\",\n      \"dc.services.visualstudio.com\"\
+      ,\n      \"vortex.data.microsoft.com\",\n      \"api.nuget.org\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.t1127.001
+- attack.t1127
+references:
+- https://riccardoancarani.github.io/2019-10-19-hunting-covenant-msbuild/

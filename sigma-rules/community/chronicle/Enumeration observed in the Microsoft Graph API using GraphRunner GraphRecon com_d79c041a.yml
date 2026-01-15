@@ -1,0 +1,23 @@
+title: Enumeration observed in the Microsoft Graph API using GraphRunner GraphRecon command
+id: 004f24ad-041f-5c4d-b5e5-b485340f4c21
+status: experimental
+level: medium
+description: |
+  Identify the use of the GraphRunner recon command Invoke-GraphRecon with the permission enum flag set, providing allowed actions and conditional access data for the current user.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/beta/roleManagement/directory/estimateAccess'
+    network_http_method: POST
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_2bb3fd42-5569-4bab-9788-855425971b7f
+  source_format: chronicle_yaral

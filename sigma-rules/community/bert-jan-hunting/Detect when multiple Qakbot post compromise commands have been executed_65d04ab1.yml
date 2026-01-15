@@ -1,0 +1,24 @@
+title: Detect when multiple Qakbot post compromise commands have been executed
+id: 2b7525af-4fd7-4158-8eb9-a71fcee46c20
+status: experimental
+level: medium
+description: |
+  Detect when multiple Qakbot post compromise commands have been executed.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let QakBotCommands = dynamic(['net view', 'cmd /c set', 'arp -a', 'ipconfig /all', 'nslookup-querytype=ALL -timeout=12', '_ldap._tcp.dc._msdcs.WORKGROUP', 'net share', 'net1 share', 'route print', 'net localgroup', 'whoami /all']); // source: https://twitter.com/1ZRR4H/status/1568395544359309312
+DeviceProcessEvents
+| where ProcessCommandLine has_any(QakBotCommands)
+| summarize TotalCommandsFound = count(), CommandLineList = make_set(ProcessCommandLine) by DeviceName, AccountName
+| extend TotalUniqueCommandsFound = array_length(CommandLineList)
+| where TotalUniqueCommandsFound > 3 // Adjust to reduce false positives
+| sort by TotalUniqueCommandsFound, TotalCommandsFound
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

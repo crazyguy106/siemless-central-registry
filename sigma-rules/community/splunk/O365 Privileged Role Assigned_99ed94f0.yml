@@ -1,0 +1,27 @@
+title: O365 Privileged Role Assigned
+id: 2b31d0fb-1f61-5fc8-a1f0-40938da54488
+status: stable
+level: high
+description: |
+  The following analytic identifies the assignment of sensitive and privileged Azure Active Directory roles to an Azure AD user. Adversaries and red teams alike may assign these roles to a compromised account to establish Persistence in an Azure AD environment. This detection leverages the O365 Universal Audit Log data source.
+author: Steven Dick
+logsource:
+  product: azure
+detection:
+  selection:
+    isprvilegedadrole: 'TRUE'
+    category: User
+    workload: AzureActiveDirectory
+    operation:
+      - Add member to role.
+      - Add eligible member to role.
+  condition: selection
+tags:
+  - attack.t1098.003
+references:
+  - https://attack.mitre.org/techniques/T1098/003/
+  - https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+  - https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-exchange-online-admin-role?view=o365-worldwide
+custom_attributes:
+  original_rule_id: db435700-4ddc-4c23-892e-49e7525d7d39
+  source_format: splunk_spl

@@ -1,0 +1,20 @@
+title: O365 OneDrive Anonymous Link Accessed
+id: a7fa8ecb-a6ce-5d60-ac3b-12b8b8739306
+status: experimental
+level: medium
+description: |
+  Anonymous links can be used to access files from OneDrive. While this isn't always a sign of malicious activity, some organizations do not support the use of anonymous links because of the risk of data leakage. This rule detects when anonymous links are used to access files from OneDrive.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_ACCESS
+    metadata_product_event_type: AnonymousLinkUsed
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    principal_user_userid: anonymous
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_7e67005a-d5fc-4497-8e81-e6797b2f54e9
+  source_format: chronicle_yaral

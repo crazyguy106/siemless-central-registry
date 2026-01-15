@@ -1,0 +1,20 @@
+title: Detection of tools built by NirSoft
+id: f4c111ff-8690-52b1-bdd1-cd97bd52fa56
+status: experimental
+level: medium
+description: |
+  The following analytic identifies the execution of tools built by NirSoft by detecting specific command-line arguments such as "/stext" and "/scomma". It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line executions. This activity is significant because NirSoft tools, while legitimate, can be exploited by attackers for malicious purposes such as credential theft or system reconnaissance. If confirmed malicious, this act
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '* /stext *'
+      - '* /scomma *'
+  condition: selection
+tags:
+  - attack.t1072
+custom_attributes:
+  original_rule_id: 3d8d201c-aa03-422d-b0ee-2e5ecf9718c0
+  source_format: splunk_spl

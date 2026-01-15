@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): User $(osquery.columns.user) is logged from host $(osquery.columns.host)'
+id: 5a0ce856-fc86-57a2-baf0-87284c083d51
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): User $(osquery.columns.user) is logged from host $(osquery.columns.host)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: logged_in_users
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24050
+  wazuh_level: 4

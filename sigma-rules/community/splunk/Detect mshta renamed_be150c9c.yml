@@ -1,0 +1,21 @@
+title: Detect mshta renamed
+id: 8ac8dad1-3d5f-59b5-af26-d1984f63d176
+status: stable
+level: low
+description: |
+  The following analytic identifies instances where mshta.exe has been renamed and executed. It leverages Endpoint Detection and Response (EDR) data, specifically focusing on the original file name field to detect discrepancies. This activity is significant because renaming mshta.exe is a common tactic used by attackers to evade detection and execute malicious scripts. If confirmed malicious, this could allow an attacker to execute arbitrary code, potentially leading to system compromise, data exf
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1218.005
+references:
+  - https://github.com/redcanaryco/AtomicTestHarnesses
+  - https://redcanary.com/blog/introducing-atomictestharnesses/
+custom_attributes:
+  original_rule_id: 8f45fcf0-5b68-11eb-ae93-0242ac130002
+  source_format: splunk_spl

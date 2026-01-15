@@ -1,0 +1,27 @@
+title: Detect Port Security Violation
+id: bdd9720f-319e-581b-aa2c-5ca61000f7b7
+status: experimental
+level: high
+description: |
+  The following analytic detects port security violations on Cisco switches. It leverages logs from Cisco network devices, specifically looking for events with mnemonics indicating port security violations. This activity is significant because it indicates an unauthorized device attempting to connect to a secured port, potentially bypassing network access controls. If confirmed malicious, this could allow an attacker to gain unauthorized access to the network, leading to data exfiltration, network
+author: Mikael Bjerkeland, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    facility:
+      - PM
+      - PORT_SECURITY
+    mnemonic:
+      - ERR_DISABLE
+      - PSECURE_VIOLATION
+      - PSECURE_VIOLATION_VLAN
+    disable_cause: psecure-violation
+  condition: selection
+tags:
+  - attack.t1200
+  - attack.t1498
+  - attack.t1557.002
+custom_attributes:
+  original_rule_id: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
+  source_format: splunk_spl

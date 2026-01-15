@@ -1,0 +1,27 @@
+title: Windows Excel ActiveMicrosoftApp Child Process
+id: 0994b178-7f20-5035-86de-1103debbc389
+status: stable
+level: medium
+description: |
+  The following analytic identifies the execution of the ActiveMicrosoftApp process as a child of Microsoft Excel. Under normal conditions, Excel primarily spawns internal Office-related processes, and the creation of ActiveMicrosoftApp is uncommon in day-to-day business workflows. Adversaries may abuse this behavior to blend malicious activity within trusted applications, execute unauthorized code, or bypass application control mechanisms. This technique aligns with common tradecraft where Office
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    parent_process_name: EXCEL.EXE
+    process_name:
+      - WINPROJ.EXE
+      - FOXPROW.exe
+      - SCHDPLUS.exe
+  condition: selection
+tags:
+  - attack.t1021.003
+references:
+  - https://specterops.io/blog/2023/10/30/lateral-movement-abuse-the-power-of-dcom-excel-application/
+  - https://blog.talosintelligence.com/pathwiper-targets-ukraine/
+  - https://www.trellix.com/blogs/research/dcom-abuse-and-network-erasure-with-trellix-ndr/
+custom_attributes:
+  original_rule_id: 4dfd6a58-93b2-4012-bb33-038bb63652b3
+  source_format: splunk_spl

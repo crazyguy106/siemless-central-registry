@@ -1,0 +1,23 @@
+title: Suspicious Filewrites To Sharepoint Layouts
+id: 58556241-3b1e-545c-8675-e10de24a9429
+status: experimental
+level: high
+description: |
+  Detects a command-line interpreter (cmd.exe or powershell.exe) writing a file to a SharePoint (\TEMPLATE\LAYOUTS) directory.
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    metadata_event_type:
+      - FILE_CREATION
+      - FILE_MODIFICATION
+      - FILE_MOVE
+    target_file_full_path: \\\d{1,2}\\TEMPLATE\\LAYOUTS\\[^\\]+$
+    principal_process_file_full_path: (^|\\)(pwsh|cmd|powershell)\.exe$
+    principal_process_command_line: 'C:\\SP\\Automation\\\\AutoSPInstallerMain.ps1\s+C:\\SP\\Automation\\\\AutoSPInstallerInput.xml'
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_06c0d5b5-8185-4584-8db0-28c8fd4971ea
+  source_format: chronicle_yaral

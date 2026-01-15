@@ -1,0 +1,22 @@
+title: GPUpdate with no Command Line Arguments with Network
+id: 413dd201-d99f-5d28-98ae-e14a2493bcd0
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of gpupdate.exe without command line arguments and with an active network connection. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process execution and network traffic data. It is significant because gpupdate.exe typically runs with specific arguments, and its execution without them, especially with network activity, is often associated with malicious software like Cobalt Strike. If confirmed maliciou
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process: (?i)(gpupdate\.exe.{0,4}$)
+  condition: selection
+tags:
+  - attack.t1055
+references:
+  - https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile
+  - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
+custom_attributes:
+  original_rule_id: 2c853856-a140-11eb-a5b5-acde48001122
+  source_format: splunk_spl

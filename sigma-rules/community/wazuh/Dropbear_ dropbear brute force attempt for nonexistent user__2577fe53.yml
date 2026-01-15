@@ -1,0 +1,36 @@
+title: 'Dropbear: dropbear brute force attempt for nonexistent user.'
+id: bc7a9dc8-e1d0-50a2-bbaf-5124bd083b8e
+status: stable
+level: high
+description: 'Dropbear: dropbear brute force attempt for nonexistent user.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-51093
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-51011
+  wazuh_level: 10

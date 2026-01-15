@@ -1,0 +1,21 @@
+title: Windows Modify Registry NoChangingWallPaper
+id: 366dac6c-64de-5db1-b356-02e1bf375a67
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry aimed at preventing wallpaper changes. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the "NoChangingWallPaper" registry value. This activity is significant as it is a known tactic used by Rhysida ransomware to enforce a malicious wallpaper, thereby limiting user control over system settings. If confirmed malicious, this registry change could indicate a ransomware infection, leading t
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\Windows\\CurrentVersion\\Policies\\ActiveDesktop\\NoChangingWallPaper'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a
+custom_attributes:
+  original_rule_id: a2276412-e254-4e9a-9082-4d92edb6a3e0
+  source_format: splunk_spl

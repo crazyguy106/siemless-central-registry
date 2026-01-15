@@ -1,0 +1,22 @@
+title: 'osquery: Disk busy time is over $(osquery.columns.threshold)'
+id: e95fa69b-5bca-5249-ad65-b9e600110c67
+status: stable
+level: low
+description: 'osquery: Disk busy time is over $(osquery.columns.threshold)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: disk_time_busy
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24010
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24014
+  wazuh_level: 4

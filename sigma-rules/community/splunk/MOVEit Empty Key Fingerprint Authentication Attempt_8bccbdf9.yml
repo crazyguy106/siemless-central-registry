@@ -1,0 +1,21 @@
+title: MOVEit Empty Key Fingerprint Authentication Attempt
+id: 6dcf663c-cb3a-51aa-a25f-33aaa40392f4
+status: stable
+level: low
+description: |
+  This detection identifies attempts to authenticate with an empty public key fingerprint in Progress MOVEit Transfer, which is a key indicator of potential exploitation of the CVE-2024-5806 vulnerability. Such attempts are characteristic of the authentication bypass technique used in this vulnerability, where attackers try to impersonate valid users without providing proper credentials. While occasional empty key fingerprint authentication attempts might occur due to misconfigurations, a sudden i
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://labs.watchtowr.com/auth-bypass-in-un-limited-scenarios-progress-moveit-transfer-cve-2024-5806/
+custom_attributes:
+  original_rule_id: 1a537acc-199f-4713-b5d7-3d98c05ab932
+  source_format: splunk_spl

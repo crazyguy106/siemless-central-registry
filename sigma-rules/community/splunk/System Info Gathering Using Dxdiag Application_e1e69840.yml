@@ -1,0 +1,20 @@
+title: System Info Gathering Using Dxdiag Application
+id: 45e3ff9a-94b2-59a3-8826-d50feddefe10
+status: stable
+level: low
+description: |
+  The following analytic identifies the execution of the dxdiag.exe process with specific command-line arguments, which is used to gather system information. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line details. This activity is significant because dxdiag.exe is rarely used in corporate environments and its execution may indicate reconnaissance efforts by malicious actors. If confirmed malicious, this activity
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process: '* /t *'
+  condition: selection
+tags:
+  - attack.t1592
+references:
+  - https://app.any.run/tasks/df0baf9f-8baf-4c32-a452-16562ecb19be/
+custom_attributes:
+  original_rule_id: f92d74f2-4921-11ec-b685-acde48001122
+  source_format: splunk_spl

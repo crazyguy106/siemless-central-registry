@@ -1,0 +1,38 @@
+title: Multiple common web attacks from same source ip.
+id: 8e6c92f4-7d43-541d-ada3-9425213294e1
+status: stable
+level: high
+description: Multiple common web attacks from same source ip.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-31104
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1055
+  - attack.t1083
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31153
+  wazuh_level: 10

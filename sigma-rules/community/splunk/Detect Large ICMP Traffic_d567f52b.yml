@@ -1,0 +1,23 @@
+title: Detect Large ICMP Traffic
+id: d90c1521-c56f-54d9-8df6-555ca8b34ca6
+status: stable
+level: high
+description: |
+  The following analytic identifies ICMP traffic to external IP addresses with total bytes (sum of bytes in and bytes out) greater than 1,000 bytes. It leverages the Network_Traffic data model to detect large ICMP packet that aren't blocked and are directed toward external networks. We use  All_Traffic.bytes in the detection to capture variations in inbound versus outbound traffic sizes, as significant discrepancies or unusually large ICMP exchanges can indicate information smuggling, covert commu
+author: Rico Valdez, Dean Luxton, Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Network_Traffic
+    protocol: icmp
+    dest_ip:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+  condition: selection
+tags:
+  - attack.t1095
+custom_attributes:
+  original_rule_id: 9cd6d066-94d5-4ccd-a8b9-28c03ca91be8
+  source_format: splunk_spl

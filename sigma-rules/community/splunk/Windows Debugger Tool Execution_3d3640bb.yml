@@ -1,0 +1,25 @@
+title: Windows Debugger Tool Execution
+id: 2b9eb886-7455-5adb-8383-9056eb958a0e
+status: stable
+level: low
+description: |
+  This analysis detects the use of debugger tools within a production environment. While these tools are legitimate for file analysis and debugging, they are abused by malware like PlugX and DarkGate for malicious DLL side-loading. The hunting query aids Security Operations Centers (SOCs) in identifying potentially suspicious tool executions, particularly for non-technical users in the production network.
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - x32dbg.exe
+      - x64dbg.exe
+      - windbg.exe
+  condition: selection
+tags:
+  - attack.t1036
+references:
+  - https://www.splunk.com/en_us/blog/security/enter-the-gates-an-analysis-of-the-darkgate-autoit-loader.html
+  - https://www.trendmicro.com/en_us/research/23/b/investigating-the-plugx-trojan-disguised-as-a-legitimate-windows.html
+custom_attributes:
+  original_rule_id: e14d94a3-07fb-4b47-8406-f5e37180d422
+  source_format: splunk_spl

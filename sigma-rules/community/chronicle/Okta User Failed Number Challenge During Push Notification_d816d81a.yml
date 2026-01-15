@@ -1,0 +1,23 @@
+title: Okta User Failed Number Challenge During Push Notification
+id: 073705e9-a12b-50cc-ba7a-620bb4765d3d
+status: experimental
+level: medium
+description: Detects when an Okta user failed a number challenge during push notification.
+author: Google Cloud Security
+logsource:
+  product: okta
+detection:
+  selection:
+    metadata_product_name: Okta
+    metadata_vendor_name: Okta
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: user.authentication.auth_via_mfa
+    security_result_action: BLOCK
+  condition: selection
+tags:
+  - attack.t1621
+references:
+  - https://support.okta.com/help/s/article/Number-Challenge-for-Okta-Verify
+custom_attributes:
+  original_rule_id: mr_c5542a92-03d7-463a-bab8-ad10a6cd42f0
+  source_format: chronicle_yaral

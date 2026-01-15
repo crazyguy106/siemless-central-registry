@@ -1,0 +1,21 @@
+title: Cloud Compute Instance Created By Previously Unseen User
+id: bff11bba-b6e8-5d25-85ef-9e2da7ad7b92
+status: stable
+level: medium
+description: |
+  The following analytic identifies the creation of cloud compute instances by users who have not previously created them. It leverages data from the Change data model, focusing on 'create' actions by users, and cross-references with a baseline of known user activities. This activity is significant as it may indicate unauthorized access or misuse of cloud resources by new or compromised accounts. If confirmed malicious, attackers could deploy unauthorized compute instances, leading to potential da
+author: Rico Valdez, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    datamodel: Change
+    action: created
+    enough_data: 1
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
+  source_format: splunk_spl

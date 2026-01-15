@@ -1,0 +1,18 @@
+title: Azure Diagnostic settings removed from a resource
+id: 53abcdb3-ae0e-549b-a28c-a40e26a9c3bc
+status: stable
+level: medium
+description: |
+  'This query looks for diagnostic settings that are removed from a resource. This could indicate an attacker or malicious internal trying to evade detection before malicious act is performed. If the diagnostic settings are being deleted as part of a parent resource deletion, the event is ignores.'
+author: KennethMLdk
+logsource:
+  product: azure
+detection:
+  selection:
+    OperationNameValue: MICROSOFT.INSIGHTS/DIAGNOSTICSETTINGS/DELETE
+  condition: selection
+tags:
+  - attack.t1562.008
+custom_attributes:
+  original_rule_id: 6e95aef3-a1e0-4063-8e74-cd59aa59f245
+  source_format: azure_kql

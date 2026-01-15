@@ -1,0 +1,31 @@
+title: Okta Sign-In Events via Third-Party IdP
+id: 1ceb05c4-7d25-11ee-9562-f661ea17fbcd
+status: stable
+level: medium
+description: Detects sign-in events where authentication is carried out via a third-party
+  Identity Provider (IdP).
+author: Elastic (converted by SIEMLess)
+date: '2023-11-06'
+modified: '2025-09-08'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    okta_debug_context_debug_data_request_uri: /oauth2/v1/authorize/callback
+    okta_authentication_context_issuer_id: Okta
+    event_action: user.authentication.auth_via_IDP
+    okta_outcome_result: FAILURE
+    okta_outcome_reason: ("A
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1199
+references:
+- https://blog.cloudflare.com/cloudflare-investigation-of-the-january-2022-okta-compromise/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection
+- https://unit42.paloaltonetworks.com/muddled-libra/
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta

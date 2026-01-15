@@ -1,0 +1,21 @@
+title: Scheduled Task Initiation on Remote Endpoint
+id: 84425e8a-bc1b-5911-9582-bbd42f309892
+status: stable
+level: high
+description: |
+  The following analytic detects the use of 'schtasks.exe' to start a Scheduled Task on a remote endpoint. This detection leverages Endpoint Detection and Response (EDR) data, focusing on process details such as process name, parent process, and command-line executions. This activity is significant as adversaries often abuse Task Scheduler for lateral movement and remote code execution. If confirmed malicious, this behavior could allow attackers to execute arbitrary code remotely, potentially lead
+author: Mauricio Velazco, Splunk, Badoodish, Github Community
+logsource:
+  product: splunk
+detection:
+  selection:
+    process: '* /S *'
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks
+  - https://attack.mitre.org/techniques/T1053/005/
+custom_attributes:
+  original_rule_id: 95cf4608-4302-11ec-8194-3e22fbd008af
+  source_format: splunk_spl

@@ -1,0 +1,25 @@
+title: GCP GCE Image Open To Public
+id: 820356e9-8177-5957-9570-e4cadbf58493
+status: experimental
+level: high
+description: |
+  Detect when GCP Compute Image is opened to public by adding allAuthenticatedUsers to the access policy.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_PERMISSIONS
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_vendor_name: Google Cloud Platform
+    metadata_product_event_type: beta.compute.images.setIamPolicy
+    target_application: compute.googleapis.com
+    security_result_action: ALLOW
+    target_resource_attribute_labels_value: allAuthenticatedUsers
+    target_resource_resource_subtype: gce_image
+  condition: selection
+tags:
+  - attack.t1537
+custom_attributes:
+  original_rule_id: mr_4a1525be-9e17-41d6-ba67-a11058ee4d3c
+  source_format: chronicle_yaral

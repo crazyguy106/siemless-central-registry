@@ -1,0 +1,23 @@
+title: Detect AWS Console Login by User from New Region
+id: 574a73ee-3607-556c-a270-ca7efc4c2410
+status: stable
+level: low
+description: |
+  The following analytic identifies AWS console login attempts by users from a new region. It leverages AWS CloudTrail events and compares current login regions against a baseline of previously seen regions for each user. This activity is significant as it may indicate unauthorized access attempts or compromised credentials. If confirmed malicious, an attacker could gain unauthorized access to AWS resources, potentially leading to data breaches, resource manipulation, or further lateral movement w
+author: Bhavin Patel, Eric McGinnis Splunk
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    userregion: New Region
+    datamodel: Authentication
+    signature: ConsoleLogin
+    type: outer
+  condition: selection
+tags:
+  - attack.t1535
+  - attack.t1586.003
+custom_attributes:
+  original_rule_id: 9f31aa8e-e37c-46bc-bce1-8b3be646d026
+  source_format: splunk_spl

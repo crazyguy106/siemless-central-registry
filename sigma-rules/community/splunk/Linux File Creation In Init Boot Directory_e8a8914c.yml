@@ -1,0 +1,25 @@
+title: Linux File Creation In Init Boot Directory
+id: 90491938-d34d-5a77-8baf-1e60ec32a953
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of files in Linux init boot directories, which are used for automatic execution upon system startup. It leverages file system logs to identify new files in directories such as /etc/init.d/ and /etc/rc.d/. This activity is significant as it is a common persistence technique used by adversaries, malware authors, and red teamers. If confirmed malicious, this could allow an attacker to maintain persistence on the compromised host, potentially leading to fu
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/etc/init.d/*'
+      - '*/etc/rc.d/*'
+      - '*/sbin/init.d/*'
+      - '*/etc/rc.local*'
+  condition: selection
+tags:
+  - attack.t1037.004
+references:
+  - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+custom_attributes:
+  original_rule_id: 97d9cfb2-61ad-11ec-bb2d-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,30 @@
+title: Suspicious Hidden Child Process of Launchd
+id: 083fa162-e790-4d85-9aeb-4fea04188adb
+status: stable
+level: medium
+description: 'Identifies the execution of a launchd child process with a hidden file.
+  An adversary can establish persistence by
+
+  installing a new logon item, launch agent, or daemon that executes upon login.'
+author: Elastic (converted by SIEMLess)
+date: '2020-01-07'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_parent_name: launchd
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1564
+- attack.t1564.001
+- attack.t1543.001
+- attack.t1543
+references:
+- https://objective-see.com/blog/blog_0x61.html
+- https://www.intezer.com/blog/research/operation-electrorat-attacker-creates-fake-companies-to-drain-your-crypto-wallets/
+- https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html

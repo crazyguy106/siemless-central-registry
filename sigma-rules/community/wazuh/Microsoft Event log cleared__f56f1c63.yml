@@ -1,0 +1,24 @@
+title: Microsoft Event log cleared.
+id: 04bdcf35-8c43-5c7b-98e8-c0525699f791
+status: stable
+level: medium
+description: Microsoft Event log cleared.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: '^ossec: Event log cleared'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-500
+tags:
+  - attack.t1070
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-593
+  wazuh_level: 9

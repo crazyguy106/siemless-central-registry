@@ -1,0 +1,36 @@
+title: Persistence via Microsoft Office AddIns
+id: f44fa4b6-524c-4e87-8d9e-a32599e4fb7c
+status: stable
+level: high
+description: Detects attempts to establish persistence on an endpoint by abusing Microsoft
+  Office add-ins.
+author: Elastic (converted by SIEMLess)
+date: '2020-10-16'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_extension|contains:
+    - wll
+    - xll
+    - ppa
+    - ppam
+    - xla
+    - xlam
+    file_path|contains:
+    - C:\\Users\\*\\AppData\\Roaming\\Microsoft\\Word\\Startup\\*
+    - C:\\Users\\*\\AppData\\Roaming\\Microsoft\\AddIns\\*
+    - C:\\Users\\*\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART\\*
+    - \\Device\\HarddiskVolume*\\Users\\*\\AppData\\Roaming\\Microsoft\\Word\\Startup\\*
+    - \\Device\\HarddiskVolume*\\Users\\*\\AppData\\Roaming\\Microsoft\\AddIns\\*
+    - \\Device\\HarddiskVolume*\\Users\\*\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART\\*
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1137
+- attack.t1137.006
+references:
+- https://labs.withsecure.com/publications/add-in-opportunities-for-office-persistence

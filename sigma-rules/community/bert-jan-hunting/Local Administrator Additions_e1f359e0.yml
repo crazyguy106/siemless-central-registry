@@ -1,0 +1,27 @@
+title: Local Administrator Additions
+id: aedbeaa3-d5a5-41ad-ac73-f13f23fe4984
+status: experimental
+level: medium
+description: |
+  Adversaries may create a local accounts to maintain access to victim systems. This query lists all the locad admins that have been added in the seletect timeframe per device.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents
+| where ActionType == "UserAccountAddedToLocalGroup"
+| extend Details = parse_json(AdditionalFields)
+| extend
+    GroupName = tostring(Details.GroupName),
+    GroupDomainName = tostring(Details.GroupDomainName),
+    GroupSid = tostring(Details.GroupSid)
+// Filter Local Administrators
+| where GroupSid == "S-1-5-32-544"
+| summarize LocalAdmins = make_set(AccountSid) by DeviceName
+| extend TotalLocalAdmins = array_length(LocalAdmins)
+| sort by TotalLocalAdmins
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

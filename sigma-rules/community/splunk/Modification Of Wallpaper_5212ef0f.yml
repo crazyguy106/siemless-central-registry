@@ -1,0 +1,30 @@
+title: Modification Of Wallpaper
+id: 89ad3a08-17ec-5c37-953b-c5d69fc6331f
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of registry keys related to the desktop wallpaper settings. It leverages Sysmon EventCode 13 to identify changes to the "Control Panel\\Desktop\\Wallpaper" and "Control Panel\\Desktop\\WallpaperStyle" registry keys, especially when the modifying process is not explorer.exe or involves suspicious file paths like temp or public directories. This activity is significant as it can indicate ransomware behavior, such as the REVIL ransomware, which change
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 13
+    targetobject:
+      - '*\\Control Panel\\Desktop\\Wallpaper'
+      - '*\\Control Panel\\Desktop\\WallpaperStyle'
+    details:
+      - '*\\temp\\*'
+      - '*\\users\\public\\*'
+  filter:
+    image: '*\\explorer.exe'
+  condition: selection and not filter
+tags:
+  - attack.t1491
+references:
+  - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+  - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+  - https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+custom_attributes:
+  original_rule_id: accb0712-c381-11eb-8e5b-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,21 @@
+title: Enumeration of inboxes accessible by a user in the Microsoft Graph API
+id: d5ee3e6b-356a-56ca-b337-253005903010
+status: experimental
+level: medium
+description: |
+  Identify enumeration of inboxes across the Entra ID tenant. This detection is based on the Invoke-GraphOpenInboxFinder in GraphRunner but the concepts are applicable to other tools that scan for accessible inboxes.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_94dbfeae-2a20-472d-b359-9784b66213e7
+  source_format: chronicle_yaral

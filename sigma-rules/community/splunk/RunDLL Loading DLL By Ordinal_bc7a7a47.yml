@@ -1,0 +1,22 @@
+title: RunDLL Loading DLL By Ordinal
+id: 1db8d66a-a232-5b20-9061-cb2da3a67b22
+status: stable
+level: high
+description: |
+  The following analytic detects rundll32.exe loading a DLL export function by ordinal value. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command-line executions. This behavior is significant because adversaries may use rundll32.exe to execute malicious code while evading security tools that do not monitor this process. If confirmed malicious, this activity could allow attackers to execute arbitrary code, potentially leading to system compromise, privil
+author: Michael Haag, David Dorsey, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1218.011
+references:
+  - https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
+  - https://twitter.com/M_haggis/status/1491109262428635136
+  - https://twitter.com/pr0xylife/status/1590394227758104576
+custom_attributes:
+  original_rule_id: 6c135f8d-5e60-454e-80b7-c56eed739833
+  source_format: splunk_spl

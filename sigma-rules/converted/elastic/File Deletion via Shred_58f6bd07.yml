@@ -1,0 +1,28 @@
+title: File Deletion via Shred
+id: a1329140-8de3-4445-9f87-908fb6d824f4
+status: stable
+level: low
+description: 'Malware or other files dropped or created on a system by an adversary
+  may leave traces behind as to what was done within
+
+  a network and how. Adversaries may remove these files over the course of an intrusion
+  to keep their footprint low or
+
+  remove them at the end as part of the post-intrusion cleanup process.'
+author: Elastic (converted by SIEMLess)
+date: '2020-04-27'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: shred
+    process_parent_name: logrotate
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.004
+- attack.t1070

@@ -1,0 +1,46 @@
+title: Dynamic Linker Creation or Modification
+id: 640f79d1-571d-4f96-a9af-1194fc8cf763
+status: stable
+level: medium
+description: 'Detects the creation or modification of files related to the configuration
+  of the dynamic linker on Linux systems.
+
+  The dynamic linker is a shared library that is used by the Linux kernel to load
+  and execute programs. Attackers may
+
+  attempt to hijack the execution flow of a program by modifying the dynamic linker
+  configuration files. This technique
+
+  is often observed by userland rootkits that leverage shared objects to maintain
+  persistence on a compromised host.'
+author: Elastic (converted by SIEMLess)
+date: '2024-08-08'
+modified: '2025-09-29'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_Ext_original_extension: dpkg-new
+    process_name: sshd
+    file_name: ld.wsl.conf
+    file_extension: dpkg-new
+    file_path|contains:
+    - /etc/ld.so.preload
+    - /etc/ld.so.conf.d/*
+    - /etc/ld.so.conf
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /snap/*
+    - /dev/fd/*
+    - /usr/lib/virtualbox/*
+    - /opt/dynatrace/oneagent/*
+    - /usr/libexec/platform-python*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1574
+- attack.t1574.006

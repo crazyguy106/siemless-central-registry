@@ -1,0 +1,25 @@
+title: Zscaler Potentially Abused File Download
+id: ca041efd-9785-5630-9770-99c747e0770a
+status: stable
+level: medium
+description: |
+  The following analytic identifies the download of potentially malicious file types, such as .scr, .dll, .bat, and .lnk, within a network. It leverages web proxy logs from Zscaler, focusing on blocked actions and analyzing fields like deviceowner, user, urlcategory, url, dest, and filename. This activity is significant as these file types are often used to spread malware, posing a threat to network security. If confirmed malicious, this activity could lead to malware execution, data compromise, o
+author: Gowthamaraj Rajendran, Rod Soto, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    url:
+      - '*.scr'
+      - '*.dll'
+      - '*.bat'
+      - '*.lnk'
+  condition: selection
+tags:
+  - attack.t1566
+references:
+  - https://help.zscaler.com/zia/nss-feed-output-format-web-logs
+custom_attributes:
+  original_rule_id: b0c21379-f4ba-4bac-a958-897e260f964a
+  source_format: splunk_spl

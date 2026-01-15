@@ -1,0 +1,112 @@
+title: Unsigned DLL Loaded by Svchost
+id: 78ef0c95-9dc2-40ac-a8da-5deb6293a14e
+status: stable
+level: medium
+description: 'Identifies an unsigned library created in the last 5 minutes and subsequently
+  loaded by a shared windows service
+
+  (svchost). Adversaries may use this technique to maintain persistence or run with
+  System privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-17'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: image_load
+detection:
+  selection:
+    host_os_type: windows
+    process_executable|contains:
+    - ?:\\Windows\\System32\\svchost.exe
+    - ?:\\Windows\\Syswow64\\svchost.exe
+    dll_code_signature_status|contains:
+    - trusted
+    - errorExpired
+    - errorCode_endpoint*
+    dll_path|contains:
+    - ?:\\ProgramData\\*
+    - ?:\\Users\\*
+    - ?:\\PerfLogs\\*
+    - ?:\\Windows\\Tasks\\*
+    - ?:\\Intel\\*
+    - ?:\\AMD\\Temp\\*
+    - ?:\\Windows\\AppReadiness\\*
+    - ?:\\Windows\\ServiceState\\*
+    - ?:\\Windows\\security\\*
+    - ?:\\Windows\\IdentityCRL\\*
+    - ?:\\Windows\\Branding\\*
+    - ?:\\Windows\\csc\\*
+    - ?:\\Windows\\DigitalLocker\\*
+    - ?:\\Windows\\en-US\\*
+    - ?:\\Windows\\wlansvc\\*
+    - ?:\\Windows\\Prefetch\\*
+    - ?:\\Windows\\Fonts\\*
+    - ?:\\Windows\\diagnostics\\*
+    - ?:\\Windows\\TAPI\\*
+    - ?:\\Windows\\INF\\*
+    - ?:\\Windows\\System32\\Speech\\*
+    - ?:\\windows\\tracing\\*
+    - ?:\\windows\\IME\\*
+    - ?:\\Windows\\Performance\\*
+    - ?:\\windows\\intel\\*
+    - ?:\\windows\\ms\\*
+    - ?:\\Windows\\dot3svc\\*
+    - ?:\\Windows\\panther\\*
+    - ?:\\Windows\\RemotePackages\\*
+    - ?:\\Windows\\OCR\\*
+    - ?:\\Windows\\appcompat\\*
+    - ?:\\Windows\\apppatch\\*
+    - ?:\\Windows\\addins\\*
+    - ?:\\Windows\\Setup\\*
+    - ?:\\Windows\\Help\\*
+    - ?:\\Windows\\SKB\\*
+    - ?:\\Windows\\Vss\\*
+    - ?:\\Windows\\servicing\\*
+    - ?:\\Windows\\CbsTemp\\*
+    - ?:\\Windows\\Logs\\*
+    - ?:\\Windows\\WaaS\\*
+    - ?:\\Windows\\twain_32\\*
+    - ?:\\Windows\\ShellExperiences\\*
+    - ?:\\Windows\\ShellComponents\\*
+    - ?:\\Windows\\PLA\\*
+    - ?:\\Windows\\Migration\\*
+    - ?:\\Windows\\debug\\*
+    - ?:\\Windows\\Cursors\\*
+    - ?:\\Windows\\Containers\\*
+    - ?:\\Windows\\Boot\\*
+    - ?:\\Windows\\bcastdvr\\*
+    - ?:\\Windows\\TextInput\\*
+    - ?:\\Windows\\security\\*
+    - ?:\\Windows\\schemas\\*
+    - ?:\\Windows\\SchCache\\*
+    - ?:\\Windows\\Resources\\*
+    - ?:\\Windows\\rescache\\*
+    - ?:\\Windows\\Provisioning\\*
+    - ?:\\Windows\\PrintDialog\\*
+    - ?:\\Windows\\PolicyDefinitions\\*
+    - ?:\\Windows\\media\\*
+    - ?:\\Windows\\Globalization\\*
+    - ?:\\Windows\\L2Schemas\\*
+    - ?:\\Windows\\LiveKernelReports\\*
+    - ?:\\Windows\\ModemLogs\\*
+    - ?:\\Windows\\ImmersiveControlPanel\\*
+    - ?:\\$Recycle.Bin\\*
+    dll_hash_sha256|contains:
+    - 3ed33e71641645367442e65dca6dab0d326b22b48ef9a4c2a2488e67383aa9a6
+    - b4db053f6032964df1b254ac44cb995ffaeb4f3ade09597670aba4f172cf65e4
+    - 214c75f678bc596bbe667a3b520aaaf09a0e50c364a28ac738a02f867a085eba
+    - 23aa95b637a1bf6188b386c21c4e87967ede80242327c55447a5bb70d9439244
+    - 5050b025909e81ae5481db37beb807a80c52fc6dd30c8aa47c9f7841e2a31be7
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.execution
+- attack.t1569.002
+- attack.t1036.001
+- attack.t1569
+- attack.t1543.003
+- attack.t1036
+- attack.t1543
+references:
+- https://www.elastic.co/security-labs/Hunting-for-Suspicious-Windows-Libraries-for-Execution-and-Evasion

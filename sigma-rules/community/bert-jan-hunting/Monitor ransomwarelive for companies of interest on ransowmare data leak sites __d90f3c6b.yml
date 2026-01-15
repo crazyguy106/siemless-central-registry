@@ -1,0 +1,30 @@
+title: Monitor ransomwarelive for companies of interest on ransowmare data leak sites (DLS)
+id: c12ca597-c3f6-4577-96c7-b593a785b625
+status: experimental
+level: medium
+description: |
+  This allows you to monitor the ransomware.live dataset for possible companies of interest being breached and posted by ransomware groups on data leak sites (DLS).
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    //basic KQL to query recentvictims API
+let victims = externaldata(country:string,
+        activity:string,
+        description:string,
+        discovered:string,
+        group_name:string,
+        post_title:string,
+        post_url:string,
+        published:string,
+        screenshot:string,
+        website:string,
+        infostealer:dynamic)
+[h@"https://api.ransomware.live/recentvictims"]
+with(format="multijson",ignoreFirstRecord=false);
+victims
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

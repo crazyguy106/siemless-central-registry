@@ -1,0 +1,22 @@
+title: Windows New Service Security Descriptor Set Via Sc.EXE
+id: f7af358c-f2a7-59a2-9b3c-2171cf6e3f3f
+status: stable
+level: medium
+description: |
+  The following analytic detects changes in a service security descriptor where a new deny ace has been added. It leverages data from Endpoint Detection and Response (EDR) agents, specifically searching for any process execution involving the "sc.exe" binary with the "sdset" flag targeting any service and adding a dedicated deny ace. If confirmed malicious, this could allow an attacker to escalate their privileges, blind defenses and more.
+author: Nasreddine Bencherchali, Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process: '*sdset *'
+  condition: selection
+tags:
+  - attack.t1564
+references:
+  - https://www.sans.org/blog/red-team-tactics-hiding-windows-services/
+  - https://news.sophos.com/wp-content/uploads/2020/06/glupteba_final-1.pdf
+  - https://attack.mitre.org/techniques/T1564/
+custom_attributes:
+  original_rule_id: cde00c31-042a-4307-bf70-25e471da56e9
+  source_format: splunk_spl

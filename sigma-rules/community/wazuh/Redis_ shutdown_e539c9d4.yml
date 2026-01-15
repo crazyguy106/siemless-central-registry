@@ -1,0 +1,22 @@
+title: 'Redis: shutdown'
+id: 054daffe-4025-54c6-b607-1ddc351a4f42
+status: stable
+level: informational
+description: 'Redis: shutdown'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'Redis is now ready to exit, bye bye'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81302
+  wazuh_level: 1

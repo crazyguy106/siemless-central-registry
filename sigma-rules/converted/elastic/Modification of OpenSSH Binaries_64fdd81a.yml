@@ -1,0 +1,39 @@
+title: Modification of OpenSSH Binaries
+id: 0415f22a-2336-45fa-ba07-618a5942e22c
+status: stable
+level: medium
+description: 'Adversaries may modify SSH related binaries for persistence or credential
+  access by patching sensitive functions to
+
+  enable unauthorized access or by logging SSH credentials for exfiltration.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-21'
+modified: '2025-02-03'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: file
+    host_os_type: linux
+    event_type: change
+    process_name: (*
+    file_path: (/usr/bin/scp
+    file_name: libkeyutils.so)
+    process_executable: /usr/share/elasticsearch/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.lateral_movement
+- attack.credential_access
+- attack.t1021.004
+- attack.t1021
+- attack.t1563
+- attack.t1556
+- attack.t1563.001
+- attack.t1543
+references:
+- https://blog.angelalonso.es/2016/09/anatomy-of-real-linux-intrusion-part-ii.html
+falsepositives:
+- Trusted OpenSSH executable updates. It's recommended to verify the integrity of
+  OpenSSH binary changes.

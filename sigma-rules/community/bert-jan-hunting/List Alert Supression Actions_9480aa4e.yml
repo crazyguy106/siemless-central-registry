@@ -1,0 +1,21 @@
+title: List Alert Supression Actions
+id: ab331629-b600-46ff-b3ea-ae79f27854ef
+status: experimental
+level: medium
+description: |
+  This query lists all the supressions that have been added to Defender XDR. This gives you an overview of what rules are added, by who and why they have been added.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where Timestamp > ago(30d)
+| where ActionType == "ExclusionConfigurationAdded"
+| extend Workload = tostring(parse_json(RawEventData).Workload), ResultStatus = tostring(parse_json(RawEventData).ResultStatus), ResultDescription = tostring(parse_json(RawEventData).ResultDescription)
+| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+| project-reorder Timestamp, Workload, ResultDescription, ResultStatus,  InitiatedByAccountName, InitiatedByAccounttId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

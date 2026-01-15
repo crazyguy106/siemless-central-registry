@@ -1,0 +1,27 @@
+title: Linux Clipboard Data Copy
+id: 35639f94-d7ac-5133-87e1-f62a496be4d8
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the Linux 'xclip' command to copy data from the clipboard. It leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and command-line arguments related to clipboard operations. This activity is significant because adversaries can exploit clipboard data to capture sensitive information such as passwords or IP addresses. If confirmed malicious, this technique could lead to unauthorized data exfiltration, compromising sensitive
+author: Michael Haag, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process_name: xclip
+    process:
+      - '*-o *'
+      - '*-sel *'
+      - '*-selection *'
+      - '*clip *'
+      - '*clipboard*'
+  condition: selection
+tags:
+  - attack.t1115
+references:
+  - https://attack.mitre.org/techniques/T1115/
+  - https://linux.die.net/man/1/xclip
+custom_attributes:
+  original_rule_id: 7173b2ad-6146-418f-85ae-c3479e4515fc
+  source_format: splunk_spl

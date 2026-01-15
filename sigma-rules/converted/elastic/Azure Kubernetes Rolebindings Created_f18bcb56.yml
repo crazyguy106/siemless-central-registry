@@ -1,0 +1,35 @@
+title: Azure Kubernetes Rolebindings Created
+id: 1c966416-60c1-436b-bfd0-e002fddbfd89
+status: stable
+level: low
+description: 'Identifies the creation of role binding or cluster role bindings. You
+  can assign these roles to Kubernetes subjects
+
+  (users, groups, or service accounts) with role bindings and cluster role bindings.
+  An adversary who has permissions to
+
+  create bindings and cluster-bindings in the cluster can create a binding to the
+  cluster-admin ClusterRole or to other
+
+  high privileges roles.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-18'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: ("MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLEBINDINGS/WRITE
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1078.004
+- attack.t1098
+- attack.t1078
+references:
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes
+- https://www.microsoft.com/security/blog/2020/04/02/attack-matrix-kubernetes/

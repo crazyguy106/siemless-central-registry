@@ -1,0 +1,48 @@
+title: Microsoft 365 OAuth Phishing via Visual Studio Code Client
+id: 929d0766-204b-11f0-9c1f-f661ea17fbcd
+status: stable
+level: medium
+description: 'Detects potentially suspicious OAuth authorization activity in Microsoft
+  365 where the Visual Studio Code first-party
+
+  application (client_id = aebc6443-996d-45c2-90f0-388ff96faa56) is used to request
+  access to Microsoft Graph resources.
+
+  While this client ID is legitimately used by Visual Studio Code, threat actors have
+  been observed abusing it in phishing
+
+  campaigns to make OAuth requests appear trustworthy. These attacks rely on redirect
+  URIs such as VSCode Insiders
+
+  redirect location, prompting victims to return an OAuth authorization code that
+  can be exchanged for access tokens. This
+
+  rule may help identify unauthorized use of the VS Code OAuth flow as part of social
+  engineering or credential phishing
+
+  activity.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-23'
+modified: '2025-09-08'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_action: UserLoggedIn
+    o365_audit_ApplicationId: aebc6443-996d-45c2-90f0-388ff96faa56
+    o365_audit_Target_ID: 00000003-0000-0000-c000-000000000000
+    o365_audit_ExtendedProperties_RequestType: OAuth2:Authorize
+    o365_audit_ExtendedProperties_ResultStatusDetail: Redirect
+    o365_audit_UserType: ("0
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1078.004
+- attack.t1566.002
+- attack.t1078
+- attack.t1566
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/reports-monitoring/reference-azure-monitor-sign-ins-log-schema
+- https://www.volexity.com/blog/2025/04/22/phishing-for-codes-russian-threat-actors-target-microsoft-365-oauth-workflows/

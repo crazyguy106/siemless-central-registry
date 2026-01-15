@@ -1,0 +1,32 @@
+title: Suspicious Print Spooler File Deletion
+id: c4818812-d44f-47be-aaef-4cfb2f9cc799
+status: stable
+level: medium
+description: 'Detects deletion of print driver files by an unusual process. This may
+  indicate a clean up attempt post successful
+
+  privilege escalation via Print Spooler service related vulnerabilities.'
+author: Elastic (converted by SIEMLess)
+date: '2021-07-06'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: deletion
+    process_name|contains:
+    - spoolsv.exe
+    - dllhost.exe
+    - explorer.exe
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1068
+references:
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527
+falsepositives:
+- "    Uninstall or manual deletion of a legitimate printing driver files. Verify\
+  \ the printer file metadata such as\n    manufacturer and signature information.\n\
+  \    "

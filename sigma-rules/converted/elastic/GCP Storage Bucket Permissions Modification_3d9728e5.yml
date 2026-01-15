@@ -1,0 +1,33 @@
+title: GCP Storage Bucket Permissions Modification
+id: 2326d1b2-9acf-4dee-bd21-867ea7378b4d
+status: stable
+level: medium
+description: 'Identifies when the Identity and Access Management (IAM) permissions
+  are modified for a Google Cloud Platform (GCP)
+
+  storage bucket. An adversary may modify the permissions on a storage bucket to weaken
+  their target''s security controls
+
+  or an administrator may inadvertently modify the permissions, which could lead to
+  data exposure or loss.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-21'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: gcp.audit
+    event_action: storage.setIamPermissions
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1222
+references:
+- https://cloud.google.com/storage/docs/access-control/iam-permissions
+falsepositives:
+- "    Storage bucket permissions may be modified by system administrators. Verify\
+  \ that the configuration change was\n    expected. Exceptions can be added to this\
+  \ rule to filter expected behavior.\n    "

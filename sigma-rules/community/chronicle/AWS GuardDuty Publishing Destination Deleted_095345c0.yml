@@ -1,0 +1,22 @@
+title: AWS GuardDuty Publishing Destination Deleted
+id: 696105d6-e951-5bb9-ab42-8909b64993e2
+status: experimental
+level: high
+description: |
+  Detects when a GuardDuty Detector's publishing destination has been deleted which will prevent the exporting of findings.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type: DeletePublishingDestination
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_630cd3d0-d22f-4e8a-9065-425bdbe1ab32
+  source_format: chronicle_yaral

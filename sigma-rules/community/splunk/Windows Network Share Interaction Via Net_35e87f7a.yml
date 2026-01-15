@@ -1,0 +1,26 @@
+title: Windows Network Share Interaction Via Net
+id: 9727aaea-8ef5-54d9-a14d-3bca54643255
+status: stable
+level: medium
+description: |
+  The following analytic identifies network share discovery and collection activities performed on Windows systems using the Net command. Attackers often use network share discovery to identify accessible shared resources within a network, which can be a precursor to privilege escalation or data exfiltration. By monitoring Windows Event Logs for the usage of the Net command to list and interact with network shares, this detection helps identify potential reconnaissance and collection activities.
+author: Dean Luxton
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    process_name: net.exe
+    original_file_name: net.exe
+    process:
+      - '*use *'
+      - '*view*'
+  condition: selection
+tags:
+  - attack.t1135
+  - attack.t1039
+references:
+  - https://attack.mitre.org/techniques/T1135/
+custom_attributes:
+  original_rule_id: e51fbdb0-0be0-474f-92ea-d289f71a695e
+  source_format: splunk_spl

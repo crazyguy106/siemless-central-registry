@@ -1,0 +1,20 @@
+title: O365 Disable MFA
+id: e2a32cdc-3bfd-555e-8ad8-90869d2dd406
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where Multi-Factor Authentication (MFA) is disabled for a user within the Office 365 environment. It leverages O365 audit logs, specifically focusing on events related to MFA settings. Disabling MFA removes a critical security layer, making accounts more vulnerable to unauthorized access. If confirmed malicious, this activity could indicate an attacker attempting to maintain persistence or an insider threat, significantly increasing the risk of unautho
+author: Rod Soto, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    operation: Disable Strong Authentication.
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://attack.mitre.org/techniques/T1556/
+custom_attributes:
+  original_rule_id: c783dd98-c703-4252-9e8a-f19d9f5c949e
+  source_format: splunk_spl

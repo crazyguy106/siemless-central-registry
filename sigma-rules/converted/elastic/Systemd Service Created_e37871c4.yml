@@ -1,0 +1,57 @@
+title: Systemd Service Created
+id: 17b0a495-4d9f-414c-8ad0-92f018b8e001
+status: stable
+level: medium
+description: 'This rule detects the creation or renaming of a new Systemd file in
+  all of the common Systemd service locations for both
+
+  root and regular users. Systemd service files are configuration files in Linux systems
+  used to define and manage system
+
+  services. Malicious actors can leverage systemd service files to achieve persistence
+  by creating or modifying services
+
+  to execute malicious commands or payloads during system startup or at a predefined
+  interval by adding a systemd timer.
+
+  This allows them to maintain unauthorized access, execute additional malicious activities,
+  or evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-06-09'
+modified: '2025-02-03'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_extension: service
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+    file_path|contains:
+    - /etc/systemd/system/*
+    - /etc/systemd/user/*
+    - /usr/local/lib/systemd/system/*
+    - /lib/systemd/system/*
+    - /usr/lib/systemd/system/*
+    - /usr/lib/systemd/user/*
+    - /home/*/.config/systemd/user/*
+    - /home/*/.local/share/systemd/user/*
+    - /root/.config/systemd/user/*
+    - /root/.local/share/systemd/user/*
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /tmp/vmis.*
+    - /snap/*
+    - /dev/fd/*
+    - /usr/lib/virtualbox/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1543.002
+- attack.t1543
+references:
+- https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

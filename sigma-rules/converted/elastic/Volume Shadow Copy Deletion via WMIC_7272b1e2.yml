@@ -1,0 +1,25 @@
+title: Volume Shadow Copy Deletion via WMIC
+id: dc9c1f74-dac3-48e3-b47f-eb79db358f57
+status: stable
+level: high
+description: 'Identifies use of wmic.exe for shadow copy deletion on endpoints. This
+  commonly occurs in tandem with ransomware or
+
+  other destructive attacks.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: wmic.exe
+  condition: selection
+tags:
+- attack.impact
+- attack.execution
+- attack.t1490
+- attack.t1047

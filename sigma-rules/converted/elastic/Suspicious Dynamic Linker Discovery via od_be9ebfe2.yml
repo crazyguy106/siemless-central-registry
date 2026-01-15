@@ -1,0 +1,32 @@
+title: Suspicious Dynamic Linker Discovery via od
+id: 0369e8a6-0fa7-4e7a-961a-53180a4c966e
+status: stable
+level: low
+description: 'Monitors for dynamic linker discovery via the od utility. od (octal
+  dump) is a command-line utility in Unix operating
+
+  systems used for displaying data in various formats, including octal, hexadecimal,
+  decimal, and ASCII, primarily used
+
+  for examining and debugging binary files or data streams. Attackers can leverage
+  od to analyze the dynamic linker by
+
+  identifying injection points and craft exploits based on the observed behaviors
+  and structures within these files.'
+author: Elastic (converted by SIEMLess)
+date: '2024-02-01'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: od
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1057
+references:
+- https://github.com/arget13/DDexec

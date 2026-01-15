@@ -1,0 +1,35 @@
+title: Abnormally Large DNS Response
+id: 11013227-0301-4a8c-b150-4db924484475
+status: stable
+level: medium
+description: 'Specially crafted DNS requests can manipulate a known overflow vulnerability
+  in some Windows DNS servers, resulting in
+
+  Remote Code Execution (RCE) or a Denial of Service (DoS) from crashing the service.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-16'
+modified: '2024-05-21'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_dataset: zeek.dns
+    event_category: (network
+    destination_port: 53))
+    type: dns
+    event_type: connection)
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.t1210
+references:
+- https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+- https://msrc-blog.microsoft.com/2020/07/14/july-2020-security-update-cve-2020-1350-vulnerability-in-windows-domain-name-system-dns-server/
+- https://github.com/maxpl0it/CVE-2020-1350-DoS
+- https://www.elastic.co/security-labs/detection-rules-for-sigred-vulnerability
+falsepositives:
+- "    Environments that leverage DNS responses over 60k bytes will result in false\
+  \ positives - if this traffic is\n    predictable and expected, it should be filtered\
+  \ out. Additionally, this detection rule could be triggered by an\n    authorized\
+  \ vulnerability scan or compromise assessment.\n    "

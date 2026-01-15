@@ -1,0 +1,28 @@
+title: Potential Privilege Escalation via PKEXEC
+id: 8da41fc9-7735-4b24-9cc6-c78dfc9fc9c9
+status: stable
+level: high
+description: 'Identifies an attempt to exploit a local privilege escalation in polkit
+  pkexec (CVE-2021-4034) via unsecure environment
+
+  variable injection. Successful exploitation allows an unprivileged user to escalate
+  to the root user.'
+author: Elastic (converted by SIEMLess)
+date: '2022-01-26'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1574
+- attack.t1574.007
+- attack.t1068
+references:
+- https://seclists.org/oss-sec/2022/q1/80
+- https://haxx.in/files/blasty-vs-pkexec.c

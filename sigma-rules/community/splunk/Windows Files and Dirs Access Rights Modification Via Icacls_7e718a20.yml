@@ -1,0 +1,32 @@
+title: Windows Files and Dirs Access Rights Modification Via Icacls
+id: caa85ec3-2b4f-5a2d-bc2e-6f2a48bd84de
+status: stable
+level: high
+description: |
+  The following analytic identifies the modification of security permissions on files or directories using tools like icacls.exe, cacls.exe, or xcacls.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line executions. This activity is significant as it is commonly used by Advanced Persistent Threats (APTs) and coinminer scripts to evade detection and maintain control over compromised systems. If confirmed malicious, this behavior could allow att
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process_name:
+      - icacls.exe
+      - cacls.exe
+      - xcacls.exe
+    process:
+      - '*:R*'
+      - '*:W*'
+      - '*:F*'
+      - '*:C*'
+      - '*:N*'
+      - '*/P*'
+      - '*/E*'
+  condition: selection
+tags:
+  - attack.t1222.001
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.amadey
+custom_attributes:
+  original_rule_id: c76b796c-27e1-4520-91c4-4a58695c749e
+  source_format: splunk_spl

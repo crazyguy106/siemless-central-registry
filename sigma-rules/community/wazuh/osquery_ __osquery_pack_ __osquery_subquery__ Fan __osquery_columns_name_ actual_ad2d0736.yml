@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Fan $(osquery.columns.name) actual speed is $(osquery.columns.actual) rpm'
+id: bb4b5d0d-57c0-5e3c-b31c-9af33d69356a
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Fan $(osquery.columns.name) actual speed is $(osquery.columns.actual) rpm'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: fan_speeds
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24406
+  wazuh_level: 4

@@ -1,0 +1,34 @@
+title: Kernel Driver Load by non-root User
+id: ba81c182-4287-489d-af4d-8ae834b06040
+status: stable
+level: medium
+description: 'Detects the loading of a Linux kernel module by a non-root user through
+  system calls. Threat actors may leverage Linux
+
+  kernel modules to load a rootkit on a system providing them with complete control
+  and the ability to hide from security
+
+  products. As other rules monitor for the addition of Linux kernel modules through
+  system utilities or .ko files, this
+
+  rule covers the gap that evasive rootkits leverage by monitoring for kernel module
+  additions on the lowest level through
+
+  auditd_manager.'
+author: Elastic (converted by SIEMLess)
+date: '2024-01-10'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: driver_load
+detection:
+  selection:
+    host_os_type: linux
+    event_action: loaded-kernel-module
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547
+- attack.t1014
+- attack.t1547.006

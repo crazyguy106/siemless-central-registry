@@ -1,0 +1,20 @@
+title: MOVEit Certificate Store Access Failure
+id: c6b32f91-687a-51c2-ad31-5bdfdcb9c9fe
+status: stable
+level: low
+description: |
+  This detection identifies potential exploitation attempts of the CVE-2024-5806 vulnerability in Progress MOVEit Transfer. It looks for log entries indicating failures to access the certificate store, which can occur when an attacker attempts to exploit the authentication bypass vulnerability. This behavior is a key indicator of attempts to impersonate valid users without proper credentials. While certificate store access failures can occur during normal operations, an unusual increase in such ev
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://labs.watchtowr.com/auth-bypass-in-un-limited-scenarios-progress-moveit-transfer-cve-2024-5806/
+custom_attributes:
+  original_rule_id: d61292d5-46e4-49ea-b23b-8049ea70b525
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: Supernova Webshell
+id: 9d874282-b184-5315-9a3e-e475bdc8f4a9
+status: experimental
+level: high
+description: |
+  The following analytic detects the presence of the Supernova webshell, used in the SUNBURST attack, by identifying specific patterns in web URLs. The detection leverages Splunk to search for URLs containing "*logoimagehandler.ashx*codes*", "*logoimagehandler.ashx*clazz*", "*logoimagehandler.ashx*method*", and "*logoimagehandler.ashx*args*". This activity is significant as it indicates potential unauthorized access and arbitrary code execution on a compromised system. If confirmed malicious, this
+author: John Stoner, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    span: 1s
+  condition: selection
+tags:
+  - attack.t1505.003
+  - attack.t1133
+references:
+  - https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html
+  - https://www.guidepointsecurity.com/blog/supernova-solarwinds-net-webshell-analysis/
+custom_attributes:
+  original_rule_id: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
+  source_format: splunk_spl

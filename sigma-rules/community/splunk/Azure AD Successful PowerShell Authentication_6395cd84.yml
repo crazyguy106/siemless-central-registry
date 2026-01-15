@@ -1,0 +1,27 @@
+title: Azure AD Successful PowerShell Authentication
+id: 306215eb-b7f9-5a03-8706-10941538543d
+status: stable
+level: high
+description: |
+  The following analytic identifies a successful authentication event against an Azure AD tenant using PowerShell cmdlets. This detection leverages Azure AD SignInLogs to identify successful logins where the appDisplayName is "Microsoft Azure PowerShell." This activity is significant because it is uncommon for regular, non-administrative users to authenticate using PowerShell, and it may indicate enumeration and discovery techniques by an attacker. If confirmed malicious, this activity could allow
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    appdisplayname: Microsoft Azure PowerShell
+    category: SignInLogs
+    succeeded: 'true'
+  condition: selection
+tags:
+  - attack.t1078.004
+  - attack.t1586.003
+references:
+  - https://attack.mitre.org/techniques/T1078/004/
+  - https://docs.microsoft.com/en-us/powershell/module/azuread/connect-azuread?view=azureadps-2.0
+  - https://securitycafe.ro/2022/04/29/pentesting-azure-recon-techniques/
+  - https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest.md
+custom_attributes:
+  original_rule_id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
+  source_format: splunk_spl

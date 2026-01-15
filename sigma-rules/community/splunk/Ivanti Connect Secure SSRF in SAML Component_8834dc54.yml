@@ -1,0 +1,28 @@
+title: Ivanti Connect Secure SSRF in SAML Component
+id: a89c60f5-7d7b-514e-8478-d9e03943c5cd
+status: stable
+level: high
+description: |
+  The following analytic identifies POST requests targeting endpoints vulnerable to the SSRF issue (CVE-2024-21893) in Ivanti's products. It leverages the Web data model, focusing on endpoints such as /dana-ws/saml20.ws, /dana-ws/saml.ws, /dana-ws/samlecp.ws, and /dana-na/auth/saml-logout.cgi. The detection filters for POST requests that received an HTTP 200 OK response, indicating successful execution. This activity is significant as it may indicate an attempt to exploit SSRF vulnerabilities, pot
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Web
+    http_method: POST
+    status: 200
+    url:
+      - '*/dana-ws/saml20.ws*'
+      - '*/dana-ws/saml.ws*'
+      - '*/dana-ws/samlecp.ws*'
+      - '*/dana-na/auth/saml-logout.cgi/*'
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://attackerkb.com/topics/FGlK1TVnB2/cve-2024-21893/rapid7-analysis
+  - https://www.assetnote.io/resources/research/ivantis-pulse-connect-secure-auth-bypass-round-two
+custom_attributes:
+  original_rule_id: 8e6ca490-7af3-4299-9a24-39fb69759925
+  source_format: splunk_spl

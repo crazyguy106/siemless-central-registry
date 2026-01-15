@@ -1,0 +1,35 @@
+title: Multiple web server 500 error code (Internal Error).
+id: 8da67bf6-0f41-50ee-bab2-4105f9c4f847
+status: stable
+level: high
+description: Multiple web server 500 error code (Internal Error).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 14
+  - type: sequence
+    parent_rule: wazuh-31122
+    window:
+      maxspan: 120s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31162
+  wazuh_level: 10

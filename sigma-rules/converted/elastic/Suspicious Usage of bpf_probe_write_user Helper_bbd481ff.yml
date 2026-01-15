@@ -1,0 +1,30 @@
+title: Suspicious Usage of bpf_probe_write_user Helper
+id: c37ffc64-da75-447e-ad1c-cbc64727b3b8
+status: stable
+level: low
+description: 'This rule monitors the syslog log file for messages related to instances
+  of a program using the `bpf_probe_write_user` helper.
+
+  The `bpf_probe_write_user` helper is used to write data to user space from a BPF
+  program. Unauthorized use of this helper can
+
+  be indicative of an eBPF rootkit or other malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-28'
+modified: '2025-01-28'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_dataset: system.syslog
+    process_name: kernel
+    message: bpf_probe_write_user
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547
+- attack.t1014
+- attack.t1547.006

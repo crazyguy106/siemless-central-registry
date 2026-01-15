@@ -1,0 +1,35 @@
+title: Persistent Scripts in the Startup Directory
+id: f7c4dc5a-a58d-491d-9f14-9b66507121c0
+status: stable
+level: medium
+description: 'Identifies script engines creating files in the Startup folder, or the
+  creation of script files in the Startup folder.
+
+  Adversaries may abuse this technique to maintain persistence in an environment.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    file_extension|contains:
+    - vbs
+    - vbe
+    - wsh
+    - wsf
+    - js
+    process_name|contains:
+    - wscript.exe
+    - cscript.exe
+    file_path|contains:
+    - ?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*
+    - ?:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\*
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1547.001
+- attack.t1547.009
+- attack.t1547

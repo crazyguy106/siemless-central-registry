@@ -1,0 +1,26 @@
+title: Windows Unusual NTLM Authentication Users By Destination
+id: 80a7938f-d3fd-5840-8709-54a48b8b250d
+status: stable
+level: medium
+description: |
+  The following analytic detects when a device is the target of numerous NTLM authentications using a null domain. This activity generally results when an attacker attempts to brute force, password spray, or otherwise authenticate to a domain joined Windows device from a non-domain device. This activity may also generate a large number of EventID 4776 events in tandem, however these events will not indicate the attacker or target device.
+author: Steven Dick
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 8004
+    user: UserName
+  condition: selection
+tags:
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
+  - https://techcommunity.microsoft.com/t5/microsoft-defender-for-identity/enriched-ntlm-authentication-data-using-windows-event-8004/m-p/871827
+  - https://www.varonis.com/blog/investigate-ntlm-brute-force
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrpc/4d1235e3-2c96-4e9f-a147-3cb338a0d09f
+custom_attributes:
+  original_rule_id: 1120a204-8444-428b-8657-6ea4e1f3e840
+  source_format: splunk_spl

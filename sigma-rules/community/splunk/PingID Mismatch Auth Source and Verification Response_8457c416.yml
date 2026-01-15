@@ -1,0 +1,35 @@
+title: PingID Mismatch Auth Source and Verification Response
+id: 76b2f9a1-fcef-56a5-a092-91772a4d1e29
+status: stable
+level: high
+description: |
+  The following analytic identifies discrepancies between the IP address of an authentication event and the IP address of the verification response event, focusing on differences in the originating countries. It leverages JSON logs from PingID, comparing the 'auth_Country' and 'verify_Country' fields. This activity is significant as it may indicate suspicious sign-in behavior, such as account compromise or unauthorized access attempts. If confirmed malicious, this could allow attackers to bypass a
+author: Steven Dick
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    session_id:
+      - resources{}.websession
+      - resources{}.websession
+    dest: resources{}.ipaddress
+    reason: result.message
+    object: resources{}.devicemodel
+    status: result.status
+    prefix:
+      - auth_
+      - verify_
+  condition: selection
+tags:
+  - attack.t1621
+  - attack.t1556.006
+  - attack.t1098.005
+references:
+  - https://twitter.com/jhencinski/status/1618660062352007174
+  - https://attack.mitre.org/techniques/T1098/005/
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_subscriptions?tocId=3xhnxjX3VzKNs3SXigWnQA
+custom_attributes:
+  original_rule_id: 15b0694e-caa2-4009-8d83-a1f98b86d086
+  source_format: splunk_spl

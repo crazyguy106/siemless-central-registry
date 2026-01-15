@@ -1,0 +1,48 @@
+title: Cisco Secure Firewall - Lumma Stealer Activity
+id: 67518598-160f-50d7-a69f-a7294837f946
+status: stable
+level: high
+description: |
+  This analytic detects Lumma Stealer activity using Cisco Secure Firewall Intrusion Events.  It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where four of the following Snort signature IDs 64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811 occurs in the span of 15 minutes from the same host. If confirmed malicious, this behavior is highly indicative 
+author: Nasreddine Bencherchali, Splunk, Talos NTDR
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: IntrusionEvent
+    span: 15m
+    signature_id:
+      - 64793
+      - 64794
+      - 64797
+      - 64798
+      - 64799
+      - 64800
+      - 64801
+      - 62709
+      - 64167
+      - 64168
+      - 64169
+      - 64796
+      - 62710
+      - 62711
+      - 62712
+      - 62713
+      - 62714
+      - 62715
+      - 62716
+      - 62717
+      - 64812
+      - 64810
+      - 64811
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1210
+  - attack.t1027
+  - attack.t1204
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma
+custom_attributes:
+  original_rule_id: 96bce783-c22e-4e48-8cf1-3eb2794c5083
+  source_format: splunk_spl

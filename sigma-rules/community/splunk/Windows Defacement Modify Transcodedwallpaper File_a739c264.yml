@@ -1,0 +1,27 @@
+title: Windows Defacement Modify Transcodedwallpaper File
+id: 36c5ac78-9bb2-5e38-a27e-3c76fe148b4a
+status: stable
+level: medium
+description: |
+  The following analytic identifies modifications to the TranscodedWallpaper file in the wallpaper theme directory, excluding changes made by explorer.exe. This detection leverages the Endpoint.Processes and Endpoint.Filesystem data models to correlate process activity with file modifications. This activity is significant as it may indicate an adversary attempting to deface or change the desktop wallpaper of a targeted host, a tactic often used to signal compromise or deliver a message. If confirm
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    file_path: '*\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper'
+    span:
+      - 1h
+      - 1h
+  filter:
+    process_path: '*\\Windows\\Explorer.EXE'
+  condition: selection and not filter
+tags:
+  - attack.t1491
+references:
+  - https://forums.ivanti.com/s/article/Wallpaper-Windows-Settings-Desktop-Settings-and-the-transcodedwallpaper-jpg?language=en_US
+  - https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/ransom_sifreli.a
+custom_attributes:
+  original_rule_id: e11c3d90-5bc7-42ad-94cd-ba75db10d897
+  source_format: splunk_spl

@@ -1,0 +1,27 @@
+title: WebServer Access Logs Deleted
+id: 665e7a4f-c58e-4fc6-bc83-87a7572670ac
+status: stable
+level: medium
+description: 'Identifies the deletion of WebServer access logs. This may indicate
+  an attempt to evade detection or destroy forensic
+
+  evidence on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-03'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    event_type: deletion
+    file_path|contains:
+    - C:\\inetpub\\logs\\LogFiles\\*.log
+    - /var/log/apache*/access.log
+    - /etc/httpd/logs/access_log
+    - /var/log/httpd/access_log
+    - /var/www/*/logs/access.log
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070

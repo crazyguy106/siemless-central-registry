@@ -1,0 +1,25 @@
+title: Windows Scheduled Tasks for CompMgmtLauncher or Eventvwr
+id: 522891ba-df6c-5229-b94a-7692062f6dd6
+status: stable
+level: high
+description: |
+  The following analytic detects the creation or modification of Windows Scheduled Tasks related to CompMgmtLauncher or Eventvwr. These legitimate system utilities, used for launching the Computer Management Console and Event Viewer, can be abused by attackers to execute malicious payloads under the guise of normal system processes. By leveraging these tasks, adversaries can establish persistence or elevate privileges without raising suspicion. This detection helps security analysts identify unusu
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    taskcontent:
+      - '*&lt;Command&gt;C:\\Windows\\System32\\CompMgmtLauncher.exe&lt;/Command&gt;*'
+      - '*&lt;Command&gt;C:\\Windows\\System32\\zh-CN\\eventvwr.msc&lt;/Command&gt;*'
+      - '*&lt;Command&gt;C:\\Windows\\System32\\eventvwr.msc&lt;/Command&gt;*'
+    eventcode: 4698
+  condition: selection
+tags:
+  - attack.t1053
+references:
+  - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
+  - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+custom_attributes:
+  original_rule_id: feb43b86-8c38-46cd-865e-20ce8a96c26c
+  source_format: splunk_spl

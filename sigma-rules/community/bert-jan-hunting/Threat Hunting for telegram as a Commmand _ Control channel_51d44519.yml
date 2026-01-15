@@ -1,0 +1,24 @@
+title: Threat Hunting for telegram as a Commmand & Control channel
+id: 2d9b8da6-fb22-4382-8df1-c42abfb59dbc
+status: experimental
+level: medium
+description: |
+  Telegram can be used as a C2 channel, this can be done by leveraging the Telegram API. Multiple actors have used this in the wild, also for exfiltration methods (see references). With this detection rule we focus on the api if telegram (api.telegram.org).
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where RemoteUrl contains "api.telegram.org"
+| project 
+    Timestamp,
+    DeviceName,
+    InitiatingProcessFileName,
+    InitiatingProcessCommandLine,
+    InitiatingProcessAccountName,
+    InitiatingProcessAccountDomain
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

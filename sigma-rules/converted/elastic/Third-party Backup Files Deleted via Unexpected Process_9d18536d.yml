@@ -1,0 +1,41 @@
+title: Third-party Backup Files Deleted via Unexpected Process
+id: 11ea6bec-ebde-4d71-a8e9-784948f8e3e9
+status: stable
+level: medium
+description: 'Identifies the deletion of backup files, saved using third-party software,
+  by a process outside of the backup suite.
+
+  Adversaries may delete Backup files to ensure that recovery from a ransomware attack
+  is less likely.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-01'
+modified: '2025-08-27'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: deletion
+    file_extension|contains:
+    - VBK
+    - VIB
+    - VBM
+    process_executable|contains: ?:\\Program Files\\Veritas\\Backup Exec\\*
+    process_code_signature_subject_name|contains:
+    - Veeam Software Group GmbH
+    - Veeam Software AG
+    process_name|contains:
+    - MSExchangeMailboxAssistants.exe
+    - Microsoft.PowerBI.EnterpriseGateway.exe
+    file_path|contains: ?:\\ProgramData\\Trend Micro\\*
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+- attack.t1490
+references:
+- https://www.advintel.io/post/backup-removal-solutions-from-conti-ransomware-with-love
+falsepositives:
+- Certain utilities that delete files for disk cleanup or Administrators manually
+  removing backup files.

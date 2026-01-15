@@ -1,0 +1,22 @@
+title: 'Docker: Container $(docker.Actor.Attributes.image) resized terminal size to $(docker.Actor.Attributes.width)x$(docker.Actor.Attributes.height)'
+id: 6e3aa49d-5a92-56e6-a632-84cecb30b2b7
+status: stable
+level: low
+description: 'Docker: Container $(docker.Actor.Attributes.image) resized terminal size to $(docker.Actor.Attributes.width)x$(docker.Actor.Attributes.height)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^resize$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87952
+  wazuh_level: 3

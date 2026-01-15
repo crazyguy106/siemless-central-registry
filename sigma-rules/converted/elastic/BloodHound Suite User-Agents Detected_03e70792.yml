@@ -1,0 +1,51 @@
+title: BloodHound Suite User-Agents Detected
+id: c28750fa-4092-11f0-aca6-f661ea17fbcd
+status: stable
+level: medium
+description: 'Identifies potential enumeration activity using AzureHound, SharpHound,
+  or BloodHound across Microsoft cloud services.
+
+  These tools are often used by red teamers and adversaries to map users, groups,
+  roles, applications, and access
+
+  relationships within Microsoft Entra ID (Azure AD) and Microsoft 365.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-03'
+modified: '2025-06-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset|contains:
+    - azure.activitylogs
+    - azure.graphactivitylogs
+    - azure.auditlogs
+    - azure.signinlogs
+    - o365.audit
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1069.003
+- attack.t1580
+- attack.t1069
+- attack.t1082
+- attack.t1201
+- attack.t1087
+- attack.t1087.004
+- attack.t1526
+- attack.t1673
+references:
+- https://specterops.io/bloodhound-overview/
+- https://github.com/SpecterOps/AzureHound
+- https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/
+falsepositives:
+- "    Legitimate administrative or security assessment activities may use these user-agents,\
+  \ especially in environments\n    where BloodHound is employed for authorized audits.\
+  \ If this is expected behavior, consider adjusting the rule or\n    adding exceptions\
+  \ for specific user-agents or IP addresses.\n    "
+- "    Expected red team assessments or penetration tests may utilize BloodHound tools\
+  \ to evaluate the security posture of\n    Azure or Microsoft 365 environments.\
+  \ If this is expected behavior, consider adjusting the rule or adding exceptions\n\
+  \    for specific IP addresses, registered applications, JWT tokens, PRTs or user\
+  \ principal names (UPNs).\n    "

@@ -1,0 +1,25 @@
+title: 'Netscaler: A http resource access is denied by policy engine'
+id: 13d4e4d1-e117-55a7-8634-aa5fb16e89d6
+status: stable
+level: low
+description: 'Netscaler: A http resource access is denied by policy engine'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: SSLVPN HTTP_RESOURCEACCESS_DENIED
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80100
+tags:
+  - attack.t1083
+  - attack.t1133
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80113
+  wazuh_level: 5

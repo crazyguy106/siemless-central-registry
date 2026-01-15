@@ -1,0 +1,40 @@
+title: Printer User (lp) Shell Execution
+id: f86cd31c-5c7e-4481-99d7-6875a3e31309
+status: stable
+level: high
+description: 'This detection rule addresses multiple vulnerabilities in the CUPS printing
+  system, including CVE-2024-47176,
+
+  CVE-2024-47076, CVE-2024-47175, and CVE-2024-47177. Specifically, this rule detects
+  shell executions from the foomatic-rip
+
+  parent process through the default printer user (lp). These flaws impact components
+  like cups-browsed, libcupsfilters,
+
+  libppd, and foomatic-rip, allowing remote unauthenticated attackers to manipulate
+  IPP URLs or inject malicious data
+
+  through crafted UDP packets or network spoofing. This can result in arbitrary command
+  execution when a print job is
+
+  initiated.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-27'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    user_name: lp
+  condition: selection
+tags:
+- attack.execution
+- attack.t1203
+references:
+- https://www.elastic.co/security-labs/cups-overflow
+- https://www.evilsocket.net/2024/09/26/Attacking-UNIX-systems-via-CUPS-Part-I/
+- https://gist.github.com/stong/c8847ef27910ae344a7b5408d9840ee1
+- https://github.com/RickdeJager/cupshax/blob/main/cupshax.py

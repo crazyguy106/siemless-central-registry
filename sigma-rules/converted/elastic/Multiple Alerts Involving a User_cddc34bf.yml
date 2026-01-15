@@ -1,0 +1,27 @@
+title: Multiple Alerts Involving a User
+id: 0d160033-fab7-4e72-85a3-3a9d80c8bff7
+status: stable
+level: high
+description: 'This rule uses alert data to determine when multiple different alerts
+  involving the same user are triggered. Analysts
+
+  can use this to prioritize triage and response, as these users are more likely to
+  be compromised.'
+author: Elastic (converted by SIEMLess)
+date: '2022-11-16'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    signal_rule_name: '*'
+    user_name: '*'
+    user_id: ("S-1-5-18
+  condition: selection
+falsepositives:
+- "    False positives can occur with Generic built-in accounts, such as Administrator,\
+  \ admin, etc. if they are widespread\n    used in your environment. As a best practice,\
+  \ they shouldn't be used in day-to-day tasks, as it prevents the ability\n    to\
+  \ quickly identify and contact the account owner to find out if an alert is a planned\
+  \ activity, regular business\n    activity, or an upcoming incident.\n    "

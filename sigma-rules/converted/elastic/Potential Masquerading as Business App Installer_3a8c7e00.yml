@@ -1,0 +1,43 @@
+title: Potential Masquerading as Business App Installer
+id: feafdc51-c575-4ed2-89dd-8e20badc2d6c
+status: stable
+level: low
+description: 'Identifies executables with names resembling legitimate business applications
+  but lacking signatures from the original
+
+  developer. Attackers may trick users into downloading malicious executables that
+  masquerade as legitimate applications
+
+  via malicious ads, forum posts, and tutorials, effectively gaining initial access.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-01'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_code_signature_subject_name: Notion Labs, Inc.
+    process_code_signature_status|contains:
+    - errorCode_endpoint*
+    - errorUntrustedRoot
+    - errorChaining
+    process_name|contains:
+    - '*microsoftedge*.exe'
+    - '*msedge*.exe'
+    process_name|endswith: notion*.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.initial_access
+- attack.execution
+- attack.t1189
+- attack.t1036.005
+- attack.t1036.001
+- attack.t1204
+- attack.t1036
+- attack.t1204.002
+references:
+- https://www.rapid7.com/blog/post/2023/08/31/fake-update-utilizes-new-idat-loader-to-execute-stealc-and-lumma-infostealers

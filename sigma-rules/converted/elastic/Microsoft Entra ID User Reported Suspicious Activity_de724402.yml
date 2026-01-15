@@ -1,0 +1,33 @@
+title: Microsoft Entra ID User Reported Suspicious Activity
+id: caaa8b78-367c-11f0-beb8-f661ea17fbcd
+status: stable
+level: medium
+description: Identifies suspicious activity reported by users in Microsoft Entra ID
+  where users have reported suspicious activity related to their accounts, which may
+  indicate potential compromise or unauthorized access attempts. Reported suspicious
+  activity typically occurs during the authentication process and may involve various
+  authentication methods, such as password resets, account recovery, or multi-factor
+  authentication challenges. Adversaries may attempt to exploit user accounts by leveraging
+  social engineering techniques or other methods to gain unauthorized access to sensitive
+  information or resources.
+author: Elastic (converted by SIEMLess)
+date: '2025-05-21'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.auditlogs
+    azure_auditlogs_operation_name: Suspicious
+    azure_auditlogs_properties_additional_details_key: AuthenticationMethod
+    type: User
+    event_outcome: success
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1078.004
+- attack.t1078
+references:
+- https://chris-brumm.medium.com/microsoft-entra-mfa-fraud-deep-dive-7764fd8f76ad
+- https://janbakker.tech/report-suspicious-activity-fraud-alert-for-azure-mfa/

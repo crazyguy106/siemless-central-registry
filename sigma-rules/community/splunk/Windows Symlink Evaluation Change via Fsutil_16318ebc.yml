@@ -1,0 +1,27 @@
+title: Windows Symlink Evaluation Change via Fsutil
+id: f86954d4-c58b-5b84-a64f-a997a785d3da
+status: stable
+level: medium
+description: |
+  This analytic detects the execution of the Windows built-in tool Fsutil.exe with the "behavior", "set" and "SymlinkEvaluation" parameters. Attackers can abuse this to alter symlink evaluation behavior on Windows, potentially enabling remote traversal over SMB shares or evading defenses.  Such changes should be uncommon or even rare in enterprise environments and should be investigated.
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: fsutil.exe
+    original_file_name: fsutil.exe
+    process:
+      - '*behavior*'
+      - '*set*'
+      - '*SymlinkEvaluation*'
+  condition: selection
+tags:
+  - attack.t1222.001
+references:
+  - https://learn.microsoft.com/windows-server/administration/windows-commands/fsutil-behavior
+  - https://www.group-ib.com/blog/blackcat/
+  - https://www.intrinsec.com/alphv-ransomware-gang-analysis/
+custom_attributes:
+  original_rule_id: 9777e7e3-2499-4a16-a519-ebe33630c1e8
+  source_format: splunk_spl

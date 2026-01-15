@@ -1,0 +1,26 @@
+title: Potential Hidden Local User Account Creation
+id: 41b638a1-8ab6-4f8e-86d9-466317ef2db5
+status: stable
+level: medium
+description: 'Identifies attempts to create a local account that will be hidden from
+  the macOS logon window. This may indicate an
+
+  attempt to evade user attention while maintaining persistence using a separate local
+  account.'
+author: Elastic (converted by SIEMLess)
+date: '2020-01-05'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: dscl
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1078.003
+- attack.t1078
+references:
+- https://support.apple.com/en-us/HT203998

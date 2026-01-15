@@ -1,0 +1,38 @@
+title: 'sendmail: Sender domain has bogus MX record.'
+id: 02fdf35f-9197-5aa1-88e5-7460b70fa504
+status: stable
+level: high
+description: 'sendmail: Sender domain has bogus MX record.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-3102
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1114
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3151
+  wazuh_level: 10

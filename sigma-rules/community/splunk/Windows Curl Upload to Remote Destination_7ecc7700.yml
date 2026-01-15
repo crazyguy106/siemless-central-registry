@@ -1,0 +1,27 @@
+title: Windows Curl Upload to Remote Destination
+id: 52ad2768-1284-5c3f-9792-3d5d8845b6d4
+status: stable
+level: high
+description: |
+  The following analytic detects the use of Windows Curl.exe to upload a file to a remote destination. It identifies command-line arguments such as `-T`, `--upload-file`, `-d`, `--data`, and `-F` in process execution logs. This activity is significant because adversaries may use Curl to exfiltrate data or upload malicious payloads. If confirmed malicious, this could lead to data breaches or further compromise of the system. Analysts should review parallel processes and network logs to determine if
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*-T *'
+      - '*--upload-file *'
+      - '*-d *'
+      - '*--data *'
+      - '*-F *'
+  condition: selection
+tags:
+  - attack.t1105
+references:
+  - https://everything.curl.dev/usingcurl/uploads
+  - https://techcommunity.microsoft.com/t5/containers/tar-and-curl-come-to-windows/ba-p/382409
+  - https://twitter.com/d1r4c/status/1279042657508081664?s=20
+custom_attributes:
+  original_rule_id: 42f8f1a2-4228-11ec-aade-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,31 @@
+title: Attempts to Brute Force an Okta User Account
+id: e08ccd49-0380-4b2b-8d71-8000377d6e49
+status: stable
+level: medium
+description: 'Identifies when an Okta user account is locked out 3 times within a
+  3 hour window. An adversary may attempt a brute
+
+  force or password spraying attack to obtain unauthorized access to user accounts.
+  The default Okta authentication policy
+
+  ensures that a user account is locked out after 10 failed authentication attempts.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-19'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: user.account.lock
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1110
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta

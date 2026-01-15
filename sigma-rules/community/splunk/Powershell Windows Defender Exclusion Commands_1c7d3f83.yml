@@ -1,0 +1,27 @@
+title: Powershell Windows Defender Exclusion Commands
+id: e9d65b42-fd0f-51b9-83cf-21fe620aa0e0
+status: stable
+level: high
+description: |
+  The following analytic detects the use of PowerShell commands to add or set Windows Defender exclusions. It leverages EventCode 4104 to identify suspicious `Add-MpPreference` or `Set-MpPreference` commands with exclusion parameters. This activity is significant because adversaries often use it to bypass Windows Defender, allowing malicious code to execute without detection. If confirmed malicious, this behavior could enable attackers to evade antivirus defenses, maintain persistence, and execute
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    scriptblocktext:
+      - '*Add-MpPreference *'
+      - '*Set-MpPreference *'
+      - '*-exclusion*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+  - https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+custom_attributes:
+  original_rule_id: 907ac95c-4dd9-11ec-ba2c-acde48001122
+  source_format: splunk_spl

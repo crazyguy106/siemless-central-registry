@@ -1,0 +1,24 @@
+title: Linux Busybox Privilege Escalation
+id: 213a6b01-245d-5377-80a3-5ba7c4c001b9
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of BusyBox with sudo privileges, which can lead to privilege escalation on Linux systems. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where BusyBox is executed with both 'sh' and 'sudo' commands. This activity is significant because it indicates a user may be attempting to gain root access, bypassing standard security controls. If confirmed malicious, this could allow an attacker to execute 
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*busybox*'
+      - '*sh*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/busybox/
+  - https://man.archlinux.org/man/busybox.1.en
+custom_attributes:
+  original_rule_id: 387c4e78-f4a4-413d-ad44-e9f7bc4642c9
+  source_format: splunk_spl

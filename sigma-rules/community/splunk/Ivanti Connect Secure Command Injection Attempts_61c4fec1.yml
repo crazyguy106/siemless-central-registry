@@ -1,0 +1,32 @@
+title: Ivanti Connect Secure Command Injection Attempts
+id: fbf8c2ea-c370-539d-ab0e-28f5c4704733
+status: stable
+level: high
+description: |
+  The following analytic identifies attempts to exploit the CVE-2023-46805 and CVE-2024-21887 vulnerabilities in Ivanti Connect Secure. It detects POST requests to specific URIs that leverage command injection to execute arbitrary commands. The detection uses the Web datamodel to monitor for these requests and checks for a 200 OK response, indicating a successful exploit attempt. This activity is significant as it can lead to unauthorized command execution on the server. If confirmed malicious, at
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    datamodel: Web
+    status: 200
+    url:
+      - '*/api/v1/totp/user-backup-code/../../system/maintenance/archiving/cloud-server-test-connection*'
+      - '*/api/v1/totp/user-backup-code/../../license/keys-status/*'
+    http_method:
+      - POST
+      - GET
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://github.com/RootUp/PersonalStuff/blob/master/http-vuln-cve2023-46805_2024_21887.nse
+  - https://github.com/projectdiscovery/nuclei-templates/blob/c6b351e71b0fb0e40e222e97038f1fe09ac58194/http/misconfiguration/ivanti/CVE-2023-46085-CVE-2024-21887-mitigation-not-applied.yaml
+  - https://github.com/rapid7/metasploit-framework/pull/18708/files
+  - https://attackerkb.com/topics/AdUh6by52K/cve-2023-46805/rapid7-analysis
+  - https://labs.watchtowr.com/welcome-to-2024-the-sslvpn-chaos-continues-ivanti-cve-2023-46805-cve-2024-21887/
+custom_attributes:
+  original_rule_id: 1f32a7e0-a060-4545-b7de-73fcf9ad536e
+  source_format: splunk_spl

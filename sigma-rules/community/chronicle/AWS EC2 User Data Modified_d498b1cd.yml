@@ -1,0 +1,20 @@
+title: AWS EC2 User Data Modified
+id: 56fc60fc-92ab-54fe-870e-5640c7f6fd90
+status: experimental
+level: high
+description: Detect modifications to user data script on an EC2 instance.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type: ModifyInstanceAttribute
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1037
+custom_attributes:
+  original_rule_id: mr_3167a29e-abbb-4d72-9f33-93df151d0224
+  source_format: chronicle_yaral

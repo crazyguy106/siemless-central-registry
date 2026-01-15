@@ -1,0 +1,46 @@
+title: Potential Linux Ransomware Note Creation Detected
+id: c8935a8b-634a-4449-98f7-bb24d3b2c0af
+status: stable
+level: medium
+description: 'This rule identifies a sequence of a mass file encryption event in conjunction
+  with the creation of a .txt file with a
+
+  file name containing ransomware keywords executed by the same process in a 1 second
+  timespan. Ransomware is a type of
+
+  malware that encrypts a victim''s files or systems and demands payment (usually
+  in cryptocurrency) in exchange for the
+
+  decryption key. One important indicator of a ransomware attack is the mass encryption
+  of the file system, after which a
+
+  new file extension is added to the file.'
+author: Elastic (converted by SIEMLess)
+date: '2023-03-20'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id, host.id with maxspan=1s\n  [file\
+      \ where host.os.type == \"linux\" and event.type == \"change\" and event.action\
+      \ == \"rename\" and file.extension : \"?*\"\n   and process.executable : (\"\
+      ./*\", \"/tmp/*\", \"/var/tmp/*\", \"/dev/shm/*\", \"/var/run/*\", \"/boot/*\"\
+      ) and\n   file.path : (\n     \"/home/*/Downloads/*\", \"/home/*/Documents/*\"\
+      , \"/root/*\", \"/bin/*\", \"/usr/bin/*\", \"/var/log/*\", \"/var/lib/log/*\"\
+      ,\n     \"/var/backup/*\", \"/var/www/*\") and\n   not process.name : (\n  \
+      \   \"dpkg\", \"yum\", \"dnf\", \"rpm\", \"dockerd\", \"go\", \"java\", \"pip*\"\
+      , \"python*\", \"node\", \"containerd\", \"php\", \"p4d\",\n     \"conda\",\
+      \ \"chrome\", \"imap\", \"cmake\", \"firefox\", \"semanage\", \"semodule\",\
+      \ \"ansible-galaxy\", \"fc-cache\", \"jammy\", \"git\",\n     \"systemsettings\"\
+      , \"vmis-launcher\", \"bundle\", \"kudu-tserver\", \"suldownloader\", \"rustup-init\"\
+      , \"bun\"\n    )\n  ] with runs=25\n  [file where host.os.type == \"linux\"\
+      \ and event.action == \"creation\" and\n   file.name : (\"*restore*\", \"*lock*\"\
+      , \"*recovery*\", \"*read*\", \"*instruction*\", \"*how_to*\", \"*ransom*\"\
+      )\n  ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.impact
+- attack.t1486

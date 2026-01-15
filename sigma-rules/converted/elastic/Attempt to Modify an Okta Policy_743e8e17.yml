@@ -1,0 +1,35 @@
+title: Attempt to Modify an Okta Policy
+id: 6731fbf2-8f28-49ed-9ab9-9a918ceb5a45
+status: stable
+level: low
+description: 'Detects attempts to modify an Okta policy. An adversary may attempt
+  to modify an Okta policy in order to weaken an
+
+  organization''s security controls. For example, an adversary may attempt to modify
+  an Okta multi-factor authentication
+
+  (MFA) policy in order to weaken the authentication requirements for user accounts.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-21'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: policy.lifecycle.update
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562.007
+- attack.t1562
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+falsepositives:
+- "    Consider adding exceptions to this rule to filter false positives if Okta policies\
+  \ are regularly modified in your\n    organization.\n    "

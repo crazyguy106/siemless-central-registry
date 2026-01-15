@@ -1,0 +1,27 @@
+title: Hacktool - SharpSuccessor Execution
+id: 002b9a33-456d-5ea6-9213-b69d9ba5428e
+status: experimental
+level: high
+description: |
+  SharpSuccessor is a .NET-based post-exploitation tool designed to weaponize the BadSuccessor attack discovered by Yuval Gordon (@YuG0rd) from Akamai. It allows a low-privileged user with 'CreateChild' permissions over any Organizational Unit (OU) in an Active Directory domain to escalate privileges to Domain Administrator. This detection rule identifies execution patterns or behavioral indicators linked to SharpSuccessor activity, which may signal privilege escalation attempts in Active Director
+author: Georg Lauenstein - suresecure GmbH, Mohamed Abdelfattah - suresecure GmbH
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type:
+      - PROCESS_LAUNCH
+      - SERVICE_UNSPECIFIED
+    src_process_file_full_path: SharpSuccessor.exe
+    target_asset_software_description: SharpSuccessor
+    metadata_description: A privileged service was called
+    target_process_file_full_path: \\SharpSuccessor\.exe
+    principal_process_file_full_path: \\SharpSuccessor\.exe
+    target_process_command_line:
+      - SharpSuccessor
+      - SharpSuccessor
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_be51aa7d-b4b8-4d8c-9998-0aa3194e98c3
+  source_format: chronicle_yaral

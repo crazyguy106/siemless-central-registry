@@ -1,0 +1,20 @@
+title: File Download Via Windows Defender MpCmpRun.EXE
+id: 5e0df0a6-28db-53ef-888e-8de71e9ce8e7
+status: experimental
+level: high
+description: Detects the use of Windows Defender MpCmdRun.EXE to download files
+author: Matthew Matchen
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: mpcmdrun.exe
+    target_asset_software_description: Microsoft Malware Protection Command Line Utility
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mpcmdrun_download_arbitrary_file.yml
+custom_attributes:
+  original_rule_id: mr_22c73791-b666-436e-b584-f14afb3cf6d5
+  source_format: chronicle_yaral

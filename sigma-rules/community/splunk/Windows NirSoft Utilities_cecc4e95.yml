@@ -1,0 +1,23 @@
+title: Windows NirSoft Utilities
+id: f3f7b1e1-09bc-5313-8b7b-677283bf6dc6
+status: stable
+level: low
+description: |
+  The following analytic identifies the execution of commonly used NirSoft utilities on Windows systems. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution details such as process name, parent process, and command-line arguments. This activity is significant for a SOC because NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes like credential theft or system reconnaissance. If confirmed malicious, this activity coul
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    update: 'true'
+    nirsoftfile: 'true'
+  condition: selection
+tags:
+  - attack.t1588.002
+references:
+  - https://www.cisa.gov/uscert/ncas/alerts/TA18-201A
+  - http://www.nirsoft.net/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+custom_attributes:
+  original_rule_id: 5b2f4596-7d4c-11ec-88a7-acde48001122
+  source_format: splunk_spl

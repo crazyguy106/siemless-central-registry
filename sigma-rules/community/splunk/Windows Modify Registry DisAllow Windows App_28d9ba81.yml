@@ -1,0 +1,22 @@
+title: Windows Modify Registry DisAllow Windows App
+id: 49d6b63d-23ee-5a46-a87a-66633e2c5ab7
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry aimed at preventing the execution of specific computer programs. It leverages data from the Endpoint.Registry datamodel, focusing on changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun*" with a value of "0x00000001". This activity is significant as it can indicate an attempt to disable security tools, a tactic used by malware like Azorult. If confirmed malicious, this c
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun*'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+custom_attributes:
+  original_rule_id: 4bc788d3-c83a-48c5-a4e2-e0c6dba57889
+  source_format: splunk_spl

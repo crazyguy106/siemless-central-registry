@@ -1,0 +1,38 @@
+title: Suspicious Kworker UID Elevation
+id: 7dfaaa17-425c-4fe7-bd36-83705fde7c2b
+status: stable
+level: medium
+description: 'Monitors for the elevation of regular user permissions to root permissions
+  through the kworker process. kworker, or
+
+  kernel worker, processes are part of the kernel''s workqueue mechanism. They are
+  responsible for executing work that has
+
+  been scheduled to be done in kernel space, which might include tasks like handling
+  interrupts, background activities,
+
+  and other kernel-related tasks. Attackers may attempt to evade detection by masquerading
+  as a kernel worker process, and
+
+  hijack the execution flow by hooking certain functions/syscalls through a rootkit
+  in order to provide easy access to
+
+  root via a special modified command.'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-26'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_action: session_id_change
+    user_id: '0'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1574
+- attack.t1574.013
+- attack.t1014

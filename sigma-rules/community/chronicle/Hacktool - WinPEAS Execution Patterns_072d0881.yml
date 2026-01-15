@@ -1,0 +1,20 @@
+title: Hacktool - WinPEAS Execution Patterns
+id: 58cc2e15-e993-5d9b-b60a-ddcddc09f13b
+status: experimental
+level: medium
+description: |
+  This detection rule identifies the execution of WinPEAS (Windows Privilege Escalation Awesome Script), a post-exploitation reconnaissance tool used to discover privilege escalation paths on Windows systems. WinPEAS performs a wide range of local enumeration checks, including service misconfigurations, permission issues, token privileges, and more. Its usage is commonly observed during red team assessments and by adversaries seeking to elevate privileges after gaining initial access. WinPEAS chec
+author: Georg Lauenstein - suresecure GmbH
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: winPEAS.exe|winPEASany.exe|winPEASany_ofs.exe|winPEASx64.exe|winPEASx64_ofs.exe|winPEASx86.exe|winPEASx86_ofs.exe
+    target_process_file_full_path: \\winPEAS\.exe|\\winPEASany\.exe|\\winPEASany_ofs\.exe|\\winPEASx64\.exe|\\winPEASx64_ofs\.exe|\\winPEASx86\.exe|\\winPEASx86_ofs\.exe
+    target_process_command_line: processinfo|servicesinfo|applicationsinfo|networkinfo|windowscreds|browserinfo|filesinfo|fileanalysis|eventsinfo
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_9c9ad668-485a-4b10-b85d-36ba63546304
+  source_format: chronicle_yaral

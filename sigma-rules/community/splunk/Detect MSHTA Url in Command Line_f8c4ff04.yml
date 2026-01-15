@@ -1,0 +1,27 @@
+title: Detect MSHTA Url in Command Line
+id: c4d8fcfe-e4b5-5546-b81c-4cec992bf116
+status: stable
+level: high
+description: |
+  The following analytic detects the use of Microsoft HTML Application Host (mshta.exe) to make remote HTTP or HTTPS connections. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line arguments containing URLs. This activity is significant because adversaries often use mshta.exe to download and execute remote .hta files, bypassing security controls. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, potentially leading to 
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*http://*'
+      - '*https://*'
+  condition: selection
+tags:
+  - attack.t1218.005
+references:
+  - https://github.com/redcanaryco/AtomicTestHarnesses
+  - https://redcanary.com/blog/introducing-atomictestharnesses/
+  - https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+  - https://denwp.com/dissecting-lumma-malware/
+  - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/behind-the-captcha-a-clever-gateway-of-malware/
+custom_attributes:
+  original_rule_id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
+  source_format: splunk_spl

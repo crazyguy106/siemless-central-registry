@@ -1,0 +1,25 @@
+title: Windows InstallUtil Uninstall Option
+id: 51c38d8e-6585-5ee0-9385-7553d6ca262b
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the Windows InstallUtil.exe binary with the `/u` (uninstall) switch, which can execute code while bypassing application control. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line executions. This activity is significant because it can indicate an attempt to execute malicious code without administrative privileges. If confirmed malicious, an attacker could achieve
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*C:\\WINDOWS\\CCM\\*'
+    parent_process_name:
+      - Microsoft.SharePoint.Migration.ClientInstaller.exe
+  condition: selection
+tags:
+  - attack.t1218.004
+references:
+  - https://evi1cg.me/archives/AppLocker_Bypass_Techniques.html#menu_index_12
+  - https://github.com/api0cradle/UltimateAppLockerByPassList/blob/master/md/Installutil.exe.md
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+custom_attributes:
+  original_rule_id: cfa7b9ac-43f0-11ec-9b48-acde48001122
+  source_format: splunk_spl

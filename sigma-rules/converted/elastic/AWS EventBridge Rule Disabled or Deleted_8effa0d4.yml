@@ -1,0 +1,33 @@
+title: AWS EventBridge Rule Disabled or Deleted
+id: 87594192-4539-4bc4-8543-23bc3d5bd2b4
+status: stable
+level: low
+description: 'Identifies when a user has disabled or deleted an EventBridge rule.
+  This activity can result in an unintended loss of
+
+  visibility in applications or a break in the flow with other AWS services.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-17'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: eventbridge.amazonaws.com
+    event_action: (DeleteRule
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1489
+references:
+- https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DeleteRule.html
+- https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DisableRule.html
+falsepositives:
+- "    EventBridge Rules could be deleted or disabled by a system administrator. Verify\
+  \ whether the user identity, user\n    agent, and/or hostname should be making changes\
+  \ in your environment. EventBridge Rules being deleted or disabled by\n    unfamiliar\
+  \ users should be investigated. If known behavior is causing false positives, it\
+  \ can be exempted from the\n    rule.\n    "

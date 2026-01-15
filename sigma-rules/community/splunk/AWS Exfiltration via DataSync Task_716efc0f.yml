@@ -1,0 +1,22 @@
+title: AWS Exfiltration via DataSync Task
+id: ce70b621-1918-55f0-809f-918ecec2d2d5
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of an AWS DataSync task, which could indicate potential data exfiltration. It leverages AWS CloudTrail logs to identify the `CreateTask` event from the DataSync service. This activity is significant because attackers can misuse DataSync to transfer sensitive data from a private AWS location to a public one, leading to data compromise. If confirmed malicious, this could result in unauthorized access to sensitive information, causing severe data breaches
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    eventsource: datasync.amazonaws.com
+    eventname: CreateTask
+  condition: selection
+tags:
+  - attack.t1119
+references:
+  - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+  - https://www.shehackske.com/how-to/data-exfiltration-on-cloud-1606/
+custom_attributes:
+  original_rule_id: 05c4b09f-ea28-4c7c-a7aa-a246f665c8a2
+  source_format: splunk_spl

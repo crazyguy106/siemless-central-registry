@@ -1,0 +1,31 @@
+title: Linux Iptables Firewall Modification
+id: 5a1b7f9a-7b74-5ad3-9b73-dcb8c06cc23a
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious command-line activity that modifies the iptables firewall settings on a Linux machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command patterns that alter firewall rules to accept traffic on certain TCP ports. This activity is significant as it can indicate malware, such as CyclopsBlink, modifying firewall settings to allow communication with a Command and Control (C2) server. If confirmed malicious, this
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*iptables *'
+      - '* --dport *'
+      - '* ACCEPT*'
+      - '*&amp;&gt;/dev/null*'
+      - '* tcp *'
+    parent_process_path:
+      - /bin/*
+      - /lib/*
+      - /usr/bin/*
+      - /sbin/*
+  condition: selection
+tags:
+  - attack.t1562.004
+references:
+  - https://www.ncsc.gov.uk/files/Cyclops-Blink-Malware-Analysis-Report.pdf
+  - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
+custom_attributes:
+  original_rule_id: 309d59dc-1e1b-49b2-9800-7cf18d12f7b7
+  source_format: splunk_spl

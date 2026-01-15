@@ -1,0 +1,33 @@
+title: PowerShell Keylogging Script
+id: bd2c86a0-8b61-4457-ab38-96943984e889
+status: stable
+level: high
+description: 'Detects the use of Win32 API Functions that can be used to capture user
+  keystrokes in PowerShell scripts. Attackers use
+
+  this technique to capture user input, looking for credentials and/or other valuable
+  data.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-15'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+    user_id: S-1-5-18
+  condition: selection
+tags:
+- attack.execution
+- attack.collection
+- attack.t1059
+- attack.t1106
+- attack.t1056.001
+- attack.t1056
+- attack.t1059.001
+references:
+- https://github.com/EmpireProject/Empire/blob/master/data/module_source/collection/Get-Keystrokes.ps1
+- https://github.com/MojtabaTajik/FunnyKeylogger/blob/master/FunnyLogger.ps1

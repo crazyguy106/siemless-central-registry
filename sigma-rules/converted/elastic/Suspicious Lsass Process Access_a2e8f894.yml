@@ -1,0 +1,46 @@
+title: Suspicious Lsass Process Access
+id: 128468bf-cab1-4637-99ea-fdf3780a4609
+status: stable
+level: medium
+description: Identifies access attempts to LSASS handle, this may indicate an attempt
+  to dump credentials from Lsass memory.
+author: Elastic (converted by SIEMLess)
+date: '2023-01-22'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '10'
+    winlog_event_data_GrantedAccess|contains:
+    - '0x1000'
+    - '0x1400'
+    - '0x101400'
+    - '0x101000'
+    - '0x101001'
+    - '0x100000'
+    - '0x100040'
+    - '0x3200'
+    - '0x40'
+    - '0x3200'
+    process_name|contains:
+    - procexp64.exe
+    - procmon.exe
+    - procexp.exe
+    - Microsoft.Identity.AadConnect.Health.AadSync.Host.ex
+    process_executable|contains:
+    - ?:\\ProgramData\\Microsoft\\Windows Defender\\platform\\*
+    - ?:\\ProgramData\\WebEx\\webex\\*
+    winlog_event_data_CallTrace|contains:
+    - '*mpengine.dll*'
+    - '*appresolver.dll*'
+    - '*sysmain.dll*'
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+- attack.t1003.001
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md

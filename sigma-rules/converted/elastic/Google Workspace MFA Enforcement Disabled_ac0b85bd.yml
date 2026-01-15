@@ -1,0 +1,33 @@
+title: Google Workspace MFA Enforcement Disabled
+id: cad4500a-abd7-4ef3-b5d3-95524de7cfe1
+status: stable
+level: medium
+description: 'Detects when multi-factor authentication (MFA) enforcement is disabled
+  for Google Workspace users. An adversary may
+
+  disable MFA enforcement in order to weaken an organization’s security controls.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-17'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_provider: admin
+    event_category: iam
+    event_action: ENFORCE_STRONG_AUTHENTICATION
+    google_workspace_admin_new_value: 'false'
+  condition: selection
+tags:
+- attack.impact
+- attack.t1531
+references:
+- https://support.google.com/a/answer/9176657?hl=en#
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    MFA policies may be modified by system administrators. Verify that the configuration\
+  \ change was expected. Exceptions\n    can be added to this rule to filter expected\
+  \ behavior.\n    "

@@ -1,0 +1,19 @@
+title: Potential Suspicious Activity Using SeCEdit
+id: 6f1834d7-cbb1-5b41-8e69-4927550a0e5f
+status: experimental
+level: medium
+description: |
+  Detects potential suspicious behaviour using secedit.exe. Such as exporting or modifying the security policy
+author: Janantha Marasinghe
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: secedit
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_secedit_execution.yml
+custom_attributes:
+  original_rule_id: mr_3e4574ef-8aa1-446b-94e6-9458c01631ab
+  source_format: chronicle_yaral

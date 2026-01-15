@@ -1,0 +1,53 @@
+title: AWS S3 Bucket Policy Added to Share with External Account
+id: e8c9ff14-fd1e-11ee-a0df-f661ea17fbce
+status: stable
+level: medium
+description: 'Detects when an Amazon S3 bucket policy is modified to share access
+  with an external AWS account. This rule analyzes
+
+  PutBucketPolicy events and compares the S3 bucket’s account ID to any account IDs
+  referenced in the policy’s
+
+  Effect=Allow statements. If the policy includes principals from accounts other than
+  the bucket owner’s, the rule
+
+  triggers an alert. This behavior may indicate an adversary backdooring a bucket
+  for data exfiltration or cross-account
+
+  persistence. For example, an attacker who compromises credentials could attach a
+  policy allowing access from an external
+
+  AWS account they control, enabling continued access even after credentials are rotated.
+  Note: This rule will not alert
+
+  if the account ID is part of the bucket’s name or appears in the resource ARN. Such
+  cases are common in standardized
+
+  naming conventions (e.g., “mybucket-123456789012”). To ensure full coverage, use
+  complementary rules to monitor for
+
+  suspicious PutBucketPolicy API requests targeting buckets with account IDs embedded
+  in their names or resources.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-17'
+modified: '2025-10-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: s3.amazonaws.com
+    event_action: PutBucketPolicy
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.collection
+- attack.t1530
+- attack.t1537
+references:
+- https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.s3-backdoor-bucket-policy/
+- https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketPolicy.html
+falsepositives:
+- "    Legitimate changes to share an S3 bucket with an external account may be identified\
+  \ as false positives.\n    "

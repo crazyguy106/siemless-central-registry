@@ -1,0 +1,43 @@
+title: Potential DLL Side-Loading via Trusted Microsoft Programs
+id: 1160dcdb-0a0a-4a79-91d8-9b84616edebd
+status: stable
+level: medium
+description: 'Identifies an instance of a Windows trusted program that is known to
+  be vulnerable to DLL Search Order Hijacking
+
+  starting after being renamed or from a non-standard path. This is uncommon behavior
+  and may indicate an attempt to evade
+
+  defenses via side loading a malicious DLL within the memory space of one of those
+  processes.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-03'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    data_stream_dataset: crowdstrike.fdr
+    process_name|contains:
+    - WinWord.exe
+    - EXPLORER.EXE
+    - w3wp.exe
+    - DISM.EXE
+    process_pe_original_file_name|contains:
+    - WinWord.exe
+    - EXPLORER.EXE
+    - w3wp.exe
+    - DISM.EXE
+    process_executable|contains:
+    - \\Device\\HarddiskVolume*\\Program Files\\Microsoft Office\\*\\winword.exe
+    - \\Device\\HarddiskVolume*\\Program Files\\Microsoft Office ??\\*\\winword.exe
+    - \\Device\\HarddiskVolume*\\Program Files\\WindowsApps\\Microsoft.Office.Desktop.*\\Office??\\winword.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1574
+- attack.t1574.001
+- attack.t1036

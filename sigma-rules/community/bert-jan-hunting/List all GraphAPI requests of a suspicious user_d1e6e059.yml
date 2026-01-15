@@ -1,0 +1,26 @@
+title: List all GraphAPI requests of a suspicious user
+id: 45add580-3fba-4ba4-a9f9-c908b326c4a1
+status: experimental
+level: medium
+description: |
+  KQL detection rule: List all GraphAPI requests of a suspicious user
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let SuspiciousUserId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+MicrosoftGraphActivityLogs
+| where TimeGenerated > ago(SearchWindow)
+| where UserId  == SuspiciousUserId
+| lookup kind=leftouter (IdentityInfo
+    | where TimeGenerated > ago(30d)
+    | summarize arg_max(TimeGenerated, *) by AccountObjectId
+    | project AccountObjectId, AccountDisplayName, AccountUPN)
+    on $left.UserId == $right.AccountObjectId
+| project-reorder AccountDisplayName, AccountUPN, RequestMethod, RequestUri
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,20 @@
+title: AWS S3 Bucket Made Public By ACL
+id: 4b491545-3c19-5b87-a2cf-ab3d913ae500
+status: experimental
+level: high
+description: Detect when an AWS S3 bucket is made public using ACL.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type: PutBucketAcl
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_f0255a99-d90c-4640-a56e-0145f2672c2c
+  source_format: chronicle_yaral

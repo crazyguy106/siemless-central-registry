@@ -1,0 +1,37 @@
+title: AWS CloudTrail Log Suspended
+id: 1aa8fa52-44a7-4dae-b058-f3333b91c8d7
+status: stable
+level: medium
+description: 'Detects Cloudtrail logging suspension via StopLogging API. Stopping
+  CloudTrail eliminates forward audit visibility and
+
+  is a classic defense evasion step before sensitive changes or data theft. Investigate
+  immediately and determine what
+
+  occurred during the logging gap.'
+author: Elastic (converted by SIEMLess)
+date: '2020-06-10'
+modified: '2025-11-07'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: cloudtrail.amazonaws.com
+    event_action: StopLogging
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001
+references:
+- https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_StopLogging.html
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudtrail/stop-logging.html
+falsepositives:
+- "    Suspending the recording of a trail may be done by a system or network administrator.\
+  \ Verify whether the user\n    identity, user agent, and/or hostname should be making\
+  \ changes in your environment. Trail suspensions from\n    unfamiliar users or hosts\
+  \ should be investigated. If known behavior is causing false positives, it can be\
+  \ exempted\n    from the rule.\n    "

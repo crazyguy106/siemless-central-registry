@@ -1,0 +1,20 @@
+title: High risk Office operation conducted by IP Address that recently attempted to log into a disabled account
+id: cd5a4c8d-6765-5e3a-be5e-929fa1a9ca83
+status: stable
+level: medium
+description: |
+  'It is possible that a disabled user account is compromised and another account on the same IP is used to perform operations that are not typical for that user.  The query filters the SigninLogs for entries where ResultType is indicates a disabled account and the TimeGenerated is within a defined time range.  It then summarizes these entries by IPAddress and AppId, calculating various statistics such as number of login attempts, distinct UPNs, App IDs etc and joins these results with another set
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    ResultType: 50057
+  condition: selection
+tags:
+  - attack.t1078
+  - attack.t1098
+  - attack.t1114
+custom_attributes:
+  original_rule_id: 9adbd1c3-a4be-44ef-ac2f-503fd25692ee
+  source_format: azure_kql

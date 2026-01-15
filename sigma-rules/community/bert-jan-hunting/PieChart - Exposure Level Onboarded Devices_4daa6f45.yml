@@ -1,0 +1,21 @@
+title: PieChart - Exposure Level Onboarded Devices
+id: e1b6c671-db64-4f1e-8349-c545d7817c35
+status: experimental
+level: medium
+description: |
+  This query visualizes the onboarded devices and their exposure level in a PieChart. The higher the exposure level of a device, the more likely it is to be exploited.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceInfo
+| where Timestamp > ago(30d)
+| where OnboardingStatus == "Onboarded"
+| summarize arg_max(Timestamp, *) by DeviceId
+| summarize Total = count() by ExposureLevel
+| render piechart with(title="Overview Exposure Level")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

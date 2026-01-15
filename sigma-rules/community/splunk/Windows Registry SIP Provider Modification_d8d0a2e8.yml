@@ -1,0 +1,32 @@
+title: Windows Registry SIP Provider Modification
+id: 9fa4f75b-60bd-5b89-9d7e-bda1fa8bee73
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows Registry SIP Provider. It leverages Sysmon EventID 7 to monitor registry changes in paths and values related to Cryptography Providers and OID Encoding Types. This activity is significant as it may indicate an attempt to subvert trust controls, a common tactic for bypassing security measures and maintaining persistence. If confirmed malicious, an attacker could manipulate the system's cryptographic functions, potentially leading to unau
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path:
+      - '*\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\*'
+      - '*\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType*'
+      - '*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\Providers\\*'
+      - '*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\OID\\EncodingType*'
+    registry_value_name:
+      - Dll
+      - $DLL
+  condition: selection
+tags:
+  - attack.t1553.003
+references:
+  - https://attack.mitre.org/techniques/T1553/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_sip_persistence.yml
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/SpecterOps_Subverting_Trust_in_Windows.pdf
+  - https://github.com/gtworek/PSBits/tree/master/SIP
+  - https://github.com/mattifestation/PoCSubjectInterfacePackage
+custom_attributes:
+  original_rule_id: 3b4e18cb-497f-4073-85ad-1ada7c2107ab
+  source_format: splunk_spl

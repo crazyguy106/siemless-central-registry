@@ -1,0 +1,22 @@
+title: 'Docker: Container $(docker.Actor.Attributes.name) stopped'
+id: 5dcc1292-c32f-5328-ad50-f4e8007cc7f8
+status: stable
+level: low
+description: 'Docker: Container $(docker.Actor.Attributes.name) stopped'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^stop$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87904
+  wazuh_level: 3

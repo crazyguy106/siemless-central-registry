@@ -1,0 +1,19 @@
+title: Hunt for users that have been added to the sudoers group
+id: c84b3f77-8418-4fb5-b33a-58dab5974511
+status: experimental
+level: medium
+description: |
+  This query allows you to hunt for users that have been added to the sudo group. The current list doest not contain all additions, but it covers most common additions. More can be added in the commandslist. Users that have been added to the sudoers group have root privilges.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let Commands = dynamic([@"usermod -aG sudo", @"usermod -a -G sudo"]);
+DeviceProcessEvents
+| extend RegexGroupAddition = extract("adduser(.*) sudo", 0, ProcessCommandLine)
+| where ProcessCommandLine has_any (Commands) or isnotempty(RegexGroupAddition)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,44 @@
+title: Microsoft 365 Inbox Forwarding Rule Created
+id: ec8efb0c-604d-42fa-ac46-ed1cfbc38f78
+status: stable
+level: medium
+description: 'Identifies when a new Inbox forwarding rule is created in Microsoft
+  365. Inbox rules process messages in the Inbox based
+
+  on conditions and take actions. In this case, the rules will forward the emails
+  to a defined address. Attackers can
+
+  abuse Inbox Rules to intercept and exfiltrate email data without making organization-wide
+  configuration changes or
+
+  having the corresponding privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2021-03-29'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_category: web
+    event_action: ("New-InboxRule
+    o365_audit_Parameters_ForwardTo: '*'
+    o365_audit_Parameters_ForwardAsAttachmentTo: '*'
+    o365_audit_Parameters_RedirectTo: '*'
+    event_outcome: success
+  condition: selection
+tags:
+- attack.collection
+- attack.t1114.003
+- attack.t1114
+references:
+- https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/responding-to-a-compromised-email-account?view=o365-worldwide
+- https://docs.microsoft.com/en-us/powershell/module/exchange/new-inboxrule?view=exchange-ps
+- https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/detect-and-remediate-outlook-rules-forms-attack?view=o365-worldwide
+- https://raw.githubusercontent.com/PwC-IR/Business-Email-Compromise-Guide/main/Extractor%20Cheat%20Sheet.pdf
+falsepositives:
+- "    Users and Administrators can create inbox rules for legitimate purposes. Verify\
+  \ if it complies with the company\n    policy and done with the user's consent.\
+  \ Exceptions can be added to this rule to filter expected behavior.\n    "

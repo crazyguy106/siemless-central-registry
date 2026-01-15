@@ -1,0 +1,61 @@
+title: Creation or Modification of Root Certificate
+id: 203ab79b-239b-4aa5-8e54-fc50623ee8e4
+status: stable
+level: low
+description: 'Identifies the creation or modification of a local trusted root certificate
+  in Windows. The install of a malicious root
+
+  certificate would allow an attacker the ability to masquerade malicious files as
+  valid signed components from any entity
+
+  (for example, Microsoft). It could also allow an attacker to decrypt SSL traffic.'
+author: Elastic (converted by SIEMLess)
+date: '2021-02-01'
+modified: '2025-08-12'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\Software\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob
+    - HKLM\\Software\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob
+    - HKLM\\Software\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob
+    - HKLM\\Software\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob
+    - \\REGISTRY\\MACHINE\\Software\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob
+    - \\REGISTRY\\MACHINE\\Software\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob
+    - \\REGISTRY\\MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob
+    - \\REGISTRY\\MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob
+    - MACHINE\\Software\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob
+    - MACHINE\\Software\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob
+    - MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob
+    - MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob
+    process_executable|contains:
+    - ?:\\Windows\\System32\\*.exe
+    - ?:\\Windows\\SysWOW64\\*.exe
+    process_name|contains:
+    - rundll32.exe
+    - mshta.exe
+    - powershell.exe
+    - pwsh.exe
+    - cmd.exe
+    - expand.exe
+    - regsvr32.exe
+    - cscript.exe
+    - wscript.exe
+    - wmiprvse.exe
+    - certutil.exe
+    - xcopy.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1553
+- attack.t1553.004
+references:
+- https://posts.specterops.io/code-signing-certificate-cloning-attacks-and-defenses-6f98657fc6ec
+- https://www.ired.team/offensive-security/persistence/t1130-install-root-certificate
+falsepositives:
+- Certain applications may install root certificates for the purpose of inspecting
+  SSL traffic.

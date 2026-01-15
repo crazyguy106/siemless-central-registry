@@ -1,0 +1,22 @@
+title: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName).'
+id: 2749b3ac-cd16-5ba1-999a-c40684c8c317
+status: stable
+level: low
+description: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.source: cloudtrail
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80202
+  wazuh_level: 3

@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Running daemon is $(osquery.columns.label) with path $(osquery.columns.program) and username $(osquery.c'
+id: 7d5478a3-517c-56cf-b380-c886a3644cd5
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Running daemon is $(osquery.columns.label) with path $(osquery.columns.program) and username $(osquery.columns.username)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: launchd
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24031
+  wazuh_level: 4

@@ -1,0 +1,40 @@
+title: Azure Compute Snapshot Deletions by User
+id: d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a
+status: stable
+level: medium
+description: 'Identifies when a single user or service principal deletes multiple
+  Azure disk snapshots within a short time period.
+
+  This behavior may indicate an adversary attempting to inhibit system recovery capabilities,
+  destroy backup evidence, or
+
+  prepare for a ransomware attack. Mass deletion of snapshots eliminates restore points
+  and significantly impacts disaster
+
+  recovery capabilities, making it a critical indicator of potentially malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2025-10-10'
+modified: '2025-10-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.COMPUTE/SNAPSHOTS/DELETE
+    azure_activitylogs_properties_status_code: Accepted
+    azure_activitylogs_identity_claims_initiated_by_user_name: '*'
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+- attack.t1490
+references:
+- https://www.microsoft.com/en-us/security/blog/2025/08/27/storm-0501s-evolving-techniques-lead-to-cloud-based-ransomware/
+falsepositives:
+- "    Infrastructure teams may legitimately delete multiple snapshots during planned\
+  \ maintenance, storage optimization, or\n    cleanup of expired backup data according\
+  \ to retention policies. Verify that the deletion activity was expected and\n  \
+  \  follows organizational change management processes. Consider exceptions for approved\
+  \ maintenance windows or\n    automation service principals managing backup retention.\n\
+  \    "

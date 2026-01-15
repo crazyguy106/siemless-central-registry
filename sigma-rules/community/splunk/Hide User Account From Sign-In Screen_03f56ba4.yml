@@ -1,0 +1,21 @@
+title: Hide User Account From Sign-In Screen
+id: b4d2e926-c69e-5ab7-8bf7-3cb0a3c54e2d
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious registry modification that hides a user account from the Windows Login screen. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path "*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" with a value of "0x00000000". This activity is significant as it may indicate an adversary attempting to create a hidden admin account to avoid detection and maintain persistence on the compromised
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: 834ba832-ad89-11eb-937d-acde48001122
+  source_format: splunk_spl

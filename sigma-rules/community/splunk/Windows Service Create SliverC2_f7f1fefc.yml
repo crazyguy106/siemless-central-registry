@@ -1,0 +1,24 @@
+title: Windows Service Create SliverC2
+id: 7ae6c959-2584-5b08-beb9-fa0ef066999a
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of a Windows service named "Sliver" with the description "Sliver Implant," indicative of SliverC2 lateral movement using the PsExec module. It leverages Windows EventCode 7045 from the System Event log to identify this activity. This behavior is significant as it may indicate an adversary's attempt to establish persistence or execute commands remotely. If confirmed malicious, this activity could allow attackers to maintain control over the compromised 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    servicename: sliver
+    eventcode: 7045
+  condition: selection
+tags:
+  - attack.t1569.002
+references:
+  - https://github.com/BishopFox/sliver/blob/71f94928bf36c1557ea5fbeffa161b71116f56b2/client/command/exec/psexec.go#LL61C5-L61C16
+  - https://www.microsoft.com/en-us/security/blog/2022/08/24/looking-for-the-sliver-lining-hunting-for-emerging-command-and-control-frameworks/
+  - https://regex101.com/r/DWkkXm/1
+custom_attributes:
+  original_rule_id: 89dad3ee-57ec-43dc-9044-131c4edd663f
+  source_format: splunk_spl

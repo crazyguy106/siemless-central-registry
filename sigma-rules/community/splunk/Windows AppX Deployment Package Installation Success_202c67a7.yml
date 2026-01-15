@@ -1,0 +1,22 @@
+title: Windows AppX Deployment Package Installation Success
+id: 3361b81d-dc60-58d9-9e6e-22be3ad7eb03
+status: stable
+level: medium
+description: |
+  This analytic detects successful MSIX/AppX package installations on Windows systems by monitoring EventID 854 in the Microsoft-Windows-AppXDeployment-Server/Operational log. This event is generated when an MSIX/AppX package has been successfully installed on a system. While most package installations are legitimate, monitoring these events can help identify unauthorized or suspicious package installations, especially when correlated with other events such as unsigned package installations (Event
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 854
+  condition: selection
+tags:
+  - attack.t1204.002
+references:
+  - https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
+  - https://www.appdeploynews.com/packaging-types/msix/troubleshooting-an-msix-package/
+  - https://www.advancedinstaller.com/msix-installation-or-launching-errors-and-fixes.html
+custom_attributes:
+  original_rule_id: 1234abcd-5678-90ef-1234-56789abcdef0
+  source_format: splunk_spl

@@ -1,0 +1,30 @@
+title: Windows SqlWriter SQLDumper DLL Sideload
+id: ca315bef-cd8f-553b-9f6d-c3cfd79f6f9e
+status: stable
+level: high
+description: |
+  The following analytic detects the abuse of SqlWriter and SQLDumper executables to sideload the vcruntime140.dll library. It leverages Sysmon EventCode 7 logs, focusing on instances where SQLDumper.exe or SQLWriter.exe load vcruntime140.dll, excluding legitimate loads from the System32 directory. This activity is significant as it indicates potential DLL sideloading, a technique used by adversaries to execute malicious code within trusted processes. If confirmed malicious, this could allow attac
+author: Michael Haag, Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    image:
+      - '*\\SQLDumper.exe'
+      - '*\\SQLWriter.exe'
+    imageloaded:
+      - '*\\vcruntime140.dll'
+      - 'C:\\Windows\\System32\\*'
+    eventcode: 7
+  filter:
+    imageloaded: 'C:\\Windows\\System32\\*'
+  condition: selection and not filter
+tags:
+  - attack.t1574.001
+references:
+  - https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
+  - https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
+custom_attributes:
+  original_rule_id: 2ed89ba9-c6c7-46aa-9f08-a2a1c2955aa3
+  source_format: splunk_spl

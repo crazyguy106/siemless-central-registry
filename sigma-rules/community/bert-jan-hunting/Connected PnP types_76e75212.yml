@@ -1,0 +1,22 @@
+title: Connected PnP types
+id: eb41a9a5-73f7-497a-829c-18f851e12d27
+status: experimental
+level: medium
+description: |
+  List the different Plug and Play (PnP) device types that are used in your organisation. The results are sorted by the total ammount of events seen for each type.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents
+| where ActionType == "PnpDeviceConnected"
+| extend PNPInfo = parse_json(AdditionalFields)
+| extend ClassName = tostring(PNPInfo.ClassName), DeviceDescription = tostring(PNPInfo.DeviceDescription), VendorIds = tostring(PNPInfo.VendorIds), DeviceId = tostring(PNPInfo.DeviceId)
+| extend PnPType = tostring(split(DeviceId, @"\", 0)[0])
+| summarize Total = count() by PnPType
+| sort by Total
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

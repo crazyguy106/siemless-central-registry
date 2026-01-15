@@ -1,0 +1,35 @@
+title: Windows Scheduled Task DLL Module Loaded
+id: 2bebfd01-573c-52fa-a16d-5c93ec5fb799
+status: stable
+level: high
+description: |
+  The following analytic detects instances where the taskschd.dll is loaded by processes running in suspicious or writable directories. This activity is unusual, as legitimate processes that load taskschd.dll typically reside in protected system locations. Malware or threat actors may attempt to load this DLL from writable or non-standard directories to manipulate the Task Scheduler and execute malicious tasks. By identifying processes that load taskschd.dll in these unsafe locations, this detecti
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    imageloaded: '*\\taskschd.dll'
+    eventcode: 7
+    image:
+      - '*\\windows\\fonts\\*'
+      - '*\\windows\\temp\\*'
+      - '*\\users\\public\\*'
+      - '*\\windows\\debug\\*'
+      - '*\\Users\\Administrator\\Music\\*'
+      - '*\\Windows\\servicing\\*'
+      - '*\\Users\\Default\\*'
+      - '*Recycle.bin*'
+      - '*\\Windows\\Media\\*'
+      - \\Windows\\repair\\*
+      - '*\\temp\\*'
+      - '*\\PerfLogs\\*'
+  condition: selection
+tags:
+  - attack.t1053
+references:
+  - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
+  - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+custom_attributes:
+  original_rule_id: bc5b2304-f241-419b-874a-e927f667b7b6
+  source_format: splunk_spl

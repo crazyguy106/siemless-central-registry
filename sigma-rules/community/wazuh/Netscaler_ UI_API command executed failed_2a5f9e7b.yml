@@ -1,0 +1,24 @@
+title: 'Netscaler: UI/API command executed failed'
+id: bc622676-50e7-5268-9909-fc5b53ffcd47
+status: stable
+level: low
+description: 'Netscaler: UI/API command executed failed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - UI CMD_EXECUTED
+      - API CMD_EXECUTED
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80104
+  wazuh_level: 4

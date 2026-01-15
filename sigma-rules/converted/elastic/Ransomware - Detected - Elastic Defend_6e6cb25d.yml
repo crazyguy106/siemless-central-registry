@@ -1,0 +1,30 @@
+title: Ransomware - Detected - Elastic Defend
+id: 0c74cd7e-ea35-11ee-a417-f661ea17fbce
+status: stable
+level: high
+description: 'Generates a detection alert each time an Elastic Defend alert for ransomware
+  are received. Enabling this rule allows you
+
+  to immediately begin investigating your Endpoint ransomware alerts. This rule identifies
+  Elastic Defend ransomware
+
+  detections only, and does not include prevention alerts.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-24'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_kind: alert
+    event_code: ransomware
+    event_type: denied
+    event_outcome: failure))
+  condition: selection
+tags:
+- attack.impact
+- attack.t1486
+references:
+- https://github.com/elastic/protections-artifacts/tree/main/ransomware
+- https://docs.elastic.co/en/integrations/endpoint

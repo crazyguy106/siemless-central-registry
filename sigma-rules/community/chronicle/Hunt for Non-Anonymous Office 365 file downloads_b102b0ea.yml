@@ -1,0 +1,29 @@
+title: Hunt for Non-Anonymous Office 365 file downloads
+id: ad25fb51-bee7-5a6c-bfc3-f113d3a8a02f
+status: experimental
+level: low
+description: Detects file downloads using O365 or Graph Activity logs, not including anonymous file links
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type:
+      - USER_RESOURCE_UPDATE_CONTENT
+      - NETWORK_HTTP
+    metadata_product_event_type:
+      - FileDownloaded
+      - Microsoft Graph Activity
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    target_application: OneDrive
+    principal_user_userid:
+      - anonymous
+      - '^urn:spo:anon#'
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_0dfb4338-4b4c-4af1-82da-fd5221d611a0
+  source_format: chronicle_yaral

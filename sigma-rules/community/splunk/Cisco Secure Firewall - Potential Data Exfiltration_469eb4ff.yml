@@ -1,0 +1,24 @@
+title: Cisco Secure Firewall - Potential Data Exfiltration
+id: daa3de22-ad79-590f-ab34-081e9f514d3f
+status: stable
+level: medium
+description: |
+  The following analytic detects potentially suspicious large outbound data transfers from internal to external networks. It leverages Cisco Secure Firewall Threat Defense logs and calculates the total volume of data exchanged per connection by summing InitiatorBytes and ResponderBytes. Connections exceeding 100 MB are flagged, as these may indicate unauthorized data exfiltration, especially if initiated by unusual users, hosts, or processes. This analytic is scoped to inside-to-outside flows usin
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: ConnectionEvent
+    total_bytes: InitiatorBytes
+    exfiltrated: total_mb
+  condition: selection
+tags:
+  - attack.t1041
+  - attack.t1567.002
+  - attack.t1048.003
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+custom_attributes:
+  original_rule_id: 3d8536b6-52b4-4c3e-b695-3f2e90bb22be
+  source_format: splunk_spl

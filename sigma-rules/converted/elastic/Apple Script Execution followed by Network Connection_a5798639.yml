@@ -1,0 +1,38 @@
+title: Apple Script Execution followed by Network Connection
+id: 47f76567-d58a-4fed-b32b-21f571e28910
+status: stable
+level: medium
+description: 'Detects execution via the Apple script interpreter (osascript) followed
+  by a network connection from the same process
+
+  within a short time period. Adversaries may use malicious scripts for execution
+  and command and control.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-07'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.entity_id with maxspan=30s\n [process\
+      \ where host.os.type == \"macos\" and event.type == \"start\" and process.name\
+      \ == \"osascript\"]\n [network where host.os.type == \"macos\" and event.type\
+      \ == \"start\" and process.name == \"osascript\" and\n   not cidrmatch(destination.ip,\
+      \ \n       \"240.0.0.0/4\", \"233.252.0.0/24\", \"224.0.0.0/4\", \"198.19.0.0/16\"\
+      , \"192.18.0.0/15\", \n       \"192.0.0.0/24\", \"10.0.0.0/8\", \"127.0.0.0/8\"\
+      , \"169.254.0.0/16\", \"172.16.0.0/12\", \n       \"192.0.2.0/24\", \"192.31.196.0/24\"\
+      , \"192.52.193.0/24\", \"192.168.0.0/16\", \"192.88.99.0/24\", \n       \"100.64.0.0/10\"\
+      , \"192.175.48.0/24\", \"198.18.0.0/15\", \"198.51.100.0/24\", \"203.0.113.0/24\"\
+      ,\n       \"::1\", \"FE80::/10\", \"FF00::/8\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1105
+- attack.t1059.002
+references:
+- https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/index.html
+- https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml

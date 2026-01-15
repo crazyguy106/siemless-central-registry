@@ -1,0 +1,33 @@
+title: AWS Lambda Layer Added to Existing Function
+id: 7d091a76-0737-11ef-8469-f661ea17fbcc
+status: stable
+level: low
+description: 'Identifies when an Lambda Layer is added to an existing Lambda function.
+  AWS layers are a way to share code and data
+
+  across multiple functions. By adding a layer to an existing function, an attacker
+  can persist or execute code in the
+
+  context of the function.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-30'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: lambda.amazonaws.com
+    event_outcome: success
+    event_action: (PublishLayerVersion*
+  condition: selection
+tags:
+- attack.execution
+- attack.t1648
+references:
+- https://cloud.hacktricks.xyz/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/aws-lambda-layers-persistence
+- https://docs.aws.amazon.com/lambda/latest/api/API_PublishLayerVersion.html
+- https://docs.aws.amazon.com/lambda/latest/api/API_UpdateFunctionConfiguration.html
+falsepositives:
+- Lambda function owners may add layers to their functions for legitimate purposes.

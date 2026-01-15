@@ -1,0 +1,26 @@
+title: Azure AD User Consent Denied for OAuth Application
+id: 8a99a17b-a2f1-537b-a86f-f2a9cc18a0f4
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where a user has denied consent to an OAuth application seeking permissions within the Azure AD environment. This detection leverages Azure AD's audit logs, specifically focusing on user consent actions with error code 65004. Monitoring denied consent actions is significant as it can indicate users recognizing potentially suspicious or untrusted applications. If confirmed malicious, this activity could suggest attempts by unauthorized applications to g
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    operationname: Sign-in activity
+    errorcode: 65004
+  condition: selection
+tags:
+  - attack.t1528
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
+  - https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/protect-against-consent-phishing
+  - https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+  - https://www.alteredsecurity.com/post/introduction-to-365-stealer
+custom_attributes:
+  original_rule_id: bb093c30-d860-4858-a56e-cd0895d5b49c
+  source_format: splunk_spl

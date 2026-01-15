@@ -1,0 +1,20 @@
+title: Potential Tampering With RDP Related Registry Keys Via Reg.EXE
+id: acb85c19-e9a9-5a4f-b237-54355d4913ca
+status: experimental
+level: high
+description: |
+  Detects the execution of reg.exe for enabling/disabling the RDP service on the host by tampering with the CurrentControlSet\\Control\\Terminal Server values
+author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: reg.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_rdp_keys_tamper.yml
+custom_attributes:
+  original_rule_id: mr_60818065-6198-4650-ab78-306267b5f165
+  source_format: chronicle_yaral

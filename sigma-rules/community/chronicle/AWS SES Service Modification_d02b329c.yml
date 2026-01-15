@@ -1,0 +1,30 @@
+title: AWS SES Service Modification
+id: ec0d3492-c907-5275-88fb-895aabee8d63
+status: experimental
+level: medium
+description: |
+  Detect when the Amazon Simple Email Service (SES) has been modified where an attacker can modify Amazon SES service to propagate phishing emails campaigns.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - CreateEmailIdentity
+      - DeleteEmailIdentity
+      - VerifyEmailIdentity
+      - VerifyDomainIdentity
+      - VerifyDomainDkim
+      - UpdateAccountSendingEnabled
+      - UpdateConfigurationSetSendingEnabled
+      - PutAccountSendingAttributes
+      - PutConfigurationSetSendingOptions
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1496
+custom_attributes:
+  original_rule_id: mr_223bad6a-9c6a-4038-9990-18d3545598aa
+  source_format: chronicle_yaral

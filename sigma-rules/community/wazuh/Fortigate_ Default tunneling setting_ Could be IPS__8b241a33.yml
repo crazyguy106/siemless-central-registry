@@ -1,0 +1,22 @@
+title: 'Fortigate: Default tunneling setting. Could be IPS.'
+id: 3c9dc2ef-15f3-5a08-a606-215209e655d6
+status: stable
+level: low
+description: 'Fortigate: Default tunneling setting. Could be IPS.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'http_decoder: HTTP.Unknown.Tunnelling'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-81603
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81610
+  wazuh_level: 4

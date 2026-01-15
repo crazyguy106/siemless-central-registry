@@ -1,0 +1,26 @@
+title: Attempt to Clear Kernel Ring Buffer
+id: 2724808c-ba5d-48b2-86d2-0002103df753
+status: stable
+level: low
+description: 'Monitors for the deletion of the kernel ring buffer events through dmesg.
+  Attackers may clear kernel ring buffer events
+
+  to evade detection after installing a Linux kernel module (LKM).'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-24'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: dmesg
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.002
+- attack.t1562
+- attack.t1562.001
+- attack.t1070

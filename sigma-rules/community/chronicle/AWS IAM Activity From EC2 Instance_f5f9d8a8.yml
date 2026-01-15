@@ -1,0 +1,32 @@
+title: AWS IAM Activity From EC2 Instance
+id: 81f6e139-edba-51aa-861b-c355db295f6b
+status: experimental
+level: high
+description: Detect AWS IAM activities made by AWS EC2 instances to retain access or escalate privileges.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    target_application: iam.amazonaws.com
+    metadata_product_event_type:
+      - CreateUser
+      - AttachUserPolicy
+      - CreateLoginProfile
+      - UpdateLoginProfile
+      - CreateAccessKey
+      - CreateGroup
+      - AttachGroupPolicy
+      - CreateRole
+      - AttachRolePolicy
+    security_result_action: ALLOW
+    principal_resource_type: AssumedRole
+    principal_user_userid: \
+  condition: selection
+tags:
+  - attack.t1098
+custom_attributes:
+  original_rule_id: mr_60c7bb2f-2f02-4ac5-bbe0-ba8be871f3fb
+  source_format: chronicle_yaral

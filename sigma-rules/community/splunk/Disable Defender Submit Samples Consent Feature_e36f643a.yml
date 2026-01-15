@@ -1,0 +1,21 @@
+title: Disable Defender Submit Samples Consent Feature
+id: 74098b53-d90d-5ba9-8643-c81490a8176c
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of the Windows registry to disable the Windows Defender Submit Samples Consent feature. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path associated with Windows Defender SpyNet and the SubmitSamplesConsent value set to 0x00000000. This activity is significant as it indicates an attempt to bypass or evade detection by preventing Windows Defender from submitting samples for further analysis
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Windows Defender\\SpyNet*'
+    registry_value_name: SubmitSamplesConsent
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: 73922ff8-3022-11ec-bf5e-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,42 @@
+title: SUNBURST Command and Control Activity
+id: 22599847-5d13-48cb-8872-5796fee8692b
+status: stable
+level: high
+description: 'The malware known as SUNBURST targets the SolarWind''s Orion business
+  software for command and control. This rule detects
+
+  post-exploitation command and control activity of the SUNBURST backdoor.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-14'
+modified: '2025-02-03'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    host_os_type: windows
+    event_type: protocol
+    network_protocol: http
+    process_name|contains:
+    - ConfigurationWizard.exe
+    - NetFlowService.exe
+    - NetflowDatabaseMaintenance.exe
+    - SolarWinds.Administration.exe
+    - SolarWinds.BusinessLayerHost.exe
+    - SolarWinds.BusinessLayerHostx64.exe
+    - SolarWinds.Collector.Service.exe
+    - SolarwindsDiagnostics.exe
+    http_request_body_content|contains:
+    - GET*
+    - HEAD*
+    http_request_body_content|endswith: solarwinds.com*
+  condition: selection
+tags:
+- attack.initial_access
+- attack.command_and_control
+- attack.t1071.001
+- attack.t1195.002
+- attack.t1071
+- attack.t1195
+references:
+- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html

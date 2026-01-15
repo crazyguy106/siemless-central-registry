@@ -1,0 +1,20 @@
+title: TTP Detection Rule: NetSupport running from unexpected directory (FIN7)
+id: 00892ab4-4ffa-4940-b546-2a3fdcd5264e
+status: experimental
+level: medium
+description: |
+  Detection opportunity: NetSupport running from unexpected directory
+
+In the instances where the adversary delivered NetSupport Manager RAT as a follow-on payload, our existing detection coverage for malicious NetSupport installation served us well. Under normal circumstances, you should expect NetSupport Manager to run from the program files directory. If you find NetSupport Manager—often identifiable as client32.exe—running outside the program files directory, particularly from the programdata directory, then it’s worth investigating.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    // Detection opportunity 2: NetSupport running from unexpected directory
+DeviceProcessEvents
+| where ( ProcessVersionInfoCompanyName contains "netsupport" or ProcessVersionInfoProductName contains "netsupport" ProcessVersionInfoCompanyName contains "Crosstec" or ProcessVersionInfoProductName contains "Crosstec") and not ( FolderPath has_any ("Program Files (x86)\\","Program Files\\"))
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

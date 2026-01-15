@@ -1,0 +1,25 @@
+title: ServicePrincipalNames Discovery with PowerShell
+id: afa8a74f-5705-5e3f-9594-395ae2794bcd
+status: stable
+level: high
+description: |
+  The following analytic detects the use of `powershell.exe` to query the domain for Service Principal Names (SPNs) using Script Block Logging EventCode 4104. It identifies the use of the KerberosRequestorSecurityToken class within the script block, which is equivalent to using setspn.exe. This activity is significant as it often precedes kerberoasting or silver ticket attacks, which can lead to credential theft. If confirmed malicious, attackers could leverage this information to escalate privile
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext: '*KerberosRequestorSecurityToken*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1558.003
+references:
+  - https://docs.microsoft.com/en-us/windows/win32/ad/service-principal-names
+  - https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens.kerberosrequestorsecuritytoken?view=netframework-4.8
+  - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+  - https://strontic.github.io/xcyclopedia/library/setspn.exe-5C184D581524245DAD7A0A02B51FD2C2.html
+  - https://attack.mitre.org/techniques/T1558/003/
+custom_attributes:
+  original_rule_id: 13243068-2d38-11ec-8908-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,24 @@
+title: M365 Copilot Session Origin Anomalies
+id: a02c7ab1-6d90-5771-b4d0-c288a9c64d7c
+status: stable
+level: medium
+description: |
+  Detects M365 Copilot users accessing from multiple geographic locations to identify potential account compromise, credential sharing, or impossible travel patterns. The detection aggregates M365 Copilot Graph API events per user, calculating distinct cities and countries accessed, unique IP addresses, and the observation timeframe to compute a locations-per-day metric that measures geographic mobility. Users accessing Copilot from more than one city (cities_count > 1) are flagged and sorted by c
+author: Rod Soto
+logsource:
+  product: splunk
+detection:
+  selection:
+    appdisplayname:
+      - '*Copilot*'
+      - M365ChatClient
+      - OfficeAIAppChatCopilot
+    user: userPrincipalName
+  condition: selection
+tags:
+  - attack.t1078
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+custom_attributes:
+  original_rule_id: 0caf1c1c-0fba-401e-8ec7-f07cfdeee75b
+  source_format: splunk_spl

@@ -1,0 +1,23 @@
+title: Windows Modify Registry Disable Toast Notifications
+id: 78e870e7-3f9d-5996-b1c6-2142bceb6398
+status: stable
+level: medium
+description: |
+  The following analytic detects modifications to the Windows registry that disable toast notifications. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications\\ToastEnabled*" with a value set to "0x00000000". This activity is significant because disabling toast notifications can prevent users from receiving critical system and application updates, which adversaries like Azorul
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications\\ToastEnabled*'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-remoteassistance-exe-fallowtogethelp
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+custom_attributes:
+  original_rule_id: ed4eeacb-8d5a-488e-bc97-1ce6ded63b84
+  source_format: splunk_spl

@@ -1,0 +1,36 @@
+title: ASL AWS Network Access Control List Created with All Open Ports
+id: 80de66e7-aabc-5cc7-ba99-08bac9f24500
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of AWS Network Access Control Lists (ACLs) with all ports open to a specified CIDR. It leverages AWS CloudTrail events, specifically monitoring for `CreateNetworkAclEntry` or `ReplaceNetworkAclEntry` actions with rules allowing all traffic. This activity is significant because it can expose the network to unauthorized access, increasing the risk of data breaches and other malicious activities. If confirmed malicious, an attacker could exploit this misc
+author: Patrick Bareiss, Splunk
+logsource:
+  product: aws
+  category: network_connection
+detection:
+  selection:
+    operation:
+      - CreateNetworkAclEntry
+      - ReplaceNetworkAclEntry
+    status: Success
+    path:
+      - ruleAction
+      - egress
+      - aclProtocol
+      - cidrBlock
+      - networkAclId
+    output:
+      - ruleAction
+      - egress
+      - aclProtocol
+      - cidrBlock
+      - networkAclId
+    ruleaction: allow
+    egress: 'false'
+  condition: selection
+tags:
+  - attack.t1562.007
+custom_attributes:
+  original_rule_id: a2625034-c2de-44fc-b45c-7bac9c4a7974
+  source_format: splunk_spl

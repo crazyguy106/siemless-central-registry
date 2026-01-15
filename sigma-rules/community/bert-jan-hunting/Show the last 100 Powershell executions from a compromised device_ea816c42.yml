@@ -1,0 +1,33 @@
+title: Show the last 100 Powershell executions from a compromised device
+id: b3d9474c-85ed-496f-9c1e-e23b1aed4102
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Show the last 100 Powershell executions from a compromised device
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedDevice = "laptop.contoso.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+DeviceProcessEvents
+| where Timestamp > ago(SearchWindow)
+| where DeviceName == CompromisedDevice
+| where AccountName != "system" // If you suspect that the system user is compromised, remove this filter.
+| where InitiatingProcessFileName == "powershell.exe"
+| sort by Timestamp
+| top 100 by Timestamp
+| project
+     Timestamp,
+     DeviceName,
+     ActionType,
+     FileName,
+     ProcessCommandLine,
+     AccountDomain,
+     AccountName,
+     InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,24 @@
+title: Notepad with no Command Line Arguments
+id: 415057d8-757c-5deb-81bc-030abaa452f2
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where Notepad.exe is launched without any command line arguments, a behavior commonly associated with the SliverC2 framework. This detection leverages process creation events from Endpoint Detection and Response (EDR) agents, focusing on processes initiated by Notepad.exe within a short time frame. This activity is significant as it may indicate an attempt to inject malicious code into Notepad.exe, a known tactic for evading detection. If confirmed mal
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process: (?i)(notepad\.exe.{0,4}$)
+  filter:
+    action: blocked
+  condition: selection and not filter
+tags:
+  - attack.t1055
+references:
+  - https://www.microsoft.com/en-us/security/blog/2022/08/24/looking-for-the-sliver-lining-hunting-for-emerging-command-and-control-frameworks/
+  - https://www.cybereason.com/blog/sliver-c2-leveraged-by-many-threat-actors#Purple-Team-Section
+custom_attributes:
+  original_rule_id: 5adbc5f1-9a2f-41c1-a810-f37e015f8179
+  source_format: splunk_spl

@@ -1,0 +1,37 @@
+title: Horde brute force (multiple failed logins).
+id: 5d1dd9eb-d9f5-5879-8c09-8b6e66ea0cad
+status: stable
+level: high
+description: Horde brute force (multiple failed logins).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-9306
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9351
+  wazuh_level: 10

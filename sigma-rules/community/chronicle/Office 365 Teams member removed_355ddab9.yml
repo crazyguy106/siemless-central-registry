@@ -1,0 +1,21 @@
+title: Office 365 Teams member removed
+id: e14c00fc-de14-592a-a025-ff9be0887f79
+status: experimental
+level: low
+description: Detects when a user is removed from a group in Microsoft Teams.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    metadata_log_type: OFFICE_365
+    metadata_product_event_type: MemberRemoved
+    target_application: MicrosoftTeams
+    metadata_event_type: USER_CHANGE_PERMISSIONS
+    security_result_action: UNKNOWN_ACTION
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_9cbf9cc6-35ae-44bd-8c2c-3ed4f8ea528f
+  source_format: chronicle_yaral

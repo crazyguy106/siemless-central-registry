@@ -1,0 +1,26 @@
+title: ProxyShell ProxyNotShell Behavior Detected
+id: 3e08ff83-18d8-5d28-b781-a9803dfd1ec7
+status: stable
+level: medium
+description: |
+  The following analytic identifies potential exploitation of Windows Exchange servers via ProxyShell or ProxyNotShell vulnerabilities, followed by post-exploitation activities such as running nltest, Cobalt Strike, Mimikatz, and adding new users. It leverages data from multiple analytic stories, requiring at least five distinct sources to trigger, thus reducing noise. This activity is significant as it indicates a high likelihood of an active compromise, potentially leading to unauthorized access
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    analyticstories:
+      - ProxyNotShell
+      - ProxyShell
+    risk_object_type: system
+    span: 1h
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+  - https://msrc-blog.microsoft.com/2022/09/29/customer-guidance-for-reported-zero-day-vulnerabilities-in-microsoft-exchange-server/
+custom_attributes:
+  original_rule_id: c32fab32-6aaf-492d-bfaf-acbed8e50cdf
+  source_format: splunk_spl

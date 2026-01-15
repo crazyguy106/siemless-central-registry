@@ -1,0 +1,21 @@
+title: Files Loaded by Suspicious Executable
+id: 59da8121-cea0-49ba-89f2-203c5659a78f
+status: experimental
+level: medium
+description: |
+  This query is designed to list the files that have been loaded by a suspicious executable. Often malware loads dlls to properly function, these dlls can be identified by giving the SHA1 hash of the malicious executable as *InputSHA1*.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let InputSHA1 = "035833d4d9673fd767b3a73e5943abe0cb88b122";
+let LoadedFiles = DeviceImageLoadEvents
+| where InitiatingProcessSHA1 =~ InputSHA1
+| summarize LoadedFiles = make_set(SHA1);
+union DeviceNetworkEvents, DeviceProcessEvents, DeviceEvents
+| where InitiatingProcessSHA1 in~ (InputSHA1)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

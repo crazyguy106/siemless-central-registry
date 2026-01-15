@@ -1,0 +1,31 @@
+title: AWS RDS DB Snapshot Shared with Another Account
+id: 4577ef08-61d1-4458-909f-25a4b10c87fe
+status: stable
+level: medium
+description: Identifies an AWS RDS DB snapshot being shared with another AWS account.
+  DB snapshots contain a full backup of an entire DB instance including sensitive
+  data that can be abused if shared with unauthorized accounts or made public. Adversaries
+  may use snapshots to restore a DB Instance in an environment they control as a means
+  of data exfiltration.
+author: Elastic (converted by SIEMLess)
+date: '2024-06-25'
+modified: '2025-01-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: rds.amazonaws.com
+    event_outcome: success
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.t1537
+references:
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBSnapshotAttribute.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html
+- https://cloud.hacktricks.xyz/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation#rds-modifydbsnapshotattribute-rds-createdbsnapshot
+falsepositives:
+- "    DB snapshot sharing is a common practice in AWS environments. Ensure that the\
+  \ sharing is authorized before taking action.\n    "

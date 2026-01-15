@@ -1,0 +1,48 @@
+vendor: paloalto
+product: firewall
+siem_type: sentinel
+parser_name: Paloalto Firewall - SENTINEL
+parser_description: ''
+parser_language: kql
+parser_version: 1.0.0
+last_updated: '2026-01-08'
+source: siemless_v3_database
+metadata:
+  log_type: firewall
+  entity_types: []
+  relationship_types: []
+  confidence: 0.95
+  field_coverage_percent: 0
+  test_pass_rate: 0.0
+  ai_model_used: null
+  ai_cost_usd: 0.0
+  generation_time_seconds: 2
+  created_at: '2026-01-03T11:15:12.685116'
+deployment:
+  instructions: "# Deployment Instructions for Microsoft Sentinel\n\n1. Create Data\
+    \ Collection Rule (DCR):\n   - Azure Portal > Monitor > Data Collection Rules\
+    \ > Create\n   - Add custom log: paloalto_firewall_CL\n\n2. Deploy KQL Parser\
+    \ Function:\n   - Sentinel > Workspace > Logs > Functions\n   - Click \"Add function\"\
+    \n   - Name: paloalto_firewall_parser\n   - Paste KQL code above\n   - Click \"\
+    Save\"\n\n3. Create Analytics Rule (Detection):\n   - Sentinel > Analytics > Create\
+    \ > Scheduled query rule\n   - Query: paloalto_firewall_parser | where <your_condition>\n\
+    \   - Schedule: Every 5 minutes\n\n4. Test the parser:\n   - Go to Sentinel >\
+    \ Logs\n   - Run: paloalto_firewall_parser | take 10\n\n5. Create Workbook for\
+    \ visualization:\n   - Sentinel > Workbooks > Add workbook\n   - Add query: paloalto_firewall_parser\
+    \ | summarize count() by bin(TimeGenerated, 1h)\n"
+  test_queries:
+  - '// Test Case 1: Query raw logs'
+  - paloalto_firewall_CL | take 10
+  - ''
+  - '// Test Case 2: Test parser function'
+  - paloalto_firewall_parser | take 10
+  - ''
+  - '// Test Case 3: Verify entity extraction'
+  - paloalto_firewall_parser | summarize count() by Vendor, Product
+  sample_logs:
+  - type: TRAFFIC
+    action: allow
+    dest_ip: 10.0.0.5
+    source_ip: 192.168.1.10
+field_mappings: []
+field_count: 0

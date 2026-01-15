@@ -1,0 +1,24 @@
+title: Devices that initiate the most clear text LDAP authentications
+id: 94fada28-7aec-4800-869d-43e4f952f69d
+status: experimental
+level: medium
+description: |
+  This query visualises the top 100 Devices that initiate the most clear text LDAP authentications. You preferably want to use an encrypted form of LDAP instead of cleartext.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    IdentityLogonEvents
+| where LogonType == 'LDAP cleartext'
+| where ActionType == 'LogonSuccess'
+| distinct DeviceName, AccountUpn
+| summarize TotalUniqueClearTextLDAPAuthentications = count() by DeviceName
+| top 100 by TotalUniqueClearTextLDAPAuthentications
+| render columnchart with (title="Top 100 Devices with the most Clear Text LDAP sign ins")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,40 @@
+title: SSH Process Launched From Inside A Container
+id: 5c50ffa6-07f4-4cce-a1b7-c16928a2ed52
+status: stable
+level: medium
+description: 'This rule detects an SSH or SSHD process executed from inside a container.
+  This includes both the client ssh binary and
+
+  server ssh daemon process. SSH usage inside a container should be avoided and monitored
+  closely when necessary. With
+
+  valid credentials an attacker may move laterally to other containers or to the underlying
+  host through container
+
+  breakout. They may also use valid SSH credentials as a persistence mechanism.'
+author: Elastic (converted by SIEMLess)
+date: '2025-03-12'
+modified: '2025-03-12'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_entry_leader_entry_meta_type: container
+  condition: selection
+tags:
+- attack.persistence
+- attack.lateral_movement
+- attack.t1021.004
+- attack.t1021
+- attack.t1133
+references:
+- https://microsoft.github.io/Threat-Matrix-for-Kubernetes/techniques/SSH%20server%20running%20inside%20container/
+- https://www.blackhillsinfosec.com/sshazam-hide-your-c2-inside-of-ssh/
+falsepositives:
+- "    SSH usage may be legitimate depending on the environment. Access patterns and\
+  \ follow-on activity should be analyzed\n    to distinguish between authorized and\
+  \ potentially malicious behavior.\n    "

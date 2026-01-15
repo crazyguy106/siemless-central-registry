@@ -1,0 +1,27 @@
+title: Loadable Kernel Module Configuration File Creation
+id: 6e2355cc-c60a-4d92-a80c-e54a45ad2400
+status: stable
+level: low
+description: 'This rule detects the creation of Loadable Kernel Module (LKM) configuration
+  files. Attackers may create or modify these
+
+  files to allow their LKMs to be loaded upon reboot, ensuring persistence on a compromised
+  system.'
+author: Elastic (converted by SIEMLess)
+date: '2024-12-17'
+modified: '2025-06-03'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_Ext_original_extension: dpkg-new
+    process_name: perl
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547
+- attack.t1014
+- attack.t1547.006

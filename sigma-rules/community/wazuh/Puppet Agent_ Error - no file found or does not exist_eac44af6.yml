@@ -1,0 +1,22 @@
+title: 'Puppet Agent: Error - no file found or does not exist'
+id: 0b1545d5-bf5b-51d8-b513-3dd57987f66f
+status: stable
+level: low
+description: 'Puppet Agent: Error - no file found or does not exist'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '^No \S+ file found|file \S+ does not exist'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80001
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80054
+  wazuh_level: 4

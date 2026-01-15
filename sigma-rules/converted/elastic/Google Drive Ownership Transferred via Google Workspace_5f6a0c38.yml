@@ -1,0 +1,39 @@
+title: Google Drive Ownership Transferred via Google Workspace
+id: 07b5f85a-240f-11ed-b3d9-f661ea17fbce
+status: stable
+level: medium
+description: 'Drive and Docs is a Google Workspace service that allows users to leverage
+  Google Drive and Google Docs. Access to files
+
+  is based on inherited permissions from the child organizational unit the user belongs
+  to which is scoped by
+
+  administrators. Typically if a user is removed, their files can be transferred to
+  another user by the administrator.
+
+  This service can also be abused by adversaries to transfer files to an adversary
+  account for potential exfiltration.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-24'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_action: CREATE_DATA_TRANSFER_REQUEST
+    event_category: iam
+    google_workspace_admin_application_name: Drive*
+  condition: selection
+tags:
+- attack.collection
+- attack.t1074.002
+- attack.t1074
+references:
+- https://support.google.com/a/answer/1247799?hl=en
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Administrators may transfer file ownership during employee leave or absence\
+  \ to ensure continued operations by a new\n    or existing employee.\n    "

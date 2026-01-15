@@ -1,0 +1,21 @@
+title: Windows Sqlservr Spawning Shell
+id: 3890cb6f-b5f4-50a5-9ec5-ee4d654052cc
+status: stable
+level: high
+description: |
+  This analytic detects instances where the sqlservr.exe process spawns a command shell (cmd.exe) or PowerShell process. This behavior is often indicative of command execution initiated from within the SQL Server process, potentially due to exploitation of SQL injection vulnerabilities or the use of extended stored procedures like xp_cmdshell.
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    parent_process_name: sqlservr.exe
+  condition: selection
+tags:
+  - attack.t1505.001
+references:
+  - https://attack.mitre.org/techniques/T1505/001/
+  - https://github.com/MHaggis/notes/tree/master/utilities/SQLSSTT
+custom_attributes:
+  original_rule_id: d33aac9f-030c-4830-8701-0c2dd75bb6cb
+  source_format: splunk_spl

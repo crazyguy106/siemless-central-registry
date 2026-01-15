@@ -1,0 +1,24 @@
+title: Potential Adversary in the middle Phishing
+id: a7d1e550-48fe-4481-b629-a8cead1de612
+status: experimental
+level: medium
+description: |
+  List potential adversary in the middle phishing attempts that have been identified by the **OfficeHome** application in combination with an empty deviceid. The OfficeHome application is known to be the default of some AiTM phishing kits. An empty deviceid is the result of an device that is not onboarded/known to your organization. If only onboarded devices should sign in to your orgs cloud apps, an empty id should raise alarms, since it is an unknown device. If the resultype 0 is included in the results a successful sign-in is performed.  
+
+The query can be futher refined by only filtering on sign-ins with a risklevel during the sign-in phase.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AADSignInEventsBeta
+| where Application == "OfficeHome"
+| where AccountUpn has "@"
+| where isempty(AadDeviceId)
+| summarize RiskLevels = make_set(RiskLevelDuringSignIn), ResultTypes = make_set(ErrorCode), IPs = make_set(IPAddress), Useragents = make_set(UserAgent) by CorrelationId, AccountUpn, IPAddress
+// Optional to only filter on events with a RiskLevel during the sign-in
+//| where RiskLevels has_any (10, 50, 100)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

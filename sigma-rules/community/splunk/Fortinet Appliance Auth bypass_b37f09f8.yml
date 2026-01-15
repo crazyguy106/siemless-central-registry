@@ -1,0 +1,31 @@
+title: Fortinet Appliance Auth bypass
+id: 60db4f3a-a181-5712-aee7-9cdbec23f453
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to exploit CVE-2022-40684, a Fortinet appliance authentication bypass vulnerability. It identifies REST API requests to the /api/v2/ endpoint using various HTTP methods (GET, POST, PUT, DELETE) that may indicate unauthorized modifications, such as adding SSH keys or creating new users. This detection leverages the Web datamodel to monitor specific URL patterns and HTTP methods. This activity is significant as it can lead to unauthorized access and control 
+author: Michael Haag, Splunk
+logsource:
+  product: linux
+  category: authentication
+detection:
+  selection:
+    datamodel: Web
+    url:
+      - '*/api/v2/cmdb/system/admin*'
+    http_method:
+      - GET
+      - PUT
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://www.wordfence.com/blog/2022/10/threat-advisory-cve-2022-40684-fortinet-appliance-auth-bypass/
+  - https://www.horizon3.ai/fortios-fortiproxy-and-fortiswitchmanager-authentication-bypass-technical-deep-dive-cve-2022-40684/
+  - https://github.com/horizon3ai/CVE-2022-40684
+  - https://www.horizon3.ai/fortinet-iocs-cve-2022-40684/
+  - https://attackerkb.com/topics/QWOxGIKkGx/cve-2022-40684/rapid7-analysis
+custom_attributes:
+  original_rule_id: a83122f2-fa09-4868-a230-544dbc54bc1c
+  source_format: splunk_spl

@@ -1,0 +1,36 @@
+title: Sudo Heap-Based Buffer Overflow Attempt
+id: f37f3054-d40b-49ac-aa9b-a786c74c58b8
+status: stable
+level: high
+description: 'Identifies the attempted use of a heap-based buffer overflow vulnerability
+  for the Sudo binary in Unix-like systems
+
+  (CVE-2021-3156). Successful exploitation allows an unprivileged user to escalate
+  to the root user.'
+author: Elastic (converted by SIEMLess)
+date: '2021-02-03'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    event_type: start
+    process_name: (sudo
+    process_args: (*\\
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1068
+references:
+- https://cve.mitre.org/cgi-bin/cvename.cgi?name=2021-3156
+- https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+- https://www.bleepingcomputer.com/news/security/latest-macos-big-sur-also-has-sudo-root-privilege-escalation-flaw
+- https://www.sudo.ws/alerts/unescape_overflow.html
+falsepositives:
+- "    This rule could generate false positives if the process arguments leveraged\
+  \ by the exploit are shared by custom\n    scripts using the Sudo or Sudoedit binaries.\
+  \ Only Sudo versions 1.8.2 through 1.8.31p2 and 1.9.0 through 1.9.5p1 are\n    affected;\
+  \ if those versions are not present on the endpoint, this could be a false positive.\n\
+  \    "

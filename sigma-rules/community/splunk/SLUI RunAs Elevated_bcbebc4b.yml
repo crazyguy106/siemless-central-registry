@@ -1,0 +1,24 @@
+title: SLUI RunAs Elevated
+id: ad8de4b0-3204-5dfc-8d82-ab2e5122bf9c
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the Microsoft Software Licensing User Interface Tool (`slui.exe`) with elevated privileges using the `-verb runas` function. This activity is identified through logs from Endpoint Detection and Response (EDR) agents, focusing on specific registry keys and command-line parameters. This behavior is significant as it indicates a potential privilege escalation attempt, which could allow an attacker to gain elevated access and execute malicious actions 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://www.exploit-db.com/exploits/46998
+  - https://mattharr0ey.medium.com/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b
+  - https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466
+  - https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
+  - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+custom_attributes:
+  original_rule_id: 8d124810-b3e4-11eb-96c7-acde48001122
+  source_format: splunk_spl

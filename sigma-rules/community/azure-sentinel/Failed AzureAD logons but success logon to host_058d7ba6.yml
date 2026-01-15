@@ -1,0 +1,29 @@
+title: Failed AzureAD logons but success logon to host
+id: a0b3288c-35ec-5e12-80e8-da0f29020c6d
+status: stable
+level: medium
+description: |
+  'Identifies a list of IP addresses with a minimum number (default of 5) of failed logon attempts to Microsoft Entra ID. Uses that list to identify any successful remote logons to hosts from these IPs within the same timeframe.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    SyslogMessage|contains: Accepted
+    Facility:
+      - auth
+    SourceIP:
+      - suspicious_signins
+    LogonType:
+      - 10
+      - 7
+      - 3
+    IpAddress:
+      - suspicious_signins
+  condition: selection
+tags:
+  - attack.t1078
+  - attack.t1110
+custom_attributes:
+  original_rule_id: 8ee967a2-a645-4832-85f4-72b635bcb3a6
+  source_format: azure_kql

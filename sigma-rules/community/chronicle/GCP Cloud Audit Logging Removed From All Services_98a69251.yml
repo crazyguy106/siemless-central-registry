@@ -1,0 +1,22 @@
+title: GCP Cloud Audit Logging Removed From All Services
+id: f3a37f73-4f90-5b80-ba67-97ea6597f3bd
+status: experimental
+level: high
+description: |
+  Detect when GCP Cloud Audit logs are removed from all services at project or organization level. Audit logging helps organizations maintain security and minimize risk.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_PERMISSIONS
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type: SetIamPolicy
+    security_result_action: ALLOW
+    target_application: cloudresourcemanager.googleapis.com
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_6ffed437-4666-433f-8ba8-b6043daef4c5
+  source_format: chronicle_yaral

@@ -1,0 +1,24 @@
+title: Windows SIP WinVerifyTrust Failed Trust Validation
+id: b3427b89-cfe2-5b56-ab3d-9d18ea4003e5
+status: stable
+level: medium
+description: |
+  The following analytic detects failed trust validation attempts using Windows Event Log - CAPI2 (CryptoAPI 2). It specifically triggers on EventID 81, which indicates that "The digital signature of the object did not verify." This detection leverages the CAPI2 Operational log to identify instances where digital signatures fail to validate. Monitoring this activity is crucial as it can indicate attempts to execute untrusted or potentially malicious binaries. If confirmed malicious, this activity 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventid: 81
+  condition: selection
+tags:
+  - attack.t1553.003
+references:
+  - https://attack.mitre.org/techniques/T1553/003/
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/SpecterOps_Subverting_Trust_in_Windows.pdf
+  - https://github.com/gtworek/PSBits/tree/master/SIP
+  - https://github.com/mattifestation/PoCSubjectInterfacePackage
+  - https://pentestlab.blog/2017/11/06/hijacking-digital-signatures/
+custom_attributes:
+  original_rule_id: 6ffc7f88-415b-4278-a80d-b957d6539e1a
+  source_format: splunk_spl

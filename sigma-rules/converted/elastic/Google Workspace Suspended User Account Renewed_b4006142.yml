@@ -1,0 +1,36 @@
+title: Google Workspace Suspended User Account Renewed
+id: 00678712-b2df-11ed-afe9-f661ea17fbcc
+status: stable
+level: low
+description: 'Detects when a previously suspended user''s account is renewed in Google
+  Workspace. An adversary may renew a suspended
+
+  user account to maintain access to the Google Workspace organization with a valid
+  account.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-17'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_category: iam
+    event_action: UNSUSPEND_USER
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1078.004
+- attack.t1078
+references:
+- https://support.google.com/a/answer/1110339
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Google Workspace administrators may renew a suspended user account if the user\
+  \ is expected to continue employment at\n    the organization after temporary leave.\
+  \ Suspended user accounts are typically used by administrators to remove\n    access\
+  \ to the user while actions is taken to transfer important documents and roles to\
+  \ other users, prior to\n    deleting the user account and removing the license.\n\
+  \    "

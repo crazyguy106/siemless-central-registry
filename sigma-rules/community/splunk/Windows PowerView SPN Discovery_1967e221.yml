@@ -1,0 +1,23 @@
+title: Windows PowerView SPN Discovery
+id: 93a24dd0-ce1b-54fc-b25c-e9cd3a422c57
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the `Get-DomainUser` or `Get-NetUser` PowerShell cmdlets with the `-SPN` parameter, indicating the use of PowerView for SPN discovery. It leverages PowerShell Script Block Logging (EventCode=4104) to identify these specific commands. This activity is significant as it suggests an attempt to enumerate domain accounts associated with Service Principal Names (SPNs), a common precursor to Kerberoasting attacks. If confirmed malicious, this could allow 
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1558.003
+references:
+  - https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/kerberoast
+  - https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1
+  - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+  - https://attack.mitre.org/techniques/T1558/003
+custom_attributes:
+  original_rule_id: a7093c28-796c-4ebb-9997-e2c18b870837
+  source_format: splunk_spl

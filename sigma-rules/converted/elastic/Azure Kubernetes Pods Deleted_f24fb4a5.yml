@@ -1,0 +1,32 @@
+title: Azure Kubernetes Pods Deleted
+id: 83a1931d-8136-46fc-b7b9-2db4f639e014
+status: stable
+level: medium
+description: 'Identifies the deletion of Azure Kubernetes Pods. Adversaries may delete
+  a Kubernetes pod to disrupt the normal behavior
+
+  of the environment.'
+author: Elastic (converted by SIEMLess)
+date: '2021-06-24'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/PODS/DELETE
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1489
+- attack.t1529
+references:
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes
+falsepositives:
+- "    Pods may be deleted by a system administrator. Verify whether the user identity,\
+  \ user agent, and/or hostname should\n    be making changes in your environment.\
+  \ Pods deletions by unfamiliar users or hosts should be investigated. If known\n\
+  \    behavior is causing false positives, it can be exempted from the rule.\n  \
+  \  "

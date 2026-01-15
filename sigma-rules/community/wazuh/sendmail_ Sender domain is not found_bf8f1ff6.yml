@@ -1,0 +1,24 @@
+title: 'sendmail: Sender domain is not found'
+id: ca67c6e9-30fa-5488-9aef-8c507ff2ca65
+status: stable
+level: low
+description: 'sendmail: Sender domain is not found'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: reject=553 5.1.8
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3101
+tags:
+  - attack.t1114
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3105
+  wazuh_level: 5

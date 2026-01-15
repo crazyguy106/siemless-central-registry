@@ -1,0 +1,32 @@
+title: Netsh Helper DLL
+id: b0638186-4f12-48ac-83d2-47e686d08e82
+status: stable
+level: low
+description: 'Identifies the addition of a Netsh Helper DLL, netsh.exe supports the
+  addition of these DLLs to extend its
+
+  functionality. Attackers may abuse this mechanism to execute malicious payloads
+  every time the utility is executed,
+
+  which can be done by administrators or a scheduled task.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-29'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\Software\\Microsoft\\netsh\\*
+    - \\REGISTRY\\MACHINE\\Software\\Microsoft\\netsh\\*
+    - MACHINE\\Software\\Microsoft\\netsh\\*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1546.007
+- attack.t1112
+- attack.t1546

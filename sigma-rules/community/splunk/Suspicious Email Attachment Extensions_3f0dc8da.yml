@@ -1,0 +1,21 @@
+title: Suspicious Email Attachment Extensions
+id: 17bd2fed-b315-5f9e-a7d4-375c0c0ad088
+status: experimental
+level: medium
+description: |
+  The following analytic detects emails containing attachments with suspicious file extensions. It leverages the Email data model in Splunk, using the tstats command to identify emails where the attachment filename is not empty. This detection is significant for SOC analysts as it highlights potential phishing or malware delivery attempts, which are common vectors for data breaches and malware infections. If confirmed malicious, this activity could lead to unauthorized access to sensitive informat
+author: David Dorsey, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    file_name: '*'
+    datamodel: Email
+    update: 'true'
+    suspicious: 'true'
+  condition: selection
+tags:
+  - attack.t1566.001
+custom_attributes:
+  original_rule_id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
+  source_format: splunk_spl

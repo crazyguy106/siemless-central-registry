@@ -1,0 +1,28 @@
+title: Linux Indicator Removal Clear Cache
+id: ef6163af-d2f5-5d21-81db-4912f42bac01
+status: stable
+level: high
+description: |
+  The following analytic detects processes that clear or free page cache on a Linux system. It leverages Endpoint Detection and Response (EDR) data, focusing on specific command-line executions involving the kernel system request `drop_caches`. This activity is significant as it may indicate an attempt to delete forensic evidence or the presence of wiper malware like Awfulshred. If confirmed malicious, this behavior could allow an attacker to cover their tracks, making it difficult to investigate 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '* echo 3 &gt; *'
+      - '* echo 2 &gt; *'
+      - '* echo 1 &gt; *'
+    process_name:
+      - dash
+      - sudo
+      - bash
+  condition: selection
+tags:
+  - attack.t1070
+references:
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+  - https://cert.gov.ua/article/3718487
+custom_attributes:
+  original_rule_id: e0940505-0b73-4719-84e6-cb94c44a5245
+  source_format: splunk_spl

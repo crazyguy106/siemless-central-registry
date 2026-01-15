@@ -1,0 +1,20 @@
+title: Statistics Graph API runHuntingQuery
+id: d76615bb-5190-4d97-85bc-9bdd13ff9eea
+status: experimental
+level: medium
+description: |
+  This query lists the statistics for the objects that used the *runHuntingQuery* API call using the Graph API. This can help determine which applications access your security data and identify new applications that connect to this Graph API endpoint.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    MicrosoftGraphActivityLogs
+| where RequestUri has "runHuntingQuery"
+| extend ObjectId = coalesce(UserId, AppId)
+| extend ObjectType = iff(isempty(AppId), "User", "Application")
+| summarize TotalCalls = count() by ObjectId, ObjectType
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

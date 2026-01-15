@@ -1,0 +1,21 @@
+title: Windows Modify Registry wuStatusServer
+id: ec0d4405-b01c-5005-9700-ce605597c86a
+status: stable
+level: low
+description: |
+  The following analytic identifies suspicious modifications to the Windows Update configuration registry, specifically targeting the WUStatusServer key. It leverages data from the Endpoint datamodel to detect changes in the registry path associated with Windows Update settings. This activity is significant as it is commonly used by adversaries, including malware like RedLine Stealer, to bypass detection and deploy additional payloads. If confirmed malicious, this modification could allow attacker
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\WUStatusServer'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
+custom_attributes:
+  original_rule_id: 073e69d0-68b2-4142-aa90-a7ee6f590676
+  source_format: splunk_spl

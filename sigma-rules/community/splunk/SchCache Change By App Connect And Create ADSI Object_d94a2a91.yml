@@ -1,0 +1,27 @@
+title: SchCache Change By App Connect And Create ADSI Object
+id: 23bf443b-98e4-53a7-abc6-ac265642adf4
+status: stable
+level: medium
+description: |
+  The following analytic detects an application attempting to connect and create an ADSI object to perform an LDAP query. It leverages Sysmon EventCode 11 to identify changes in the Active Directory Schema cache files located in %LOCALAPPDATA%\Microsoft\Windows\SchCache or %systemroot%\SchCache. This activity is significant as it can indicate the presence of suspicious applications, such as ransomware, using ADSI object APIs for LDAP queries. If confirmed malicious, this behavior could allow attac
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    targetfilename:
+      - '*\\Windows\\SchCache\\*'
+      - '*.sch*'
+    eventcode: 11
+    image:
+      - '*\\Windows\\system32\\mmc.exe'
+  condition: selection
+tags:
+  - attack.t1087.002
+references:
+  - https://docs.microsoft.com/en-us/windows/win32/adsi/adsi-and-uac
+  - https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
+custom_attributes:
+  original_rule_id: 991eb510-0fc6-11ec-82d3-acde48001122
+  source_format: splunk_spl

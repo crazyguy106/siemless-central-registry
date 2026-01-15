@@ -1,0 +1,23 @@
+title: Windows Account Discovery for Sam Account Name
+id: f8dc3d2a-80fd-5d24-905a-2cfe3d12c8f3
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the PowerView PowerShell cmdlet Get-NetUser, specifically querying for "samaccountname" and "pwdlastset" attributes. It leverages Event ID 4104 from PowerShell Script Block Logging to identify this activity. This behavior is significant as it may indicate an attempt to gather user account information from Active Directory, which is a common reconnaissance step in lateral movement or privilege escalation attacks. If confirmed malicious, this activit
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*samaccountname*'
+      - '*pwdlastset*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1087
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+custom_attributes:
+  original_rule_id: 69934363-e1dd-4c49-8651-9d7663dd4d2f
+  source_format: splunk_spl

@@ -1,0 +1,38 @@
+title: Potential Persistence via Time Provider Modification
+id: 14ed1aa9-ebfd-4cf9-a463-0ac59ec55204
+status: stable
+level: medium
+description: 'Identifies modification of the Time Provider. Adversaries may establish
+  persistence by registering and enabling a
+
+  malicious DLL as a time provider. Windows uses the time provider architecture to
+  obtain accurate time stamps from other
+
+  network devices or clients in the network. Time providers are implemented in the
+  form of a DLL file which resides in the
+
+  System32 folder. The service W32Time initiates during the startup of Windows and
+  loads w32time.dll.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-19'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    process_executable|contains:
+    - ?:\\Windows\\System32\\msiexec.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\msiexec.exe
+    registry_path|endswith: \\SYSTEM\\*ControlSet*\\Services\\W32Time\\TimeProviders\\*
+    registry_data_strings|endswith: .dll
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1547
+- attack.t1547.003
+references:
+- https://pentestlab.blog/2019/10/22/persistence-time-providers/

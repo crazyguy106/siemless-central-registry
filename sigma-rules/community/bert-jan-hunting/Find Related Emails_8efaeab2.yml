@@ -1,0 +1,18 @@
+title: Find Related Emails
+id: 01b8d3a2-1d41-4741-84ae-da8f64f522ca
+status: experimental
+level: medium
+description: |
+  The EmailClusterId which can be assigned to a mail is the identifier for the group of similar emails clustered based on heuristic analysis of their contents. Therefore this identifier can be leveraged to find related mails. This is not a hash value of the mail. Once you have identified a suspicious mail, you can run the query below to determine if there are related mails send to your users. This can for example be from a different sender or the content of the mail has changed from *Hello Bob* to *Hello Alice* but the rest of the contents has stayed the same.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let MaliciousEmailCluseriId = "3163234347533"; // Input the EmailClusterId here
+EmailEvents
+| where EmailClusterId == MaliciousEmailCluseriId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

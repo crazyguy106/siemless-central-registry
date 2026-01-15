@@ -1,0 +1,22 @@
+title: Time Provider Persistence Registry
+id: e74c8c4e-e4cc-55a8-877f-39ef1081844f
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious modifications to the time provider registry for persistence and autostart. It leverages data from the Endpoint.Registry data model, focusing on changes to the "CurrentControlSet\\Services\\W32Time\\TimeProviders" registry path. This activity is significant because such modifications are uncommon and can indicate an attempt to establish persistence on a compromised host. If confirmed malicious, this technique allows an attacker to maintain access and exec
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\CurrentControlSet\\Services\\W32Time\\TimeProviders*'
+  condition: selection
+tags:
+  - attack.t1547.003
+references:
+  - https://pentestlab.blog/2019/10/22/persistence-time-providers/
+  - https://attack.mitre.org/techniques/T1547/003/
+custom_attributes:
+  original_rule_id: 5ba382c4-2105-11ec-8d8f-acde48001122
+  source_format: splunk_spl

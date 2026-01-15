@@ -1,0 +1,23 @@
+title: Windows Raccine Scheduled Task Deletion
+id: caa74bd8-da9d-5cf6-8cae-7e72dae7aabd
+status: stable
+level: high
+description: |
+  The following analytic identifies the deletion of the Raccine Rules Updater scheduled task using the `schtasks.exe` command. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because adversaries may delete this task to disable Raccine, a tool designed to prevent ransomware attacks. If confirmed malicious, this action could allow ransomware to execute without interference, leading to
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*delete*'
+      - '*Raccine*'
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://redcanary.com/blog/blackbyte-ransomware/
+  - https://github.com/Neo23x0/Raccine
+custom_attributes:
+  original_rule_id: c9f010da-57ab-11ec-82bd-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,21 @@
+title: O365 Excessive SSO logon errors
+id: c27e07e8-7338-538d-bc54-cecb62c20e24
+status: stable
+level: medium
+description: |
+  The following analytic detects accounts experiencing a high number of Single Sign-On (SSO) logon errors. It leverages data from the `o365_management_activity` dataset, focusing on failed user login attempts with SSO errors. This activity is significant as it may indicate brute-force attempts or the hijacking/reuse of SSO tokens. If confirmed malicious, attackers could potentially gain unauthorized access to user accounts, leading to data breaches, privilege escalation, or further lateral movemen
+author: Rod Soto, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    workload: AzureActiveDirectory
+    operation: UserLoginFailed
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://stealthbits.com/blog/bypassing-mfa-with-pass-the-cookie/
+custom_attributes:
+  original_rule_id: 8158ccc4-6038-11eb-ae93-0242ac130002
+  source_format: splunk_spl

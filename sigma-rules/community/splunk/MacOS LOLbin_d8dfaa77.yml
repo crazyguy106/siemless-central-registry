@@ -1,0 +1,29 @@
+title: MacOS LOLbin
+id: fdf029f4-718a-5f97-9885-bfabc215b517
+status: stable
+level: high
+description: |
+  The following analytic detects multiple executions of Living off the Land (LOLbin) binaries on macOS within a short period. It leverages osquery to monitor process events and identifies commands such as "find", "crontab", "screencapture", "openssl", "curl", "wget", "killall", and "funzip". This activity is significant as LOLbins are often used by attackers to perform malicious actions while evading detection. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, 
+author: Patrick Bareiss, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    name: es_process_events
+    cmdline:
+      - find*
+      - crontab*
+      - screencapture*
+      - openssl*
+      - curl*
+      - wget*
+      - killall*
+      - funzip*
+  condition: selection
+tags:
+  - attack.t1059.004
+references:
+  - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+custom_attributes:
+  original_rule_id: 58d270fb-5b39-418e-a855-4b8ac046805e
+  source_format: splunk_spl

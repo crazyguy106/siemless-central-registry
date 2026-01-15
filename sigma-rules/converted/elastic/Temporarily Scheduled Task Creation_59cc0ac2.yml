@@ -1,0 +1,32 @@
+title: Temporarily Scheduled Task Creation
+id: 81ff45f8-f8c2-4e28-992e-5a0e8d98e0fe
+status: stable
+level: medium
+description: 'Indicates the creation and deletion of a scheduled task within a short
+  time interval. Adversaries can use these to proxy
+
+  malicious execution via the schedule service and perform clean up.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-29'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by winlog.computer_name, winlog.event_data.TaskName with\
+      \ maxspan=5m\n   [iam where host.os.type == \"windows\" and event.action ==\
+      \ \"scheduled-task-created\" and not user.name : \"*$\"]\n   [iam where host.os.type\
+      \ == \"windows\" and event.action == \"scheduled-task-deleted\" and not user.name\
+      \ : \"*$\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.execution
+- attack.t1053.005
+- attack.t1053
+references:
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698
+falsepositives:
+- Legitimate scheduled tasks may be created during installation of new software.

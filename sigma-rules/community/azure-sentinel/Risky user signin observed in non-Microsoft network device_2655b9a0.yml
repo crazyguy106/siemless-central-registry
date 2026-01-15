@@ -1,0 +1,20 @@
+title: Risky user signin observed in non-Microsoft network device
+id: 46bdd84b-9e44-5be0-a343-5681a9fcda8d
+status: stable
+level: medium
+description: |
+  'This content is utilized to identify instances of successful login by risky users, who have been observed engaging in potentially suspicious network activity on non-Microsoft network devices.'
+author: Arjun Trivedi
+logsource:
+  product: azure
+  category: network_connection
+detection:
+  selection:
+    RiskState: atRisk
+    DeviceProduct|startswith: FortiGate
+  condition: selection
+tags:
+  - attack.t1071
+custom_attributes:
+  original_rule_id: 042f2801-a375-4cfd-bd29-041fc7ed88a0
+  source_format: azure_kql

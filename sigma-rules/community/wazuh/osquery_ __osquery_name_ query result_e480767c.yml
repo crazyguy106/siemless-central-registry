@@ -1,0 +1,23 @@
+title: 'osquery: $(osquery.name) query result'
+id: 731b9f7b-42c6-5200-a8b8-a9687719ec7e
+status: stable
+level: low
+description: 'osquery: $(osquery.name) query result'
+author: Wazuh, Inc.
+logsource:
+  service: json
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24000
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24010
+  wazuh_level: 3

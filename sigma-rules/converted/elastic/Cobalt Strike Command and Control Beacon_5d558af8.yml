@@ -1,0 +1,36 @@
+title: Cobalt Strike Command and Control Beacon
+id: cf53f532-9cc9-445a-9ae7-fced307ec53c
+status: stable
+level: high
+description: 'Cobalt Strike is a threat emulation platform commonly modified and used
+  by adversaries to conduct network attack and
+
+  exploitation campaigns. This rule detects a network activity algorithm leveraged
+  by Cobalt Strike implant beacons for
+
+  command and control.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-06'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_category: (network
+    type: (tls
+    event_dataset: (network_traffic.tls
+    destination_domain: /[a-z]{3}.stage.[0-9]{8}\..*/
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1568.002
+- attack.t1071
+- attack.t1568
+references:
+- https://blog.morphisec.com/fin7-attacks-restaurant-industry
+- https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html
+- https://www.elastic.co/security-labs/collecting-cobalt-strike-beacons-with-the-elastic-stack
+falsepositives:
+- "    This rule should be tailored to either exclude systems, as sources or destinations,\
+  \ in which this behavior is\n    expected.\n    "

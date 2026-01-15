@@ -1,0 +1,24 @@
+title: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
+id: a3703eb5-e991-59ee-96c9-481507e7fe69
+status: stable
+level: high
+description: |
+  The following analytic detects when the Kerberos Pre-Authentication flag is disabled in a user account, using Windows Security Event 4738. This event indicates a change in the UserAccountControl property of a domain user object. Disabling this flag allows adversaries to perform offline brute force attacks on the user's password using the AS-REP Roasting technique. This activity is significant as it can be used by attackers with existing privileges to escalate their access or maintain persistence
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    msadchangedattributes: '*\'
+    eventcode: 4738
+  condition: selection
+tags:
+  - attack.t1558.004
+references:
+  - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+  - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
+  - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
+custom_attributes:
+  original_rule_id: 0cb847ee-9423-11ec-b2df-acde48001122
+  source_format: splunk_spl

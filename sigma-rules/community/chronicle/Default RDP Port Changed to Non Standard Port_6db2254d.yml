@@ -1,0 +1,19 @@
+title: Default RDP Port Changed to Non Standard Port
+id: d1df0066-787c-5ca0-bbc5-f3e18d596a01
+status: experimental
+level: high
+description: |
+  Detects changes to the default RDP port. Remote desktop is a common feature in operating systems. It allows a user to log into a remote system using an interactive session with a graphical user interface. Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as Remote Desktop Services (RDS).
+author: frack113
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: REGISTRY_MODIFICATION
+    target_registry_registry_value_data: DWORD (0x00000d3d)
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_change_rdp_port.yml
+custom_attributes:
+  original_rule_id: mr_13e82052-08dc-4475-b0df-d22fc689e4c8
+  source_format: chronicle_yaral

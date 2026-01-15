@@ -1,0 +1,38 @@
+title: 'Fortigate: Multiple changed configuration events from same source.'
+id: 2c2648fc-f4fe-5af6-91a2-9497415bdf11
+status: stable
+level: medium
+description: 'Fortigate: Multiple changed configuration events from same source.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 45s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 18
+    ignore_window: 240s
+  - type: sequence
+    parent_rule: wazuh-81608
+    window:
+      maxspan: 45s
+    enforce_order: true
+tags:
+  - attack.t1089
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-81609
+  wazuh_level: 8

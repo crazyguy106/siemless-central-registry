@@ -1,0 +1,18 @@
+title: Email Attachments With Lots Of Spaces
+id: ce2a1fd5-a3b2-51a3-ab91-b55e0c7ad9bc
+status: experimental
+level: medium
+description: |
+  The following analytic detects email attachments with an unusually high number of spaces in their file names, which is a common tactic used by attackers to obfuscate file extensions. It leverages the Email data model to identify attachments where the ratio of spaces to the total file name length exceeds 10%. This behavior is significant as it may indicate an attempt to bypass security filters and deliver malicious payloads. If confirmed malicious, this activity could lead to the execution of har
+author: David Dorsey, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    file_name: '*'
+    datamodel: Email
+    field: recipient_address
+  condition: selection
+custom_attributes:
+  original_rule_id: 56e877a6-1455-4479-ada6-0550dc1e22f8
+  source_format: splunk_spl

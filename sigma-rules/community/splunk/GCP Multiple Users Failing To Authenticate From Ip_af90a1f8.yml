@@ -1,0 +1,28 @@
+title: GCP Multiple Users Failing To Authenticate From Ip
+id: 69f37dca-4a52-5b14-86ac-495ebeb4c679
+status: stable
+level: medium
+description: |
+  The following analytic detects a single source IP address failing to authenticate into more than 20 unique Google Workspace user accounts within a 5-minute window. It leverages Google Workspace login failure events to identify potential password spraying attacks. This activity is significant as it may indicate an adversary attempting to gain unauthorized access or elevate privileges within the Google Cloud Platform. If confirmed malicious, this behavior could lead to unauthorized access to sensi
+author: Bhavin Patel, Splunk
+logsource:
+  product: gcp
+  category: authentication
+detection:
+  selection:
+    type: login
+    name: login_failure
+    span: 5m
+  condition: selection
+tags:
+  - attack.t1110.003
+  - attack.t1110.004
+  - attack.t1586.003
+references:
+  - https://cloud.google.com/blog/products/identity-security/how-google-cloud-can-help-stop-credential-stuffing-attacks
+  - https://www.slideshare.net/dafthack/ok-google-how-do-i-red-team-gsuite
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://www.blackhillsinfosec.com/wp-content/uploads/2020/05/Breaching-the-Cloud-Perimeter-Slides.pdf
+custom_attributes:
+  original_rule_id: da20828e-d6fb-4ee5-afb7-d0ac200923d5
+  source_format: splunk_spl

@@ -1,0 +1,32 @@
+title: Pluggable Authentication Module (PAM) Version Discovery
+id: 135abb91-dcf4-48aa-b81a-5ad036b67c68
+status: stable
+level: low
+description: 'This rule detects PAM version discovery activity on Linux systems. PAM
+  version discovery can be an indication of an
+
+  attacker attempting to backdoor the authentication process through malicious PAM
+  modules.'
+author: Elastic (converted by SIEMLess)
+date: '2024-12-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_args: pam
+    process_name: rpm
+  condition: selection
+tags:
+- attack.persistence
+- attack.discovery
+- attack.credential_access
+- attack.t1556
+- attack.t1082
+- attack.t1543
+references:
+- https://www.group-ib.com/blog/pluggable-authentication-module/
+- https://embracethered.com/blog/posts/2022/post-exploit-pam-ssh-password-grabbing/

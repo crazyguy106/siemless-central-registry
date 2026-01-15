@@ -1,0 +1,30 @@
+title: Office Test Registry Persistence
+id: 14dab405-5dd9-450c-8106-72951af2391f
+status: stable
+level: low
+description: 'Identifies the modification of the Microsoft Office "Office Test" Registry
+  key, a registry location that can be used to
+
+  specify a DLL which will be executed every time an MS Office application is started.
+  Attackers can abuse this to gain
+
+  persistence on a compromised host.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-22'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    registry_path|endswith: \\Software\\Microsoft\\Office Test\\Special\\Perf\\*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1137
+- attack.t1112
+- attack.t1137.002
+references:
+- https://unit42.paloaltonetworks.com/unit42-technical-walkthrough-office-test-persistence-method-used-in-recent-sofacy-attacks/

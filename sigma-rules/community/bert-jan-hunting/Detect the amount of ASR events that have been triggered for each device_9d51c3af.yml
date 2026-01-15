@@ -1,0 +1,19 @@
+title: Detect the amount of ASR events that have been triggered for each device
+id: 88960e0a-4883-4758-a414-a550b6c0bbbb
+status: experimental
+level: medium
+description: |
+  This query gives an overview of the amount of ASR triggers for each device. A high amount of triggers can indicate that suspicious activities are performed on a device. Both audited and blocked events are listed.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents
+| where ActionType startswith "Asr"
+| summarize count() by DeviceName
+| sort by count_
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

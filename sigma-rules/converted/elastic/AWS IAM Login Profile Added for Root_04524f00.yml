@@ -1,0 +1,30 @@
+title: AWS IAM Login Profile Added for Root
+id: c04be7e0-b0fc-11ef-a826-f661ea17fbce
+status: stable
+level: high
+description: Identifies creation of a console login profile for the AWS account root
+  user. While CreateLoginProfile normally applies to IAM users, when performed from
+  a temporary root session (e.g., via AssumeRoot) and the userName parameter is omitted,
+  the profile is created for the root principal (self-assigned). Adversaries with
+  temporary root access may add or reset the root login profile to establish persistent
+  console access even if original access keys are rotated or disabled. Correlate with
+  recent AssumeRoot/STS activity and validate intent with the account owner.
+author: Elastic (converted by SIEMLess)
+date: '2024-12-02'
+modified: '2025-10-13'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    event_action: CreateLoginProfile
+    aws_cloudtrail_user_identity_type: Root
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1078.004
+- attack.t1098
+- attack.t1078

@@ -1,0 +1,22 @@
+title: 'Systemd: Service exited due to a failure.'
+id: b6166657-d0ef-5af6-8a6e-07b898305487
+status: stable
+level: low
+description: 'Systemd: Service exited due to a failure.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: status=1/FAILURE
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-40700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-40704
+  wazuh_level: 5

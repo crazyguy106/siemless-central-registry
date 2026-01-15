@@ -1,0 +1,19 @@
+title: MicrosoftGraphActivityLogs IP Enrichment
+id: e1bcd9dd-50df-4d3d-853c-461aeab89633
+status: experimental
+level: medium
+description: |
+  The IP information can be enriched using the [geo_info_from_ip_address()](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/geo-info-from-ip-address-function) function, which returns the country, state, city, latitude and longitude of each IPv4 and IPv6 address.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    MicrosoftGraphActivityLogs
+| extend GeoIPInfo = geo_info_from_ip_address(IPAddress)
+| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
+| project-reorder IPAddress, country, state, RequestUri
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

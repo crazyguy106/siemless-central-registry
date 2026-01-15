@@ -1,0 +1,28 @@
+title: Process Deleting Its Process File Path
+id: d788be09-3c8e-5135-991a-97df2840f303
+status: stable
+level: high
+description: |
+  The following analytic identifies a process attempting to delete its own file path, a behavior often associated with defense evasion techniques. This detection leverages Sysmon EventCode 1 logs, focusing on command lines executed via cmd.exe that include deletion commands. This activity is significant as it may indicate malware, such as Clop ransomware, trying to evade detection by removing its executable file if certain conditions are met. If confirmed malicious, this could allow the attacker t
+author: Teoderick Contreras
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    commandline:
+      - '* /c *'
+      - '* del*'
+    image: '*\\cmd.exe'
+    result: Found
+    eventcode: 1
+  condition: selection
+tags:
+  - attack.t1070
+references:
+  - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+  - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+custom_attributes:
+  original_rule_id: f7eda4bc-871c-11eb-b110-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,36 @@
+title: Unusual Parent-Child Relationship
+id: 35df0dd8-092d-4a83-88c1-5151a804f31b
+status: stable
+level: medium
+description: 'Identifies Windows programs run from unexpected parent processes. This
+  could indicate masquerading or other strange
+
+  activity on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-06-05'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - mscorsvw.exe
+    - wermgr.exe
+    - WerFault.exe
+    - WerFaultSecure.exe
+    process_parent_name|contains:
+    - SearchProtocolHost.exe
+    - taskhost.exe
+    - csrss.exe
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1055.012
+- attack.t1055
+references:
+- https://github.com/sbousseaden/Slides/blob/master/Hunting%20MindMaps/PNG/Windows%20Processes%20TH.map.png
+- https://www.andreafortuna.org/2017/06/15/standard-windows-processes-a-brief-reference/
+- https://www.elastic.co/security-labs/elastic-security-labs-steps-through-the-r77-rootkit

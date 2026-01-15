@@ -1,0 +1,20 @@
+title: Windows SIP Provider Inventory
+id: b81a34bf-7095-5047-b575-0796dac4e4de
+status: stable
+level: low
+description: |
+  The following analytic identifies all SIP (Subject Interface Package) providers on a Windows system using PowerShell scripted inputs. It detects SIP providers by capturing DLL paths from relevant events. This activity is significant because malicious SIP providers can be used to bypass trust controls, potentially allowing unauthorized code execution. If confirmed malicious, this activity could enable attackers to subvert system integrity, leading to unauthorized access or persistent threats with
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1553.003
+references:
+  - https://gist.github.com/MHaggis/75dd5db546c143ea67703d0e86cdbbd1
+custom_attributes:
+  original_rule_id: 21c5af91-1a4a-4511-8603-64fb41df3fad
+  source_format: splunk_spl

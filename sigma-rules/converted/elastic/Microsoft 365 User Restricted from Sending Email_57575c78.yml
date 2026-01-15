@@ -1,0 +1,29 @@
+title: Microsoft 365 User Restricted from Sending Email
+id: 0136b315-b566-482f-866c-1d8e2477ba16
+status: stable
+level: medium
+description: 'Identifies when a user has been restricted from sending email due to
+  exceeding sending limits of the service policies
+
+  per the Security Compliance Center.'
+author: Elastic (converted by SIEMLess)
+date: '2021-07-15'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: SecurityComplianceCenter
+    event_category: web
+    event_action: User
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+references:
+- https://docs.microsoft.com/en-us/cloud-app-security/anomaly-detection-policy
+- https://docs.microsoft.com/en-us/cloud-app-security/policy-template-reference
+falsepositives:
+- A user sending emails using personal distribution folders may trigger the event.

@@ -1,0 +1,30 @@
+title: Unusual Kill Signal
+id: cf307a5a-d503-44a4-8158-db196d99c9df
+status: stable
+level: medium
+description: 'This rule detects the use of unusual kill signals, specifically kill
+  signals in the range of 32-64, which
+
+  are not commonly used in standard operations. Rootkits may leverage these signals
+  to conduct certain actions,
+
+  such as manipulating processes in unexpected ways, potentially escalating privileges
+  or evading detection.'
+author: Elastic (converted by SIEMLess)
+date: '2025-07-16'
+modified: '2025-07-21'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_action: killed-pid
+    auditd_data_syscall: kill
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1014
+references:
+- https://github.com/m0nad/Diamorphine/blob/master/diamorphine.c#L302
+- https://www.elastic.co/security-labs/linux-detection-engineering-with-auditd

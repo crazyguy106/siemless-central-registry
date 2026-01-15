@@ -1,0 +1,22 @@
+title: 'sshd: Possible attack on the ssh server'
+id: 4fc7f231-9d40-58f8-853d-046d4ab4adfd
+status: stable
+level: medium
+description: 'sshd: Possible attack on the ssh server'
+author: Wazuh, Inc.
+logsource:
+  product: macos
+detection:
+  selection:
+    message|contains: Bad protocol version identification
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-64250
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64264
+  wazuh_level: 8

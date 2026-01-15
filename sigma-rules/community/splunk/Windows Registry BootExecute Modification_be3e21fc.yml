@@ -1,0 +1,22 @@
+title: Windows Registry BootExecute Modification
+id: 8bef7281-deee-549e-af82-9fc2ea3c5c61
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the BootExecute registry key, which manages applications and services executed during system boot. It leverages data from the Endpoint.Registry data model, focusing on changes to the registry path "HKLM\\System\\CurrentControlSet\\Control\\Session Manager\\BootExecute". This activity is significant because unauthorized changes to this key can indicate attempts to achieve persistence, load malicious code, or tamper with the boot process. If confirme
+author: Michael Haag, Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\System\\CurrentControlSet\\Control\\Session Manager\\BootExecute'
+  condition: selection
+tags:
+  - attack.t1542
+  - attack.t1547.001
+references:
+  - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
+custom_attributes:
+  original_rule_id: eabbac3a-45aa-4659-920f-6b8cff383fb8
+  source_format: splunk_spl

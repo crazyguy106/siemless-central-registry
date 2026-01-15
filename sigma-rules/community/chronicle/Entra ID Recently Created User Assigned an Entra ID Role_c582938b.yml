@@ -1,0 +1,32 @@
+title: Entra ID Recently Created User Assigned an Entra ID Role
+id: a08e0a74-0a43-5716-ab7a-6f1f10385049
+status: experimental
+level: high
+description: Detect users who are newly created and then immediately assigned administrator level roles
+author: Google Cloud Security
+logsource:
+  product: azure
+  category: file_event
+detection:
+  selection:
+    metadata_event_type:
+      - USER_CREATION
+      - USER_CHANGE_PERMISSIONS
+    metadata_product_event_type:
+      - Add user
+      - Add member to role
+    metadata_product_name:
+      - Azure AD Directory Audit
+      - Azure AD Directory Audit
+    metadata_vendor_name:
+      - Microsoft
+      - Microsoft
+    security_result_action:
+      - ALLOW
+      - ALLOW
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference
+custom_attributes:
+  original_rule_id: mr_ab6067cd-b8a0-49f7-9efb-8a9b3b096a49
+  source_format: chronicle_yaral

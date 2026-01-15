@@ -1,0 +1,28 @@
+title: Persistence via DirectoryService Plugin Modification
+id: 89fa6cb7-6b53-4de2-b604-648488841ab8
+status: stable
+level: medium
+description: 'Identifies the creation or modification of a DirectoryService PlugIns
+  (dsplug) file. The DirectoryService daemon
+
+  launches on each system boot and automatically reloads after crash. It scans and
+  executes bundles that are located in
+
+  the DirectoryServices PlugIns folder and can be abused by adversaries to maintain
+  persistence.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-13'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: file_event
+detection:
+  selection:
+    host_os_type: macos
+    event_action: modification
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1547
+references:
+- https://blog.chichou.me/2019/11/21/two-macos-persistence-tricks-abusing-plugins/

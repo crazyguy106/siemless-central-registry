@@ -1,0 +1,22 @@
+title: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName).'
+id: 80dad39f-0de6-50f7-8f6e-a2ff1f6e9df7
+status: stable
+level: low
+description: 'AWS Cloudtrail: $(aws.eventSource) - $(aws.eventName).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.eventName: DeleteObjects
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80202
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80251
+  wazuh_level: 3

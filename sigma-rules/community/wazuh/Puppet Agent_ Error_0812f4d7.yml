@@ -1,0 +1,29 @@
+title: 'Puppet Agent: Error'
+id: d4be6de0-9c4c-50a6-ab46-019826add5f9
+status: stable
+level: low
+description: 'Puppet Agent: Error'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^Unable to fetch
+      - does not support
+      - Not using cache
+      - Could not retrieve
+      - Failed
+      - failed
+      - has failure
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80001
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80059
+  wazuh_level: 4

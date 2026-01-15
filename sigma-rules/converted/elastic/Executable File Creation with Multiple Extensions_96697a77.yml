@@ -1,0 +1,37 @@
+title: Executable File Creation with Multiple Extensions
+id: 8b2b3a62-a598-4293-bc14-3d5fa22bb98f
+status: stable
+level: medium
+description: 'Masquerading can allow an adversary to evade defenses and better blend
+  in with the environment. One way it occurs is
+
+  when the name or location of a file is manipulated as a means of tricking a user
+  into executing what they think is a
+
+  benign file type but is actually executable code.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-19'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: creation
+    process_executable|contains:
+    - C:\\Program Files\\dotnet\\dotnet.exe
+    - C:\\Program Files\\Microsoft Visual Studio\\*.exe
+    - \\Device\\HarddiskVolume*\\Program Files\\dotnet\\dotnet.exe
+    - \\Device\\HarddiskVolume*\\Program Files\\Microsoft Visual Studio\\*.exe
+    file_path|contains:
+    - ?:\\Program Files\\QGIS *\\apps\\grass\\*.exe
+    - \\Device\\HarddiskVolume*\\Program Files\\QGIS *\\apps\\grass\\*.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1204
+- attack.t1204.002
+- attack.t1036.007
+- attack.t1036

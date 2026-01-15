@@ -1,0 +1,18 @@
+title: AdminSDHolder Modifications
+id: 847c5668-c562-51fe-b5e9-4e82155623e3
+status: stable
+level: high
+description: |
+  'This query detects modification in the AdminSDHolder  in the Active Directory which could indicate an attempt for persistence.  AdminSDHolder Modification is a persistence technique in which an attacker abuses the SDProp process in Active Directory to establish a persistent backdoor to Active Directory. This query searches for the event id 5136 where the Object DN is AdminSDHolder. Ref: https://attack.stealthbits.com/adminsdholder-modification-ad-persistence'
+author: Vasileios Paschalidis
+logsource:
+  product: azure
+detection:
+  selection:
+    _kql_reference: true
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 52aec824-96c1-4a03-8e44-bb70532e6cea
+  source_format: azure_kql

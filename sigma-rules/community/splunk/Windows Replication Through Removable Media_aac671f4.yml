@@ -1,0 +1,36 @@
+title: Windows Replication Through Removable Media
+id: baebc8e7-5948-5841-848f-27938a808b33
+status: stable
+level: high
+description: |
+  The following analytic detects the creation or dropping of executable or script files in the root directory of a removable drive. It leverages data from the Endpoint.Filesystem datamodel, focusing on specific file types and their creation paths. This activity is significant as it may indicate an attempt to spread malware, such as ransomware, via removable media. If confirmed malicious, this behavior could lead to unauthorized code execution, lateral movement, or persistence within the network, p
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    dropped_file_path_split_count: 2
+    file_name:
+      - '*.exe'
+      - '*.dll'
+      - '*.sys'
+      - '*.com'
+      - '*.vbs'
+      - '*.vbe'
+      - '*.js'
+      - '*.bat'
+      - '*.cmd'
+      - '*.pif'
+      - '*.lnk'
+      - '*.url'
+  filter:
+    root_drive: 'C:'
+  condition: selection and not filter
+tags:
+  - attack.t1091
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://www.fortinet.com/blog/threat-research/chaos-ransomware-variant-sides-with-russia
+custom_attributes:
+  original_rule_id: 60df805d-4605-41c8-bbba-57baa6a4eb97
+  source_format: splunk_spl

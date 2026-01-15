@@ -1,0 +1,21 @@
+title: Top 100 critical browser extensions with the most permissions required
+id: aa9da0bc-786e-48f9-a90b-60fdd42bc790
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Top 100 critical browser extensions with the most permissions required
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmBrowserExtensions
+| where ExtensionRisk == "Critical"
+| summarize TotalExtentions = count(), ExtentionNames = make_set(ExtensionName) by DeviceId
+| join DeviceInfo on DeviceId
+| project DeviceName, TotalExtentions, ExtentionNames
+| top 100 by TotalExtentions
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

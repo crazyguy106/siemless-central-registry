@@ -1,0 +1,29 @@
+title: Initramfs Extraction via CPIO
+id: 17b3fcd1-90fb-4f5d-858c-dc1d998fa368
+status: stable
+level: low
+description: 'This rule detects the extraction of an initramfs image using the "cpio"
+  command on Linux systems. The "cpio" command is
+
+  used to create or extract cpio archives. Attackers may extract the initramfs image
+  to modify the contents or add
+
+  malicious files, which can be leveraged to maintain persistence on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-09-29'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: cpio
+    process_args: newc
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1574
+- attack.t1543
+- attack.t1542

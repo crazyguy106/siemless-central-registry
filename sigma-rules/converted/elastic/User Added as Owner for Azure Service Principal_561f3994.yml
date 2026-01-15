@@ -1,0 +1,36 @@
+title: User Added as Owner for Azure Service Principal
+id: 38e5acdd-5f20-4d99-8fe4-f0a1a592077f
+status: stable
+level: low
+description: 'Identifies when a user is added as an owner for an Azure service principal.
+  The service principal object defines what
+
+  the application can do in the specific tenant, who can access the application, and
+  what resources the app can access. A
+
+  service principal object is created when an application is given permission to access
+  resources in a tenant. An
+
+  adversary may add a user account as an owner for a service principal and use that
+  account in order to define what an
+
+  application can do in the Azure AD tenant.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-20'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.auditlogs
+    azure_auditlogs_operation_name: Add
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1078.004
+- attack.t1098
+- attack.t1078
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals

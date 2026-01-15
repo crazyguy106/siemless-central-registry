@@ -1,0 +1,37 @@
+title: Administrator Role Assigned to an Okta User
+id: f06414a6-f2a4-466d-8eba-10f85e8abf71
+status: stable
+level: medium
+description: 'Identifies when an administrator role is assigned to an Okta user. An
+  adversary may attempt to assign an administrator
+
+  role to an Okta user in order to assign additional permissions to a user account
+  and maintain access to their target''s
+
+  environment.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-06'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: user.account.privilege.grant
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+references:
+- https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta
+- https://www.elastic.co/security-labs/okta-and-lapsus-what-you-need-to-know
+falsepositives:
+- "    Administrator roles may be assigned to Okta users by a Super Admin user. Verify\
+  \ that the behavior was expected.\n    Exceptions can be added to this rule to filter\
+  \ expected behavior.\n    "

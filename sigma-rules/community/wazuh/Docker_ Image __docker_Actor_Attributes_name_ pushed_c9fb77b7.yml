@@ -1,0 +1,22 @@
+title: 'Docker: Image $(docker.Actor.Attributes.name) pushed'
+id: a91db437-17ff-5718-8031-4cb9481362cc
+status: stable
+level: low
+description: 'Docker: Image $(docker.Actor.Attributes.name) pushed'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^push$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87958
+  wazuh_level: 3

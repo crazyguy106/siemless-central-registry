@@ -1,0 +1,22 @@
+title: Detect Renamed RClone
+id: 112f2be6-fc43-5159-a4ca-2202d202c753
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of a renamed `rclone.exe` process, which is commonly used for data exfiltration to remote destinations. This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and original file names that do not match. This activity is significant because ransomware groups often use RClone to exfiltrate sensitive data. If confirmed malicious, this behavior could indicate an ongoing data exfiltration attempt, potentially lea
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1020
+references:
+  - https://redcanary.com/blog/rclone-mega-extortion/
+  - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+  - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+custom_attributes:
+  original_rule_id: 6dca1124-b3ec-11eb-9328-acde48001122
+  source_format: splunk_spl

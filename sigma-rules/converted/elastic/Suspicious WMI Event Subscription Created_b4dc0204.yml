@@ -1,0 +1,32 @@
+title: Suspicious WMI Event Subscription Created
+id: e72f87d0-a70e-4f8d-8443-a6407bc34643
+status: stable
+level: medium
+description: 'Detects the creation of a WMI Event Subscription. Attackers can abuse
+  this mechanism for persistence or to elevate to
+
+  SYSTEM privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2023-02-02'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_dataset: endpoint.events.api
+    event_code: '21'
+    event_provider: Microsoft-Windows-WMI-Activity
+    process_Ext_api_name: IWbemServices::PutInstance
+    winlog_event_data_Consumer|contains:
+    - '*subscription:CommandLineEventConsumer*'
+    - '*subscription:ActiveScriptEventConsumer*'
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1546.003
+- attack.t1546
+references:
+- https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
+- https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96

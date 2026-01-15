@@ -1,0 +1,29 @@
+title: Azure Active Directory High Risk User Sign-in Heuristic
+id: 26edba02-6979-4bce-920a-70b080a7be81
+status: stable
+level: medium
+description: 'Identifies high risk Azure Active Directory (AD) sign-ins by leveraging
+  Microsoft Identity Protection machine learning
+
+  and heuristics.'
+author: Elastic (converted by SIEMLess)
+date: '2021-10-18'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.signinlogs
+    azure_signinlogs_properties_risk_state: ("confirmedCompromised
+    event_outcome: (success
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1078.004
+- attack.t1078
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/reports-monitoring/reference-azure-monitor-sign-ins-log-schema
+- https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/overview-identity-protection
+- https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-investigate-risk
+- https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-investigate-risk#investigation-framework

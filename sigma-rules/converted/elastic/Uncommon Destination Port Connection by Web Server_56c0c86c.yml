@@ -1,0 +1,33 @@
+title: Uncommon Destination Port Connection by Web Server
+id: 00546494-5bb0-49d6-9220-5f3b4c12f26a
+status: stable
+level: low
+description: 'This rule identifies unusual destination port network activity originating
+  from a web server process. The
+
+  rule is designed to detect potential web shell activity or unauthorized communication
+  from a web server
+
+  process to external systems.'
+author: Elastic (converted by SIEMLess)
+date: '2025-03-05'
+modified: '2025-04-07'
+logsource:
+  product: linux
+  category: network_connection
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: connection_attempted
+    network_direction: egress
+  condition: selection
+tags:
+- attack.persistence
+- attack.execution
+- attack.command_and_control
+- attack.t1505
+- attack.t1071
+- attack.t1505.003
+- attack.t1059
+- attack.t1059.004

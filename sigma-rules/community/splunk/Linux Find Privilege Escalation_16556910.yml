@@ -1,0 +1,24 @@
+title: Linux Find Privilege Escalation
+id: 1f34a557-18ca-5db1-9ab3-e030b6a68346
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the 'find' command with 'sudo' and '-exec' options, which can indicate an attempt to escalate privileges on a Linux system. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line arguments. This activity is significant because it can allow a user to execute system commands as root, potentially leading to a root shell. If confirmed malicious, this could enable an attacker to gain f
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*find*'
+      - '*-exec*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/find/
+  - https://en.wikipedia.org/wiki/Find_(Unix)
+custom_attributes:
+  original_rule_id: 2ff4e0c2-8256-4143-9c07-1e39c7231111
+  source_format: splunk_spl

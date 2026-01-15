@@ -1,0 +1,25 @@
+title: O365 Email Reported By Admin Found Malicious
+id: b8fbaa5a-dfcd-5ab3-ac96-1e1400384055
+status: stable
+level: high
+description: |
+  The following analytic detects when an email manually submitted to Microsoft through the Security & Compliance portal is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by administrative users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
+author: Steven Dick
+logsource:
+  product: splunk
+detection:
+  selection:
+    workload: SecurityComplianceCenter
+    operation: AdminSubmission
+    rescanverdict:
+      - Phish
+      - Malware
+  condition: selection
+tags:
+  - attack.t1566.001
+  - attack.t1566.002
+references:
+  - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/submissions-outlook-report-messages?view=o365-worldwide
+custom_attributes:
+  original_rule_id: 94396c3e-7728-422a-9956-e4b77b53dbdf
+  source_format: splunk_spl

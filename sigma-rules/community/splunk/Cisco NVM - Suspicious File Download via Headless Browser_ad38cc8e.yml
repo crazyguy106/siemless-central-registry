@@ -1,0 +1,100 @@
+title: Cisco NVM - Suspicious File Download via Headless Browser
+id: 839844d0-37f3-5722-b8e4-4a1086da992f
+status: stable
+level: high
+description: |
+  This analytic identifies the use of Chromium-based browsers (like Microsoft Edge) running in headless mode with the `--dump-dom` argument. This behavior has been observed in attack campaigns such as DUCKTAIL, where browsers are automated to stealthily download content from the internet using direct URLs or suspicious hosting platforms. The detection focuses on identifying connections to known file-sharing domains or direct IPs extracted from command-line arguments and cross-checks those against 
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    parent_process_arguments:
+      - '*--headless*'
+      - '*--dump-dom*'
+    process_arguments:
+      - '*--headless*'
+      - '*--dump-dom*'
+    field:
+      - parent_process_arguments
+      - process_arguments
+    direct_ip_match: 1
+    parent_process_name:
+      - brave.exe
+      - chrome.exe
+      - msedge.exe
+      - opera.exe
+      - vivaldi.exe
+    process_name:
+      - brave.exe
+      - chrome.exe
+      - msedge.exe
+      - opera.exe
+      - vivaldi.exe
+    dest:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+      - 100.64.0.0/10
+      - 127.0.0.0/8
+      - 169.254.0.0/16
+      - 192.0.0.0/24
+      - 192.0.0.0/29
+      - 192.0.0.8/32
+      - 192.0.0.9/32
+      - 192.0.0.10/32
+      - 192.0.0.170/32
+      - 192.0.0.171/32
+      - 192.0.2.0/24
+      - 192.31.196.0/24
+      - 192.52.193.0/24
+      - 192.88.99.0/24
+      - 224.0.0.0/4
+      - 192.175.48.0/24
+      - 198.18.0.0/15
+      - 198.51.100.0/24
+      - 203.0.113.0/24
+      - 240.0.0.0/4
+      - '::1'
+    dest_hostname:
+      - '*.githubusercontent.com*'
+      - '*anonfiles.com*'
+      - '*cdn.discordapp.com*'
+      - '*ddns.net*'
+      - '*dl.dropboxusercontent.com*'
+      - '*ghostbin.co*'
+      - '*glitch.me*'
+      - '*gofile.io*'
+      - '*hastebin.com*'
+      - '*mediafire.com*'
+      - '*mega.nz*'
+      - '*onrender.com*'
+      - '*pages.dev*'
+      - '*paste.ee*'
+      - '*pastebin.*'
+      - '*pastetext.net*'
+      - '*privatlab.*'
+      - '*send.exploit.in*'
+      - '*sendspace.com*'
+      - '*storage.googleapis.com*'
+      - '*storjshare.io*'
+      - '*supabase.co*'
+      - '*temp.sh*'
+      - '*transfer.sh*'
+      - '*trycloudflare.com*'
+      - '*ufile.io*'
+      - '*w3spaces.com*'
+      - '*workers.dev*'
+  condition: selection
+tags:
+  - attack.t1105
+  - attack.t1059
+references:
+  - https://labs.withsecure.com/content/dam/labs/docs/WithSecure_Research_DUCKTAIL.pdf
+  - https://www.trendmicro.com/en_us/research/23/e/managed-xdr-investigation-of-ducktail-in-trend-micro-vision-one.html
+  - https://x.com/mrd0x/status/1478234484881436672?s=12
+  - https://developer.chrome.com/docs/chromium/headless
+custom_attributes:
+  original_rule_id: cd0e816f-f67d-4dbe-a153-480b546e867e
+  source_format: splunk_spl

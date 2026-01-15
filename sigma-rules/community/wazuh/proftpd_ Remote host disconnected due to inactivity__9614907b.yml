@@ -1,0 +1,22 @@
+title: 'proftpd: Remote host disconnected due to inactivity.'
+id: 37871758-fd26-5b94-b8f8-aaa3cc7a3bae
+status: stable
+level: low
+description: 'proftpd: Remote host disconnected due to inactivity.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'FTP no transfer timeout, disconnected'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11200
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11214
+  wazuh_level: 3

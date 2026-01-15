@@ -1,0 +1,32 @@
+title: 7zip CommandLine To SMB Share Path
+id: 12c58bb2-ebdc-5ffa-80d3-e6b4994be704
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of 7z or 7za processes with command lines pointing to SMB network shares. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant as it may indicate an attempt to archive and exfiltrate sensitive files to a network share, a technique observed in CONTI LEAK tools. If confirmed malicious, this behavior could lead to data exfiltration, compromising sensitive i
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - 7z.exe
+      - 7za.exe
+      - 7zr.exe
+    original_file_name:
+      - 7z.exe
+      - 7za.exe
+      - 7zr.exe
+    process:
+      - '*\\C$\\*'
+      - '*\\Admin$\\*'
+      - '*\\IPC$\\*'
+  condition: selection
+tags:
+  - attack.t1560.001
+references:
+  - https://threadreaderapp.com/thread/1423361119926816776.html
+custom_attributes:
+  original_rule_id: 01d29b48-ff6f-11eb-b81e-acde48001123
+  source_format: splunk_spl

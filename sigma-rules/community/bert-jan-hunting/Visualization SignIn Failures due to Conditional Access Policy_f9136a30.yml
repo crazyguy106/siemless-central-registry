@@ -1,0 +1,19 @@
+title: Visualization SignIn Failures due to Conditional Access Policy
+id: 5c579a0d-8e98-41e3-9df0-38f9303f043e
+status: experimental
+level: medium
+description: |
+  This visualisation will return the failure types that occur in your tenant that are related to any conditional access failure. This can be used to deterime which failures are related to a policy and if strange activity is being performed or if a policy needs to be tuned in a specific manner.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    SigninLogs
+| where ResultDescription has "Conditional Access"
+| summarize Total = count() by ResultType, ResultDescription
+| render barchart with(title="Conditional Access Failures")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

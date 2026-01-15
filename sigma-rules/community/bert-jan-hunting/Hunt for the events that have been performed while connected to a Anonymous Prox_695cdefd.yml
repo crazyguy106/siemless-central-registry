@@ -1,0 +1,28 @@
+title: Hunt for the events that have been performed while connected to a Anonymous Proxy
+id: 8aa53dba-9b87-4c8c-ab77-6ab2acf30ad2
+status: experimental
+level: medium
+description: |
+  Adversaries may create a proxy to avoid direct connections to a specific environment, the proxies can be used to disguise the source of the malicious activities. In this case it contains all CloudAppEvents where a device was connected to a proxy. This query returns all activities that have been performed while connected to a proxy. 
+
+Common false positive is Iphones connected to Icloud Private Relay to mask your IP address.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where IsAnonymousProxy == 1
+| extend UserId = tostring(parse_json(RawEventData).UserId)
+| summarize
+     TotalActivities = count(),
+     ActionsPerformed = make_set(ActionType),
+     OSUsed = make_set(OSPlatform),
+     IPsUsed = make_set(IPAddress)
+     by AccountId, UserId
+| project AccountId, UserId, TotalActivities, ActionsPerformed, OSUsed, IPsUsed
+| sort by TotalActivities
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,38 @@
+title: 'Asterisk: Multiple failed logins.'
+id: d6dd7236-b0c3-5d79-9bde-a1a567b432ae
+status: stable
+level: high
+description: 'Asterisk: Multiple failed logins.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 300s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-6210
+    window:
+      maxspan: 300s
+    enforce_order: true
+tags:
+  - attack.t1110
+  - attack.t1133
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-6251
+  wazuh_level: 10

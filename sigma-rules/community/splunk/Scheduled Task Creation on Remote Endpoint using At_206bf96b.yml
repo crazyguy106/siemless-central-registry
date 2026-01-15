@@ -1,0 +1,21 @@
+title: Scheduled Task Creation on Remote Endpoint using At
+id: 58dbf8c2-da4c-55cb-9bdc-b99e090454c9
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of scheduled tasks on remote Windows endpoints using the at.exe command. This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process creation events involving at.exe with remote command-line arguments. Identifying this activity is significant for a SOC as it may indicate lateral movement or remote code execution attempts by an attacker. If confirmed malicious, this activity could lead to unauthorized access, persistenc
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1053.002
+references:
+  - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/at
+  - https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-scheduledjob?redirectedfrom=MSDN
+custom_attributes:
+  original_rule_id: 4be54858-432f-11ec-8209-3e22fbd008af
+  source_format: splunk_spl

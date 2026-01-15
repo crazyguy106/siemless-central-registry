@@ -1,0 +1,21 @@
+title: GCP Multiple HMAC Keys Deleted
+id: 31c3e908-6f39-5968-9ae3-e80a83ca893b
+status: experimental
+level: high
+description: Detect when multiple HMAC authentication keys are deleted from GCP Storage settings.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type: RESOURCE_DELETION
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type: storage.hmacKeys.delete
+    target_application: storage.googleapis.com
+  condition: selection
+tags:
+  - attack.t1531
+custom_attributes:
+  original_rule_id: mr_75b441f1-edde-4a33-bc12-06a92ccb9ba8
+  source_format: chronicle_yaral

@@ -1,0 +1,27 @@
+title: Potential Reverse Shell via Background Process
+id: 259be2d8-3b1a-4c2c-a0eb-0c8e77f35e39
+status: stable
+level: medium
+description: 'Monitors for the execution of background processes with process arguments
+  capable of opening a socket in the /dev/tcp
+
+  channel. This may indicate the creation of a backdoor reverse connection, and should
+  be investigated further.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-20'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_args|endswith: /dev/tcp/*0>&1*
+  condition: selection
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1059.004
+- attack.t1071

@@ -1,0 +1,22 @@
+title: 'sshd: port forwarding issue'
+id: 0a36bc4e-b9da-5fe0-bd0f-38b3c868c216
+status: stable
+level: low
+description: 'sshd: port forwarding issue'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: failure direct-tcpip$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-5700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5744
+  wazuh_level: 4

@@ -1,0 +1,24 @@
+title: Excessive File Deletion In WinDefender Folder
+id: b1d9519f-a8a7-5cec-a6dc-a924a1f9d189
+status: stable
+level: high
+description: |
+  The following analytic detects excessive file deletion events in the Windows Defender folder. It leverages Sysmon EventCodes 23 and 26 to identify processes deleting multiple files within this directory. This behavior is significant as it may indicate an attempt to corrupt or disable Windows Defender, a key security component. If confirmed malicious, this activity could allow an attacker to disable endpoint protection, facilitating further malicious actions without detection.
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    targetfilename: '*\\ProgramData\\Microsoft\\Windows Defender\\*'
+    eventcode:
+      - 23
+      - 26
+  condition: selection
+tags:
+  - attack.t1485
+references:
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+custom_attributes:
+  original_rule_id: b5baa09a-7a05-11ec-8da4-acde48001122
+  source_format: splunk_spl

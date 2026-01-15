@@ -1,0 +1,20 @@
+title: M365D Alerts Correlation to non-Microsoft Network device network activity involved in successful sign-in Activity
+id: 730ed7a6-b7ff-5654-9f49-851dbc052246
+status: stable
+level: medium
+description: |
+  'This content is employed to correlate with Microsoft Defender XDR phishing-related alerts. It focuses on instances where a user successfully connects to a phishing URL from a non-Microsoft network device and subsequently makes successful sign-in attempts from the phishing IP address.'
+author: Arjun Trivedi
+logsource:
+  product: azure
+  category: network_connection
+detection:
+  selection:
+    Entities|contains: url
+    DeviceProduct|startswith: FortiGate
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 779731f7-8ba0-4198-8524-5701b7defddc
+  source_format: azure_kql

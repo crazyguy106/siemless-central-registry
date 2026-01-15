@@ -1,0 +1,22 @@
+title: 'Docker: Service $(docker.Actor.Attributes.name) updated'
+id: 8959ad27-e67c-5ec9-9ff1-34a3e936ebea
+status: stable
+level: low
+description: 'Docker: Service $(docker.Actor.Attributes.name) updated'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^update$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87954
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87956
+  wazuh_level: 3

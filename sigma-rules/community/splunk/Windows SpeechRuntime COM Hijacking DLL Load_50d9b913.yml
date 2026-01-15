@@ -1,0 +1,24 @@
+title: Windows SpeechRuntime COM Hijacking DLL Load
+id: 552b74c0-c841-584a-96b2-dfcae36c7860
+status: stable
+level: high
+description: |
+  SpeechRuntime is vulnerable to an attack that allows a user to run code on another user's session remotely and stealthily by exploiting a Windows COM class. When this class is invoked, it launches SpeechRuntime.exe in the context of the currently logged-on user. Because this COM class is susceptible to COM Hijacking, the attacker can alter the registry remotely to point to a malicious DLL. By dropping that DLL on the target system (e.g., via SMB) and triggering the COM object, the attacker cause
+author: Raven Tait, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    image: '*SpeechRuntime.exe'
+    image_loaded_lower: '*system32*'
+    eventcode: 7
+  filter:
+    image_loaded_lower: '*system32*'
+  condition: selection and not filter
+tags:
+  - attack.t1021.003
+references:
+  - https://github.com/rtecCyberSec/SpeechRuntimeMove
+custom_attributes:
+  original_rule_id: bd35738c-e93a-4e4f-be24-f6a3680b950a
+  source_format: splunk_spl

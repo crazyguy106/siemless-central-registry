@@ -1,0 +1,38 @@
+title: DNS Global Query Block List Modified or Disabled
+id: 57bfa0a9-37c0-44d6-b724-54bf16787492
+status: stable
+level: medium
+description: 'Identifies changes to the DNS Global Query Block List (GQBL), a security
+  feature that prevents the resolution of certain
+
+  DNS names often exploited in attacks like WPAD spoofing. Attackers with certain
+  privileges, such as DNSAdmins, can
+
+  modify or disable the GQBL, allowing exploitation of hosts running WPAD with default
+  settings for privilege escalation
+
+  and lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2024-05-31'
+modified: '2025-10-07'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_data_strings|contains:
+    - '0'
+    - '0x00000000'
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.credential_access
+- attack.t1562
+- attack.t1562.001
+- attack.t1557
+references:
+- https://cube0x0.github.io/Pocing-Beyond-DA/
+- https://www.thehacker.recipes/ad/movement/mitm-and-coerced-authentications/wpad-spoofing
+- https://www.netspi.com/blog/technical-blog/network-penetration-testing/adidns-revisited/

@@ -1,0 +1,38 @@
+title: Splunk AppDynamics Secure Application Alerts
+id: 7455fa33-6900-52c3-ac24-d07bb5915c59
+status: stable
+level: medium
+description: |
+  The following analytic is to leverage alerts from Splunk AppDynamics SecureApp, which identifies and monitors exploit attempts targeting business applications. The primary attack observed involves exploiting vulnerabilities in web applications, including injection attacks (SQL, API abuse), deserialization vulnerabilities, remote code execution attempts, LOG4J and zero day attacks. These attacks are typically aimed at gaining unauthorized access, exfiltrating sensitive data, or disrupting applica
+author: Ryan Long, Bhavin Patel, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    value: 0
+    signature:
+      - LOG4J
+      - API
+      - LOG4J
+      - SSRF
+      - MALIP
+      - SQL
+      - DESEREAL
+    attackoutcome:
+      - EXPLOITED
+      - ATTEMPTED
+      - OBSERVED
+    blocked: 'false'
+    risk_score:
+      - kennaScore
+      - 0
+      - 0
+      - 0
+  filter:
+    attackoutcome: OBSERVED
+  condition: selection and not filter
+references:
+  - https://docs.appdynamics.com/appd/24.x/latest/en/application-security-monitoring/integrate-cisco-secure-application-with-splunk
+custom_attributes:
+  original_rule_id: d1a45d84-8dd1-4b31-8854-62b0b1d5da0b
+  source_format: splunk_spl

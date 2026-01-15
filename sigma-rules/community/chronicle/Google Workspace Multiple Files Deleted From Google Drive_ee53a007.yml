@@ -1,0 +1,23 @@
+title: Google Workspace Multiple Files Deleted From Google Drive
+id: 59189db9-d62e-511e-a43c-c66b9ebf84f2
+status: experimental
+level: high
+description: |
+  Identifies when a user deletes multiple files from Google Drive, which may indicate data destruction.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: drive
+    metadata_product_event_type:
+      - trash
+      - delete
+  condition: selection
+tags:
+  - attack.t1485
+custom_attributes:
+  original_rule_id: mr_efa7bd41-506c-49b9-85a0-d799f0345ecf
+  source_format: chronicle_yaral

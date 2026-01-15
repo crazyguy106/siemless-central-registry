@@ -1,0 +1,23 @@
+title: SMB Traffic Spike
+id: 9b28a804-c6de-568d-93a8-1b0c7f883228
+status: experimental
+level: medium
+description: |
+  The following analytic detects spikes in Server Message Block (SMB) traffic connections, which are used for sharing files and resources between computers. It leverages network traffic logs to monitor connections on ports 139 and 445, and SMB application usage. By calculating the average and standard deviation of SMB connections over the past 70 minutes, it identifies sources exceeding two standard deviations from the average. This activity is significant as it may indicate potential SMB-based at
+author: David Dorsey, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Network_Traffic
+    dest_port:
+      - 139
+      - 445
+    app: smb
+    isoutlier: 1
+  condition: selection
+tags:
+  - attack.t1021.002
+custom_attributes:
+  original_rule_id: 7f5fb3e1-4209-4914-90db-0ec21b936378
+  source_format: splunk_spl

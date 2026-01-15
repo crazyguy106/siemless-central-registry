@@ -1,0 +1,36 @@
+title: Unsigned DLL loaded by DNS Service
+id: 5d676480-9655-4507-adc6-4eec311efff8
+status: stable
+level: medium
+description: 'Identifies unusual DLLs loaded by the DNS Server process, potentially
+  indicating the abuse of the ServerLevelPluginDll
+
+  functionality. This can lead to privilege escalation and remote code execution with
+  SYSTEM privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2024-05-29'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    file_code_signature_status: Valid
+    event_category|contains:
+    - library
+    - process
+    event_type|contains:
+    - start
+    - change
+    event_action|contains:
+    - load
+    - Image loaded*
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1068
+references:
+- https://cube0x0.github.io/Pocing-Beyond-DA/
+- https://adsecurity.org/?p=4064
+- https://github.com/gtworek/PSBits/tree/master/ServerLevelPluginDll

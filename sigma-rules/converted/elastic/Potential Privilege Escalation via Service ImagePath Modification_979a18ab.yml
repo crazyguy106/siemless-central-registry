@@ -1,0 +1,136 @@
+title: Potential Privilege Escalation via Service ImagePath Modification
+id: b66b7e2b-d50a-49b9-a6fc-3a383baedc6b
+status: stable
+level: medium
+description: 'Identifies registry modifications to default services that could enable
+  privilege escalation to SYSTEM. Attackers with
+
+  privileges from groups like Server Operators may change the ImagePath of services
+  to executables under their control or
+
+  to execute commands.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-05'
+modified: '2025-10-07'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_value: ImagePath
+    registry_key|contains:
+    - '*\\ADWS'
+    - '*\\AppHostSvc'
+    - '*\\AppReadiness'
+    - '*\\AudioEndpointBuilder'
+    - '*\\AxInstSV'
+    - '*\\camsvc'
+    - '*\\CertSvc'
+    - '*\\COMSysApp'
+    - '*\\CscService'
+    - '*\\defragsvc'
+    - '*\\DeviceAssociationService'
+    - '*\\DeviceInstall'
+    - '*\\DevQueryBroker'
+    - '*\\Dfs'
+    - '*\\DFSR'
+    - '*\\diagnosticshub.standardcollector.service'
+    - '*\\DiagTrack'
+    - '*\\DmEnrollmentSvc'
+    - '*\\DNS'
+    - '*\\dot3svc'
+    - '*\\Eaphost'
+    - '*\\GraphicsPerfSvc'
+    - '*\\hidserv'
+    - '*\\HvHost'
+    - '*\\IISADMIN'
+    - '*\\IKEEXT'
+    - '*\\InstallService'
+    - '*\\iphlpsvc'
+    - '*\\IsmServ'
+    - '*\\LanmanServer'
+    - '*\\MSiSCSI'
+    - '*\\NcbService'
+    - '*\\Netlogon'
+    - '*\\Netman'
+    - '*\\NtFrs'
+    - '*\\PlugPlay'
+    - '*\\Power'
+    - '*\\PrintNotify'
+    - '*\\ProfSvc'
+    - '*\\PushToInstall'
+    - '*\\RSoPProv'
+    - '*\\sacsvr'
+    - '*\\SENS'
+    - '*\\SensorDataService'
+    - '*\\SgrmBroker'
+    - '*\\ShellHWDetection'
+    - '*\\shpamsvc'
+    - '*\\StorSvc'
+    - '*\\svsvc'
+    - '*\\swprv'
+    - '*\\SysMain'
+    - '*\\Themes'
+    - '*\\TieringEngineService'
+    - '*\\TokenBroker'
+    - '*\\TrkWks'
+    - '*\\UALSVC'
+    - '*\\UserManager'
+    - '*\\vm3dservice'
+    - '*\\vmicguestinterface'
+    - '*\\vmicheartbeat'
+    - '*\\vmickvpexchange'
+    - '*\\vmicrdv'
+    - '*\\vmicshutdown'
+    - '*\\vmicvmsession'
+    - '*\\vmicvss'
+    - '*\\vmvss'
+    - '*\\VSS'
+    - '*\\w3logsvc'
+    - '*\\W3SVC'
+    - '*\\WalletService'
+    - '*\\WAS'
+    - '*\\wercplsupport'
+    - '*\\WerSvc'
+    - '*\\Winmgmt'
+    - '*\\wisvc'
+    - '*\\wmiApSrv'
+    - '*\\WPDBusEnum'
+    - '*\\WSearch'
+    registry_data_strings|contains:
+    - '*\\cmd.exe'
+    - '*\\cscript.exe'
+    - '*\\ieexec.exe'
+    - '*\\iexpress.exe'
+    - '*\\installutil.exe'
+    - '*\\Microsoft.Workflow.Compiler.exe'
+    - '*\\msbuild.exe'
+    - '*\\mshta.exe'
+    - '*\\msiexec.exe'
+    - '*\\msxsl.exe'
+    - '*\\net.exe'
+    - '*\\powershell.exe'
+    - '*\\pwsh.exe'
+    - '*\\reg.exe'
+    - '*\\RegAsm.exe'
+    - '*\\RegSvcs.exe'
+    - '*\\regsvr32.exe'
+    - '*\\rundll32.exe'
+    - '*\\vssadmin.exe'
+    - '*\\wbadmin.exe'
+    - '*\\wmic.exe'
+    - '*\\wscript.exe'
+  condition: selection
+tags:
+- attack.execution
+- attack.privilege_escalation
+- attack.t1574
+- attack.t1569.002
+- attack.t1569
+- attack.t1543.003
+- attack.t1574.011
+- attack.t1543
+references:
+- https://cube0x0.github.io/Pocing-Beyond-DA/

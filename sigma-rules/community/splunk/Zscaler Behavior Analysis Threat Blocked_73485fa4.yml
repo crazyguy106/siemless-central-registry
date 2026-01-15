@@ -1,0 +1,23 @@
+title: Zscaler Behavior Analysis Threat Blocked
+id: 44d6f9fc-932c-53f8-9da5-93f620c4f4e4
+status: stable
+level: medium
+description: |
+  The following analytic identifies threats blocked by the Zscaler proxy based on behavior analysis. It leverages web proxy logs to detect entries where actions are blocked and threat names and classes are specified. This detection is significant as it highlights potential malicious activities that were intercepted by Zscaler's behavior analysis, providing early indicators of threats. If confirmed malicious, these blocked threats could indicate attempted breaches or malware infections, helping sec
+author: Rod Soto, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    threatclass: Behavior Analysis
+    action: blocked
+  filter:
+    threatname: 'None'
+  condition: selection and not filter
+tags:
+  - attack.t1566
+references:
+  - https://help.zscaler.com/zia/nss-feed-output-format-web-logs
+custom_attributes:
+  original_rule_id: 289ad59f-8939-4331-b805-f2bd51d36fb8
+  source_format: splunk_spl

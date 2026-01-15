@@ -1,0 +1,24 @@
+title: Linux PHP Privilege Escalation
+id: 0b7435fa-b717-54c2-8048-347a8cf89e53
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of PHP commands with elevated privileges on a Linux system. It identifies instances where PHP is used in conjunction with 'sudo' and 'system' commands, indicating an attempt to run system commands as the root user. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command-line arguments. This activity is significant because it can indicate an attempt to escalate privileges, potentially leading to full
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*php*-r*'
+      - '*system*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/php/
+  - https://en.wikipedia.org/wiki/PHP
+custom_attributes:
+  original_rule_id: 4fc4c031-e5be-4cc0-8cf9-49f9f507bcb5
+  source_format: splunk_spl

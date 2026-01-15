@@ -1,0 +1,33 @@
+title: Code Signing Policy Modification Through Built-in tools
+id: b43570de-a908-4f7f-8bdb-b2df6ffd8c80
+status: stable
+level: medium
+description: 'Identifies attempts to disable/modify the code signing policy through
+  system native utilities. Code signing provides
+
+  authenticity on a program, and grants the user with the ability to check whether
+  the program has been tampered with. By
+
+  allowing the execution of unsigned or self-signed code, threat actors can craft
+  and execute malicious code.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-31'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: bcdedit.exe
+    process_args|contains:
+    - TESTSIGNING
+    - nointegritychecks
+    - loadoptions
+    - DISABLE_INTEGRITY_CHECKS
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1553
+- attack.t1553.006

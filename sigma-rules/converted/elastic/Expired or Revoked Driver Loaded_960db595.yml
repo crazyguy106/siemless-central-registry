@@ -1,0 +1,30 @@
+title: Expired or Revoked Driver Loaded
+id: d12bac54-ab2a-4159-933f-d7bcefa7b61d
+status: stable
+level: medium
+description: 'Identifies an attempt to load a revoked or expired driver. Adversaries
+  may bring outdated drivers with vulnerabilities
+
+  to gain code execution in kernel mode or abuse revoked certificates to sign their
+  drivers.'
+author: Elastic (converted by SIEMLess)
+date: '2023-06-26'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: driver_load
+detection:
+  selection:
+    host_os_type: windows
+    dll_code_signature_status|contains:
+    - errorExpired
+    - errorRevoked
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1036.001
+- attack.t1068
+- attack.t1036
+references:
+- https://docs.microsoft.com/en-us/previous-versions/windows/hardware/design/dn653559(v=vs.85)?redirectedfrom=MSDN

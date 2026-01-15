@@ -1,0 +1,51 @@
+title: Windows AD DCShadow Privileges ACL Addition
+id: 33857e6d-2b1e-50d9-b2f0-322218e09aea
+status: stable
+level: high
+description: |
+  This detection identifies an Active Directory access-control list (ACL) modification event, which applies the minimum required extended rights to perform the DCShadow attack.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    aceaccessrights: CCDCLCSWRPWPDTLOCRSDRCWDWO
+    acecontrolaccessrights:
+      - Add/Remove Replica In Domain
+      - Manage Replication Topology
+      - Replication Synchronization
+      - 9923a32a-3607-11d2-b9be-0000f87a36b2
+      - 1131f6ab-9c07-11d1-f79f-00c04fc2dcd2
+      - 1131f6ac-9c07-11d1-f79f-00c04fc2dcd2
+    eventcode: 5136
+    objectclass: domainDNS
+    field:
+      - old_value
+      - new_value
+      - new_ace
+      - aceAccessRights
+      - aceFlags
+    max_match:
+      - 10000
+      - 10000
+      - 100
+      - 100
+    new_ace:
+      - old_values
+    aceobjectguid:
+      - 9923a32a-3607-11d2-b9be-0000f87a36b2
+      - 1131f6ab-9c07-11d1-f79f-00c04fc2dcd2
+      - 1131f6ac-9c07-11d1-f79f-00c04fc2dcd2
+  condition: selection
+tags:
+  - attack.t1484
+  - attack.t1207
+  - attack.t1222.001
+references:
+  - https://www.labofapenetrationtester.com/2018/04/dcshadow.html
+  - https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1
+  - https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+  - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+custom_attributes:
+  original_rule_id: ae915743-1aa8-4a94-975c-8062ebc8b723
+  source_format: splunk_spl

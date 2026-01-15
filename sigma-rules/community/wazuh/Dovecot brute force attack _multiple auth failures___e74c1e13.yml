@@ -1,0 +1,37 @@
+title: Dovecot brute force attack (multiple auth failures).
+id: 37e79eea-86c2-5bbb-9a2f-68442d0d2ace
+status: stable
+level: high
+description: Dovecot brute force attack (multiple auth failures).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 240s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-9705
+    window:
+      maxspan: 240s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9751
+  wazuh_level: 10

@@ -1,0 +1,20 @@
+title: Randomly Generated Windows Service Name
+id: 118cf160-8b22-55b4-af14-59073de971dc
+status: experimental
+level: low
+description: |
+  The following analytic detects the installation of a Windows Service with a suspicious, high-entropy name, indicating potential malicious activity. It leverages Event ID 7045 and the `ut_shannon` function from the URL ToolBox Splunk application to identify services with random names. This behavior is significant as adversaries often use randomly named services for lateral movement and remote code execution. If confirmed malicious, this activity could allow attackers to execute arbitrary code, es
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 7045
+  condition: selection
+tags:
+  - attack.t1543.003
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+custom_attributes:
+  original_rule_id: 2032a95a-5165-11ec-a2c3-3e22fbd008af
+  source_format: splunk_spl

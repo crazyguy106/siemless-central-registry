@@ -1,0 +1,37 @@
+title: 'Asterisk: Multiple failed logins (user enumeration in process).'
+id: 3b2d5378-5ffb-5cc3-aed0-6a78d9da22d9
+status: stable
+level: high
+description: 'Asterisk: Multiple failed logins (user enumeration in process).'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 300s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-6211
+    window:
+      maxspan: 300s
+    enforce_order: true
+tags:
+  - attack.t1133
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-6250
+  wazuh_level: 10

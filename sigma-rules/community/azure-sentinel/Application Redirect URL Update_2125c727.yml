@@ -1,0 +1,21 @@
+title: Application Redirect URL Update
+id: faa0c05a-65f6-5823-b8b0-17a351f170f3
+status: stable
+level: medium
+description: |
+  'Detects the redirect URL of an app being changed.   Applications associated with URLs not controlled by the organization can pose a security risk.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-applications#application-configuration-changes'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Category: ApplicationManagement
+    Result: success
+    OperationName: Update Application
+    TargetResources|contains: AppAddress
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: a1080fc1-13d1-479b-8340-255f0290d96c
+  source_format: azure_kql

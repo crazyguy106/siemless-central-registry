@@ -1,0 +1,22 @@
+title: Windows Global Object Access Audit List Cleared Via Auditpol
+id: 320f7a2e-0c92-55f8-b9a6-1c519b190372
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of `auditpol.exe` with the "/resourceSACL" flag, and either the "/clear" or "/remove" command-line arguments used to remove or clear the global object access audit policy. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity can be significant as it indicates potential defense evasion by adversaries or Red Teams, aiming to limit data that can be leveraged for detec
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*/clear*'
+      - '*/remove*'
+  condition: selection
+tags:
+  - attack.t1562.002
+references:
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-resourcesacl
+custom_attributes:
+  original_rule_id: 802a0930-0a4a-4451-bf6c-6366c6b6d9e7
+  source_format: splunk_spl

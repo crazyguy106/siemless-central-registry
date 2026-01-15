@@ -1,0 +1,23 @@
+title: Cisco ASA - User Privilege Level Change
+id: f023f9b7-95f4-5f3c-811d-9c4169cbbfb8
+status: stable
+level: medium
+description: |
+  This analytic detects privilege level changes for user accounts on Cisco ASA devices via CLI or ASDM. Adversaries may escalate account privileges to gain elevated access to network infrastructure, enable additional command execution capabilities, or establish higher-level persistent access. Privilege levels on Cisco ASA range from 0 (lowest) to 15 (full administrative access), with level 15 providing complete device control. The detection monitors for ASA message ID 502103, which is generated wh
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    message_id:
+      - 502103
+  condition: selection
+tags:
+  - attack.t1078.003
+  - attack.t1098
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773975
+  - https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/RayInitiator-LINE-VIPER/ncsc-mar-rayinitiator-line-viper.pdf
+custom_attributes:
+  original_rule_id: 5f7d8c3e-9a2b-4d6f-8e1c-3b5a9d7f2c4e
+  source_format: splunk_spl

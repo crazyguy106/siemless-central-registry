@@ -1,0 +1,37 @@
+title: O365 Mail Permissioned Application Consent Granted by User
+id: b97cb13a-66a6-59a2-9223-c7ec69ec0fed
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where a user grants consent to an application requesting mail-related permissions within the Office 365 environment. It leverages O365 audit logs, specifically focusing on events related to application permissions and user consent actions. This activity is significant as it can indicate potential security risks, such as data exfiltration or spear phishing, if malicious applications gain access. If confirmed malicious, this could lead to unauthorized da
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    operation: Consent to application.
+    delim: ' '
+    workload: AzureActiveDirectory
+    resultstatus: Success
+    admin_consent: 'False'
+    field: permissions
+    scope:
+      - Mail.Read
+      - Mail.ReadBasic
+      - Mail.ReadWrite
+      - Mail.Read.Shared
+      - Mail.ReadWrite.Shared
+      - Mail.Send
+      - Mail.Send.Shared
+  condition: selection
+tags:
+  - attack.t1528
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
+  - https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/protect-against-consent-phishing
+  - https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+  - https://www.alteredsecurity.com/post/introduction-to-365-stealer
+custom_attributes:
+  original_rule_id: fddad083-cdf5-419d-83c6-baa85e329595
+  source_format: splunk_spl

@@ -1,0 +1,23 @@
+title: Domain Controller Discovery with Nltest
+id: 1730089d-1b94-563d-9227-17e7601bc475
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `nltest.exe` with command-line arguments `/dclist:` or `/dsgetdc:` to discover domain controllers. It leverages Endpoint Detection and Response (EDR) data, focusing on process names and command-line arguments. This activity is significant because both Red Teams and adversaries use `nltest.exe` for situational awareness and Active Directory discovery. If confirmed malicious, this behavior could allow attackers to map out domain controllers, facilita
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*/dclist:*'
+      - '*/dsgetdc:*'
+  condition: selection
+tags:
+  - attack.t1018
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc731935(v=ws.11)
+custom_attributes:
+  original_rule_id: 41243735-89a7-4c83-bcdd-570aa78f00a1
+  source_format: splunk_spl

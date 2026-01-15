@@ -1,0 +1,27 @@
+title: Function: AVScanResults()
+id: aeeb06b1-f20f-4030-9b9e-c4e78a2599d5
+status: experimental
+level: medium
+description: |
+  The KQL function *AVScanResults()* collects this information, the function uses two input variables *DeviceIdInput* and *AvScanType*. *DeviceIdInput* is the DeviceId from the device you want to list results, the *AvScanType* can be either Quick, Full or Custom.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // AvScanType can be: Quick, Custom or Full
+let AVScanResults = (DeviceIdInput:string, AvScanType:string) {
+ DeviceTvmInfoGathering
+ | where DeviceId == DeviceIdInput
+ | extend AvScanResults = extractjson("$", tostring(AdditionalFields.AvScanResults))
+ | mv-expand todynamic(AvScanResults)
+ | extend Results = AvScanResults[AvScanType]
+ | extend ScanStatus = extractjson("$.ScanStatus", tostring(Results)), ErrorCode = extractjson("$.ErrorCode", tostring(Results)), Timestamp = extractjson("$.Timestamp", tostring(Results))
+ | where isnotempty(ScanStatus)
+ | project DeviceId, DeviceName, ScanStatus, Timestamp, ErrorCode, AvScanResults
+ };
+AVScanResults("70da955b16e5717fc3xxxxxxxxxxxxx", "Full")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

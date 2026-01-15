@@ -1,0 +1,33 @@
+title: Potential Kubectl Masquerading via Unexpected Process
+id: 2388c687-cb2c-4b7b-be8f-6864a2385048
+status: stable
+level: low
+description: 'This rule detects potential kubectl masquerading activity by monitoring
+  for process events where the process name
+
+  is not "kubectl" but the command line arguments include kubectl-related commands.
+  This could indicate an adversary
+
+  attempting to masquerade as legitimate kubectl activity to evade detection. This
+  rule covers evasion gaps
+
+  introduced by renaming the kubectl binary, or placing it in an unusual directory.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-19'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: .flatpak-wrapped
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1564
+- attack.t1036.003
+- attack.t1036
+references:
+- https://kubernetes.io/docs/reference/kubectl/

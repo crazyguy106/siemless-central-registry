@@ -1,0 +1,43 @@
+title: File Creation Time Changed
+id: 166727ab-6768-4e26-b80c-948b228ffc06
+status: stable
+level: medium
+description: 'Identifies modification of a file creation time. Adversaries may modify
+  file time attributes to blend malicious content
+
+  with existing files. Timestomping is a technique that modifies the timestamps of
+  a file often to mimic files that are in
+
+  trusted directories.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-17'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_provider: Microsoft-Windows-Sysmon
+    event_code: '2'
+    process_executable|contains: ?:\\Program Files\\*
+    file_extension|contains:
+    - temp
+    - tmp
+    - ~tmp
+    - xml
+    - newcfg
+    user_name|contains:
+    - SYSTEM
+    - Local Service
+    - Network Service
+    file_name|contains:
+    - LOG
+    - temp-index
+    - license.rtf
+    - iconcache_*.db
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.006
+- attack.t1070

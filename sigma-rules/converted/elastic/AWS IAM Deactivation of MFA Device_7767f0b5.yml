@@ -1,0 +1,49 @@
+title: AWS IAM Deactivation of MFA Device
+id: d8fc1cca-93ed-43c1-bbb6-c0dd3eff2958
+status: stable
+level: medium
+description: 'Detects the deactivation of a Multi-Factor Authentication (MFA) device
+  in AWS Identity and Access Management (IAM). MFA
+
+  provides critical protection against unauthorized access by requiring a second factor
+  for authentication. Adversaries or
+
+  compromised administrators may deactivate MFA devices to weaken account protections,
+  disable strong authentication, or
+
+  prepare for privilege escalation or persistence. This rule monitors successful DeactivateMFADevice
+  API calls, which
+
+  represent the point at which MFA protection is actually removed.'
+author: Elastic (converted by SIEMLess)
+date: '2020-05-26'
+modified: '2025-11-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    event_action: DeactivateMFADevice
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.persistence
+- attack.t1556.006
+- attack.t1531
+- attack.t1556
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/deactivate-mfa-device.html
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html
+falsepositives:
+- "    MFA device deactivation may occur legitimately during device rotation, user\
+  \ offboarding, or troubleshooting. For\n    example, AWS requires deactivation of\
+  \ an existing MFA device before adding a replacement. These actions are often\n\
+  \    performed by administrators following approved change-control processes. To\
+  \ reduce false positives, validate whether\n    the deactivation aligns with a documented\
+  \ workflow, known device replacement, or expected maintenance window. If\n    performed\
+  \ outside of expected operational hours, by an unexpected user, or from an unfamiliar\
+  \ source IP, this event\n    should be investigated for potential credential compromise\
+  \ or unauthorized tampering.\n    "

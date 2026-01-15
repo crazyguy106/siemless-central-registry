@@ -1,0 +1,36 @@
+title: Dynamic Linker Copy
+id: df6f62d9-caab-4b88-affa-044f4395a1e0
+status: stable
+level: high
+description: 'Detects the copying of the Linux dynamic loader binary and subsequent
+  file creation for the purpose of creating a backup
+
+  copy. This technique was seen recently being utilized by Linux malware prior to
+  patching the dynamic loader in order to
+
+  inject and preload a malicious shared object file. This activity should never occur
+  and if it does then it should be
+
+  considered highly suspicious or malicious.'
+author: Elastic (converted by SIEMLess)
+date: '2022-07-12'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id with maxspan=1m\n[process where\
+      \ host.os.type == \"linux\" and event.type == \"start\" and process.name in\
+      \ (\"cp\", \"rsync\") and\n   process.args in (\n     \"/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\"\
+      , \"/etc/ld.so.preload\", \"/lib64/ld-linux-x86-64.so.2\",\n     \"/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\"\
+      , \"/usr/lib64/ld-linux-x86-64.so.2\"\n    )]\n[file where host.os.type == \"\
+      linux\" and event.action == \"creation\" and file.extension == \"so\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.t1574
+- attack.t1574.006
+references:
+- https://www.intezer.com/blog/incident-response/orbit-new-undetected-linux-threat/

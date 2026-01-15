@@ -1,0 +1,18 @@
+title: Suspicious Download Via Certutil.EXE
+id: a1525826-b635-579e-aeae-2c220ec61532
+status: experimental
+level: medium
+description: Detects the execution of certutil with certain flags that allow the utility to download files
+author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path: certutil.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_certutil_download.yml
+custom_attributes:
+  original_rule_id: 6b006b21-e2d5-45a9-a966-e836ebc17069
+  source_format: chronicle_yaral

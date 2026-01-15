@@ -1,0 +1,38 @@
+title: O365 Email Send and Hard Delete Exfiltration Behavior
+id: d67568c1-4b57-58af-bcec-4988b325061a
+status: stable
+level: medium
+description: |
+  The following analytic identifies when an O365 email account sends and then hard deletes an email to an external recipient within a short period (within 1 hour). This behavior may indicate a compromised account where the threat actor is attempting to remove forensic artifacts or evidence of exfiltration activity. This behavior is often seen when threat actors want to reduce the probability of detection by the compromised account owner.
+author: Steven Dick
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    status: Delivered
+    mailtime: _time
+    span:
+      - 1hr
+      - 1hr
+    max: 0
+    workload: Exchange
+    externalrecipient: 1
+    operation:
+      - SoftDelete
+      - HardDelete
+    path:
+      - \\Sent Items
+      - \\Recoverable Items\\Deletions
+  condition: selection
+tags:
+  - attack.t1114.001
+  - attack.t1070.008
+  - attack.t1485
+references:
+  - https://attack.mitre.org/techniques/T1114/
+  - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+  - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+custom_attributes:
+  original_rule_id: dd7798cf-c4f5-4114-ad0f-beacd9a33708
+  source_format: splunk_spl

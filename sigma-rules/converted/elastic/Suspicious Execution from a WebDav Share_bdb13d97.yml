@@ -1,0 +1,48 @@
+title: Suspicious Execution from a WebDav Share
+id: ee7726cc-babc-4885-988c-f915173ac0c0
+status: stable
+level: high
+description: 'Identifies attempt to execute Windows scripts from a remote WebDav Share.
+  Adversaries may abuse this method to evade
+
+  dropping malicious files to victim file system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-08-19'
+modified: '2025-08-19'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - cmd.exe
+    - powershell.exe
+    - conhost.exe
+    - wscript.exe
+    - mshta.exe
+    - curl.exe
+    - msiexec.exe
+    - bitsadmin.exe
+    - net.exe
+    process_command_line|contains:
+    - '*trycloudflare.com*'
+    - '*@SSL\\*'
+    - '*\\webdav\\*'
+    - '*\\DavWWWRoot\\*'
+    - '*\\\\*.*@8080\\*'
+    - '*\\\\*.*@80\\*'
+    - '*\\\\*.*@8443\\*'
+    - '*\\\\*.*@443\\*'
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.execution
+- attack.t1021
+- attack.t1570
+- attack.t1204
+- attack.t1021.002
+- attack.t1204.002
+falsepositives:
+- Trusted webdav shares used to host trusted content.

@@ -1,0 +1,22 @@
+title: 'Could not open configuration file, permission denied.'
+id: f46204c1-bd4b-55cb-80cc-968d2fa98e12
+status: stable
+level: low
+description: 'Could not open configuration file, permission denied.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: 'open: \S+: permission denied$'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12133
+  wazuh_level: 4

@@ -7,7 +7,7 @@ source_document: Log Event Type Codes
 source_url: https://auth0.com/docs/deploy-monitor/logs/log-event-type-codes
 extraction_date: '2026-01-02'
 source_file: auth0-signatures.json
-generated_at: '2026-01-02T23:20:35.194142'
+generated_at: '2026-01-04T09:34:54.161541'
 categories:
 - Core
 - Client
@@ -22,154 +22,269 @@ fields:
   field_type: string
   description: Internal log entry ID
   category: Core
+  ecs_field: event.internal_id
+  cim_field: internal_id
+  asim_field: EventInternalId
 - field_name: audience
   field_type: string
   description: API audience for the token request
   category: Client
+  ecs_field: url.domain
+  cim_field: audience
+  asim_field: UrlDomain
 - field_name: client_id
   field_type: string
   description: Client ID of the application
   category: Client
+  ecs_field: application.id
+  cim_field: client_id
+  asim_field: ApplicationId
 - field_name: client_name
   field_type: string
   description: Name of the application
   category: Client
+  ecs_field: application.name
+  cim_field: client_name
+  asim_field: ApplicationName
 - field_name: connection
   field_type: string
   description: Name of the connection (e.g., Username-Password-Authentication)
   category: Connection
+  ecs_field: user.identity_provider
+  cim_field: connection
+  asim_field: ActorIdProvider
 - field_name: connection_id
   field_type: string
   description: Unique identifier for the connection
   category: Connection
+  ecs_field: user.identity_provider_id
+  cim_field: connection_id
+  asim_field: ActorIdProviderId
 - field_name: date
   field_type: datetime
   description: Timestamp when the event occurred (ISO 8601)
   category: Core
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
 - field_name: description
   field_type: string
   description: Human-readable description of the event
   category: Core
+  ecs_field: message
+  cim_field: event_description
+  asim_field: EventMessage
 - field_name: details.body
   field_type: object
   description: Request body details
   category: Details
+  ecs_field: http.request.body.content
+  cim_field: request_body
+  asim_field: HttpRequestBody
 - field_name: details.completedAt
   field_type: datetime
   description: When the operation completed
   category: Details
+  ecs_field: vendor.details.completedAt
+  cim_field: details.completedAt
+  asim_field: details.completedAt
 - field_name: details.elapsedTime
   field_type: number
   description: Time taken in milliseconds
   category: Details
+  ecs_field: vendor.details.elapsedTime
+  cim_field: details.elapsedTime
+  asim_field: details.elapsedTime
 - field_name: details.error
   field_type: object
   description: Error information if authentication failed
   category: Details
+  ecs_field: error.type
+  cim_field: error_info
+  asim_field: ErrorType
 - field_name: details.error.message
   field_type: string
   description: Error message
   category: Details
+  ecs_field: error.message
+  cim_field: error_message
+  asim_field: ErrorMessage
 - field_name: details.error.type
   field_type: string
   description: Error type code
   category: Details
+  ecs_field: error.code
+  cim_field: error_type
+  asim_field: ErrorCode
 - field_name: details.initiatedAt
   field_type: datetime
   description: When the operation was initiated
   category: Details
+  ecs_field: vendor.details.initiatedAt
+  cim_field: details.initiatedAt
+  asim_field: details.initiatedAt
 - field_name: details.prompts
   field_type: array
   description: MFA prompts presented
   category: Details
+  ecs_field: event.mfa_prompts
+  cim_field: mfa_prompts
+  asim_field: EventMfaPrompts
 - field_name: details.request
   field_type: object
   description: Request information
   category: Details
+  ecs_field: event.request
+  cim_field: request_info
+  asim_field: EventRequest
 - field_name: details.response
   field_type: object
   description: Response information
   category: Details
+  ecs_field: event.response
+  cim_field: response_info
+  asim_field: EventResponse
 - field_name: details.session_id
   field_type: string
   description: Session identifier
   category: Details
+  ecs_field: event.session_id
+  cim_field: session_id
+  asim_field: EventSessionId
 - field_name: hostname
   field_type: string
   description: Hostname associated with the IP
   category: Network
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
 - field_name: ip
   field_type: ip
   description: IP address of the client
   category: Network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
 - field_name: isMobile
   field_type: boolean
   description: Whether the request came from a mobile device
   category: Network
+  ecs_field: vendor.isMobile
+  cim_field: isMobile
+  asim_field: isMobile
 - field_name: location_info.city_name
   field_type: string
   description: City name
   category: Location
+  ecs_field: source.geo.city_name
+  cim_field: city_name
+  asim_field: SrcGeoCityName
 - field_name: location_info.continent_code
   field_type: string
   description: Continent code (e.g., NA, EU)
   category: Location
+  ecs_field: source.geo.continent_code
+  cim_field: continent_code
+  asim_field: SrcGeoContinentCode
 - field_name: location_info.country_code
   field_type: string
   description: Two-letter country code (e.g., US, GB)
   category: Location
+  ecs_field: source.geo.country_iso_code
+  cim_field: country_code
+  asim_field: SrcGeoCountryCode
 - field_name: location_info.country_code3
   field_type: string
   description: Three-letter country code (e.g., USA, GBR)
   category: Location
+  ecs_field: source.geo.country_iso_code_3
+  cim_field: country_code3
+  asim_field: SrcGeoCountryCode3
 - field_name: location_info.country_name
   field_type: string
   description: Full country name
   category: Location
+  ecs_field: source.geo.country_name
+  cim_field: country_name
+  asim_field: SrcGeoCountryName
 - field_name: location_info.latitude
   field_type: number
   description: Geographic latitude
   category: Location
+  ecs_field: source.geo.location.lat
+  cim_field: latitude
+  asim_field: SrcGeoLatitude
 - field_name: location_info.longitude
   field_type: number
   description: Geographic longitude
   category: Location
+  ecs_field: source.geo.location.lon
+  cim_field: longitude
+  asim_field: SrcGeoLongitude
 - field_name: location_info.time_zone
   field_type: string
   description: Timezone of the location
   category: Location
+  ecs_field: event.timezone
+  cim_field: time_zone
+  asim_field: EventTimezone
 - field_name: log_id
   field_type: string
   description: Unique identifier for the log entry
   category: Core
+  ecs_field: event.id
+  cim_field: log_id
+  asim_field: EventOriginalUid
 - field_name: scope
   field_type: string
   description: Requested OAuth2 scopes
   category: Client
+  ecs_field: authorization.scope
+  cim_field: scope
+  asim_field: AuthorizationScope
 - field_name: strategy
   field_type: string
   description: Authentication strategy (e.g., auth0, google-oauth2, samlp)
   category: Connection
+  ecs_field: authentication.method
+  cim_field: strategy
+  asim_field: AuthenticationMethod
 - field_name: strategy_type
   field_type: string
   description: Type of strategy (social, database, enterprise)
   category: Connection
+  ecs_field: authentication.type
+  cim_field: strategy_type
+  asim_field: AuthenticationType
 - field_name: type
   field_type: string
   description: Event type code (e.g., s, f, ss, fs)
   category: Core
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
 - field_name: user_agent
   field_type: string
   description: User agent string from the browser/client
   category: User
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: UserAgent
 - field_name: user_id
   field_type: string
   description: Auth0 user ID (e.g., auth0|xxx)
   category: User
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: TargetUserId
 - field_name: user_name
   field_type: string
   description: Username or email of the user
   category: User
+  ecs_field: user.name
+  cim_field: user_name
+  asim_field: TargetUsername
+mapped_field_count: 34
 event_types:
 - code: s
   name: Success Login

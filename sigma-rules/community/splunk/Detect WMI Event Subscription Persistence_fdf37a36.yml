@@ -1,0 +1,23 @@
+title: Detect WMI Event Subscription Persistence
+id: b4d57cb5-8172-5f79-90eb-4e5be5f7e179
+status: stable
+level: high
+description: |
+  The following analytic identifies the creation of WMI Event Subscriptions, which can be used to establish persistence or perform privilege escalation. It detects EventID 19 (EventFilter creation), EventID 20 (EventConsumer creation), and EventID 21 (FilterToConsumerBinding creation) from Sysmon logs. This activity is significant because WMI Event Subscriptions can execute code with elevated SYSTEM privileges, making it a powerful persistence mechanism. If confirmed malicious, an attacker could m
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventid: 20
+  condition: selection
+tags:
+  - attack.t1546.003
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
+  - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
+  - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md
+  - https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+custom_attributes:
+  original_rule_id: 01d9a0c2-cece-11eb-ab46-acde48001122
+  source_format: splunk_spl

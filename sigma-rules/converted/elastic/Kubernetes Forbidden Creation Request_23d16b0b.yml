@@ -1,0 +1,33 @@
+title: Kubernetes Forbidden Creation Request
+id: ec81962e-4bc8-48e6-bfb0-545fc97d8f6a
+status: stable
+level: medium
+description: 'This rule detects attempts to create resources in Kubernetes clusters
+  that are forbidden by the authorization policy. It
+
+  specifically looks for creation requests that are denied with a "forbid" decision,
+  indicating that the user or service
+
+  account does not have the necessary permissions to perform the action. This activity
+  is commonly associated with
+
+  adversaries attempting to create resources in a Kubernetes environment without proper
+  authorization, which can lead to
+
+  unauthorized access, manipulation of cluster resources, lateral movement and/or
+  privilege escalation.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-24'
+modified: '2025-07-07'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_dataset: kubernetes.audit_logs
+    kubernetes_audit_verb: create
+    kubernetes_audit_stage: ResponseComplete
+  condition: selection
+tags:
+- attack.execution

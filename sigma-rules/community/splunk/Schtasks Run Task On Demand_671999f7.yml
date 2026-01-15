@@ -1,0 +1,21 @@
+title: Schtasks Run Task On Demand
+id: cde5fd04-1963-5781-a77d-9eafbfb26468
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of a Windows Scheduled Task on demand via the shell or command line. It leverages process-related data, including process name, parent process, and command-line executions, sourced from endpoint logs. The detection focuses on 'schtasks.exe' with an associated 'run' command. This activity is significant as adversaries often use it to force the execution of their created Scheduled Tasks for persistent access or lateral movement within a compromised mach
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name: schtasks.exe
+    process: '*/run*'
+  condition: selection
+tags:
+  - attack.t1053
+references:
+  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+custom_attributes:
+  original_rule_id: bb37061e-af1f-11eb-a159-acde48001122
+  source_format: splunk_spl

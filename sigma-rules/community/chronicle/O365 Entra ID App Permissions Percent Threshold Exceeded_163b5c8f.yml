@@ -1,0 +1,25 @@
+title: O365 Entra ID App Permissions Percent Threshold Exceeded
+id: 64bcaa80-fb7b-50f5-8d34-e1475dea5b14
+status: experimental
+level: medium
+description: |
+  Detects when an excessive number of permissions are assigned to an Entra ID application within a time window, potentially indicating a greedy permission grab, as a percentage from old permissions to new permissions
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_CONTENT
+    metadata_product_name: Office 365
+    metadata_product_event_type: Update application.
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+    target_resource_attribute_labels_key:
+      - OldValue_EntitlementId-
+      - NewValue_EntitlementId-
+  condition: selection
+references:
+  - https://learn.microsoft.com/en-us/graph/permissions-reference
+custom_attributes:
+  original_rule_id: mr_6dcdb335-0054-46ae-a742-ecf6ac4e442b
+  source_format: chronicle_yaral

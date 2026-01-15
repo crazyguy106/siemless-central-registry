@@ -1,0 +1,30 @@
+title: Detect Remote Access Software Usage Registry
+id: 36633144-4a80-57f7-8abd-4267333fec6a
+status: stable
+level: medium
+description: |
+  The following analytic detects when a known remote access software is added to common persistence locations on a device within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
+author: Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path:
+      - '*\\Microsoft\\Windows\\CurrentVersion\\Run*'
+      - '*\\SYSTEM\\CurrentControlSet\\Services\\*'
+    registry_value_name: ImagePath
+    field:
+      - registry_value_data
+      - registry_value_data
+    isutility: 'TRUE'
+  condition: selection
+tags:
+  - attack.t1219
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+custom_attributes:
+  original_rule_id: 33804986-25dd-43cf-bb6b-dc14956c7cbc
+  source_format: splunk_spl

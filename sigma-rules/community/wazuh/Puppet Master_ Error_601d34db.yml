@@ -1,0 +1,30 @@
+title: 'Puppet Master: Error'
+id: b9469a6f-04f9-55dd-a64e-52e88fe11eaf
+status: stable
+level: low
+description: 'Puppet Master: Error'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^Could not
+      - not found
+      - ^Not collecting
+      - ^The environment must be
+      - ^Syntax error
+      - ^Failed
+      - failed
+      - has failure
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80000
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80008
+  wazuh_level: 4

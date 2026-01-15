@@ -1,0 +1,27 @@
+title: Azure AD User Consent Blocked for Risky Application
+id: 82b6738d-cbd6-50ff-840d-5fc64b21d468
+status: stable
+level: high
+description: |
+  The following analytic detects instances where Azure AD has blocked a user's attempt to grant consent to a risky or potentially malicious application. This detection leverages Azure AD audit logs, focusing on user consent actions and system-driven blocks. Monitoring these blocked consent attempts is crucial as it highlights potential threats early on, indicating that a user might be targeted or that malicious applications are attempting to infiltrate the organization. If confirmed malicious, thi
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: Consent to application
+    reason: \
+    result: failure
+    field: permissions
+  condition: selection
+tags:
+  - attack.t1528
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
+  - https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/protect-against-consent-phishing
+  - https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+  - https://www.alteredsecurity.com/post/introduction-to-365-stealer
+custom_attributes:
+  original_rule_id: 06b8ec9a-d3b5-4882-8f16-04b4d10f5eab
+  source_format: splunk_spl

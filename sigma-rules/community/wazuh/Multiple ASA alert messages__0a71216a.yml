@@ -1,0 +1,33 @@
+title: Multiple ASA alert messages.
+id: 6bb84613-6656-5bb4-9e81-f8ae70444824
+status: stable
+level: high
+description: Multiple ASA alert messages.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 360s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-64001
+    window:
+      maxspan: 360s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64028
+  wazuh_level: 10

@@ -1,0 +1,24 @@
+title: Firewall Allowed Program Enable
+id: 2ad6f1ed-681d-5c64-b255-884f58c5c317
+status: stable
+level: medium
+description: |
+  The following analytic detects the modification of a firewall rule to allow the execution of a specific application. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events with command-line arguments related to firewall rule changes. This activity is significant as it may indicate an attempt to bypass firewall restrictions, potentially allowing unauthorized applications to communicate over the network. If confirmed malicious, this cou
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process:
+      - '*firewall*'
+      - '*allow*'
+      - '*add*'
+      - '*ENABLE*'
+  condition: selection
+tags:
+  - attack.t1562.004
+references:
+  - https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
+custom_attributes:
+  original_rule_id: 9a8f63a8-43ac-11ec-904c-acde48001122
+  source_format: splunk_spl

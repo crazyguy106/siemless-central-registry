@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Status of IP/IPv6 forwarding $(osquery.columns.name) value $(osquery.columns.current_value)'
+id: f7869cae-dee8-5ba4-a661-5b20a2a0341f
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Status of IP/IPv6 forwarding $(osquery.columns.name) value $(osquery.columns.current_value)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: ip_forwarding
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24030
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24051
+  wazuh_level: 4

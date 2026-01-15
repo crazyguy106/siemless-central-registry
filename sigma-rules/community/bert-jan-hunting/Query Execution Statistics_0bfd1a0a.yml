@@ -1,0 +1,19 @@
+title: Query Execution Statistics
+id: 33138abd-b907-46f9-b06e-273e2505e99b
+status: experimental
+level: medium
+description: |
+  List the query execution statistics for your Log Analytics Workspace, this returns the *UnqiueQueryCount* and the *TotalQueriesExecuted* for each Azure Active Directory User. 
+To audit the query executions the Azure Diagnostics settings for the Log Analytics Workspace need to be set, see references on how this can be implemented.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    LAQueryLogs
+| summarize UnqiueQueryCount = dcount(QueryText), TotalQueriesExecuted = count() by AADEmail
+| sort by AADEmail
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

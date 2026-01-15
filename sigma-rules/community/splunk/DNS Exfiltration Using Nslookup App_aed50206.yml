@@ -1,0 +1,29 @@
+title: DNS Exfiltration Using Nslookup App
+id: 8c6e5488-5ce4-5fce-8e88-aa9d56c2907c
+status: stable
+level: high
+description: |
+  The following analytic identifies potential DNS exfiltration using the nslookup application. It detects specific command-line parameters such as query type (TXT, A, AAAA) and retry options, which are commonly used by attackers to exfiltrate data. The detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process execution logs. This activity is significant as it may indicate an attempt to communicate with a Command and Control (C2) server or exfiltrate sensitive data. I
+author: Teoderick Contreras, Splunk, Wouter Jansen
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    process_name: nslookup.exe
+    process:
+      - '*-querytype=*'
+      - '*-qt=*'
+      - '*-q=*'
+      - '*-type=*'
+      - '*-retry=*'
+  condition: selection
+tags:
+  - attack.t1048
+references:
+  - https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings
+  - https://www.varonis.com/blog/dns-tunneling
+  - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+custom_attributes:
+  original_rule_id: 2452e632-9e0d-11eb-bacd-acde48001122
+  source_format: splunk_spl

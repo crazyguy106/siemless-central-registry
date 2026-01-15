@@ -1,0 +1,28 @@
+title: Ivanti Sentry Authentication Bypass
+id: 672bd842-177f-5891-9788-a9b862c70bfb
+status: stable
+level: high
+description: |
+  The following analytic identifies unauthenticated access attempts to the System Manager Portal in Ivanti Sentry, exploiting CVE-2023-38035. It detects this activity by monitoring HTTP requests to specific endpoints ("/mics/services/configservice/*", "/mics/services/*", "/mics/services/MICSLogService*") with a status code of 200. This behavior is significant for a SOC as it indicates potential unauthorized access, which could lead to OS command execution as root. If confirmed malicious, this acti
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    datamodel: Web
+    status: 200
+    url:
+      - /mics/services/configservice/*
+      - /mics/services/*
+      - /mics/services/MICSLogService*
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://github.com/horizon3ai/CVE-2023-38035/blob/main/CVE-2023-38035.py
+  - https://www.horizon3.ai/ivanti-sentry-authentication-bypass-cve-2023-38035-deep-dive/
+  - https://forums.ivanti.com/s/article/KB-API-Authentication-Bypass-on-Sentry-Administrator-Interface-CVE-2023-38035?language=en_US
+custom_attributes:
+  original_rule_id: b8e0d1cf-e6a8-4d46-a5ae-aebe18ead8f8
+  source_format: splunk_spl

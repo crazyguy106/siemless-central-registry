@@ -1,0 +1,28 @@
+title: UAC Bypass via ICMLuaUtil Elevated COM Interface
+id: 68d56fdc-7ffa-4419-8e95-81641bd6f845
+status: stable
+level: high
+description: 'Identifies User Account Control (UAC) bypass attempts via the ICMLuaUtil
+  Elevated COM interface. Attackers may attempt
+
+  to bypass UAC to stealthily execute code with elevated permissions.'
+author: Elastic (converted by SIEMLess)
+date: '2020-10-19'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_name: dllhost.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.privilege_escalation
+- attack.t1559
+- attack.t1548.002
+- attack.t1559.001
+- attack.t1548

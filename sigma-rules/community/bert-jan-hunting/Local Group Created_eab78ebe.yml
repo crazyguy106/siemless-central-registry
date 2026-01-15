@@ -1,0 +1,34 @@
+title: Local Group Created
+id: 802eed5f-c614-4cd5-8931-31f89525dc40
+status: experimental
+level: medium
+description: |
+  This query lists all the local groups that have been created, this is done by listing all SecurityGroupCreated events and filtering all group creations on Domain Controllers. The GroupDomainName can be used to identify on which device the group has been created.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let AllDomainControllers =
+    DeviceNetworkEvents
+    | where LocalPort == 88
+    | where LocalIPType == "FourToSixMapping"
+    | summarize make_set(DeviceId);
+DeviceEvents
+| where ActionType == "SecurityGroupCreated"
+| where not(DeviceId in (AllDomainControllers))
+| extend Details = parse_json(AdditionalFields)
+| extend
+    GroupName = tostring(Details.GroupName),
+    GroupDomainName = tostring(Details.GroupDomainName),
+    GroupSid = tostring(Details.GroupSid)
+| join kind=inner (DeviceInfo
+    | where Timestamp > ago(30d)
+    | summarize arg_max(Timestamp, *) by DeviceId
+    | project DeviceId, OSPlatform, DeviceType)
+    on DeviceId
+| project Timestamp, DeviceId, DeviceName, GroupName, GroupDomainName, GroupSid, OSPlatform, DeviceType, ReportId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

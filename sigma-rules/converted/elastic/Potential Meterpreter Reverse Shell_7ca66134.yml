@@ -1,0 +1,40 @@
+title: Potential Meterpreter Reverse Shell
+id: 5c895b4f-9133-4e68-9e23-59902175355c
+status: stable
+level: medium
+description: 'This detection rule identifies a sample of suspicious Linux system file
+  reads used for system fingerprinting, leveraged
+
+  by the Metasploit Meterpreter shell to gather information about the target that
+  it is executing its shell on. Detecting
+
+  this pattern is indicative of a successful meterpreter shell connection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-10'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    _original_eql: "sample by host.id, process.pid, user.id\n  [file where host.os.type\
+      \ == \"linux\" and auditd.data.syscall == \"open\" and auditd.data.a2 == \"\
+      1b6\" and file.path == \"/etc/machine-id\"]\n  [file where host.os.type == \"\
+      linux\" and auditd.data.syscall == \"open\" and auditd.data.a2 == \"1b6\" and\
+      \ file.path == \"/etc/passwd\"]\n  [file where host.os.type == \"linux\" and\
+      \ auditd.data.syscall == \"open\" and auditd.data.a2 == \"1b6\" and file.path\
+      \ == \"/proc/net/route\"]\n  [file where host.os.type == \"linux\" and auditd.data.syscall\
+      \ == \"open\" and auditd.data.a2 == \"1b6\" and file.path == \"/proc/net/ipv6_route\"\
+      ]\n  [file where host.os.type == \"linux\" and auditd.data.syscall == \"open\"\
+      \ and auditd.data.a2 == \"1b6\" and file.path == \"/proc/net/if_inet6\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sample - requires manual review
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1059.004
+- attack.t1071
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms
+- https://www.elastic.co/security-labs/linux-detection-engineering-with-auditd

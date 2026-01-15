@@ -1,0 +1,21 @@
+title: Windows Remote Services Rdp Enable
+id: a7ee7fb8-8046-5adf-b98b-c566c04db072
+status: stable
+level: high
+description: |
+  The following analytic detects modifications in the Windows registry to enable Remote Desktop Protocol (RDP) on a targeted machine. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the "fDenyTSConnections" registry value. This activity is significant as enabling RDP via registry is uncommon and often associated with adversaries or malware attempting to gain remote access. If confirmed malicious, this could allow attackers to remotely control the compromi
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Control\\Terminal Server\\fDenyTSConnections*'
+    registry_value_data: 0x00000000
+  condition: selection
+tags:
+  - attack.t1021.001
+references:
+  - https://www.hybrid-analysis.com/sample/9d6611c2779316f1ef4b4a6edcfdfb5e770fe32b31ec2200df268c3bd236ed75?environmentId=100
+custom_attributes:
+  original_rule_id: 8fbd2e88-4ea5-40b9-9217-fd0855e08cc0
+  source_format: splunk_spl

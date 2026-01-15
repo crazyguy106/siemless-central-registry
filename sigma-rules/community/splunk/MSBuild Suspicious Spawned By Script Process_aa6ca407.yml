@@ -1,0 +1,23 @@
+title: MSBuild Suspicious Spawned By Script Process
+id: c2df520d-bc8a-541f-ad67-4f5073897537
+status: stable
+level: high
+description: |
+  The following analytic detects the suspicious spawning of MSBuild.exe by Windows Script Host processes (cscript.exe or wscript.exe). This behavior is often associated with malware or adversaries executing malicious MSBuild processes via scripts on compromised hosts. The detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process creation events where MSBuild is a child of script hosts. This activity is significant as it may indicate an attempt to execute malicious co
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    parent_process_name:
+      - wscript.exe
+      - cscript.exe
+  condition: selection
+tags:
+  - attack.t1127.001
+references:
+  - https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/
+custom_attributes:
+  original_rule_id: 213b3148-24ea-11ec-93a2-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,20 @@
+title: Zscaler CryptoMiner Downloaded Threat Blocked
+id: 0699fbce-1e87-5c66-a6e6-656194b835c6
+status: stable
+level: medium
+description: |
+  The following analytic identifies attempts to download cryptomining software that are blocked by Zscaler. It leverages web proxy logs to detect blocked actions associated with cryptominer threats, analyzing key data points such as device owner, user, URL category, destination URL, and IP. This activity is significant for a SOC as it helps in early identification and mitigation of cryptomining activities, which can compromise network integrity and resource availability. If confirmed malicious, th
+author: Gowthamaraj Rajendran, Rod Soto, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    action: blocked
+  condition: selection
+tags:
+  - attack.t1566
+references:
+  - https://help.zscaler.com/zia/nss-feed-output-format-web-logs
+custom_attributes:
+  original_rule_id: ed76ce37-bab9-4ec0-bf3e-9c6a6cf43365
+  source_format: splunk_spl

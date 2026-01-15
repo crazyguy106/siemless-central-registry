@@ -1,0 +1,30 @@
+title: Windows RDP File Execution
+id: 9742cbe6-64f7-534d-8271-64548d4979d7
+status: stable
+level: high
+description: |
+  The following analytic detects when a Windows RDP client attempts to execute an RDP file from a temporary directory, downloads directory, or Outlook directories. This detection is significant as it can indicate an attempt for an adversary to deliver a .rdp file, which may be leveraged by attackers to control or exfiltrate data. If confirmed malicious, this activity could lead to unauthorized access, data theft, or further lateral movement within the network.
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '*\\AppData\\Local\\Temp\\*'
+      - '*\\Olk\\Attachments\\*'
+      - '*\\AppData\\Local\\Microsoft\\Outlook\\*'
+      - '*\\Content.Outlook\\*'
+      - '*\\Downloads\\*'
+    execution_type:
+      - temp_execution
+      - outlook_execution
+  condition: selection
+tags:
+  - attack.t1598.002
+  - attack.t1021.001
+references:
+  - https://www.microsoft.com/en-us/security/blog/2024/10/29/midnight-blizzard-conducts-large-scale-spear-phishing-campaign-using-rdp-files/
+custom_attributes:
+  original_rule_id: 0b6b12b9-8ba9-48fe-b3b8-b4e3e1cd22b4
+  source_format: splunk_spl

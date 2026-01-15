@@ -1,0 +1,29 @@
+title: Azure Automation Runbook Created or Modified
+id: 16280f1e-57e6-4242-aa21-bb4d16f13b2f
+status: stable
+level: low
+description: 'Identifies when an Azure Automation runbook is created or modified.
+  An adversary may create or modify an Azure
+
+  Automation runbook to execute malicious code and maintain persistence in their target''s
+  environment.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-18'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: (
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.execution
+- attack.t1648
+references:
+- https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor
+- https://github.com/hausec/PowerZure
+- https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a
+- https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/

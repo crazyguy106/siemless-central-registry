@@ -1,0 +1,27 @@
+title: Kerberos User Enumeration
+id: 5df7736f-4636-59b1-9407-9d2072c941fe
+status: stable
+level: medium
+description: |
+  The following analytic detects an unusual number of Kerberos Ticket Granting Ticket (TGT) requests for non-existing users from a single source endpoint. It leverages Event ID 4768 and identifies anomalies using the 3-sigma statistical rule. This behavior is significant as it may indicate an adversary performing a user enumeration attack against Active Directory. If confirmed malicious, the attacker could validate a list of usernames, potentially leading to further attacks such as brute force or 
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventcode: 4768
+    status: 0x6
+    span: 2m
+    isoutlier: 1
+  filter:
+    targetusername: '*$'
+  condition: selection and not filter
+tags:
+  - attack.t1589.002
+references:
+  - https://github.com/ropnop/kerbrute
+  - https://attack.mitre.org/techniques/T1589/002/
+  - https://redsiege.com/tools-techniques/2020/04/user-enumeration-part-3-windows/
+custom_attributes:
+  original_rule_id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
+  source_format: splunk_spl

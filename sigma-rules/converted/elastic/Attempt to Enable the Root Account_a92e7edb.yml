@@ -1,0 +1,26 @@
+title: Attempt to Enable the Root Account
+id: cc2fd2d0-ba3a-4939-b87f-2901764ed036
+status: stable
+level: medium
+description: 'Identifies attempts to enable the root account using the dsenableroot
+  command. This command may be abused by adversaries
+
+  for persistence, as the root account is disabled by default.'
+author: Elastic (converted by SIEMLess)
+date: '2020-01-04'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: dsenableroot
+    process_args: -d
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1078.003
+- attack.t1078
+references:
+- https://ss64.com/osx/dsenableroot.html

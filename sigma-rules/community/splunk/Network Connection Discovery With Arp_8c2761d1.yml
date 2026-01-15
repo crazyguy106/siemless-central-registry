@@ -1,0 +1,23 @@
+title: Network Connection Discovery With Arp
+id: edf57a98-cf2e-5e5f-8134-fcc6d5f5f29d
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of `arp.exe` with the `-a` flag, which is used to list network connections on a compromised system. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, command-line executions, and related telemetry. Monitoring this activity is significant because both Red Teams and adversaries use `arp.exe` for situational awareness and Active Directory discovery. If confirmed malicious, this activity could allo
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    process_name: arp.exe
+  condition: selection
+tags:
+  - attack.t1049
+references:
+  - https://attack.mitre.org/techniques/T1049/
+  - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+  - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+custom_attributes:
+  original_rule_id: ae008c0f-83bd-4ed4-9350-98d4328e15d2
+  source_format: splunk_spl

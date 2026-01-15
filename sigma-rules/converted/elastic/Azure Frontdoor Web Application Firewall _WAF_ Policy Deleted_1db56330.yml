@@ -1,0 +1,36 @@
+title: Azure Frontdoor Web Application Firewall (WAF) Policy Deleted
+id: 09d028a5-dcde-409f-8ae0-557cef1b7082
+status: stable
+level: low
+description: 'Identifies the deletion of a Frontdoor Web Application Firewall (WAF)
+  Policy in Azure. An adversary may delete a
+
+  Frontdoor Web Application Firewall (WAF) Policy in an attempt to evade defenses
+  and/or to eliminate barriers to their
+
+  objective.'
+author: Elastic (converted by SIEMLess)
+date: '2021-08-01'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.NETWORK/FRONTDOORWEBAPPLICATIONFIREWALLPOLICIES/DELETE
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562.007
+- attack.t1562
+references:
+- https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#networking
+falsepositives:
+- "    Azure Front Web Application Firewall (WAF) Policy deletions may be done by\
+  \ a system or network administrator. Verify\n    whether the username, hostname,\
+  \ and/or resource name should be making changes in your environment. Azure Front\
+  \ Web\n    Application Firewall (WAF) Policy deletions by unfamiliar users or hosts\
+  \ should be investigated. If known behavior\n    is causing false positives, it\
+  \ can be exempted from the rule.\n    "

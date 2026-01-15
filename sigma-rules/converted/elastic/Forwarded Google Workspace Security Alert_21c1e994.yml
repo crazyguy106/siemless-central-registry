@@ -1,0 +1,30 @@
+title: Forwarded Google Workspace Security Alert
+id: f1a6d0f4-95b8-11ed-9517-f661ea17fbcc
+status: stable
+level: high
+description: 'Identifies the occurrence of a security alert from the Google Workspace
+  alerts center. Google Workspace''s security alert
+
+  center provides an overview of actionable alerts that may be affecting an organization''s
+  domain. An alert is a warning
+
+  of a potential security issue that Google has detected.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-15'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.alert
+  condition: selection
+references:
+- https://workspace.google.com/products/admin/alert-center/
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    To tune this rule, add exceptions to exclude any google_workspace.alert.type\
+  \ which should not trigger this rule.\n    "
+- For additional tuning, severity exceptions for google_workspace.alert.metadata.severity
+  can be added.

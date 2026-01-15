@@ -1,0 +1,24 @@
+title: Detect Certify With PowerShell Script Block Logging
+id: 7db43bae-c7f0-567a-95c4-14e2559ae68b
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the Certify tool via an in-memory PowerShell function to enumerate Active Directory Certificate Services (AD CS) environments. It leverages PowerShell Script Block Logging (EventCode 4104) to identify specific command patterns associated with Certify's enumeration and exploitation functions. This activity is significant as it indicates potential reconnaissance or exploitation attempts against AD CS, which could lead to unauthorized certificate issuance. 
+author: Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4104
+    scriptblocktext:
+      - '* /ca:*'
+  condition: selection
+tags:
+  - attack.t1059.001
+  - attack.t1649
+references:
+  - https://github.com/GhostPack/Certify
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf
+custom_attributes:
+  original_rule_id: f533ca6c-9440-4686-80cb-7f294c07812a
+  source_format: splunk_spl

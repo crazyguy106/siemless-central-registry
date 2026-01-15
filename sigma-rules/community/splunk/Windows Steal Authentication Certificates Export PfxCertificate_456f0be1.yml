@@ -1,0 +1,22 @@
+title: Windows Steal Authentication Certificates Export PfxCertificate
+id: f2400b23-031f-56db-88cb-8386a4360459
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the PowerShell cmdlet `export-pfxcertificate` on the command line, indicating an attempt to export a certificate from the local Windows Certificate Store. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs and command-line arguments. This activity is significant as it may indicate an attempt to exfiltrate authentication certificates, which can be used to impersonate users or decrypt sensiti
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    process: '*export-pfxcertificate*'
+  condition: selection
+tags:
+  - attack.t1649
+references:
+  - https://dev.to/iamthecarisma/managing-windows-pfx-certificates-through-powershell-3pj
+  - https://learn.microsoft.com/en-us/powershell/module/pki/export-pfxcertificate?view=windowsserver2022-ps
+custom_attributes:
+  original_rule_id: 391329f3-c14b-4b8d-8b37-ac5012637360
+  source_format: splunk_spl

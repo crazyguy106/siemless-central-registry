@@ -1,0 +1,21 @@
+title: Enable RDP In Other Port Number
+id: 6e8f7bee-ce3d-5336-a8d2-b77251a2a4e8
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the registry that enable RDP on a machine using a non-default port number. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" and the "PortNumber" value. This activity is significant as attackers often modify RDP settings to facilitate lateral movement and maintain remote access to compromised systems. If confirmed 
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp*'
+    registry_value_name: PortNumber
+  condition: selection
+tags:
+  - attack.t1021
+references:
+  - https://www.mvps.net/docs/how-to-secure-remote-desktop-rdp/
+custom_attributes:
+  original_rule_id: 99495452-b899-11eb-96dc-acde48001122
+  source_format: splunk_spl

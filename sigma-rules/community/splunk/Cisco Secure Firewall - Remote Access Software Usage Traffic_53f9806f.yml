@@ -1,0 +1,25 @@
+title: Cisco Secure Firewall - Remote Access Software Usage Traffic
+id: c662e594-9b41-59f9-bcff-adbb14938620
+status: stable
+level: medium
+description: |
+  The following analytic detects network traffic associated with known remote access software applications that are covered by Cisco Secure Firewall Application Detectors, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. It leverages Cisco Secure Firewall Threat Defense Connection Event. This activity is significant because adversaries often use remote access tools to maintain unauthorized access to compromised environments. If confirmed malicious, this activity could allow attackers to control
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: ConnectionEvent
+    category:
+      - remote administration
+      - remote desktop control
+  condition: selection
+tags:
+  - attack.t1219
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+custom_attributes:
+  original_rule_id: ac54d39e-a75d-4f42-971d-006db3a0423a
+  source_format: splunk_spl

@@ -1,0 +1,27 @@
+title: New GitHub Owner Added
+id: 24401eca-ad0b-4ff9-9431-487a8e183af9
+status: stable
+level: medium
+description: 'Detects when a new member is added to a GitHub organization as an owner.
+  This role provides admin level privileges. Any
+
+  new owner roles should be investigated to determine it''s validity. Unauthorized
+  owner roles could indicate compromise
+
+  within your organization and provide unlimited access to data and settings.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-11'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: github.audit
+    event_action: org.add_member
+    github_permission: admin
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1136
+- attack.t1136.003

@@ -1,0 +1,21 @@
+title: ASL AWS Defense Evasion Delete CloudWatch Log Group
+id: 5ecc186b-7e86-5c54-bf28-8f968f00a505
+status: stable
+level: high
+description: |
+  The following analytic detects the deletion of CloudWatch log groups in AWS, identified through `DeleteLogGroup` events in CloudTrail logs. This method leverages Amazon Security Lake logs parsed in the OCSF format. The activity is significant because attackers may delete log groups to evade detection and disrupt logging capabilities, hindering incident response efforts. If confirmed malicious, this action could allow attackers to cover their tracks, making it difficult to trace their activities 
+author: Patrick Bareiss, Splunk
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    operation: DeleteLogGroup
+  condition: selection
+tags:
+  - attack.t1562.008
+references:
+  - https://attack.mitre.org/techniques/T1562/008/
+custom_attributes:
+  original_rule_id: 0f701b38-a0fb-43fd-a83d-d12265f71f33
+  source_format: splunk_spl

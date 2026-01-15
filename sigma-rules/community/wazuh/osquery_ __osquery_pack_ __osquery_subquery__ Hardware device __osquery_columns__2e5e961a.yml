@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Hardware device $(osquery.columns.model) triggered action $(osquery.columns.action)'
+id: dc9416e6-5a54-5d92-aa80-3cfc7ac9e13c
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Hardware device $(osquery.columns.model) triggered action $(osquery.columns.action)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: hardware_events
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24409
+  wazuh_level: 4

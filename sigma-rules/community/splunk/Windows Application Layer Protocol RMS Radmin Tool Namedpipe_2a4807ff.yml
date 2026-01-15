@@ -1,0 +1,30 @@
+title: Windows Application Layer Protocol RMS Radmin Tool Namedpipe
+id: 71fa3541-6f94-5291-a9ed-cf08137f132c
+status: stable
+level: high
+description: |
+  The following analytic detects the use of default or publicly known named pipes associated with the RMX remote admin tool. It leverages Sysmon EventCodes 17 and 18 to identify named pipe creation and connection events. This activity is significant as the RMX tool has been abused by adversaries and malware like Azorult to collect data from targeted hosts. If confirmed malicious, this could indicate unauthorized remote administration capabilities, leading to data exfiltration or further compromise
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode:
+      - 17
+      - 18
+    eventtype:
+      - CreatePipe
+      - ConnectPipe
+    pipename:
+      - \\RManFUSServerNotify32
+      - \\RManFUSCallbackNotify32
+      - \\RMSPrint*
+  condition: selection
+tags:
+  - attack.t1071
+references:
+  - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+  - https://attack.mitre.org/techniques/T1071/
+custom_attributes:
+  original_rule_id: b62a6040-49f4-47c8-b3f6-fc1adb952a33
+  source_format: splunk_spl

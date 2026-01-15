@@ -1,0 +1,54 @@
+title: Detect Outbound SMB Traffic
+id: f78ed5ca-5514-584f-93c8-d4e16eb9d322
+status: stable
+level: high
+description: |
+  The following analytic detects outbound SMB (Server Message Block) connections from internal hosts to external servers. It identifies this activity by monitoring network traffic for SMB requests directed towards the Internet, which are unusual for standard operations. This detection is significant for a SOC as it can indicate an attacker's attempt to retrieve credential hashes through compromised servers, a key step in lateral movement and privilege escalation. If confirmed malicious, this activ
+author: Bhavin Patel, Stuart Hopkins, Patrick Bareiss
+logsource:
+  product: splunk
+detection:
+  selection:
+    app: smb
+    datamodel: Network_Traffic
+    dest_port:
+      - 139
+      - 445
+    action:
+      - allowed
+      - allow
+    src_ip:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+    dest_ip:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+      - 100.64.0.0/10
+      - 127.0.0.0/8
+      - 169.254.0.0/16
+      - 192.0.0.0/24
+      - 192.0.0.0/29
+      - 192.0.0.8/32
+      - 192.0.0.9/32
+      - 192.0.0.10/32
+      - 192.0.0.170/32
+      - 192.0.0.171/32
+      - 192.0.2.0/24
+      - 192.31.196.0/24
+      - 192.52.193.0/24
+      - 192.88.99.0/24
+      - 224.0.0.0/4
+      - 192.175.48.0/24
+      - 198.18.0.0/15
+      - 198.51.100.0/24
+      - 203.0.113.0/24
+      - 240.0.0.0/4
+      - '::1'
+  condition: selection
+tags:
+  - attack.t1071.002
+custom_attributes:
+  original_rule_id: 1bed7774-304a-4e8f-9d72-d80e45ff492b
+  source_format: splunk_spl

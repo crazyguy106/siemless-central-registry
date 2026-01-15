@@ -1,0 +1,47 @@
+title: Suspicious File Downloaded from Google Drive
+id: a8afdce2-0ec1-11ee-b843-f661ea17fbcd
+status: stable
+level: medium
+description: 'Identifies suspicious file download activity from a Google Drive URL.
+  This could indicate an attempt to deliver phishing
+
+  payloads via a trusted webservice.'
+author: Elastic (converted by SIEMLess)
+date: '2023-06-19'
+modified: '2025-02-21'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    process_name|contains:
+    - Microsoft Edge
+    - chrome.exe
+    - Google Chrome
+    - google-chrome-stable
+    - google-chrome-beta
+    - google-chrome
+    - msedge.exe
+    - firefox.exe
+    - brave.exe
+    - whale.exe
+    - browser.exe
+    - dragon.exe
+    - vivaldi.exe
+    - opera.exe
+    - firefox
+    - powershell.exe
+    - curl
+    - curl.exe
+    - wget
+    - wget.exe
+    process_command_line|endswith: confirm=no_antivirus*
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1105
+references:
+- https://intelligence.abnormalsecurity.com/blog/google-drive-matanbuchus-malware
+falsepositives:
+- Approved third-party applications that use Google Drive download URLs.
+- Legitimate publicly shared files from Google Drive.

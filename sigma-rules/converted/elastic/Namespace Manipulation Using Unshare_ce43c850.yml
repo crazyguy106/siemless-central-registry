@@ -1,0 +1,37 @@
+title: Namespace Manipulation Using Unshare
+id: d00f33e7-b57d-4023-9952-2db91b1767c4
+status: stable
+level: medium
+description: 'Identifies suspicious usage of unshare to manipulate system namespaces.
+  Unshare can be utilized to escalate privileges
+
+  or escape container security boundaries. Threat actors have utilized this binary
+  to allow themselves to escape to the
+
+  host and access other resources or escalate privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-30'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_args: /usr/bin/snap
+    event_action|contains:
+    - exec
+    - exec_event
+    - start
+    process_parent_executable|contains:
+    - /usr/bin/udevadm
+    - '*/lib/systemd/systemd-udevd'
+    - /usr/bin/unshare
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1543
+references:
+- https://man7.org/linux/man-pages/man1/unshare.1.html
+- https://www.crowdstrike.com/blog/cve-2022-0185-kubernetes-container-escape-using-linux-kernel-exploit/

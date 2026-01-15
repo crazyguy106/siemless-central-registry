@@ -1,0 +1,31 @@
+title: Unusual D-Bus Daemon Child Process
+id: 9705b458-689a-4ec6-afe8-b4648d090612
+status: stable
+level: low
+description: 'This rule detects when an unusual child process is spawned from the
+  `dbus-daemon` parent process. The `dbus-daemon`
+
+  process is a message bus system that provides a way for applications to talk to
+  each other. Attackers may abuse this
+
+  process to execute malicious code or escalate privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-21'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_parent_name: dbus-daemon
+    process_parent_args: --session
+  condition: selection
+tags:
+- attack.execution
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1059
+- attack.t1059.004
+- attack.t1543

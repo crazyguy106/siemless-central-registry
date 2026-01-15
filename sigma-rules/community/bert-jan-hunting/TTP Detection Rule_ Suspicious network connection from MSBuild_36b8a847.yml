@@ -1,0 +1,20 @@
+title: TTP Detection Rule: Suspicious network connection from MSBuild
+id: 0c1b4561-f842-4196-8569-8b6ce7ee2795
+status: experimental
+level: medium
+description: |
+  Detection opportunity: MSBuild without commands
+
+In some detections, we observed the Microsoft Build Engine (msbuild.exe) making outbound network connections to IPs associated with the ArechClient2 remote access tool. In general, it is suspicious for msbuild.exe to execute without a corresponding command line, which is precisely what we observed here. Simply looking for execution of msbuild.exe without a corresponding command line and examining surrounding activity for suspicious network connections and child processes could help detect this threat.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    // Detection opportunity 5: MSBuild without commands
+DeviceNetworkEvents
+| where InitiatingProcessFileName =~ "msbuild.exe" and (isempty(InitiatingProcessCommandLine) or InitiatingProcessCommandLine =~ "msbuild.exe")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

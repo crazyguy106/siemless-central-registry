@@ -1,0 +1,22 @@
+title: 'GCP error event on project $(gcp.resource.labels.project_id), monitored resource type: $(gcp.resource.type)'
+id: 8c71dbfe-3b81-5b81-8ed6-7c8d3c86d6fd
+status: stable
+level: medium
+description: 'GCP error event on project $(gcp.resource.labels.project_id), monitored resource type: $(gcp.resource.type)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.severity: ^ERROR$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65000
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65043
+  wazuh_level: 7

@@ -1,0 +1,19 @@
+title: Visualize the devices in the defined machinegroups
+id: 5151f1ef-9d75-4906-aa4a-670fd4f8cc5a
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Visualize the devices in the defined machinegroups
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceInfo
+| summarize dcount(DeviceName) by MachineGroup
+| sort by dcount_DeviceName
+| render columnchart with(title="Total Devices by MachineGroup")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

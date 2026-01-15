@@ -1,0 +1,28 @@
+title: Windows Data Destruction Recursive Exec Files Deletion
+id: dd40e2bc-72c8-5bc6-bfb0-d98ce402406a
+status: stable
+level: high
+description: |
+  The following analytic identifies a suspicious process that is recursively deleting executable files on a compromised host. It leverages Sysmon Event Codes 23 and 26 to detect this activity by monitoring for a high volume of deletions or overwrites of files with extensions like .exe, .sys, and .dll. This behavior is significant as it is commonly associated with destructive malware such as CaddyWiper, DoubleZero, and SwiftSlicer, which aim to make file recovery impossible. If confirmed malicious,
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    span: 2m
+    eventcode:
+      - 23
+      - 26
+    targetfilename:
+      - '*.exe'
+      - '*.sys'
+      - '*.dll'
+  condition: selection
+tags:
+  - attack.t1485
+references:
+  - https://www.welivesecurity.com/2023/01/27/swiftslicer-new-destructive-wiper-malware-ukraine/
+custom_attributes:
+  original_rule_id: 3596a799-6320-4a2f-8772-a9e98ddb2960
+  source_format: splunk_spl

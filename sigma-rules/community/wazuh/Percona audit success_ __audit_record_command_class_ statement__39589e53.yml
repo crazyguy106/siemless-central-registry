@@ -1,0 +1,23 @@
+title: 'Percona audit success: $(audit_record.command_class) statement.'
+id: 4e5fe570-c0f1-56d9-b0f5-9c9c8a12e1f5
+status: stable
+level: low
+description: 'Percona audit success: $(audit_record.command_class) statement.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit_record.name: ^Query$
+    audit_record.command_class|re: '^drop|^alter|^insert|^update|^grant|^delete'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-88004
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-88005
+  wazuh_level: 5

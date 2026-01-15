@@ -1,0 +1,30 @@
+title: Azure AD Authentication Failed During MFA Challenge
+id: 6d063582-5ec3-5567-8304-d38d6f2f928e
+status: stable
+level: high
+description: |
+  The following analytic identifies failed authentication attempts against an Azure AD tenant during the Multi-Factor Authentication (MFA) challenge, specifically flagged by error code 500121. It leverages Azure AD SignInLogs to detect these events. This activity is significant as it may indicate an adversary attempting to authenticate using compromised credentials on an account with MFA enabled. If confirmed malicious, this could suggest an ongoing effort to bypass MFA protections, potentially le
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk, 0xC0FFEEEE
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    auth_msg: MFA successfully completed
+    category: SignInLogs
+    errorcode: 500121
+  filter:
+    auth_msg: MFA successfully completed
+  condition: selection and not filter
+tags:
+  - attack.t1078.004
+  - attack.t1586.003
+  - attack.t1621
+references:
+  - https://attack.mitre.org/techniques/T1621/
+  - https://attack.mitre.org/techniques/T1078/004/
+  - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+  - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-sign-in-log-activity-details
+custom_attributes:
+  original_rule_id: e62c9c2e-bf51-4719-906c-3074618fcc1c
+  source_format: splunk_spl

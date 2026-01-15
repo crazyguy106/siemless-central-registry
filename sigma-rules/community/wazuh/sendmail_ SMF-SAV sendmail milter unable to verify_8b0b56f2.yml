@@ -1,0 +1,26 @@
+title: 'sendmail: SMF-SAV sendmail milter unable to verify'
+id: f6df966a-b1af-5b8f-9613-3c43ff6a7839
+status: stable
+level: medium
+description: 'sendmail: SMF-SAV sendmail milter unable to verify'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - ^sender check failed
+      - ^sender check tempfailed
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3190
+tags:
+  - attack.t1114
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3191
+  wazuh_level: 6

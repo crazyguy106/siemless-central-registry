@@ -1,0 +1,22 @@
+title: 'File From Host Collected via Portal or Live Response
+id: dda606a3-b09f-42e0-8d74-dc1e0a8e5dc5
+status: experimental
+level: medium
+description: |
+  This query lists all the file downloads from an onboarded EDR device. The query lists the two file collection methods:
+1. LiveResponseGetFile: Files collected through the *getfile* command in Live Response
+2: DownloadFile: Files collected though the XDR portal by using the download file feature.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType in ('LiveResponseGetFile', 'DownloadFile')
+| extend FileName = tostring(RawEventData.FileName), FileSHA256 = tostring(RawEventData.FileSHA256), FileSize = tostring(RawEventData.FileSize)
+| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+| project-reorder Timestamp, InitiatedByAccountName, InitiatedByAccounttId, IPAddress, FileName, FileSHA256, FileSize
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

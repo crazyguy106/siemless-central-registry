@@ -1,0 +1,23 @@
+title: Linux Doas Conf File Creation
+id: dd14da38-1e5f-5873-bed8-dce5875f9d90
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of the doas.conf file on a Linux host. This file is used by the doas utility to allow standard users to perform tasks as root, similar to sudo. The detection leverages filesystem data from the Endpoint data model, focusing on the creation of the doas.conf file. This activity is significant because it can indicate an attempt to gain elevated privileges, potentially by an adversary. If confirmed malicious, this could allow an attacker to execute commands
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    file_path:
+      - '*/etc/doas.conf'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://wiki.gentoo.org/wiki/Doas
+  - https://www.makeuseof.com/how-to-install-and-use-doas/
+custom_attributes:
+  original_rule_id: f6343e86-6e09-11ec-9376-acde48001122
+  source_format: splunk_spl

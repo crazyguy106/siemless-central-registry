@@ -1,0 +1,21 @@
+title: Function: ListPublicIPs()
+id: 950164b5-3c9b-4c00-b62a-8868005ffc78
+status: experimental
+level: medium
+description: |
+  List all public IPs that are returned by Azure Resource Graph. This can be used for enrichment or filtering.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let ListPublicIPs = arg("").Resources
+| where type == "microsoft.network/publicipaddresses"
+| extend ipAddress = tostring(properties.ipAddress), publicIPAllocationMethod = tostring(properties.publicIPAllocationMethod)
+| where isnotempty(ipAddress)
+| distinct ipAddress;
+ListPublicIPs
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

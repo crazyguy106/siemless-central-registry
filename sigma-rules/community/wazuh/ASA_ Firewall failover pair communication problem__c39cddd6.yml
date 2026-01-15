@@ -1,0 +1,24 @@
+title: 'ASA: Firewall failover pair communication problem.'
+id: 567fc4cb-3655-5f4d-af07-00f45e226da0
+status: stable
+level: medium
+description: 'ASA: Firewall failover pair communication problem.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - Failed
+      - Lost Failover
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-64001
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64022
+  wazuh_level: 8

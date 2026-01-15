@@ -1,0 +1,22 @@
+title: Windows Remote Create Service
+id: 27ec9292-185e-55af-8447-ca9ce7e118ae
+status: stable
+level: medium
+description: |
+  The following analytic identifies the creation of a new service on a remote endpoint using sc.exe. It leverages data from Endpoint Detection and Response (EDR) agents, specifically monitoring for EventCode 7045, which indicates a new service creation. This activity is significant as it may indicate lateral movement or remote code execution attempts by an attacker. If confirmed malicious, this could allow the attacker to establish persistence, escalate privileges, or execute arbitrary code on the
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*create*'
+  condition: selection
+tags:
+  - attack.t1543.003
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+custom_attributes:
+  original_rule_id: 0dc44d03-8c00-482d-ba7c-796ba7ab18c9
+  source_format: splunk_spl

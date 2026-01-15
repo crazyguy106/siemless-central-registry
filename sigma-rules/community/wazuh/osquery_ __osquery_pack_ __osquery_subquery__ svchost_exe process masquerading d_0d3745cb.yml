@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): svchost.exe process masquerading detected, path $(osquery.columns.path) is incorrect'
+id: 1026fed9-0ce9-525d-9be1-b6db3655e5aa
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): svchost.exe process masquerading detected, path $(osquery.columns.path) is incorrect'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: svchost.exe_incorrect_path
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+tags:
+  - attack.t1036
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24713
+  wazuh_level: 4

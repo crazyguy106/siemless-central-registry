@@ -1,0 +1,25 @@
+title: 'FTPD: Remote host connected to FTP server.,'
+id: fe854b9a-65a0-5084-b6e0-ae735908049d
+status: stable
+level: low
+description: 'FTPD: Remote host connected to FTP server.,'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - FTP LOGIN FROM
+      - connection from
+      - connect from
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11106
+  wazuh_level: 3

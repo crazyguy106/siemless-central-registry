@@ -1,0 +1,23 @@
+title: Excessive number of service control start as disabled
+id: eb15ae51-55dc-50f0-acdb-d0a741aae2de
+status: stable
+level: medium
+description: |
+  The following analytic detects an excessive number of `sc.exe` processes launched with the command line argument `start= disabled` within a short period. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, command-line executions, and process GUIDs. This activity is significant as it may indicate an attempt to disable critical services, potentially impairing system defenses. If confirmed malicious, this behavior could allow an attacker to disrupt secur
+author: Michael Hart, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process_name: sc.exe
+    process: '*start= disabled*'
+    span: 30m
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
+  - https://attack.mitre.org/techniques/T1562/001/
+custom_attributes:
+  original_rule_id: 77592bec-d5cc-11eb-9e60-acde48001122
+  source_format: splunk_spl

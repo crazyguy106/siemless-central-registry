@@ -1,0 +1,31 @@
+title: 'telnetd: Remote host invalid connection.'
+id: 2294a267-df6c-5b68-ac08-551337cf2b9a
+status: stable
+level: low
+description: 'telnetd: Remote host invalid connection.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - 'ttloop:  peer died:'
+      - 'ttloop:  read:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 1s
+  - type: sequence
+    parent_rule: wazuh-5602
+    window:
+      maxspan: 1s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-5603
+  wazuh_level: 5

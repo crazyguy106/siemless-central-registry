@@ -1,0 +1,39 @@
+title: Potential Sudo Hijacking
+id: 88fdcb8c-60e5-46ee-9206-2663adf1b1ce
+status: stable
+level: medium
+description: 'Identifies the creation of a sudo binary located at /usr/bin/sudo. Attackers
+  may hijack the default sudo binary and
+
+  replace it with a custom binary or script that can read the user''s password in
+  clear text to escalate privileges or
+
+  enable persistence onto the system every time the sudo binary is executed.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-26'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_Ext_original_extension: dpkg-new
+    process_name: sed
+    process_executable|contains:
+    - /nix/store/*
+    - /var/lib/dpkg/*
+    - /tmp/vmis.*
+    - /snap/*
+    - /dev/fd/*
+    - /var/lib/docker/*
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1574
+- attack.t1548.003
+- attack.t1548
+references:
+- https://eapolsniper.github.io/2020/08/17/Sudo-Hijacking/
+- https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms

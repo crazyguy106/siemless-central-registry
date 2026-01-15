@@ -1,0 +1,25 @@
+title: O365 High Number Of Failed Authentications for User
+id: 89cb55d3-ceb7-5dbe-bfb0-a532dd059428
+status: stable
+level: high
+description: |
+  The following analytic identifies an O365 account experiencing more than 20 failed authentication attempts within 5 minutes. It uses O365 Unified Audit Logs, specifically "UserLoginFailed" events, to monitor and flag accounts exceeding this threshold. This activity is significant as it may indicate a brute force attack or password guessing attempt. If confirmed malicious, an attacker could gain unauthorized access to the O365 environment, potentially compromising sensitive emails, documents, and
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    operation: UserLoginFailed
+    record_type: AzureActiveDirectoryStsLogon
+    workload: AzureActiveDirectory
+    span: 5m
+  condition: selection
+tags:
+  - attack.t1110.001
+references:
+  - https://attack.mitre.org/techniques/T1110/
+  - https://attack.mitre.org/techniques/T1110/001/
+custom_attributes:
+  original_rule_id: 31641378-2fa9-42b1-948e-25e281cb98f7
+  source_format: splunk_spl

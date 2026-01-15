@@ -1,0 +1,20 @@
+title: AWS Lambda Update Function Code
+id: 53a6ca28-f5e0-5737-8dc7-5f3f2a911641
+status: experimental
+level: low
+description: Detects an IAM user attempting to update/modify AWS lambda code.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    security_result_action: ALLOW
+    metadata_product_event_type: UpdateFunctionCode
+  condition: selection
+tags:
+  - attack.t1648
+custom_attributes:
+  original_rule_id: mr_046e8bc7-2d48-4118-ae38-eb095a4333e3
+  source_format: chronicle_yaral

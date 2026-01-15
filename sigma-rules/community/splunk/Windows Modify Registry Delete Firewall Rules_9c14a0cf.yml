@@ -1,0 +1,23 @@
+title: Windows Modify Registry Delete Firewall Rules
+id: 137ac693-99ca-5887-a19e-b73dcb6c50f1
+status: stable
+level: high
+description: |
+  The following analytic detects a potential deletion of firewall rules, indicating a possible security breach or unauthorized access attempt. It identifies actions where firewall rules are removed using commands like netsh advfirewall firewall delete rule, which can expose the network to external threats by disabling critical security measures. Monitoring these activities helps maintain network integrity and prevent malicious attacks.
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    targetobject: '*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*'
+    eventcode: 12
+    eventtype: DeleteValue
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+custom_attributes:
+  original_rule_id: 41c61539-98ca-4750-b3ec-7c29a2f06343
+  source_format: splunk_spl

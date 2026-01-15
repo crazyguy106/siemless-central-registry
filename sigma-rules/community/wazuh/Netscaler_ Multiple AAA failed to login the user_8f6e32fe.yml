@@ -1,0 +1,33 @@
+title: 'Netscaler: Multiple AAA failed to login the user'
+id: 608dc938-0c2a-50dd-b632-247827bf993d
+status: stable
+level: high
+description: 'Netscaler: Multiple AAA failed to login the user'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-80101
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80102
+  wazuh_level: 10

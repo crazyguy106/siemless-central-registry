@@ -1,0 +1,22 @@
+title: Disable UAC Remote Restriction
+id: fdd34c57-3b45-57f0-b248-46340afc6d21
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of the registry to disable UAC remote restriction by setting the "LocalAccountTokenFilterPolicy" value to "0x00000001". It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path "*\\CurrentVersion\\Policies\\System*". This activity is significant because disabling UAC remote restriction can allow an attacker to bypass User Account Control (UAC) protections, potentially leading to privilege escalat
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\CurrentVersion\\Policies\\System*'
+    registry_value_name: LocalAccountTokenFilterPolicy
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/user-account-control-and-remote-restriction
+custom_attributes:
+  original_rule_id: 9928b732-210e-11ec-b65e-acde48001122
+  source_format: splunk_spl

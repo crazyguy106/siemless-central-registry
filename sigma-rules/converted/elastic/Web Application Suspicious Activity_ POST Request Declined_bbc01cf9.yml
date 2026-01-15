@@ -1,0 +1,26 @@
+title: 'Web Application Suspicious Activity: POST Request Declined'
+id: a87a4e42-1d82-44bd-b0bf-d9b7f91fb89e
+status: stable
+level: medium
+description: 'A POST request to a web application returned a 403 response, which indicates
+  the web application declined to process the
+
+  request because the action requested was not allowed.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    http_response_status_code: '403'
+    http_request_method: post
+  condition: selection
+references:
+- https://en.wikipedia.org/wiki/HTTP_403
+falsepositives:
+- "    Security scans and tests may result in these errors. Misconfigured or buggy\
+  \ applications may produce large numbers\n    of these errors. If the source is\
+  \ unexpected, the user unauthorized, or the request unusual, these may indicate\n\
+  \    suspicious or malicious activity.\n    "

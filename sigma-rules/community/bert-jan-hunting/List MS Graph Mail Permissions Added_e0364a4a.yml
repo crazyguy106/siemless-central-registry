@@ -1,0 +1,30 @@
+title: List MS Graph Mail Permissions Added
+id: 44bd0252-2606-4c84-bebc-3c0bd970b37c
+status: experimental
+level: medium
+description: |
+  The Graph API can be used to read and send mail amongst other actions. Escpecially the Mail*.All permissions are very priviliged and should be scoped to a certain mailbox only (if possible). This query can both be used to assess the current added permissions as well as to detect malicious mail permission that are added to applications.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AuditLogs
+| where Category == "ApplicationManagement"
+| where ActivityDisplayName in ("Add delegated permission grant", "Add app role assignment to service principal")
+| mv-expand TargetResources
+| where TargetResources.displayName == "Microsoft Graph"
+| mv-expand TargetResources.modifiedProperties
+| extend InitiatedByUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+| extend AddedPermission = replace_string(tostring(TargetResources_modifiedProperties.newValue),'"','')
+| extend IP = tostring(todynamic(InitiatedBy).user.ipAddress)
+| extend ServicePrincipalAppId = iff(OperationName == "Add delegated permission grant", replace_string(tostring(todynamic(TargetResources).modifiedProperties[2].newValue),'"','') , replace_string(tostring(todynamic(TargetResources).modifiedProperties[5].newValue),'"',''))
+| where AddedPermission has_all ("Mail", ".")
+| summarize Permissions = make_set(AddedPermission) by ServicePrincipalAppId, IP, InitiatedByUserPrincipalName
+| extend TotalPermissions = array_length(Permissions)
+| project TotalPermissions, ServicePrincipalAppId, InitiatedByUserPrincipalName, IP, Permissions
+| sort by TotalPermissions
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

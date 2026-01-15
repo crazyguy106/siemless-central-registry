@@ -1,0 +1,25 @@
+title: Linux Add User Account
+id: 809794e4-ae9f-5c29-8353-300a71ddaf8a
+status: stable
+level: low
+description: |
+  The following analytic detects the creation of new user accounts on Linux systems using commands like "useradd" or "adduser." It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as adversaries often create new user accounts to establish persistence on compromised hosts. If confirmed malicious, this could allow attackers to maintain access, escalate privileges, and further compromise the system, p
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process_name:
+      - useradd
+      - adduser
+    process:
+      - '*useradd *'
+      - '*adduser *'
+  condition: selection
+tags:
+  - attack.t1136.001
+references:
+  - https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/
+custom_attributes:
+  original_rule_id: 51fbcaf2-6259-11ec-b0f3-acde48001122
+  source_format: splunk_spl

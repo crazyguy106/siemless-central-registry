@@ -1,0 +1,33 @@
+title: Web or Application Server Spawning a Shell
+id: c434fcef-9e57-5cea-bc86-f851ee4304f2
+status: stable
+level: high
+description: |
+  The following analytic detects instances where Java, or Tomcat processes spawn a Linux shell, which may indicate exploitation attempts, such as those related to CVE-2021-44228 (Log4Shell). This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names and parent-child process relationships. This activity is significant as it can signify a compromised Java application, potentially leading to unauthorized shell access. If confirmed malicious, attackers could ex
+author: Michael Haag, Nasreddine Bencherchali, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    parent_process_name:
+      - httpd.exe
+      - nginx.exe
+      - php*.exe
+      - php-cgi.exe
+      - tomcat*.exe
+      - caddy.exe
+      - UMWorkerProcess.exe
+      - w3wp.exe
+      - ws_TomcatService.exe
+      - node.exe
+      - java.exe
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1133
+references:
+  - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
+  - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
+custom_attributes:
+  original_rule_id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
+  source_format: splunk_spl

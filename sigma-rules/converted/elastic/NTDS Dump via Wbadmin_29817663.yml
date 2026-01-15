@@ -1,0 +1,30 @@
+title: NTDS Dump via Wbadmin
+id: d93e61db-82d6-4095-99aa-714988118064
+status: stable
+level: medium
+description: 'Identifies the execution of wbadmin to access the NTDS.dit file in a
+  domain controller. Attackers with privileges from
+
+  groups like Backup Operators can abuse the utility to perform credential access
+  and compromise the domain.'
+author: Elastic (converted by SIEMLess)
+date: '2024-06-05'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_command_line|endswith: ntds.dit*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.credential_access
+- attack.t1003
+- attack.t1003.003
+- attack.t1006
+- attack.t1003.002
+references:
+- https://medium.com/r3d-buck3t/windows-privesc-with-sebackupprivilege-65d2cd1eb960

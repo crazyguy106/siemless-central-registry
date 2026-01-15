@@ -1,0 +1,19 @@
+title: MITRE ATT&CK T1110.001 Windows Repeated Authentication Failures Before Successful One
+id: 14b07f96-18b0-5526-b2d7-bd2a9e2ea4f4
+status: experimental
+level: medium
+description: Detect Multiple Failed Login Attempts followed by Successful Login
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_vendor_name: Microsoft
+    security_result_action: BLOCK
+    metadata_product_event_type: 4625
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_16893c0e-2563-44ed-84c9-57ab326eb1c2
+  source_format: chronicle_yaral

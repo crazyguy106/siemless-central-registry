@@ -1,0 +1,20 @@
+title: High count of failed logons by a user
+id: 8cd197ce-c3b4-5920-b432-0dc0b6f01609
+status: stable
+level: medium
+description: |
+  'Identifies when 100 or more failed attempts by a given user in 10 minutes occur on the IIS Server. This could be indicative of attempted brute force based on known account information. This could also simply indicate a misconfigured service or device. References: IIS status code mapping - https://support.microsoft.com/help/943891/the-http-status-code-in-iis-7-0-iis-7-5-and-iis-8-0 Win32 Status code mapping - https://msdn.microsoft.com/library/cc231199.aspx'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    scStatus:
+      - 401
+      - 403
+  condition: selection
+tags:
+  - attack.t1110
+custom_attributes:
+  original_rule_id: 884c4957-70ea-4f57-80b9-1bca3890315b
+  source_format: azure_kql

@@ -1,0 +1,25 @@
+title: Comparison between devices in Intune and MDE
+id: 268549b8-82ac-49fc-b4c5-ee45871dfeaa
+status: experimental
+level: medium
+description: |
+  This query lists the devices that are onboarded in Intune and classifies them based on the status of Defender For Endpoint. You can select your own *SearchPeriod* in this query. The MDE data is based on a process activities seen in the search window, if that is the case then the device is classified as *MDE Onboarded*. This can help determine which devices have not yet been onboarded to MDE.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let SearchPeriod = 30d;
+let MDEDevices = DeviceProcessEvents
+    | where TimeGenerated > ago(SearchPeriod)
+    | extend DeviceNameWithoutDomain = tostring(split(DeviceName, ".", 0)[0])
+    | distinct DeviceNameWithoutDomain;
+IntuneDevices
+| where todatetime(LastContact) > ago(SearchPeriod)
+| summarize arg_max(TimeGenerated, DeviceName, LastContact) by DeviceId
+| extend MDEStatus = iff(DeviceName in~ (MDEDevices), "MDE Onboarded", "Not Onboarded")
+| summarize Total = count(), Devices = make_set(DeviceName) by MDEStatus
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

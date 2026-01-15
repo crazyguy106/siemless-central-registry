@@ -1,0 +1,26 @@
+title: Potential Kerberoasting
+id: 7ef49379-6ab1-5e11-a0d7-3e6d1f3f0b6b
+status: stable
+level: medium
+description: |
+  'A service principal name (SPN) is used to uniquely identify a service instance in a Windows environment. Each SPN is usually associated with a service account. Organizations may have used service accounts with weak passwords in their environment. An attacker can try requesting Kerberos ticket-granting service (TGS) service tickets for any SPN from a domain controller (DC) which contains a hash of the Service account. This can then be used for offline cracking. This hunting query looks for accou
+author: Microsoft Security Research
+logsource:
+  product: windows
+detection:
+  selection:
+    TicketEncryptionType:
+      - 0x17
+      - 0x17
+    TicketOptions:
+      - 0x40810000
+      - 0x40810000
+    Status:
+      - 0x0
+      - 0x0
+  condition: selection
+tags:
+  - attack.t1558
+custom_attributes:
+  original_rule_id: 1572e66b-20a7-4012-9ec4-77ec4b101bc8
+  source_format: azure_kql

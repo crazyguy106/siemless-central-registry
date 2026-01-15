@@ -1,0 +1,37 @@
+title: Registry Keys Used For Persistence
+id: 02f3bbb0-ae5c-5d30-a63c-538e82ec564e
+status: stable
+level: high
+description: |
+  The following analytic identifies modifications to registry keys commonly used for persistence mechanisms. It leverages data from endpoint detection sources like Sysmon or Carbon Black, focusing on specific registry paths known to initiate applications or services during system startup. This activity is significant as unauthorized changes to these keys can indicate attempts to maintain persistence or execute malicious actions upon system boot. If confirmed malicious, this could allow attackers t
+author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path:
+      - '*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\\*'
+      - '*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\*'
+      - '*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Common Startup'
+      - '*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*'
+      - '*\\CurrentControlSet\\Control\\Lsa'
+      - '*\\CurrentControlSet\\Control\\Lsa\\OSConfig'
+      - '*\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\*'
+      - '*currentVersion\\Windows'
+      - '*\\CurrentVersion'
+      - '*\\CurrentControlSet\Control\Session Manager'
+      - '*\\Software\\Run'
+    registry_key_name:
+      - Security Packages
+      - Security Packages
+      - Load
+      - Svchost
+      - BootExecute
+      - auto_update
+  condition: selection
+tags:
+  - attack.t1547.001
+custom_attributes:
+  original_rule_id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
+  source_format: splunk_spl

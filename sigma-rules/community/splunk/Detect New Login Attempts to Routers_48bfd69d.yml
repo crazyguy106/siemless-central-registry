@@ -1,0 +1,19 @@
+title: Detect New Login Attempts to Routers
+id: bc426e3d-b6c6-57ab-ba93-a0cbcc6eba48
+status: experimental
+level: high
+description: |
+  The following analytic identifies new login attempts to routers. It leverages authentication logs from the ES Assets and Identity Framework, focusing on assets categorized as routers. The detection flags connections that have not been observed in the past 30 days. This activity is significant because unauthorized access to routers can lead to network disruptions or data interception. If confirmed malicious, attackers could gain control over network traffic, potentially leading to data breaches o
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    datamodel: Authentication
+    dest_category: router
+    isoutlier: 1
+  condition: selection
+custom_attributes:
+  original_rule_id: bce3ed7c-9b1f-42a0-abdf-d8b123a34836
+  source_format: splunk_spl

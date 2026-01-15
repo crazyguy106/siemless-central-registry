@@ -1,0 +1,33 @@
+title: AWS RDS Snapshot Deleted
+id: b36c99af-b944-4509-a523-7e0fad275be1
+status: stable
+level: medium
+description: Identifies the deletion of an AWS RDS DB snapshot. Snapshots contain
+  a full backup of an entire DB instance. Unauthorized deletion of snapshots can make
+  it impossible to recover critical or sensitive data. This rule detects deleted snapshots
+  and instances modified so that backupRetentionPeriod is set to 0 which disables
+  automated backups and is functionally similar to deleting the system snapshot.
+author: Elastic (converted by SIEMLess)
+date: '2024-06-29'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: rds.amazonaws.com
+    event_outcome: success
+    event_action: ModifyDBInstance
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+references:
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteSnapshot.html
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DeleteDBSnapshot.html
+falsepositives:
+- "    Snapshots may be deleted by a system administrator. Verify whether the user\
+  \ identity should be making changes in your environment. Snapshot deletions by unfamiliar\
+  \ users or hosts should be investigated. If known behavior is causing false positives,\
+  \ it can be exempted from the rule.\n    "

@@ -1,0 +1,19 @@
+title: Most common installed cricital extensions visualised
+id: c0cb0058-8b13-44dc-b773-b5a61368ac2b
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Most common installed cricital extensions visualised
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmBrowserExtensions
+| where ExtensionRisk == "Critical"
+| summarize count() by ExtensionName
+| render piechart with(title="Most Common Critical Extentions")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

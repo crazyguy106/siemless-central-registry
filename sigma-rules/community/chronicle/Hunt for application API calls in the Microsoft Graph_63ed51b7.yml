@@ -1,0 +1,20 @@
+title: Hunt for application API calls in the Microsoft Graph
+id: df82cc48-e349-54ab-ac11-2eeb26d5eba7
+status: experimental
+level: low
+description: |
+  Identify the use of the application API call to collect a listing of applications in Entra ID. This can be chatty due to other commands calling this single API.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/v1.0/applications'
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_0936c89c-4579-4e7c-a081-3129dd93a726
+  source_format: chronicle_yaral

@@ -1,0 +1,20 @@
+title: High count of failed attempts from same client IP
+id: cc70d82b-e507-5b42-8026-f48935853479
+status: stable
+level: medium
+description: |
+  'Identifies when 20 or more failed attempts from a given client IP in 1 minute occur on the IIS server. This could be indicative of an attempted brute force. This could also simply indicate a misconfigured service or device. Recommendations: Validate that these are expected connections from the given Client IP.  If the client IP is not recognized, potentially block these connections at the edge device. If these are expected connections, verify the credentials are properly configured on the syste
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    scStatus:
+      - 401
+      - 403
+  condition: selection
+tags:
+  - attack.t1110
+custom_attributes:
+  original_rule_id: 19e01883-15d8-4eb6-a7a5-3276cd668388
+  source_format: azure_kql

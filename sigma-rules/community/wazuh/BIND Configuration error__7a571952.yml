@@ -1,0 +1,22 @@
+title: BIND Configuration error.
+id: a1ca5a2c-5d1f-5bb7-9d3a-2e892680f44d
+status: stable
+level: low
+description: BIND Configuration error.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'reloading configuration failed: unexpected end of input'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-12100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-12125
+  wazuh_level: 3

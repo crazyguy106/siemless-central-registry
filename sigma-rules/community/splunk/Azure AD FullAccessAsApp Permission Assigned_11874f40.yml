@@ -1,0 +1,26 @@
+title: Azure AD FullAccessAsApp Permission Assigned
+id: 7167037e-ec9a-5472-b37f-62b72f07b9af
+status: stable
+level: high
+description: |
+  The following analytic detects the assignment of the 'full_access_as_app' permission to an application within Office 365 Exchange Online. This is identified by the GUID 'dc890d15-9560-4a4c-9b7f-a736ec74ec40' and the ResourceAppId '00000002-0000-0ff1-ce00-000000000000'. The detection leverages the azure_monitor_aad data source, focusing on AuditLogs with the operation name 'Update application'. This activity is significant as it grants broad control over Office 365 operations, including full acce
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: Update application
+    permissions: {}.RequiredAppPermissions{}.EntitlementId
+    category: AuditLogs
+    input: newvalue
+  condition: selection
+tags:
+  - attack.t1098.002
+  - attack.t1098.003
+references:
+  - https://msrc.microsoft.com/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard/
+  - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+  - https://attack.mitre.org/techniques/T1098/002/
+custom_attributes:
+  original_rule_id: ae286126-f2ad-421c-b240-4ea83bd1c43a
+  source_format: splunk_spl

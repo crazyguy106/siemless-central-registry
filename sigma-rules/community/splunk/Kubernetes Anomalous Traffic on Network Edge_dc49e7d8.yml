@@ -1,0 +1,25 @@
+title: Kubernetes Anomalous Traffic on Network Edge
+id: bf81c313-e6aa-52e5-858d-936a5c0b1f54
+status: experimental
+level: medium
+description: |
+  The following analytic identifies anomalous network traffic volumes between Kubernetes workloads or between a workload and external sources. It leverages Network Performance Monitoring metrics collected via an OTEL collector and pulled from Splunk Observability Cloud. The detection compares recent network metrics (tcp.bytes, tcp.new_sockets, tcp.packets, udp.bytes, udp.packets) over the last hour with the average over the past 30 days to identify significant deviations. This activity is signific
+author: Matthew Moore, Splunk
+logsource:
+  product: kubernetes
+  category: network_connection
+detection:
+  selection:
+    key:
+      - source.workload.name
+      - source.workload.name
+    span: 10s
+    type: left
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart
+custom_attributes:
+  original_rule_id: 886c7e51-2ea1-425d-8705-faaca5a64cc6
+  source_format: splunk_spl

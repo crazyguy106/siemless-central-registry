@@ -1,0 +1,20 @@
+title: Suspicious linking of existing user to external User
+id: 980bc77f-2d22-591d-9f04-068a280b7b8d
+status: stable
+level: medium
+description: |
+  ' This query will detect when an attempt is made to update an existing user and link it to an guest or external identity. These activities are unusual and such linking of external  identities should be investigated. In some cases you may see internal Entra ID sync accounts (Sync_) do this which may be benign'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    displayName: UserPrincipalName
+    OperationName: Update user
+    Result: success
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 22a320c2-e1e5-4c74-a35b-39fc9cdcf859
+  source_format: azure_kql

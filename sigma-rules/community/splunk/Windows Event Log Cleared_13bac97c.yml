@@ -1,0 +1,23 @@
+title: Windows Event Log Cleared
+id: 77ec4e49-419c-54d4-a31f-69008dd263c2
+status: stable
+level: high
+description: |
+  The following analytic detects the clearing of Windows event logs by identifying Windows Security Event ID 1102 or System log event 104. This detection leverages Windows event logs to monitor for log clearing activities. Such behavior is significant as it may indicate an attempt to cover tracks after malicious activities. If confirmed malicious, this action could hinder forensic investigations and allow attackers to persist undetected, making it crucial to investigate further and correlate with 
+author: Rico Valdez, Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1070.001
+references:
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1102
+  - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
+  - https://attack.mitre.org/techniques/T1070/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+custom_attributes:
+  original_rule_id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
+  source_format: splunk_spl

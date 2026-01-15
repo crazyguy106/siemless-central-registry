@@ -1,0 +1,75 @@
+title: Geographic Improbable Location
+id: b1eb36d4-d8eb-5301-8e8b-2abef9a081f3
+status: experimental
+level: medium
+description: |
+  Geolocation data can be inaccurate or easily spoofed by Remote Employment Fraud (REF) workers. REF actors sometimes slip up and reveal their true location, creating what we call 'improbable travel' scenarios — logins from opposite sides of the world within minutes. This identifies situations where these travel scenarios occur.
+author: Marissa Bower, Raven Tait
+logsource:
+  product: splunk
+detection:
+  selection:
+    action: success
+    user: unknown
+    user_work_country:
+      - usa
+      - cze
+      - pol
+      - ind
+      - fra
+      - can
+      - mys
+      - kor
+      - aus
+      - bel
+      - dnk
+      - bra
+      - deu
+      - jpn
+      - che
+      - swe
+      - zaf
+      - irl
+      - ita
+      - nor
+      - gbr
+      - hkg
+      - chn
+      - esp
+      - nld
+      - twn
+      - est
+      - sgp
+      - are
+    timeformat:
+      - '%Y-%m-%d %H:%M:%S'
+      - '%Y-%m-%d %H:%M:%S'
+    prev_city:
+      - '-'
+      - session_city
+    session_city: '-'
+    value: N/A
+    problem: 'Yes'
+    summariesonly: 'true'
+    span: 1s
+    type: outer
+    user_status: active
+    field: email
+    local:
+      - 'true'
+      - 'true'
+    current: t
+    window: 2
+    app:
+      - Workday
+      - Slack
+      - '*GlobalProtect'
+      - Jira*
+      - Atlassian Cloud
+      - Zoom
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: 64f91df1-49ec-46aa-81bd-2282d3cea765
+  source_format: splunk_spl

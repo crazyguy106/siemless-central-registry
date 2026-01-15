@@ -1,0 +1,22 @@
+title: 'Unable to process query due to a problem with the name server with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severit'
+id: 0ffc4b64-eefb-5137-a366-2db3d0fadde9
+status: stable
+level: high
+description: 'Unable to process query due to a problem with the name server with source IP $(gcp.jsonPayload.sourceIP) from $(gcp.resource.labels.location), severity $(gcp.severity)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.jsonPayload.responseCode: ^SERVFAIL$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65002,65003
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65020
+  wazuh_level: 12

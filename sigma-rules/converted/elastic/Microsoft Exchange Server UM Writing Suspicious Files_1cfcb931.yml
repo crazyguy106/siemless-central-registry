@@ -1,0 +1,55 @@
+title: Microsoft Exchange Server UM Writing Suspicious Files
+id: 6cd1779c-560f-4b68-a8f1-11009b27fe63
+status: stable
+level: medium
+description: 'Identifies suspicious files being written by the Microsoft Exchange
+  Server Unified Messaging (UM) service. This activity
+
+  has been observed exploiting CVE-2021-26858.'
+author: Elastic (converted by SIEMLess)
+date: '2021-03-04'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: creation
+    process_name|contains:
+    - UMWorkerProcess.exe
+    - umservice.exe
+    file_extension|contains:
+    - php
+    - jsp
+    - js
+    - aspx
+    - asmx
+    - asax
+    - cfm
+    - shtml
+    file_name|contains:
+    - errorFE.aspx
+    - expiredpassword.aspx
+    - frowny.aspx
+    - GetIdToken.htm
+    - logoff.aspx
+    - logon.aspx
+    - OutlookCN.aspx
+    - RedirSuiteServiceProxy.aspx
+    - signout.aspx
+  condition: selection
+tags:
+- attack.initial_access
+- attack.lateral_movement
+- attack.t1190
+- attack.t1210
+references:
+- https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers
+- https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities
+falsepositives:
+- "    Files generated during installation will generate a lot of noise, so the rule\
+  \ should only be enabled after the fact.\n    "
+- "    This rule was tuned using the following baseline:\n    https://raw.githubusercontent.com/microsoft/CSS-Exchange/main/Security/Baselines/baseline_15.2.792.5.csv\
+  \ from\n    Microsoft. Depending on version, consult https://github.com/microsoft/CSS-Exchange/tree/main/Security/Baselines\
+  \ to\n    help determine normalcy.\n    "

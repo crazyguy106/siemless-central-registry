@@ -1,0 +1,29 @@
+title: Windows Known Abused DLL Created
+id: 22cd4466-647c-5470-99f6-5fac6f241be8
+status: stable
+level: medium
+description: |
+  The following analytic identifies the creation of Dynamic Link Libraries (DLLs) with a known history of exploitation in atypical locations. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and filesystem events. This activity is significant as it may indicate DLL search order hijacking or sideloading, techniques used by attackers to execute arbitrary code, maintain persistence, or escalate privileges. If confirmed malicious, this activity could allow attac
+author: Steven Dick
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    file_name: '*.dll'
+    islibrary: 'TRUE'
+    file_path:
+      - '*\\users\\*'
+      - '*\\Windows\Temp\\*'
+      - '*\\programdata\\*'
+  condition: selection
+tags:
+  - attack.t1574.001
+references:
+  - https://attack.mitre.org/techniques/T1574/002/
+  - https://hijacklibs.net/api/
+  - https://wietze.github.io/blog/hijacking-dlls-in-windows
+  - https://github.com/olafhartong/sysmon-modular/pull/195/files
+custom_attributes:
+  original_rule_id: ea91651a-772a-4b02-ac3d-985b364a5f07
+  source_format: splunk_spl

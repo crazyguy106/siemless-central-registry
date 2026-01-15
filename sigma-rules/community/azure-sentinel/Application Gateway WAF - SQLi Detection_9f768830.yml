@@ -1,0 +1,28 @@
+title: Application Gateway WAF - SQLi Detection
+id: ba1ca7f3-af59-5ea3-81de-0ecf3367df37
+status: stable
+level: high
+description: |
+  'Identifies a match for SQL Injection attack in the Application gateway WAF logs. The Threshold value in the query can be changed as per your infrastructure's requirement.  References: https://owasp.org/Top10/A03_2021-Injection/'
+author: shabaz-github
+logsource:
+  product: azure
+detection:
+  selection:
+    Category:
+      - ApplicationGatewayFirewallLog
+      - ApplicationGatewayFirewallLog
+    action_s:
+      - Matched
+      - Blocked
+    Blocked_Reason:
+      - SQL Injection Attack
+  condition: selection
+tags:
+  - attack.t1211
+  - attack.t1059
+  - attack.t1190
+  - attack.t0890
+custom_attributes:
+  original_rule_id: 68c0b6bb-6bd9-4ef4-9011-08998c8ef90f
+  source_format: azure_kql

@@ -1,0 +1,27 @@
+title: Windows Unusual Process Load Mozilla NSS-Mozglue Module
+id: 71ea92e0-555b-5b9b-8578-c7f5ff1944c7
+status: stable
+level: medium
+description: |
+  The following analytic identifies processes loading Mozilla NSS-Mozglue libraries such as mozglue.dll and nss3.dll. It leverages Sysmon Event logs, specifically monitoring EventCode 7, which tracks image loaded events. This activity is significant because it can indicate unauthorized access or manipulation of these libraries, which are commonly used by Mozilla applications like Firefox and Thunderbird. If confirmed malicious, this could lead to data exfiltration, credential theft, or further com
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 7
+    imageloaded:
+      - '*\\mozglue.dll'
+      - '*\\nss3.dll'
+    process_path:
+      - '*:\\Program Files\Mozilla Firefox\\firefox.exe'
+      - '*:\\Program Files (x86'
+  condition: selection
+tags:
+  - attack.t1218.003
+references:
+  - https://www.trendmicro.com/vinfo/nz/threat-encyclopedia/malware/trojanspy.win32.vidar.yxdftz
+custom_attributes:
+  original_rule_id: 1a7e7650-b81d-492e-99d4-d5ab633afbdd
+  source_format: splunk_spl

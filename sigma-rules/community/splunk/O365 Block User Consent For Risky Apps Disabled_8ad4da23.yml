@@ -1,0 +1,24 @@
+title: O365 Block User Consent For Risky Apps Disabled
+id: e0731fa0-b143-5acd-89d2-a272d8bc49cc
+status: stable
+level: high
+description: |
+  The following analytic detects when the "risk-based step-up consent" security setting in Microsoft 365 is disabled. It monitors Azure Active Directory logs for the "Update authorization policy" operation, specifically changes to the "AllowUserConsentForRiskyApps" setting. This activity is significant because disabling this feature can expose the organization to OAuth phishing threats, allowing users to grant consent to malicious applications. If confirmed malicious, attackers could gain unauthor
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operation: Update authorization policy.
+    workload: AzureActiveDirectory
+  condition: selection
+tags:
+  - attack.t1562
+references:
+  - https://attack.mitre.org/techniques/T1562/
+  - https://goodworkaround.com/2020/10/19/a-look-behind-the-azure-ad-permission-classifications-preview/
+  - https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-risk-based-step-up-consent
+  - https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+custom_attributes:
+  original_rule_id: 12a23592-e3da-4344-8545-205d3290647c
+  source_format: splunk_spl

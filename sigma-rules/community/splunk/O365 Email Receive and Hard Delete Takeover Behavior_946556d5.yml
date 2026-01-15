@@ -1,0 +1,47 @@
+title: O365 Email Receive and Hard Delete Takeover Behavior
+id: 3b9fc736-0f6c-57eb-a976-48d92074962b
+status: stable
+level: medium
+description: |
+  The following analytic identifies when an O365 email recipient receives and then deletes emails related to password or banking/payroll changes within a short period. This behavior may indicate a compromised account where the threat actor is attempting to redirect the victims payroll to an attacker controlled bank account.
+author: Steven Dick
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    mailtime: _time
+    span:
+      - 4hr
+      - 4hr
+    max: 0
+    workload: Exchange
+    output: AffectedItemSplit
+    input: AffectedItemSplit
+    deltime: _time
+    subject:
+      - '*banking*'
+      - '*direct deposit*'
+      - '*pay-to*'
+      - '*password *'
+      - '*passcode *'
+      - '*OTP *'
+      - '*MFA *'
+      - '*Account Recovery*'
+    operation:
+      - HardDelete
+    path:
+      - \\Sent Items
+      - \\Recoverable Items\\Deletions
+  condition: selection
+tags:
+  - attack.t1070.008
+  - attack.t1485
+  - attack.t1114.001
+references:
+  - https://attack.mitre.org/techniques/T1114/
+  - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+  - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+custom_attributes:
+  original_rule_id: b66aeaa4-586f-428b-8a2b-c4fd3039d8d3
+  source_format: splunk_spl

@@ -1,0 +1,31 @@
+title: Signed Proxy Execution via MS Work Folders
+id: ad0d2742-9a49-11ec-8d6b-acde48001122
+status: stable
+level: medium
+description: 'Identifies the use of Windows Work Folders to execute a potentially
+  masqueraded control.exe file in the current working
+
+  directory. Misuse of Windows Work Folders could indicate malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2022-03-02'
+modified: '2025-08-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_executable|contains:
+    - ?:\\Windows\\System32\\control.exe
+    - ?:\\Windows\\SysWOW64\\control.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\control.exe
+    - \\Device\\HarddiskVolume*\\Windows\\SysWOW64\\control.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1218
+references:
+- https://docs.microsoft.com/en-us/windows-server/storage/work-folders/work-folders-overview
+- https://twitter.com/ElliotKillick/status/1449812843772227588
+- https://lolbas-project.github.io/lolbas/Binaries/WorkFolders/

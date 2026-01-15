@@ -1,0 +1,24 @@
+title: Prohibited Network Traffic Allowed
+id: 855f3eee-ec2d-536f-a2ae-9be6943f43aa
+status: stable
+level: high
+description: |
+  The following analytic detects instances where network traffic, identified by port and transport layer protocol as prohibited in the "lookup_interesting_ports" table, is allowed. It uses the Network_Traffic data model to cross-reference traffic data against predefined security policies. This activity is significant for a SOC as it highlights potential misconfigurations or policy violations that could lead to unauthorized access or data exfiltration. If confirmed malicious, this could allow attac
+author: Rico Valdez, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    datamodel: Network_Traffic
+    update: 'true'
+    is_prohibited: 'true'
+    action:
+      - allowed
+      - allow
+  condition: selection
+tags:
+  - attack.t1048
+custom_attributes:
+  original_rule_id: ce5a0962-849f-4720-a678-753fe6674479
+  source_format: splunk_spl

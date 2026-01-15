@@ -1,0 +1,21 @@
+title: Windows CAB File on Disk
+id: 39cb8855-cb69-5fc7-bb93-4ca1e38db0d1
+status: stable
+level: medium
+description: |
+  The following analytic detects .cab files being written to disk. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on events where the file name is '*.cab' and the action is 'write'. This activity is significant as .cab files can be used to deliver malicious payloads, including embedded .url files that execute harmful code. If confirmed malicious, this behavior could lead to unauthorized code execution and potential system compromise. Analysts should review the file p
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1566.001
+references:
+  - https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2023-10-25-IOCs-from-DarkGate-activity.txt
+custom_attributes:
+  original_rule_id: 622f08d0-69ef-42c2-8139-66088bc25acd
+  source_format: splunk_spl

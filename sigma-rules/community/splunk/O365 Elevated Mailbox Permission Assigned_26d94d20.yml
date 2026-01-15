@@ -1,0 +1,25 @@
+title: O365 Elevated Mailbox Permission Assigned
+id: e511d3aa-053d-52ab-b6c1-003dd5a49fe3
+status: stable
+level: high
+description: |
+  The following analytic identifies the assignment of elevated mailbox permissions in an Office 365 environment via the Add-MailboxPermission operation. It leverages logs from the Exchange workload in the o365_management_activity data source, focusing on permissions such as FullAccess, ChangePermission, or ChangeOwner. This activity is significant as it indicates potential unauthorized access or control over mailboxes, which could lead to data exfiltration or privilege escalation. If confirmed mal
+author: Patrick Bareiss, Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    workload: Exchange
+    accessrights:
+      - FullAccess
+      - ChangePermission
+  condition: selection
+tags:
+  - attack.t1098.002
+references:
+  - https://attack.mitre.org/techniques/T1098/002/
+  - https://learn.microsoft.com/en-us/powershell/module/exchange/add-mailboxpermission
+  - https://learn.microsoft.com/en-us/exchange/recipients/mailbox-permissions?view=exchserver-2019
+custom_attributes:
+  original_rule_id: 2246c142-a678-45f8-8546-aaed7e0efd30
+  source_format: splunk_spl

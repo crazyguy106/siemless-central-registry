@@ -1,0 +1,29 @@
+title: AWS Route53 private hosted zone associated with a VPC
+id: e3c27562-709a-42bd-82f2-3ed926cced19
+status: stable
+level: low
+description: Identifies when a Route53 private hosted zone has been associated with
+  VPC.
+author: Elastic (converted by SIEMLess)
+date: '2021-07-19'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: route53.amazonaws.com
+    event_action: AssociateVPCWithHostedZone
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+references:
+- https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html
+falsepositives:
+- "    A private hosted zone may be asssociated with a VPC by a system or network\
+  \ administrator. Verify whether the user\n    identity, user agent, and/or hostname\
+  \ should be making changes in your environment. If known behavior is causing\n \
+  \   false positives, it can be exempted from the rule.\n    "

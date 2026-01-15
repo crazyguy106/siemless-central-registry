@@ -1,0 +1,26 @@
+title: Windows Defender ASR Rule Disabled
+id: 0e027b01-9e31-5153-b5b9-d29c86f377a0
+status: stable
+level: high
+description: |
+  The following analytic identifies when a Windows Defender ASR rule disabled events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR rule disabled events that are generated when an ASR rule is dis
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    new_registry_value: Disabled
+    field:
+      - New_Value
+      - Old_Value
+      - New_Value
+    eventcode:
+      - 5007
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://asrgen.streamlit.app/
+custom_attributes:
+  original_rule_id: 429d611b-3183-49a7-b235-fc4203c4e1cb
+  source_format: splunk_spl

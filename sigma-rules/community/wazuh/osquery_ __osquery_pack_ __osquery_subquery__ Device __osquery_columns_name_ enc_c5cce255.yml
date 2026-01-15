@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Device $(osquery.columns.name) encryption status is $(osquery.columns.encryption_status)'
+id: 33029cca-6150-5d05-842b-e20f60ac27da
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Device $(osquery.columns.name) encryption status is $(osquery.columns.encryption_status)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: disk_encryption
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24134
+  wazuh_level: 4

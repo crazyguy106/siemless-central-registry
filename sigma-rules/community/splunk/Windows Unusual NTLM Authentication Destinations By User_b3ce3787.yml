@@ -1,0 +1,26 @@
+title: Windows Unusual NTLM Authentication Destinations By User
+id: 5e66a072-8e2e-5a37-9170-2ced0c2aa4cf
+status: stable
+level: medium
+description: |
+  The following analytic detects when an unusual number of NTLM authentications is attempted by the same user account against multiple destinations. This activity generally results when an attacker attempts to brute force, password spray, or otherwise authenticate to numerous domain joined Windows devices using an NTLM based process/attack. This same activity may also generate a large number of EventID 4776 events as well.
+author: Steven Dick
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    eventcode: 8004
+    user: UserName
+  condition: selection
+tags:
+  - attack.t1110.003
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
+  - https://techcommunity.microsoft.com/t5/microsoft-defender-for-identity/enriched-ntlm-authentication-data-using-windows-event-8004/m-p/871827
+  - https://www.varonis.com/blog/investigate-ntlm-brute-force
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrpc/4d1235e3-2c96-4e9f-a147-3cb338a0d09f
+custom_attributes:
+  original_rule_id: a4d86702-402b-4a4f-8d06-9d61e6c39cad
+  source_format: splunk_spl

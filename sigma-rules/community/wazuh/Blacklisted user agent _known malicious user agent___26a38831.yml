@@ -1,0 +1,32 @@
+title: Blacklisted user agent (known malicious user agent).
+id: 00950332-f620-5083-a40a-cff8e5a3c4ec
+status: stable
+level: medium
+description: Blacklisted user agent (known malicious user agent).
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - '"ZmEu"'
+      - '"libwww-perl/'
+      - '"the beast"'
+      - '"Morfeus'
+      - '"ZmEu'
+      - '"Nikto'
+      - '"w3af.sourceforge.net'
+      - 'Jorgee"'
+      - '"Proxy Gear Pro'
+      - '"DataCha0s'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31508
+  wazuh_level: 6

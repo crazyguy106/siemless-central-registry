@@ -1,0 +1,25 @@
+title: 'Docker: Container $(docker.Actor.Attributes.name) deleted'
+id: dbd2f678-6d8a-5ab0-ad85-63a6d19ab933
+status: stable
+level: medium
+description: 'Docker: Container $(docker.Actor.Attributes.name) deleted'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^delete$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+tags:
+  - attack.t1107
+  - attack.t1488
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87921
+  wazuh_level: 7

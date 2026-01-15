@@ -1,0 +1,24 @@
+title: Cisco Duo Policy Allow Network Bypass 2FA
+id: 5005cac4-ee7d-5c37-b581-1529660947ff
+status: stable
+level: high
+description: |
+  The following analytic detects when a Duo policy is created or updated to allow network-based bypass of two-factor authentication (2FA).  It identifies this behavior by searching Duo administrator logs for policy creation or update actions where the networks_allow field is present,  indicating that specific networks have been permitted to bypass 2FA requirements. This is achieved by parsing the event description and  filtering for relevant policy changes, then aggregating the results by user and
+author: Patrick Bareiss, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    action:
+      - policy_update
+      - policy_create
+    input: description
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://splunkbase.splunk.com/app/7404
+custom_attributes:
+  original_rule_id: 2593f641-6192-4f3d-b96c-2bd1c706215f
+  source_format: splunk_spl

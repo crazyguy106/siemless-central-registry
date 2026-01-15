@@ -1,0 +1,24 @@
+title: Attack against Wordpress detected.
+id: 1a91b0d0-bb22-5388-99a1-d37e25457aea
+status: stable
+level: medium
+description: Attack against Wordpress detected.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'Warning: IDS:'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-9500
+tags:
+  - attack.t1102
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9510
+  wazuh_level: 7

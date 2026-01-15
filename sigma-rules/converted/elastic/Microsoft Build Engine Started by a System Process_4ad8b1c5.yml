@@ -1,0 +1,31 @@
+title: Microsoft Build Engine Started by a System Process
+id: 9d110cb3-5f4b-4c9a-b9f5-53f0a1707ae3
+status: stable
+level: medium
+description: 'An instance of MSBuild, the Microsoft Build Engine, was started by Explorer
+  or the WMI (Windows Management
+
+  Instrumentation) subsystem. This behavior is unusual and is sometimes used by malicious
+  payloads.'
+author: Elastic (converted by SIEMLess)
+date: '2020-03-25'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_name|contains:
+    - explorer.exe
+    - wmiprvse.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1127.001
+- attack.t1127
+falsepositives:
+- The Build Engine is commonly used by Windows developers but use by non-engineers
+  is unusual.

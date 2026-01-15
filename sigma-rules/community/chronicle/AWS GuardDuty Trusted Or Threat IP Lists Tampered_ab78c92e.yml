@@ -1,0 +1,24 @@
+title: AWS GuardDuty Trusted Or Threat IP Lists Tampered
+id: 72347094-b6e0-5292-9406-a29e2e0080bd
+status: experimental
+level: high
+description: Detects when a GuardDuty Detector's trusted or threat intel IP lists are deleted or disabled.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - DeleteIPSet
+      - DeleteThreatIntelSet
+      - UpdateIPSet
+      - UpdateThreatIntelSet
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_bdf03398-6341-4f2a-a8ce-9056c82fda2e
+  source_format: chronicle_yaral

@@ -1,0 +1,37 @@
+title: 'MS-FTP: Multiple connection attempts from same source.'
+id: 17b99c93-d6af-5ab9-84b2-2f675aa012a5
+status: stable
+level: high
+description: 'MS-FTP: Multiple connection attempts from same source.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 30s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+  - type: sequence
+    parent_rule: wazuh-11501
+    window:
+      maxspan: 30s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11511
+  wazuh_level: 10

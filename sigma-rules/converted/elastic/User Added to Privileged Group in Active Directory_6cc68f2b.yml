@@ -1,0 +1,49 @@
+title: User Added to Privileged Group in Active Directory
+id: 5cd8e1f7-0050-4afc-b2df-904e40b2f5ae
+status: stable
+level: medium
+description: 'Identifies a user being added to a privileged group in Active Directory.
+  Privileged accounts and groups in Active
+
+  Directory are those to which powerful rights, privileges, and permissions are granted
+  that allow them to perform nearly
+
+  any action in Active Directory and on domain-joined systems.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-09'
+modified: '2025-04-24'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_action: added-member-to-group
+    group_name|contains:
+    - Admin*
+    - Domain Admins
+    - Enterprise Admins
+    - Backup Admins
+    - Schema Admins
+    - DnsAdmins
+    - Exchange Organization Administrators
+    - Print Operators
+    - Server Operators
+    - Account Operators
+    group_id|contains:
+    - S-1-5-21-*-544
+    - S-1-5-21-*-512
+    - S-1-5-21-*-519
+    - S-1-5-21-*-551
+    - S-1-5-21-*-518
+    - S-1-5-21-*-1101
+    - S-1-5-21-*-1102
+    - S-1-5-21-*-550
+    - S-1-5-21-*-549
+    - S-1-5-21-*-548
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1098
+references:
+- https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory

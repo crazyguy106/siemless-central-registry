@@ -1,0 +1,31 @@
+title: Cisco NVM - Installation of Typosquatted Python Package
+id: d262c118-6528-5617-9817-a7df6e5051dc
+status: stable
+level: high
+description: |
+  This analytic detects suspicious python package installations where the package name resembles popular Python libraries but may be typosquatted or slightly altered. Typosquatting is a common technique used by attackers to trick users into installing malicious packages that mimic legitimate ones. This detection leverages Cisco NVM flow telemetry and checks for pip or poetry package managers with the "install" or "add" flags, making outbound connections to package repository such as `pypi.org` wit
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process_arguments:
+      - '*pip*'
+      - '*install*'
+      - '*poetry*'
+      - '*add*'
+    field: process_arguments
+    dest_hostname:
+      - '*.pythonhosted.org'
+      - '*pypi.org'
+      - '*python-poetry.org'
+  condition: selection
+tags:
+  - attack.t1059
+references:
+  - https://securelist.com/two-more-malicious-python-packages-in-the-pypi/107218/
+  - https://blog.checkpoint.com/securing-the-cloud/pypi-inundated-by-malicious-typosquatting-campaign/
+  - https://rhisac.org/threat-intelligence/typosquatting-campaign-targets-python-developers-with-hundreds-of-malicious-libraries/
+custom_attributes:
+  original_rule_id: 5e3f6b44-42cb-4f8a-99f0-59e78a52ea1d
+  source_format: splunk_spl

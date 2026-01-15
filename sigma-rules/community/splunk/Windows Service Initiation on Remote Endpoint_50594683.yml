@@ -1,0 +1,21 @@
+title: Windows Service Initiation on Remote Endpoint
+id: 34f8ff8f-aa69-5f2c-9ca2-7fd30caf706c
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `sc.exe` with command-line arguments used to start a Windows Service on a remote endpoint. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because adversaries may exploit the Service Control Manager for lateral movement and remote code execution. If confirmed malicious, this could allow attackers to execute arbitrary code on remote systems, pote
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1543.003
+references:
+  - https://docs.microsoft.com/en-us/windows/win32/services/controlling-a-service-using-sc
+  - https://attack.mitre.org/techniques/T1543/003/
+custom_attributes:
+  original_rule_id: 3f519894-4276-11ec-ab02-3e22fbd008af
+  source_format: splunk_spl

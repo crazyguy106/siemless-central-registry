@@ -1,0 +1,26 @@
+title: Windows Cisco Secure Endpoint Unblock File Via Sfc
+id: 19b5a87d-1eb7-588d-8390-602c3bbe0078
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the sfc.exe utility with the "-unblock" parameter, a feature within Cisco Secure Endpoint. The "-unblock" flag is used to remove system blocks imposed by the endpoint protection. This detection focuses on command-line activity that includes the "-unblock" parameter, as it may indicate an attempt to restore access to files or processes previously blocked by the security software. While this action could be legitimate in troubleshooting scenarios, maliciou
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    process_name: sfc.exe
+    process: '* -unblock *'
+    process_path:
+      - '*:\\Windows\\System32\\*'
+      - '*:\\Windows\\SysWOW64\\*'
+      - ':\\Windows\\WinSxS\\*'
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://www.cisco.com/c/en/us/support/docs/security/amp-endpoints/213690-amp-for-endpoint-command-line-switches.html
+custom_attributes:
+  original_rule_id: 9a7a490c-5581-4c95-bab5-a21e351293ef
+  source_format: splunk_spl

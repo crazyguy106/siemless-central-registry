@@ -1,0 +1,22 @@
+title: Tor Connections
+id: b15e7c0e-21f3-4e47-a45a-13072cdb0739
+status: experimental
+level: medium
+description: |
+  While Tor has legitimate uses for protecting personal privacy and circumventing censorship, it is often unwanted that connections are being made to Tor nodes. Detecting connections to Tor nodes can be done using the dynamic IP list of Tor nodes provided by [dan.me.uk](https://www.dan.me.uk/), this will allow you to query the most recent nodes each time the query is executed.
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let TorNodes = externaldata(IP:string )[@"https://www.dan.me.uk/Torlist/?full"] with (format="txt", ignoreFirstRecord=False);
+let IPs = TorNodes
+ | distinct IP;
+DeviceNetworkEvents
+| where ActionType == "ConnectionSuccess"
+| where RemoteIP in (IPs)
+| project-reorder Timestamp, DeviceName, RemoteIP, InitiatingProcessAccountName,InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

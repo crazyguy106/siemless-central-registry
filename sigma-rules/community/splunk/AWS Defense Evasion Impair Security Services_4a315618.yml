@@ -1,0 +1,30 @@
+title: AWS Defense Evasion Impair Security Services
+id: 4189b1c4-7fe8-542e-88ba-550e50bf32b7
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to impair or disable AWS security services by monitoring specific deletion operations across GuardDuty, AWS WAF (classic and v2), CloudWatch, Route 53, and CloudWatch Logs. These actions include deleting detectors, rule groups, IP sets, web ACLs, logging configurations, alarms, and log streams. Adversaries may perform such operations to evade detection or remove visibility from defenders. By explicitly pairing eventName values with their corresponding even
+author: Bhavin Patel, Gowthamaraj Rajendran, Splunk, PashFW, Github Community
+logsource:
+  product: aws
+detection:
+  selection:
+    eventname:
+      - DeleteIPSet
+      - DeleteWebACL
+      - DeleteRuleGroup
+      - DeleteRule
+    eventsource:
+      - wafv2.amazonaws.com
+      - waf.amazonaws.com
+      - route53.amazonaws.com
+  condition: selection
+tags:
+  - attack.t1562.008
+references:
+  - https://docs.aws.amazon.com/cli/latest/reference/guardduty/index.html
+  - https://docs.aws.amazon.com/cli/latest/reference/waf/index.html
+  - https://www.elastic.co/guide/en/security/current/prebuilt-rules.html
+custom_attributes:
+  original_rule_id: b28c4957-96a6-47e0-a965-6c767aac1458
+  source_format: splunk_spl

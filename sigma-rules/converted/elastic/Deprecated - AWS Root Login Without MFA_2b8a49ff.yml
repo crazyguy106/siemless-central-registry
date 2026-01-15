@@ -1,0 +1,32 @@
+title: Deprecated - AWS Root Login Without MFA
+id: bc0c6f0d-dab0-47a3-b135-0925f0a333bc
+status: stable
+level: high
+description: 'Identifies attempts to login to AWS as the root user without using multi-factor
+  authentication (MFA). Amazon AWS best
+
+  practices indicate that the root user should be protected by MFA.'
+author: Elastic (converted by SIEMLess)
+date: '2020-07-06'
+modified: '2025-10-10'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: signin.amazonaws.com
+    event_action: ConsoleLogin
+    aws_cloudtrail_user_identity_type: Root
+    aws_cloudtrail_console_login_additional_eventdata_mfa_used: 'false'
+    event_outcome: success
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1078
+references:
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html
+falsepositives:
+- "    Some organizations allow login with the root user without MFA, however, this\
+  \ is not considered best practice by AWS\n    and increases the risk of compromised\
+  \ credentials.\n    "

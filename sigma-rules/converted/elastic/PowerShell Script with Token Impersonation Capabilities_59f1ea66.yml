@@ -1,0 +1,39 @@
+title: PowerShell Script with Token Impersonation Capabilities
+id: 11dd9713-0ec6-4110-9707-32daae1ee68c
+status: stable
+level: medium
+description: 'Detects scripts that contain PowerShell functions, structures, or Windows
+  API functions related to token
+
+  impersonation/theft. Attackers may duplicate then impersonate another user''s token
+  to escalate privileges and bypass
+
+  access controls.'
+author: Elastic (converted by SIEMLess)
+date: '2022-08-17'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: New-HPPrivateToastNotificationLogo
+    user_id: ("S-1-5-18
+    file_directory: C:\\ProgramData\\Microsoft\\Windows
+    file_path: C:\Program
+  condition: selection
+tags:
+- attack.execution
+- attack.privilege_escalation
+- attack.t1134.001
+- attack.t1134
+- attack.t1059
+- attack.t1106
+- attack.t1059.001
+references:
+- https://github.com/decoder-it/psgetsystem
+- https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/Get-System.ps1
+- https://github.com/EmpireProject/Empire/blob/master/data/module_source/privesc/Invoke-MS16032.ps1
+- https://github.com/atc-project/atc-data/blob/master/docs/Logging_Policies/LP_0109_windows_powershell_script_block_log.md

@@ -1,0 +1,28 @@
+title: O365 Application Available To Other Tenants
+id: a9a92da6-e8ac-5015-9082-277dea41cb58
+status: stable
+level: high
+description: |
+  The following analytic identifies the configuration of Azure Active Directory Applications in a manner that allows authentication from external tenants or personal accounts. This configuration can lead to inappropriate or malicious access of any data or capabilities the application is allowed to access. This detection leverages the O365 Universal Audit Log data source.
+author: Steven Dick
+logsource:
+  product: azure
+detection:
+  selection:
+    object_attrs: AvailableToOtherTenants
+    result: added
+    workload: AzureActiveDirectory
+    name: AvailableToOtherTenants
+    operation:
+      - Add application.
+      - Update application.
+  condition: selection
+tags:
+  - attack.t1098.003
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://msrc.microsoft.com/blog/2023/03/guidance-on-potential-misconfiguration-of-authorization-of-multi-tenant-applications-that-use-azure-ad/
+  - https://www.wiz.io/blog/azure-active-directory-bing-misconfiguration
+custom_attributes:
+  original_rule_id: 942548a3-0273-47a4-8dbd-e5202437395c
+  source_format: splunk_spl

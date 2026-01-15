@@ -1,0 +1,29 @@
+title: PowerShell Kerberos Ticket Dump
+id: fddff193-48a3-484d-8d35-90bb3d323a56
+status: stable
+level: high
+description: 'Detects PowerShell scripts that have the capability of dumping Kerberos
+  tickets from LSA, which potentially indicates an
+
+  attacker''s attempt to acquire credentials for lateral movement.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-26'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: (
+  condition: selection
+tags:
+- attack.execution
+- attack.credential_access
+- attack.t1003
+- attack.t1059
+- attack.t1059.001
+- attack.t1558
+references:
+- https://github.com/MzHmO/PowershellKerberos/blob/main/dumper.ps1

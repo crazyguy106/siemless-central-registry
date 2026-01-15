@@ -1,0 +1,45 @@
+title: Unusual Parent Process for cmd.exe
+id: 3b47900d-e793-49e8-968f-c90dc3526aa1
+status: stable
+level: medium
+description: Identifies a suspicious parent child process relationship with cmd.exe
+  descending from an unusual process.
+author: Elastic (converted by SIEMLess)
+date: '2020-08-21'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_name|contains:
+    - lsass.exe
+    - csrss.exe
+    - epad.exe
+    - regsvr32.exe
+    - dllhost.exe
+    - LogonUI.exe
+    - wermgr.exe
+    - spoolsv.exe
+    - jucheck.exe
+    - jusched.exe
+    - ctfmon.exe
+    - taskhostw.exe
+    - GoogleUpdate.exe
+    - sppsvc.exe
+    - sihost.exe
+    - slui.exe
+    - SIHClient.exe
+    - SearchIndexer.exe
+    - SearchProtocolHost.exe
+    - FlashPlayerUpdateService.exe
+    - WerFault.exe
+    - WUDFHost.exe
+    - unsecapp.exe
+    - wlanext.exe
+  condition: selection
+tags:
+- attack.execution
+- attack.t1059

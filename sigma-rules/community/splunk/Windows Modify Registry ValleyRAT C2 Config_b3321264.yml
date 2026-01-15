@@ -1,0 +1,27 @@
+title: Windows Modify Registry ValleyRAT C2 Config
+id: ceb62423-50d1-55f9-a546-0d070447363c
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to theregistry related to ValleyRAT C2 configuration. Specifically,  it monitors changes in registry keys where ValleyRAT saves the IP address and port information of its command-and-control (C2) server. This activity is a key indicator of ValleyRAT attempting to establish persistent communication with its C2 infrastructure. By identifying these unauthorized registry modifications, security analysts can quickly detect malicious configurations and inve
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path:
+      - '*\\Console\\IpDateInfo'
+      - '*\\Console\\SelfPath'
+    registry_value_data:
+      - Binary Data
+      - '*.exe'
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
+  - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+custom_attributes:
+  original_rule_id: ac59298a-8d81-4c02-8c9b-ffdac993891f
+  source_format: splunk_spl

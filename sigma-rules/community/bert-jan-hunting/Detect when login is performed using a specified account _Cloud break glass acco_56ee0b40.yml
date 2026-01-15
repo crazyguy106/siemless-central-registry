@@ -1,0 +1,29 @@
+title: Detect when login is performed using a specified account (Cloud break glass account)
+id: 244ed994-0456-4198-a613-46bbe20ef179
+status: experimental
+level: medium
+description: |
+  It is best practice to have break glass accounts, which are excluded from all conditional access policies. To monitor all login activities under a specified account, this Detection Rule can be used. If any activity is performed using the specified account, an alert will be generated.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AADSignInEventsBeta
+| where AccountDisplayName  == "Input display name of account here"
+| project AccountDisplayName,
+     Country,
+     IPAddress,
+     Timestamp,
+     Application,
+     DeviceName,
+     ReportId,
+     LogonType,
+     SessionId,
+     OSPlatform,
+     AccountObjectId,
+     AccountUpn
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,25 @@
+title: Kubernetes Shell Running on Worker Node with CPU Activity
+id: d4a03c04-1f58-569e-9c90-bf6976c7cc9b
+status: experimental
+level: medium
+description: |
+  The following analytic identifies shell activity within the Kubernetes privilege scope on a worker node, specifically when shell processes are consuming CPU resources. It leverages process metrics from an OTEL collector hostmetrics receiver, pulled from Splunk Observability Cloud via the Splunk Infrastructure Monitoring Add-on, focusing on process.cpu.utilization and process.memory.utilization. This activity is significant as unauthorized shell processes can indicate a security threat, potential
+author: Matthew Moore, Splunk
+logsource:
+  product: kubernetes
+detection:
+  selection:
+    span: 10s
+    name:
+      - sh
+      - bash
+      - csh
+      - tcsh
+  condition: selection
+tags:
+  - attack.t1204
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart/tree/main
+custom_attributes:
+  original_rule_id: cc1448e3-cc7a-4518-bc9f-2fa48f61a22b
+  source_format: splunk_spl

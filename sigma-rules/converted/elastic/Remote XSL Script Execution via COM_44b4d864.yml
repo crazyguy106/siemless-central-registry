@@ -1,0 +1,35 @@
+title: Remote XSL Script Execution via COM
+id: 48f657ee-de4f-477c-aa99-ed88ee7af97a
+status: stable
+level: low
+description: 'Identifies the execution of a hosted XSL script using the Microsoft.XMLDOM
+  COM interface via Microsoft Office processes.
+
+  This behavior may indicate adversarial activity to execute malicious JScript or
+  VBScript on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-27'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence with maxspan=1m\n [library where host.os.type == \"windows\"\
+      \ and dll.name : \"msxml3.dll\" and\n  process.name : (\"winword.exe\", \"excel.exe\"\
+      , \"powerpnt.exe\", \"mspub.exe\")] by process.entity_id\n [process where host.os.type\
+      \ == \"windows\" and event.action == \"start\" and\n  process.parent.name :\
+      \ (\"winword.exe\", \"excel.exe\", \"powerpnt.exe\", \"mspub.exe\") and\n  not\
+      \ process.executable :\n        (\"?:\\\\Windows\\\\System32\\\\WerFault.exe\"\
+      ,\n         \"?:\\\\Windows\\\\SysWoW64\\\\WerFault.exe\",\n         \"?:\\\\\
+      windows\\\\splwow64.exe\",\n         \"?:\\\\Windows\\\\System32\\\\conhost.exe\"\
+      ,\n         \"?:\\\\Program Files\\\\*.exe\",\n         \"?:\\\\Program Files\
+      \ (x86)\\\\*exe\")] by process.parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.initial_access
+- attack.t1566
+- attack.t1220
+- attack.t1566.002

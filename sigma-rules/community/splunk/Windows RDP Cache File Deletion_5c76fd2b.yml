@@ -1,0 +1,27 @@
+title: Windows RDP Cache File Deletion
+id: eb4e7f2b-7301-5246-aac9-584c3dd62a9e
+status: stable
+level: medium
+description: |
+  This detection identifies the deletion of RDP bitmap cache files—specifically .bmc and .bin files—typically stored in the user profile under the Terminal Server Client\Cache directory. These files are created by the native Windows Remote Desktop Client (mstsc.exe) and store graphical elements from remote sessions to improve performance. Deleting these files may indicate an attempt to remove forensic evidence of RDP usage. While rare in legitimate user behavior, this action is commonly associated
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    eventcode:
+      - 23
+      - 26
+    targetfilename:
+      - '*\\Terminal Server Client\\Cache\\*.bmc'
+      - '*\\Terminal Server Client\\Cache\\cache*.bin'
+  condition: selection
+tags:
+  - attack.t1070.004
+references:
+  - https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+  - https://thelocalh0st.github.io/posts/rdp/
+custom_attributes:
+  original_rule_id: f3e86ff3-b1f9-4382-8924-6913385f1019
+  source_format: splunk_spl

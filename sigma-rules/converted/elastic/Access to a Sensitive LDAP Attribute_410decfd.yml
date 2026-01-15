@@ -1,0 +1,36 @@
+title: Access to a Sensitive LDAP Attribute
+id: 764c9fcd-4c4c-41e6-a0c7-d6c46c2eff66
+status: stable
+level: medium
+description: 'Identify access to sensitive Active Directory object attributes that
+  contains credentials and decryption keys such as
+
+  unixUserPassword, ms-PKI-AccountCredentials and msPKI-CredentialRoamingTokens.'
+author: Elastic (converted by SIEMLess)
+date: '2022-11-09'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '4662'
+    winlog_event_data_Properties|contains:
+    - '*612cb747-c0e8-4f92-9221-fdd5f15b550d*'
+    - '*b8dfa744-31dc-4ef1-ac7c-84baf7ef9da7*'
+    - '*b3f93023-9239-4f7c-b99c-6745d87adbc2*'
+    - '*b7ff5a38-0818-42b0-8110-d3d154c97f24*'
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.credential_access
+- attack.t1003
+- attack.t1078.002
+- attack.t1552
+- attack.t1078
+- attack.t1552.004
+references:
+- https://www.mandiant.com/resources/blog/apt29-windows-credential-roaming
+- https://social.technet.microsoft.com/wiki/contents/articles/11483.windows-credential-roaming.aspx
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4662

@@ -1,0 +1,41 @@
+title: RDP Enabled via Registry
+id: 58aa72ca-d968-4f34-b9f7-bea51d75eb50
+status: stable
+level: medium
+description: 'Identifies registry write modifications to enable Remote Desktop Protocol
+  (RDP) access. This could be indicative of
+
+  adversary lateral movement preparation.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-25'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_data_strings|contains:
+    - '0'
+    - '0x00000000'
+    process_executable|contains:
+    - ?:\\Windows\\System32\\SystemPropertiesRemote.exe
+    - ?:\\Windows\\System32\\SystemPropertiesComputerName.exe
+    - ?:\\Windows\\System32\\SystemPropertiesAdvanced.exe
+    - ?:\\Windows\\System32\\SystemSettingsAdminFlows.exe
+    - ?:\\Windows\\WinSxS\\*\\TiWorker.exe
+    - ?:\\Windows\\system32\\svchost.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\SystemPropertiesRemote.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\SystemPropertiesComputerName.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\SystemPropertiesAdvanced.exe
+    - \\Device\\HarddiskVolume*\\Windows\\System32\\SystemSettingsAdminFlows.exe
+    - \\Device\\HarddiskVolume*\\Windows\\WinSxS\\*\\TiWorker.exe
+    - \\Device\\HarddiskVolume*\\Windows\\system32\\svchost.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.lateral_movement
+- attack.t1021.001
+- attack.t1112
+- attack.t1021

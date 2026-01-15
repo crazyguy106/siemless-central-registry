@@ -1,0 +1,21 @@
+title: Midnight Blizzard - suspicious rundll32.exe execution of vbscript
+id: 679cf726-bd27-5290-abb8-fcf5ae265e0d
+status: stable
+level: medium
+description: |
+  'This query idenifies when rundll32.exe executes a specific set of inline VBScript commands  References: https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/'
+author: Microsoft Security Research
+logsource:
+  product: azure
+  category: process_creation
+detection:
+  selection:
+    Process:
+      - rundll32.exe
+      - rundll32.exe
+  condition: selection
+tags:
+  - attack.t1547
+custom_attributes:
+  original_rule_id: d82e1987-4356-4a7b-bc5e-064f29b143c0
+  source_format: azure_kql

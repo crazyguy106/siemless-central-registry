@@ -1,0 +1,20 @@
+title: KQL Regex List
+id: 0c1ca055-e693-428f-8a29-9e89770af7d5
+status: experimental
+level: medium
+description: |
+  KQL detection rule: KQL Regex List
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let RegexTest = @'\W*((?i)Admin(?-i))\W*';
+let DataSet = materialize (range numbers from 1 to 10 step 1);
+DataSet
+| extend StringTest = iff(numbers % 2  == 0, 'Admin', 'User') // Change Admin to a string that should match the RegexTest, change User to a string that should not match the RegexTest
+| where StringTest matches regex RegexTest
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

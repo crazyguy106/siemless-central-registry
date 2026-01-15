@@ -1,0 +1,22 @@
+title: Windows Steal Authentication Certificates Export Certificate
+id: 26758374-7a31-5671-aa49-873bb4f43ed4
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the PowerShell cmdlet 'export-certificate' executed via the command line, indicating an attempt to export a certificate from the local Windows Certificate Store. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs and command-line arguments. Exporting certificates is significant as it may indicate credential theft or preparation for man-in-the-middle attacks. If confirmed malicious, this act
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    process: '*export-certificate*'
+  condition: selection
+tags:
+  - attack.t1649
+references:
+  - https://dev.to/iamthecarisma/managing-windows-pfx-certificates-through-powershell-3pj
+  - https://learn.microsoft.com/en-us/powershell/module/pki/export-certificate?view=windowsserver2022-ps
+custom_attributes:
+  original_rule_id: e39dc429-c2a5-4f1f-9c3c-6b211af6b332
+  source_format: splunk_spl

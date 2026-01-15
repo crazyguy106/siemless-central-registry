@@ -1,0 +1,18 @@
+title: Detect Excessive Account Lockouts From Endpoint
+id: 7aecddef-b2ed-5a5f-a59f-cb1e8964816d
+status: stable
+level: medium
+description: |
+  The following analytic detects endpoints causing a high number of account lockouts within a short period. It leverages the Windows security event logs ingested into the `Change` datamodel, specifically under the `Account_Management` node, to identify and count lockout events. This activity is significant as it may indicate a brute-force attack or misconfigured system causing repeated authentication failures. If confirmed malicious, this behavior could lead to account lockouts, disrupting user ac
+author: David Dorsey, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    result: '*lock*'
+  condition: selection
+tags:
+  - attack.t1078.002
+custom_attributes:
+  original_rule_id: c026e3dd-7e18-4abb-8f41-929e836efe74
+  source_format: splunk_spl

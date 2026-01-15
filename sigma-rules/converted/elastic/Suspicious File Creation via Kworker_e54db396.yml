@@ -1,0 +1,45 @@
+title: Suspicious File Creation via Kworker
+id: ae343298-97bc-47bc-9ea2-5f2ad831c16e
+status: stable
+level: medium
+description: 'This rule monitors for a file creation event originating from a kworker
+  parent process. kworker, or kernel worker,
+
+  processes are part of the kernel''s workqueue mechanism. They are responsible for
+  executing work that has been scheduled
+
+  to be done in kernel space, which might include tasks like handling interrupts,
+  background activities, and other
+
+  kernel-related tasks. Attackers may attempt to evade detection by masquerading as
+  a kernel worker process.'
+author: Elastic (converted by SIEMLess)
+date: '2023-10-26'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    file_path|contains:
+    - /var/log/*
+    - /var/crash/*
+    - /var/run/*
+    - /var/lib/systemd/coredump/*
+    - /var/spool/*
+    - /var/lib/nfs/nfsdcltrack/main.sqlite-journal
+    - /proc/*/cwd/core.*
+    - /var/run/apport.lock
+    - /var/spool/abrt/ccpp-*
+    - /var/lib/dynatrace/oneagent/*
+    - /var/lib/nfs*
+    - /run/user/*/.bubblewrap/*
+    - /etc/localtime/*
+    - /proc/*/cwd/core.*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1547
+- attack.t1014

@@ -1,0 +1,27 @@
+title: Linux Deletion Of Services
+id: 17dc23ec-2dc5-56c4-ade9-7487ef092db4
+status: stable
+level: high
+description: |
+  The following analytic detects the deletion of services on a Linux machine. It leverages filesystem event logs to identify when service files within system directories (e.g., /etc/systemd/, /lib/systemd/, /run/systemd/) are deleted. This activity is significant because attackers may delete or modify services to disable security features or evade defenses. If confirmed malicious, this behavior could indicate an attempt to impair system functionality or execute a destructive payload, potentially l
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    file_path:
+      - /etc/systemd/*
+      - '*/lib/systemd/*'
+      - '*/run/systemd/*'
+    action: deleted
+  condition: selection
+tags:
+  - attack.t1070.004
+  - attack.t1485
+references:
+  - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+  - https://unix.stackexchange.com/questions/224992/where-do-i-put-my-systemd-unit-file
+  - https://cert.gov.ua/article/3718487
+custom_attributes:
+  original_rule_id: b509bbd3-0331-4aaa-8e4a-d2affe100af6
+  source_format: splunk_spl

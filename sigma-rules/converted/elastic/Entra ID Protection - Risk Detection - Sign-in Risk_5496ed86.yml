@@ -1,0 +1,48 @@
+title: Entra ID Protection - Risk Detection - Sign-in Risk
+id: 064a2e08-25da-11f0-b1f1-f661ea17fbcd
+status: stable
+level: high
+description: 'Identifies sign-in risk detection events via Microsofts Entra ID Protection
+  service. Entra ID Protection detects sign-in
+
+  activity such as anonymized IP addresses, unlikely travel, password spray, and more.'
+author: Elastic (converted by SIEMLess)
+date: '2025-04-29'
+modified: '2025-09-08'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.identity_protection
+    event_action: User
+    azure_identityprotection_properties_activity: signin
+  condition: selection
+tags:
+- attack.initial_access
+- attack.command_and_control
+- attack.credential_access
+- attack.t1071
+- attack.t1110
+- attack.t1556
+- attack.t1110.003
+- attack.t1078.004
+- attack.t1078
+references:
+- https://www.volexity.com/blog/2025/04/22/phishing-for-codes-russian-threat-actors-target-microsoft-365-oauth-workflows/
+- https://github.com/dirkjanm/ROADtools
+- https://dirkjanm.io/phishing-for-microsoft-entra-primary-refresh-tokens/
+- https://learn.microsoft.com/en-us/entra/id-protection/concept-identity-protection-risks#risk-types-and-detection
+- https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/
+falsepositives:
+- "    Users accessing their accounts from anonymized IP addresses, such as VPNs or\
+  \ Tor, may trigger this rule. If this is\n    expected behavior in your environment,\
+  \ consider adjusting the rule or adding exceptions for specific users or IP\n  \
+  \  ranges.\n    "
+- "    Users who frequently travel or access their accounts from different geographic\
+  \ locations may trigger this rule due\n    to the unlikely travel detection mechanism.\
+  \ If this is expected behavior, consider adjusting the rule or adding\n    exceptions\
+  \ for specific users.\n    "
+- "    Users who have recently changed their passwords may trigger this rule due to\
+  \ the password spray detection mechanism.\n    If this is expected behavior, consider\
+  \ adjusting the rule or adding exceptions for specific users.\n    "

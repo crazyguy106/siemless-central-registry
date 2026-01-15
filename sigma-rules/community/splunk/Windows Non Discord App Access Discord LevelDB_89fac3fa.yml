@@ -1,0 +1,27 @@
+title: Windows Non Discord App Access Discord LevelDB
+id: c2bbf587-c93b-5ab7-bd83-827b53611121
+status: stable
+level: medium
+description: |
+  The following analytic detects non-Discord applications accessing the Discord LevelDB database. It leverages Windows Security Event logs, specifically event code 4663, to identify file access attempts to the LevelDB directory by processes other than Discord. This activity is significant as it may indicate attempts to steal Discord credentials or access sensitive user data. If confirmed malicious, this could lead to unauthorized access to user profiles, messages, and other critical information, p
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4663
+    object_file_path:
+      - '*\\discord\\Local Storage\\leveldb*'
+    process_path:
+      - '*:\\Windows\\System32\\*'
+      - '*:\\Windows\\SysWow64\\*'
+      - '*:\\Program Files*'
+      - '*:\\Windows\\*'
+  condition: selection
+tags:
+  - attack.t1012
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.404keylogger
+custom_attributes:
+  original_rule_id: 1166360c-d495-45ac-87a6-8948aac1fa07
+  source_format: splunk_spl

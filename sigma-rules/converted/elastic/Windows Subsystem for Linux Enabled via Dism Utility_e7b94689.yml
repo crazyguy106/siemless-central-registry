@@ -1,0 +1,25 @@
+title: Windows Subsystem for Linux Enabled via Dism Utility
+id: e2e0537d-7d8f-4910-a11d-559bcf61295a
+status: stable
+level: medium
+description: 'Detects attempts to enable the Windows Subsystem for Linux using Microsoft
+  Dism utility. Adversaries may enable and use
+
+  WSL for Linux to avoid detection.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-13'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    process_pe_original_file_name: DISM.EXE
+    process_command_line|endswith: Microsoft-Windows-Subsystem-Linux*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1202
+references:
+- https://blog.f-secure.com/hunting-for-windows-subsystem-for-linux/

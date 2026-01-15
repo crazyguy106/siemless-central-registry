@@ -1,0 +1,20 @@
+title: Sentinel Workspace Disconnected
+id: 1735c2f9-6bcc-4732-ad5c-343efb255dcc
+status: experimental
+level: medium
+description: |
+  This query returns results if Sentinel workspaces have been removed from Unified XDR. These activities should be monitored to make sure that sentinel environments are not by mistakenly or purposely removed from your XDR environment.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "SentinelDisconnectWorkspace"
+| extend WorkspaceId = tostring(RawEventData.WorkspaceId), Status = tostring(RawEventData.Status), SubscriptionId = tostring(RawEventData.SubscriptionId), ResourceGroup = tostring(RawEventData.ResourceGroup), WorkspaceType = tostring(RawEventData.WorkspaceType)
+| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+| project-reorder Timestamp, InitiatedByAccountName, InitiatedByAccounttId, IPAddress, WorkspaceType, Status, WorkspaceId, ResourceGroup, SubscriptionId
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

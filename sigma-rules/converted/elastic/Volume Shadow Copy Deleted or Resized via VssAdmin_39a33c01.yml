@@ -1,0 +1,26 @@
+title: Volume Shadow Copy Deleted or Resized via VssAdmin
+id: b5ea4bfe-a1b2-421f-9d47-22a75a6f2921
+status: stable
+level: high
+description: 'Identifies use of vssadmin.exe for shadow copy deletion or resizing
+  on endpoints. This commonly occurs in tandem with
+
+  ransomware or other destructive attacks.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: VSSADMIN.EXE
+    process_args|contains:
+    - delete
+    - resize
+  condition: selection
+tags:
+- attack.impact
+- attack.t1490

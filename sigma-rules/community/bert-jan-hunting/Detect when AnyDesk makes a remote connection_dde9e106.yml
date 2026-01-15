@@ -1,0 +1,28 @@
+title: Detect when AnyDesk makes a remote connection
+id: df1df8a1-4eb6-4052-8f38-8f439021199f
+status: experimental
+level: medium
+description: |
+  List devices from which AnyDesk makes a remote connection.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where InitiatingProcessFileName == "AnyDesk.exe"
+| where LocalIPType == "Private"
+| where RemoteIPType == "Public"
+| where RemoteUrl != "boot.net.anydesk.com" // Initial AnyDesk Connection when booted.
+| project
+     Timestamp,
+     DeviceId,
+     InitiatingProcessAccountName,
+     ActionType,
+     RemoteIP,
+     RemotePort,
+     RemoteUrl
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

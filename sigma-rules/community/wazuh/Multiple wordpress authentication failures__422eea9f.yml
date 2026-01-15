@@ -1,0 +1,29 @@
+title: Multiple wordpress authentication failures.
+id: 4f771fe5-1be5-5def-813b-58df543e0e71
+status: stable
+level: high
+description: Multiple wordpress authentication failures.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: sequence
+    parent_rule: wazuh-9501
+    enforce_order: true
+  - type: correlation
+    join_on:
+      - source.ip
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9551
+  wazuh_level: 10

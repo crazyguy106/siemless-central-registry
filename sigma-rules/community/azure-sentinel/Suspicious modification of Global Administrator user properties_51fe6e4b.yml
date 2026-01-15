@@ -1,0 +1,18 @@
+title: Suspicious modification of Global Administrator user properties
+id: 7ea6fb1d-ab7a-52a3-b3e0-af9ceef34832
+status: stable
+level: medium
+description: |
+  'This query will detect if user properties of Global Administrator are updated by an existing user. Usually only user administrator or other global administrator can update such properties. Investigate if such user change is an attempt to elevate an existing low privileged identity or rogue administrator activity'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    OperationName: Update user
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 48602a24-67cf-4362-b258-3f4249e55def
+  source_format: azure_kql

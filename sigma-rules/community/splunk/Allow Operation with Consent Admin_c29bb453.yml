@@ -1,0 +1,23 @@
+title: Allow Operation with Consent Admin
+id: 21947b24-a74b-5a49-9057-2c52e149fcfb
+status: stable
+level: high
+description: |
+  The following analytic detects a registry modification that allows the 'Consent Admin' to perform operations requiring elevation without user consent or credentials. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the 'ConsentPromptBehaviorAdmin' value within the Windows Policies System registry path. This activity is significant as it indicates a potential privilege escalation attempt, which could allow an attacker to execute high-privilege tasks with
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*'
+    registry_value_data: 0x00000000
+    registry_value_name: ConsentPromptBehaviorAdmin
+  condition: selection
+tags:
+  - attack.t1548
+references:
+  - https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/341747f5-6b5d-4d30-85fc-fa1cc04038d4
+  - https://www.trendmicro.com/vinfo/no/threat-encyclopedia/malware/Ransom.Win32.MRDEC.MRA/
+custom_attributes:
+  original_rule_id: 7de17d7a-c9d8-11eb-a812-acde48001122
+  source_format: splunk_spl

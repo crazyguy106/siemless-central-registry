@@ -1,0 +1,39 @@
+title: AWS KMS Customer Managed Key Disabled or Scheduled for Deletion
+id: 6951f15e-533c-4a60-8014-a3c3ab851a1b
+status: stable
+level: medium
+description: 'Identifies attempts to disable or schedule the deletion of an AWS KMS
+  Customer Managed Key (CMK). Deleting an AWS KMS
+
+  key is destructive and potentially dangerous. It deletes the key material and all
+  metadata associated with the KMS key
+
+  and is irreversible. After a KMS key is deleted, the data that was encrypted under
+  that KMS key can no longer be
+
+  decrypted, which means that data becomes unrecoverable.'
+author: Elastic (converted by SIEMLess)
+date: '2022-09-21'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: kms.amazonaws.com
+    event_action: ("DisableKey
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+references:
+- https://docs.aws.amazon.com/cli/latest/reference/kms/disable-key.html
+- https://docs.aws.amazon.com/cli/latest/reference/kms/schedule-key-deletion.html
+falsepositives:
+- "    A KMS customer managed key may be disabled or scheduled for deletion by a system\
+  \ administrator. Verify whether the\n    user identity, user agent, and/or hostname\
+  \ should be making changes in your environment. Key deletions by unfamiliar\n  \
+  \  users should be investigated. If known behavior is causing false positives, it\
+  \ can be exempted from the rule.\n    "

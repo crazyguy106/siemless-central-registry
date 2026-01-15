@@ -1,0 +1,32 @@
+title: Microsoft 365 Potential ransomware activity
+id: 721999d0-7ab2-44bf-b328-6e63367b9b29
+status: stable
+level: medium
+description: 'Identifies when Microsoft Cloud App Security reports that a user has
+  uploaded files to the cloud that might be infected
+
+  with ransomware.'
+author: Elastic (converted by SIEMLess)
+date: '2021-07-15'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: SecurityComplianceCenter
+    event_category: web
+    event_action: Potential
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1486
+references:
+- https://docs.microsoft.com/en-us/cloud-app-security/anomaly-detection-policy
+- https://docs.microsoft.com/en-us/cloud-app-security/policy-template-reference
+falsepositives:
+- "    If Cloud App Security identifies, for example, a high rate of file uploads\
+  \ or file deletion activities it may\n    represent an adverse encryption process.\n\
+  \    "

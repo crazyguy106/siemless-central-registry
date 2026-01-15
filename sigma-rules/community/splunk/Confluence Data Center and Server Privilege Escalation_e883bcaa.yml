@@ -1,0 +1,31 @@
+title: Confluence Data Center and Server Privilege Escalation
+id: bf184564-4ba4-568c-9741-c331e1d930f4
+status: stable
+level: high
+description: |
+  The following analytic identifies potential exploitation attempts on a known vulnerability in Atlassian Confluence, specifically targeting the /setup/*.action* URL pattern. It leverages web logs within the Splunk 'Web' Data Model, filtering for successful accesses (HTTP status 200) to these endpoints. This activity is significant as it suggests attackers might be exploiting a privilege escalation flaw in Confluence. If confirmed malicious, it could result in unauthorized access or account creati
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Web
+    status: 200
+    url:
+      - '*/setup/setupadministrator.action*'
+      - '*/setup/finishsetup.action*'
+      - '*/json/setup-restore-local.action*'
+      - '*/json/setup-restore-progress.action*'
+      - '*/json/setup-restore.action*'
+      - '*/bootstrap/selectsetupstep.action*'
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://confluence.atlassian.com/security/cve-2023-22515-privilege-escalation-vulnerability-in-confluence-data-center-and-server-1295682276.html
+  - https://confluence.atlassian.com/security/cve-2023-22518-improper-authorization-vulnerability-in-confluence-data-center-and-server-1311473907.html
+  - https://www.rapid7.com/blog/post/2023/10/04/etr-cve-2023-22515-zero-day-privilege-escalation-in-confluence-server-and-data-center/
+  - https://attackerkb.com/topics/Q5f0ItSzw5/cve-2023-22515/rapid7-analysis
+custom_attributes:
+  original_rule_id: 115bebac-0976-4f7d-a3ec-d1fb45a39a11
+  source_format: splunk_spl

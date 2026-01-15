@@ -1,0 +1,22 @@
+title: 'Docker: Container $(docker.Actor.Attributes.name) paused'
+id: 3d523970-3eb1-51a5-9b5d-f0dac4238179
+status: stable
+level: low
+description: 'Docker: Container $(docker.Actor.Attributes.name) paused'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^pause$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87905
+  wazuh_level: 3

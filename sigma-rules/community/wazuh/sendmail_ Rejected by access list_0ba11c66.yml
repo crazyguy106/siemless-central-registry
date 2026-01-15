@@ -1,0 +1,26 @@
+title: 'sendmail: Rejected by access list'
+id: f5e3e6aa-b2e0-5f52-8b6c-1b8719ecd276
+status: stable
+level: medium
+description: 'sendmail: Rejected by access list'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - reject=550 5.0.0
+      - reject=553 5.3.0
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3101
+tags:
+  - attack.t1114
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3103
+  wazuh_level: 6

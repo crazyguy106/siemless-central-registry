@@ -1,0 +1,69 @@
+title: Windows Local LLM Framework Execution
+id: 26dbac20-94fc-5ee5-bc78-6ecf998dbc0a
+status: stable
+level: low
+description: |
+  The following analytic detects execution of unauthorized local LLM frameworks (Ollama, LM Studio, GPT4All, Jan, llama.cpp, KoboldCPP, Oobabooga, NutStudio) and Python-based AI/ML libraries (HuggingFace Transformers, LangChain) on Windows endpoints by leveraging process creation events. It identifies cases where known LLM framework executables are launched or command-line arguments reference AI/ML libraries. This activity is significant as it may indicate shadow AI deployments, unauthorized model
+author: Rod Soto, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - gpt4all.exe
+      - jan.exe
+      - kobold.exe
+      - koboldcpp.exe
+      - llama-run.exe
+      - llama.cpp.exe
+      - lmstudio.exe
+      - nutstudio.exe
+      - ollama.exe
+      - oobabooga.exe
+      - text-generation-webui.exe
+    original_file_name:
+      - ollama.exe
+      - lmstudio.exe
+      - gpt4all.exe
+      - jan.exe
+      - llama-run.exe
+      - koboldcpp.exe
+      - nutstudio.exe
+    process:
+      - '*\\gpt4all\\*'
+      - '*\\jan\\*'
+      - '*\\koboldcpp\\*'
+      - '*\\llama.cpp\\*'
+      - '*\\lmstudio\\*'
+      - '*\\nutstudio\\*'
+      - '*\\ollama\\*'
+      - '*\\oobabooga\\*'
+      - '*huggingface*'
+      - '*langchain*'
+      - '*llama-run*'
+      - '*transformers*'
+    parent_process_name:
+      - gpt4all.exe
+      - jan.exe
+      - kobold.exe
+      - koboldcpp.exe
+      - llama-run.exe
+      - llama.cpp.exe
+      - lmstudio.exe
+      - nutstudio.exe
+      - ollama.exe
+      - oobabooga.exe
+      - text-generation-webui.exe
+  condition: selection
+tags:
+  - attack.t1543
+references:
+  - https://splunkbase.splunk.com/app/8024
+  - https://www.ibm.com/think/topics/shadow-ai
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+  - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+custom_attributes:
+  original_rule_id: a3f8e2c9-7d4b-4e1f-9c6a-2b5d8f3e1a7c
+  source_format: splunk_spl

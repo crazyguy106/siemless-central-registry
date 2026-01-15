@@ -1,0 +1,41 @@
+title: File Creation, Execution and Self-Deletion in Suspicious Directory
+id: 09bc6c90-7501-494d-b015-5d988dc3f233
+status: stable
+level: medium
+description: 'This rule monitors for the creation of a file, followed by its execution
+  and self-deletion in a short timespan within a
+
+  directory often used for malicious purposes by threat actors. This behavior is often
+  used by malware to execute
+
+  malicious code and delete itself to hide its tracks.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-28'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, user.id with maxspan=1m\n  [file where host.os.type\
+      \ == \"linux\" and event.action == \"creation\" and\n   process.name in (\"\
+      curl\", \"wget\", \"fetch\", \"ftp\", \"sftp\", \"scp\", \"rsync\", \"ld\")\
+      \ and\n   file.path : (\"/dev/shm/*\", \"/run/shm/*\", \"/tmp/*\", \"/var/tmp/*\"\
+      ,\n     \"/run/*\", \"/var/run/*\", \"/var/www/*\", \"/proc/*/fd/*\")] by file.name\n\
+      \  [process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action == \"exec\" and\n   process.parent.name in (\"bash\", \"dash\"\
+      , \"ash\", \"sh\", \"tcsh\", \"csh\", \"zsh\", \"ksh\", \"fish\") and\n   not\
+      \ process.parent.executable like (\n     \"/tmp/VeeamApp*\", \"/tmp/rajh/spack-stage/*\"\
+      , \"plz-out/bin/vault/bridge/test/e2e/base/bridge-dev\",\n     \"/usr/bin/ranlib\"\
+      , \"/usr/bin/ar\", \"plz-out/bin/vault/bridge/test/e2e/base/local-k8s\"\n  \
+      \ )] by process.name\n  [file where host.os.type == \"linux\" and event.action\
+      \ == \"deletion\" and\n   file.path : (\n     \"/dev/shm/*\", \"/run/shm/*\"\
+      , \"/tmp/*\", \"/var/tmp/*\", \"/run/*\", \"/var/run/*\", \"/var/www/*\", \"\
+      /proc/*/fd/*\"\n    ) and not process.name in (\"rm\", \"ld\", \"conftest\"\
+      , \"link\", \"gcc\", \"getarch\", \"ld\")] by file.name"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.t1059
+- attack.t1059.004

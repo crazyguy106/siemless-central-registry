@@ -1,0 +1,24 @@
+title: 'PIX: Firewall failover pair communication problem.'
+id: f6e3a6c0-25fa-5f30-a121-6422452bac9e
+status: stable
+level: medium
+description: 'PIX: Firewall failover pair communication problem.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - Failed
+      - Lost Failover
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-4310
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4338
+  wazuh_level: 8

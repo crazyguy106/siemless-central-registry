@@ -1,0 +1,28 @@
+title: Curl or Wget Spawned via Node.js
+id: d9af2479-ad13-4471-a312-f586517f1243
+status: stable
+level: low
+description: 'This rule detects when Node.js, directly or via a shell, spawns the
+  curl or wget command. This may indicate
+
+  command and control behavior. Adversaries may use Node.js to download additional
+  tools or payloads onto
+
+  the system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-09-18'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_parent_name: node
+    process_args: -c
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1071.001
+- attack.t1071

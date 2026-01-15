@@ -1,0 +1,42 @@
+title: Potential Hidden Process via Mount Hidepid
+id: dc71c186-9fe4-4437-a4d0-85ebb32b8204
+status: stable
+level: medium
+description: 'Identifies the execution of mount process with hidepid parameter, which
+  can make processes invisible to other users from
+
+  the system. Adversaries using Linux kernel version 3.2+ (or RHEL/CentOS v6.5+ above)
+  can hide the process from other
+
+  users. When hidepid=2 option is executed to mount the /proc filesystem, only the
+  root user can see all processes and the
+
+  logged-in user can only see their own process. This provides a defense evasion mechanism
+  for the adversaries to hide
+
+  their process executions from all other commands such as ps, top, pgrep and more.
+  With the Linux kernel hardening
+
+  hidepid option all the user has to do is remount the /proc filesystem with the option,
+  which can now be monitored and
+
+  detected.'
+author: Elastic (converted by SIEMLess)
+date: '2023-04-11'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: mount
+    process_args: -o
+    process_args|endswith: hidepid=2*
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1564
+references:
+- https://www.cyberciti.biz/faq/linux-hide-processes-from-other-users/

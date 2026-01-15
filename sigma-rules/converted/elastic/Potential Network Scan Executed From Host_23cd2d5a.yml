@@ -1,0 +1,29 @@
+title: Potential Network Scan Executed From Host
+id: 03c23d45-d3cb-4ad4-ab5d-b361ffe8724a
+status: stable
+level: medium
+description: 'This threshold rule monitors for the rapid execution of unix utilities
+  that are capable of conducting network scans.
+
+  Adversaries may leverage built-in tools such as ping, netcat or socat to execute
+  ping sweeps across the network while
+
+  attempting to evade detection or due to the lack of network mapping tools available
+  on the compromised host.'
+author: Elastic (converted by SIEMLess)
+date: '2023-09-04'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: linux
+    event_action: (exec
+    event_type: start
+    process_name: (ping
+  condition: selection
+tags:
+- attack.discovery
+- attack.t1046

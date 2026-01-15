@@ -1,0 +1,24 @@
+title: Linux Composer Privilege Escalation
+id: 3ed773f9-cb36-55f3-8c53-ea6494ee91a1
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of the Composer tool with elevated privileges on a Linux system. It identifies instances where Composer is run with the 'sudo' command, allowing the user to execute system commands as root. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs and command-line arguments. This activity is significant because it can indicate an attempt to escalate privileges, potentially leading to unauthoriz
+author: Gowthamaraj Rajendran, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '*composer*'
+      - '*run-script*'
+      - '*sudo*'
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://gtfobins.github.io/gtfobins/composer/
+  - https://getcomposer.org/doc/00-intro.md
+custom_attributes:
+  original_rule_id: a3bddf71-6ba3-42ab-a6b2-396929b16d92
+  source_format: splunk_spl

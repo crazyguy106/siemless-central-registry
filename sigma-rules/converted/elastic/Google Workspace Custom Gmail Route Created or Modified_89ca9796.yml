@@ -1,0 +1,42 @@
+title: Google Workspace Custom Gmail Route Created or Modified
+id: 9510add4-3392-11ed-bd01-f661ea17fbce
+status: stable
+level: medium
+description: 'Detects when a custom Gmail route is added or modified in Google Workspace.
+  Adversaries can add a custom e-mail route
+
+  for outbound mail to route these e-mails to their own inbox of choice for data gathering.
+  This allows adversaries to
+
+  capture sensitive information from e-mail and potential attachments, such as invoices
+  or payment documents. By default,
+
+  all email from current Google Workspace users with accounts are routed through a
+  domain''s mail server for inbound and
+
+  outbound mail.'
+author: Elastic (converted by SIEMLess)
+date: '2022-09-13'
+modified: '2024-09-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: google_workspace.admin
+    event_action: ("CREATE_GMAIL_SETTING
+    google_workspace_event_type: EMAIL_SETTINGS
+    google_workspace_admin_setting_name: ("EMAIL_ROUTE
+  condition: selection
+tags:
+- attack.collection
+- attack.t1114.003
+- attack.t1114
+references:
+- https://support.google.com/a/answer/2685650?hl=en
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-one
+- https://www.elastic.co/security-labs/google-workspace-attack-surface-part-two
+falsepositives:
+- "    Administrators may create custom email routes in Google Workspace based on\
+  \ organizational policies, administrative\n    preference or for security purposes\
+  \ regarding spam.\n    "

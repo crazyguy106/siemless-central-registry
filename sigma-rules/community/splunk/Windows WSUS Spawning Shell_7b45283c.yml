@@ -1,0 +1,23 @@
+title: Windows WSUS Spawning Shell
+id: fa11befc-6bea-5025-be3e-949e7a733927
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where a shell (PowerShell.exe or Cmd.exe) is spawned from wsusservice.exe, the Windows Server Update Services process. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where the parent process is wsusservice.exe. This activity is significant as it may indicate exploitation of CVE-2025-59287, a critical deserialization vulnerability in WSUS that allows unauthenticated remote code execut
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1190
+  - attack.t1505.003
+references:
+  - https://www.huntress.com/blog/exploitation-of-windows-server-update-services-remote-code-execution-vulnerability
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59287
+  - https://hawktrace.com/blog/CVE-2025-59287-UNAUTH
+custom_attributes:
+  original_rule_id: 76ea28ac-6f10-43fd-b5fe-340022ad0fd3
+  source_format: splunk_spl

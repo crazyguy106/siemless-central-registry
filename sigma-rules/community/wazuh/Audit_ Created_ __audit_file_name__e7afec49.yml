@@ -1,0 +1,22 @@
+title: 'Audit: Created: $(audit.file.name)'
+id: 1df61b39-266e-5d20-a794-10257fbf2766
+status: stable
+level: low
+description: 'Audit: Created: $(audit.file.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: type=CREATE
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_group: audit_watch_write
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80790
+  wazuh_level: 3

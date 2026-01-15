@@ -1,0 +1,34 @@
+title: Windows EventLog Recon Activity Using Log Query Utilities
+id: 5a05827c-8dc0-5d3d-9dfa-e399817a270f
+status: stable
+level: medium
+description: |
+  This analytic detects EventLog reconnaissance activity using utilities such as `wevtutil.exe`, `wmic.exe`, PowerShell cmdlets like `Get-WinEvent`, or WMI queries targeting `Win32_NTLogEvent`. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. These tools are often used by adversaries to extract usernames, IP addresses, session data, and event information for credential access or situational awareness during lateral movement.
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '*PsLogList*'
+      - '*Eventquery*'
+    process_name:
+      - powershell.exe
+      - pwsh.exe
+      - powershell_ise.exe
+    original_file_name:
+      - PowerShell.EXE
+      - pwsh.dll
+      - powershell_ise.EXE
+  condition: selection
+tags:
+  - attack.t1654
+references:
+  - http://blog.talosintelligence.com/2022/09/lazarus-three-rats.html
+  - https://thedfirreport.com/2023/10/30/netsupport-intrusion-results-in-domain-compromise/
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-144a
+  - https://www.group-ib.com/blog/apt41-world-tour-2021/
+  - https://labs.withsecure.com/content/dam/labs/docs/f-secureLABS-tlp-white-lazarus-threat-intel-report2.pdf
+custom_attributes:
+  original_rule_id: dc167f8b-3f9d-4460-9c98-8b6e703fd628
+  source_format: splunk_spl

@@ -1,0 +1,28 @@
+title: Azure AD Service Principal Enumeration
+id: 8bfa8fe1-b18e-5be9-87b7-88d90c84def8
+status: stable
+level: high
+description: |
+  This detection leverages azure graph activity logs to identify when graph APIs have been used to identify 10 or more service principals. This type of behaviour is associated with tools such as Azure enumberation tools such as AzureHound or ROADtools.
+author: Dean Luxton
+logsource:
+  product: azure
+detection:
+  selection:
+    field:
+      - properties.requestUri
+      - properties.requestUri
+    category:
+      - MicrosoftGraphActivityLogs
+  condition: selection
+tags:
+  - attack.t1087.004
+  - attack.t1526
+references:
+  - https://github.com/SpecterOps/AzureHound
+  - https://github.com/dirkjanm/ROADtools
+  - https://splunkbase.splunk.com/app/3110
+  - https://splunk.github.io/splunk-add-on-for-microsoft-cloud-services/Install/
+custom_attributes:
+  original_rule_id: 3f0647ce-add5-4436-8039-cbd1abe74563
+  source_format: splunk_spl

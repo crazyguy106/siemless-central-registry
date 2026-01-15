@@ -1,0 +1,29 @@
+title: Windows AppLocker Privilege Escalation via Unauthorized Bypass
+id: 308bb7f5-c2f0-5033-b43c-152ee4ce7477
+status: stable
+level: high
+description: |
+  The following analytic utilizes Windows AppLocker event logs to identify attempts to bypass application restrictions. AppLocker is a feature that allows administrators to specify which applications are permitted to run on a system. This analytic is designed to identify attempts to bypass these restrictions, which could be indicative of an attacker attempting to escalate privileges. The analytic uses EventCodes 8007, 8004, 8022, 8025, 8029, and 8040 to identify these attempts. The analytic will i
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    input: UserData_Xml
+    eventcode:
+      - 8007
+      - 8004
+      - 8022
+      - 8025
+      - 8029
+      - 8040
+  condition: selection
+tags:
+  - attack.t1218
+references:
+  - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/operations/querying-application-control-events-centrally-using-advanced-hunting
+  - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/applocker/using-event-viewer-with-applocker
+custom_attributes:
+  original_rule_id: bca48629-7fa2-40d3-9e5d-807564504e28
+  source_format: splunk_spl

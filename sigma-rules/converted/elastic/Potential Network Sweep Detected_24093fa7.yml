@@ -1,0 +1,36 @@
+title: Potential Network Sweep Detected
+id: 781f8746-2180-4691-890c-4c96d11ca91d
+status: stable
+level: low
+description: 'This rule identifies a potential network sweep. A network sweep is a
+  method used by attackers to scan a target network,
+
+  identifying active hosts, open ports, and available services to gather information
+  on vulnerabilities and weaknesses.
+
+  This reconnaissance helps them plan subsequent attacks and exploit potential entry
+  points for unauthorized access, data
+
+  theft, or other malicious activities. This rule defines a threshold-based approach
+  to detect multiple connection
+
+  attempts from a single host to numerous destination hosts over commonly used network
+  services.'
+author: Elastic (converted by SIEMLess)
+date: '2023-05-17'
+modified: '2025-02-28'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_action: network_flow
+    destination_port: (21
+    source_ip: (10.0.0.0/8
+  condition: selection
+tags:
+- attack.discovery
+- attack.reconnaissance
+- attack.t1595
+- attack.t1595.001
+- attack.t1046

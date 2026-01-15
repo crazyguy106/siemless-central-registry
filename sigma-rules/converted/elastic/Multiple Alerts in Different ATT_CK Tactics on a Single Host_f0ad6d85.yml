@@ -1,0 +1,24 @@
+title: Multiple Alerts in Different ATT&CK Tactics on a Single Host
+id: b946c2f7-df06-4c00-a5aa-1f6fbc7bb72c
+status: stable
+level: high
+description: 'This rule uses alert data to determine when multiple alerts in different
+  phases of an attack involving the same host are
+
+  triggered. Analysts can use this to prioritize triage and response, as these hosts
+  are more likely to be compromised.'
+author: Elastic (converted by SIEMLess)
+date: '2022-11-16'
+modified: '2025-06-27'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    signal_rule_name: '*'
+    kibana_alert_rule_threat_tactic_id: '*'
+  condition: selection
+falsepositives:
+- "    False positives can occur because the rules may be mapped to a few MITRE ATT&CK\
+  \ tactics. Use the attached Timeline\n    to determine which detections were triggered\
+  \ on the host.\n    "

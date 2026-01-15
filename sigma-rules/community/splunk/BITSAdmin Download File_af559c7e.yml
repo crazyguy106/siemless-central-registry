@@ -1,0 +1,27 @@
+title: BITSAdmin Download File
+id: abd7318a-38b9-5171-92f5-d504c85d65a4
+status: stable
+level: high
+description: |
+  The following analytic detects the use of `bitsadmin.exe` with the `transfer` parameter to download a remote object. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry. This activity is significant because `bitsadmin.exe` can be exploited to download and execute malicious files without immediate detection. If confirmed malicious, an attacker could use this technique to download and execute payloads, potentially leading to code exec
+author: Michael Haag, Sittikorn S
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    process:
+      - '*transfer*'
+      - '*addfile*'
+  condition: selection
+tags:
+  - attack.t1197
+  - attack.t1105
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/8eb52117b748d378325f7719554a896e37bccec7/atomics/T1105/T1105.md#atomic-test-9---windows---bitsadmin-bits-download
+  - https://github.com/redcanaryco/atomic-red-team/blob/bc705cb7aaa5f26f2d96585fac8e4c7052df0ff9/atomics/T1197/T1197.md
+  - https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
+  - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+custom_attributes:
+  original_rule_id: 80630ff4-8e4c-11eb-aab5-acde48001122
+  source_format: splunk_spl

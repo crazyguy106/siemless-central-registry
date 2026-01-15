@@ -1,0 +1,22 @@
+title: Scheduled Task Deleted Or Created via CMD
+id: a6210b20-3e93-51a8-8eb4-416dfc0d5a46
+status: stable
+level: high
+description: |
+  The following analytic identifies the creation or deletion of scheduled tasks using the schtasks.exe utility with the -create or -delete flags. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it can indicate unauthorized system manipulation or malicious intent, often associated with threat actors like Dragonfly and incidents such as the SUNBURST attack. If confirmed malicious, this activit
+author: Bhavin Patel, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/
+  - https://www.joesandbox.com/analysis/691823/0/html
+custom_attributes:
+  original_rule_id: d5af132c-7c17-439c-9d31-13d55340f36c
+  source_format: splunk_spl

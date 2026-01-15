@@ -1,0 +1,30 @@
+title: Windows Modify Registry Configure BitLocker
+id: 36682934-28f2-5ab8-bfef-a17ea16bb139
+status: stable
+level: high
+description: |
+  This analytic is developed to detect suspicious registry modifications targeting BitLocker settings. The malware ShrinkLocker alters various registry keys to change how BitLocker handles encryption, potentially bypassing TPM requirements, enabling BitLocker without TPM, and enforcing specific startup key and PIN configurations. Such modifications can weaken system security, making it easier for unauthorized access and data breaches. Detecting these changes is crucial for maintaining robust encry
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path:
+      - '*\\Policies\\Microsoft\\FVE\\*'
+      - '*\\Policies\\Microsoft\\FVE\\*'
+    registry_value_name:
+      - UsePIN
+      - UsePartialEncryptionKey
+      - UseTPM
+      - UseTPMKey
+      - UseTPMKeyPIN
+      - UseTPMPIN
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+custom_attributes:
+  original_rule_id: bd1c770f-1b55-411e-b49e-20d07bcac5f8
+  source_format: splunk_spl

@@ -1,0 +1,37 @@
+title: 'pure-ftpd: Multiple connection attempts from same source.'
+id: e6074422-e5ce-5812-9e18-562c46ea2fe9
+status: stable
+level: high
+description: 'pure-ftpd: Multiple connection attempts from same source.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 60s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+  - type: sequence
+    parent_rule: wazuh-11301
+    window:
+      maxspan: 60s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11307
+  wazuh_level: 10

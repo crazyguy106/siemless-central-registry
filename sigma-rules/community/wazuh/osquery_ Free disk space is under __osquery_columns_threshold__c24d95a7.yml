@@ -1,0 +1,22 @@
+title: 'osquery: Free disk space is under $(osquery.columns.threshold)'
+id: 45e35972-e20b-5823-abc7-b3e233e9a6a7
+status: stable
+level: low
+description: 'osquery: Free disk space is under $(osquery.columns.threshold)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: low_disk_space
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24010
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24013
+  wazuh_level: 4

@@ -1,0 +1,22 @@
+title: VShell user successfully authenticated.
+id: ce903f36-7178-51ca-80f7-c00d8ec601b0
+status: stable
+level: low
+description: VShell user successfully authenticated.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: password for user (\S+) accepted
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-86800
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-86805
+  wazuh_level: 3

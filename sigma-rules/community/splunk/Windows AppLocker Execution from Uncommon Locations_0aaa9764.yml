@@ -1,0 +1,23 @@
+title: Windows AppLocker Execution from Uncommon Locations
+id: efe572c1-6e90-57e4-ab6d-c082c88bcc47
+status: stable
+level: low
+description: |
+  The following analytic identifies the execution of applications or scripts from uncommon or suspicious file paths, potentially indicating malware or unauthorized activity. It leverages Windows AppLocker event logs and uses statistical analysis to detect anomalies. By calculating the average and standard deviation of execution counts per file path, it flags paths with execution counts significantly higher than expected. This behavior is significant as it can uncover malicious activities or policy
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    anomaly: 'Yes'
+    input: UserData_Xml
+  condition: selection
+tags:
+  - attack.t1218
+references:
+  - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/operations/querying-application-control-events-centrally-using-advanced-hunting
+  - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/applocker/using-event-viewer-with-applocker
+custom_attributes:
+  original_rule_id: d57ce957-151a-4aec-ada5-5fb1eb555b6b
+  source_format: splunk_spl

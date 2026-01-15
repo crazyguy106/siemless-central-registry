@@ -1,0 +1,25 @@
+title: M365 Copilot Failed Authentication Patterns
+id: b2b63fcc-740f-5d96-8126-90c0a5814e38
+status: stable
+level: medium
+description: |
+  Detects M365 Copilot users with failed authentication attempts, MFA failures, or multi-location access patterns indicating potential credential attacks or account compromise. The detection aggregates M365 Copilot Graph API authentication events per user, calculating metrics like distinct cities/countries accessed, unique IP addresses and browsers, failed login attempts (status containing "fail" or "error"), and MFA failures (error code 50074). Users are flagged when they access Copilot from mult
+author: Rod Soto
+logsource:
+  product: splunk
+  category: authentication
+detection:
+  selection:
+    appdisplayname:
+      - '*Copilot*'
+      - M365ChatClient
+      - OfficeAIAppChatCopilot
+    user: userPrincipalName
+  condition: selection
+tags:
+  - attack.t1110
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+custom_attributes:
+  original_rule_id: 0ae94cdd-021a-4a62-a96d-9cec90b61530
+  source_format: splunk_spl

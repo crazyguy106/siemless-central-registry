@@ -1,0 +1,33 @@
+title: Cisco Secure Firewall - High Priority Intrusion Classification
+id: d70b483b-6c18-5a9c-9750-24be5f043b11
+status: stable
+level: high
+description: |
+  This analytic identifies high-severity intrusion events based on the classification assigned to Snort rules within Cisco Secure Firewall logs. It leverages Cisco Secure Firewall Threat Defense logs and focuses on events classified as:  - A Network Trojan was Detected - Successful Administrator Privilege Gain - Successful User Privilege Gain - Attempt to Login By a Default Username and Password - Known malware command and control traffic - Known malicious file or file based exploit - Known client
+author: Nasreddine Bencherchali, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: IntrusionEvent
+    class_desc:
+      - A Network Trojan was Detected
+      - Successful Administrator Privilege Gain
+      - Successful User Privilege Gain
+      - Attempt to Login By a Default Username and Password
+      - Known malware command and control traffic
+      - Known malicious file or file based exploit
+      - Known client side exploit attempt
+      - Large Scale Information Leak
+  condition: selection
+tags:
+  - attack.t1203
+  - attack.t1003
+  - attack.t1071
+  - attack.t1190
+  - attack.t1078
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+custom_attributes:
+  original_rule_id: ec99bb81-c31b-4837-8c7d-1b32aa70b337
+  source_format: splunk_spl

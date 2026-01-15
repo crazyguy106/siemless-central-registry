@@ -1,0 +1,26 @@
+title: Function: List EntraID SignIn activities account
+id: bd95cc74-b94b-471b-aee2-502e188c9d2e
+status: experimental
+level: medium
+description: |
+  This function can be used to list both the *SigninLogs* and *AADNonInteractiveUserSignInLogs* based on the account that has been given as intput (*UserAccount*).
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let UserAccount = "test@test.com";
+let aadFunc = (tableName: string, email: string) {
+    table(tableName)
+    | where ResultType == 0
+    | where UserPrincipalName == email
+};
+let aadSignin = aadFunc("SigninLogs", UserAccount);
+let aadNonInt = aadFunc("AADNonInteractiveUserSignInLogs", UserAccount);
+union isfuzzy=true aadSignin, aadNonInt
+// In case of all details remove line below
+| project TimeGenerated, Category, Location, AppDisplayName, ClientAppUsed, RiskState
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

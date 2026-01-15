@@ -1,0 +1,23 @@
+title: Suspicious Browser Child Process
+id: eb898155-5e72-4b43-aaa9-558562600b60
+status: experimental
+level: medium
+description: |
+  This detection detects when a browser has a suspicious child process, this child process can execute/install commands and is often used to install malware on systems.
+
+Adjust the list of browsers to your environment.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let Browsers = dynamic(['Chrome.exe', 'Firefox.exe', 'msedge.exe', 'Brave.exe']);
+let SuspiciousChildProcesses = dynamic(['cmd.exe', 'powershell.exe', 'bash.exe', 'csscript.exe', 'mshta.exe', 'msiexec.exe', 'rundll32.exe']);
+DeviceProcessEvents
+| where InitiatingProcessFileName in~ (Browsers)
+| where FileName in~ (SuspiciousChildProcesses) or ProcessVersionInfoOriginalFileName in~ (SuspiciousChildProcesses)
+| project-reorder  Timestamp, DeviceName, ProcessCommandLine, InitiatingProcessCommandLine, AccountUpn, ProcessVersionInfoOriginalFileName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,25 @@
+title: Create Remote Thread In Shell Application
+id: dbff59de-156a-54e0-8415-6171645f9e52
+status: stable
+level: high
+description: |
+  The following analytic detects suspicious process injection in command shell applications, specifically targeting `cmd.exe` and `powershell.exe`. It leverages Sysmon EventCode 8 to identify the creation of remote threads within these shell processes. This activity is significant because it is a common technique used by malware, such as IcedID, to inject malicious code and execute it within legitimate processes. If confirmed malicious, this behavior could allow an attacker to execute arbitrary co
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    eventcode: 8
+    targetimage:
+      - '*\\cmd.exe'
+      - '*\\powershell*'
+      - '*\\pwsh.exe'
+  condition: selection
+tags:
+  - attack.t1055
+references:
+  - https://thedfirreport.com/2021/07/19/icedid-and-cobalt-strike-vs-antivirus/
+custom_attributes:
+  original_rule_id: 10399c1e-f51e-11eb-b920-acde48001122
+  source_format: splunk_spl

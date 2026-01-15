@@ -1,0 +1,29 @@
+title: Cisco Configuration Archive Logging Analysis
+id: b65ddc0c-d3c2-5e24-ad26-220ce0978438
+status: stable
+level: low
+description: |
+  This analytic provides comprehensive monitoring of configuration changes on Cisco devices by analyzing archive logs. Configuration archive logging captures all changes made to a device's configuration, providing a detailed audit trail that can be used to identify suspicious or malicious activities. This detection is particularly valuable for identifying patterns of malicious configuration changes that might indicate an attacker's presence, such as the creation of backdoor accounts, SNMP communit
+author: Bhavin Patel, Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    command:
+      - '*username*privilege 15*'
+      - '*username*password*'
+      - '*USER TABLE MODIFIED*'
+      - '*tftp-server*'
+      - '*snmp-server community*'
+  condition: selection
+tags:
+  - attack.t1562.001
+  - attack.t1098
+  - attack.t1505.003
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/config-mgmt/configuration/15-mt/config-mgmt-15-mt-book/cm-config-logger.html
+custom_attributes:
+  original_rule_id: f52d5c0b-d45d-4304-b300-a4f6a1130dec
+  source_format: splunk_spl

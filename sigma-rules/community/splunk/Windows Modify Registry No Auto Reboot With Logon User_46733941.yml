@@ -1,0 +1,22 @@
+title: Windows Modify Registry No Auto Reboot With Logon User
+id: da987709-2554-5591-81ac-9954cc295dfd
+status: stable
+level: medium
+description: |
+  The following analytic detects a suspicious modification to the Windows registry that disables automatic reboot with a logged-on user. This detection leverages the Endpoint data model to identify changes to the registry path `SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU\NoAutoRebootWithLoggedOnUsers` with a value of `0x00000001`. This activity is significant as it is commonly used by adversaries, including malware like RedLine Stealer, to evade detection and maintain persistence. If conf
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\NoAutoRebootWithLoggedOnUsers'
+    registry_value_data: 0x00000001
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
+custom_attributes:
+  original_rule_id: 6a12fa9f-580d-4627-8c7f-313e359bdc6a
+  source_format: splunk_spl

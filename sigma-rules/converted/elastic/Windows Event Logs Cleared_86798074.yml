@@ -1,0 +1,24 @@
+title: Windows Event Logs Cleared
+id: 45ac4800-840f-414c-b221-53dd36a5aaf7
+status: stable
+level: low
+description: 'Identifies attempts to clear Windows event log stores. This is often
+  done by attackers in an attempt to evade detection
+
+  or destroy forensic evidence on a system.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-12'
+modified: '2025-04-23'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_action: ("audit-log-cleared
+    winlog_provider_name: AD
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1070.001
+- attack.t1070

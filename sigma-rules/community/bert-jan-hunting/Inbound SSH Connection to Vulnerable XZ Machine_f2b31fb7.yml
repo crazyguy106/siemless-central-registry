@@ -1,0 +1,21 @@
+title: Inbound SSH Connection to Vulnerable XZ Machine
+id: a6833ed8-64f9-4c56-9c63-81eb4f4afcb6
+status: experimental
+level: medium
+description: |
+  This KQL query can be used to detect post exploitation activities related to CVE-2024-3094. This vulnerability is related to reports of malicious code being embedded in XZ Utils versions 5.6.0 and 5.6.1. Multiple sources suggest that the malicious code is ingested in functions that SSHD leverages to bypass authentication features, this is yet to be confirmed. 
+
+If you only want to list devices with the vulnerable version use:
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSoftwareInventory
+| where SoftwareName has "xz"
+| where SoftwareVersion has "5.6"
+| distinct DeviceName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,22 @@
+title: 'SCA summary: $(sca.policy): Score less than 50% ($(sca.score))'
+id: 9561af02-bee9-5739-b5be-6f059b6804e4
+status: stable
+level: medium
+description: 'SCA summary: $(sca.policy): Score less than 50% ($(sca.score))'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    sca.score|re: '^4\d|^3\d'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-19001
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-19004
+  wazuh_level: 7

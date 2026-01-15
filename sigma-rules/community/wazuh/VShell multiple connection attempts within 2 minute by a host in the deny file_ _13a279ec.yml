@@ -1,0 +1,37 @@
+title: 'VShell multiple connection attempts within 2 minute by a host in the deny file, potential DOS or brute force attempt.'
+id: 06c1c9d4-4007-5407-a3cd-cd1f0875ddc6
+status: stable
+level: high
+description: 'VShell multiple connection attempts within 2 minute by a host in the deny file, potential DOS or brute force attempt.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 7
+  - type: sequence
+    parent_rule: wazuh-86804
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-86806
+  wazuh_level: 12

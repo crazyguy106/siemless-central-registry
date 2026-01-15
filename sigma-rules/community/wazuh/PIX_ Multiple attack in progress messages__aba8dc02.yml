@@ -1,0 +1,36 @@
+title: 'PIX: Multiple attack in progress messages.'
+id: 34e1c125-9294-512b-b3d5-94f8a4e35f5f
+status: stable
+level: high
+description: 'PIX: Multiple attack in progress messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 240s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+    ignore_window: 90s
+  - type: sequence
+    parent_rule: wazuh-4333
+    window:
+      maxspan: 240s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4385
+  wazuh_level: 10

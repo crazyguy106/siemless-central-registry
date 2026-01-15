@@ -1,0 +1,32 @@
+title: Function: IsDomainController()
+id: dbba7932-9c98-4f67-86af-7d32af802658
+status: experimental
+level: medium
+description: |
+  This function validates if a device is a Domain Controller. It will return true when it is a domain controller, alternatively false is returned.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // This function validates if a device is a Domain Controller. It will return true when it is a domain controller, alternatively false is returned.
+let IsDeviceDomainController = (DeviceNameInput: string) {
+    let AllDomainControllers =
+        DeviceNetworkEvents
+        | where Timestamp > ago(7d)
+        | where LocalPort == 88
+        | where LocalIPType == "FourToSixMapping"
+        | distinct DeviceName;
+    DeviceNetworkEvents
+    | summarize arg_max(Timestamp, *) by DeviceId
+    | where DeviceName =~ DeviceNameInput
+    | extend DomainController = iff(DeviceNameInput in~ (AllDomainControllers), true, false)
+    | extend DeviceName = DeviceNameInput
+    | distinct DomainController, DeviceName;
+};
+// Example
+IsDeviceDomainController("yourdevice.tld")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

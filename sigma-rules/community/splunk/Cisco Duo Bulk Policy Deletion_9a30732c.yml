@@ -1,0 +1,23 @@
+title: Cisco Duo Bulk Policy Deletion
+id: 8eee79dd-1f95-5a3d-94cb-99a7437ff29b
+status: stable
+level: high
+description: |
+  The following analytic detects instances where a Duo administrator performs a bulk deletion of more than three policies in a single action. It identifies this behavior by searching Duo activity logs for the policy_bulk_delete action, extracting the names of deleted policies, and counting them. If the count exceeds three, the event is flagged. This behavior is significant for a Security Operations Center (SOC) because mass deletion of security policies can indicate malicious activity, such as an 
+author: Patrick Bareiss, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    action: policy_bulk_delete
+    input: description
+    field: policies
+    max_match: 0
+  condition: selection
+tags:
+  - attack.t1556
+references:
+  - https://splunkbase.splunk.com/app/7404
+custom_attributes:
+  original_rule_id: 983be012-e408-4cb0-b87f-6756bb5f7047
+  source_format: splunk_spl

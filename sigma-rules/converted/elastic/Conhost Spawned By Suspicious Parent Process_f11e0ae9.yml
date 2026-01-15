@@ -1,0 +1,45 @@
+title: Conhost Spawned By Suspicious Parent Process
+id: 05b358de-aa6d-4f6c-89e6-78f74018b43b
+status: stable
+level: high
+description: 'Detects when the Console Window Host (conhost.exe) process is spawned
+  by a suspicious parent process, which could be
+
+  indicative of code injection.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-17'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_parent_name|contains:
+    - lsass.exe
+    - services.exe
+    - smss.exe
+    - winlogon.exe
+    - explorer.exe
+    - dllhost.exe
+    - rundll32.exe
+    - regsvr32.exe
+    - userinit.exe
+    - wininit.exe
+    - spoolsv.exe
+    - ctfmon.exe
+    process_parent_args|contains:
+    - ?:\\Windows\\Installer\\MSI*.tmp,zzzzInvokeManagedCustomActionOutOfProc
+    - ?:\\WINDOWS\\system32\\PcaSvc.dll,PcaPatchSdbTask
+    - ?:\\WINDOWS\\system32\\davclnt.dll,DavSetCookie
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.execution
+- attack.t1059
+- attack.t1055
+- attack.t1036
+references:
+- https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-one.html

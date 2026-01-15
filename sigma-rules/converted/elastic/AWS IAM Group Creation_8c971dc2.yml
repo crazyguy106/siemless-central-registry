@@ -1,0 +1,41 @@
+title: AWS IAM Group Creation
+id: 169f3a93-efc7-4df2-94d6-0d9438c310d1
+status: stable
+level: low
+description: 'Identifies the creation of a group in AWS Identity and Access Management
+  (IAM). Groups specify permissions for multiple
+
+  users. Any user in a group automatically has the permissions that are assigned to
+  the group. Adversaries who obtain
+
+  credentials with IAM write privileges may create a new group as a foothold for persistence:
+  they can later attach
+
+  admin-level policies to the group and quietly add users or roles to inherit those
+  privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2020-06-05'
+modified: '2025-10-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: iam.amazonaws.com
+    event_action: CreateGroup
+    event_outcome: success
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1136
+- attack.t1136.003
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/create-group.html
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html
+falsepositives:
+- "    A group may be created by a system or network administrator. Verify whether\
+  \ the user identity, user agent, and/or\n    hostname should be making changes in\
+  \ your environment. Group creations by unfamiliar users or hosts should be\n   \
+  \ investigated. If known behavior is causing false positives, it can be exempted\
+  \ from the rule.\n    "

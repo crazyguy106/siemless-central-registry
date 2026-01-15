@@ -1,0 +1,22 @@
+title: PowerShell Invoke WmiExec Usage
+id: e9224699-1969-5fb3-a687-2c34d21bcd64
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the Invoke-WMIExec utility within PowerShell Script Block Logging (EventCode 4104). This detection leverages PowerShell script block logs to identify instances where the Invoke-WMIExec command is used. Monitoring this activity is crucial as it indicates potential lateral movement using WMI commands with NTLMv2 pass-the-hash authentication. If confirmed malicious, this activity could allow an attacker to execute commands remotely on target systems, 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4104
+    scriptblocktext:
+      - '*invoke-wmiexec*'
+  condition: selection
+tags:
+  - attack.t1047
+references:
+  - https://github.com/Kevin-Robertson/Invoke-TheHash/blob/master/Invoke-WMIExec.ps1
+custom_attributes:
+  original_rule_id: 0734bd21-2769-4972-a5f1-78bb1e011224
+  source_format: splunk_spl

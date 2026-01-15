@@ -1,0 +1,27 @@
+title: O365 Admin Consent Bypassed by Service Principal
+id: f925cc1e-f246-50e7-a516-195cbcf58180
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where a service principal in Office 365 Azure Active Directory assigns app roles without standard admin consent. It leverages `o365_management_activity` logs, specifically focusing on the 'Add app role assignment to service principal' operation. This activity is significant for SOCs as it may indicate a bypass of critical administrative controls, potentially leading to unauthorized access or privilege escalation. If confirmed malicious, this could allo
+author: Mauricio Velazco, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operation: Add app role assignment to service principal.
+    usertype: ServicePrincipal
+    workload: AzureActiveDirectory
+    src_user: user
+  condition: selection
+tags:
+  - attack.t1098.003
+references:
+  - https://attack.mitre.org/techniques/T1098/003/
+  - https://msrc.microsoft.com/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard/
+  - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+  - https://attack.mitre.org/techniques/T1098/002/
+  - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+custom_attributes:
+  original_rule_id: 8a1b22eb-50ce-4e26-a691-97ff52349569
+  source_format: splunk_spl

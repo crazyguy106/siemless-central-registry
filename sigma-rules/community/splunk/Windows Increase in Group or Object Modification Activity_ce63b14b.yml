@@ -1,0 +1,27 @@
+title: Windows Increase in Group or Object Modification Activity
+id: 92264a6f-1a06-5332-9ccf-cb0b3dc80e24
+status: stable
+level: high
+description: |
+  This analytic detects an increase in modifications to AD groups or objects. Frequent changes to AD groups or objects can indicate potential security risks, such as unauthorized access attempts, impairing defences or establishing persistence. By monitoring AD logs for unusual modification patterns, this detection helps identify suspicious behavior that could compromise the integrity and security of the AD environment.
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    span: 5m
+    isoutlier: 1
+    eventcode:
+      - 4670
+      - 4727
+      - 4731
+      - 4734
+      - 4735
+      - 4764
+  condition: selection
+tags:
+  - attack.t1098
+  - attack.t1562
+custom_attributes:
+  original_rule_id: 4f9564dd-a204-4f22-b375-4dfca3a68731
+  source_format: splunk_spl

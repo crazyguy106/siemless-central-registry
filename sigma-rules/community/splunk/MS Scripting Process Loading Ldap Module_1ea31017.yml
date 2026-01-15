@@ -1,0 +1,29 @@
+title: MS Scripting Process Loading Ldap Module
+id: e1d298ed-3a28-5b78-8f16-6538dff4fd64
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of MS scripting processes (wscript.exe or cscript.exe) loading LDAP-related modules (Wldap32.dll, adsldp.dll, adsldpc.dll). It leverages Sysmon EventCode 7 to identify these specific DLL loads. This activity is significant as it may indicate an attempt to query LDAP for host information, a behavior observed in FIN7 implants. If confirmed malicious, this could allow attackers to gather detailed Active Directory information, potentially leading to furth
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 7
+    image:
+      - '*\\wscript.exe'
+      - '*\\cscript.exe'
+    imageloaded:
+      - '*\\Wldap32.dll'
+      - '*\\adsldp.dll'
+      - '*\\adsldpc.dll'
+  condition: selection
+tags:
+  - attack.t1059.007
+references:
+  - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+  - https://attack.mitre.org/groups/G0046/
+custom_attributes:
+  original_rule_id: 0b0c40dc-14a6-11ec-b267-acde48001122
+  source_format: splunk_spl

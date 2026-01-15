@@ -1,0 +1,22 @@
+title: Hunt for suspicious sign-in to Entra ID Using Extrnal Call Method
+id: 4291e932-a328-54f2-9e3b-2f39ff1ffa0b
+status: experimental
+level: medium
+description: |
+  Detects authentication to O365 followed by a non-interactive sign-ins that aligns to suspicious activity.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: UserLoggedIn
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_2245edf0-3a75-4bf6-901b-c47ffda1703e
+  source_format: chronicle_yaral

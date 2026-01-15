@@ -1,0 +1,22 @@
+title: Windows COM Hijacking InprocServer32 Modification
+id: f366138a-b807-54ed-9383-d82044f5fdf8
+status: stable
+level: high
+description: |
+  The following analytic detects the modification of the InProcServer32 registry key by reg.exe, indicative of potential COM hijacking. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line execution logs. COM hijacking is significant as it allows adversaries to insert malicious code that executes in place of legitimate software, providing a means for persistence. If confirmed malicious, this activity could enable attackers to execute
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1546.015
+references:
+  - https://attack.mitre.org/techniques/T1546/015/
+  - https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md
+custom_attributes:
+  original_rule_id: b7bd83c0-92b5-4fc7-b286-23eccfa2c561
+  source_format: splunk_spl

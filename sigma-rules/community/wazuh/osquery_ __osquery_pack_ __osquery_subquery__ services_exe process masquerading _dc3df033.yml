@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): services.exe process masquerading detected, the parent process is incorrect'
+id: 1315d7f5-7d5f-5f17-a493-6440793763a4
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): services.exe process masquerading detected, the parent process is incorrect'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: services.exe_incorrect_parent_process
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+tags:
+  - attack.t1036
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24712
+  wazuh_level: 4

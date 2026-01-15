@@ -1,0 +1,25 @@
+title: IIS HTTP Logging Disabled
+id: ebf1adea-ccf2-4943-8b96-7ab11ca173a5
+status: stable
+level: high
+description: 'Identifies when Internet Information Services (IIS) HTTP Logging is
+  disabled on a server. An attacker with IIS server
+
+  access via a webshell or other mechanism can disable HTTP Logging as an effective
+  anti-forensics measure.'
+author: Elastic (converted by SIEMLess)
+date: '2020-04-14'
+modified: '2025-09-11'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_pe_original_file_name: appcmd.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.002

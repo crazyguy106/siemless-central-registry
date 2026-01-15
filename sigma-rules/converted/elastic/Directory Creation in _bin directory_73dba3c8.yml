@@ -1,0 +1,29 @@
+title: Directory Creation in /bin directory
+id: 3302835b-0049-4004-a325-660b1fba1f67
+status: stable
+level: low
+description: 'This rule identifies the creation of directories in the /bin directory.
+  The /bin directory contains essential binary
+
+  files that are required for the system to function properly. The creation of directories
+  in this location could be an
+
+  attempt to hide malicious files or executables, as these /bin directories usually
+  just contain binaries.'
+author: Elastic (converted by SIEMLess)
+date: '2024-11-01'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: mkdir
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1564
+- attack.t1564.001

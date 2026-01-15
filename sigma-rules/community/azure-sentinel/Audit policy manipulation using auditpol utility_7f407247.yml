@@ -1,0 +1,21 @@
+title: Audit policy manipulation using auditpol utility
+id: 98d49367-342f-5fa5-818a-ddf2f3a2b467
+status: stable
+level: medium
+description: |
+  This detects attempts to manipulate audit policies using auditpol command. This technique was seen in relation to Solorigate attack but the results can indicate potential malicious activity used in different attacks. The process name in each data source is commented out as an adversary could rename it. It is advisable to keep process name commented but if the results show unrelated false positives, users may want to uncomment it. Refer to auditpol syntax: https://docs.microsoft.com/windows-serve
+author: Microsoft Security Research
+logsource:
+  product: windows
+detection:
+  selection:
+    Source: Microsoft-Windows-Sysmon
+    Process: auditpol.exe
+    InitiatingProcessFileName: auditpol.exe
+    OriginalFileName: auditpol.exe
+  condition: selection
+tags:
+  - attack.t1204
+custom_attributes:
+  original_rule_id: 66276b14-32c5-4226-88e3-080dacc31ce1
+  source_format: azure_kql

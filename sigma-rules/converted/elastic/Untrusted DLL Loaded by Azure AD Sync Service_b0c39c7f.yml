@@ -1,0 +1,39 @@
+title: Untrusted DLL Loaded by Azure AD Sync Service
+id: f909075d-afc7-42d7-b399-600b94352fd9
+status: stable
+level: high
+description: 'Identifies the load of a DLL without a valid code signature by the Azure
+  AD Sync process, which may indicate an attempt
+
+  to persist or collect sensitive credentials passing through the Azure AD synchronization
+  server.'
+author: Elastic (converted by SIEMLess)
+date: '2024-10-14'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_category: process
+    event_action: load
+    file_code_signature_status: Valid
+    dll_path|contains:
+    - ?:\\Windows\\assembly\\NativeImages*
+    - ?:\\Windows\\Microsoft.NET\\*
+    - ?:\\Windows\\WinSxS\\*
+    - ?:\\Windows\\System32\\DriverStore\\FileRepository\\*
+    file_path|contains:
+    - ?:\\Windows\\assembly\\NativeImages*
+    - ?:\\Windows\\Microsoft.NET\\*
+    - ?:\\Windows\\WinSxS\\*
+    - ?:\\Windows\\System32\\DriverStore\\FileRepository\\*
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1003
+references:
+- https://blog.xpnsec.com/azuread-connect-for-redteam/
+- https://medium.com/@breakingmhet/detect-azure-pass-through-authentication-abuse-azure-hybrid-environments-ed4274784252
+- https://learn.microsoft.com/en-us/azure/active-directory/hybrid/tshoot-connect-pass-through-authentication

@@ -1,0 +1,36 @@
+title: RPC (Remote Procedure Call) to the Internet
+id: 32923416-763a-4531-bb35-f33b9232ecdb
+status: stable
+level: high
+description: 'This rule detects network events that may indicate the use of RPC traffic
+  to the Internet. RPC is commonly used by
+
+  system administrators to remotely control a system for maintenance or to use shared
+  resources. It should almost never be
+
+  directly exposed to the Internet, as it is frequently targeted and exploited by
+  threat actors as an initial access or
+
+  backdoor vector.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    event_dataset: zeek.dce_rpc)
+    event_category: (network
+    network_transport: tcp
+    destination_port: '135'
+    source_ip: (
+    destination_ip: (
+    FE80: :/10
+    FF00: :/8
+  condition: selection
+tags:
+- attack.initial_access
+- attack.t1190
+references:
+- https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml

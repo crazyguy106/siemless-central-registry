@@ -1,0 +1,22 @@
+title: Windows Indirect Command Execution Via pcalua
+id: cfc27410-8b36-5eb2-9d1d-5353409ea478
+status: stable
+level: high
+description: |
+  The following analytic detects programs initiated by pcalua.exe, the Microsoft Windows Program Compatibility Assistant. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process information. While pcalua.exe can start legitimate programs, it is significant because attackers may use it to bypass command line execution protections. If confirmed malicious, this activity could allow attackers to execute arbitrary commands, potentially lea
+author: Eric McGinnis, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    parent_process: '*pcalua* -a*'
+  condition: selection
+tags:
+  - attack.t1202
+references:
+  - https://twitter.com/KyleHanslovan/status/912659279806640128
+  - https://lolbas-project.github.io/lolbas/Binaries/Pcalua/
+custom_attributes:
+  original_rule_id: 3428ac18-a410-4823-816c-ce697d26f7a8
+  source_format: splunk_spl

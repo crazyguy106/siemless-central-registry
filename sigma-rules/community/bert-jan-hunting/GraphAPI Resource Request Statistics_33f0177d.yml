@@ -1,0 +1,16 @@
+title: GraphAPI Resource Request Statistics
+id: b6ce0727-fddf-4e25-a226-a01bab8ac3af
+status: experimental
+level: medium
+description: |
+  he requests that are executed by the Graph API are standardized, thus we can use the RequestUri to get statistics on which Resource is requested. The *{resource}* parameter is used for the resource in Microsoft Graph that you're referencing.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    {HTTP method} https://graph.microsoft.com/{version}/{resource}?{query-parameters}
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

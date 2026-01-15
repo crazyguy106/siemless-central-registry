@@ -1,0 +1,40 @@
+title: Proxy Execution via Windows OpenSSH
+id: 8cd49fbc-a35a-4418-8688-133cc3a1e548
+status: stable
+level: high
+description: 'Identifies attempts to execute commands via proxy using the Windows
+  OpenSSH client. This may indicate an attempt to bypass
+
+  application control via trusted windows binaries.'
+author: Elastic (converted by SIEMLess)
+date: '2025-08-21'
+modified: '2025-08-21'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_name|contains:
+    - ssh.exe
+    - sftp.exe
+    process_command_line|contains:
+    - '*Command=*powershell*'
+    - '*schtasks*'
+    - '*Command=*@echo off*'
+    - '*Command=*http*'
+    - '*Command=*mshta*'
+    - '*Command=*msiexec*'
+    - '*Command=*cmd /c*'
+    - '*Command=*cmd.exe*'
+    - '*Command=\'
+    - ', '
+    - ', '
+    - ', '
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1202
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Ssh/

@@ -1,0 +1,22 @@
+title: GitHub High Number Of Non Public GitHub Repositories Cloned
+id: e1fb6668-39a2-50d4-9cea-52db93ded46f
+status: experimental
+level: high
+description: |
+  Detects when a user clones a high number of non-public GitHub repositories. An adversary may attempt to steal the contents of several GitHub repositories after compromising a user account.
+author: Google Cloud Security
+logsource:
+  product: github
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type: git.clone
+  condition: selection
+tags:
+  - attack.t1213
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_9063e681-ac7b-4fad-8bcf-08ed1ae367da
+  source_format: chronicle_yaral

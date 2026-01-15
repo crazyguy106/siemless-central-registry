@@ -1,0 +1,23 @@
+title: 'AWS Config - Snapshot Compliance [$(aws.awsAccountId) $(aws.awsRegion)] [$(aws.resourceType)] [$(aws.configuration.configRuleList.configRuleName)]: $('
+id: 2b2d4e8a-0c80-51a2-8829-da7a82f84150
+status: stable
+level: medium
+description: |
+  AWS Config - Snapshot Compliance [$(aws.awsAccountId) $(aws.awsRegion)] [$(aws.resourceType)] [$(aws.configuration.configRuleList.configRuleName)]: $(aws.resourceId) ($(aws.configurationItemStatus)) $(aws.configuration.complianceType)
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.configuration.complianceType: \.+
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80475
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80476
+  wazuh_level: 6

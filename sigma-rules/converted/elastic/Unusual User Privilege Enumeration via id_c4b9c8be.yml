@@ -1,0 +1,31 @@
+title: Unusual User Privilege Enumeration via id
+id: afa135c0-a365-43ab-aa35-fd86df314a47
+status: stable
+level: low
+description: 'This rule monitors for a sequence of 20 "id" command executions within
+  1 second by the same parent process. This
+
+  behavior is unusual, and may be indicative of the execution of an enumeration script
+  such as LinPEAS or LinEnum. These
+
+  scripts leverage the "id" command to enumerate the privileges of all users present
+  on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2023-08-29'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.parent.entity_id with maxspan=1s\n\
+      \  [process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action == \"exec\" and\n   process.name == \"id\" and process.args_count\
+      \ == 2 and\n   not (\n     process.parent.name in (\"rpm\", \"snarftmp\", \"\
+      quota_copy\", \"java\") or\n     process.parent.args : \"/var/tmp/rpm-tmp*\"\
+      \n    )] with runs=20"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.discovery
+- attack.t1033

@@ -1,0 +1,31 @@
+title: Kernel Unpacking Activity
+id: 4f725dc5-ae44-46c1-9ac5-99f6f7a70d8a
+status: stable
+level: low
+description: 'This rule detects kernel unpacking activity through several built-in
+  Linux utilities. Attackers may use these utilities
+
+  to unpack kernel images and modules to search for vulnerabilities or to modify the
+  kernel.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-07'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    event_action: exec
+    process_name: grep
+    process_args: ELF
+    process_parent_name: mkinitramfs
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.discovery
+- attack.t1082
+- attack.t1014
+references:
+- https://www.elastic.co/security-labs/declawing-pumakit

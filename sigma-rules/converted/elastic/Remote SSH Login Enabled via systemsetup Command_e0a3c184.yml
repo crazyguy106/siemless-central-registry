@@ -1,0 +1,24 @@
+title: Remote SSH Login Enabled via systemsetup Command
+id: 5ae4e6f8-d1bf-40fa-96ba-e29645e1e4dc
+status: stable
+level: medium
+description: Detects use of the systemsetup command to enable remote SSH Login.
+author: Elastic (converted by SIEMLess)
+date: '2020-08-18'
+modified: '2025-03-18'
+logsource:
+  product: macos
+  category: process_creation
+detection:
+  selection:
+    host_os_type: macos
+    process_name: systemsetup
+  condition: selection
+tags:
+- attack.lateral_movement
+- attack.t1021.004
+- attack.t1021
+references:
+- https://documents.trendmicro.com/assets/pdf/XCSSET_Technical_Brief.pdf
+- https://ss64.com/osx/systemsetup.html
+- https://support.apple.com/guide/remote-desktop/about-systemsetup-apd95406b8d/mac

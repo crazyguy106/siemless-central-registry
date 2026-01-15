@@ -1,0 +1,33 @@
+title: Function: SignatureRingDistribution()
+id: 8812737b-864f-4921-8630-2e4d0d81e91a
+status: experimental
+level: medium
+description: |
+  This function returns the Signature Ring Distribution for the gradual rollout of AvPlatformRing, AvSignatureRing and AvEngineRing. The function can be called using one of these parameters to return the total devices and their rollout configuration.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let SignatureRingDistribution = (RingName:string) { 
+    DeviceTvmInfoGathering
+    | extend AvSignatureRing = tostring(parse_json(AdditionalFields).AvSignatureRing), AvPlatformRing = tostring(parse_json(AdditionalFields).AvPlatformRing), AvEngineRing = tostring(parse_json(AdditionalFields).AvEngineRing)
+    | summarize TotalDevices = dcount(DeviceId) by column_ifexists(RingName, "AvSignatureRing")
+    | extend RingDescription = case(
+    column_ifexists(RingName, "AvSignatureRing") == "1", "Beta Channel - Prerelease",
+    column_ifexists(RingName, "AvSignatureRing") == "2", "Current Channel (Preview)",
+    column_ifexists(RingName, "AvSignatureRing") == "3", "Current Channel (Staged)",
+    column_ifexists(RingName, "AvSignatureRing") == "4", "Current Channel (Broad)",
+    column_ifexists(RingName, "AvSignatureRing") == "5", "Not Configured",
+    column_ifexists(RingName, "AvSignatureRing") == "6", "Critical: Time Delay",
+            "Unknown")
+    | project RingDescription, TotalDevices
+    | render piechart
+};
+//SignatureRingDistribution("AvPlatformRing")
+SignatureRingDistribution("AvSignatureRing")
+//SignatureRingDistribution("AvEngineRing")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

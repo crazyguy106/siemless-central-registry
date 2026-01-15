@@ -1,0 +1,23 @@
+title: Windows Obfuscated Files or Information via RAR SFX
+id: 5a03eb12-8b5a-5e73-a3aa-1a183bf4a083
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of RAR Self-Extracting (SFX) files by monitoring the generation of file related to rar sfx .tmp file creation during sfx installation. This method leverages a heuristic to identify RAR SFX archives based on specific markers that indicate a combination of executable code and compressed RAR data. By tracking such activity, the analytic helps pinpoint potentially unauthorized or suspicious file creation events, which are often associated with malware pack
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    eventcode: 11
+    targetfilename:
+      - '*__tmp_rar_sfx_access_check*'
+  condition: selection
+tags:
+  - attack.t1027.013
+references:
+  - https://www.splunk.com/en_us/blog/security/-applocker-rules-as-defense-evasion-complete-analysis.html
+custom_attributes:
+  original_rule_id: 4ab6862b-ce88-4223-96c0-f6da2cffb898
+  source_format: splunk_spl

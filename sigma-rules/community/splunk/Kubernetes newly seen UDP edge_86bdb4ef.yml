@@ -1,0 +1,25 @@
+title: Kubernetes newly seen UDP edge
+id: 596122b8-514e-5ce2-ab65-81c013a76175
+status: experimental
+level: medium
+description: |
+  The following analytic detects UDP communication between a newly seen source and destination workload pair within a Kubernetes cluster. It leverages Network Performance Monitoring metrics collected via an OTEL collector and pulled from Splunk Observability Cloud. This detection compares network activity over the last hour with the past 30 days to identify new inter-workload communication. Such changes in network behavior can indicate potential security threats or anomalies. If confirmed maliciou
+author: Matthew Moore, Splunk
+logsource:
+  product: kubernetes
+detection:
+  selection:
+    current:
+      - 'True'
+      - 'false'
+      - 'true'
+  filter:
+    current: 'false'
+  condition: selection and not filter
+tags:
+  - attack.t1204
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart
+custom_attributes:
+  original_rule_id: 49b7daca-4e3c-4899-ba15-9a175e056fa9
+  source_format: splunk_spl

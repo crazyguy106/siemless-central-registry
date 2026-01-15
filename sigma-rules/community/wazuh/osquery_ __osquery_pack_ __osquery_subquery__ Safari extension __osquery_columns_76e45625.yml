@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): Safari extension $(osquery.columns.name) version is $(osquery.columns.version) and the user that owns it'
+id: 435b4553-6408-5228-b503-5c46956ca948
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): Safari extension $(osquery.columns.name) version is $(osquery.columns.version) and the user that owns it is $(osquery.columns.uid)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: safari_extensions
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24115
+  wazuh_level: 4

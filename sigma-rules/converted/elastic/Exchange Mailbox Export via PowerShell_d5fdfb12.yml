@@ -1,0 +1,33 @@
+title: Exchange Mailbox Export via PowerShell
+id: 54a81f68-5f2a-421e-8eed-f888278bb712
+status: stable
+level: medium
+description: 'Identifies the use of the Exchange PowerShell cmdlet, New-MailBoxExportRequest,
+  to export the contents of a primary
+
+  mailbox or archive to a .pst file. Adversaries may target user email to collect
+  sensitive information.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-11'
+modified: '2025-09-03'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    host_os_type: windows
+    powershell_file_script_block_text: New-MailboxExportRequest
+  condition: selection
+tags:
+- attack.collection
+- attack.t1114.002
+- attack.t1114
+- attack.t1005
+- attack.t1114.001
+references:
+- https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/
+- https://docs.microsoft.com/en-us/powershell/module/exchange/new-mailboxexportrequest?view=exchange-ps
+- https://www.elastic.co/security-labs/siestagraph-new-implant-uncovered-in-asean-member-foreign-ministry
+falsepositives:
+- Legitimate exchange system administration activity.

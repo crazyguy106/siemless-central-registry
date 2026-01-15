@@ -1,0 +1,29 @@
+title: O365 Privileged Role Assigned To Service Principal
+id: 79e83d1f-8ad7-5591-91cb-278326ba3bc0
+status: stable
+level: high
+description: |
+  The following analytic detects potential privilege escalation threats in Azure Active Directory (AD). This detection is important because it identifies instances where privileged roles that hold elevated permissions are assigned to service principals. This prevents unauthorized access or malicious activities, which occur when these non-human entities access Azure resources to exploit them. False positives might occur since administrators can legitimately assign privileged roles to service princi
+author: Steven Dick
+logsource:
+  product: azure
+detection:
+  selection:
+    isprvilegedadrole: 'TRUE'
+    workload: AzureActiveDirectory
+    operation:
+      - Add member to role.
+      - Add eligible member to role.
+  filter:
+    category: User
+  condition: selection and not filter
+tags:
+  - attack.t1098.003
+references:
+  - https://attack.mitre.org/techniques/T1098/003/
+  - https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+  - https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-exchange-online-admin-role?view=o365-worldwide
+  - https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
+custom_attributes:
+  original_rule_id: 80f3fc1b-705f-4080-bf08-f61bf013b900
+  source_format: splunk_spl

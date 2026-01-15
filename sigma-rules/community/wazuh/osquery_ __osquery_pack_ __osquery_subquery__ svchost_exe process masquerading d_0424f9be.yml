@@ -1,0 +1,24 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): svchost.exe process masquerading detected, the parent process is incorrect'
+id: bf1c8f37-11fc-5079-a322-6fa12993c1f2
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): svchost.exe process masquerading detected, the parent process is incorrect'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: svchost.exe_incorrect_parent_process
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24700
+tags:
+  - attack.t1036
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24714
+  wazuh_level: 4

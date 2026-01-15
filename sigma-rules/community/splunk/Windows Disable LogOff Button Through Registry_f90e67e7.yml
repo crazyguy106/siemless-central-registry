@@ -1,0 +1,27 @@
+title: Windows Disable LogOff Button Through Registry
+id: 48124933-b286-5dcd-b2db-67dae9d83c51
+status: stable
+level: medium
+description: |
+  The following analytic detects a suspicious registry modification that disables the logoff feature on a Windows host. It leverages data from the Endpoint.Registry data model to identify changes to specific registry values associated with logoff functionality. This activity is significant because it can indicate ransomware attempting to make the compromised host unusable and hinder remediation efforts. If confirmed malicious, this action could prevent users from logging off, complicate incident r
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*'
+    registry_value_data: 0x00000001
+    registry_value_name:
+      - NoLogOff
+      - StartMenuLogOff
+  condition: selection
+tags:
+  - attack.t1112
+references:
+  - https://www.hybrid-analysis.com/sample/e2d4018fd3bd541c153af98ef7c25b2bf4a66bc3bfb89e437cde89fd08a9dd7b/5b1f4d947ca3e10f22714774
+  - https://malwiki.org/index.php?title=DigiPop.xp
+  - https://www.trendmicro.com/vinfo/be/threat-encyclopedia/search/js_noclose.e/2
+custom_attributes:
+  original_rule_id: b2fb6830-9ed1-11ec-9fcb-acde48001122
+  source_format: splunk_spl

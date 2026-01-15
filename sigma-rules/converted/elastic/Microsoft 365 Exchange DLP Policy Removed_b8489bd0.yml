@@ -1,0 +1,32 @@
+title: Microsoft 365 Exchange DLP Policy Removed
+id: 60f3adec-1df9-4104-9c75-b97d9f078b25
+status: stable
+level: medium
+description: 'Identifies when a Data Loss Prevention (DLP) policy is removed in Microsoft
+  365. An adversary may remove a DLP policy to
+
+  evade existing DLP monitoring.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-20'
+modified: '2025-09-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: o365.audit
+    event_provider: Exchange
+    event_category: web
+    event_action: Remove-DlpPolicy
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+references:
+- https://docs.microsoft.com/en-us/powershell/module/exchange/remove-dlppolicy?view=exchange-ps
+- https://docs.microsoft.com/en-us/microsoft-365/compliance/data-loss-prevention-policies?view=o365-worldwide
+falsepositives:
+- "    A DLP policy may be removed by a system or network administrator. Verify that\
+  \ the configuration change was expected.\n    Exceptions can be added to this rule\
+  \ to filter expected behavior.\n    "

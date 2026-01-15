@@ -1,0 +1,37 @@
+title: Suspicious WMI Image Load from MS Office
+id: 891cb88e-441a-4c3e-be2d-120d99fe7b0d
+status: stable
+level: low
+description: 'Identifies a suspicious image load (wmiutils.dll) from Microsoft Office
+  processes. This behavior may indicate
+
+  adversarial activity where child processes are spawned via Windows Management Instrumentation
+  (WMI). This technique can
+
+  be used to execute code and evade traditional parent/child processes spawned from
+  Microsoft Office products.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-17'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_category: process
+    event_category|contains:
+    - library
+    - driver
+    process_name|contains:
+    - WINWORD.EXE
+    - EXCEL.EXE
+    - POWERPNT.EXE
+    - MSPUB.EXE
+    - MSACCESS.EXE
+  condition: selection
+tags:
+- attack.execution
+- attack.t1047
+references:
+- https://medium.com/threatpunter/detecting-adversary-tradecraft-with-image-load-event-logging-and-eql-8de93338c16

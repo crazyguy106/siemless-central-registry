@@ -1,0 +1,25 @@
+title: Windows Enable PowerShell Web Access
+id: 73a5f192-9159-5d60-a6ee-41e7d0dece45
+status: stable
+level: high
+description: |
+  The following analytic detects the enabling of PowerShell Web Access via PowerShell commands. It leverages PowerShell script block logging (EventCode 4104) to identify the execution of the `Install-WindowsFeature` cmdlet with the `WindowsPowerShellWebAccess` parameter. This activity is significant because enabling PowerShell Web Access can facilitate remote execution of PowerShell commands, potentially allowing an attacker to gain unauthorized access to systems and networks.
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 4104
+    scriptblocktext:
+      - '*Install-WindowsFeature*WindowsPowerShellWebAccess*'
+      - '*Install-PswaWebApplication*'
+      - '*Add-PswaAuthorizationRule*UserName *ComputerName *'
+  condition: selection
+tags:
+  - attack.t1059.001
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
+  - https://gist.github.com/MHaggis/7e67b659af9148fa593cf2402edebb41
+custom_attributes:
+  original_rule_id: 175bb2de-6227-416b-9678-9b61999cd21f
+  source_format: splunk_spl

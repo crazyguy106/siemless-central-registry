@@ -1,0 +1,22 @@
+title: 'FTPD: User disconnected due to time out.'
+id: a51b03a9-1e4e-5395-b0fc-ccfb9969575c
+status: stable
+level: low
+description: 'FTPD: User disconnected due to time out.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: timed out after
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11110
+  wazuh_level: 3

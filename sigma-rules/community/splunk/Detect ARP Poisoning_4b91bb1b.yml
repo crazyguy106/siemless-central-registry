@@ -1,0 +1,22 @@
+title: Detect ARP Poisoning
+id: ac6cf64d-1d7e-5fb0-b781-0c852f568c23
+status: experimental
+level: high
+description: |
+  The following analytic detects ARP Poisoning attacks by monitoring for Dynamic ARP Inspection (DAI) errors on Cisco network devices. It leverages logs from Cisco devices, specifically looking for events where the ARP inspection feature has disabled an interface due to suspicious activity. This activity is significant because ARP Poisoning can allow attackers to intercept, modify, or disrupt network traffic, leading to potential data breaches or denial of service. If confirmed malicious, this cou
+author: Mikael Bjerkeland, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    facility: PM
+    mnemonic: ERR_DISABLE
+    disable_cause: arp-inspection
+  condition: selection
+tags:
+  - attack.t1200
+  - attack.t1498
+  - attack.t1557.002
+custom_attributes:
+  original_rule_id: b44bebd6-bd39-467b-9321-73971bcd1aac
+  source_format: splunk_spl

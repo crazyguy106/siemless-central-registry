@@ -1,0 +1,22 @@
+title: O365 Persistent Login Activity To Azure AD PowerShell App
+id: ef52000e-1712-52ac-a674-80efa15e0b30
+status: experimental
+level: medium
+description: |
+  Continual logins to Azure AD PowerShell app are not a security best practice, if this is observed, additional investigation is needed
+author: Google Cloud Security
+logsource:
+  product: windows
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: UserLoggedIn
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    target_resource_product_object_id: 1b730954-1685-4b74-9bfd-dac224a7b894
+    security_result_action: ALLOW
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_4e61ae7f-d9fc-4c2a-b086-69d9d50dc5cc
+  source_format: chronicle_yaral

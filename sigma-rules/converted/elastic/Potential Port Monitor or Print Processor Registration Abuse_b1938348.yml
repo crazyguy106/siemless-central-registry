@@ -1,0 +1,37 @@
+title: Potential Port Monitor or Print Processor Registration Abuse
+id: 8f3e91c7-d791-4704-80a1-42c160d7aa27
+status: stable
+level: medium
+description: 'Identifies port monitor and print processor registry modifications.
+  Adversaries may abuse port monitor and print
+
+  processors to run malicious DLLs during system boot that will be executed as SYSTEM
+  for privilege escalation and/or
+
+  persistence, if permissions allow writing a fully-qualified pathname for that DLL.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-21'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\SYSTEM\\*ControlSet*\\Control\\Print\\Monitors\\*
+    - HKLM\\SYSTEM\\*ControlSet*\\Control\\Print\\Environments\\Windows*\\Print Processors\\*
+    - \\REGISTRY\\MACHINE\\SYSTEM\\*ControlSet*\\Control\\Print\\Monitors\\*
+    - \\REGISTRY\\MACHINE\\SYSTEM\\*ControlSet*\\Control\\Print\\Environments\\Windows*\\Print
+      Processors\\*
+    registry_data_strings|endswith: .dll
+  condition: selection
+tags:
+- attack.persistence
+- attack.privilege_escalation
+- attack.t1547
+- attack.t1547.012
+- attack.t1547.010
+references:
+- https://www.welivesecurity.com/2020/05/21/no-game-over-winnti-group/

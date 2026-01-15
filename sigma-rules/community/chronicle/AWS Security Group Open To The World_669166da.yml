@@ -1,0 +1,20 @@
+title: AWS Security Group Open To The World
+id: 367e2dd3-0020-548a-8864-3a03fa25220c
+status: experimental
+level: high
+description: 'Detect when an AWS security group is opened to the world (0.0.0.0/0) or (::/0)'
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type: AuthorizeSecurityGroupIngress
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_51e7e8c9-f460-4207-8aa9-70a58d3d1ee3
+  source_format: chronicle_yaral

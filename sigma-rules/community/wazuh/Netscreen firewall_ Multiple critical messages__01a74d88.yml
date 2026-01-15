@@ -1,0 +1,36 @@
+title: 'Netscreen firewall: Multiple critical messages.'
+id: b54733bc-8ef5-5f13-9661-d165c2ccbd92
+status: stable
+level: high
+description: 'Netscreen firewall: Multiple critical messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 180s
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-4503
+    window:
+      maxspan: 180s
+    enforce_order: true
+tags:
+  - attack.t1499
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-4551
+  wazuh_level: 10

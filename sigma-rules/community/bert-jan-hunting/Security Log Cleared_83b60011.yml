@@ -1,0 +1,18 @@
+title: Security Log Cleared
+id: f6cf943b-4730-44c9-88fa-9a6f31f00c94
+status: experimental
+level: medium
+description: |
+  An attacker might delete the Security Log to hide the malicious activities. This rule only triggers on the deletion of the Security Events, however adversaries may also delete application, setup and system logs. The Windows Event log can become full, clearing the eventlog causes this rule to be triggered.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents
+| where ActionType == 'SecurityLogCleared'
+| project Timestamp, DeviceName, ActionType
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

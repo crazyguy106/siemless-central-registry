@@ -1,0 +1,23 @@
+title: Windows MSIExec DLLRegisterServer
+id: 9823cec5-13ed-567d-87f6-fbeade9e7078
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of msiexec.exe with the /y switch parameter, which enables the loading of DLLRegisterServer. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command-line arguments and parent-child process relationships. This activity is significant because it can indicate an attempt to register malicious DLLs, potentially leading to code execution or persistence on the system. If confirmed malicious, this could all
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    process:
+      - '* /y*'
+      - '* -y*'
+  condition: selection
+tags:
+  - attack.t1218.007
+references:
+  - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+custom_attributes:
+  original_rule_id: fdb59aef-d88f-4909-8369-ec2afbd2c398
+  source_format: splunk_spl

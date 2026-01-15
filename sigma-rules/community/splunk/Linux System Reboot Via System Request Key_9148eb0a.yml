@@ -1,0 +1,28 @@
+title: Linux System Reboot Via System Request Key
+id: b0d1953e-c82b-5ecc-b808-896f119239d0
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the SysReq hack to reboot a Linux system host. It leverages Endpoint Detection and Response (EDR) data to identify processes executing the command to pipe 'b' to /proc/sysrq-trigger. This activity is significant as it is an uncommon method to reboot a system and was observed in the Awfulshred malware wiper. If confirmed malicious, this technique could indicate the presence of suspicious processes and potential system compromise, leading to unauthor
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    process:
+      - '* echo b &gt; *'
+      - '*/proc/sysrq-trigger'
+    process_name:
+      - dash
+      - sudo
+      - bash
+  condition: selection
+tags:
+  - attack.t1529
+references:
+  - https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
+  - https://cert.gov.ua/article/3718487
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+custom_attributes:
+  original_rule_id: e1912b58-ed9c-422c-bbb0-2dbc70398345
+  source_format: splunk_spl

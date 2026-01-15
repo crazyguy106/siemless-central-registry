@@ -1,0 +1,49 @@
+title: Windows Process Injection into Commonly Abused Processes
+id: 48bd92b1-9eec-51e8-9400-7b1304677045
+status: stable
+level: medium
+description: |
+  The following analytic detects process injection into executables that are commonly abused using Sysmon EventCode 10. It identifies suspicious GrantedAccess requests (0x40 and 0x1fffff) to processes such as notepad.exe, wordpad.exe and calc.exe, excluding common system paths like System32, Syswow64, and Program Files. This behavior is often associated with the SliverC2 framework by BishopFox. Monitoring this activity is crucial as it may indicate an initial payload attempting to execute maliciou
+author: 0xC0FFEEEE, Github Community
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    eventcode: 10
+    targetimage:
+      - '*\\notepad.exe'
+      - '*\\wordpad.exe'
+      - '*\\calc.exe'
+      - '*\\mspaint.exe'
+      - '*\\lsass.exe'
+      - '*\\svchost.exe'
+      - '*\\backgroundtaskhost.exe'
+      - '*\\dllhost.exe'
+      - '*\\regsvr32.exe'
+      - '*\\searchprotocolhost.exe'
+      - '*\\werfault.exe'
+      - '*\\wuauclt.exe'
+      - '*\\spoolsv.exe'
+      - '*\\chrome.exe'
+      - '*\\edge.exe'
+      - '*\\firefox.exe'
+    sourceimage:
+      - '*\\system32\\*'
+      - '*\\syswow64\\*'
+      - '*\\Program Files\\*'
+      - '*\\Program Files (x86'
+    grantedaccess:
+      - 0x40
+      - 0x1fffff
+      - 0x1f3fff
+  condition: selection
+tags:
+  - attack.t1055.002
+references:
+  - https://dominicbreuker.com/post/learning_sliver_c2_08_implant_basics/
+  - https://www.cybereason.com/blog/sliver-c2-leveraged-by-many-threat-actors
+  - https://redcanary.com/threat-detection-report/techniques/process-injection/
+custom_attributes:
+  original_rule_id: 1e1dedc6-f6f3-41a0-9dd7-a1245904fe75
+  source_format: splunk_spl

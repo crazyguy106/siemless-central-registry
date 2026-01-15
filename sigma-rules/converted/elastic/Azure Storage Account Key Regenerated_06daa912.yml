@@ -1,0 +1,37 @@
+title: Azure Storage Account Key Regenerated
+id: 1e0b832e-957e-43ae-b319-db82d228c908
+status: stable
+level: low
+description: 'Identifies a rotation to storage account access keys in Azure. Regenerating
+  access keys can affect any applications or
+
+  Azure services that are dependent on the storage account key. Adversaries may regenerate
+  a key as a means of acquiring
+
+  credentials to access systems and resources.'
+author: Elastic (converted by SIEMLess)
+date: '2020-08-19'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: azure.activitylogs
+    azure_activitylogs_operation_name: MICROSOFT.STORAGE/STORAGEACCOUNTS/REGENERATEKEY/ACTION
+    event_outcome: (Success
+  condition: selection
+tags:
+- attack.persistence
+- attack.credential_access
+- attack.t1098
+- attack.t1552
+- attack.t1552.005
+- attack.t1098.001
+references:
+- https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal
+falsepositives:
+- "    It's recommended that you rotate your access keys periodically to help keep\
+  \ your storage account secure. Normal key\n    rotation can be exempted from the\
+  \ rule. An abnormal time frame and/or a key rotation from unfamiliar users, hosts,\n\
+  \    or locations should be investigated.\n    "

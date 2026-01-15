@@ -1,0 +1,20 @@
+title: Office 365 group modification add member success has exceeded a defined threshold
+id: 544a16ea-763d-5b33-8892-66b08c16c70d
+status: experimental
+level: low
+description: |
+  Detects when a group GUID in Office 365 has more users added to it by the same user than a defined thresold.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: GROUP_MODIFICATION
+    metadata_product_event_type: Add member to group.
+    metadata_product_name: Office 365
+    metadata_vendor_name: Microsoft
+    security_result_action: ALLOW
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_47e13870-800b-4886-b8b8-8e6b68b203b9
+  source_format: chronicle_yaral

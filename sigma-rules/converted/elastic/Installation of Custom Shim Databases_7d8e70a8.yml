@@ -1,0 +1,25 @@
+title: Installation of Custom Shim Databases
+id: c5ce48a6-7f57-4ee8-9313-3d0024caee10
+status: stable
+level: medium
+description: 'Identifies the installation of custom Application Compatibility Shim
+  databases. This Windows functionality has been
+
+  abused by attackers to stealthily gain persistence and arbitrary code execution
+  in legitimate Windows processes.'
+author: Elastic (converted by SIEMLess)
+date: '2020-09-02'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|endswith: \\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\\*.sdb
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1546.011
+- attack.t1546

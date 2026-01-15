@@ -1,0 +1,21 @@
+title: Cloud Compute Instance Created In Previously Unused Region
+id: 32dadc89-7c55-54a9-8404-d162fd808b65
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of a cloud compute instance in a region that has not been previously used within the last hour. It leverages cloud infrastructure logs and compares the regions of newly created instances against a lookup file of historically used regions. This activity is significant because the creation of instances in new regions can indicate unauthorized or suspicious activity, such as an attacker attempting to evade detection or establish a foothold in a less monit
+author: David Dorsey, Splunk
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    datamodel: Change
+    action: created
+    enough_data: 1
+  condition: selection
+tags:
+  - attack.t1535
+custom_attributes:
+  original_rule_id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
+  source_format: splunk_spl

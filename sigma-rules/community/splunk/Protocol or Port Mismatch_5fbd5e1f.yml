@@ -1,0 +1,26 @@
+title: Protocol or Port Mismatch
+id: 14270bcd-8a0a-5ed9-9043-122a18b544e9
+status: stable
+level: medium
+description: |
+  The following analytic identifies network traffic where the higher layer protocol does not match the expected port, such as non-HTTP traffic on TCP port 80. It leverages data from network traffic inspection technologies like Bro or Palo Alto Networks firewalls. This activity is significant because it may indicate attempts to bypass firewall restrictions or conceal malicious communications. If confirmed malicious, this behavior could allow attackers to evade detection, maintain persistence, or ex
+author: Rico Valdez, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Network_Traffic
+    app:
+      - dns
+      - ssl
+      - smtp
+    dest_port:
+      - 80
+      - 8080
+      - 443
+  condition: selection
+tags:
+  - attack.t1048.003
+custom_attributes:
+  original_rule_id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
+  source_format: splunk_spl

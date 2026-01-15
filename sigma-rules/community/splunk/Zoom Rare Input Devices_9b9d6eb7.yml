@@ -1,0 +1,23 @@
+title: Zoom Rare Input Devices
+id: 996720ae-95a1-5af5-9853-ae23aea5f160
+status: experimental
+level: low
+description: |
+  Detects rare input devices from Zoom logs. Actors performing Remote Employment Fraud (REF) typically use unusual device information compared to a majority of employees. Detecting this activity requires careful analysis, regular review, and a thorough understanding of the audio and video devices commonly used within your environment.
+author: Marissa Bower, Raven Tait
+logsource:
+  product: splunk
+detection:
+  selection:
+    camera:
+      - '*FaceTime*'
+      - '*MacBook*'
+    speaker: '*AirPods*'
+    microphone: '*MacBook Pro Microphone*'
+    limit: 50
+  condition: selection
+tags:
+  - attack.t1123
+custom_attributes:
+  original_rule_id: d290eeef-d05e-49a8-b598-72296023b87b
+  source_format: splunk_spl

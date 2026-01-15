@@ -1,0 +1,44 @@
+title: Potential Kerberos Coercion via DNS-Based SPN Spoofing
+id: f701be14-0a36-4e9a-a851-b3e20ae55f09
+status: stable
+level: high
+description: 'Identifies the creation of a DNS record containing a base64-encoded
+  blob matching the pattern "UWhRCA...BAAAA". This
+
+  pattern corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure, commonly
+  used in Kerberos coercion attacks.
+
+  It is associated with tools and techniques that exploit SPN spoofing via DNS. Adversaries
+  may abuse this to coerce
+
+  victim systems into authenticating to attacker-controlled hosts while requesting
+  Kerberos tickets for legitimate
+
+  services (often the victim''s own identity). This enables reflective Kerberos relay
+  attacks, potentially resulting in
+
+  privileged access such as NT AUTHORITY\SYSTEM, without relying on NTLM fallback.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-14'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_code: '5137'
+    winlog_event_data_AdditionalInfo: '*UWhRC*BAAAA*MicrosoftDNS*)'
+    winlog_event_data_ObjectDN: '*UWhRC*BAAAA*MicrosoftDNS*)'
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1187
+- attack.t1557
+- attack.t1557.001
+references:
+- https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025
+- https://blog.redteam-pentesting.de/2025/reflective-kerberos-relay-attack/
+- https://googleprojectzero.blogspot.com/2021/10/using-kerberos-for-authentication-relay.html
+- https://github.com/CICADA8-Research/RemoteKrbRelay/blob/main/README.md
+- https://github.com/Orange-Cyberdefense/ocd-mindmaps/blob/main/excalimap/mindmap/ad/authenticated.md

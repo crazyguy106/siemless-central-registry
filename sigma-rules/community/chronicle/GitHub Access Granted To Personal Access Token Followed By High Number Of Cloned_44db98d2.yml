@@ -1,0 +1,22 @@
+title: GitHub Access Granted To Personal Access Token Followed By High Number Of Cloned Non Public Repositories
+id: 96e37a2d-6379-575e-be12-03b3474c2e0e
+status: experimental
+level: high
+description: |
+  Detects when a user grants access to a GitHub Personal Access Token prior to cloning several GitHub non-public GitHub repositories. An adversary may grant access to a Personal Access Token before attempting to steal the contents of several GitHub repositories using a an automated script or offensive tool.
+author: Google Cloud Security
+logsource:
+  product: github
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type: personal_access_token.access_granted
+  condition: selection
+tags:
+  - attack.t1213
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_11aaa6f7-7fcc-42cb-af2e-42ed39226c43
+  source_format: chronicle_yaral

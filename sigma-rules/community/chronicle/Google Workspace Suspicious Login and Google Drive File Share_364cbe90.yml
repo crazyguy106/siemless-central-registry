@@ -1,0 +1,21 @@
+title: Google Workspace Suspicious Login and Google Drive File Share
+id: 9ca9c5e8-e979-563b-8301-072444ffc15e
+status: experimental
+level: high
+description: |
+  Identifies when a Google Workspace user shares a file on Google Drive after a suspicious login event occurred.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: Google Workspace
+    metadata_product_name: login
+    metadata_product_event_type: login_success
+  condition: selection
+tags:
+  - attack.t1567
+custom_attributes:
+  original_rule_id: mr_0ddcbd08-e918-4f7c-918b-3190c8b54ea4
+  source_format: chronicle_yaral

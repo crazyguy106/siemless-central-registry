@@ -1,0 +1,19 @@
+title: Privileged User Logon from new ASN
+id: 659ab9b5-d3c6-585d-a47e-43d7f7679537
+status: stable
+level: medium
+description: |
+  'Detects a successful logon by a privileged account from an ASN not logged in from in the last 14 days.   Monitor these logons to ensure they are legitimate and identify if there are any similar sign ins.'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    AssignedRoles:
+      - admin
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 55073036-bb86-47d3-a85a-b113ac3d9396
+  source_format: azure_kql

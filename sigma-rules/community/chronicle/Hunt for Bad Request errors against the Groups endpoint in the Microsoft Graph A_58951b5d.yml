@@ -1,0 +1,21 @@
+title: Hunt for Bad Request errors against the Groups endpoint in the Microsoft Graph API
+id: 35b6a346-c509-5a41-90bd-b9f921abd747
+status: experimental
+level: low
+description: |
+  Identify a 400 bad request to the groups endpoint in the MS Graph API. GraphRunner's Invoke-SecurityGroupCloner function will trigger this if it fails to duplicate a group.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/v1.0/groups'
+    network_http_method: POST
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_09bafa2b-5131-452c-bf5a-021063cfd5c2
+  source_format: chronicle_yaral

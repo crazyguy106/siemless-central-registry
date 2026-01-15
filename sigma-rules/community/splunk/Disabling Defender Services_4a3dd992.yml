@@ -1,0 +1,27 @@
+title: Disabling Defender Services
+id: 75f4f64a-b954-5666-9d86-d283a8e9cd7b
+status: stable
+level: high
+description: |
+  The following analytic detects the disabling of Windows Defender services by monitoring registry modifications. It leverages registry event data to identify changes to specific registry paths associated with Defender services, where the 'Start' value is set to '0x00000004'. This activity is significant because disabling Defender services can indicate an attempt by an adversary to evade detection and maintain persistence on the endpoint. If confirmed malicious, this action could allow attackers t
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path:
+      - '*WdBoot*'
+      - '*WdFilter*'
+      - '*WdNisDrv*'
+      - '*WdNisSvc*'
+      - '*WinDefend*'
+      - '*SecurityHealthService*'
+    registry_value_name: Start
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: 911eacdc-317f-11ec-ad30-acde48001122
+  source_format: splunk_spl

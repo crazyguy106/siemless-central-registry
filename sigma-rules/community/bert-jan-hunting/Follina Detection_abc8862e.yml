@@ -1,0 +1,29 @@
+title: Follina Detection
+id: e7ca8b6d-90b0-4d54-9bb8-93ad9a3de2f1
+status: experimental
+level: medium
+description: |
+  Follina Detection
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // Sources: https://www.reddit.com/r/blueteamsec/comments/v0wgqh/sentinel_kql_detections_for_microsoft_word_zero/ & https://github.com/reprise99/Sentinel-Queries/blob/main/Defender%20for%20Endpoint/Device-msdtPotentialExploit.kql
+    (union isfuzzy=true
+    (DeviceProcessEvents
+    | where ProcessCommandLine contains "msdt.exe"
+    | where InitiatingProcessFileName has_any (@"outlook.exe", @"winword.exe", @"excel.exe")),
+    (DeviceProcessEvents
+    | where InitiatingProcessCommandLine contains "msdt.exe" and ProcessCommandLine !contains "msdt.exe"),
+    (DeviceNetworkEvents
+    | where InitiatingProcessFileName has_any ("sdiagnhost.exe", "msdt.exe")
+    | where RemoteIPType == "Public"
+    | where ActionType == "ConnectionSuccess"
+    and RemoteUrl !endswith ".visualstudio.com"
+    and RemoteUrl !endswith ".microsoft.com")
+    )
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

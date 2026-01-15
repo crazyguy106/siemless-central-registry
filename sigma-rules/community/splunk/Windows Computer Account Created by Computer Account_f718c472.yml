@@ -1,0 +1,25 @@
+title: Windows Computer Account Created by Computer Account
+id: a65c88b9-b2a0-5ab0-90c1-86b11eedbc9f
+status: stable
+level: high
+description: |
+  The following analytic identifies a computer account creating a new computer account with a specific Service Principal Name (SPN) "RestrictedKrbHost". This detection leverages Windows Security Event Logs, specifically EventCode 4741, to identify such activities. This behavior is significant as it may indicate an attempt to establish unauthorized Kerberos authentication channels, potentially leading to lateral movement or privilege escalation. If confirmed malicious, this activity could allow an 
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    eventcode: 4741
+    user_type: computer
+  filter:
+    subjectdomainname: NT AUTHORITY
+  condition: selection and not filter
+tags:
+  - attack.t1558
+references:
+  - https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/445e4499-7e49-4f2a-8d82-aaf2d1ee3c47
+  - https://github.com/Dec0ne/KrbRelayUp
+custom_attributes:
+  original_rule_id: 97a8dc5f-8a7c-4fed-9e3e-ec407fd0268a
+  source_format: splunk_spl

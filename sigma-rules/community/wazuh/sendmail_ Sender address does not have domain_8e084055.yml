@@ -1,0 +1,24 @@
+title: 'sendmail: Sender address does not have domain'
+id: a0382bfc-c3fc-5dd7-b933-9dd3ecaaad63
+status: stable
+level: low
+description: 'sendmail: Sender address does not have domain'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: reject=553 5.5.4
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3101
+tags:
+  - attack.t1114
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3106
+  wazuh_level: 5

@@ -1,0 +1,29 @@
+title: Attempt to Disable Auditd Service
+id: 6a058ed6-4e9f-49f3-8f8e-f32165ae7ebf
+status: stable
+level: low
+description: 'Adversaries may attempt to disable the Auditd service to evade detection.
+  Auditd is a Linux service that provides system
+
+  auditing and logging. Disabling the Auditd service can prevent the system from logging
+  important security events, which
+
+  can be used to detect malicious activity.'
+author: Elastic (converted by SIEMLess)
+date: '2024-08-28'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: systemctl
+    process_args: 'off'
+    process_parent_name: auditd.prerm
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1562
+- attack.t1562.001

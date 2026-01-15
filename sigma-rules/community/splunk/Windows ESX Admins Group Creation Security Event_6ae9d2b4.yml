@@ -1,0 +1,29 @@
+title: Windows ESX Admins Group Creation Security Event
+id: 356f0312-5309-5c74-958d-533dab0a435c
+status: stable
+level: high
+description: |
+  This analytic detects creation, deletion, or modification of the "ESX Admins" group in Active Directory. These events may indicate attempts to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085).
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    targetusername:
+      - ESX Admins
+      - '*ESX Admins*'
+    eventcode:
+      - 4727
+      - 4730
+      - 4737
+  condition: selection
+tags:
+  - attack.t1136.001
+  - attack.t1136.002
+references:
+  - https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24505
+  - https://www.microsoft.com/en-us/security/blog/2024/07/29/ransomware-operators-exploit-esxi-hypervisor-vulnerability-for-mass-encryption/
+  - https://www.securityweek.com/microsoft-says-ransomware-gangs-exploiting-just-patched-vmware-esxi-flaw/
+custom_attributes:
+  original_rule_id: 53b4c927-5ec4-47cd-8aed-d4b303304f87
+  source_format: splunk_spl

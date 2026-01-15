@@ -1,0 +1,31 @@
+title: Kubectl Network Configuration Modification
+id: 877cc04a-3320-411d-bbe9-53266fa5e107
+status: stable
+level: low
+description: 'This rule detects potential kubectl network configuration modification
+  activity by monitoring for process events
+
+  where the kubectl command is executed with arguments that suggest an attempt to
+  modify network configurations in
+
+  Kubernetes. This could indicate an adversary trying to manipulate network settings
+  for malicious purposes, such as
+
+  establishing unauthorized access or exfiltrating data.'
+author: Elastic (converted by SIEMLess)
+date: '2025-06-19'
+modified: '2025-07-07'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    host_os_type: linux
+    event_type: start
+    process_name: kubectl
+    process_args: port-forward
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1572
+- attack.t1090

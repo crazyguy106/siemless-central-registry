@@ -1,0 +1,40 @@
+title: Execution of Persistent Suspicious Program
+id: e7125cea-9fe1-42a5-9a05-b0792cf86f5a
+status: stable
+level: medium
+description: 'Identifies execution of suspicious persistent programs (scripts, rundll32,
+  etc.) by looking at process lineage and
+
+  command line usage.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-19'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "/* userinit followed by explorer followed by early child process\
+      \ of explorer (unlikely to be launched interactively) within 1m */\nsequence\
+      \ by host.id, user.name with maxspan=1m\n  [process where host.os.type == \"\
+      windows\" and event.type == \"start\" and process.name : \"userinit.exe\" and\
+      \ process.parent.name : \"winlogon.exe\"]\n  [process where host.os.type ==\
+      \ \"windows\" and event.type == \"start\" and process.name : \"explorer.exe\"\
+      ]\n  [process where host.os.type == \"windows\" and event.type == \"start\"\
+      \ and process.parent.name : \"explorer.exe\" and\n   /* add suspicious programs\
+      \ here */\n   process.pe.original_file_name in (\"cscript.exe\",\n         \
+      \                            \"wscript.exe\",\n                            \
+      \         \"PowerShell.EXE\",\n                                     \"MSHTA.EXE\"\
+      ,\n                                     \"RUNDLL32.EXE\",\n                \
+      \                     \"REGSVR32.EXE\",\n                                  \
+      \   \"RegAsm.exe\",\n                                     \"MSBuild.exe\",\n\
+      \                                     \"InstallUtil.exe\") and\n    /* add potential\
+      \ suspicious paths here */\n    process.args : (\"C:\\\\Users\\\\*\", \"C:\\\
+      \\ProgramData\\\\*\", \"C:\\\\Windows\\\\Temp\\\\*\", \"C:\\\\Windows\\\\Tasks\\\
+      \\*\", \"C:\\\\PerfLogs\\\\*\", \"C:\\\\Intel\\\\*\")\n   ]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.persistence
+- attack.t1547.001
+- attack.t1547

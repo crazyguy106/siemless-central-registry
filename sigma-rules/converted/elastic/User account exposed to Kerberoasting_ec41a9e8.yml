@@ -1,0 +1,36 @@
+title: User account exposed to Kerberoasting
+id: 0b2f3da5-b5ec-47d1-908b-6ebb74814289
+status: stable
+level: medium
+description: 'Detects when a user account has the servicePrincipalName attribute modified.
+  Attackers can abuse write privileges over a
+
+  user to configure Service Principle Names (SPNs) so that they can perform Kerberoasting.
+  Administrators can also
+
+  configure this for legitimate purposes, exposing the account to Kerberoasting.'
+author: Elastic (converted by SIEMLess)
+date: '2022-02-22'
+modified: '2025-11-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_code: '5136'
+    host_os_type: windows
+    winlog_event_data_OperationType: '%%14674'
+    winlog_event_data_ObjectClass: user
+    winlog_event_data_AttributeLDAPDisplayName: servicePrincipalName
+  condition: selection
+tags:
+- attack.credential_access
+- attack.t1558
+- attack.t1558.003
+references:
+- https://www.thehacker.recipes/ad/movement/access-controls/targeted-kerberoasting
+- https://www.qomplx.com/qomplx-knowledge-kerberoasting-attacks-explained/
+- https://www.thehacker.recipes/ad/movement/kerberos/kerberoast
+- https://attack.stealthbits.com/cracking-kerberos-tgs-tickets-using-kerberoasting
+- https://adsecurity.org/?p=280
+- https://github.com/OTRF/Set-AuditRule

@@ -1,0 +1,25 @@
+title: Windows AD Privileged Account SID History Addition
+id: e31fc033-a920-56e8-a174-5d351c076a0e
+status: stable
+level: high
+description: |
+  The following analytic identifies when the SID of a privileged user is added to the SID History attribute of another user. It leverages Windows Security Event Codes 4742 and 4738, combined with identity lookups, to detect this activity. This behavior is significant as it may indicate an attempt to abuse SID history for unauthorized access across multiple domains. If confirmed malicious, this activity could allow an attacker to escalate privileges or maintain persistent access within the environm
+author: Dean Luxton
+logsource:
+  product: windows
+detection:
+  selection:
+    category: privileged
+    eventcode: 4742
+    field: SidHistory
+    sidhistory:
+      - '%%1793'
+      - '-'
+  condition: selection
+tags:
+  - attack.t1134.005
+references:
+  - https://adsecurity.org/?p=1772
+custom_attributes:
+  original_rule_id: 6b521149-b91c-43aa-ba97-c2cac59ec830
+  source_format: splunk_spl

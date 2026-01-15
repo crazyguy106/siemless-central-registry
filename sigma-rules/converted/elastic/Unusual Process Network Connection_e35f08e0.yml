@@ -1,0 +1,40 @@
+title: Unusual Process Network Connection
+id: 610949a1-312f-4e04-bb55-3a79b8c95267
+status: stable
+level: low
+description: 'Identifies network activity from unexpected system applications. This
+  may indicate adversarial activity as these
+
+  applications are often leveraged by adversaries to execute code and evade detection.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id\n  [process where host.os.type ==\
+      \ \"windows\" and (process.name : \"Microsoft.Workflow.Compiler.exe\" or\n \
+      \                 process.name : \"bginfo.exe\" or\n                  process.name\
+      \ : \"cdb.exe\" or\n                  process.name : \"cmstp.exe\" or\n    \
+      \              process.name : \"csi.exe\" or\n                  process.name\
+      \ : \"dnx.exe\" or\n                  process.name : \"fsi.exe\" or\n      \
+      \            process.name : \"ieexec.exe\" or\n                  process.name\
+      \ : \"iexpress.exe\" or\n                  process.name : \"odbcconf.exe\" or\n\
+      \                  process.name : \"rcsi.exe\" or\n                  process.name\
+      \ : \"xwizard.exe\") and\n     event.type == \"start\"]\n  [network where host.os.type\
+      \ == \"windows\" and (process.name : \"Microsoft.Workflow.Compiler.exe\" or\n\
+      \                  process.name : \"bginfo.exe\" or\n                  process.name\
+      \ : \"cdb.exe\" or\n                  process.name : \"cmstp.exe\" or\n    \
+      \              process.name : \"csi.exe\" or\n                  process.name\
+      \ : \"dnx.exe\" or\n                  process.name : \"fsi.exe\" or\n      \
+      \            process.name : \"ieexec.exe\" or\n                  process.name\
+      \ : \"iexpress.exe\" or\n                  process.name : \"odbcconf.exe\" or\n\
+      \                  process.name : \"rcsi.exe\" or\n                  process.name\
+      \ : \"xwizard.exe\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.t1127

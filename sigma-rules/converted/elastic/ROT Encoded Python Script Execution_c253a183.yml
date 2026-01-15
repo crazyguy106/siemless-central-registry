@@ -1,0 +1,32 @@
+title: ROT Encoded Python Script Execution
+id: 5ab49127-b1b3-46e6-8a38-9e8512a2a363
+status: stable
+level: medium
+description: 'Identifies the execution of a Python script that uses the ROT cipher
+  for letters substitution. Adversaries may
+
+  use this method to encode and obfuscate part of their malicious code in legit python
+  packages.'
+author: Elastic (converted by SIEMLess)
+date: '2024-09-17'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by process.entity_id with maxspan=1m\n [process where\
+      \ host.os.type in (\"windows\", \"macos\") and event.type == \"start\" and process.name\
+      \ : \"python*\"]\n [file where host.os.type in (\"windows\", \"macos\") and\n\
+      \  event.action != \"deletion\" and process.name : \"python*\" and file.name\
+      \ : \"rot_??.cpython-*.pyc*\"]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.t1027.013
+- attack.t1027
+- attack.t1140
+references:
+- https://www.elastic.co/security-labs/dprk-code-of-conduct
+- https://www.reversinglabs.com/blog/fake-recruiter-coding-tests-target-devs-with-malicious-python-packages

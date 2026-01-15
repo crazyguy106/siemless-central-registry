@@ -1,0 +1,24 @@
+title: GitHub Repository Archived Or Deleted
+id: e90197e9-c5a9-5014-afe7-5080bf5c5e7f
+status: experimental
+level: low
+description: Detects when a GitHub repository is archived or deleted.
+author: Google Cloud Security
+logsource:
+  product: github
+  category: file_event
+detection:
+  selection:
+    metadata_vendor_name: GITHUB
+    metadata_product_name: GITHUB
+    metadata_product_event_type:
+      - repo.archived
+      - repo.destroy
+  condition: selection
+tags:
+  - attack.t1485
+references:
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+custom_attributes:
+  original_rule_id: mr_8c515a63-1e2e-4f9e-9150-93302b813315
+  source_format: chronicle_yaral

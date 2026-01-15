@@ -1,0 +1,22 @@
+title: 'osquery: System memory is under $(osquery.columns.threshold)'
+id: b3364de4-d3ad-51fd-93c3-5e3c0b79a2ab
+status: stable
+level: low
+description: 'osquery: System memory is under $(osquery.columns.threshold)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: high_load_average
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24010
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24011
+  wazuh_level: 4

@@ -1,0 +1,38 @@
+title: 'Dropbear: dropbear brute force attempt.'
+id: 2ca83264-0fa0-5658-b22c-2dbaac3b2458
+status: stable
+level: high
+description: 'Dropbear: dropbear brute force attempt.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 120s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 8
+    ignore_window: 60s
+  - type: sequence
+    parent_rule: wazuh-51003
+    window:
+      maxspan: 120s
+    enforce_order: true
+tags:
+  - attack.t1110
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-51004
+  wazuh_level: 10

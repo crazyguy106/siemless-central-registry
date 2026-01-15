@@ -1,0 +1,20 @@
+title: System User Discovery With Whoami
+id: 0448ad06-a52f-5cad-9406-41d5709c74c8
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of `whoami.exe` without any arguments. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs. This activity is significant because both Red Teams and adversaries use `whoami.exe` to identify the current logged-in user, aiding in situational awareness and Active Directory discovery. If confirmed malicious, this behavior could indicate an attacker is gathering information to further compromise the system
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process_name: whoami.exe
+  condition: selection
+tags:
+  - attack.t1033
+references:
+  - https://attack.mitre.org/techniques/T1033/
+custom_attributes:
+  original_rule_id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
+  source_format: splunk_spl

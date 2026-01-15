@@ -1,0 +1,24 @@
+title: WSReset UAC Bypass
+id: 310a40bc-ff67-5273-9664-8f008139398c
+status: stable
+level: high
+description: |
+  The following analytic detects a suspicious modification of the registry aimed at bypassing User Account Control (UAC) by leveraging WSReset.exe. It identifies the creation or modification of specific registry values under the path "*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*". This detection uses data from Endpoint Detection and Response (EDR) agents, focusing on process and registry events. This activity is significant because UAC bypass techniques can allow attackers to exe
+author: Steven Dick, Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    registry_path: '*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*'
+    registry_value_name:
+      - (Default)
+      - DelegateExecute
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://github.com/hfiref0x/UACME
+  - https://blog.morphisec.com/trickbot-uses-a-new-windows-10-uac-bypass
+custom_attributes:
+  original_rule_id: 8b5901bc-da63-11eb-be43-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,30 @@
+title: AzureHound Detection
+id: a161b457-7f72-4412-a7db-de405a2807c9
+status: experimental
+level: medium
+description: |
+  The query below uses the *MicrosoftGraphActivityLogs* to collect potential AzureHound executions. This is done by filtering on GET requests with status 200 since AzureHound is a collector is submits GET requests to retrieve the data. Furthermore, statistics are applied to count the number of bytes retrieved and how many unique requests have been executed within the timeframe of one hour. Lastly, the stats are compared against the thresholds, if the results are bigger than the thresholds the results are returned and your analysis can begin. These thresholds depend on the size of your Entra ID tenant. My test environment has a limited set of accounts, thus the total amount of unique requests is limited. If your organisation has more than 1000 users, the *UniqueRequestThreshold* can easily be set above 5000.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let WhitelistedObjects = dynamic(["obj1", "obj2"]);
+let UniqueRequestThreshold = 1000; // Depends on Entra ID tentant size. You can use the function 0.5 * TotalAzure Resources to get this number. KQL: arg("").Resources | count
+let ResourceThreshold = 4;
+let ReconResources = dynamic(["organization","groups","devices","applications","users","rolemanagement","serviceprincipals"]);
+GraphAPIAuditEvents
+| where RequestMethod == "GET"
+| where ResponseStatusCode == 200
+| extend ParsedUri = tostring(parse_url(RequestUri).Path)
+| extend GraphAPIPath = tolower(replace_string(ParsedUri, "//", "/"))
+| extend GraphAPIResource = tostring(split(GraphAPIPath, "/")[2])
+| where GraphAPIResource in (ReconResources)
+// Filter whitelist
+| where not(AccountObjectId in (WhitelistedObjects))
+| summarize UniqueRequests = dcount(ClientRequestId), Requests = make_set(RequestUri, 1000), Paths = make_set(GraphAPIPath), Resources = make_set(GraphAPIResource), UniqueResourceCount = dcount(GraphAPIResource) by AccountObjectId, bin(TimeGenerated, 1h)
+| where UniqueRequests >= UniqueRequestThreshold and UniqueResourceCount >= ResourceThreshold
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

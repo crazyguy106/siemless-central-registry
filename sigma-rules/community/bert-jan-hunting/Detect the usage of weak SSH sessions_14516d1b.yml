@@ -1,0 +1,24 @@
+title: Detect the usage of weak SSH sessions
+id: 2696a4d1-76af-4958-be3a-2a4680f04007
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Detect the usage of weak SSH sessions
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where ActionType == "NetworkSignatureInspected"
+| extend
+     SignatureName = tostring(parse_json(AdditionalFields).SignatureName),
+     SignatureMatchedContent = tostring(parse_json(AdditionalFields).SignatureMatchedContent),
+     SamplePacketContent = tostring(parse_json(AdditionalFields).SamplePacketContent)
+| where SignatureName == "SSH"
+| where SignatureMatchedContent == 'SSH-1'
+| project-reorder Timestamp, DeviceName, RemoteIP, LocalIP
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

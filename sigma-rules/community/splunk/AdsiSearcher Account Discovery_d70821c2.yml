@@ -1,0 +1,26 @@
+title: AdsiSearcher Account Discovery
+id: c2851563-0a8d-51f8-be87-0011bae38a8e
+status: stable
+level: high
+description: |
+  The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell to query Active Directory for domain users. It leverages PowerShell Script Block Logging (EventCode=4104) to identify script blocks containing `[adsisearcher]`, `objectcategory=user`, and `.findAll()`. This activity is significant as it may indicate an attempt by adversaries or Red Teams to enumerate domain users for situational awareness and Active Directory discovery. If confirmed malicious, this coul
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*[adsisearcher]*'
+      - '*objectcategory=user*'
+      - '*.findAll()*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1087.002
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://www.blackhillsinfosec.com/red-blue-purple/
+  - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
+custom_attributes:
+  original_rule_id: de7fcadc-04f3-11ec-a241-acde48001122
+  source_format: splunk_spl

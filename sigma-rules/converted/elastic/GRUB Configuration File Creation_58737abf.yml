@@ -1,0 +1,31 @@
+title: GRUB Configuration File Creation
+id: ce4a32e5-32aa-47e6-80da-ced6d234387d
+status: stable
+level: low
+description: 'This rule detects the creation of GRUB configuration files on Linux
+  systems. The GRUB configuration file is used to
+
+  configure the boot loader, which is responsible for loading the operating system.
+  Attackers may create malicious GRUB
+
+  configuration files to execute arbitrary code or escalate privileges during the
+  boot process, which can be leveraged to
+
+  maintain persistence on the system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-16'
+modified: '2025-03-20'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    host_os_type: linux
+    event_type: creation
+    process_name: sed
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1574
+- attack.t1543
+- attack.t1542

@@ -1,0 +1,25 @@
+title: AWS IAM Administrator Access Policy Attached
+id: 05950fa6-9975-54c9-9b33-1d749f301331
+status: experimental
+level: high
+description: |
+  Detects when AWS IAM AdministratorAccess policy is attached to a user, group or role which can be used for privilege escalation.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - AttachUserPolicy
+      - AttachGroupPolicy
+      - AttachRolePolicy
+    target_resource_name: 'arn:aws:iam::aws:policy/AdministratorAccess'
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_52c6643b-f6ce-4299-9fb6-05554901800c
+  source_format: chronicle_yaral

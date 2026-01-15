@@ -1,0 +1,27 @@
+title: Potential Privilege Escalation via Sudoers File Modification
+id: 76152ca1-71d0-4003-9e37-0983e12832da
+status: stable
+level: high
+description: 'A sudoers file specifies the commands users or groups can run and from
+  which terminals. Adversaries can take advantage
+
+  of these configurations to execute commands as other users or spawn processes with
+  higher privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2021-01-26'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    event_category: process
+    event_type: start
+    process_args: (echo
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1548.003
+- attack.t1548
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

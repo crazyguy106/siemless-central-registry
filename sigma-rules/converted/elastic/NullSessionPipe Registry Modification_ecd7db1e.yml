@@ -1,0 +1,29 @@
+title: NullSessionPipe Registry Modification
+id: ddab1f5f-7089-44f5-9fda-de5b11322e77
+status: stable
+level: medium
+description: 'Identifies NullSessionPipe registry modifications that specify which
+  pipes can be accessed anonymously. This could be
+
+  indicative of adversary lateral movement preparation by making the added pipe available
+  to everyone.'
+author: Elastic (converted by SIEMLess)
+date: '2021-03-22'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.lateral_movement
+- attack.t1112
+- attack.t1021
+- attack.t1021.002
+references:
+- https://www.welivesecurity.com/2019/05/29/turla-powershell-usage/
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/network-access-restrict-anonymous-access-to-named-pipes-and-shares

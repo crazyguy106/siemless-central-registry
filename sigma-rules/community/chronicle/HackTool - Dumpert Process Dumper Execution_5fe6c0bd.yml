@@ -1,0 +1,20 @@
+title: HackTool - Dumpert Process Dumper Execution
+id: 217a687c-de6b-5837-8b9d-1c0817f051bb
+status: experimental
+level: critical
+description: Detects the use of Dumpert process dumper, which dumps the lsass.exe process memory
+author: Florian Roth (Nextron Systems)
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    target_process_file_file_metadata_pe_import_hash: 09D278F9DE118EF09163C6140255C690
+    target_process_file_pe_file_imphash: 09D278F9DE118EF09163C6140255C690
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_dumpert.yml
+custom_attributes:
+  original_rule_id: mr_39c682b6-b50e-4d22-95de-c9d579c8fc44
+  source_format: chronicle_yaral

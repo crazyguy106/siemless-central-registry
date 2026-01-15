@@ -1,0 +1,41 @@
+title: AWS EC2 EBS Snapshot Shared or Made Public
+id: 4182e486-fc61-11ee-a05d-f661ea17fbce
+status: stable
+level: medium
+description: 'Detects when an Amazon Elastic Block Store (EBS) snapshot is shared
+  with another AWS account or made public. EBS
+
+  snapshots contain copies of data volumes that may include sensitive or regulated
+  information. Adversaries may exploit
+
+  ModifySnapshotAttribute to share snapshots with external accounts or the public,
+  allowing them to copy and access data
+
+  in an environment they control. This activity often precedes data exfiltration or
+  persistence operations, where the
+
+  attacker transfers stolen data out of the victim account or prepares a staging area
+  for further exploitation.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-16'
+modified: '2025-10-24'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_action: ModifySnapshotAttribute
+    event_outcome: success
+  condition: selection
+tags:
+- attack.exfiltration
+- attack.t1537
+references:
+- https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html
+- https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html
+- https://cloud.hacktricks.xyz/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ebs-snapshot-dump
+- https://hackingthe.cloud/aws/exploitation/Misconfigured_Resource-Based_Policies/exploting_public_resources_attack_playbook/
+falsepositives:
+- "    AMI sharing is a common practice in AWS environments. Ensure that the sharing\
+  \ is authorized before taking action.\n    "

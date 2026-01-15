@@ -1,0 +1,25 @@
+title: Linux Indicator Removal Service File Deletion
+id: 586fb92f-61f6-5095-b7f8-0a7e0a09bd29
+status: stable
+level: medium
+description: |
+  The following analytic detects the deletion of Linux service unit configuration files by suspicious processes. It leverages Endpoint Detection and Response (EDR) telemetry, focusing on processes executing the 'rm' command targeting '.service' files. This activity is significant as it may indicate malware attempting to disable critical services or security products, a common defense evasion tactic. If confirmed malicious, this behavior could lead to service disruption, security tool incapacitatio
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    process_name: rm
+    process:
+      - '*rm *'
+      - '*.service'
+  condition: selection
+tags:
+  - attack.t1070.004
+references:
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+  - https://cert.gov.ua/article/3718487
+custom_attributes:
+  original_rule_id: 6c077f81-2a83-4537-afbc-0e62e3215d55
+  source_format: splunk_spl

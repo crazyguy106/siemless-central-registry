@@ -1,0 +1,25 @@
+title: Windows Linked Policies In ADSI Discovery
+id: d521f28a-fe44-5d99-a27f-3d753d28ec8c
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell Script Block Logging (EventCode=4104) to query Active Directory for domain organizational units. This detection leverages PowerShell operational logs to identify script blocks containing `[adsisearcher]`, `objectcategory=organizationalunit`, and `findAll()`. This activity is significant as it indicates potential reconnaissance efforts by adversaries to gain situational awareness of the domain structure.
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext:
+      - '*[adsisearcher]*'
+      - '*objectcategory=organizationalunit*'
+      - '*findAll()*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1087.002
+references:
+  - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+  - https://medium.com/@pentesttas/discover-hidden-gpo-s-on-active-directory-using-ps-adsi-a284b6814c81
+custom_attributes:
+  original_rule_id: 510ea428-4731-4d2f-8829-a28293e427aa
+  source_format: splunk_spl

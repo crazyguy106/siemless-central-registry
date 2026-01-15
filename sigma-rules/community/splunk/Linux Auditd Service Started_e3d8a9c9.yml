@@ -1,0 +1,22 @@
+title: Linux Auditd Service Started
+id: 06760171-f401-5000-83c1-2813c0bd3e6e
+status: stable
+level: medium
+description: |
+  The following analytic detects the suspicious service started. This behavior is critical for a SOC to monitor because it may indicate attempts to gain unauthorized access or maintain control over a system. Such actions could be signs of malicious activity. If confirmed, this could lead to serious consequences, including a compromised system, unauthorized access to sensitive data, or even a wider breach affecting the entire network. Detecting and responding to these signs early is essential to pr
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+detection:
+  selection:
+    proctitle:
+      - '* start*'
+      - '* enable*'
+  condition: selection
+tags:
+  - attack.t1569.002
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: b5eed06d-5c97-4092-a3a1-fa4b7e77c71a
+  source_format: splunk_spl

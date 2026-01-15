@@ -1,0 +1,32 @@
+title: Potential Linux Local Account Brute Force Detected
+id: 835c0622-114e-40b5-a346-f843ea5d01f1
+status: stable
+level: medium
+description: 'Identifies multiple consecutive login attempts executed by one process
+  targeting a local linux user account within a
+
+  short time interval. Adversaries might brute force login attempts across different
+  users with a default wordlist or a
+
+  set of customly crafted passwords in an attempt to gain access to these accounts.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-26'
+modified: '2025-02-04'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.parent.executable, user.id with maxspan=1s\n\
+      \  [process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action == \"exec\" and process.name == \"su\" and\n   not process.parent.name\
+      \ in (\n     \"bash\", \"dash\", \"ash\", \"sh\", \"tcsh\", \"csh\", \"zsh\"\
+      , \"ksh\", \"fish\", \"clickhouse-server\", \"ma\", \"gitlab-runner\",\n   \
+      \  \"updatedb.findutils\", \"cron\", \"perl\", \"sudo\", \"java\", \"cloud-app-identify\"\
+      , \"ambari-sudo.sh\"\n   )\n  ] with runs=10"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1110.001
+- attack.t1110

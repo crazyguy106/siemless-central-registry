@@ -1,0 +1,22 @@
+title: AWS New MFA Method Registered For User
+id: 45db336b-24b5-5e55-bb7b-4a4ed3e3d51e
+status: experimental
+level: medium
+description: Detects the registration of a new Multi Factor authentication method for an AWS user.
+author: Google Cloud Security
+logsource:
+  product: aws
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - CreateVirtualMFADevice
+      - EnableMFADevice
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1556
+custom_attributes:
+  original_rule_id: mr_bee2a210-111a-478a-a1a2-caeb9077eca2
+  source_format: chronicle_yaral

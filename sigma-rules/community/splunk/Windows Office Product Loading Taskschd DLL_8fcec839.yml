@@ -1,0 +1,37 @@
+title: Windows Office Product Loading Taskschd DLL
+id: cf0d43ae-7cfa-57cb-87e2-137ff2301158
+status: stable
+level: medium
+description: |
+  The following analytic detects an Office document creating a scheduled task, either through a macro VBA API or by loading `taskschd.dll`. This detection leverages Sysmon EventCode 7 to identify when Office applications load the `taskschd.dll` file. This activity is significant as it is a common technique used by malicious macro malware to establish persistence or initiate beaconing. If confirmed malicious, this could allow an attacker to maintain persistence, execute arbitrary commands, or sched
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    loaded_file_path: '*\\taskschd.dll'
+    eventcode: 7
+    process_name:
+      - EQNEDT32.exe
+      - excel.exe
+      - Graph.exe
+      - msaccess.exe
+      - mspub.exe
+      - onenote.exe
+      - onenoteim.exe
+      - onenotem.exe
+      - outlook.exe
+      - powerpnt.exe
+      - visio.exe
+      - winproj.exe
+      - winword.exe
+  condition: selection
+tags:
+  - attack.t1566.001
+references:
+  - https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
+  - https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+custom_attributes:
+  original_rule_id: d7297cfa-1f04-4714-bfbe-3679e0666959
+  source_format: splunk_spl

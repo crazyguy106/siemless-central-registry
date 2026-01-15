@@ -1,0 +1,25 @@
+title: O365 BEC Email Hiding Rule Created
+id: 75098a65-f7e6-52c7-9526-3c75f51b39a8
+status: stable
+level: high
+description: |
+  This analytic detects mailbox rule creation, a common technique used in Business Email Compromise. It uses a scoring mechanism to identify a combination of attributes often featured in mailbox rules created by attackers. This may indicate that an attacker has gained access to the account.
+author: 0xC0FFEEEE, Github Community
+logsource:
+  product: splunk
+  category: file_event
+detection:
+  selection:
+    markasread: 'True'
+    workload: Exchange
+    operation:
+      - New-InboxRule
+      - Set-InboxRule
+  condition: selection
+tags:
+  - attack.t1564.008
+references:
+  - https://attack.mitre.org/techniques/T1564/008/
+custom_attributes:
+  original_rule_id: 603ebac2-f157-4df7-a6ac-34e8d0350f86
+  source_format: splunk_spl

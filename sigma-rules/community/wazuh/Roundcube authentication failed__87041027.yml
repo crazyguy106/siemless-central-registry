@@ -1,0 +1,26 @@
+title: Roundcube authentication failed.
+id: 6ba00c1b-5075-594d-a08c-0cd003e5f859
+status: stable
+level: medium
+description: Roundcube authentication failed.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains:
+      - failed (LOGIN)
+      - Login failed
+      - Authentication failed
+      - Failed login
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-9400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-9401
+  wazuh_level: 6

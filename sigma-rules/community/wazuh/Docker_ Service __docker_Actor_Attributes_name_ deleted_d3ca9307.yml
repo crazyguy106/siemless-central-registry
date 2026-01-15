@@ -1,0 +1,25 @@
+title: 'Docker: Service $(docker.Actor.Attributes.name) deleted'
+id: 4d138c57-5719-5b98-a1b1-b564865d4211
+status: stable
+level: low
+description: 'Docker: Service $(docker.Actor.Attributes.name) deleted'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.Action: ^remove$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87954
+tags:
+  - attack.t1107
+  - attack.t1485
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87957
+  wazuh_level: 5

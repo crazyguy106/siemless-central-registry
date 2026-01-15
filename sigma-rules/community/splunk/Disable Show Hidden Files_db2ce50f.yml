@@ -1,0 +1,29 @@
+title: Disable Show Hidden Files
+id: 842d9d18-b00b-5acf-9ba6-8a8442a7c126
+status: stable
+level: medium
+description: |
+  The following analytic detects modifications to the Windows registry that disable the display of hidden files. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to registry paths associated with hidden file settings. This activity is significant because malware, such as worms and trojan spyware, often use hidden files to evade detection. If confirmed malicious, this behavior could allow an attacker to conceal malicious files on the system, making it harder 
+author: Teoderick Contreras, Splunk, Steven Dick
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    registry_path:
+      - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden'
+      - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt'
+      - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden'
+    registry_value_data:
+      - 0x00000001
+      - 0x00000000
+  condition: selection
+tags:
+  - attack.t1112
+  - attack.t1562.001
+  - attack.t1564.001
+references:
+  - https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis
+custom_attributes:
+  original_rule_id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
+  source_format: splunk_spl

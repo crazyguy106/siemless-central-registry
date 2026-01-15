@@ -1,0 +1,26 @@
+title: Windows DLL Search Order Hijacking Hunt with Sysmon
+id: 954192c2-5b1e-5323-9f73-919279969f72
+status: stable
+level: low
+description: |
+  The following analytic identifies potential DLL search order hijacking or DLL sideloading by detecting known Windows libraries loaded from non-standard directories. It leverages Sysmon EventCode 7 to monitor DLL loads and cross-references them with a lookup of known hijackable libraries. This activity is significant as it may indicate an attempt to execute malicious code by exploiting DLL search order vulnerabilities. If confirmed malicious, this could allow attackers to gain code execution, esc
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 7
+    islibrary: 'True'
+    process_path:
+      - '*\\system32\\*'
+      - '*\\syswow64\\*'
+      - '*\\winsxs\\*'
+      - '*\\wbem\\*'
+  condition: selection
+tags:
+  - attack.t1574.001
+references:
+  - https://hijacklibs.net
+custom_attributes:
+  original_rule_id: 79c7d1fc-64c7-91be-a616-ccda752efe81
+  source_format: splunk_spl

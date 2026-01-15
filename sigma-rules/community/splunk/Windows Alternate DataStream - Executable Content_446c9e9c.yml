@@ -1,0 +1,24 @@
+title: Windows Alternate DataStream - Executable Content
+id: 2272b8e7-6859-53ed-bb4c-52d63871ccc1
+status: stable
+level: high
+description: |
+  The following analytic detects the writing of data with an IMPHASH value to an Alternate Data Stream (ADS) in the NTFS file system. It leverages Sysmon Event ID 15 and regex to identify files with a Portable Executable (PE) structure. This activity is significant as it may indicate a threat actor staging malicious code in hidden areas for persistence or future execution. If confirmed malicious, this could allow attackers to execute hidden code, maintain persistence, or escalate privileges within
+author: Steven Dick, Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    targetfilename: '(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$'
+    eventcode: 15
+    process: Image
+  condition: selection
+tags:
+  - attack.t1564.004
+references:
+  - https://car.mitre.org/analytics/CAR-2020-08-001/
+  - https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams
+  - https://twitter.com/0xrawsec/status/1002478725605273600?s=21
+custom_attributes:
+  original_rule_id: a258bf2a-34fd-4986-8086-78f506e00206
+  source_format: splunk_spl

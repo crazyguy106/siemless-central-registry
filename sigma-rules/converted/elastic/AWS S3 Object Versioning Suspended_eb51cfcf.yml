@@ -1,0 +1,36 @@
+title: AWS S3 Object Versioning Suspended
+id: 30b5bb96-c7db-492c-80e9-1eab00db580b
+status: stable
+level: medium
+description: Identifies when object versioning is suspended for an Amazon S3 bucket.
+  Object versioning allows for multiple versions of an object to exist in the same
+  bucket. This allows for easy recovery of deleted or overwritten objects. When object
+  versioning is suspended for a bucket, it could indicate an adversary's attempt to
+  inhibit system recovery following malicious activity. Additionally, when versioning
+  is suspended, buckets can then be deleted.
+author: Elastic (converted by SIEMLess)
+date: '2024-07-12'
+modified: '2025-10-28'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: s3.amazonaws.com
+    event_action: PutBucketVersioning
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1490
+references:
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html/
+- https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html/
+- https://cloud.hacktricks.xyz/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/
+- https://www.invictus-ir.com/news/ransomware-in-the-cloud/
+- https://rhinosecuritylabs.com/aws/s3-ransomware-part-2-prevention-and-defense/
+falsepositives:
+- "    Administrators within an AWS Organization structure may legitimately suspend\
+  \ object versioning. Ensure that this behavior is not part of a legitimate operation\
+  \ before taking action.\n    "

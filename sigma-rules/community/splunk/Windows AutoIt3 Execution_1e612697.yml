@@ -1,0 +1,22 @@
+title: Windows AutoIt3 Execution
+id: 095dbd85-2b0c-5c6e-802a-b600e589fd94
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of AutoIt3, a scripting language often used for automating Windows GUI tasks and general scripting.  It identifies instances where AutoIt3 or its variants are executed by searching for process names or original file names matching 'autoit3.exe'.  This activity is significant because attackers frequently use AutoIt3 to automate malicious actions, such as executing malware.  If confirmed malicious, this activity could lead to unauthorized code execution
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name: autoit*.exe
+    original_file_name: autoit*.exe
+  condition: selection
+tags:
+  - attack.t1059
+references:
+  - https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2023-10-25-IOCs-from-DarkGate-activity.txt
+custom_attributes:
+  original_rule_id: 0ecb40d9-492b-4a57-9f87-515dd742794c
+  source_format: splunk_spl

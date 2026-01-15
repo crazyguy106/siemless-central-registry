@@ -1,0 +1,30 @@
+title: Windows Anonymous Pipe Activity
+id: 0e9dab16-4a55-5edc-bb7a-cbb423697912
+status: stable
+level: low
+description: |
+  The following analytic detects the creation or connection of anonymous pipes for inter-process communication (IPC) within a Windows environment. Anonymous pipes are commonly used by legitimate system processes, services, and applications to transfer data between related processes. However, adversaries frequently abuse anonymous pipes to facilitate stealthy process injection, command-and-control (C2) communication, credential theft, or privilege escalation. This detection monitors for unusual ano
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    pipename: '*Anonymous Pipe*'
+    eventcode:
+      - 17
+      - 18
+    eventtype:
+      - CreatePipe
+      - ConnectPipe
+    image:
+      - 'C:\\Program Files*'
+      - 'C:\\Windows\\system32\\*'
+      - 'C:\\Windows\\syswow64\\*'
+  condition: selection
+tags:
+  - attack.t1559
+references:
+  - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+custom_attributes:
+  original_rule_id: ee301e1e-cd81-4011-a911-e5f049b9e3d5
+  source_format: splunk_spl

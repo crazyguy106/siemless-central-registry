@@ -1,0 +1,22 @@
+title: 'GCP alert event on project $(gcp.resource.labels.project_id), monitored resource type: $(gcp.resource.type)'
+id: 66738055-d8b7-50d7-a539-9f1dd3d8a63c
+status: stable
+level: high
+description: 'GCP alert event on project $(gcp.resource.labels.project_id), monitored resource type: $(gcp.resource.type)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    gcp.severity: ^ALERT$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-65000
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-65045
+  wazuh_level: 11

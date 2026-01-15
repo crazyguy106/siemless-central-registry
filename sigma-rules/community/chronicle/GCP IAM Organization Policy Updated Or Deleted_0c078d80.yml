@@ -1,0 +1,26 @@
+title: GCP IAM Organization Policy Updated Or Deleted
+id: 938b864a-bc73-5def-b8e7-117a52ec2cf8
+status: experimental
+level: high
+description: Detect when GCP IAM Organization Policy is updated or deleted.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_event_type:
+      - RESOURCE_WRITTEN
+      - RESOURCE_DELETION
+    metadata_product_event_type:
+      - google.cloud.orgpolicy.v2.OrgPolicy.UpdatePolicy
+      - google.cloud.orgpolicy.v2.OrgPolicy.DeletePolicy
+    security_result_action: ALLOW
+    target_application: orgpolicy.googleapis.com
+  condition: selection
+tags:
+  - attack.t1098
+custom_attributes:
+  original_rule_id: mr_327c1753-1cd5-424a-8a9f-1648278e2831
+  source_format: chronicle_yaral

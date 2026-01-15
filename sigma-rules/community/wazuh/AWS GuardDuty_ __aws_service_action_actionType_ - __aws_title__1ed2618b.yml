@@ -1,0 +1,25 @@
+title: 'AWS GuardDuty: $(aws.service.action.actionType) - $(aws.title)'
+id: 3aedbaa2-d8d9-5352-b287-322fccf1c6ff
+status: stable
+level: medium
+description: 'AWS GuardDuty: $(aws.service.action.actionType) - $(aws.title)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.severity:
+      - 4
+      - 5
+      - 6
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80300
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80302
+  wazuh_level: 6

@@ -1,0 +1,20 @@
+title: Disable Schedule Task
+id: e140a66e-64bb-5af9-a996-e0e352be97e7
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of a command to disable an existing scheduled task using 'schtasks.exe' with the '/change' and '/disable' parameters. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. Disabling scheduled tasks is significant as it is a common tactic used by adversaries, including malware like IcedID, to disable security applications and evade detection. If confirmed malicious, this a
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1562.001
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+custom_attributes:
+  original_rule_id: db596056-3019-11ec-a9ff-acde48001122
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: GCP Security Command Center Service Disabled
+id: 6f05d476-52e8-5ec8-a110-85db1a940477
+status: experimental
+level: high
+description: Detect when GCP Security Command Center services are disabled.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: RESOURCE_WRITTEN
+    metadata_log_type: GCP_CLOUDAUDIT
+    security_result_action: ALLOW
+    target_application: securitycenter.googleapis.com
+    metadata_product_event_type: google.cloud.securitycenter.settings.*.Settings.Update
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_0d065dd8-4489-434a-bb6e-066537318484
+  source_format: chronicle_yaral

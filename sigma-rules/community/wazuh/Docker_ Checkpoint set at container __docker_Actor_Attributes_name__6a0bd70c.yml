@@ -1,0 +1,22 @@
+title: 'Docker: Checkpoint set at container $(docker.Actor.Attributes.name)'
+id: c92fcb77-bc61-5c21-ad6c-fd4f473eff8d
+status: stable
+level: low
+description: 'Docker: Checkpoint set at container $(docker.Actor.Attributes.name)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    docker.status: ^checkpoint$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87900
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87953
+  wazuh_level: 3

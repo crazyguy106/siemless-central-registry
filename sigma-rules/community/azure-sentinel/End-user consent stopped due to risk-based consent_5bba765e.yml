@@ -1,0 +1,21 @@
+title: End-user consent stopped due to risk-based consent
+id: 072b09b1-ea9b-5bc1-a54f-42583ea521cf
+status: stable
+level: medium
+description: |
+  'Detects a user's consent to an OAuth application being blocked due to it being too risky.   These events should be investigated to understand why the user attempted to consent to the applicaiton and what other applicaitons they may have consented to.   Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-applications#end-user-stopped-due-to-risk-based-consent'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Result: failure
+    OperationName|contains: Consent to application
+    FailureReason:
+      - Risky
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 009b9bae-23dd-43c4-bcb9-11c4ba7c784a
+  source_format: azure_kql

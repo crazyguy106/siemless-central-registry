@@ -1,0 +1,22 @@
+title: List of logged in users. It will not be alerted by default.
+id: a4275777-7a35-5631-8544-919bc9abba8c
+status: stable
+level: informational
+description: List of logged in users. It will not be alerted by default.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: 'ossec: output: ''w'''
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-530
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-534
+  wazuh_level: 1

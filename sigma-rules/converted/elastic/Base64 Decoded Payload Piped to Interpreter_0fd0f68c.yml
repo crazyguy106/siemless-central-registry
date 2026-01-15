@@ -1,0 +1,46 @@
+title: Base64 Decoded Payload Piped to Interpreter
+id: 5bdad1d5-5001-4a13-ae99-fa8619500f1a
+status: stable
+level: medium
+description: 'This rule detects when a base64 decoded payload is piped to an interpreter
+  on Linux systems. Adversaries may use
+
+  base64 encoding to obfuscate data and pipe it to an interpreter to execute malicious
+  code. This technique may
+
+  be used to evade detection by host- or network-based security controls.'
+author: Elastic (converted by SIEMLess)
+date: '2025-02-21'
+modified: '2025-10-17'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.parent.entity_id with maxspan=3s\n\
+      \  [process where host.os.type == \"linux\" and event.type == \"start\" and\
+      \ event.action in (\"exec\", \"ProcessRollup2\") and (\n    (process.name in\
+      \ (\"base64\", \"base64plain\", \"base64url\", \"base64mime\", \"base64pem\"\
+      , \"base32\", \"base16\") and process.command_line like~ \"*-*d*\") or\n   \
+      \ (process.name == \"openssl\" and process.args == \"enc\" and process.args\
+      \ in (\"-d\", \"-base64\", \"-a\")) or\n    (process.name like \"python*\" and\n\
+      \    (process.args == \"base64\" and process.args in (\"-d\", \"-u\", \"-t\"\
+      )) or\n    (process.args == \"-c\" and process.args like \"*base64*\" and process.command_line\
+      \ like~ \"*b64decode*\")\n    ) or\n    (process.name like \"perl*\" and process.command_line\
+      \ like~ \"*decode_base64*\") or\n    (process.name like \"ruby*\" and process.args\
+      \ == \"-e\" and process.command_line like~ \"*Base64.decode64*\")\n  )]\n [process\
+      \ where host.os.type == \"linux\" and event.type == \"start\" and event.action\
+      \ in (\"exec\", \"ProcessRollup2\") and process.name like~ (\n    \"bash\",\
+      \ \"dash\", \"sh\", \"tcsh\", \"csh\", \"zsh\", \"ksh\", \"fish\", \"python*\"\
+      , \"perl*\", \"ruby*\", \"lua*\", \"php*\"\n )]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+- attack.t1204
+- attack.t1140
+- attack.t1027
+- attack.t1059.004
+- attack.t1204.002

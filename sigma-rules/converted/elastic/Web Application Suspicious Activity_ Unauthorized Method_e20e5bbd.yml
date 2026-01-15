@@ -1,0 +1,25 @@
+title: 'Web Application Suspicious Activity: Unauthorized Method'
+id: 75ee75d8-c180-481c-ba88-ee50129a6aef
+status: stable
+level: medium
+description: 'A request to a web application returned a 405 response, which indicates
+  the web application declined to process the
+
+  request because the HTTP method is not allowed for the resource.'
+author: Elastic (converted by SIEMLess)
+date: '2020-02-18'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    http_response_status_code: '405'
+  condition: selection
+references:
+- https://en.wikipedia.org/wiki/HTTP_405
+falsepositives:
+- "    Security scans and tests may result in these errors. Misconfigured or buggy\
+  \ applications may produce large numbers\n    of these errors. If the source is\
+  \ unexpected, the user unauthorized, or the request unusual, these may indicate\n\
+  \    suspicious or malicious activity.\n    "

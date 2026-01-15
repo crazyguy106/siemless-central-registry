@@ -1,0 +1,41 @@
+title: Remote File Copy via TeamViewer
+id: b25a7df2-120a-4db2-bd3f-3e4b86b24bee
+status: stable
+level: medium
+description: Identifies an executable or script file remotely downloaded via a TeamViewer
+  transfer session.
+author: Elastic (converted by SIEMLess)
+date: '2020-09-02'
+modified: '2025-05-05'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: creation
+    file_extension|contains:
+    - exe
+    - dll
+    - scr
+    - com
+    - bat
+    - ps1
+    - vbs
+    - vbe
+    - js
+    - wsh
+    - hta
+    file_path|contains:
+    - ?:\\Users\\*\\AppData\\Local\\Microsoft\\Windows\\INetCache\\*.js
+    - ?:\\Users\\*\\AppData\\Local\\Temp\\TeamViewer\\update.exe
+    - ?:\\Users\\*\\AppData\\Local\\Temp\\?\\TeamViewer\\update.exe
+    - ?:\\Users\\*\\AppData\\Local\\TeamViewer\\CustomConfigs\\???????\\TeamViewer_Resource_??.dll
+    - ?:\\Users\\*\\AppData\\Local\\TeamViewer\\CustomConfigs\\???????\\TeamViewer*.exe
+  condition: selection
+tags:
+- attack.command_and_control
+- attack.t1219
+- attack.t1105
+references:
+- http://web.archive.org/web/20230329160957/https://blog.menasec.net/2019/11/hunting-for-suspicious-use-of.html

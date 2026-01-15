@@ -1,0 +1,51 @@
+title: High Frequency Copy Of Files In Network Share
+id: bf2b6fed-f59a-5bcd-a67b-e45617ba2c87
+status: stable
+level: medium
+description: |
+  The following analytic detects a high frequency of file copying or moving within network shares, which may indicate potential data sabotage or exfiltration attempts. It leverages Windows Security Event Logs (EventCode 5145) to monitor access to specific file types and network shares. This activity is significant as it can reveal insider threats attempting to transfer classified or internal files, potentially leading to data breaches or evidence tampering. If confirmed malicious, this behavior co
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    accessmask: 0x2
+    eventcode: 5145
+    objecttype: File
+    span: 5m
+    isoutlier: 1
+    relativetargetname:
+      - '*.doc'
+      - '*.docx'
+      - '*.xls'
+      - '*.xlsx'
+      - '*.ppt'
+      - '*.pptx'
+      - '*.log'
+      - '*.txt'
+      - '*.db'
+      - '*.7z'
+      - '*.zip'
+      - '*.rar'
+      - '*.tar'
+      - '*.gz'
+      - '*.jpg'
+      - '*.gif'
+      - '*.png'
+      - '*.bmp'
+      - '*.pdf'
+      - '*.rtf'
+      - '*.key'
+    sharename:
+      - \\\\*\\C$
+      - \\\\*\\IPC$
+      - \\\\*\\admin$
+  condition: selection
+tags:
+  - attack.t1537
+references:
+  - https://attack.mitre.org/techniques/T1537/
+custom_attributes:
+  original_rule_id: 40925f12-4709-11ec-bb43-acde48001122
+  source_format: splunk_spl

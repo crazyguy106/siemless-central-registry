@@ -1,0 +1,21 @@
+title: Suspicious MSBuild Spawn
+id: d22554b7-73d4-5e54-a10d-6249ef7e00c0
+status: stable
+level: high
+description: |
+  The following analytic identifies instances where wmiprvse.exe spawns msbuild.exe, which is unusual and indicative of potential misuse of a COM object. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process relationships and command-line executions. This activity is significant because msbuild.exe is typically spawned by devenv.exe during legitimate Visual Studio use, not by wmiprvse.exe. If confirmed malicious, this behavior could indicate an attack
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1127.001
+references:
+  - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+custom_attributes:
+  original_rule_id: a115fba6-5514-11eb-ae93-0242ac130002
+  source_format: splunk_spl

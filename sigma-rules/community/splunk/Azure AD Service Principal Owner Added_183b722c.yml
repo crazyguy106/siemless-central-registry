@@ -1,0 +1,20 @@
+title: Azure AD Service Principal Owner Added
+id: b2469835-1182-54fa-9778-3495c573eb81
+status: stable
+level: high
+description: |
+  The following analytic detects the addition of a new owner to a Service Principal within an Azure AD tenant. It leverages Azure Active Directory events from the AuditLog log category to identify this activity. This behavior is significant because Service Principals do not support multi-factor authentication or conditional access policies, making them a target for adversaries seeking persistence or privilege escalation. If confirmed malicious, this activity could allow attackers to maintain acces
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+logsource:
+  product: azure
+detection:
+  selection:
+    operationname: Add owner to application
+  condition: selection
+tags:
+  - attack.t1098
+references:
+  - https://attack.mitre.org/techniques/T1098/
+custom_attributes:
+  original_rule_id: 7ddf2084-6cf3-4a44-be83-474f7b73c701
+  source_format: splunk_spl

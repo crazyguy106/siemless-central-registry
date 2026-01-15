@@ -1,0 +1,27 @@
+title: DigitalSide Threat-Intel suspicious and/or malicious IP addresses
+id: d755338c-2605-413e-b51e-29eb55dfb9ae
+status: experimental
+level: medium
+description: |
+  KQL detection rule: DigitalSide Threat-Intel suspicious and/or malicious IP addresses
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let ThreatIntelFeed = externaldata(DestIP: string)[@"https://osint.digitalside.it/Threat-Intel/lists/latestips.txt"] with (format="txt", ignoreFirstRecord=True);
+let IPRegex = '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}';
+let MaliciousIP = materialize (
+       ThreatIntelFeed
+       | where DestIP matches regex IPRegex
+       | distinct DestIP
+        );
+DeviceNetworkEvents
+| where RemoteIP in (MaliciousIP)
+| extend GeoIPInfo = geo_info_from_ip_address(RemoteIP)
+| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
+| project-reorder Timestamp, DeviceName, RemoteIP, RemotePort, InitiatingProcessAccountName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

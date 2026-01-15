@@ -1,0 +1,24 @@
+title: 'sendmail: Sender domain does not have any valid'
+id: 1cb82dde-0c41-59de-b9f4-01d0206acaa5
+status: stable
+level: low
+description: 'sendmail: Sender domain does not have any valid'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|contains: reject=451 4.1.8
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-3101
+tags:
+  - attack.t1114
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-3102
+  wazuh_level: 5

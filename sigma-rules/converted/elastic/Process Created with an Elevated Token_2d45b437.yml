@@ -1,0 +1,53 @@
+title: Process Created with an Elevated Token
+id: 02a23ee7-c8f8-4701-b99d-e9038ce313cb
+status: stable
+level: high
+description: 'Identifies the creation of a process running as SYSTEM and impersonating
+  a Windows core binary privileges. Adversaries
+
+  may create a new process with a different token to escalate privileges and bypass
+  access controls.'
+author: Elastic (converted by SIEMLess)
+date: '2022-10-20'
+modified: '2025-01-15'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_action: start
+    process_Ext_effective_parent_executable|contains:
+    - ?:\\Windows\\*.exe
+    - ?:\\Program Files\\*.exe
+    process_executable|contains:
+    - ?:\\Windows\\Microsoft.NET\\Framework*.exe
+    - ?:\\Windows\\WinSxS\\*.exe
+    - ?:\\Windows\\System32\\inetsrv\\iissetup.exe
+    - ?:\\Windows\\SysWOW64\\inetsrv\\iissetup.exe
+    - ?:\\Windows\\System32\\inetsrv\\aspnetca.exe
+    - ?:\\Windows\\SysWOW64\\inetsrv\\aspnetca.exe
+    - ?:\\Windows\\System32\\lodctr.exe
+    - ?:\\Windows\\SysWOW64\\lodctr.exe
+    - ?:\\Windows\\System32\\netcfg.exe
+    - ?:\\Windows\\Microsoft.NET\\Framework*\\*\\ngen.exe
+    - ?:\\Windows\\Microsoft.NET\\Framework*\\*\\aspnet_regiis.exe
+    process_parent_executable|contains:
+    - ?:\\Windows\\System32\\AtBroker.exe
+    - ?:\\Windows\\system32\\svchost.exe
+    process_code_signature_subject_name|contains:
+    - philandro Software GmbH
+    - Freedom Scientific Inc.
+    - TeamViewer Germany GmbH
+    - Projector.is, Inc.
+    - TeamViewer GmbH
+    - Cisco WebEx LLC
+    - Dell Inc
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1134
+- attack.t1134.002
+references:
+- https://lengjibo.github.io/token/
+- https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw

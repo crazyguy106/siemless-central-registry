@@ -1,0 +1,22 @@
+title: Hunt for authorization policy API calls in the Microsoft Graph
+id: 11841d30-8ba1-5e68-b43d-8f44bcbcac0d
+status: experimental
+level: low
+description: |
+  The authorization policy of Entra ID (User Settings) contains information about who can create applications, invite guest users and more. It's not something that is generally modified or reviewed except by administrators so it's worth knowing who may be requesting this endpoint.
+author: Google Cloud Security
+logsource:
+  product: azure
+  category: authentication
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_c6fbfec1-5185-4f7d-aedf-1f23662b547e
+  source_format: chronicle_yaral

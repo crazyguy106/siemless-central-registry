@@ -1,0 +1,50 @@
+title: Windows PsTools Recon Usage
+id: c9e4ae96-36c3-5df8-a896-aee50783bd6b
+status: stable
+level: medium
+description: |
+  The following analytic identifies execution of Sysinternals PsTools and Sysinternals Suit binaries that are commonly used for reconnaissance and information gathering on Windows endpoints. PsTools (PsExec, PsFile, PsGetSid, PsInfo, PsPing, etc.) or Sysinternals Suit tools, are frequently used by administrators for legitimate maintenance but are also leveraged by threat actors to collect system, account, network and service information during discovery and lateral movement. This detection focuses
+author: Nasreddine Bencherchali
+logsource:
+  product: windows
+detection:
+  selection:
+    process_name:
+      - PsGetsid.exe
+      - PsGetsid64.exe
+      - PsInfo.exe
+      - PsInfo64.exe
+      - pslist.exe
+      - pslist64.exe
+      - PsLoggedon.exe
+      - PsLoggedon64.exe
+      - psloglist.exe
+      - psloglist64.exe
+      - PsPing.exe
+      - PsPing64.exe
+      - PsService.exe
+      - PsService64.exe
+      - Tcpvcon.exe
+      - Tcpvcon64.exe
+      - Tcpvcon64a.exe
+    original_file_name:
+      - PsGetSid.exe
+      - Psinfo.exe
+      - pslist.exe
+      - psloggedon.exe
+      - psloglist.exe
+      - psping.exe
+      - psservice.exe
+      - Tcpvcon.exe
+  condition: selection
+tags:
+  - attack.t1082
+  - attack.t1046
+  - attack.t1018
+references:
+  - https://learn.microsoft.com/sysinternals/downloads/pstools
+  - https://github.com/CyberMonitor/APT_CyberCriminal_Campagin_Collections/raw/master/2015/2015.09.17.Operation_Iron_Tiger/wp-operation-iron-tiger.pdf
+  - https://go.crowdstrike.com/rs/281-OBQ-266/images/Report2018OverwatchReport.pdf
+custom_attributes:
+  original_rule_id: 9a5f4b3e-1d2b-4c6f-9a8e-3b7d2f5c1a6e
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: 'FTPD: authentication failure.'
+id: 08bb0b95-1266-5a96-a7cb-9c33be8a4851
+status: stable
+level: low
+description: 'FTPD: authentication failure.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: ^login \S+ from \S+ failed
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-11100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-11113
+  wazuh_level: 5

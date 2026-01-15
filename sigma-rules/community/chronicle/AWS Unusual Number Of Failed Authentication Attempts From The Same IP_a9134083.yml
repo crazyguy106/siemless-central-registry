@@ -1,0 +1,23 @@
+title: AWS Unusual Number Of Failed Authentication Attempts From The Same IP
+id: f554a9df-6cf7-5196-b09c-1554884aa633
+status: experimental
+level: medium
+description: Detects unusual number of failed authentications from the same IP for valid users.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: ConsoleLogin
+    security_result_action: BLOCK
+    security_result_description: 'Reason: Failed authentication'
+  condition: selection
+tags:
+  - attack.t1110
+custom_attributes:
+  original_rule_id: mr_cf1787a4-0145-4093-ad35-2de17f1980ce
+  source_format: chronicle_yaral

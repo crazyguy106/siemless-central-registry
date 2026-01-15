@@ -1,0 +1,34 @@
+title: Detect SMB File Copies
+id: 5b1fc435-6fc6-4787-bdae-99e9909c1cf4
+status: experimental
+level: medium
+description: |
+  Adversaries can use SMB to upload files to remote shares or to interact with files on those shares. A common technique is to upload malcious to remote host. This query detects all SMB file copies. In order to run the query effectively add the benign accounts the the whitelist.
+
+A false positive would be a aministrator that would perform legitimate SMB file copies.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    let WhitelistedAccounts = dynamic(['account1', 'account2']);
+IdentityDirectoryEvents
+| where ActionType == 'SMB file copy'
+| where not(AccountName has_any (WhitelistedAccounts))
+| extend 
+     SMBFileCopyCount = parse_json(AdditionalFields).Count,
+     FilePath = parse_json(AdditionalFields).FilePath,
+     FileName = parse_json(AdditionalFields).FileName
+| project-rename SourceDeviceName = DeviceName
+| project-reorder
+     Timestamp,
+     ActionType,
+     SourceDeviceName,
+     DestinationDeviceName,
+     FilePath,
+     FileName,
+     SMBFileCopyCount
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

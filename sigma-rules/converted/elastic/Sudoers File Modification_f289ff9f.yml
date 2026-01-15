@@ -1,0 +1,29 @@
+title: Sudoers File Modification
+id: 931e25a5-0f5e-4ae0-ba0d-9e94eff7e3a4
+status: stable
+level: medium
+description: 'A sudoers file specifies the commands that users or groups can run and
+  from which terminals. Adversaries can take
+
+  advantage of these configurations to execute commands as other users or spawn processes
+  with higher privileges.'
+author: Elastic (converted by SIEMLess)
+date: '2020-04-13'
+modified: '2025-07-14'
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection:
+    _original_eql: "file where host.os.type in (\"linux\", \"macos\") and event.type\
+      \ in (\"creation\", \"change\") and\nfile.path like (\"/etc/sudoers*\", \"/private/etc/sudoers*\"\
+      ) and not (\n  process.name in (\"dpkg\", \"platform-python\", \"puppet\", \"\
+      yum\", \"dnf\") or\n  process.executable in (\"/opt/chef/embedded/bin/ruby\"\
+      , \"/opt/puppetlabs/puppet/bin/ruby\", \"/usr/bin/dockerd\")\n)"
+  condition: selection
+tags:
+- attack.privilege_escalation
+- attack.t1548.003
+- attack.t1548
+references:
+- https://www.elastic.co/security-labs/primer-on-persistence-mechanisms

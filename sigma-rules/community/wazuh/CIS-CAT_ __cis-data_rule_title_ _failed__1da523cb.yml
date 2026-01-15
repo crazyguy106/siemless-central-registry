@@ -1,0 +1,23 @@
+title: 'CIS-CAT: $(cis-data.rule_title) (failed)'
+id: 4e4ca41b-2d74-5305-bebe-cdcc7564b765
+status: stable
+level: medium
+description: 'CIS-CAT: $(cis-data.rule_title) (failed)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    type: ^scan_result$
+    cis-data.result: ^fail$
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-87403
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-87419
+  wazuh_level: 7

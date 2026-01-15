@@ -1,0 +1,22 @@
+title: 'McAfee MySQL audit failed: $(cmd) statement.'
+id: c28857c5-60c1-5d28-9eab-5921fe8ad510
+status: stable
+level: low
+description: 'McAfee MySQL audit failed: $(cmd) statement.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    cmd|re: '^drop|^alter|^insert|^update|^grant|^delete'
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-89056
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-89057
+  wazuh_level: 5

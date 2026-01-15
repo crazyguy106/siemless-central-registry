@@ -1,0 +1,28 @@
+title: Cisco Network Interface Modifications
+id: e65fa50e-125d-538f-b699-f7669736ebcf
+status: stable
+level: medium
+description: |
+  This analytic detects the creation or modification of network interfaces on Cisco devices, which could indicate an attacker establishing persistence or preparing for lateral movement. After gaining initial access to network devices, threat actors like Static Tundra often create new interfaces (particularly loopback interfaces) to establish covert communication channels or maintain persistence. This detection specifically looks for the configuration of new interfaces, interface state changes, and
+author: Bhavin Patel, Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: network_connection
+detection:
+  selection:
+    command:
+      - '*interface*'
+      - '*LINEPROTO-5-UPDOWN*'
+      - '*ip address*'
+  condition: selection
+tags:
+  - attack.t1556
+  - attack.t1021
+  - attack.t1133
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/interface/command/ir-cr-book/ir-i1.html#wp1389942834
+custom_attributes:
+  original_rule_id: 61ae09c2-079e-44b1-8be0-74e35c5a679e
+  source_format: splunk_spl

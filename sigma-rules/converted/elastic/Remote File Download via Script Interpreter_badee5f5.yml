@@ -1,0 +1,30 @@
+title: Remote File Download via Script Interpreter
+id: 1d276579-3380-4095-ad38-e596a01bc64f
+status: stable
+level: medium
+description: 'Identifies built-in Windows script interpreters (cscript.exe or wscript.exe)
+  being used to download an executable file
+
+  from a remote destination.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-29'
+modified: '2025-03-20'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, process.entity_id\n  [network where host.os.type\
+      \ == \"windows\" and process.name : (\"wscript.exe\", \"cscript.exe\") and network.protocol\
+      \ != \"dns\" and\n   network.direction : (\"outgoing\", \"egress\") and network.type\
+      \ == \"ipv4\" and destination.ip != \"127.0.0.1\"\n  ]\n  [file where host.os.type\
+      \ == \"windows\" and event.type == \"creation\" and file.extension : (\"exe\"\
+      , \"dll\")]"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.command_and_control
+- attack.t1059
+- attack.t1105
+- attack.t1059.005

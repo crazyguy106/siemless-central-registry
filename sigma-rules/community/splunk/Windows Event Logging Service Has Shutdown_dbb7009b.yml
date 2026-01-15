@@ -1,0 +1,23 @@
+title: Windows Event Logging Service Has Shutdown
+id: 526b94b7-822b-5b0c-bacd-40a6114b8f31
+status: stable
+level: low
+description: |
+  The following analytic detects the shutdown of the Windows Event Log service by leveraging Windows Event ID 1100. This event is logged every time the service stops, including during normal system shutdowns. Monitoring this activity is crucial as it can indicate attempts to cover tracks or disable logging. If confirmed malicious, an attacker could hide their activities, making it difficult to trace their actions and investigate further incidents. Analysts should verify if the shutdown was planned
+author: Mauricio Velazco, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    eventcode: 1100
+  condition: selection
+tags:
+  - attack.t1070.001
+references:
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1100
+  - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
+  - https://attack.mitre.org/techniques/T1070/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+custom_attributes:
+  original_rule_id: d696f622-6b08-4336-b456-696cb5b43ba0
+  source_format: splunk_spl

@@ -1,0 +1,22 @@
+title: Enumeration of updatable groups in the Microsoft Graph API
+id: 574433b6-8f54-5150-ab4e-b26cd97bca45
+status: experimental
+level: low
+description: |
+  This detects actions intended to identify updatable groups in Entra ID. GraphRunner contains a function called Get-UpdatableGroups but other tools may as well.
+author: Google Cloud Security
+logsource:
+  product: azure
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/v1.0/groups'
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+references:
+  - https://github.com/dafthack/GraphRunner/blob/main/GraphRunner.ps1
+custom_attributes:
+  original_rule_id: mr_e1deedad-14f9-4718-9e0b-4f58aae38fdc
+  source_format: chronicle_yaral

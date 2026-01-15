@@ -1,0 +1,24 @@
+title: Blackbyte Ransomware Registry
+id: f9d20536-78fd-5ec0-a000-3375c9977b1f
+status: experimental
+level: high
+description: |
+  BlackByte set three different registry values to escalate privileges and begin setting the stage for lateral movement and encryption
+author: frack113
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    metadata_event_type: REGISTRY_MODIFICATION
+    target_registry_registry_key:
+      - HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\LocalAccountTokenFilterPolicy
+      - HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLinkedConnections
+      - HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled
+    target_registry_registry_value_data: DWORD (0x00000001)
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_blackbyte_ransomware.yml
+custom_attributes:
+  original_rule_id: mr_83d31958-2537-4ac7-bee2-1d6e193c892f
+  source_format: chronicle_yaral

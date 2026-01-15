@@ -1,0 +1,41 @@
+title: Potential Successful Linux RDP Brute Force Attack Detected
+id: 521fbe5c-a78d-4b6b-a323-f978b0e4c4c0
+status: stable
+level: medium
+description: 'An RDP (Remote Desktop Protocol) brute force attack involves an attacker
+  repeatedly attempting various username and
+
+  password combinations to gain unauthorized access to a remote computer via RDP,
+  and if successful, the potential impact
+
+  can include unauthorized control over the compromised system, data theft, or the
+  ability to launch further attacks
+
+  within the network, jeopardizing the security and confidentiality of the targeted
+  system and potentially compromising
+
+  the entire network infrastructure. This rule identifies multiple consecutive authentication
+  failures targeting a
+
+  specific user account within a short time interval, followed by a successful authentication.'
+author: Elastic (converted by SIEMLess)
+date: '2023-07-06'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence by host.id, related.user with maxspan=5s\n  [authentication\
+      \ where host.os.type == \"linux\" and event.action == \"authenticated\" and\n\
+      \   auditd.data.terminal : \"*rdp*\" and event.outcome == \"failure\"] with\
+      \ runs=10\n  [authentication where host.os.type == \"linux\" and event.action\
+      \  == \"authenticated\" and\n   auditd.data.terminal : \"*rdp*\" and event.outcome\
+      \ == \"success\"] | tail 1"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.credential_access
+- attack.t1110.001
+- attack.t1110.003
+- attack.t1110

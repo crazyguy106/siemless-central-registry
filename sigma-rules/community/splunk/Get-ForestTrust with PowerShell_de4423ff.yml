@@ -1,0 +1,20 @@
+title: Get-ForestTrust with PowerShell
+id: a11b7007-fc92-542c-95d6-75268312af44
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the Get-ForestTrust command via PowerShell, commonly used by adversaries to gather domain trust information. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. Identifying this activity is crucial as it indicates potential reconnaissance efforts to map out domain trusts, which can inform further attacks. If confirmed malicious, this activity could allow attackers t
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1482
+references:
+  - https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestTrust/
+custom_attributes:
+  original_rule_id: 584f4884-0bf1-11ec-a5ec-acde48001122
+  source_format: splunk_spl

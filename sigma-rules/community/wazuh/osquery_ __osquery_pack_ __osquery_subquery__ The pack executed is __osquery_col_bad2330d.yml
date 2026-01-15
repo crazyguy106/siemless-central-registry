@@ -1,0 +1,22 @@
+title: 'osquery: $(osquery.pack) $(osquery.subquery): The pack executed is $(osquery.columns.name) and the interval is $(osquery.columns.interval)'
+id: f6a5ac07-634d-57fa-af48-da7310456f02
+status: stable
+level: low
+description: 'osquery: $(osquery.pack) $(osquery.subquery): The pack executed is $(osquery.columns.name) and the interval is $(osquery.columns.interval)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    osquery.name: schedule
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-24020
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-24021
+  wazuh_level: 4

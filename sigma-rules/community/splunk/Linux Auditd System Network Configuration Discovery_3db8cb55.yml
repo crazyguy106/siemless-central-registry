@@ -1,0 +1,32 @@
+title: Linux Auditd System Network Configuration Discovery
+id: 5f6c0fb8-ca42-5ae1-a15c-96963cd5909c
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious system network configuration discovery activities, which may indicate an adversary's attempt to gather information about the network environment. Such actions typically involve commands or tools used to identify network interfaces, routing tables, and active connections. Detecting these activities is crucial, as they often precede more targeted attacks like lateral movement or data exfiltration. By identifying unusual or unauthorized network discovery ef
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: network_connection
+detection:
+  selection:
+    type: SYSCALL
+    span: 15m
+    comm:
+      - arp
+      - ifconfig
+      - ip
+      - netstat
+      - firewall-cmd
+      - ufw
+      - iptables
+      - ss
+      - route
+  condition: selection
+tags:
+  - attack.t1016
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+custom_attributes:
+  original_rule_id: 5db16825-81bd-4923-a8d6-d6a13a59832a
+  source_format: splunk_spl

@@ -1,0 +1,26 @@
+title: GCP Exempt Principals From Audit Log
+id: f0cfe230-0c7a-5f68-b50d-3f074ad34c5f
+status: experimental
+level: high
+description: |
+  Detect when GCP Cloud Audit logs are exempted for principals in all services at project or organization level. Audit logging helps organizations maintain security and minimize risk.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_PERMISSIONS
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_product_event_type: SetIamPolicy
+    security_result_action: ALLOW
+    target_application: cloudresourcemanager.googleapis.com
+    target_resource_attribute_labels_value:
+      - ADD
+      - allServices
+    target_resource_attribute_labels_key: service_data_policy_delta_audit_config_delta_.*_exempted_member
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_6ebf472c-bf50-468c-a0b1-e0f53dd91a61
+  source_format: chronicle_yaral

@@ -1,0 +1,31 @@
+title: UAC Bypass Attempt via Windows Directory Masquerading
+id: 290aca65-e94d-403b-ba0f-62f320e63f51
+status: stable
+level: high
+description: 'Identifies an attempt to bypass User Account Control (UAC) by masquerading
+  as a Microsoft trusted Windows directory.
+
+  Attackers may bypass UAC to stealthily execute code with elevated permissions.'
+author: Elastic (converted by SIEMLess)
+date: '2020-10-26'
+modified: '2025-05-05'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    host_os_type: windows
+    event_type: start
+    process_args|contains:
+    - C:\\Windows \\system32\\*.exe
+    - C:\\Windows \\SysWOW64\\*.exe
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1036.005
+- attack.t1548.002
+- attack.t1548
+- attack.t1036
+references:
+- https://medium.com/tenable-techblog/uac-bypass-by-mocking-trusted-directories-24a96675f6e

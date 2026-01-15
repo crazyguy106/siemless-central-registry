@@ -1,0 +1,20 @@
+title: List oubound conhost connections
+id: 1a8c7803-cff6-4a04-80a0-a958387e4202
+status: experimental
+level: medium
+description: |
+  List outbound conhost connections.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let ValidDomains = dynamic(['.microsoft.com', '.digicert.com']);
+DeviceNetworkEvents
+| where InitiatingProcessFileName =~ "conhost.exe"
+| where not(ipv4_is_private(RemoteIP) or RemoteIP == "127.0.0.1")
+| where not(RemoteUrl has_any (ValidDomains))
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

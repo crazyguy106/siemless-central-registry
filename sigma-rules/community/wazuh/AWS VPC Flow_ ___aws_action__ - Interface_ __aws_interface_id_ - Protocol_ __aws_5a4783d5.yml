@@ -1,0 +1,22 @@
+title: 'AWS VPC Flow: [$(aws.action)] - Interface: $(aws.interface_id) - Protocol: $(aws.protocol)'
+id: de390f18-018d-5aa9-953d-ad9fdf786dbf
+status: stable
+level: low
+description: 'AWS VPC Flow: [$(aws.action)] - Interface: $(aws.interface_id) - Protocol: $(aws.protocol)'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    aws.action: REJECT
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80400
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80402
+  wazuh_level: 4

@@ -1,0 +1,24 @@
+title: O365 Compliance Content Search Exported
+id: be7bedcb-f592-54eb-9060-e72f72835b75
+status: stable
+level: high
+description: |
+  The following analytic identifies when the results of a content search within the Office 365 Security and Compliance Center are exported. It uses the SearchExported operation from the SecurityComplianceCenter workload in the o365_management_activity data source. This activity is significant because exporting search results can involve sensitive or critical organizational data, potentially leading to data exfiltration. If confirmed malicious, an attacker could gain access to and exfiltrate sensit
+author: Mauricio Velazco, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    operation: SearchExported
+    workload: SecurityComplianceCenter
+  condition: selection
+tags:
+  - attack.t1114.002
+references:
+  - https://attack.mitre.org/techniques/T1114/002/
+  - https://learn.microsoft.com/en-us/purview/ediscovery-content-search-overview
+  - https://learn.microsoft.com/en-us/purview/ediscovery-keyword-queries-and-search-conditions
+  - https://learn.microsoft.com/en-us/purview/ediscovery-search-for-activities-in-the-audit-log
+custom_attributes:
+  original_rule_id: 2ce9f31d-ab4f-4179-b2b7-c77a9652e1d8
+  source_format: splunk_spl

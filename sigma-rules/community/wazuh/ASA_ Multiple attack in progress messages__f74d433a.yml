@@ -1,0 +1,36 @@
+title: 'ASA: Multiple attack in progress messages.'
+id: d31a6d38-465b-5742-9254-081f0cd07b98
+status: stable
+level: high
+description: 'ASA: Multiple attack in progress messages.'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|exists: true
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  - type: aggregation
+    window:
+      maxspan: 240s
+    by:
+      - source.ip
+    condition:
+      field: event_count
+      operator: '>='
+      value: 10
+    ignore_window: 90s
+  - type: sequence
+    parent_rule: wazuh-64017
+    window:
+      maxspan: 240s
+    enforce_order: true
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-64032
+  wazuh_level: 10

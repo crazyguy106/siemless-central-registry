@@ -1,0 +1,25 @@
+title: Cisco IOS XE Implant Access
+id: 2439917b-225c-51a9-8200-9ef85b1b6d89
+status: stable
+level: high
+description: |
+  The following analytic identifies the potential exploitation of a vulnerability (CVE-2023-20198) in the Web User Interface of Cisco IOS XE software. It detects suspicious account creation and subsequent actions, including the deployment of a non-persistent implant configuration file. The detection leverages the Web datamodel, focusing on specific URL patterns and HTTP methods. This activity is significant as it indicates unauthorized administrative access, which can lead to full control of the d
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    datamodel: Web
+    http_method: POST
+    status: 200
+    url:
+      - /webui/logoutconfirm.html?logon_hash=*
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://blog.talosintelligence.com/active-exploitation-of-cisco-ios-xe-software/
+  - https://github.com/vulncheck-oss/cisco-ios-xe-implant-scanner
+custom_attributes:
+  original_rule_id: 07c36cda-6567-43c3-bc1a-89dff61e2cd9
+  source_format: splunk_spl

@@ -1,0 +1,33 @@
+title: Creation of a Hidden Local User Account
+id: 2edc8076-291e-41e9-81e4-e3fcbc97ae5e
+status: stable
+level: high
+description: 'Identifies the creation of a hidden local user account by appending
+  the dollar sign to the account name. This is
+
+  sometimes done by attackers to increase access to a system and avoid appearing in
+  the results of accounts listing using
+
+  the net users command.'
+author: Elastic (converted by SIEMLess)
+date: '2020-12-18'
+modified: '2025-08-26'
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    host_os_type: windows
+    event_type: change
+    registry_path|contains:
+    - HKLM\\SAM\\SAM\\Domains\\Account\\Users\\Names\\*$\\
+    - \\REGISTRY\\MACHINE\\SAM\\SAM\\Domains\\Account\\Users\\Names\\*$\\
+    - MACHINE\\SAM\\SAM\\Domains\\Account\\Users\\Names\\*$\\
+  condition: selection
+tags:
+- attack.persistence
+- attack.t1136.001
+- attack.t1136
+references:
+- http://web.archive.org/web/20230329153858/https://blog.menasec.net/2019/02/threat-hunting-6-hiding-in-plain-sights_8.html
+- https://github.com/CyberMonitor/APT_CyberCriminal_Campagin_Collections/tree/master/2020/2020.12.15.Lazarus_Campaign

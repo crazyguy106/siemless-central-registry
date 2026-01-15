@@ -1,0 +1,25 @@
+title: Simple shell.php command execution.
+id: be72e2fb-3838-5003-a4e4-bcf7f797acd5
+status: stable
+level: medium
+description: Simple shell.php command execution.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: '"GET \S+/shell.php?cmd='
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-31100
+tags:
+  - attack.t1203
+  - attack.t1100
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-31514
+  wazuh_level: 6

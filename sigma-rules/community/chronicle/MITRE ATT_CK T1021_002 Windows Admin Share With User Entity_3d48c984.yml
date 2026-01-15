@@ -1,0 +1,16 @@
+title: MITRE ATT&CK T1021.002 Windows Admin Share With User Entity
+id: f926d143-d11a-5d21-a547-d9cf0d1e9e0b
+status: experimental
+level: low
+description: Net use commands for SMB/Windows admin shares focused on specific user entity characteristics
+author: Google Cloud Security
+logsource:
+  product: windows
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    target_process_command_line: net.*use.*(C|ADMIN|IPC)\$
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_18cff6cc-0d2d-4b83-9424-c854c84c4241
+  source_format: chronicle_yaral

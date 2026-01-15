@@ -1,0 +1,23 @@
+title: AWS Console Login Without MFA
+id: 008c02be-918c-56de-aebb-985f76f9c959
+status: experimental
+level: low
+description: Detect when a user logs into AWS console without MFA.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_event_type: USER_LOGIN
+    metadata_product_event_type: ConsoleLogin
+    security_result_action: ALLOW
+    extensions_auth_auth_details: 'MFAUsed: No'
+  condition: selection
+tags:
+  - attack.t1078
+custom_attributes:
+  original_rule_id: mr_b03d1e57-7ed0-49e7-b125-6c18b364ae8c
+  source_format: chronicle_yaral

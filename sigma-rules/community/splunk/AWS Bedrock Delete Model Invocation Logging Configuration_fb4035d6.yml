@@ -1,0 +1,22 @@
+title: AWS Bedrock Delete Model Invocation Logging Configuration
+id: 3978125d-e760-51c8-be7a-3053d7ba9287
+status: stable
+level: high
+description: |
+  The following analytic identifies attempts to delete AWS Bedrock model invocation logging configurations. It leverages AWS CloudTrail logs to detect when a user or service calls the DeleteModelInvocationLogging API. This activity is significant as it may indicate an adversary attempting to remove audit trails of model interactions after compromising credentials. Deleting model invocation logs could allow attackers to interact with AI models without leaving traces, potentially enabling them to co
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+  category: file_event
+detection:
+  selection:
+    eventname: DeleteModelInvocationLoggingConfiguration
+  condition: selection
+tags:
+  - attack.t1562.008
+references:
+  - https://www.sumologic.com/blog/defenders-guide-to-aws-bedrock/
+  - https://attack.mitre.org/techniques/T1562/008/
+custom_attributes:
+  original_rule_id: 9c5e3d62-f743-11ee-9f6e-acde48001124
+  source_format: splunk_spl

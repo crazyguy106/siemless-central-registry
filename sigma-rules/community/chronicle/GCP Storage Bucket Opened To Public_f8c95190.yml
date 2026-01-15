@@ -1,0 +1,25 @@
+title: GCP Storage Bucket Opened To Public
+id: 9804301d-332a-536e-a502-44478d7c68ba
+status: experimental
+level: high
+description: |
+  Detect when Google Cloud Storage buckets are opened to public by adding allUsers or allAuthenticatedUsers to the access policy.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: USER_RESOURCE_UPDATE_PERMISSIONS
+    metadata_log_type: GCP_CLOUDAUDIT
+    metadata_vendor_name: Google Cloud Platform
+    metadata_product_name: Google Cloud Storage
+    metadata_product_event_type: storage.setIamPermissions
+    target_application: storage.googleapis.com
+    security_result_action: ALLOW
+    target_resource_resource_type: STORAGE_BUCKET
+  condition: selection
+tags:
+  - attack.t1562
+custom_attributes:
+  original_rule_id: mr_b776abb0-9e7b-444d-ae0f-8a88b5654ded
+  source_format: chronicle_yaral

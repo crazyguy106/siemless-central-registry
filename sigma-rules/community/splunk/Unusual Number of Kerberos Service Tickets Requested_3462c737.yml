@@ -1,0 +1,26 @@
+title: Unusual Number of Kerberos Service Tickets Requested
+id: 5b6d821b-660a-53cb-a0d5-8bb5abd9b92b
+status: stable
+level: medium
+description: |
+  The following analytic identifies an unusual number of Kerberos service ticket requests, potentially indicating a kerberoasting attack. It leverages Kerberos Event 4769 and calculates the standard deviation for each host, using the 3-sigma rule to detect anomalies. This activity is significant as kerberoasting allows adversaries to request service tickets and crack them offline, potentially gaining privileged access to the domain. If confirmed malicious, this could lead to unauthorized access to
+author: Mauricio Velazco, Dean Luxton, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventcode: 4769
+    ticketencryptiontype: 0x17
+    span: 2m
+    isoutlier: 1
+  filter:
+    servicename: '*$'
+  condition: selection and not filter
+tags:
+  - attack.t1558.003
+references:
+  - https://attack.mitre.org/techniques/T1558/003/
+  - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+custom_attributes:
+  original_rule_id: eb3e6702-8936-11ec-98fe-acde48001122
+  source_format: splunk_spl

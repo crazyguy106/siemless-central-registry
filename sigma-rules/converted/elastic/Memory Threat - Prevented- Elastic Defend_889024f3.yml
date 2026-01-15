@@ -1,0 +1,31 @@
+title: Memory Threat - Prevented- Elastic Defend
+id: 06f3a26c-ea35-11ee-a417-f661ea17fbce
+status: stable
+level: high
+description: 'Generates a detection alert each time an Elastic Defend alert for memory
+  signatures are received. Enabling this rule
+
+  allows you to immediately begin investigating your Endpoint memory signature alerts.
+  This rule identifies Elastic Defend
+
+  memory signature preventions only, and does not include detection only alerts.'
+author: Elastic (converted by SIEMLess)
+date: '2024-03-24'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_kind: alert
+    event_code: (memory_signature
+    event_type: denied
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.t1055
+- attack.t1620
+references:
+- https://github.com/elastic/protections-artifacts/tree/main/yara
+- https://docs.elastic.co/en/integrations/endpoint

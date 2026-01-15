@@ -1,0 +1,32 @@
+title: Windows UAC Bypass Suspicious Escalation Behavior
+id: 028358d9-d43a-55a6-88cc-3608b80c6850
+status: stable
+level: high
+description: |
+  The following analytic detects when a process spawns an executable known for User Account Control (UAC) bypass exploitation and subsequently monitors for any child processes with a higher integrity level than the original process. This detection leverages Sysmon EventID 1 data, focusing on process integrity levels and known UAC bypass executables. This activity is significant as it may indicate an attacker has successfully used a UAC bypass exploit to escalate privileges. If confirmed malicious,
+author: Steven Dick
+logsource:
+  product: windows
+detection:
+  selection:
+    max:
+      - 0
+      - 0
+    process_integrity_level:
+      - high
+      - system
+    process_name:
+      - '`uacbypass_process_name`'
+    parent_process_name:
+      - '`uacbypass_process_name`'
+  condition: selection
+tags:
+  - attack.t1548.002
+references:
+  - https://attack.mitre.org/techniques/T1548/002/
+  - https://atomicredteam.io/defense-evasion/T1548.002/
+  - https://hadess.io/user-account-control-uncontrol-mastering-the-art-of-bypassing-windows-uac/
+  - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+custom_attributes:
+  original_rule_id: 00d050d3-a5b4-4565-a6a5-a31f69681dc3
+  source_format: splunk_spl

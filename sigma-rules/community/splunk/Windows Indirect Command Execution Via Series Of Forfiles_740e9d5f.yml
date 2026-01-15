@@ -1,0 +1,25 @@
+title: Windows Indirect Command Execution Via Series Of Forfiles
+id: 05f26f65-9651-504d-baa4-f30b57097b07
+status: stable
+level: medium
+description: |
+  The following analytic detects excessive usage of the forfiles.exe process, which is often indicative of post-exploitation activities. The detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include process GUID, process name, and parent process. This activity is significant because forfiles.exe can be abused to execute commands on multiple files, a technique used by ransomware like Prestige. If confirmed malicious, this behavior co
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process_name: forfiles.exe
+    original_file_name: forfiles.exe
+    span: 1m
+  condition: selection
+tags:
+  - attack.t1202
+references:
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/forfiles
+  - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+  - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+custom_attributes:
+  original_rule_id: bfdaabe7-3db8-48c5-80c1-220f9b8f22be
+  source_format: splunk_spl

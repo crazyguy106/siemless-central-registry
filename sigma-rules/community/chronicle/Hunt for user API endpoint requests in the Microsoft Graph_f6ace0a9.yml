@@ -1,0 +1,20 @@
+title: Hunt for user API endpoint requests in the Microsoft Graph
+id: 44e13cc4-d060-5b28-a024-6e7f9fbb9aa9
+status: experimental
+level: medium
+description: |
+  Identify the use of the user API call to collect a listing of users. This can be chatty due to other commands calling this single API.
+author: Google Cloud Security
+logsource:
+  product: gcp
+detection:
+  selection:
+    metadata_event_type: NETWORK_HTTP
+    metadata_product_event_type: Microsoft Graph Activity
+    target_url: 'https://graph.microsoft.com/v1.0/users'
+    network_http_method: GET
+    network_http_user_agent: PowerShell
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_e67d0d46-76ad-4718-95df-5536a154fc24
+  source_format: chronicle_yaral

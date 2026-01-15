@@ -1,0 +1,28 @@
+title: Unauthorized Access to an Okta Application
+id: 4edd3e1a-3aa0-499b-8147-4d2ea43b1613
+status: stable
+level: low
+description: Identifies unauthorized access attempts to Okta applications.
+author: Elastic (converted by SIEMLess)
+date: '2021-05-14'
+modified: '2025-07-02'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    event_dataset: okta.system
+    event_action: app.generic.unauth_app_access_attempt
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.initial_access
+- attack.privilege_escalation
+- attack.t1078
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+- https://www.elastic.co/security-labs/testing-okta-visibility-and-detection-dorothy
+- https://www.elastic.co/security-labs/monitoring-okta-threats-with-elastic-security
+- https://www.elastic.co/security-labs/starter-guide-to-understanding-okta

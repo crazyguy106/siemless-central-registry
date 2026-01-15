@@ -1,0 +1,24 @@
+title: Non Firefox Process Access Firefox Profile Dir
+id: 628affbd-6b6e-50e9-a317-d8612fbe3f0c
+status: stable
+level: medium
+description: |
+  The following analytic detects non-Firefox processes accessing the Firefox profile directory, which contains sensitive user data such as login credentials, browsing history, and cookies. It leverages Windows Security Event logs, specifically event code 4663, to monitor access attempts. This activity is significant because it may indicate attempts by malware, such as RATs or trojans, to harvest user information. If confirmed malicious, this behavior could lead to data exfiltration, unauthorized a
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    objectname: '*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*'
+    eventcode: 4663
+    processname:
+      - '*\\firefox.exe'
+      - '*\\explorer.exe'
+      - '*sql*'
+  condition: selection
+tags:
+  - attack.t1555.003
+custom_attributes:
+  original_rule_id: e6fc13b0-1609-11ec-b533-acde48001122
+  source_format: splunk_spl

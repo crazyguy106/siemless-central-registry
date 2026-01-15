@@ -1,0 +1,23 @@
+title: AWS MultiFactor Authentication Disabled
+id: 825b6fa4-ed28-50bc-9f2f-da64f3581803
+status: experimental
+level: medium
+description: Detects attempts to disable multi-factor authentication for an AWS IAM user.
+author: Google Cloud Security
+logsource:
+  product: aws
+  category: authentication
+detection:
+  selection:
+    metadata_vendor_name: AMAZON
+    metadata_product_name: AWS CloudTrail
+    metadata_product_event_type:
+      - DeleteVirtualMFADevice
+      - DeactivateMFADevice
+    security_result_action: ALLOW
+  condition: selection
+tags:
+  - attack.t1556
+custom_attributes:
+  original_rule_id: mr_0d6bd993-c80b-4367-a921-5a542ab826b3
+  source_format: chronicle_yaral

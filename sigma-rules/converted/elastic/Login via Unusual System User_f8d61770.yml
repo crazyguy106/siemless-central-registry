@@ -1,0 +1,32 @@
+title: Login via Unusual System User
+id: 428e9109-dc13-4ae9-84cb-100464d4c6fa
+status: stable
+level: medium
+description: 'This rule identifies successful logins by system users that are uncommon
+  to authenticate. These users
+
+  have `nologin` set by default, and must be modified to allow SSH access. Adversaries
+  may backdoor these users to
+
+  gain unauthorized access to the system.'
+author: Elastic (converted by SIEMLess)
+date: '2025-01-07'
+modified: '2025-01-15'
+logsource:
+  product: linux
+  category: authentication
+detection:
+  selection:
+    host_os_type: linux
+    event_outcome: success
+  condition: selection
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1098
+- attack.t1098.004
+- attack.t1564
+- attack.t1564.002
+references:
+- https://blog.exatrack.com/Perfctl-using-portainer-and-new-persistences/
+- https://x.com/RFGroenewoud/status/1875112050218922010

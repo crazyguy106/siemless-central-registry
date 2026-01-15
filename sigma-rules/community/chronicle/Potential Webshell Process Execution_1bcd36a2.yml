@@ -1,0 +1,33 @@
+title: Potential Webshell Process Execution
+id: 8d2b8e3a-2c24-5cfd-a3e7-0dbc36d73db8
+status: experimental
+level: medium
+description: |
+  Detects on the execution arguments associated with cmd.exe invocations originating from an active ASP.NET webshell.
+author: Google Cloud Security
+logsource:
+  product: gcp
+  category: process_creation
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    principal_process_file_full_path: (^|\\)(w3wp.exe|httpd.exe|tomcat.exe|tomcat\d+\.exe)$
+    target_process_command_line:
+      - '^"[A-Za-z]:\\.{16}\\cmd\.exe" \'
+      - '^"c:\\windows\\system32\\cmd\.exe" \'
+      - '^"C:\\Windows\\system32\\cmd.exe" \'
+      - '^"C:\\Windows\\System32\\cmd.exe" \'
+      - '^"C:\\Windows\\system32\\cmd.exe" \'
+      - '^"C:\\Windows\\System32\\cmd.exe" \'
+      - '"C:\\Windows\\System32\\cmd.exe" \'
+      - '^"C:\\Windows\\system32\\cmd\.exe" \'
+      - '^"C:\\Windows\\System32\\cmd\.exe" \'
+      - '^"C:\\Windows\\System32\\cmd.exe" \'
+      - '^"C:\\Windows\\System32\\cmd\.exe".*--footer-html "[A-Z]:\\PublishedApp\\SystemProductRelease\\.*\\ProductReleasePDF\\'
+      - '^"C:\\Windows\\System32\\cmd.exe"\s+\'
+      - '^"C:\\windows\\system32\\cmd.exe"\s+\'
+    principal_process_command_line: w3wp.exe\s*-ap\s*"EUSI"\s.*\\apppools\\EUSI\\EUSI\.config"
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_37c87ffe-d6ab-4fc6-a191-ad0da8f9ec98
+  source_format: chronicle_yaral

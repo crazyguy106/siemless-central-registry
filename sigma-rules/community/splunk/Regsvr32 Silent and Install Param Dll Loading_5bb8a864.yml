@@ -1,0 +1,21 @@
+title: Regsvr32 Silent and Install Param Dll Loading
+id: ffc4a49f-99a7-5738-9225-774a1b3c61ee
+status: stable
+level: medium
+description: |
+  The following analytic detects the loading of a DLL using the regsvr32 application with the silent parameter and DLLInstall execution. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command-line arguments and parent process details. This activity is significant as it is commonly used by RAT malware like Remcos and njRAT to load malicious DLLs on compromised machines. If confirmed malicious, this technique could allow attackers to execute arbitrary code, 
+author: Teoderick Contreras, Splunk
+logsource:
+  product: splunk
+detection:
+  selection:
+    process: '*/i*'
+  condition: selection
+tags:
+  - attack.t1218.010
+references:
+  - https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/
+  - https://attack.mitre.org/techniques/T1218/010/
+custom_attributes:
+  original_rule_id: f421c250-24e7-11ec-bc43-acde48001122
+  source_format: splunk_spl

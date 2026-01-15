@@ -1,0 +1,21 @@
+title: PowerShell Enable PowerShell Remoting
+id: 66d41f73-7de3-5c42-aa28-14cf555d0b2e
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the Enable-PSRemoting cmdlet, which allows PowerShell remoting on a local or remote computer. This detection leverages PowerShell Script Block Logging (EventCode 4104) to identify when this cmdlet is executed. Monitoring this activity is crucial as it can indicate an attacker enabling remote command execution capabilities on a compromised system. If confirmed malicious, this activity could allow an attacker to take control of the system remotely, execute
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+detection:
+  selection:
+    scriptblocktext: '*Enable-PSRemoting*'
+    eventcode: 4104
+  condition: selection
+tags:
+  - attack.t1059.001
+references:
+  - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting?view=powershell-7.3
+custom_attributes:
+  original_rule_id: 40e3b299-19a5-4460-96e9-e1467f714f8e
+  source_format: splunk_spl

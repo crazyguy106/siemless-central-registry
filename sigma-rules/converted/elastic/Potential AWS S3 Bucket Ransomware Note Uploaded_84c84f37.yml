@@ -1,0 +1,36 @@
+title: Potential AWS S3 Bucket Ransomware Note Uploaded
+id: 7fda9bb2-fd28-11ee-85f9-f661ea17fbce
+status: stable
+level: medium
+description: 'Identifies potential ransomware note being uploaded to an AWS S3 bucket.
+  This rule detects the PutObject S3 API call
+
+  with a common ransomware note file name or extension such as ransom or .lock. Adversaries
+  with access to a misconfigured
+
+  S3 bucket may retrieve, delete, and replace objects with ransom notes to extort
+  victims.'
+author: Elastic (converted by SIEMLess)
+date: '2024-04-17'
+modified: '2025-09-30'
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    event_dataset: aws.cloudtrail
+    event_provider: s3.amazonaws.com
+    event_action: PutObject
+    event_outcome: success
+  condition: selection
+tags:
+- attack.impact
+- attack.t1485
+- attack.t1486
+references:
+- https://stratus-red-team.cloud/attack-techniques/AWS/aws.impact.s3-ransomware-batch-deletion/
+- https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+falsepositives:
+- "    Administrators may legitimately access, delete, and replace objects in S3 buckets.\
+  \ Ensure that the uploaded files are not part of a legitimate operation before taking\
+  \ action.\n    "

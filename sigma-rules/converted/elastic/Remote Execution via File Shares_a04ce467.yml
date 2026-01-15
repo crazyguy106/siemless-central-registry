@@ -1,0 +1,43 @@
+title: Remote Execution via File Shares
+id: ab75c24b-2502-43a0-bf7c-e60e662c811e
+status: stable
+level: medium
+description: 'Identifies the execution of a file that was created by the virtual system
+  process. This may indicate lateral movement
+
+  via network file shares.'
+author: Elastic (converted by SIEMLess)
+date: '2020-11-03'
+modified: '2025-09-04'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence with maxspan=1m\n  [file where host.os.type == \"windows\"\
+      \ and event.type in (\"creation\", \"change\") and \n   process.pid == 4 and\
+      \ (file.extension : \"exe\" or file.Ext.header_bytes : \"4d5a*\")] by host.id,\
+      \ file.path\n  [process where host.os.type == \"windows\" and event.type ==\
+      \ \"start\" and\n    not (\n      (\n        process.code_signature.trusted\
+      \ == true and\n        process.code_signature.subject_name : (\n           \
+      \   \"Veeam Software Group GmbH\",\n              \"Elasticsearch, Inc.\",\n\
+      \              \"PDQ.com Corporation\",\n              \"CrowdStrike, Inc.\"\
+      ,\n              \"Microsoft Windows Hardware Compatibility Publisher\",\n \
+      \             \"ZOHO Corporation Private Limited\",\n              \"BeyondTrust\
+      \ Corporation\", \n              \"CyberArk Software Ltd.\", \n            \
+      \  \"Sophos Ltd\"\n        )\n      ) or\n      (\n        process.executable\
+      \ : (\n          \"?:\\\\Windows\\\\ccmsetup\\\\ccmsetup.exe\",\n          \"\
+      ?:\\\\Windows\\\\SoftwareDistribution\\\\Download\\\\Install\\\\AM_Delta*.exe\"\
+      ,\n          \"?:\\\\Windows\\\\CAInvokerService.exe\"\n        ) and process.code_signature.trusted\
+      \ == true\n      ) or\n      (\n        process.executable : \"G:\\\\SMS_*\\\
+      \\srvboot.exe\" and \n        process.code_signature.trusted == true and process.code_signature.subject_name\
+      \ : \"Microsoft Corporation\"\n      )\n    )\n  ] by host.id, process.executable"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.lateral_movement
+- attack.t1021
+- attack.t1021.002
+references:
+- http://web.archive.org/web/20230329172636/https://blog.menasec.net/2020/08/new-trick-to-detect-lateral-movement.html
+- https://www.elastic.co/security-labs/hunting-for-lateral-movement-using-event-query-language

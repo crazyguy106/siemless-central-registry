@@ -1,0 +1,22 @@
+title: Windows Event Log Cleared
+id: 5e04abc8-4704-5908-8f36-68f21da6cfab
+status: experimental
+level: medium
+description: Detects the clearing of event logs within the Windows Event Viewer.
+author: Google Cloud Security
+logsource:
+  product: windows
+detection:
+  selection:
+    metadata_event_type:
+      - PROCESS_LAUNCH
+      - SYSTEM_AUDIT_LOG_WIPE
+      - STATUS_UPDATE
+    metadata_vendor_name:
+      - Microsoft
+      - Microsoft
+    metadata_product_name: PowerShell
+  condition: selection
+custom_attributes:
+  original_rule_id: mr_067f3ee9-9bc6-400d-9ba5-bebe7253482f
+  source_format: chronicle_yaral

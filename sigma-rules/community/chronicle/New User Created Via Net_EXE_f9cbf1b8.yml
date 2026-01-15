@@ -1,0 +1,21 @@
+title: New User Created Via Net.EXE
+id: 59be0b0f-8f2b-5498-a540-6f676d71fa41
+status: experimental
+level: medium
+description: Identifies the creation of local users via the net.exe command
+author: Endgame, JHasenbusch (adapted to Sigma for oscd.community)
+logsource:
+  product: gcp
+  category: file_event
+detection:
+  selection:
+    metadata_event_type: PROCESS_LAUNCH
+    src_process_file_full_path:
+      - net.exe
+      - net1.exe
+  condition: selection
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_net_user_add.yml
+custom_attributes:
+  original_rule_id: mr_c5c37a7b-d892-4592-a726-b0dbb45c1e55
+  source_format: chronicle_yaral

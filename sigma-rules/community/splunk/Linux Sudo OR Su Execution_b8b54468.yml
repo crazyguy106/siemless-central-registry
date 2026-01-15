@@ -1,0 +1,26 @@
+title: Linux Sudo OR Su Execution
+id: e262b415-1e60-5e11-b6d9-6f66bc3eddfc
+status: stable
+level: low
+description: |
+  The following analytic detects the execution of the "sudo" or "su" command on a Linux operating system. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent process names. This activity is significant because "sudo" and "su" commands are commonly used by adversaries to elevate privileges, potentially leading to unauthorized access or control over the system. If confirmed malicious, this activity could allow attackers to execute commands with r
+author: Teoderick Contreras, Splunk
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    process_name:
+      - sudo
+      - su
+    parent_process_name:
+      - sudo
+      - su
+  condition: selection
+tags:
+  - attack.t1548.003
+references:
+  - https://attack.mitre.org/techniques/T1548/003/
+custom_attributes:
+  original_rule_id: 4b00f134-6d6a-11ec-a90c-acde48001122
+  source_format: splunk_spl

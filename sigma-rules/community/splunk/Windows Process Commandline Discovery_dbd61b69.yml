@@ -1,0 +1,24 @@
+title: Windows Process Commandline Discovery
+id: 577e76dd-1ce9-59e2-b898-e1cc0e39fb71
+status: stable
+level: low
+description: |
+  The following analytic detects the use of Windows Management Instrumentation Command-line (WMIC) to retrieve information about running processes, specifically targeting the command lines used to launch those processes. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on logs containing process details and command-line executions. This activity is significant as it may indicate suspicious behavior, such as a user or process gathering detailed process infor
+author: Teoderick Contreras, Splunk
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    process:
+      - '* process *'
+      - '* get *'
+      - '*CommandLine*'
+  condition: selection
+tags:
+  - attack.t1057
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+custom_attributes:
+  original_rule_id: 67d2a52e-a7e2-4a5d-ae44-a21212048bc2
+  source_format: splunk_spl

@@ -1,0 +1,20 @@
+title: URL Added to Application from Unknown Domain
+id: a4ae76cb-0e1e-5b88-90dc-9be565f3f3a3
+status: stable
+level: high
+description: |
+  'Detects a URL being added to an application where the domain is not one that is associated with the tenant.   The query uses domains seen in sign in logs to determine if the domain is associated with the tenant.   Applications associated with URLs not controlled by the organization can pose a security risk.   Ref: https://learn.microsoft.com/en-gb/entra/architecture/security-operations-applications#application-configuration-changes'
+author: Microsoft Security Research
+logsource:
+  product: azure
+detection:
+  selection:
+    Category: ApplicationManagement
+    Result: success
+    OperationName: Update Application
+  condition: selection
+tags:
+  - attack.t1078.004
+custom_attributes:
+  original_rule_id: 017e095a-94d8-430c-a047-e51a11fb737b
+  source_format: azure_kql

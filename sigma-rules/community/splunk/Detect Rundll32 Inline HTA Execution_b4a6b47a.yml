@@ -1,0 +1,23 @@
+title: Detect Rundll32 Inline HTA Execution
+id: 8c699422-8dac-5a52-a719-ccdaad8504e8
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of "rundll32.exe" with inline protocol handlers such as "JavaScript", "VBScript", and "About". This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on command-line arguments. This activity is significant as it is often associated with fileless malware or application whitelisting bypass techniques. If confirmed malicious, this could allow an attacker to execute arbitrary code, bypass security controls, and maintai
+author: Michael Haag, Splunk
+logsource:
+  product: splunk
+  category: process_creation
+detection:
+  selection:
+    _spl_reference: true
+  condition: selection
+tags:
+  - attack.t1218.005
+references:
+  - https://github.com/redcanaryco/AtomicTestHarnesses
+  - https://redcanary.com/blog/introducing-atomictestharnesses/
+  - https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+custom_attributes:
+  original_rule_id: 91c79f14-5b41-11eb-ae93-0242ac130002
+  source_format: splunk_spl

@@ -1,0 +1,37 @@
+title: Suspicious Inter-Process Communication via Outlook
+id: 1dee0500-4aeb-44ca-b24b-4a285d7b6ba1
+status: stable
+level: medium
+description: 'Detects Inter-Process Communication with Outlook via Component Object
+  Model from an unusual process. Adversaries may
+
+  target user email to collect sensitive information or send email on their behalf
+  via API.'
+author: Elastic (converted by SIEMLess)
+date: '2023-01-11'
+modified: '2025-02-14'
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    _original_eql: "sequence with maxspan=1m\n[process where host.os.type == \"windows\"\
+      \ and event.action == \"start\" and\n  (\n    process.name : (\n      \"rundll32.exe\"\
+      , \"mshta.exe\", \"powershell.exe\", \"pwsh.exe\",\n      \"cmd.exe\", \"regsvr32.exe\"\
+      , \"cscript.exe\", \"wscript.exe\"\n    ) or\n    (\n      (process.code_signature.trusted\
+      \ == false or process.code_signature.exists == false) and\n      (process.Ext.relative_file_creation_time\
+      \ <= 500 or process.Ext.relative_file_name_modify_time <= 500)\n    )\n  )\n\
+      ] by process.entity_id\n[process where host.os.type == \"windows\" and event.action\
+      \ == \"start\" and process.name : \"OUTLOOK.EXE\" and\n  process.Ext.effective_parent.name\
+      \ != null] by process.Ext.effective_parent.entity_id"
+  condition: selection
+  _conversion_note: Complex EQL with sequence - requires manual review
+tags:
+- attack.execution
+- attack.collection
+- attack.t1559
+- attack.t1114
+- attack.t1114.001
+- attack.t1559.001
+references:
+- https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/apt29/Archive/CALDERA_DIY/evals/payloads/stepSeventeen_email.ps1

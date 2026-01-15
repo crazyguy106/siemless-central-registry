@@ -1,0 +1,25 @@
+title: 'Auditd: Start / Resume FAILED'
+id: fd1a9e5e-cccd-56f5-b98e-b9dbc59dd5dd
+status: stable
+level: high
+description: 'Auditd: Start / Resume FAILED'
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    audit.type:
+      - DAEMON_RESUME
+      - DAEMON_START
+    audit.res: failed
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-80700
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-80702
+  wazuh_level: 10

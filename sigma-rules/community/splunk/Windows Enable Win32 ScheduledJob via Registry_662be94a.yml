@@ -1,0 +1,23 @@
+title: Windows Enable Win32 ScheduledJob via Registry
+id: 07e691c1-2b1e-5cd8-9976-5be165c30f64
+status: stable
+level: medium
+description: |
+  The following analytic detects the creation of a new DWORD value named "EnableAt" in the registry path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Configuration". This modification enables the use of the at.exe or wmi Win32_ScheduledJob commands to add scheduled tasks on a Windows endpoint. The detection leverages registry event data from the Endpoint datamodel. This activity is significant because it may indicate that an attacker is enabling the ability to schedule tasks, poten
+author: Michael Haag, Splunk
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    registry_path: '*\\CurrentVersion\\Schedule\\Configuration*'
+    registry_value_name: EnableAt
+  condition: selection
+tags:
+  - attack.t1053.005
+references:
+  - https://securityonline.info/wmiexec-regout-get-outputdata-response-from-registry/
+  - https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-scheduledjob
+custom_attributes:
+  original_rule_id: 12c80db8-ef62-4456-92df-b23e1b3219f6
+  source_format: splunk_spl

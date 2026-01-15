@@ -1,0 +1,22 @@
+title: Host is trying to connect to VShell server but exists in the deny file.
+id: cd56550c-e962-5632-8107-aa5757f790d5
+status: stable
+level: high
+description: Host is trying to connect to VShell server but exists in the deny file.
+author: Wazuh, Inc.
+logsource:
+  product: wazuh
+detection:
+  selection:
+    message|re: Connection from (\d+.\d+.\d+.\d+) rejected by Deny Hosts file
+  condition: selection
+
+# Sigma+ Extensions (for advanced detection)
+extensions:
+  parent_rule: wazuh-86800
+references:
+  - https://github.com/wazuh/wazuh
+  - https://documentation.wazuh.com/current/user-manual/ruleset/custom.html
+custom_attributes:
+  wazuh_rule_id: wazuh-86804
+  wazuh_level: 10

@@ -1,0 +1,22 @@
+title: Detect Spike in blocked Outbound Traffic from your AWS
+id: cca166a9-741f-5ffe-b279-c29ac3f2ccaa
+status: experimental
+level: medium
+description: |
+  The following analytic identifies spikes in blocked outbound network connections originating from within your AWS environment. It leverages VPC Flow Logs data from CloudWatch, focusing on blocked actions from internal IP ranges to external destinations. This detection is significant as it can indicate potential exfiltration attempts or misconfigurations leading to data leakage. If confirmed malicious, such activity could allow attackers to bypass network defenses, leading to unauthorized data tr
+author: Bhavin Patel, Splunk
+logsource:
+  product: aws
+detection:
+  selection:
+    action:
+      - blocked
+      - blocked
+    append: t
+    newavgblockedconnections: avgBlockedConnections
+    deviationthreshold: 3
+    isspike: 1
+  condition: selection
+custom_attributes:
+  original_rule_id: d3fffa37-492f-487b-a35d-c60fcb2acf01
+  source_format: splunk_spl

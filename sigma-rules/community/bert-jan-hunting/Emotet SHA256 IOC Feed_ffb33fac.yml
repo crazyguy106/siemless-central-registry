@@ -1,0 +1,24 @@
+title: Emotet SHA256 IOC Feed
+id: b1d09bf7-0f01-4e6a-ab7e-784591a7be6c
+status: experimental
+level: medium
+description: |
+  Emotet SHA256 IOC Feed
+Source: Talos Intelligence
+Feed information: https://blog.talosintelligence.com/emotet-coming-in-hot/
+Feed link: https://github.com/Cisco-Talos/IOCs/blob/main/2022/11/Emotet_parents.txt
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_threat_hunting
+  service: kql
+detection:
+  _kql_query: |
+    let Emotetsha256 = externaldata(sha256: string)[@"https://githubraw.com/Cisco-Talos/IOCs/main/2022/11/Emotet_parents.txt"] with (format="txt", ignoreFirstRecord=True);
+DeviceFileEvents
+| where SHA256 in (Emotetsha256)
+| project Timestamp, FileName, SHA256, DeviceName, InitiatingProcessCommandLine, InitiatingProcessFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

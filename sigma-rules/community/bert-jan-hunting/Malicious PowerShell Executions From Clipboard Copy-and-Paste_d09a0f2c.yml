@@ -1,0 +1,26 @@
+title: Malicious PowerShell Executions From Clipboard Copy-and-Paste
+id: 262a6a68-b43e-4d40-a21a-b7130c04dcf9
+status: experimental
+level: medium
+description: |
+  This query is to hunt for the threat of Fake CAPTCHA / Bot verification social engineering techniques used by the actor to lure the victim to click copy-and-paste button on the website with malicious powershell for the retrieval of the second stage payload and subsequently executed on the victim's device. The idea of the query is to detect the events of clipboard data being accessed and followed by PowerShell execution under 1 minute of time window.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let clipboardEvents = 
+    DeviceEvents
+    | where ActionType contains "GetClipboardData" 
+    and InitiatingProcessFileName contains "explorer.exe";
+let powershellEvents = 
+    DeviceProcessEvents
+    | where (FileName contains "powershell.exe" and (ProcessCommandLine contains "hidden") and ProcessCommandLine contains "http" and ProcessCommandLine !contains "http://localhost") or (FileName contains "mshta.exe" and ProcessCommandLine contains "http" and ProcessCommandLine !contains "http://localhost");
+clipboardEvents
+| join kind=inner (powershellEvents) on DeviceName
+| where abs(datetime_diff('minute', TimeGenerated, TimeGenerated1)) <= 1
+| summarize by DeviceName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

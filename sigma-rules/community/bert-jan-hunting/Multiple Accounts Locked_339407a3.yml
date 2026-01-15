@@ -1,0 +1,25 @@
+title: Multiple Accounts Locked
+id: ac822634-a464-4197-ad3f-5df492213e21
+status: experimental
+level: medium
+description: |
+  Detect when multiple accounts are locked in your Azure tenant in a short timeframe, this can indicate brute force or password spray attacks. This detection is based on error code 50053 wich results from two different reasons:
+- IdsLocked - The account is locked because the user tried to sign in too many times with an incorrect user ID or password. The user is blocked due to repeated sign-in attempts
+- Sign-in was blocked because it came from an IP address with malicious activity
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    let Threshold = 3;
+let TimeFrame = 15m;
+SigninLogs
+| where ResultType == 50053
+| summarize TotalAccounts = dcount(UserPrincipalName), Accounts = make_set(UserPrincipalName), UserAgentDetails = make_set(UserAgent) by bin(TimeGenerated, TimeFrame), IPAddress
+| where TotalAccounts >= Threshold
+| extend GeoIPInfo = geo_info_from_ip_address(IPAddress)
+| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

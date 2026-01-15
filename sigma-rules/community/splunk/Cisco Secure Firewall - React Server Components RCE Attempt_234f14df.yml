@@ -1,0 +1,25 @@
+title: Cisco Secure Firewall - React Server Components RCE Attempt
+id: 0fe4af6e-8193-5495-ba4a-2879a69f39d9
+status: stable
+level: high
+description: |
+  This analytic detects exploitation activity of CVE-2025-55182 using Cisco Secure Firewall Intrusion Events. It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where Snort signature 65554 (React Server Components remote code execution attempt) is triggered If confirmed malicious, this behavior could be indicative of a potential exploitation of CVE-2025-55182.
+author: Nasreddine Bencherchali, Splunk, Talos NTDR
+logsource:
+  product: splunk
+detection:
+  selection:
+    eventtype: IntrusionEvent
+    signature_id: 65554
+  condition: selection
+tags:
+  - attack.t1190
+references:
+  - https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components
+  - https://nextjs.org/blog/CVE-2025-66478
+  - https://nvd.nist.gov/vuln/detail/CVE-2025-55182
+  - https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3
+  - https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182
+custom_attributes:
+  original_rule_id: d36459b1-7901-401a-a67e-44426c15b168
+  source_format: splunk_spl
