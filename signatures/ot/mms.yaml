@@ -11,7 +11,69 @@ signatures:
   source: github_sync
   sample_logs:
   - mms_confirmed_request logical_device=CTRL logical_node=XCBR1
-  - 'goose_publish: gocbRef=AA1J1Q01A1LD0/LLN0\'
+  - 'goose_publish: gocbRef=AA1J1Q01A1LD0/LLN0'
   - iec61850 logical_device=Relay1 logical_node=PTRC mms_read=true
   upstream_sources:
   - zeek
+  documentation_url: https://webstore.iec.ch/publication/6028
+  fields:
+  - name: source_ip
+    type: ip
+    description: Client IP address
+    ecs_field: source.ip
+    cim_field: src_ip
+    asim_field: SrcIpAddr
+  - name: destination_ip
+    type: ip
+    description: Server (IED) IP address
+    ecs_field: destination.ip
+    cim_field: dest_ip
+    asim_field: DstIpAddr
+  - name: service_type
+    type: string
+    description: MMS service type (confirmed/unconfirmed)
+    ecs_field: event.code
+    cim_field: signature_id
+    asim_field: EventOriginalType
+  - name: service_name
+    type: string
+    description: MMS service name
+    ecs_field: event.action
+    cim_field: action
+    asim_field: DvcAction
+  - name: invoke_id
+    type: number
+    description: Request/response correlation ID
+    ecs_field: event.sequence
+    cim_field: transaction_id
+    asim_field: EventOriginalUid
+  - name: domain_name
+    type: string
+    description: VMD (Virtual Manufacturing Device) domain name
+    ecs_field: host.hostname
+    cim_field: dest_host
+    asim_field: DstHostname
+  - name: item_id
+    type: string
+    description: Named variable or data object reference
+    ecs_field: file.path
+    cim_field: object_path
+    asim_field: TargetFilePath
+  - name: data_value
+    type: string
+    description: Read/written data value
+    ecs_field: file.hash.md5
+    cim_field: file_hash
+    asim_field: TargetFileHashMd5
+  - name: logical_node
+    type: string
+    description: IEC 61850 Logical Node (XCBR, CSWI, MMXU, etc.)
+    ecs_field: service.name
+    cim_field: service
+    asim_field: SrcAppName
+  - name: data_object
+    type: string
+    description: IEC 61850 Data Object (Pos, Mod, Beh, etc.)
+    ecs_field: service.type
+    cim_field: service_type
+    asim_field: SrcAppType

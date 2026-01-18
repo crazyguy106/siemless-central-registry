@@ -16,3 +16,71 @@ signatures:
   upstream_sources:
   - zeek
   - wireshark
+  documentation_url: https://www.profibus.com/
+  fields:
+  - name: source_ip
+    type: ip
+    description: Controller IP address
+    ecs_field: source.ip
+    cim_field: src_ip
+    asim_field: SrcIpAddr
+  - name: destination_ip
+    type: ip
+    description: Device IP address
+    ecs_field: destination.ip
+    cim_field: dest_ip
+    asim_field: DstIpAddr
+  - name: source_mac
+    type: string
+    description: Source MAC address
+    ecs_field: source.mac
+    cim_field: src_mac
+    asim_field: SrcMacAddr
+  - name: destination_mac
+    type: string
+    description: Destination MAC address
+    ecs_field: destination.mac
+    cim_field: dest_mac
+    asim_field: DstMacAddr
+  - name: frame_id
+    type: number
+    description: PROFINET frame identifier
+    ecs_field: event.code
+    cim_field: signature_id
+    asim_field: EventOriginalType
+  - name: service_type
+    type: string
+    description: Service type (RTC, RTA, DCP, etc.)
+    ecs_field: event.action
+    cim_field: action
+    asim_field: DvcAction
+  - name: station_name
+    type: string
+    description: PROFINET device name
+    ecs_field: host.hostname
+    cim_field: dest_host
+    asim_field: DstHostname
+  - name: ar_uuid
+    type: string
+    description: Application Relationship UUID
+    ecs_field: event.id
+    cim_field: session_id
+    asim_field: DvcScopeId
+  - name: slot
+    type: number
+    description: Module slot number
+    ecs_field: file.inode
+    cim_field: file_id
+    asim_field: TargetFileId
+  - name: subslot
+    type: number
+    description: Module subslot number
+    ecs_field: file.offset
+    cim_field: object_path
+    asim_field: TargetFilePath
+  - name: alarm_type
+    type: string
+    description: Type of alarm (diagnosis, process, etc.)
+    ecs_field: event.category
+    cim_field: category
+    asim_field: EventType
