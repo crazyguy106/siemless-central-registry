@@ -1,21 +1,431 @@
+# Cisco IOS and IOS-XE Network Operating System - Log Signatures
+# Source: Cisco IOS Configuration Guide - System Message Logging
+# https://www.cisco.com/c/en/us/td/docs/routers/ios/config/17-x/syst-mgmt/b-system-management/m_esm-syslog.html
+
 signatures:
-- vendor: cisco
-  product: ios
-  log_type: network
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS EMBLEM Format
-  primary_pattern: '%[A-Z0-9_]+-\d+-[A-Z0-9_]+:'
-  confidence: 0.85
-  priority: 50
-  source: github_sync
-  exclusion_patterns:
-  - '%ASA-'
-  - '%FTD-'
-  - '%FWSM-'
-  sample_logs:
-  - 'router01 %SYS-5-CONFIG_I: Configured from console by admin'
-  - '%LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to down'
-  upstream_sources:
-  - grok
-  - wazuh
+  # =============================================================================
+  # System Events (SYS)
+  # =============================================================================
+  - vendor: cisco
+    product: ios
+    log_type: system
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS Configuration Change
+    primary_pattern: '%SYS-5-CONFIG_I'
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: Configuration changed from console or VTY
+    event_type: audit
+    sample_logs:
+      - "*Jan 18 12:30:45.123: %SYS-5-CONFIG_I: Configured from console by admin on vty0 (192.168.1.100)"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: source_address
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: vty
+        type: string
+        ecs: source.domain
+        cim: src_host
+        asim: SrcHostname
+    upstream_sources:
+      - sigma
+      - filebeat
+
+  - vendor: cisco
+    product: ios
+    log_type: system
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS System Reload
+    primary_pattern: '%SYS-[05]-RELOAD'
+    confidence: 0.95
+    priority: 5
+    source: official_documentation
+    description: System reload/reboot event
+    event_type: system
+    sample_logs:
+      - "%SYS-5-RELOAD: Reload requested by admin. Reload Reason: Reload command."
+    fields:
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # Interface Events (LINK, LINEPROTO)
+  # =============================================================================
+  - vendor: cisco
+    product: ios
+    log_type: network
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS Link State Change
+    primary_pattern: '%LINK-[35]-UPDOWN'
+    confidence: 0.95
+    priority: 15
+    source: official_documentation
+    description: Interface physical link state changed
+    event_type: network
+    sample_logs:
+      - "%LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to down"
+    fields:
+      - name: interface
+        type: string
+        ecs: observer.ingress.interface.name
+        cim: interface
+        asim: DvcInboundInterface
+      - name: state
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+    upstream_sources:
+      - sigma
+      - filebeat
+
+  - vendor: cisco
+    product: ios
+    log_type: network
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS Line Protocol State Change
+    primary_pattern: '%LINEPROTO-5-UPDOWN'
+    confidence: 0.95
+    priority: 15
+    source: official_documentation
+    description: Interface line protocol state changed
+    event_type: network
+    sample_logs:
+      - "%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to down"
+    fields:
+      - name: interface
+        type: string
+        ecs: observer.ingress.interface.name
+        cim: interface
+        asim: DvcInboundInterface
+      - name: state
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+    upstream_sources:
+      - sigma
+      - filebeat
+
+  # =============================================================================
+  # Routing Protocol Events (OSPF, BGP, EIGRP)
+  # =============================================================================
+  - vendor: cisco
+    product: ios
+    log_type: routing
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS OSPF Adjacency Change
+    primary_pattern: '%OSPF-5-ADJCHG'
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: OSPF neighbor adjacency state changed
+    event_type: routing
+    sample_logs:
+      - "%OSPF-5-ADJCHG: Process 1, Nbr 10.0.0.2 on GigabitEthernet0/0 from FULL to DOWN, Neighbor Down: Dead timer expired"
+    fields:
+      - name: neighbor_ip
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: interface
+        type: string
+        ecs: observer.ingress.interface.name
+        cim: interface
+        asim: DvcInboundInterface
+      - name: area
+        type: string
+        ecs: network.name
+        cim: channel
+        asim: NetworkProtocol
+      - name: state
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+    upstream_sources:
+      - sigma
+
+  - vendor: cisco
+    product: ios
+    log_type: routing
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS BGP Neighbor State Change
+    primary_pattern: '%BGP-5-ADJCHANGE'
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: BGP neighbor session state changed
+    event_type: routing
+    sample_logs:
+      - "%BGP-5-ADJCHANGE: neighbor 10.0.0.1 Down BGP Notification sent"
+    fields:
+      - name: neighbor_ip
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: neighbor_as
+        type: number
+        ecs: destination.as.number
+        cim: dest_as
+        asim: DstOriginalRiskLevel
+      - name: state
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+    upstream_sources:
+      - sigma
+
+  - vendor: cisco
+    product: ios
+    log_type: routing
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS EIGRP Neighbor Change
+    primary_pattern: '%DUAL-5-NBRCHANGE'
+    confidence: 0.9
+    priority: 15
+    source: official_documentation
+    description: EIGRP neighbor state changed
+    event_type: routing
+    sample_logs:
+      - "%DUAL-5-NBRCHANGE: EIGRP-IPv4 100: Neighbor 10.0.0.2 (GigabitEthernet0/0) is down: holding time expired"
+    fields:
+      - name: neighbor_ip
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: interface
+        type: string
+        ecs: observer.ingress.interface.name
+        cim: interface
+        asim: DvcInboundInterface
+      - name: state
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # Security Events (AAA, ACL, SEC)
+  # =============================================================================
+  - vendor: cisco
+    product: ios
+    log_type: authentication
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS AAA Authentication
+    primary_pattern: '%AAA-[456]-'
+    confidence: 0.9
+    priority: 10
+    source: official_documentation
+    description: AAA authentication event
+    event_type: authentication
+    sample_logs:
+      - "%AAA-4-AUTHFAIL: Authentication failure for user admin from 192.168.1.200"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: source_ip
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: action
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+    upstream_sources:
+      - sigma
+
+  - vendor: cisco
+    product: ios
+    log_type: security
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS ACL Log Entry
+    primary_pattern: '%SEC-6-IPACCESSLOG'
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: ACL permit/deny log entry
+    event_type: security
+    sample_logs:
+      - "%SEC-6-IPACCESSLOGP: list ACL-IN permitted tcp 192.168.1.100(54321) -> 10.0.0.1(443), 1 packet"
+    fields:
+      - name: acl_name
+        type: string
+        ecs: rule.name
+        cim: rule
+        asim: RuleName
+      - name: action
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+      - name: source_ip
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: destination_ip
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: source_port
+        type: port
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+      - name: destination_port
+        type: port
+        ecs: destination.port
+        cim: dest_port
+        asim: DstPortNumber
+      - name: protocol
+        type: string
+        ecs: network.transport
+        cim: transport
+        asim: NetworkProtocol
+    upstream_sources:
+      - sigma
+      - filebeat
+
+  # =============================================================================
+  # Switching Events (STP, HSRP)
+  # =============================================================================
+  - vendor: cisco
+    product: ios
+    log_type: switching
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS STP Topology Change
+    primary_pattern: '%SPANTREE-[56]-'
+    confidence: 0.9
+    priority: 15
+    source: official_documentation
+    description: Spanning tree topology change event
+    event_type: switching
+    sample_logs:
+      - "%SPANTREE-5-TOPOTREND: Topology Change detected on vlan 100"
+    fields:
+      - name: interface
+        type: string
+        ecs: observer.ingress.interface.name
+        cim: interface
+        asim: DvcInboundInterface
+      - name: vlan
+        type: number
+        ecs: network.vlan.id
+        cim: vlan
+        asim: NetworkVlanId
+      - name: state
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+    upstream_sources:
+      - sigma
+
+  - vendor: cisco
+    product: ios
+    log_type: network
+    version: "15.x/17.x"
+    log_format: emblem
+    signature_name: Cisco IOS HSRP State Change
+    primary_pattern: '%HSRP-[56]-STATECHANGE'
+    confidence: 0.9
+    priority: 10
+    source: official_documentation
+    description: HSRP state changed
+    event_type: network
+    sample_logs:
+      - "%HSRP-5-STATECHANGE: GigabitEthernet0/1 Grp 1 state Standby -> Active"
+    fields:
+      - name: interface
+        type: string
+        ecs: observer.ingress.interface.name
+        cim: interface
+        asim: DvcInboundInterface
+      - name: state
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+    upstream_sources:
+      - sigma
+
+metadata:
+  vendor: Cisco
+  product: IOS
+  product_full_name: Cisco IOS and IOS-XE Network Operating System
+  documentation_url: https://www.cisco.com/c/en/us/td/docs/routers/ios/config/17-x/syst-mgmt/b-system-management/m_esm-syslog.html
+  created_date: "2026-01-18"
+  created_by: Claude (SIEMLess AI)
+  ios_version: "15.x/17.x"
+  log_formats:
+    - emblem
+    - standard
+    - xml
+  categories:
+    - system
+    - network
+    - routing
+    - authentication
+    - security
+    - switching
