@@ -1,32 +1,647 @@
+# Juniper SRX Series Security Gateway - Log Signatures
+# Source: Juniper TechLibrary - Monitoring Security Flow Sessions
+# https://www.juniper.net/documentation/us/en/software/junos/flow-packet-processing/topics/topic-map/security-flow-session-and-error-handling.html
+
 signatures:
-- vendor: juniper
-  product: srx
-  log_type: firewall
-  version: null
-  log_format: kv
-  signature_name: Juniper SRX Source-Address
-  primary_pattern: source-address="[^"]+" destination-address="[^"]+"
-  confidence: 0.9
-  priority: 20
-  source: github_sync
-  sample_logs:
-  - source-address="10.1.1.1" destination-address="8.8.8.8" service="https" action="permit"
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: srx
-  log_type: firewall
-  version: null
-  log_format: syslog
-  signature_name: Juniper SRX Flow Session
-  primary_pattern: RT_FLOW_SESSION_
-  confidence: 0.95
-  priority: 10
-  source: github_sync
-  sample_logs:
-  - 'Mar 15 12:30:45 srx01 RT_FLOW: RT_FLOW_SESSION_CREATE: session created 10.1.1.1/12345->8.8.8.8/443'
-  - 'RT_FLOW_SESSION_CLOSE: session closed 10.1.1.1/12345->8.8.8.8/443 reason: idle
-    timeout'
-  upstream_sources:
-  - filebeat
-  - sigma
+  # =============================================================================
+  # RT_FLOW - Security Flow Session Messages
+  # =============================================================================
+  - vendor: juniper
+    product: srx
+    log_type: firewall
+    version: "21.x+"
+    log_format: kv
+    signature_name: Juniper SRX Flow Session Create
+    primary_pattern: RT_FLOW_SESSION_CREATE
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: Security session created - traffic permitted by policy
+    event_type: session_start
+    action: allowed
+    sample_logs:
+      - "RT_FLOW_SESSION_CREATE: source-address=192.168.1.100 source-port=54321 destination-address=10.0.0.50 destination-port=443 service-name=junos-https nat-source-address=203.0.113.1 nat-source-port=54321 nat-destination-address=10.0.0.50 nat-destination-port=443 src-nat-rule-name=src-nat-rule dst-nat-rule-name=N/A protocol-id=6 policy-name=trust-to-untrust session-id-32=12345 source-zone-name=trust destination-zone-name=untrust application=SSL"
+    fields:
+      - name: source-address
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+        description: Source IP address of the session
+      - name: source-port
+        type: port
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+        description: Source port of the session
+      - name: destination-address
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+        description: Destination IP address of the session
+      - name: destination-port
+        type: port
+        ecs: destination.port
+        cim: dest_port
+        asim: DstPortNumber
+        description: Destination port of the session
+      - name: service-name
+        type: string
+        ecs: network.application
+        cim: app
+        asim: NetworkApplicationProtocol
+        description: Service name (e.g., junos-http, junos-ssh)
+      - name: protocol-id
+        type: number
+        ecs: network.iana_number
+        cim: protocol
+        asim: NetworkProtocol
+        description: IP protocol number (6=TCP, 17=UDP, 1=ICMP)
+      - name: policy-name
+        type: string
+        ecs: rule.name
+        cim: rule
+        asim: NetworkRuleName
+        description: Security policy name
+      - name: nat-source-address
+        type: ip
+        ecs: source.nat.ip
+        cim: src_translated_ip
+        asim: SrcNatIpAddr
+        description: NAT translated source IP
+      - name: nat-source-port
+        type: port
+        ecs: source.nat.port
+        cim: src_translated_port
+        asim: SrcNatPortNumber
+        description: NAT translated source port
+      - name: nat-destination-address
+        type: ip
+        ecs: destination.nat.ip
+        cim: dest_translated_ip
+        asim: DstNatIpAddr
+        description: NAT translated destination IP
+      - name: nat-destination-port
+        type: port
+        ecs: destination.nat.port
+        cim: dest_translated_port
+        asim: DstNatPortNumber
+        description: NAT translated destination port
+      - name: src-nat-rule-name
+        type: string
+        ecs: rule.ruleset
+        cim: src_nat_rule
+        asim: SrcNatRuleName
+        description: Source NAT rule name
+      - name: dst-nat-rule-name
+        type: string
+        ecs: rule.ruleset
+        cim: dest_nat_rule
+        asim: DstNatRuleName
+        description: Destination NAT rule name
+      - name: session-id-32
+        type: string
+        ecs: network.session_id
+        cim: session_id
+        asim: NetworkSessionId
+        description: 32-bit session identifier
+      - name: source-zone-name
+        type: string
+        ecs: observer.ingress.zone
+        cim: src_zone
+        asim: SrcZone
+        description: Source security zone
+      - name: destination-zone-name
+        type: string
+        ecs: observer.egress.zone
+        cim: dest_zone
+        asim: DstZone
+        description: Destination security zone
+      - name: application
+        type: string
+        ecs: network.application
+        cim: app
+        asim: DvcAction
+        description: AppID identified application
+      - name: nested-application
+        type: string
+        ecs: network.inner.application
+        cim: nested_app
+        asim: NetworkApplicationProtocol
+        description: Nested application in tunnel
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: SrcUsername
+        description: Authenticated username
+      - name: roles
+        type: string
+        ecs: user.roles
+        cim: user_role
+        asim: SrcUserType
+        description: User roles
+    upstream_sources:
+      - filebeat
+      - sigma
+      - logstash
+
+  - vendor: juniper
+    product: srx
+    log_type: firewall
+    version: "21.x+"
+    log_format: kv
+    signature_name: Juniper SRX Flow Session Close
+    primary_pattern: RT_FLOW_SESSION_CLOSE
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: Security session closed - includes traffic statistics
+    event_type: session_end
+    action: allowed
+    sample_logs:
+      - "RT_FLOW_SESSION_CLOSE: source-address=192.168.1.100 source-port=54321 destination-address=10.0.0.50 destination-port=443 service-name=junos-https nat-source-address=203.0.113.1 nat-source-port=54321 nat-destination-address=10.0.0.50 nat-destination-port=443 src-nat-rule-name=src-nat-rule dst-nat-rule-name=N/A protocol-id=6 policy-name=trust-to-untrust session-id-32=12345 reason=TCP FIN packets-from-client=150 bytes-from-client=25600 packets-from-server=200 bytes-from-server=512000 elapsed-time=120"
+    fields:
+      - name: source-address
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: source-port
+        type: port
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+      - name: destination-address
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: destination-port
+        type: port
+        ecs: destination.port
+        cim: dest_port
+        asim: DstPortNumber
+      - name: service-name
+        type: string
+        ecs: network.application
+        cim: app
+        asim: NetworkApplicationProtocol
+      - name: protocol-id
+        type: number
+        ecs: network.iana_number
+        cim: protocol
+        asim: NetworkProtocol
+      - name: policy-name
+        type: string
+        ecs: rule.name
+        cim: rule
+        asim: NetworkRuleName
+      - name: nat-source-address
+        type: ip
+        ecs: source.nat.ip
+        cim: src_translated_ip
+        asim: SrcNatIpAddr
+      - name: nat-source-port
+        type: port
+        ecs: source.nat.port
+        cim: src_translated_port
+        asim: SrcNatPortNumber
+      - name: nat-destination-address
+        type: ip
+        ecs: destination.nat.ip
+        cim: dest_translated_ip
+        asim: DstNatIpAddr
+      - name: nat-destination-port
+        type: port
+        ecs: destination.nat.port
+        cim: dest_translated_port
+        asim: DstNatPortNumber
+      - name: session-id-32
+        type: string
+        ecs: network.session_id
+        cim: session_id
+        asim: NetworkSessionId
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+        description: Session close reason (TCP FIN, timeout, policy)
+      - name: packets-from-client
+        type: number
+        ecs: source.packets
+        cim: packets_in
+        asim: SrcPackets
+        description: Packets sent from client
+      - name: bytes-from-client
+        type: number
+        ecs: source.bytes
+        cim: bytes_in
+        asim: SrcBytes
+        description: Bytes sent from client
+      - name: packets-from-server
+        type: number
+        ecs: destination.packets
+        cim: packets_out
+        asim: DstPackets
+        description: Packets sent from server
+      - name: bytes-from-server
+        type: number
+        ecs: destination.bytes
+        cim: bytes_out
+        asim: DstBytes
+        description: Bytes sent from server
+      - name: elapsed-time
+        type: number
+        ecs: event.duration
+        cim: duration
+        asim: NetworkDuration
+        description: Session duration in seconds
+      - name: source-zone-name
+        type: string
+        ecs: observer.ingress.zone
+        cim: src_zone
+        asim: SrcZone
+      - name: destination-zone-name
+        type: string
+        ecs: observer.egress.zone
+        cim: dest_zone
+        asim: DstZone
+    upstream_sources:
+      - filebeat
+      - sigma
+      - logstash
+
+  - vendor: juniper
+    product: srx
+    log_type: firewall
+    version: "21.x+"
+    log_format: kv
+    signature_name: Juniper SRX Flow Session Deny
+    primary_pattern: RT_FLOW_SESSION_DENY
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: Security session denied - traffic blocked by policy
+    event_type: denied
+    action: denied
+    sample_logs:
+      - "RT_FLOW_SESSION_DENY: source-address=192.168.1.200 source-port=12345 destination-address=10.0.0.100 destination-port=22 service-name=junos-ssh protocol-id=6 policy-name=deny-all source-zone-name=untrust destination-zone-name=trust"
+    fields:
+      - name: source-address
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: source-port
+        type: port
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+      - name: destination-address
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: destination-port
+        type: port
+        ecs: destination.port
+        cim: dest_port
+        asim: DstPortNumber
+      - name: service-name
+        type: string
+        ecs: network.application
+        cim: app
+        asim: NetworkApplicationProtocol
+      - name: protocol-id
+        type: number
+        ecs: network.iana_number
+        cim: protocol
+        asim: NetworkProtocol
+      - name: icmp-type
+        type: number
+        ecs: icmp.type
+        cim: icmp_type
+        asim: IcmpType
+        description: ICMP message type (ICMP only)
+      - name: policy-name
+        type: string
+        ecs: rule.name
+        cim: rule
+        asim: NetworkRuleName
+      - name: source-zone-name
+        type: string
+        ecs: observer.ingress.zone
+        cim: src_zone
+        asim: SrcZone
+      - name: destination-zone-name
+        type: string
+        ecs: observer.egress.zone
+        cim: dest_zone
+        asim: DstZone
+    upstream_sources:
+      - filebeat
+      - sigma
+      - logstash
+
+  # =============================================================================
+  # RT_IDS - Intrusion Detection/Screen Messages
+  # =============================================================================
+  - vendor: juniper
+    product: srx
+    log_type: ids
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Juniper SRX IDS Screen Event
+    primary_pattern: "RT_IDS:"
+    confidence: 0.9
+    priority: 15
+    source: official_documentation
+    description: Security screen detection event (IDS/IPS)
+    event_type: alert
+    sample_logs:
+      - "RT_IDS: RT_SCREEN_ICMP: Large ICMP packet! source-address=192.168.1.50 destination-address=10.0.0.1 source-zone-name=untrust"
+      - "RT_IDS: RT_SCREEN_TCP: SYN flood attack! source-address=192.168.1.50 destination-address=10.0.0.1 attack-name=syn-flood"
+      - "RT_IDS: RT_SCREEN_IP: Land attack! source-address=10.0.0.1 destination-address=10.0.0.1"
+    fields:
+      - name: source-address
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: destination-address
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: source-zone-name
+        type: string
+        ecs: observer.ingress.zone
+        cim: src_zone
+        asim: SrcZone
+      - name: destination-zone-name
+        type: string
+        ecs: observer.egress.zone
+        cim: dest_zone
+        asim: DstZone
+      - name: attack-name
+        type: string
+        ecs: threat.indicator.name
+        cim: signature
+        asim: ThreatName
+        description: Screen attack name
+      - name: packet-log-id
+        type: string
+        ecs: event.id
+        cim: signature_id
+        asim: EventOriginalUid
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # RT_UTM - Unified Threat Management Messages
+  # =============================================================================
+  - vendor: juniper
+    product: srx
+    log_type: utm
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Juniper SRX UTM Event
+    primary_pattern: "RT_UTM"
+    confidence: 0.9
+    priority: 15
+    source: official_documentation
+    description: Unified Threat Management event (antivirus, web filter, antispam)
+    event_type: alert
+    sample_logs:
+      - "RT_UTM: WEBFILTER_URL_BLOCKED: URL blocked by category policy url=http://malware.example.com category=malware profile=default source-address=192.168.1.100"
+      - "RT_UTM: AV_VIRUS_DETECTED: Virus detected! virus-name=EICAR-TEST-FILE source-address=192.168.1.100 destination-address=203.0.113.50"
+    fields:
+      - name: source-address
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: destination-address
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: url
+        type: string
+        ecs: url.full
+        cim: url
+        asim: Url
+        description: Blocked/scanned URL
+      - name: category
+        type: string
+        ecs: threat.indicator.type
+        cim: category
+        asim: ThreatCategory
+        description: URL category
+      - name: virus-name
+        type: string
+        ecs: threat.indicator.name
+        cim: signature
+        asim: ThreatName
+        description: Detected virus name
+      - name: profile
+        type: string
+        ecs: rule.name
+        cim: rule
+        asim: NetworkRuleName
+        description: UTM profile name
+      - name: action
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+        description: Action taken (block, permit, log)
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # IDP - Intrusion Detection and Prevention
+  # =============================================================================
+  - vendor: juniper
+    product: srx
+    log_type: idp
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Juniper SRX IDP Attack Log
+    primary_pattern: "IDP_ATTACK_LOG_EVENT"
+    confidence: 0.95
+    priority: 5
+    source: official_documentation
+    description: IDP signature match event
+    event_type: alert
+    sample_logs:
+      - "IDP_ATTACK_LOG_EVENT: Attack! source-address=192.168.1.100 source-port=54321 destination-address=10.0.0.50 destination-port=80 attack-name=HTTP:EXPLOIT:CVE-2021-44228 severity=critical action=drop"
+    fields:
+      - name: source-address
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: source-port
+        type: port
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+      - name: destination-address
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: destination-port
+        type: port
+        ecs: destination.port
+        cim: dest_port
+        asim: DstPortNumber
+      - name: attack-name
+        type: string
+        ecs: threat.indicator.name
+        cim: signature
+        asim: ThreatName
+        description: IDP attack signature name
+      - name: severity
+        type: string
+        ecs: event.severity
+        cim: severity
+        asim: EventSeverity
+        description: Attack severity
+      - name: action
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+        description: Action taken
+      - name: protocol
+        type: string
+        ecs: network.protocol
+        cim: protocol
+        asim: NetworkProtocol
+      - name: policy-name
+        type: string
+        ecs: rule.name
+        cim: rule
+        asim: NetworkRuleName
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # IPsec VPN Messages
+  # =============================================================================
+  - vendor: juniper
+    product: srx
+    log_type: vpn
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Juniper SRX IPsec VPN Event
+    primary_pattern: "KMD_VPN"
+    confidence: 0.9
+    priority: 20
+    source: official_documentation
+    description: IPsec VPN tunnel events
+    event_type: vpn
+    sample_logs:
+      - "KMD_VPN_UP_ALARM_USER: VPN tunnel to 203.0.113.1 is up. Local-gateway=192.168.1.1 Remote-gateway=203.0.113.1 Tunnel-id=1"
+      - "KMD_VPN_DOWN_ALARM_USER: VPN tunnel to 203.0.113.1 is down. Reason=peer not responding"
+    fields:
+      - name: Local-gateway
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+        description: Local VPN gateway IP
+      - name: Remote-gateway
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+        description: Remote VPN gateway IP
+      - name: Tunnel-id
+        type: string
+        ecs: network.session_id
+        cim: session_id
+        asim: NetworkSessionId
+        description: VPN tunnel identifier
+      - name: Reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+        description: Tunnel up/down reason
+      - name: Gateway-name
+        type: string
+        ecs: observer.name
+        cim: dvc_name
+        asim: DvcHostname
+        description: VPN gateway name
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # Chassis Cluster / High Availability
+  # =============================================================================
+  - vendor: juniper
+    product: srx
+    log_type: ha
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Juniper SRX Cluster Failover
+    primary_pattern: "JSRPD_"
+    confidence: 0.9
+    priority: 5
+    source: official_documentation
+    description: Chassis cluster failover events
+    event_type: system
+    sample_logs:
+      - "JSRPD_RG0_FAILOVER: Redundancy-group 0 failover from node0 to node1. Reason=Manual failover"
+      - "JSRPD_HA_CONTROL_LINK_UP: Control link to cluster peer is up"
+      - "JSRPD_HA_CONTROL_LINK_DOWN: Control link to cluster peer is down"
+    fields:
+      - name: redundancy-group
+        type: string
+        ecs: observer.name
+        cim: dvc_name
+        asim: DvcHostname
+        description: Redundancy group ID
+      - name: node
+        type: string
+        ecs: host.name
+        cim: host
+        asim: DvcHostname
+        description: Cluster node name
+      - name: Reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+        description: Failover reason
+    upstream_sources:
+      - sigma
+
+metadata:
+  vendor: Juniper
+  product: SRX
+  product_full_name: Juniper SRX Series Security Gateway
+  documentation_url: https://www.juniper.net/documentation/us/en/software/junos/flow-packet-processing/
+  created_date: "2026-01-18"
+  created_by: Claude (SIEMLess AI)
+  junos_version: "21.x+"
+  log_formats:
+    - syslog
+    - structured-syslog (sd-syslog)
+    - binary
+    - protobuf
+    - WELF
+  categories:
+    - firewall
+    - ids
+    - utm
+    - idp
+    - vpn
+    - ha

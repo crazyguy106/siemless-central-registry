@@ -1,0 +1,562 @@
+# Juniper Junos OS - Common System Log Signatures
+# Applies to all Junos-based devices (SRX, EX, MX, QFX, PTX, ACX)
+# Source: Juniper TechLibrary - System Logging Overview
+# https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
+
+signatures:
+  # =============================================================================
+  # UI_DBASE - User/Configuration Events
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: audit
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos Configuration Login
+    primary_pattern: "UI_DBASE_LOGIN_EVENT"
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: User entered configuration mode
+    event_type: authentication
+    sample_logs:
+      - "UI_DBASE_LOGIN_EVENT: User 'admin' entering configuration mode"
+      - "UI_DBASE_LOGIN_EVENT: User 'netops' entering configuration mode via console"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+        description: Username entering config mode
+      - name: source
+        type: string
+        ecs: source.address
+        cim: src
+        asim: SrcIpAddr
+        description: Connection source (console, ssh, netconf)
+    upstream_sources:
+      - sigma
+
+  - vendor: juniper
+    product: junos
+    log_type: audit
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos Configuration Logout
+    primary_pattern: "UI_DBASE_LOGOUT_EVENT"
+    confidence: 0.95
+    priority: 15
+    source: official_documentation
+    description: User exited configuration mode
+    event_type: authentication
+    sample_logs:
+      - "UI_DBASE_LOGOUT_EVENT: User 'admin' exiting configuration mode"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+    upstream_sources:
+      - sigma
+
+  - vendor: juniper
+    product: junos
+    log_type: audit
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos Configuration Commit
+    primary_pattern: "UI_COMMIT"
+    confidence: 0.95
+    priority: 5
+    source: official_documentation
+    description: Configuration committed
+    event_type: change
+    sample_logs:
+      - "UI_COMMIT: User 'admin' committed configuration changes"
+      - "UI_COMMIT_PROGRESS: Commit operation in progress by user 'admin'"
+      - "UI_COMMIT_COMPLETED: commit complete"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: comment
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+        description: Commit comment
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # UI_LOGIN - User Authentication
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: authentication
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos User Login
+    primary_pattern: "UI_LOGIN_EVENT"
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: User logged into device
+    event_type: authentication
+    sample_logs:
+      - "UI_LOGIN_EVENT: User 'admin' login from 192.168.1.100 via ssh"
+      - "UI_LOGIN_EVENT: User 'root' login via console"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: source-ip
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+        description: Login source IP
+      - name: method
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+        description: Login method (ssh, console, telnet, netconf)
+    upstream_sources:
+      - sigma
+
+  - vendor: juniper
+    product: junos
+    log_type: authentication
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos User Logout
+    primary_pattern: "UI_LOGOUT_EVENT"
+    confidence: 0.95
+    priority: 15
+    source: official_documentation
+    description: User logged out of device
+    event_type: authentication
+    sample_logs:
+      - "UI_LOGOUT_EVENT: User 'admin' logout from 192.168.1.100"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: source-ip
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+    upstream_sources:
+      - sigma
+
+  - vendor: juniper
+    product: junos
+    log_type: authentication
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos Authentication Failure
+    primary_pattern: "UI_AUTH_INVALID_"
+    confidence: 0.95
+    priority: 5
+    source: official_documentation
+    description: Authentication failure (invalid username or password)
+    event_type: authentication
+    sample_logs:
+      - "UI_AUTH_INVALID_USER: Invalid username 'hacker' from 203.0.113.50"
+      - "UI_AUTH_INVALID_PASSWORD: Invalid password for user 'admin' from 203.0.113.50"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: source-ip
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+        description: Authentication failure reason
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # CLI Commands (Interactive Commands Facility)
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: audit
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos CLI Command Executed
+    primary_pattern: "UI_CMDLINE_READ_LINE"
+    confidence: 0.9
+    priority: 20
+    source: official_documentation
+    description: CLI command executed
+    event_type: audit
+    sample_logs:
+      - "UI_CMDLINE_READ_LINE: User 'admin' executed 'show interfaces terse'"
+      - "UI_CMDLINE_READ_LINE: User 'netops' executed 'request system reboot'"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: command
+        type: string
+        ecs: process.command_line
+        cim: process_cmd
+        asim: ProcessCommandLine
+        description: Command executed
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # SSHD - SSH Daemon Events
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: authentication
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos SSH Authentication
+    primary_pattern: "SSHD_"
+    confidence: 0.9
+    priority: 10
+    source: official_documentation
+    description: SSH daemon authentication events
+    event_type: authentication
+    sample_logs:
+      - "SSHD_LOGIN_ACCEPTED: Accepted password for admin from 192.168.1.100 port 54321 ssh2"
+      - "SSHD_LOGIN_FAILED: Failed password for admin from 203.0.113.50 port 12345 ssh2"
+      - "SSHD_AUTH_FAIL: Failed publickey for admin from 203.0.113.50 port 12345"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: source-ip
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+      - name: source-port
+        type: port
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+      - name: auth-method
+        type: string
+        ecs: event.action
+        cim: action
+        asim: DvcAction
+        description: Authentication method (password, publickey)
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # SNMP_TRAP - Common Events
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: system
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos SNMP Cold Start
+    primary_pattern: "SNMP_TRAP_COLD_START"
+    confidence: 0.95
+    priority: 5
+    source: official_documentation
+    description: Device rebooted (cold start)
+    event_type: system
+    sample_logs:
+      - "SNMP_TRAP_COLD_START: Device rebooted"
+    fields: []
+    upstream_sources:
+      - sigma
+
+  - vendor: juniper
+    product: junos
+    log_type: system
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos SNMP Warm Start
+    primary_pattern: "SNMP_TRAP_WARM_START"
+    confidence: 0.95
+    priority: 10
+    source: official_documentation
+    description: Device restarted (warm start/software restart)
+    event_type: system
+    sample_logs:
+      - "SNMP_TRAP_WARM_START: Device restarted"
+    fields: []
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # KERNEL - Kernel Events
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: system
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos Kernel Panic
+    primary_pattern: "KERNEL_"
+    confidence: 0.9
+    priority: 1
+    source: official_documentation
+    description: Kernel-level events
+    event_type: system
+    sample_logs:
+      - "KERNEL_PANIC: kernel panic - not syncing: Fatal exception"
+      - "KERNEL_MEMORY_LOW: System memory critically low"
+    fields:
+      - name: reason
+        type: string
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # NTP - Time Synchronization
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: system
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos NTP Event
+    primary_pattern: "NTPD_"
+    confidence: 0.9
+    priority: 20
+    source: official_documentation
+    description: NTP synchronization events
+    event_type: system
+    sample_logs:
+      - "NTPD_PEER_SELECTED: NTP peer 10.0.0.1 selected as sync source"
+      - "NTPD_PEER_UNREACHABLE: NTP peer 10.0.0.2 unreachable"
+      - "NTPD_CLOCK_STEP: System clock stepped by 5.000 seconds"
+    fields:
+      - name: ntp-server
+        type: ip
+        ecs: server.ip
+        cim: dest_ip
+        asim: DstIpAddr
+        description: NTP server IP
+      - name: offset
+        type: string
+        ecs: event.duration
+        cim: duration
+        asim: NetworkDuration
+        description: Time offset
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # RADIUS/TACACS+ - AAA Events
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: authentication
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos RADIUS Event
+    primary_pattern: "RADIUS_"
+    confidence: 0.9
+    priority: 15
+    source: official_documentation
+    description: RADIUS authentication events
+    event_type: authentication
+    sample_logs:
+      - "RADIUS_ACCESS_ACCEPT: RADIUS server 10.0.0.100 accepted user admin"
+      - "RADIUS_ACCESS_REJECT: RADIUS server 10.0.0.100 rejected user admin"
+      - "RADIUS_SERVER_UNREACHABLE: RADIUS server 10.0.0.100 unreachable"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: radius-server
+        type: ip
+        ecs: server.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: result
+        type: string
+        ecs: event.outcome
+        cim: result
+        asim: EventResult
+    upstream_sources:
+      - sigma
+
+  - vendor: juniper
+    product: junos
+    log_type: authentication
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos TACACS+ Event
+    primary_pattern: "TACACSD_"
+    confidence: 0.9
+    priority: 15
+    source: official_documentation
+    description: TACACS+ authentication/authorization events
+    event_type: authentication
+    sample_logs:
+      - "TACACSD_AUTH_ACCEPT: TACACS+ server 10.0.0.101 accepted user admin"
+      - "TACACSD_AUTH_REJECT: TACACS+ server 10.0.0.101 rejected user admin"
+      - "TACACSD_AUTHOR_FAIL: TACACS+ authorization failed for user admin command 'configure'"
+    fields:
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+      - name: tacacs-server
+        type: ip
+        ecs: server.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: command
+        type: string
+        ecs: process.command_line
+        cim: process_cmd
+        asim: ProcessCommandLine
+        description: Command being authorized
+      - name: result
+        type: string
+        ecs: event.outcome
+        cim: result
+        asim: EventResult
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # System License Events
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: system
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos License Event
+    primary_pattern: "LICENSE_"
+    confidence: 0.9
+    priority: 10
+    source: official_documentation
+    description: License expiration and usage events
+    event_type: system
+    sample_logs:
+      - "LICENSE_EXPIRED: License for feature 'IDP' has expired"
+      - "LICENSE_EXPIRING_SOON: License for feature 'AppSecure' will expire in 30 days"
+      - "LICENSE_NEARING_CAPACITY: License for concurrent sessions at 90% capacity"
+    fields:
+      - name: feature
+        type: string
+        ecs: event.module
+        cim: app
+        asim: NetworkApplicationProtocol
+        description: Licensed feature
+      - name: expiry-date
+        type: datetime
+        ecs: event.end
+        cim: time
+        asim: EventEndTime
+        description: License expiration date
+    upstream_sources:
+      - sigma
+
+  # =============================================================================
+  # File Transfer (FTP/SCP/SFTP)
+  # =============================================================================
+  - vendor: juniper
+    product: junos
+    log_type: audit
+    version: "21.x+"
+    log_format: syslog
+    signature_name: Junos File Transfer
+    primary_pattern: "FTPD_|TRANSFER_"
+    confidence: 0.9
+    priority: 15
+    source: official_documentation
+    description: File transfer events (config backup, software upload)
+    event_type: audit
+    sample_logs:
+      - "TRANSFER_COMPLETED: File /var/tmp/config.txt transferred successfully to 10.0.0.50"
+      - "FTPD_LOGIN: FTP login from 192.168.1.100 user anonymous"
+    fields:
+      - name: filename
+        type: string
+        ecs: file.path
+        cim: file_path
+        asim: TargetFilePath
+        description: Transferred file
+      - name: destination
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+      - name: username
+        type: string
+        ecs: user.name
+        cim: user
+        asim: TargetUsername
+    upstream_sources:
+      - sigma
+
+metadata:
+  vendor: Juniper
+  product: Junos
+  product_full_name: Juniper Junos OS (Common Events)
+  documentation_url: https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
+  created_date: "2026-01-18"
+  created_by: Claude (SIEMLess AI)
+  junos_version: "21.x+"
+  log_formats:
+    - syslog
+    - structured-syslog (sd-syslog)
+  applies_to:
+    - SRX
+    - EX
+    - MX
+    - QFX
+    - PTX
+    - ACX
+  categories:
+    - audit
+    - authentication
+    - system
+  facilities:
+    - kernel (0)
+    - user (1)
+    - daemon (3)
+    - authorization (4)
+    - ftp (11)
+    - ntp (12)
+    - dfc (17)
+    - external (18)
+    - firewall (19)
+    - pfe (20)
+    - conflict-log (21)
+    - change-log (22)
+    - interactive-commands (23)
