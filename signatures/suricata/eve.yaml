@@ -1,0 +1,403 @@
+# Suricata IDS/IPS - EVE JSON Log Signatures
+# Source: Elastic Filebeat Suricata Module Documentation
+# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-suricata
+
+signatures:
+  # =============================================================================
+  # Alert Events
+  # =============================================================================
+  - vendor: suricata
+    product: eve
+    log_type: ids
+    version: null
+    log_format: json
+    signature_name: Suricata IDS Alert
+    primary_pattern: event_type.*alert|suricata\.eve\.alert
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: Suricata IDS/IPS alert event with rule match
+    event_type: alert
+    sample_logs:
+      - '{"event_type":"alert","alert":{"signature":"ET MALWARE","signature_id":2001234,"category":"Malware","severity":1}}'
+    fields:
+      - name: suricata.eve.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+        description: Type of Suricata event
+      - name: suricata.eve.flow_id
+        type: keyword
+        ecs: network.session_id
+        cim: session_id
+        asim: NetworkSessionId
+        description: Unique flow identifier
+      - name: suricata.eve.in_iface
+        type: keyword
+        ecs: observer.ingress.interface.name
+        cim: interface
+        asim: DvcInboundInterface
+        description: Input interface
+      - name: suricata.eve.alert.signature
+        type: keyword
+        ecs: rule.name
+        cim: signature
+        asim: RuleName
+        description: Rule signature name
+      - name: suricata.eve.alert.signature_id
+        type: long
+        ecs: rule.id
+        cim: signature_id
+        asim: RuleNumber
+        description: Signature ID (SID)
+      - name: suricata.eve.alert.category
+        type: keyword
+        ecs: rule.category
+        cim: category
+        asim: ThreatCategory
+        description: Alert category
+      - name: suricata.eve.alert.severity
+        type: keyword
+        ecs: event.severity
+        cim: severity
+        asim: ThreatRiskLevel
+        description: Alert severity (1-4)
+      - name: suricata.eve.alert.rev
+        type: long
+        ecs: rule.version
+        cim: signature_version
+        asim: RuleVersion
+        description: Rule revision
+      - name: suricata.eve.alert.gid
+        type: long
+        ecs: rule.ruleset
+        cim: vendor_signature_id
+        asim: EventVendorId
+        description: Generator ID
+      - name: suricata.eve.alert.cve
+        type: keyword
+        ecs: vulnerability.id
+        cim: cve
+        asim: ThreatId
+        description: CVE reference
+      - name: suricata.eve.alert.malware
+        type: keyword
+        ecs: threat.indicator.name
+        cim: malware
+        asim: ThreatName
+        description: Malware name
+      - name: suricata.eve.alert.attack_target
+        type: keyword
+        ecs: threat.indicator.type
+        cim: attack_target
+        asim: ThreatField
+        description: Attack target
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # DNS Events
+  # =============================================================================
+  - vendor: suricata
+    product: eve
+    log_type: dns
+    version: null
+    log_format: json
+    signature_name: Suricata DNS Event
+    primary_pattern: event_type.*dns|suricata\.eve\.dns
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Suricata DNS query/response event
+    event_type: dns
+    sample_logs:
+      - '{"event_type":"dns","dns":{"type":"query","rrname":"example.com","rrtype":"A"}}'
+    fields:
+      - name: suricata.eve.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: suricata.eve.dns.type
+        type: keyword
+        ecs: dns.type
+        cim: message_type
+        asim: EventSubType
+        description: DNS query or response
+      - name: suricata.eve.dns.rrtype
+        type: keyword
+        ecs: dns.question.type
+        cim: record_type
+        asim: DnsQueryType
+        description: DNS record type
+      - name: suricata.eve.dns.rrname
+        type: keyword
+        ecs: dns.question.name
+        cim: query
+        asim: DnsQuery
+        description: DNS record name
+      - name: suricata.eve.dns.rdata
+        type: keyword
+        ecs: dns.answers.data
+        cim: answer
+        asim: DnsResponseName
+        description: DNS record data
+      - name: suricata.eve.dns.ttl
+        type: long
+        ecs: dns.answers.ttl
+        cim: ttl
+        asim: DnsResponseTtl
+        description: DNS TTL
+      - name: suricata.eve.dns.rcode
+        type: keyword
+        ecs: dns.response_code
+        cim: reply_code
+        asim: DnsResponseCode
+        description: DNS response code
+    upstream_sources:
+      - filebeat
+
+  # =============================================================================
+  # TLS Events
+  # =============================================================================
+  - vendor: suricata
+    product: eve
+    log_type: tls
+    version: null
+    log_format: json
+    signature_name: Suricata TLS Event
+    primary_pattern: event_type.*tls|suricata\.eve\.tls
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Suricata TLS handshake and certificate event
+    event_type: tls
+    sample_logs:
+      - '{"event_type":"tls","tls":{"sni":"example.com","version":"TLSv1.2","ja3":{"hash":"abc123"}}}'
+    fields:
+      - name: suricata.eve.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: suricata.eve.tls.sni
+        type: keyword
+        ecs: tls.client.server_name
+        cim: ssl_subject
+        asim: TlsSni
+        description: TLS Server Name Indication
+      - name: suricata.eve.tls.version
+        type: keyword
+        ecs: tls.version
+        cim: ssl_version
+        asim: TlsVersion
+        description: TLS version
+      - name: suricata.eve.tls.fingerprint
+        type: keyword
+        ecs: tls.server.hash.sha1
+        cim: ssl_hash
+        asim: TlsCertificateHash
+        description: Certificate fingerprint
+      - name: suricata.eve.tls.serial
+        type: keyword
+        ecs: tls.server.x509.serial_number
+        cim: ssl_serial
+        asim: TlsCertificateSerial
+        description: Certificate serial number
+      - name: suricata.eve.tls.subject
+        type: keyword
+        ecs: tls.server.subject
+        cim: ssl_subject
+        asim: TlsCertificateSubject
+        description: Certificate subject
+      - name: suricata.eve.tls.issuerdn
+        type: keyword
+        ecs: tls.server.issuer
+        cim: ssl_issuer
+        asim: TlsCertificateIssuer
+        description: Certificate issuer DN
+      - name: suricata.eve.tls.ja3.hash
+        type: keyword
+        ecs: tls.client.ja3
+        cim: ja3_hash
+        asim: TlsJa3
+        description: JA3 fingerprint hash
+      - name: suricata.eve.tls.ja3s.hash
+        type: keyword
+        ecs: tls.server.ja3s
+        cim: ja3s_hash
+        asim: TlsJa3s
+        description: JA3S fingerprint hash
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # HTTP Events
+  # =============================================================================
+  - vendor: suricata
+    product: eve
+    log_type: http
+    version: null
+    log_format: json
+    signature_name: Suricata HTTP Event
+    primary_pattern: event_type.*http|suricata\.eve\.http
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Suricata HTTP request/response event
+    event_type: http
+    sample_logs:
+      - '{"event_type":"http","http":{"protocol":"HTTP/1.1","http_content_type":"text/html"}}'
+    fields:
+      - name: suricata.eve.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: suricata.eve.http.protocol
+        type: keyword
+        ecs: http.version
+        cim: http_version
+        asim: HttpVersion
+        description: HTTP protocol version
+      - name: suricata.eve.http.http_content_type
+        type: keyword
+        ecs: http.response.mime_type
+        cim: http_content_type
+        asim: HttpContentType
+        description: HTTP content type
+      - name: suricata.eve.http.redirect
+        type: keyword
+        ecs: http.response.redirect
+        cim: http_referrer
+        asim: HttpReferrer
+        description: HTTP redirect URL
+    upstream_sources:
+      - filebeat
+
+  # =============================================================================
+  # File Info Events
+  # =============================================================================
+  - vendor: suricata
+    product: eve
+    log_type: fileinfo
+    version: null
+    log_format: json
+    signature_name: Suricata File Info Event
+    primary_pattern: event_type.*fileinfo|suricata\.eve\.fileinfo
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Suricata file extraction and metadata event
+    event_type: file
+    sample_logs:
+      - '{"event_type":"fileinfo","fileinfo":{"sha256":"abc123","md5":"def456","state":"CLOSED"}}'
+    fields:
+      - name: suricata.eve.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: suricata.eve.fileinfo.sha256
+        type: keyword
+        ecs: file.hash.sha256
+        cim: file_hash
+        asim: TargetFileSHA256
+        description: File SHA256 hash
+      - name: suricata.eve.fileinfo.md5
+        type: keyword
+        ecs: file.hash.md5
+        cim: file_hash
+        asim: TargetFileMD5
+        description: File MD5 hash
+      - name: suricata.eve.fileinfo.sha1
+        type: keyword
+        ecs: file.hash.sha1
+        cim: file_hash
+        asim: TargetFileSHA1
+        description: File SHA1 hash
+      - name: suricata.eve.fileinfo.state
+        type: keyword
+        ecs: event.outcome
+        cim: result
+        asim: EventResult
+        description: File extraction state
+    upstream_sources:
+      - filebeat
+
+  # =============================================================================
+  # Flow Events
+  # =============================================================================
+  - vendor: suricata
+    product: eve
+    log_type: flow
+    version: null
+    log_format: json
+    signature_name: Suricata Flow Event
+    primary_pattern: event_type.*flow|suricata\.eve\.flow
+    confidence: 0.85
+    priority: 15
+    source: elastic_filebeat
+    description: Suricata network flow event
+    event_type: flow
+    sample_logs:
+      - '{"event_type":"flow","flow":{"state":"closed","reason":"timeout","age":120}}'
+    fields:
+      - name: suricata.eve.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: suricata.eve.flow.state
+        type: keyword
+        ecs: network.transport
+        cim: connection_state
+        asim: NetworkConnectionState
+        description: Flow state
+      - name: suricata.eve.flow.reason
+        type: keyword
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+        description: Flow end reason
+      - name: suricata.eve.flow.age
+        type: long
+        ecs: event.duration
+        cim: duration
+        asim: NetworkDuration
+        description: Flow age in seconds
+      - name: suricata.eve.tcp.state
+        type: keyword
+        ecs: network.transport
+        cim: tcp_state
+        asim: NetworkConnectionState
+        description: TCP connection state
+      - name: suricata.eve.tcp.tcp_flags
+        type: keyword
+        ecs: network.transport
+        cim: tcp_flag
+        asim: TcpFlags
+        description: TCP flags
+    upstream_sources:
+      - filebeat
+
+metadata:
+  vendor: Suricata
+  product: EVE
+  product_full_name: Suricata IDS/IPS EVE JSON Logs
+  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-suricata
+  created_date: "2026-01-19"
+  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
+  log_formats:
+    - json
+  categories:
+    - ids
+    - alert
+    - dns
+    - tls
+    - http
+    - file
+    - flow

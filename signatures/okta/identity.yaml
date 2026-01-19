@@ -1,0 +1,409 @@
+# Okta Identity and Access Management - Log Signatures
+# Source: Elastic Filebeat Okta Module Documentation
+# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-okta
+
+signatures:
+  # =============================================================================
+  # Authentication Events
+  # =============================================================================
+  - vendor: okta
+    product: identity
+    log_type: authentication
+    version: null
+    log_format: json
+    signature_name: Okta Authentication Event
+    primary_pattern: user\.session\.start|user\.session\.end|user\.authentication
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: User authentication events including login, logout, and MFA
+    event_type: authentication
+    sample_logs:
+      - '{"eventType":"user.session.start","actor":{"id":"00u1234","alternateId":"user@example.com"},"outcome":{"result":"SUCCESS"}}'
+    fields:
+      - name: okta.uuid
+        type: keyword
+        ecs: event.id
+        cim: signature_id
+        asim: EventOriginalUid
+        description: Unique identifier of the Okta LogEvent
+      - name: okta.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+        description: Type of the LogEvent
+      - name: okta.severity
+        type: keyword
+        ecs: event.severity
+        cim: severity
+        asim: EventSeverity
+        description: Severity level (DEBUG, INFO, WARN, ERROR)
+      - name: okta.display_message
+        type: keyword
+        ecs: message
+        cim: description
+        asim: EventMessage
+        description: Display message of the LogEvent
+      - name: okta.actor.id
+        type: keyword
+        ecs: user.id
+        cim: user_id
+        asim: ActorUserId
+        description: Identifier of the actor
+      - name: okta.actor.type
+        type: keyword
+        ecs: user.roles
+        cim: user_type
+        asim: ActorUserType
+        description: Type of the actor
+      - name: okta.actor.alternate_id
+        type: keyword
+        ecs: user.email
+        cim: user_email
+        asim: ActorUsername
+        description: Alternate identifier (usually email)
+      - name: okta.actor.display_name
+        type: keyword
+        ecs: user.full_name
+        cim: user_name
+        asim: ActorUserPrincipalName
+        description: Display name of the actor
+      - name: okta.client.ip
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+        description: Client IP address
+      - name: okta.client.user_agent.raw_user_agent
+        type: keyword
+        ecs: user_agent.original
+        cim: http_user_agent
+        asim: HttpUserAgent
+        description: Raw user agent string
+      - name: okta.client.user_agent.os
+        type: keyword
+        ecs: user_agent.os.name
+        cim: os
+        asim: SrcDeviceType
+        description: Operating system
+      - name: okta.client.user_agent.browser
+        type: keyword
+        ecs: user_agent.name
+        cim: app
+        asim: SrcAppName
+        description: Browser information
+      - name: okta.client.zone
+        type: keyword
+        ecs: cloud.availability_zone
+        cim: src_zone
+        asim: SrcZone
+        description: Zone information
+      - name: okta.client.device
+        type: keyword
+        ecs: host.type
+        cim: src_device_type
+        asim: SrcDeviceType
+        description: Device information
+      - name: okta.outcome.result
+        type: keyword
+        ecs: event.outcome
+        cim: result
+        asim: EventResult
+        description: Outcome result (SUCCESS, FAILURE, SKIPPED, ALLOW, DENY, CHALLENGE, UNKNOWN)
+      - name: okta.outcome.reason
+        type: keyword
+        ecs: event.reason
+        cim: reason
+        asim: EventResultDetails
+        description: Reason for the outcome
+      - name: okta.transaction.id
+        type: keyword
+        ecs: transaction.id
+        cim: transaction_id
+        asim: CorrelationId
+        description: Transaction identifier
+      - name: okta.authentication_context.authentication_provider
+        type: keyword
+        ecs: authentication.method
+        cim: authentication_method
+        asim: LogonMethod
+        description: Authentication provider (OKTA, ACTIVE_DIRECTORY, LDAP, FEDERATION, SOCIAL)
+      - name: okta.authentication_context.credential_type
+        type: keyword
+        ecs: authentication.type
+        cim: authentication_type
+        asim: LogonType
+        description: Credential type (OTP, SMS, PASSWORD, ASSERTION, IWA, EMAIL, OAUTH2, JWT, CERTIFICATE)
+      - name: okta.authentication_context.external_session_id
+        type: keyword
+        ecs: session.id
+        cim: session_id
+        asim: TargetSessionId
+        description: External session identifier
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # User Lifecycle Events
+  # =============================================================================
+  - vendor: okta
+    product: identity
+    log_type: user_management
+    version: null
+    log_format: json
+    signature_name: Okta User Lifecycle Event
+    primary_pattern: user\.lifecycle\.|user\.account\.
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: User lifecycle events (create, update, delete, suspend)
+    event_type: user_management
+    sample_logs:
+      - '{"eventType":"user.lifecycle.create","actor":{"id":"00u1234"},"target":[{"id":"00u5678","type":"User"}]}'
+    fields:
+      - name: okta.uuid
+        type: keyword
+        ecs: event.id
+        cim: signature_id
+        asim: EventOriginalUid
+      - name: okta.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: okta.actor.id
+        type: keyword
+        ecs: user.id
+        cim: user_id
+        asim: ActorUserId
+      - name: okta.actor.alternate_id
+        type: keyword
+        ecs: user.email
+        cim: user_email
+        asim: ActorUsername
+      - name: okta.target
+        type: flattened
+        ecs: user.target.id
+        cim: object_id
+        asim: TargetUserId
+        description: List of targets
+      - name: okta.outcome.result
+        type: keyword
+        ecs: event.outcome
+        cim: result
+        asim: EventResult
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Security Events
+  # =============================================================================
+  - vendor: okta
+    product: identity
+    log_type: security
+    version: null
+    log_format: json
+    signature_name: Okta Security Event
+    primary_pattern: security\.threat|security\.request\.blocked
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: Security threat and suspicious activity events
+    event_type: security
+    sample_logs:
+      - '{"eventType":"security.threat.detected","debugContext":{"debugData":{"risk_level":"HIGH","threat_suspected":"true"}}}'
+    fields:
+      - name: okta.uuid
+        type: keyword
+        ecs: event.id
+        cim: signature_id
+        asim: EventOriginalUid
+      - name: okta.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: okta.debug_context.debug_data.risk_level
+        type: keyword
+        ecs: event.risk_score_norm
+        cim: risk_level
+        asim: ThreatRiskLevel
+        description: Risk level assigned to sign in attempt
+      - name: okta.debug_context.debug_data.risk_reasons
+        type: keyword
+        ecs: threat.indicator.description
+        cim: risk_message
+        asim: ThreatName
+        description: Reasons for the risk
+      - name: okta.debug_context.debug_data.threat_suspected
+        type: keyword
+        ecs: threat.indicator.type
+        cim: threat_category
+        asim: ThreatCategory
+        description: Threat suspected indicator
+      - name: okta.debug_context.debug_data.suspicious_activity.event_ip
+        type: ip
+        ecs: threat.indicator.ip
+        cim: threat_ip
+        asim: ThreatIpAddr
+        description: IP of suspicious event
+      - name: okta.debug_context.debug_data.suspicious_activity.event_city
+        type: keyword
+        ecs: source.geo.city_name
+        cim: src_city
+        asim: SrcGeoCity
+        description: City of suspicious activity
+      - name: okta.debug_context.debug_data.suspicious_activity.event_country
+        type: keyword
+        ecs: source.geo.country_name
+        cim: src_country
+        asim: SrcGeoCountry
+        description: Country of suspicious activity
+      - name: okta.security_context.as.number
+        type: integer
+        ecs: source.as.number
+        cim: src_asn
+        asim: SrcGeoAsn
+        description: Autonomous system number
+      - name: okta.security_context.as.organization.name
+        type: keyword
+        ecs: source.as.organization.name
+        cim: src_as_org
+        asim: SrcGeoAsnOrg
+        description: Organization owning the AS
+      - name: okta.security_context.isp
+        type: keyword
+        ecs: source.as.organization.name
+        cim: src_isp
+        asim: SrcIsp
+        description: Internet Service Provider
+      - name: okta.security_context.domain
+        type: keyword
+        ecs: source.domain
+        cim: src_dns
+        asim: SrcDomain
+        description: Domain name
+      - name: okta.security_context.is_proxy
+        type: boolean
+        ecs: source.nat.ip
+        cim: src_is_proxy
+        asim: SrcNatIpAddr
+        description: Whether connection is via proxy
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Application Events
+  # =============================================================================
+  - vendor: okta
+    product: identity
+    log_type: application
+    version: null
+    log_format: json
+    signature_name: Okta Application Event
+    primary_pattern: application\.user_membership|app\.oauth2|application\.lifecycle
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Application access and assignment events
+    event_type: application
+    sample_logs:
+      - '{"eventType":"application.user_membership.add","actor":{"id":"00u1234"},"target":[{"id":"0oa5678","type":"AppInstance"}]}'
+    fields:
+      - name: okta.uuid
+        type: keyword
+        ecs: event.id
+        cim: signature_id
+        asim: EventOriginalUid
+      - name: okta.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: okta.actor.id
+        type: keyword
+        ecs: user.id
+        cim: user_id
+        asim: ActorUserId
+      - name: okta.target
+        type: flattened
+        ecs: service.id
+        cim: object_id
+        asim: TargetAppId
+        description: Target application
+      - name: okta.outcome.result
+        type: keyword
+        ecs: event.outcome
+        cim: result
+        asim: EventResult
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Group Events
+  # =============================================================================
+  - vendor: okta
+    product: identity
+    log_type: group
+    version: null
+    log_format: json
+    signature_name: Okta Group Event
+    primary_pattern: group\.user_membership|group\.lifecycle
+    confidence: 0.85
+    priority: 15
+    source: elastic_filebeat
+    description: Group membership and management events
+    event_type: group
+    sample_logs:
+      - '{"eventType":"group.user_membership.add","actor":{"id":"00u1234"},"target":[{"id":"00g5678","type":"UserGroup"}]}'
+    fields:
+      - name: okta.uuid
+        type: keyword
+        ecs: event.id
+        cim: signature_id
+        asim: EventOriginalUid
+      - name: okta.event_type
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventType
+      - name: okta.actor.id
+        type: keyword
+        ecs: user.id
+        cim: user_id
+        asim: ActorUserId
+      - name: okta.target
+        type: flattened
+        ecs: group.id
+        cim: object_id
+        asim: TargetUserId
+        description: Target group
+      - name: okta.outcome.result
+        type: keyword
+        ecs: event.outcome
+        cim: result
+        asim: EventResult
+    upstream_sources:
+      - filebeat
+      - sigma
+
+metadata:
+  vendor: Okta
+  product: Identity
+  product_full_name: Okta Identity and Access Management
+  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-okta
+  created_date: "2026-01-19"
+  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
+  log_formats:
+    - json
+  categories:
+    - authentication
+    - user_management
+    - security
+    - application
+    - group
