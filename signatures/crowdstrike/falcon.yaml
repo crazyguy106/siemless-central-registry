@@ -1,0 +1,687 @@
+# CrowdStrike Falcon EDR - Log Signatures
+# Source: Elastic Filebeat CrowdStrike Module Documentation
+# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-crowdstrike
+
+signatures:
+  # =============================================================================
+  # Detection Summary Events
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon Detection Summary
+    primary_pattern: DetectName|DetectDescription|SeverityName
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: Detection event with threat classification and MITRE mapping
+    event_type: detection
+    sample_logs:
+      - '{"eventType":"DetectionSummaryEvent","DetectName":"Credential Dumping","Severity":80,"SeverityName":"High","Tactic":"CredentialAccess","Technique":"T1003"}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+        description: CrowdStrike event type identifier
+      - name: eventCreationTime
+        type: date
+        ecs: event.created
+        cim: _time
+        asim: EventStartTime
+        description: Timestamp when the event was created
+      - name: DetectName
+        type: keyword
+        ecs: rule.name
+        cim: signature
+        asim: RuleName
+        description: Name of the detection rule triggered
+      - name: DetectDescription
+        type: keyword
+        ecs: rule.description
+        cim: signature_description
+        asim: RuleDescription
+        description: Description of the detection
+      - name: Severity
+        type: integer
+        ecs: event.severity
+        cim: severity
+        asim: ThreatRiskLevel
+        description: Numeric severity level (0-100)
+      - name: SeverityName
+        type: keyword
+        ecs: event.category
+        cim: severity_label
+        asim: ThreatRiskLevelOriginal
+        description: Severity name (Low, Medium, High, Critical)
+      - name: Tactic
+        type: keyword
+        ecs: threat.tactic.name
+        cim: mitre_tactic
+        asim: ThreatTactics
+        description: MITRE ATT&CK tactic
+      - name: Technique
+        type: keyword
+        ecs: threat.technique.name
+        cim: mitre_technique
+        asim: ThreatTechniques
+        description: MITRE ATT&CK technique
+      - name: Objective
+        type: keyword
+        ecs: threat.indicator.type
+        cim: threat_category
+        asim: ThreatCategory
+        description: Attack objective classification
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Name of the host where event occurred
+      - name: UserName
+        type: keyword
+        ecs: user.name
+        cim: user
+        asim: ActorUsername
+        description: Username associated with the event
+      - name: FileName
+        type: keyword
+        ecs: file.name
+        cim: file_name
+        asim: TargetFileName
+        description: Name of the file or executable
+      - name: FilePath
+        type: keyword
+        ecs: file.path
+        cim: file_path
+        asim: TargetFilePath
+        description: Full path to the file
+      - name: CommandLine
+        type: keyword
+        ecs: process.command_line
+        cim: process
+        asim: TargetProcessCommandLine
+        description: Full command line of the process
+      - name: SHA256String
+        type: keyword
+        ecs: file.hash.sha256
+        cim: file_hash
+        asim: TargetFileSHA256
+        description: SHA256 hash of the file
+      - name: MD5String
+        type: keyword
+        ecs: file.hash.md5
+        cim: file_hash
+        asim: TargetFileMD5
+        description: MD5 hash of the file
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Process Events
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon Process Event
+    primary_pattern: ProcessStartTime|ProcessEndTime|ImageFileName|CommandLine
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Process creation/termination events
+    event_type: process
+    sample_logs:
+      - '{"eventType":"ProcessRollup2","ProcessId":1234,"ParentProcessId":4567,"ImageFileName":"C:\\Windows\\System32\\cmd.exe","CommandLine":"cmd.exe /c whoami"}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+      - name: ProcessId
+        type: long
+        ecs: process.pid
+        cim: process_id
+        asim: TargetProcessId
+        description: Process ID of the target process
+      - name: ParentProcessId
+        type: long
+        ecs: process.parent.pid
+        cim: parent_process_id
+        asim: ActingProcessId
+        description: Process ID of the parent process
+      - name: ProcessStartTime
+        type: date
+        ecs: process.start
+        cim: process_start_time
+        asim: TargetProcessCreationTime
+        description: Timestamp when process started
+      - name: ProcessEndTime
+        type: date
+        ecs: process.end
+        cim: process_end_time
+        asim: TargetProcessTerminationTime
+        description: Timestamp when process ended
+      - name: ImageFileName
+        type: keyword
+        ecs: process.executable
+        cim: process_path
+        asim: TargetProcessName
+        description: Full path to the process executable
+      - name: CommandLine
+        type: keyword
+        ecs: process.command_line
+        cim: process
+        asim: TargetProcessCommandLine
+        description: Full command line of the process
+      - name: FileName
+        type: keyword
+        ecs: file.name
+        cim: file_name
+        asim: TargetFileName
+        description: Executable file name
+      - name: SHA256String
+        type: keyword
+        ecs: file.hash.sha256
+        cim: file_hash
+        asim: TargetFileSHA256
+        description: SHA256 hash of the process executable
+      - name: MD5String
+        type: keyword
+        ecs: file.hash.md5
+        cim: file_hash
+        asim: TargetFileMD5
+        description: MD5 hash of the process executable
+      - name: UserName
+        type: keyword
+        ecs: user.name
+        cim: user
+        asim: ActorUsername
+        description: User context of the process
+      - name: UserSid
+        type: keyword
+        ecs: user.id
+        cim: user_id
+        asim: ActorUserId
+        description: Windows Security Identifier of the user
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Host where process executed
+      - name: ContextBaseFileName
+        type: keyword
+        ecs: process.name
+        cim: process_name
+        asim: ActingProcessName
+        description: Parent process name
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Network Connection Events
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon Network Event
+    primary_pattern: LocalAddressIP4|RemoteAddressIP4|LocalPort|RemotePort
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Network connection events
+    event_type: network
+    sample_logs:
+      - '{"eventType":"NetworkConnect","LocalAddressIP4":"192.168.1.100","RemoteAddressIP4":"203.0.113.50","LocalPort":54321,"RemotePort":443,"Protocol":"TCP"}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+      - name: LocalAddressIP4
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+        description: Local IPv4 address
+      - name: RemoteAddressIP4
+        type: ip
+        ecs: destination.ip
+        cim: dest_ip
+        asim: DstIpAddr
+        description: Remote IPv4 address
+      - name: LocalPort
+        type: integer
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+        description: Local port number
+      - name: RemotePort
+        type: integer
+        ecs: destination.port
+        cim: dest_port
+        asim: DstPortNumber
+        description: Remote port number
+      - name: Protocol
+        type: keyword
+        ecs: network.transport
+        cim: transport
+        asim: NetworkProtocol
+        description: Network protocol (TCP, UDP, etc.)
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Host that made the connection
+      - name: MACAddress
+        type: keyword
+        ecs: host.mac
+        cim: src_mac
+        asim: SrcMacAddr
+        description: MAC address of the host
+      - name: ContextBaseFileName
+        type: keyword
+        ecs: process.name
+        cim: process_name
+        asim: ActingProcessName
+        description: Process that initiated the connection
+      - name: ImageFileName
+        type: keyword
+        ecs: process.executable
+        cim: process_path
+        asim: TargetProcessName
+        description: Process executable path
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # DNS Request Events
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon DNS Event
+    primary_pattern: DomainName|RequestType|ContextBaseFileName
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: DNS request events
+    event_type: dns
+    sample_logs:
+      - '{"eventType":"DnsRequest","DomainName":"malware.example.com","RequestType":"A","ContextBaseFileName":"powershell.exe"}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+      - name: DomainName
+        type: keyword
+        ecs: dns.question.name
+        cim: query
+        asim: DnsQuery
+        description: DNS domain name queried
+      - name: RequestType
+        type: keyword
+        ecs: dns.question.type
+        cim: record_type
+        asim: DnsQueryType
+        description: DNS request type (A, AAAA, MX, etc.)
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Host that made the DNS request
+      - name: ContextBaseFileName
+        type: keyword
+        ecs: process.name
+        cim: process_name
+        asim: ActingProcessName
+        description: Process that initiated the DNS query
+      - name: ImageFileName
+        type: keyword
+        ecs: process.executable
+        cim: process_path
+        asim: TargetProcessName
+        description: Process executable path
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # File Events
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon File Event
+    primary_pattern: TargetFileName|TargetDirectoryName|SHA256String
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: File write/modification events
+    event_type: file
+    sample_logs:
+      - '{"eventType":"NewExecutableWritten","TargetFileName":"malware.exe","TargetDirectoryName":"C:\\Users\\Public\\","SHA256String":"a1b2c3d4..."}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+      - name: TargetFileName
+        type: keyword
+        ecs: file.name
+        cim: file_name
+        asim: TargetFileName
+        description: Target file name for file operations
+      - name: TargetDirectoryName
+        type: keyword
+        ecs: file.directory
+        cim: file_directory
+        asim: TargetFileDirectory
+        description: Target directory for file operations
+      - name: SHA256String
+        type: keyword
+        ecs: file.hash.sha256
+        cim: file_hash
+        asim: TargetFileSHA256
+        description: SHA256 hash of the file
+      - name: MD5String
+        type: keyword
+        ecs: file.hash.md5
+        cim: file_hash
+        asim: TargetFileMD5
+        description: MD5 hash of the file
+      - name: SHA1String
+        type: keyword
+        ecs: file.hash.sha1
+        cim: file_hash
+        asim: TargetFileSHA1
+        description: SHA1 hash of the file
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Host where file operation occurred
+      - name: ContextBaseFileName
+        type: keyword
+        ecs: process.name
+        cim: process_name
+        asim: ActingProcessName
+        description: Process that performed the file operation
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Registry Events (Windows)
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon Registry Event
+    primary_pattern: RegObjectName|RegValueName|RegStringValue
+    confidence: 0.9
+    priority: 10
+    source: elastic_filebeat
+    description: Windows registry modification events
+    event_type: registry
+    sample_logs:
+      - '{"eventType":"RegistryOperationDetected","RegObjectName":"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run","RegValueName":"Persistence","RegStringValue":"C:\\malware.exe"}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+      - name: RegObjectName
+        type: keyword
+        ecs: registry.path
+        cim: registry_path
+        asim: RegistryKey
+        description: Registry key path
+      - name: RegValueName
+        type: keyword
+        ecs: registry.value
+        cim: registry_value_name
+        asim: RegistryValueName
+        description: Registry value name
+      - name: RegStringValue
+        type: keyword
+        ecs: registry.data.strings
+        cim: registry_value_data
+        asim: RegistryValueData
+        description: Registry value data
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Host where registry modification occurred
+      - name: ContextBaseFileName
+        type: keyword
+        ecs: process.name
+        cim: process_name
+        asim: ActingProcessName
+        description: Process that modified the registry
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Authentication Events
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon Authentication Event
+    primary_pattern: UserName|UserSid|UserPrincipal|LogonType
+    confidence: 0.85
+    priority: 15
+    source: elastic_filebeat
+    description: Authentication and user activity events
+    event_type: authentication
+    sample_logs:
+      - '{"eventType":"UserLogon","UserName":"admin","UserSid":"S-1-5-21-...","LogonType":10,"ComputerName":"WORKSTATION01"}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+      - name: UserName
+        type: keyword
+        ecs: user.name
+        cim: user
+        asim: ActorUsername
+        description: Username associated with the event
+      - name: UserSid
+        type: keyword
+        ecs: user.id
+        cim: user_id
+        asim: ActorUserId
+        description: Windows Security Identifier of the user
+      - name: UserPrincipal
+        type: keyword
+        ecs: user.email
+        cim: user_email
+        asim: ActorUserPrincipalName
+        description: User principal name (UPN)
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Host where authentication occurred
+      - name: MachineDomain
+        type: keyword
+        ecs: host.domain
+        cim: dest_nt_domain
+        asim: DvcDomain
+        description: Active Directory domain of the host
+    upstream_sources:
+      - filebeat
+      - sigma
+
+  # =============================================================================
+  # Incident Events
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon Incident
+    primary_pattern: incident\.fine_score|incident\.objective
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: CrowdStrike incident aggregation
+    event_type: incident
+    sample_logs:
+      - '{"eventType":"IncidentSummary","incident":{"fine_score":85,"objective":"Credential Theft","status":"open"}}'
+    fields:
+      - name: eventType
+        type: keyword
+        ecs: event.code
+        cim: signature_id
+        asim: EventOriginalType
+      - name: incident.fine_score
+        type: integer
+        ecs: event.risk_score
+        cim: risk_score
+        asim: ThreatConfidence
+        description: CrowdStrike incident fine score (0-100)
+      - name: incident.objective
+        type: keyword
+        ecs: threat.indicator.description
+        cim: threat_name
+        asim: ThreatName
+        description: Attack objective of the incident
+    upstream_sources:
+      - filebeat
+
+  # =============================================================================
+  # Agent/Host Metadata
+  # =============================================================================
+  - vendor: crowdstrike
+    product: falcon
+    log_type: edr
+    version: null
+    log_format: json
+    signature_name: CrowdStrike Falcon Agent Metadata
+    primary_pattern: aid|cid|aip
+    confidence: 0.85
+    priority: 20
+    source: elastic_filebeat
+    description: Agent and customer identification fields
+    event_type: metadata
+    sample_logs:
+      - '{"aid":"abc123...","cid":"customer123...","aip":"192.168.1.100","ComputerName":"WORKSTATION01"}'
+    fields:
+      - name: aid
+        type: keyword
+        ecs: agent.id
+        cim: dest_id
+        asim: DvcId
+        description: CrowdStrike Agent ID
+      - name: cid
+        type: keyword
+        ecs: organization.id
+        cim: vendor_customer_id
+        asim: EventVendorId
+        description: CrowdStrike Customer ID
+      - name: customerIDString
+        type: keyword
+        ecs: cloud.account.id
+        cim: vendor_account
+        asim: EventOwner
+        description: CrowdStrike customer ID string
+      - name: aip
+        type: ip
+        ecs: host.ip
+        cim: src_ip
+        asim: DvcIpAddr
+        description: Agent IP address
+      - name: ComputerName
+        type: keyword
+        ecs: host.name
+        cim: dest
+        asim: DvcHostname
+        description: Name of the host
+      - name: MachineDomain
+        type: keyword
+        ecs: host.domain
+        cim: dest_nt_domain
+        asim: DvcDomain
+        description: Active Directory domain of the host
+      - name: OU
+        type: keyword
+        ecs: host.os.family
+        cim: dest_ou
+        asim: DvcScopeId
+        description: Active Directory Organizational Unit
+      - name: SiteName
+        type: keyword
+        ecs: cloud.availability_zone
+        cim: site
+        asim: DvcZone
+        description: AD site name of the host
+      - name: MACAddress
+        type: keyword
+        ecs: host.mac
+        cim: src_mac
+        asim: SrcMacAddr
+        description: MAC address of the host
+      - name: offset
+        type: long
+        ecs: event.sequence
+        cim: transaction_id
+        asim: EventOriginalUid
+        description: Event stream offset for deduplication
+    upstream_sources:
+      - filebeat
+
+metadata:
+  vendor: CrowdStrike
+  product: Falcon
+  product_full_name: CrowdStrike Falcon EDR
+  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-crowdstrike
+  created_date: "2026-01-19"
+  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
+  log_formats:
+    - json
+  categories:
+    - edr
+    - detection
+    - process
+    - network
+    - dns
+    - file
+    - registry
+    - authentication
+    - incident
