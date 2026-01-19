@@ -1,0 +1,64 @@
+# Traefik Reverse Proxy - Log Signatures
+# Source: Elastic Filebeat Traefik Module Documentation
+# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-traefik
+
+signatures:
+  - vendor: traefik
+    product: proxy
+    log_type: access
+    version: null
+    log_format: json
+    signature_name: Traefik Access Log
+    primary_pattern: traefik\.access|traefik
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: Traefik reverse proxy access logs
+    event_type: http
+    sample_logs:
+      - '{"ClientHost":"192.168.1.100","ClientPort":"59700","RequestMethod":"GET","RequestPath":"/api","DownstreamStatus":200,"Duration":12345678}'
+    fields:
+      - name: traefik.access.backend_url
+        type: keyword
+        ecs: url.full
+        cim: url
+        asim: Url
+        description: Backend URL where request was forwarded
+      - name: traefik.access.frontend_name
+        type: keyword
+        ecs: observer.name
+        cim: dest_interface
+        asim: DvcInboundInterface
+        description: Frontend used
+      - name: traefik.access.geoip.country_iso_code
+        type: keyword
+        ecs: source.geo.country_iso_code
+        cim: src_country
+        asim: SrcGeoCountry
+        description: Country from GeoIP
+      - name: traefik.access.user_agent.name
+        type: keyword
+        ecs: user_agent.name
+        cim: http_user_agent
+        asim: HttpUserAgent
+        description: User agent name
+      - name: traefik.access.user_name
+        type: keyword
+        ecs: user.name
+        cim: user
+        asim: ActorUsername
+        description: HTTP authenticated user
+    upstream_sources:
+      - filebeat
+
+metadata:
+  vendor: Traefik
+  product: Proxy
+  product_full_name: Traefik Reverse Proxy
+  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-traefik
+  created_date: "2026-01-19"
+  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
+  log_formats:
+    - json
+  categories:
+    - access

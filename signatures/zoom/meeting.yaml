@@ -1,0 +1,99 @@
+# Zoom Video Conferencing - Audit Log Signatures
+# Source: Elastic Filebeat Zoom Module Documentation
+# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-zoom
+
+signatures:
+  - vendor: zoom
+    product: meeting
+    log_type: webhook
+    version: null
+    log_format: json
+    signature_name: Zoom Webhook Event
+    primary_pattern: zoom\.webhook|zoom\.event|zoom\.meeting
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: Zoom video conferencing audit events via webhooks
+    event_type: audit
+    sample_logs:
+      - '{"event":"meeting.started","payload":{"object":{"id":"123456789","uuid":"abc123","host_id":"xyz789","topic":"Team Meeting"}}}'
+    fields:
+      - name: zoom.account_id
+        type: keyword
+        ecs: organization.id
+        cim: vendor_account
+        asim: ActorScope
+        description: Zoom account ID
+      - name: zoom.operator
+        type: keyword
+        ecs: user.name
+        cim: user
+        asim: ActorUsername
+        description: User who performed the operation
+      - name: zoom.meeting.id
+        type: keyword
+        ecs: event.id
+        cim: session_id
+        asim: TargetSessionId
+        description: Unique meeting ID
+      - name: zoom.meeting.topic
+        type: keyword
+        ecs: event.reason
+        cim: subject
+        asim: EventMessage
+        description: Meeting topic
+      - name: zoom.meeting.host_id
+        type: keyword
+        ecs: user.id
+        cim: host_user_id
+        asim: ActorUserId
+        description: Host user ID
+      - name: zoom.meeting.duration
+        type: long
+        ecs: event.duration
+        cim: duration
+        asim: EventDuration
+        description: Meeting duration in minutes
+      - name: zoom.participant.user_name
+        type: keyword
+        ecs: user.name
+        cim: participant
+        asim: TargetUsername
+        description: Participant name
+      - name: zoom.participant.email
+        type: keyword
+        ecs: user.email
+        cim: participant_email
+        asim: TargetUserEmail
+        description: Participant email
+      - name: zoom.recording.file_type
+        type: keyword
+        ecs: file.type
+        cim: file_type
+        asim: TargetFileType
+        description: Recording file type
+      - name: zoom.recording.file_size
+        type: long
+        ecs: file.size
+        cim: file_size
+        asim: TargetFileSize
+        description: Recording file size
+    upstream_sources:
+      - filebeat
+
+metadata:
+  vendor: Zoom
+  product: Meeting
+  product_full_name: Zoom Video Conferencing
+  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-zoom
+  created_date: "2026-01-19"
+  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
+  log_formats:
+    - json
+  categories:
+    - webhook
+    - meeting
+    - webinar
+    - recording
+    - chat
+    - phone

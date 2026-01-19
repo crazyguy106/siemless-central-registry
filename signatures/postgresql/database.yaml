@@ -1,0 +1,184 @@
+# PostgreSQL Database - Log Signatures
+# Source: Elastic Filebeat PostgreSQL Module Documentation
+# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-postgresql
+
+signatures:
+  # =============================================================================
+  # Database Logs
+  # =============================================================================
+  - vendor: postgresql
+    product: database
+    log_type: log
+    version: null
+    log_format: syslog
+    signature_name: PostgreSQL Database Log
+    primary_pattern: postgresql\.log|LOG:|ERROR:|WARNING:
+    confidence: 0.95
+    priority: 5
+    source: elastic_filebeat
+    description: PostgreSQL database server logs
+    event_type: database
+    sample_logs:
+      - '2026-01-19 10:00:00.000 UTC [12345] LOG:  connection received: host=192.168.1.100 port=59700'
+    fields:
+      - name: postgresql.log.client_addr
+        type: ip
+        ecs: source.ip
+        cim: src_ip
+        asim: SrcIpAddr
+        description: Host where the connection originated from
+      - name: postgresql.log.client_port
+        type: integer
+        ecs: source.port
+        cim: src_port
+        asim: SrcPortNumber
+        description: Port where the connection originated from
+      - name: postgresql.log.database
+        type: keyword
+        ecs: database.name
+        cim: db_name
+        asim: TargetAppName
+        description: Name of database
+      - name: postgresql.log.session_id
+        type: keyword
+        ecs: session.id
+        cim: session_id
+        asim: TargetSessionId
+        description: PostgreSQL session identifier
+      - name: postgresql.log.query
+        type: keyword
+        ecs: database.query
+        cim: query
+        asim: TargetProcessCommandLine
+        description: Query statement
+      - name: postgresql.log.command_tag
+        type: keyword
+        ecs: event.action
+        cim: command
+        asim: EventType
+        description: Type of command (SELECT, INSERT, etc.)
+      - name: postgresql.log.sql_state_code
+        type: keyword
+        ecs: error.code
+        cim: error_code
+        asim: EventResultDetails
+        description: PostgreSQL error state code (SQLSTATE)
+      - name: postgresql.log.application_name
+        type: keyword
+        ecs: user_agent.name
+        cim: app
+        asim: TargetAppName
+        description: Client application name
+      - name: postgresql.log.user
+        type: keyword
+        ecs: user.name
+        cim: user
+        asim: ActorUsername
+        description: Database user name
+      - name: postgresql.log.level
+        type: keyword
+        ecs: log.level
+        cim: log_level
+        asim: EventSeverity
+        description: Log level (DEBUG, INFO, WARNING, ERROR, FATAL, PANIC)
+    upstream_sources:
+      - filebeat
+
+  # =============================================================================
+  # Query Logs
+  # =============================================================================
+  - vendor: postgresql
+    product: database
+    log_type: query
+    version: null
+    log_format: syslog
+    signature_name: PostgreSQL Query Log
+    primary_pattern: statement:|execute|duration:
+    confidence: 0.85
+    priority: 10
+    source: elastic_filebeat
+    description: PostgreSQL query execution logs
+    event_type: query
+    sample_logs:
+      - '2026-01-19 10:00:00.000 UTC [12345] LOG:  statement: SELECT * FROM users WHERE id = 1'
+    fields:
+      - name: postgresql.log.query
+        type: keyword
+        ecs: database.query
+        cim: query
+        asim: TargetProcessCommandLine
+        description: SQL query statement
+      - name: postgresql.log.query_step
+        type: keyword
+        ecs: event.action
+        cim: action
+        asim: EventSubType
+        description: Query step (parse, bind, execute)
+      - name: postgresql.log.transaction_id
+        type: long
+        ecs: transaction.id
+        cim: transaction_id
+        asim: EventOriginalUid
+        description: Transaction ID
+    upstream_sources:
+      - filebeat
+
+  # =============================================================================
+  # Error Logs
+  # =============================================================================
+  - vendor: postgresql
+    product: database
+    log_type: error
+    version: null
+    log_format: syslog
+    signature_name: PostgreSQL Error Log
+    primary_pattern: ERROR:|FATAL:|PANIC:
+    confidence: 0.9
+    priority: 5
+    source: elastic_filebeat
+    description: PostgreSQL database errors
+    event_type: error
+    sample_logs:
+      - '2026-01-19 10:00:00.000 UTC [12345] ERROR:  relation "missing_table" does not exist'
+    fields:
+      - name: postgresql.log.sql_state_code
+        type: keyword
+        ecs: error.code
+        cim: error_code
+        asim: EventResultDetails
+        description: PostgreSQL error state code
+      - name: postgresql.log.detail
+        type: text
+        ecs: error.message
+        cim: error_message
+        asim: EventMessage
+        description: Error details
+      - name: postgresql.log.hint
+        type: text
+        ecs: error.message
+        cim: resolution
+        asim: EventRecommendation
+        description: Hint for resolution
+      - name: postgresql.log.context
+        type: text
+        ecs: error.stack_trace
+        cim: context
+        asim: EventMessage
+        description: Error context
+    upstream_sources:
+      - filebeat
+
+metadata:
+  vendor: PostgreSQL
+  product: Database
+  product_full_name: PostgreSQL Database Server
+  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-postgresql
+  created_date: "2026-01-19"
+  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
+  log_formats:
+    - syslog
+    - csv
+  categories:
+    - log
+    - query
+    - error
