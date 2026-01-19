@@ -5,7 +5,7 @@ level: medium
 description: |
   Lists the onboarded machines to Azure Arc. The HostName is the hostname that is used within Azure and Defender For Endpoint, this may differ from the actual hostname of the local system.
 
-## Sentinel
+  ## Sentinel
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,10 +13,10 @@ logsource:
 detection:
   _kql_query: |
     AzureActivity
-| where OperationNameValue =~ "MICROSOFT.HYBRIDCOMPUTE/MACHINES/WRITE"
-| where ActivityStatusValue =~ "Success"
-| extend HostName = tostring(parse_json(Properties).resource)
-| project-reorder TimeGenerated, Caller, HostName, ResourceGroup
+    | where OperationNameValue =~ "MICROSOFT.HYBRIDCOMPUTE/MACHINES/WRITE"
+    | where ActivityStatusValue =~ "Success"
+    | extend HostName = tostring(parse_json(Properties).resource)
+    | project-reorder TimeGenerated, Caller, HostName, ResourceGroup
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

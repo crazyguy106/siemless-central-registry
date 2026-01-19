@@ -5,7 +5,7 @@ level: medium
 description: |
   This query should be implemented as custom detection, it triggers once a Suspicious Windows RUNMRU entry found on a device. These RUNMRU entries are one of the key indicators for ClickFix.
 
-The list of *Parameters* and *Executables* is limited, add additional entries according to your risk apetite.
+  The list of *Parameters* and *Executables* is limited, add additional entries according to your risk apetite.
 author: Bert-JanP
 logsource:
   product: microsoft_defender_endpoint
@@ -13,12 +13,12 @@ logsource:
 detection:
   _kql_query: |
     let Parameters = dynamic(['http', 'https', 'Encoded', 'EncodedCommand', '-e', '-eC', '-enc', "-w", 'iex']);
-let Executables = dynamic(["cmd", "powershell", "curl", "mshta"]);
-DeviceRegistryEvents
-| where ActionType == "RegistryValueSet"
-| where RegistryKey has "RunMRU"
-| where RegistryValueData has_any (Parameters) and RegistryValueData has_any (Executables)
-| project-reorder Timestamp, DeviceId, DeviceName, RegistryValueData, RegistryKey
+    let Executables = dynamic(["cmd", "powershell", "curl", "mshta"]);
+    DeviceRegistryEvents
+    | where ActionType == "RegistryValueSet"
+    | where RegistryKey has "RunMRU"
+    | where RegistryValueData has_any (Parameters) and RegistryValueData has_any (Executables)
+    | project-reorder Timestamp, DeviceId, DeviceName, RegistryValueData, RegistryKey
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

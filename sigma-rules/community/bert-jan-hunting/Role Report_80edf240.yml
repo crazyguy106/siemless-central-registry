@@ -5,7 +5,7 @@ level: medium
 description: |
   This query can be used to draw an report of the Entra ID role memberships for all users.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: azure_ad
@@ -13,14 +13,14 @@ logsource:
 detection:
   _kql_query: |
     let TimeFrame = 30d;
-IdentityInfo
-| where Timestamp > ago(TimeFrame)
-| summarize arg_max(TimeGenerated, *) by AccountObjectId
-| mv-expand AssignedRoles
-| where isnotempty(AssignedRoles)
-| summarize TotalRoles = dcount(tostring(AssignedRoles)), MemberOf = make_set(tostring(AssignedRoles), 1000) by AccountObjectId, AccountDisplayName, AccountUPN
-| extend ReportDate = now()
-| sort by TotalRoles desc
+    IdentityInfo
+    | where Timestamp > ago(TimeFrame)
+    | summarize arg_max(TimeGenerated, *) by AccountObjectId
+    | mv-expand AssignedRoles
+    | where isnotempty(AssignedRoles)
+    | summarize TotalRoles = dcount(tostring(AssignedRoles)), MemberOf = make_set(tostring(AssignedRoles), 1000) by AccountObjectId, AccountDisplayName, AccountUPN
+    | extend ReportDate = now()
+    | sort by TotalRoles desc
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

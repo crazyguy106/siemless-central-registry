@@ -5,7 +5,7 @@ level: medium
 description: |
   This query renders a Piechart based on the models used by Copilot interactions in your environment.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,12 +13,12 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType =~ "CopilotInteraction"
-| extend WorkLoad = tostring(parse_json(RawEventData).Workload)
-| where WorkLoad =~ "Copilot"
-| extend CopilotModel = tostring(parse_json(RawEventData).CopilotEventData.ModelTransparencyDetails[0].ModelName)
-| summarize Total = count() by CopilotModel
-| render piechart
+    | where ActionType =~ "CopilotInteraction"
+    | extend WorkLoad = tostring(parse_json(RawEventData).Workload)
+    | where WorkLoad =~ "Copilot"
+    | extend CopilotModel = tostring(parse_json(RawEventData).CopilotEventData.ModelTransparencyDetails[0].ModelName)
+    | summarize Total = count() by CopilotModel
+    | render piechart
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

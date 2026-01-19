@@ -5,7 +5,7 @@ level: medium
 description: |
   This query lists the amount of onboarded Azure Arc Machines for each resourceGroup.
 
-## Sentinel
+  ## Sentinel
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,8 +13,8 @@ logsource:
 detection:
   _kql_query: |
     arg("").Resources
-| where type == "microsoft.hybridcompute/machines"
-| summarize Total = dcount(id), SampleDevices = make_set(name, 10) by resourceGroup
+    | where type == "microsoft.hybridcompute/machines"
+    | summarize Total = dcount(id), SampleDevices = make_set(name, 10) by resourceGroup
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

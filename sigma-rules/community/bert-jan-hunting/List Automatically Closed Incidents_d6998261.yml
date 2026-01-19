@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     SecurityIncident
-| where ProviderName == "Microsoft 365 Defender" and ModifiedBy == "Microsoft 365 Defender"
-| extend OwnerObjectID = tostring(Owner.objectId)
-| where Status == "Closed" and Classification == "Undetermined"
-| where isempty(OwnerObjectID)
-| where isnotempty(ClassificationComment)
+    | where ProviderName == "Microsoft 365 Defender" and ModifiedBy == "Microsoft 365 Defender"
+    | extend OwnerObjectID = tostring(Owner.objectId)
+    | where Status == "Closed" and Classification == "Undetermined"
+    | where isempty(OwnerObjectID)
+    | where isnotempty(ClassificationComment)
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

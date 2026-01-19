@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     SigninLogs
-| where ResultDescription has "Conditional Access"
-| summarize Total = count() by ResultType, ResultDescription
-| render barchart with(title="Conditional Access Failures")
+    | where ResultDescription has "Conditional Access"
+    | summarize Total = count() by ResultType, ResultDescription
+    | render barchart with(title="Conditional Access Failures")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

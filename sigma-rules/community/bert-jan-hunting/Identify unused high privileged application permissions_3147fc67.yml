@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     OAuthAppInfo
-| summarize arg_max(Timestamp, *) by OAuthAppId
-| mv-expand Permissions
-| extend PermissionValue = tostring(Permissions.PermissionValue), InUse = tobool(Permissions.InUse), PrivilegeLevel = tostring(Permissions.PrivilegeLevel)
-| where InUse == false and PrivilegeLevel == "High"
-| summarize TotalMailPermissions = dcount(PermissionValue), Permissions = make_set(PermissionValue) by OAuthAppId, AppName, AppOrigin
+    | summarize arg_max(Timestamp, *) by OAuthAppId
+    | mv-expand Permissions
+    | extend PermissionValue = tostring(Permissions.PermissionValue), InUse = tobool(Permissions.InUse), PrivilegeLevel = tostring(Permissions.PrivilegeLevel)
+    | where InUse == false and PrivilegeLevel == "High"
+    | summarize TotalMailPermissions = dcount(PermissionValue), Permissions = make_set(PermissionValue) by OAuthAppId, AppName, AppOrigin
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

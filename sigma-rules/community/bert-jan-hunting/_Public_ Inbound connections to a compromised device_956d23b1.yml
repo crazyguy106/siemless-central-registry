@@ -11,19 +11,19 @@ logsource:
 detection:
   _kql_query: |
     // Add the device you are investigating in the CompromisedDevice variable
-let CompromisedDevice = "test.domain.tld";
-let SearchWindow = 10d; //Customizable h = hours, d = days
-DeviceNetworkEvents
-| where Timestamp > ago(SearchWindow)
-| where DeviceName == CompromisedDevice
-// Only list accepted inbound connections
-| where ActionType == "InboundConnectionAccepted"
-// Remove comment below if you only want to see inbound connections from public IP addresses.
-//| where RemoteIPType == "Public"
-// Enrich IP information
-| extend GeoIPInfo = geo_info_from_ip_address(RemoteIP)
-| extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
-| project Timestamp, DeviceName, RemoteIP, RemotePort, LocalIP, LocalPort, country, state
+    let CompromisedDevice = "test.domain.tld";
+    let SearchWindow = 10d; //Customizable h = hours, d = days
+    DeviceNetworkEvents
+    | where Timestamp > ago(SearchWindow)
+    | where DeviceName == CompromisedDevice
+    // Only list accepted inbound connections
+    | where ActionType == "InboundConnectionAccepted"
+    // Remove comment below if you only want to see inbound connections from public IP addresses.
+    //| where RemoteIPType == "Public"
+    // Enrich IP information
+    | extend GeoIPInfo = geo_info_from_ip_address(RemoteIP)
+    | extend country = tostring(parse_json(GeoIPInfo).country), state = tostring(parse_json(GeoIPInfo).state), city = tostring(parse_json(GeoIPInfo).city), latitude = tostring(parse_json(GeoIPInfo).latitude), longitude = tostring(parse_json(GeoIPInfo).longitude)
+    | project Timestamp, DeviceName, RemoteIP, RemotePort, LocalIP, LocalPort, country, state
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

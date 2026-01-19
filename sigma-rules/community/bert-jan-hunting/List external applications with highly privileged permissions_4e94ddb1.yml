@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     OAuthAppInfo
-| where AppOrigin == "External"
-| where PrivilegeLevel == "High"
-| summarize arg_max(Timestamp, *) by OAuthAppId
-| extend PublisherName = tostring(VerifiedPublisher.displayName), DateAdded = todatetime(VerifiedPublisher.addedDateTime)
-| project AppName, OAuthAppId, ServicePrincipalId, AddedOnTime, PublisherName, AppOwnerTenantId
+    | where AppOrigin == "External"
+    | where PrivilegeLevel == "High"
+    | summarize arg_max(Timestamp, *) by OAuthAppId
+    | extend PublisherName = tostring(VerifiedPublisher.displayName), DateAdded = todatetime(VerifiedPublisher.addedDateTime)
+    | project AppName, OAuthAppId, ServicePrincipalId, AddedOnTime, PublisherName, AppOwnerTenantId
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

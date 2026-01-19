@@ -11,19 +11,19 @@ logsource:
 detection:
   _kql_query: |
     let CompromisedDevice = "azurewin2022";
-let SearchWindow = 48h; //Customizable h = hours, d = days
-DeviceProcessEvents
-//| where DeviceName == CompromisedDevice
-| where Timestamp > ago(SearchWindow)
-| where FileName in ("net.exe", "net1.exe")
-| extend NetActionType = case(ProcessCommandLine has "accounts", "ACCOUNTS",
+    let SearchWindow = 48h; //Customizable h = hours, d = days
+    DeviceProcessEvents
+    //| where DeviceName == CompromisedDevice
+    | where Timestamp > ago(SearchWindow)
+    | where FileName in ("net.exe", "net1.exe")
+    | extend NetActionType = case(ProcessCommandLine has "accounts", "ACCOUNTS",
     ProcessCommandLine has "group", "GROUP",
     ProcessCommandLine has "user", "USER",
     ProcessCommandLine has "localgroup", "LOCALGROUP",
     "Other")
-| where NetActionType != "Other"
-| project-reorder Timestamp, ProcessCommandLine
-| sort by Timestamp
+    | where NetActionType != "Other"
+    | project-reorder Timestamp, ProcessCommandLine
+    | sort by Timestamp
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

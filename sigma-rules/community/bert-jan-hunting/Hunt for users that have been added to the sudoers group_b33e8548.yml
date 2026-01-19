@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     let Commands = dynamic([@"usermod -aG sudo", @"usermod -a -G sudo"]);
-DeviceProcessEvents
-| extend RegexGroupAddition = extract("adduser(.*) sudo", 0, ProcessCommandLine)
-| where ProcessCommandLine has_any (Commands) or isnotempty(RegexGroupAddition)
+    DeviceProcessEvents
+    | extend RegexGroupAddition = extract("adduser(.*) sudo", 0, ProcessCommandLine)
+    | where ProcessCommandLine has_any (Commands) or isnotempty(RegexGroupAddition)
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

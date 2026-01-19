@@ -5,7 +5,7 @@ level: medium
 description: |
   This query lists all the emails that have been classified as malicious based on Threat Intelligence on the mailbox.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,14 +13,14 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == "TIMailData-Inline"
-| extend Classification = parse_json(RawEventData).['Verdict']
-| extend ClassificationReason = parse_json(RawEventData).['ThreatsAndDetectionTech']
-| extend ConfidentialityLevel = parse_json(RawEventData).['PhishConfidenceLevel']
-| extend InvestigationLink = parse_json(RawEventData).['EventDeepLink'],
+    | where ActionType == "TIMailData-Inline"
+    | extend Classification = parse_json(RawEventData).['Verdict']
+    | extend ClassificationReason = parse_json(RawEventData).['ThreatsAndDetectionTech']
+    | extend ConfidentialityLevel = parse_json(RawEventData).['PhishConfidenceLevel']
+    | extend InvestigationLink = parse_json(RawEventData).['EventDeepLink'],
     NetworkMessageId = tostring(parse_json(RawEventData).NetworkMessageId)
-| join kind=leftouter (EmailEvents | project NetworkMessageId, SenderFromAddress, RecipientEmailAddress, Subject) on $left.NetworkMessageId == $right.NetworkMessageId
-| project-reorder
+    | join kind=leftouter (EmailEvents | project NetworkMessageId, SenderFromAddress, RecipientEmailAddress, Subject) on $left.NetworkMessageId == $right.NetworkMessageId
+    | project-reorder
      Timestamp,
      Classification,
      ClassificationReason,

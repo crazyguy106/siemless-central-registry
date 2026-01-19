@@ -5,7 +5,7 @@ level: medium
 description: |
   This query lists the top 10 accounts that have performed the most imporsonated users. The definiation for this field is: *Indicates whether the activity was performed by one user for another (impersonated) user*.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,14 +13,14 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where IsImpersonated == 1
-| extend
+    | where IsImpersonated == 1
+    | extend
      MailboxOwnerUPN = tostring(parse_json(RawEventData).MailboxOwnerUPN),
      ActionPerformedBy = tostring(parse_json(RawEventData).UserId)
-| where MailboxOwnerUPN != ActionPerformedBy
-| summarize Impersonators = make_set(ActionPerformedBy) by MailboxOwnerUPN
-| extend TotalImpersonators = array_length(Impersonators)
-| top 10 by TotalImpersonators
+    | where MailboxOwnerUPN != ActionPerformedBy
+    | summarize Impersonators = make_set(ActionPerformedBy) by MailboxOwnerUPN
+    | extend TotalImpersonators = array_length(Impersonators)
+    | top 10 by TotalImpersonators
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

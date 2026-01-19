@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == "DownloadOffboardingPkg"
-| extend UserId = tostring(parse_json(RawEventData).UserId), ClientIP = tostring(parse_json(RawEventData).ClientIP)
-| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
-| project-reorder Timestamp, InitiatedByAccountName, UserId, ClientIP, ActionType
+    | where ActionType == "DownloadOffboardingPkg"
+    | extend UserId = tostring(parse_json(RawEventData).UserId), ClientIP = tostring(parse_json(RawEventData).ClientIP)
+    | project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+    | project-reorder Timestamp, InitiatedByAccountName, UserId, ClientIP, ActionType
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

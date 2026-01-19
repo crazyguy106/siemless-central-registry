@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     // List with known bloodhound executions
-let BloodhoundCommands = dynamic(['-collectionMethod', 'invoke-bloodhound' ,'get-bloodHounddata']);
-DeviceProcessEvents
-| where ProcessCommandLine has_any (BloodhoundCommands)
-| project
+    let BloodhoundCommands = dynamic(['-collectionMethod', 'invoke-bloodhound' ,'get-bloodHounddata']);
+    DeviceProcessEvents
+    | where ProcessCommandLine has_any (BloodhoundCommands)
+    | project
      Timestamp,
      DeviceName,
      AccountName,

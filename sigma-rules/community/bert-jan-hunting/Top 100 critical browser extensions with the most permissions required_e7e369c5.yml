@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     DeviceTvmBrowserExtensions
-| where ExtensionRisk == "Critical"
-| summarize TotalExtentions = count(), ExtentionNames = make_set(ExtensionName) by DeviceId
-| join DeviceInfo on DeviceId
-| project DeviceName, TotalExtentions, ExtentionNames
-| top 100 by TotalExtentions
+    | where ExtensionRisk == "Critical"
+    | summarize TotalExtentions = count(), ExtentionNames = make_set(ExtensionName) by DeviceId
+    | join DeviceInfo on DeviceId
+    | project DeviceName, TotalExtentions, ExtentionNames
+    | top 100 by TotalExtentions
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

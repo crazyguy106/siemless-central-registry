@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     let ThreatIntelFeed = externaldata(Domain: string)[@"https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"] with (format="txt", ignoreFirstRecord=True);
-DeviceNetworkEvents
-| where RemoteUrl has_any (ThreatIntelFeed)
-| project Timestamp, RemoteUrl, RemoteIP, DeviceName, InitiatingProcessCommandLine, InitiatingProcessFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName
+    DeviceNetworkEvents
+    | where RemoteUrl has_any (ThreatIntelFeed)
+    | project Timestamp, RemoteUrl, RemoteIP, DeviceName, InitiatingProcessCommandLine, InitiatingProcessFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

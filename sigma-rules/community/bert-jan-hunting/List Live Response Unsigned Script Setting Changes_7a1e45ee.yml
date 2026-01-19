@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == "SetAdvancedFeatures"
-| extend SettingName = tostring(parse_json(RawEventData).SettingName), SettingsNewValue = tostring(parse_json(RawEventData).SettingsNewValue)
-| where SettingName == "Live Response unsigned script execution"
-| project-reorder Timestamp, AccountId, ActionType, SettingName, SettingsNewValue
+    | where ActionType == "SetAdvancedFeatures"
+    | extend SettingName = tostring(parse_json(RawEventData).SettingName), SettingsNewValue = tostring(parse_json(RawEventData).SettingsNewValue)
+    | where SettingName == "Live Response unsigned script execution"
+    | project-reorder Timestamp, AccountId, ActionType, SettingName, SettingsNewValue
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

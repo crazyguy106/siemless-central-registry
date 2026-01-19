@@ -16,9 +16,9 @@ logsource:
 detection:
   _kql_query: |
     let EmotetDomain = externaldata(Domain: string)[@"https://raw.githubusercontent.com/Cisco-Talos/IOCs/main/2022/11/Emotet_contacted_domains.txt"] with (format="txt", ignoreFirstRecord=True);
-DeviceNetworkEvents
-| where RemoteUrl in~ (EmotetDomain)
-| project Timestamp, RemoteUrl, RemoteIP, DeviceName, InitiatingProcessCommandLine, InitiatingProcessFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName
+    DeviceNetworkEvents
+    | where RemoteUrl in~ (EmotetDomain)
+    | project Timestamp, RemoteUrl, RemoteIP, DeviceName, InitiatingProcessCommandLine, InitiatingProcessFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

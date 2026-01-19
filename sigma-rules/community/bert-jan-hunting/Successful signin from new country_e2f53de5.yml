@@ -16,12 +16,12 @@ detection:
     | where ErrorCode == 0
     | where isnotempty(Country)
     | distinct Country;
-AADSignInEventsBeta
-| where Timestamp > ago(3d)
-| where ErrorCode == 0
-| where isnotempty(Country)
-| where Country !in (KnownCountries)
-| project Timestamp, Country, UserAgent, ErrorCode, AccountObjectId,AccountDisplayName, IPAddress
+    AADSignInEventsBeta
+    | where Timestamp > ago(3d)
+    | where ErrorCode == 0
+    | where isnotempty(Country)
+    | where Country !in (KnownCountries)
+    | project Timestamp, Country, UserAgent, ErrorCode, AccountObjectId,AccountDisplayName, IPAddress
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

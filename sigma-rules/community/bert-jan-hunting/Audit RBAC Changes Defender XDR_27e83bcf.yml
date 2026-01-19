@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| extend Workload = tostring(parse_json(RawEventData).Workload)
-| where Workload contains "Defender"
-| where ActionType endswith "Role"
-| extend RoleName = tostring(parse_json(RawEventData).RoleName), RolePermissions = tostring(parse_json(RawEventData).RolePermissions), AssignedGroups = tostring(parse_json(RawEventData).AssignedGroups)
-| project-reorder Timestamp, ActionType, AccountObjectId, RoleName, RolePermissions, AssignedGroups
+    | extend Workload = tostring(parse_json(RawEventData).Workload)
+    | where Workload contains "Defender"
+    | where ActionType endswith "Role"
+    | extend RoleName = tostring(parse_json(RawEventData).RoleName), RolePermissions = tostring(parse_json(RawEventData).RolePermissions), AssignedGroups = tostring(parse_json(RawEventData).AssignedGroups)
+    | project-reorder Timestamp, ActionType, AccountObjectId, RoleName, RolePermissions, AssignedGroups
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

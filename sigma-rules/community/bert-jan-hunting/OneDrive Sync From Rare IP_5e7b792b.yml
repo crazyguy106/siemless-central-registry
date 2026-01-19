@@ -5,8 +5,8 @@ level: medium
 description: |
   This query combines the CloudAppEvents table and the SignInLogs from Entra ID to hunt for OneDrive Sync activities from a rare IP address. The variables should be set based on your needs.
 
-False Positive Consideration:
-- Big file Uploads from new IPs
+  False Positive Consideration:
+  - Big file Uploads from new IPs
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -14,20 +14,20 @@ logsource:
 detection:
   _kql_query: |
     let Threshold = 1500; // Change depeding on org needs.
-let TimeFrame = 10m;
-let EntraUserIPInfo = AADSignInEventsBeta
+    let TimeFrame = 10m;
+    let EntraUserIPInfo = AADSignInEventsBeta
     // Filter only successful logins
     | where ErrorCode == 0
     | summarize IPEventCount = count() by IPAddress, AccountObjectId
     | where IPEventCount < 500;
-CloudAppEvents
-| where ActionType == "FileSyncUploadedFull"
-| extend BaseFolder = split(parse_url(ObjectName).Path, "/")[3]
-| summarize TotalEvents = count(), BaseFolders = make_set(BaseFolder, 25) by bin(TimeGenerated, TimeFrame), AccountId, AccountDisplayName, DeviceType, OSPlatform, IPAddress
-| where TotalEvents >= Threshold
-// Filter if the activity happens in combination with a rare IP
-| join kind=inner EntraUserIPInfo on $left.AccountId == $right.AccountObjectId
-| project TimeGenerated, TotalEvents, BaseFolders,  AccountId, AccountDisplayName, DeviceType, OSPlatform, IPAddress, IPEventCount
+    CloudAppEvents
+    | where ActionType == "FileSyncUploadedFull"
+    | extend BaseFolder = split(parse_url(ObjectName).Path, "/")[3]
+    | summarize TotalEvents = count(), BaseFolders = make_set(BaseFolder, 25) by bin(TimeGenerated, TimeFrame), AccountId, AccountDisplayName, DeviceType, OSPlatform, IPAddress
+    | where TotalEvents >= Threshold
+    // Filter if the activity happens in combination with a rare IP
+    | join kind=inner EntraUserIPInfo on $left.AccountId == $right.AccountObjectId
+    | project TimeGenerated, TotalEvents, BaseFolders,  AccountId, AccountDisplayName, DeviceType, OSPlatform, IPAddress, IPEventCount
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

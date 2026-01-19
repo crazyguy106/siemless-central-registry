@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     DeviceEvents
-| where ActionType startswith 'ASR'
-| project DeviceName, ActionType
-| evaluate pivot(ActionType)
+    | where ActionType startswith 'ASR'
+    | project DeviceName, ActionType
+    | evaluate pivot(ActionType)
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -5,7 +5,7 @@ level: medium
 description: |
   List all devices with the amount of SMB sessions they have.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_defender_endpoint
@@ -13,17 +13,17 @@ logsource:
 detection:
   _kql_query: |
     let TimeFrame = 24h; //Customizable h = hours, d = days
-let AllDomainControllers =
+    let AllDomainControllers =
      DeviceNetworkEvents
      | where LocalPort == 88
      | where LocalIPType == "FourToSixMapping"
      | summarize make_set(DeviceId);
-DeviceNetworkEvents
-| where Timestamp > ago(TimeFrame)
-| where RemotePort == 445
-| where not(DeviceId in (AllDomainControllers)) // THis is to reduce FP because of e.g. MDI, if you do not have MDI do not use this filter.
-| summarize TotalRemoteConnections = dcount(RemoteIP) by DeviceName
-| sort by TotalRemoteConnections
+    DeviceNetworkEvents
+    | where Timestamp > ago(TimeFrame)
+    | where RemotePort == 445
+    | where not(DeviceId in (AllDomainControllers)) // THis is to reduce FP because of e.g. MDI, if you do not have MDI do not use this filter.
+    | summarize TotalRemoteConnections = dcount(RemoteIP) by DeviceName
+    | sort by TotalRemoteConnections
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

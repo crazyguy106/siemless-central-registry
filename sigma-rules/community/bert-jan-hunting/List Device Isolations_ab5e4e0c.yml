@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where Timestamp > ago(30d)
-| where ActionType == "IsolateDevice"
-| extend IsolatedDevice = tostring(parse_json(RawEventData).DeviceName), IsolationComment = tostring(parse_json(RawEventData).ActionComment), IsolationScope = tostring(parse_json(RawEventData).ActionScope)
-| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
-|project-reorder Timestamp, IsolatedDevice, IsolationComment, IsolationScope, InitiatedByAccountName, InitiatedByAccounttId
+    | where Timestamp > ago(30d)
+    | where ActionType == "IsolateDevice"
+    | extend IsolatedDevice = tostring(parse_json(RawEventData).DeviceName), IsolationComment = tostring(parse_json(RawEventData).ActionComment), IsolationScope = tostring(parse_json(RawEventData).ActionScope)
+    | project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+    |project-reorder Timestamp, IsolatedDevice, IsolationComment, IsolationScope, InitiatedByAccountName, InitiatedByAccounttId
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

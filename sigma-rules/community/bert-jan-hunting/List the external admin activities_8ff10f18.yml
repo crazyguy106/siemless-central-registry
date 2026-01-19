@@ -11,14 +11,14 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where IsExternalUser == 1 and AccountType == "Admin"
-| summarize
+    | where IsExternalUser == 1 and AccountType == "Admin"
+    | summarize
       TotalActivities = count(),
       ActionsPerformed = make_set(ActionType),
       Applications = make_set(Application),
       IPsUsed = make_set(IPAddress)
       by AccountId
-| sort by TotalActivities
+    | sort by TotalActivities
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

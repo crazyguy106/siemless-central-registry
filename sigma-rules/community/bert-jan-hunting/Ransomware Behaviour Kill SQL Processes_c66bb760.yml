@@ -5,7 +5,7 @@ level: medium
 description: |
   Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services or processes can inhibit or stop response to an incident or aid in the adversary's overall objectives to cause damage to the environment. In this specific case this Threat Hunting query can be used to detect the behaviour that LockBit uses, which is killing SQL related processes via the commandline before deploying ransomware. 
 
-Example commandline:
+  Example commandline:
 author: Bert-JanP
 logsource:
   product: microsoft_threat_hunting
@@ -14,13 +14,13 @@ detection:
   _kql_query: |
     The query relies on two different variables as input, the *TotalKilledThreshold* variable determines how many different processes need to be killed, the example above contains 14 different processes that are killed, by altering this variable you can also detect subsets of the executed commandline. The *TotalParametersThreshold* variable determines how many parameters have to be used in the commandline.
 
-#### Risk
-An adversary kills all SQL processes before deploying ransomware on the servers
+    #### Risk
+    An adversary kills all SQL processes before deploying ransomware on the servers
 
-#### References
-- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-325a
+    #### References
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-325a
 
-## Defender XDR
+    ## Defender XDR
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

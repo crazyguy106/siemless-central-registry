@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     DeviceLogonEvents
-| where isnotempty(FailureReason)
-| where FailureReason == "UnauthorizedLogonType"
-| summarize count() by AccountDomain, AccountName
-| sort by count_
-| render columnchart with(title="Unauthorized Logon by Domain and Account")
+    | where isnotempty(FailureReason)
+    | where FailureReason == "UnauthorizedLogonType"
+    | summarize count() by AccountDomain, AccountName
+    | sort by count_
+    | render columnchart with(title="Unauthorized Logon by Domain and Account")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -11,7 +11,7 @@ logsource:
 detection:
   _kql_query: |
     //basic KQL to query recentvictims API
-let victims = externaldata(country:string,
+    let victims = externaldata(country:string,
         activity:string,
         description:string,
         discovered:string,
@@ -22,9 +22,9 @@ let victims = externaldata(country:string,
         screenshot:string,
         website:string,
         infostealer:dynamic)
-[h@"https://api.ransomware.live/recentvictims"]
-with(format="multijson",ignoreFirstRecord=false);
-victims
+    [h@"https://api.ransomware.live/recentvictims"]
+    with(format="multijson",ignoreFirstRecord=false);
+    victims
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

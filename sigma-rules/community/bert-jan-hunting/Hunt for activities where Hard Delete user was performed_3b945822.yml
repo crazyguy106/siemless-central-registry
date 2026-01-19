@@ -5,7 +5,7 @@ level: medium
 description: |
   This query lists activities where a hard user delete has been performed.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,9 +13,9 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == "Hard Delete user."
-| extend DeletedUser = parse_json(RawEventData).ObjectId
-| project
+    | where ActionType == "Hard Delete user."
+    | extend DeletedUser = parse_json(RawEventData).ObjectId
+    | project
      Timestamp,
      ActionType,
      Application,

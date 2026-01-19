@@ -5,7 +5,7 @@ level: medium
 description: |
   Visualize the daily triggers in MDE or Sentinel in a columnchart. This can give insight into spikes in the amount of triggers.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,11 +13,11 @@ logsource:
 detection:
   _kql_query: |
     AlertInfo
-| where Timestamp > ago(30d)
-// Collect the first entry of each alert
-| summarize arg_min(Timestamp, *) by AlertId
-| summarize Total = count() by bin(Timestamp, 1d)
-| render columnchart with(title="Incident triggers last 30 days")
+    | where Timestamp > ago(30d)
+    // Collect the first entry of each alert
+    | summarize arg_min(Timestamp, *) by AlertId
+    | summarize Total = count() by bin(Timestamp, 1d)
+    | render columnchart with(title="Incident triggers last 30 days")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

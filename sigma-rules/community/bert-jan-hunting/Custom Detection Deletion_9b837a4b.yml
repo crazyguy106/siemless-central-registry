@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where Timestamp > ago(30d)
-| where ActionType == "DeleteCustomDetection"
-| extend RuleName = tostring(parse_json(RawEventData).RuleName), Query = tostring(parse_json(RawEventData).Query), AlertDescription = parse_json(RawEventData).AlertDescription
-| project-reorder AccountDisplayName, AccountId, RuleName, AlertDescription, Query
+    | where Timestamp > ago(30d)
+    | where ActionType == "DeleteCustomDetection"
+    | extend RuleName = tostring(parse_json(RawEventData).RuleName), Query = tostring(parse_json(RawEventData).Query), AlertDescription = parse_json(RawEventData).AlertDescription
+    | project-reorder AccountDisplayName, AccountId, RuleName, AlertDescription, Query
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

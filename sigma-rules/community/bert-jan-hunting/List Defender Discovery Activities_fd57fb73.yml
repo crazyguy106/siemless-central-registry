@@ -5,7 +5,7 @@ level: medium
 description: |
   This query lists the execution of Get-MpPreference, this function lists the preferences for the Windows Defender scans and updates, including the configured exclusions. Adversaries may use the information from Security Software Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions. Adversaries can abuse exclusions to execute malicious code. 
 
-False positives can be related to admins that configure/list certain settings.
+  False positives can be related to admins that configure/list certain settings.
 author: Bert-JanP
 logsource:
   product: microsoft_defender_endpoint
@@ -13,16 +13,16 @@ logsource:
 detection:
   _kql_query: |
     let ProcessBased = DeviceProcessEvents
-| where ProcessCommandLine has "Get-MpPreference"
-| extend Table = "DeviceProcessEvents"
-| project-reorder Table, Timestamp, DeviceName, ProcessCommandLine, InitiatingProcessFileName;
-let EventBased = DeviceEvents
-| extend Command = parse_json(AdditionalFields).Command
-| where  Command == "Get-MpPreference"
-| extend ScriptLocation = extract(@"literalPath '(.*?)'", 0, InitiatingProcessCommandLine)
-| extend Table = "DeviceEvents"
-| project-reorder Table, Timestamp, DeviceName, InitiatingProcessCommandLine, InitiatingProcessParentFileName, ScriptLocation;
-union ProcessBased, EventBased
+    | where ProcessCommandLine has "Get-MpPreference"
+    | extend Table = "DeviceProcessEvents"
+    | project-reorder Table, Timestamp, DeviceName, ProcessCommandLine, InitiatingProcessFileName;
+    let EventBased = DeviceEvents
+    | extend Command = parse_json(AdditionalFields).Command
+    | where  Command == "Get-MpPreference"
+    | extend ScriptLocation = extract(@"literalPath '(.*?)'", 0, InitiatingProcessCommandLine)
+    | extend Table = "DeviceEvents"
+    | project-reorder Table, Timestamp, DeviceName, InitiatingProcessCommandLine, InitiatingProcessParentFileName, ScriptLocation;
+    union ProcessBased, EventBased
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

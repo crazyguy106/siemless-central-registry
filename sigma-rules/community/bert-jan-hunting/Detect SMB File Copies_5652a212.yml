@@ -5,7 +5,7 @@ level: medium
 description: |
   Adversaries can use SMB to upload files to remote shares or to interact with files on those shares. A common technique is to upload malcious to remote host. This query detects all SMB file copies. In order to run the query effectively add the benign accounts the the whitelist.
 
-A false positive would be a aministrator that would perform legitimate SMB file copies.
+  A false positive would be a aministrator that would perform legitimate SMB file copies.
 author: Bert-JanP
 logsource:
   product: microsoft_defender_identity
@@ -13,15 +13,15 @@ logsource:
 detection:
   _kql_query: |
     let WhitelistedAccounts = dynamic(['account1', 'account2']);
-IdentityDirectoryEvents
-| where ActionType == 'SMB file copy'
-| where not(AccountName has_any (WhitelistedAccounts))
-| extend 
+    IdentityDirectoryEvents
+    | where ActionType == 'SMB file copy'
+    | where not(AccountName has_any (WhitelistedAccounts))
+    | extend 
      SMBFileCopyCount = parse_json(AdditionalFields).Count,
      FilePath = parse_json(AdditionalFields).FilePath,
      FileName = parse_json(AdditionalFields).FileName
-| project-rename SourceDeviceName = DeviceName
-| project-reorder
+    | project-rename SourceDeviceName = DeviceName
+    | project-reorder
      Timestamp,
      ActionType,
      SourceDeviceName,

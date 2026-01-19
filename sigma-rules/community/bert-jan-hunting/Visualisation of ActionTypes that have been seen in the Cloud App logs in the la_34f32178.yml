@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where Timestamp > ago(30d)
-| summarize count() by ActionType
-| render piechart with(title="ActionTypes triggered last 30 days")
+    | where Timestamp > ago(30d)
+    | summarize count() by ActionType
+    | render piechart with(title="ActionTypes triggered last 30 days")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

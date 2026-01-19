@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     DeviceLogonEvents
-| where isnotempty(FailureReason)
-| summarize count() by FailureReason
-| render piechart with (title="Logon Failure Reasons")
+    | where isnotempty(FailureReason)
+    | summarize count() by FailureReason
+    | render piechart with (title="Logon Failure Reasons")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

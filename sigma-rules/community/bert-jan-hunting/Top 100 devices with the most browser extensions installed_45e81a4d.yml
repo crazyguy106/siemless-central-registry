@@ -11,13 +11,13 @@ logsource:
 detection:
   _kql_query: |
     DeviceTvmBrowserExtensions
-| summarize
+    | summarize
      TotalExtensions = dcount(ExtensionId),
      ExtensionNames = make_set(ExtensionName)
      by DeviceId
-| join DeviceInfo on DeviceId
-| project DeviceName, TotalExtensions, ExtensionNames
-| top 100 by TotalExtensions
+    | join DeviceInfo on DeviceId
+    | project DeviceName, TotalExtensions, ExtensionNames
+    | top 100 by TotalExtensions
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

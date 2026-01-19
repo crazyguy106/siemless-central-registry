@@ -6,7 +6,7 @@ description: |
   This query visualizes the daily antivirus detections, which can give an indication in anomalous amount of activities that are performed in your environment. 
 
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -14,10 +14,10 @@ logsource:
 detection:
   _kql_query: |
     DeviceEvents
-| where Timestamp > ago(30d)
-| where ActionType == 'AntivirusDetection'
-| summarize count() by bin(Timestamp, 1d)
-| render linechart with(title="Antivirus Detections by Day")
+    | where Timestamp > ago(30d)
+    | where ActionType == 'AntivirusDetection'
+    | summarize count() by bin(Timestamp, 1d)
+    | render linechart with(title="Antivirus Detections by Day")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

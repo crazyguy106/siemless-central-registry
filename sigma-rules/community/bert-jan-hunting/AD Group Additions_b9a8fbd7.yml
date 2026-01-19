@@ -11,14 +11,14 @@ logsource:
 detection:
   _kql_query: |
     let Groups = dynamic(['Domain Admins', 'GroupName2']); // Add your sensitive groups to this list
-let SearchWindow = 48h; //Customizable h = hours, d = days
-IdentityDirectoryEvents
-| where Timestamp > (now() - SearchWindow)
-| where ActionType == "Group Membership changed"
-| extend Group = parse_json(AdditionalFields).['TO.GROUP']
-| extend GroupAdditionInitiatedBy = parse_json(AdditionalFields).['ACTOR.ACCOUNT']
-| project-reorder Group, GroupAdditionInitiatedBy
-| where Group has_any (Groups)
+    let SearchWindow = 48h; //Customizable h = hours, d = days
+    IdentityDirectoryEvents
+    | where Timestamp > (now() - SearchWindow)
+    | where ActionType == "Group Membership changed"
+    | extend Group = parse_json(AdditionalFields).['TO.GROUP']
+    | extend GroupAdditionInitiatedBy = parse_json(AdditionalFields).['ACTOR.ACCOUNT']
+    | project-reorder Group, GroupAdditionInitiatedBy
+    | where Group has_any (Groups)
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

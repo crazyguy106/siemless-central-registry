@@ -11,14 +11,14 @@ logsource:
 detection:
   _kql_query: |
     DeviceNetworkEvents
-| where ActionType == "NetworkSignatureInspected"
-| extend
+    | where ActionType == "NetworkSignatureInspected"
+    | extend
      SignatureName = tostring(parse_json(AdditionalFields).SignatureName),
      SignatureMatchedContent = tostring(parse_json(AdditionalFields).SignatureMatchedContent),
      SamplePacketContent = tostring(parse_json(AdditionalFields).SamplePacketContent)
-| where SignatureName == "SSH"
-| where SignatureMatchedContent == 'SSH-1'
-| project-reorder Timestamp, DeviceName, RemoteIP, LocalIP
+    | where SignatureName == "SSH"
+    | where SignatureMatchedContent == 'SSH-1'
+    | project-reorder Timestamp, DeviceName, RemoteIP, LocalIP
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

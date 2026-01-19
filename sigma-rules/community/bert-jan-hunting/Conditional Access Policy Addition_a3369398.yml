@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     AuditLogs
-| where OperationName == "Add conditional access policy"
-| extend DeletedPolicy = TargetResources.[0].displayName, Actor = InitiatedBy.user.userPrincipalName
-| project TimeGenerated, Actor, DeletedPolicy, TargetResources
+    | where OperationName == "Add conditional access policy"
+    | extend DeletedPolicy = TargetResources.[0].displayName, Actor = InitiatedBy.user.userPrincipalName
+    | project TimeGenerated, Actor, DeletedPolicy, TargetResources
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

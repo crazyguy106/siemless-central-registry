@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     let Threshold = 20;
-let BinSize = 1d;
-CloudAuditEvents
-| where ActionType == "CloudAuditEventDelete"
-| summarize TotalActions = count(), arg_max(Timestamp, *) by bin(Timestamp, BinSize), Account, DataSource
-| where TotalActions > Threshold
+    let BinSize = 1d;
+    CloudAuditEvents
+    | where ActionType == "CloudAuditEventDelete"
+    | summarize TotalActions = count(), arg_max(Timestamp, *) by bin(Timestamp, BinSize), Account, DataSource
+    | where TotalActions > Threshold
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

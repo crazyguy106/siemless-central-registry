@@ -16,9 +16,9 @@ detection:
     Notes: string)
     [@"https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv"] 
     with (format="csv", ignoreFirstRecord=True);
-KnowExploitesVulnsCISA
-| where DateAdded between (startofyear(now()) .. startofweek(endofyear(now())))
-| summarize Total = dcount(CVEId) by Vendor
+    KnowExploitesVulnsCISA
+    | where DateAdded between (startofyear(now()) .. startofweek(endofyear(now())))
+    | summarize Total = dcount(CVEId) by Vendor
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

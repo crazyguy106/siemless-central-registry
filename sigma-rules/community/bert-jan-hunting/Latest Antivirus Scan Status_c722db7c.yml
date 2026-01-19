@@ -11,14 +11,14 @@ logsource:
 detection:
   _kql_query: |
     DeviceEvents
-| where ActionType == "AntivirusScanCompleted"
-| summarize arg_max(Timestamp, *) by DeviceId
-| extend ScanType = tostring(parse_json(AdditionalFields).ScanTypeIndex), 
+    | where ActionType == "AntivirusScanCompleted"
+    | summarize arg_max(Timestamp, *) by DeviceId
+    | extend ScanType = tostring(parse_json(AdditionalFields).ScanTypeIndex), 
     DaysAgo = datetime_diff('day', now(), Timestamp)
-| project DeviceName, ActionType, ScanType, DaysAgo
-// Filter only devices that have not performed a antivirus scan in the last day
-| where DaysAgo > 0
-| sort by DaysAgo
+    | project DeviceName, ActionType, ScanType, DaysAgo
+    // Filter only devices that have not performed a antivirus scan in the last day
+    | where DaysAgo > 0
+    | sort by DaysAgo
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

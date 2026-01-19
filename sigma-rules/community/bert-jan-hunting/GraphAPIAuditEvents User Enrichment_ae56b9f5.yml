@@ -11,13 +11,13 @@ logsource:
 detection:
   _kql_query: |
     GraphAPIAuditEvents
-| where EntityType == "user"
-| lookup kind=leftouter (IdentityInfo
+    | where EntityType == "user"
+    | lookup kind=leftouter (IdentityInfo
     | where TimeGenerated > ago(30d)
     | summarize arg_max(TimeGenerated, *) by AccountObjectId
     | project AccountObjectId, AccountDisplayName, AccountUpn)
     on $left.AccountObjectId == $right.AccountObjectId
-| project-reorder AccountDisplayName, AccountUpn, RequestMethod, RequestUri
+    | project-reorder AccountDisplayName, AccountUpn, RequestMethod, RequestUri
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

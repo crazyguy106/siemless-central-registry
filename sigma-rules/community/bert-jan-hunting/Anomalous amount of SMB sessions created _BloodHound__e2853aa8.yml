@@ -11,16 +11,16 @@ logsource:
 detection:
   _kql_query: |
     let Threshold = 50; // Can be adjusted to reduce false positives
-DeviceNetworkEvents
-| where ingestion_time() > ago(1h)
-| where RemotePort == 445
-| summarize
+    DeviceNetworkEvents
+    | where ingestion_time() > ago(1h)
+    | where RemotePort == 445
+    | summarize
      TotalIpsAccessed = dcount(RemoteIP),
      RemoteIPs = make_set(RemoteIP),
      arg_max(Timestamp, *)
      by DeviceName, bin(Timestamp, 15m)
-| where TotalIpsAccessed >= Threshold 
-| project-reorder Timestamp, DeviceName, InitiatingProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessFolderPath
+    | where TotalIpsAccessed >= Threshold 
+    | project-reorder Timestamp, DeviceName, InitiatingProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessFolderPath
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

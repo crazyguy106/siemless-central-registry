@@ -11,12 +11,12 @@ logsource:
 detection:
   _kql_query: |
     let TimeFrame = 7d;
-DeviceFileEvents
-| where Timestamp > ago(TimeFrame)
-| extend FileType = tostring(parse_json(AdditionalFields).FileType)
-| where isnotempty(FileType)
-| summarize Total = count() by FileType
-| render piechart with(title="FileTypes used")
+    DeviceFileEvents
+    | where Timestamp > ago(TimeFrame)
+    | extend FileType = tostring(parse_json(AdditionalFields).FileType)
+    | where isnotempty(FileType)
+    | summarize Total = count() by FileType
+    | render piechart with(title="FileTypes used")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

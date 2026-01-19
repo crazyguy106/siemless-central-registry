@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     DeviceInfo
-| where OnboardingStatus == "Onboarded"
-| summarize arg_max(Timestamp, *) by DeviceId
-| summarize TotalDevices = count() by OSPlatform
+    | where OnboardingStatus == "Onboarded"
+    | summarize arg_max(Timestamp, *) by DeviceId
+    | summarize TotalDevices = count() by OSPlatform
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

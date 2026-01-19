@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == "ChangeCustomDetectionRuleStatus"
-| where RawEventData.IsEnabled == "false"
-| extend RuleName = tostring(parse_json(RawEventData.RuleName)), Query = tostring(parse_json(RawEventData.Query)), Actor = tostring(parse_json(RawEventData.UserId)), IsEnabled = RawEventData.IsEnabled
-| project-reorder Timestamp, Actor, IsEnabled, RuleName, Query
+    | where ActionType == "ChangeCustomDetectionRuleStatus"
+    | where RawEventData.IsEnabled == "false"
+    | extend RuleName = tostring(parse_json(RawEventData.RuleName)), Query = tostring(parse_json(RawEventData.Query)), Actor = tostring(parse_json(RawEventData.UserId)), IsEnabled = RawEventData.IsEnabled
+    | project-reorder Timestamp, Actor, IsEnabled, RuleName, Query
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

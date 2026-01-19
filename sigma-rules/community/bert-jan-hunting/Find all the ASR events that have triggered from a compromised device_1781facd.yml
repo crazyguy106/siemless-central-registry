@@ -11,12 +11,12 @@ logsource:
 detection:
   _kql_query: |
     let CompromisedDevice = "laptop1";
-let SearchWindow = 48h; //Customizable h = hours, d = days
-DeviceEvents
-| where Timestamp > ago(SearchWindow)
-| where DeviceName == CompromisedDevice
-| where ActionType startswith "ASR"
-| project
+    let SearchWindow = 48h; //Customizable h = hours, d = days
+    DeviceEvents
+    | where Timestamp > ago(SearchWindow)
+    | where DeviceName == CompromisedDevice
+    | where ActionType startswith "ASR"
+    | project
      Timestamp,
      ActionType,
      FileName,

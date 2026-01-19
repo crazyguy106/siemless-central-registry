@@ -5,7 +5,7 @@ level: medium
 description: |
   This query visualises the top 100 Devices that initiate the most clear text LDAP authentications. You preferably want to use an encrypted form of LDAP instead of cleartext.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_defender_identity
@@ -13,12 +13,12 @@ logsource:
 detection:
   _kql_query: |
     IdentityLogonEvents
-| where LogonType == 'LDAP cleartext'
-| where ActionType == 'LogonSuccess'
-| distinct DeviceName, AccountUpn
-| summarize TotalUniqueClearTextLDAPAuthentications = count() by DeviceName
-| top 100 by TotalUniqueClearTextLDAPAuthentications
-| render columnchart with (title="Top 100 Devices with the most Clear Text LDAP sign ins")
+    | where LogonType == 'LDAP cleartext'
+    | where ActionType == 'LogonSuccess'
+    | distinct DeviceName, AccountUpn
+    | summarize TotalUniqueClearTextLDAPAuthentications = count() by DeviceName
+    | top 100 by TotalUniqueClearTextLDAPAuthentications
+    | render columnchart with (title="Top 100 Devices with the most Clear Text LDAP sign ins")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

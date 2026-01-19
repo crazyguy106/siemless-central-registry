@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     DeviceNetworkEvents
-| where InitiatingProcessFileName == "AnyDesk.exe"
-| where LocalIPType == "Private"
-| where RemoteIPType == "Public"
-| where RemoteUrl != "boot.net.anydesk.com" // Initial AnyDesk Connection when booted.
-| project
+    | where InitiatingProcessFileName == "AnyDesk.exe"
+    | where LocalIPType == "Private"
+    | where RemoteIPType == "Public"
+    | where RemoteUrl != "boot.net.anydesk.com" // Initial AnyDesk Connection when booted.
+    | project
      Timestamp,
      DeviceId,
      InitiatingProcessAccountName,

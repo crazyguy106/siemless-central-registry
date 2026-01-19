@@ -11,13 +11,13 @@ logsource:
 detection:
   _kql_query: |
     let AccountUPN = "test@kqlquery.com";
-let SearchWindow = 48h; //Customizable h = hours, d = days
-AuditLogs
-| where TimeGenerated > ago(SearchWindow)
-| extend InitiatingUser = parse_json(InitiatedBy.user)
-| extend InitatingUPN = parse_json(InitiatingUser).userPrincipalName
-| where InitatingUPN == AccountUPN
-| project-reorder TimeGenerated, InitatingUPN, OperationName, ResultDescription, ActivityDisplayName, Resource, Result
+    let SearchWindow = 48h; //Customizable h = hours, d = days
+    AuditLogs
+    | where TimeGenerated > ago(SearchWindow)
+    | extend InitiatingUser = parse_json(InitiatedBy.user)
+    | extend InitatingUPN = parse_json(InitiatingUser).userPrincipalName
+    | where InitatingUPN == AccountUPN
+    | project-reorder TimeGenerated, InitatingUPN, OperationName, ResultDescription, ActivityDisplayName, Resource, Result
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == "SentinelDisconnectWorkspace"
-| extend WorkspaceId = tostring(RawEventData.WorkspaceId), Status = tostring(RawEventData.Status), SubscriptionId = tostring(RawEventData.SubscriptionId), ResourceGroup = tostring(RawEventData.ResourceGroup), WorkspaceType = tostring(RawEventData.WorkspaceType)
-| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
-| project-reorder Timestamp, InitiatedByAccountName, InitiatedByAccounttId, IPAddress, WorkspaceType, Status, WorkspaceId, ResourceGroup, SubscriptionId
+    | where ActionType == "SentinelDisconnectWorkspace"
+    | extend WorkspaceId = tostring(RawEventData.WorkspaceId), Status = tostring(RawEventData.Status), SubscriptionId = tostring(RawEventData.SubscriptionId), ResourceGroup = tostring(RawEventData.ResourceGroup), WorkspaceType = tostring(RawEventData.WorkspaceType)
+    | project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+    | project-reorder Timestamp, InitiatedByAccountName, InitiatedByAccounttId, IPAddress, WorkspaceType, Status, WorkspaceId, ResourceGroup, SubscriptionId
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

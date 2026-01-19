@@ -5,9 +5,9 @@ level: medium
 description: |
   This query lists successful Entra ID sign-ins were device code authentication is used from an unmanaged device. This means that a device which is not managed by your organization has succesfully met the conditions to sign-in to your tenant using a managment API In addition you can filter on the previously set conditions in combination with a risk during sign-in to filter on cases that may have more priority.
 
-The solutions for Sentinel (SigninLogs) and Defender XDR (AADSignInEventsBeta) differ slightly, but have the same output.
+  The solutions for Sentinel (SigninLogs) and Defender XDR (AADSignInEventsBeta) differ slightly, but have the same output.
 
-You can also include a filter for the Microsoft Authentication Broker application, appId = 29d9ed98-a469-4536-ade2-f981bc1d605e. This application can generate a bunch of false positives in the results, due to benign onboarding activities.
+  You can also include a filter for the Microsoft Authentication Broker application, appId = 29d9ed98-a469-4536-ade2-f981bc1d605e. This application can generate a bunch of false positives in the results, due to benign onboarding activities.
 author: Bert-JanP
 logsource:
   product: azure_ad
@@ -15,14 +15,14 @@ logsource:
 detection:
   _kql_query: |
     AADSignInEventsBeta
-// Filter only successful sign-ins
-| where ErrorCode == 0
-| where EndpointCall == "Cmsi:Cmsi"
-// Filter on unmanaged devices
-| where isempty(AadDeviceId)
-// Optionally filter only on sign-ins with a risklevel associated with the sign-in
-//| where RiskLevelDuringSignIn in(10, 50, 100)
-| project-reorder TimeGenerated, AccountUpn, EndpointCall, ErrorCode, RiskLevelDuringSignIn, Application, ApplicationId, Country, IPAddress
+    // Filter only successful sign-ins
+    | where ErrorCode == 0
+    | where EndpointCall == "Cmsi:Cmsi"
+    // Filter on unmanaged devices
+    | where isempty(AadDeviceId)
+    // Optionally filter only on sign-ins with a risklevel associated with the sign-in
+    //| where RiskLevelDuringSignIn in(10, 50, 100)
+    | project-reorder TimeGenerated, AccountUpn, EndpointCall, ErrorCode, RiskLevelDuringSignIn, Application, ApplicationId, Country, IPAddress
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

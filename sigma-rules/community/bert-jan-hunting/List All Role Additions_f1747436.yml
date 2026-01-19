@@ -11,12 +11,12 @@ logsource:
 detection:
   _kql_query: |
     AuditLogs
-| where OperationName == 'Add member to role'
-// If you do want to show PIM activations remove this filter
-| where Identity != 'MS-PIM'
-| extend RoleLine = tostring(extract(@'Role.DisplayName(.*?)"}', 1, tostring(TargetResources)))
-| extend Role = tostring(extract(@'newValue":"\\"(.*?)\\', 1, RoleLine)), userPrincipalName = parse_json(TargetResources).[0].userPrincipalName
-| project TimeGenerated, Role, OperationName, userPrincipalName, Identity
+    | where OperationName == 'Add member to role'
+    // If you do want to show PIM activations remove this filter
+    | where Identity != 'MS-PIM'
+    | extend RoleLine = tostring(extract(@'Role.DisplayName(.*?)"}', 1, tostring(TargetResources)))
+    | extend Role = tostring(extract(@'newValue":"\\"(.*?)\\', 1, RoleLine)), userPrincipalName = parse_json(TargetResources).[0].userPrincipalName
+    | project TimeGenerated, Role, OperationName, userPrincipalName, Identity
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

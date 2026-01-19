@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     MicrosoftGraphActivityLogs
-| where RequestUri has "runHuntingQuery"
-| extend ObjectId = coalesce(UserId, AppId)
-| extend ObjectType = iff(isempty(AppId), "User", "Application")
-| summarize TotalCalls = count() by ObjectId, ObjectType
+    | where RequestUri has "runHuntingQuery"
+    | extend ObjectId = coalesce(UserId, AppId)
+    | extend ObjectType = iff(isempty(AppId), "User", "Application")
+    | summarize TotalCalls = count() by ObjectId, ObjectType
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

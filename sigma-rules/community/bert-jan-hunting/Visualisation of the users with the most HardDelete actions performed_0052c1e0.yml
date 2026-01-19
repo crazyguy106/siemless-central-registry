@@ -11,18 +11,18 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == 'HardDelete'
-| extend
+    | where ActionType == 'HardDelete'
+    | extend
      Workload = parse_json(RawEventData).Workload,
      UserId = parse_json(RawEventData).UserId,
      ResultStatus = parse_json(RawEventData).ResultStatus,
      AffectedItemsJson = parse_json(RawEventData).AffectedItems
-| extend ParentFolderPath = extract('"Path":"([^"]*)"', 1, tostring(AffectedItemsJson))
-| where ResultStatus == 'Succeeded'
-| where not(ParentFolderPath has_any ("Calendar", 'Agenda')) // Remove personal deletions of Calendar items
-| summarize count() by tostring(UserId)
-| top 50 by count_
-| render columnchart with (title='HardDeletions by User')
+    | extend ParentFolderPath = extract('"Path":"([^"]*)"', 1, tostring(AffectedItemsJson))
+    | where ResultStatus == 'Succeeded'
+    | where not(ParentFolderPath has_any ("Calendar", 'Agenda')) // Remove personal deletions of Calendar items
+    | summarize count() by tostring(UserId)
+    | top 50 by count_
+    | render columnchart with (title='HardDeletions by User')
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

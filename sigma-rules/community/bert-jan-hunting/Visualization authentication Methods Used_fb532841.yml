@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     let TimeFrame = 30d;
-SigninLogs
-| where TimeGenerated > ago(TimeFrame)
-| where ResultType == 0
-| summarize Total = count() by AuthenticationProtocol, bin(TimeGenerated, 1d)
+    SigninLogs
+    | where TimeGenerated > ago(TimeFrame)
+    | where ResultType == 0
+    | summarize Total = count() by AuthenticationProtocol, bin(TimeGenerated, 1d)
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

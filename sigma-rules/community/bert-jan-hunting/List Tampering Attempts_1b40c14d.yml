@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     DeviceEvents
-| where ActionType == "TamperingAttempt"
-| extend TamperingAction = tostring(parse_json(AdditionalFields).TamperingAction), Status = tostring(parse_json(AdditionalFields).Status), Target = tostring(parse_json(AdditionalFields).Target)
-| summarize TotalActions = count(), Actions = make_set(TamperingAction), Targets = make_set(Target), RegistryNames = make_set(RegistryValueName), InitatingCommandLine = make_set(InitiatingProcessCommandLine) by DeviceName
+    | where ActionType == "TamperingAttempt"
+    | extend TamperingAction = tostring(parse_json(AdditionalFields).TamperingAction), Status = tostring(parse_json(AdditionalFields).Status), Target = tostring(parse_json(AdditionalFields).Target)
+    | summarize TotalActions = count(), Actions = make_set(TamperingAction), Targets = make_set(Target), RegistryNames = make_set(RegistryValueName), InitatingCommandLine = make_set(InitiatingProcessCommandLine) by DeviceName
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

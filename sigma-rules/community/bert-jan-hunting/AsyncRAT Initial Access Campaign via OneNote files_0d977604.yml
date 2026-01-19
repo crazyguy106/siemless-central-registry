@@ -5,7 +5,7 @@ level: medium
 description: |
   In recent days there has been a increase in malicious OneNote files to deliver AsyncRAT. This query can be used to start a hunt for malicious files in your environment. The OneNote files have to be delivered by mail and have to be opened in order to pop-up in the results of this query. This will indicate that a user has opened the attachment from the mail. From there a investigation needs to be started to determin if the file is benign or malicious. 
 
-This query cannot determine if the OneNote file was malicious. It will only give an indication based on the sender and filename.
+  This query cannot determine if the OneNote file was malicious. It will only give an indication based on the sender and filename.
 author: Bert-JanP
 logsource:
   product: microsoft_threat_hunting
@@ -13,15 +13,15 @@ logsource:
 detection:
   _kql_query: |
     EmailEvents
-// Only select inbound mails
-| where EmailDirection == "Inbound"
-// Join the attachment information where onenote files have been send
-| join kind=inner (EmailAttachmentInfo
+    // Only select inbound mails
+    | where EmailDirection == "Inbound"
+    // Join the attachment information where onenote files have been send
+    | join kind=inner (EmailAttachmentInfo
      | where FileType == "one;onenote")
      on NetworkMessageId
-| project SenderFromAddress, RecipientEmailAddress, Subject, FileName, SHA256
-// Join the file events, which means that the attachment has been opened.
-| join kind=inner (DeviceFileEvents
+    | project SenderFromAddress, RecipientEmailAddress, Subject, FileName, SHA256
+    // Join the file events, which means that the attachment has been opened.
+    | join kind=inner (DeviceFileEvents
      | project DeviceName, SHA256, FolderPath)
      on SHA256
   condition: _kql_query

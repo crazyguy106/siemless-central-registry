@@ -11,9 +11,9 @@ logsource:
 detection:
   _kql_query: |
     DeviceTvmSoftwareVulnerabilities
-| where VulnerabilitySeverityLevel has_any ('critical', 'High')
-| summarize count(), VulnerableCVE = make_set(CveId) by DeviceName
-| top 10 by count_
+    | where VulnerabilitySeverityLevel has_any ('critical', 'High')
+    | summarize count(), VulnerableCVE = make_set(CveId) by DeviceName
+    | top 10 by count_
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -11,8 +11,8 @@ logsource:
 detection:
   _kql_query: |
     DeviceImageLoadEvents
-| where FileName == 'CoreUIComponent.dll'
-| where not(FolderPath has_any (@"\Windows\System32", @"\Windows\SysWOW64", @"\winsxs\", @"\program files"))
+    | where FileName == 'CoreUIComponent.dll'
+    | where not(FolderPath has_any (@"\Windows\System32", @"\Windows\SysWOW64", @"\winsxs\", @"\program files"))
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

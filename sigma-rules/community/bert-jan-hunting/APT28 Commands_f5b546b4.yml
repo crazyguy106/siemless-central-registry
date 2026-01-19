@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     let APT28Commands = dynamic(['Get-Content', '-w hid -nop', '-windowstyle hidden -encodedCommand', 'start-process ssh.exe', 'Get-Content -Encoding', 'Compress-Archive', 'Get-WinEvent -FilterHashtable', 'net time', 'Get-ADDomainController', 'Get-DnsClientServerAddress', 'Get-NetAdapter', 'Get-NetAdapterBinding', 'Get-NetIPConfiguration', 'Resolve-DNSName', 'ipconfig /flushdns', 'net start dnscache', 'net stop dnscache']);
-let Threshold = 3;
-let BinSize = 1d;
-DeviceProcessEvents
-| where ProcessCommandLine has_any (APT28Commands)
-| extend CommandParameter = case(ProcessCommandLine contains "Get-Content", "Get-Content",
+    let Threshold = 3;
+    let BinSize = 1d;
+    DeviceProcessEvents
+    | where ProcessCommandLine has_any (APT28Commands)
+    | extend CommandParameter = case(ProcessCommandLine contains "Get-Content", "Get-Content",
                                 ProcessCommandLine contains "-w hid -nop", "-w hid -nop",
                                 ProcessCommandLine contains "-windowstyle hidden -encodedCommand", "-windowstyle hidden -encodedCommand",
                                 ProcessCommandLine contains "start-process ssh.exe", "start-process ssh.exe",
@@ -33,8 +33,8 @@ DeviceProcessEvents
                                 ProcessCommandLine contains "net start dnscache", "net start dnscache",
                                 ProcessCommandLine contains "net stop dnscache", "net stop dnscache",
                                 "Other")
-| summarize UniqueATP28Commands = dcount(CommandParameter), APT28CommandParameters = make_set(CommandParameter), UniqueCommands = dcount(ProcessCommandLine), Commandlines = make_set(ProcessCommandLine) by DeviceId, DeviceName, bin(Timestamp, BinSize)
-| where UniqueATP28Commands >= Threshold
+    | summarize UniqueATP28Commands = dcount(CommandParameter), APT28CommandParameters = make_set(CommandParameter), UniqueCommands = dcount(ProcessCommandLine), Commandlines = make_set(ProcessCommandLine) by DeviceId, DeviceName, bin(Timestamp, BinSize)
+    | where UniqueATP28Commands >= Threshold
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -11,12 +11,12 @@ logsource:
 detection:
   _kql_query: |
     let CompromisedDevice = "laptop1.com";
-let SearchWindow = 48h; //Customizable h = hours, d = days
-IdentityQueryEvents
-| where Timestamp > ago(SearchWindow)
-| where DeviceName == CompromisedDevice
-| where Protocol == "Ldap"
-| project
+    let SearchWindow = 48h; //Customizable h = hours, d = days
+    IdentityQueryEvents
+    | where Timestamp > ago(SearchWindow)
+    | where DeviceName == CompromisedDevice
+    | where Protocol == "Ldap"
+    | project
      Timestamp,
      QueryType,
      Query,

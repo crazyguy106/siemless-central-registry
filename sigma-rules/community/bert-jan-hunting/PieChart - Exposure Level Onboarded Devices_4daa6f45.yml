@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     DeviceInfo
-| where Timestamp > ago(30d)
-| where OnboardingStatus == "Onboarded"
-| summarize arg_max(Timestamp, *) by DeviceId
-| summarize Total = count() by ExposureLevel
-| render piechart with(title="Overview Exposure Level")
+    | where Timestamp > ago(30d)
+    | where OnboardingStatus == "Onboarded"
+    | summarize arg_max(Timestamp, *) by DeviceId
+    | summarize Total = count() by ExposureLevel
+    | render piechart with(title="Overview Exposure Level")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

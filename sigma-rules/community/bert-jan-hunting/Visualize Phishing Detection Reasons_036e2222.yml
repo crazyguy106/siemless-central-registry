@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     EmailPostDeliveryEvents
-| where ThreatTypes == "Phish"
-| extend DetectionMethod = tostring(extract(@'Phish":\["(.*?)"]', 1, DetectionMethods))
-| summarize TotalEvents = count() by DetectionMethod
-| render piechart with(title="Phishing Detection Reason Overview")
+    | where ThreatTypes == "Phish"
+    | extend DetectionMethod = tostring(extract(@'Phish":\["(.*?)"]', 1, DetectionMethods))
+    | summarize TotalEvents = count() by DetectionMethod
+    | render piechart with(title="Phishing Detection Reason Overview")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

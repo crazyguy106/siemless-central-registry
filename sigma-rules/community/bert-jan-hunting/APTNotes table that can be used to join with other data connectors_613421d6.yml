@@ -5,7 +5,7 @@ level: medium
 description: |
   APTNotes table that can be used to join with other data connectors
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_threat_hunting
@@ -13,11 +13,11 @@ logsource:
 detection:
   _kql_query: |
     let APTInfo = externaldata(Filename: string, Title: string, Source: 
-string, Link: string, SHA1: string, Date: datetime, Year: int)
-[@"https://raw.githubusercontent.com/aptnotes/data/master/APTnotes.csv"] 
-with (format="csv", ignoreFirstRecord=True);
-APTInfo
-| where Year > 2015
+    string, Link: string, SHA1: string, Date: datetime, Year: int)
+    [@"https://raw.githubusercontent.com/aptnotes/data/master/APTnotes.csv"] 
+    with (format="csv", ignoreFirstRecord=True);
+    APTInfo
+    | where Year > 2015
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

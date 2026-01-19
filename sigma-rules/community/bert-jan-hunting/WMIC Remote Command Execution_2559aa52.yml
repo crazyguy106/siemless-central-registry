@@ -11,15 +11,15 @@ logsource:
 detection:
   _kql_query: |
     let IPRegex = '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}';
-DeviceProcessEvents
-| where FileName =~ "WMIC.exe"
-// Extract IP Addresses from the commandline
-| extend RemoteIP = extract(IPRegex, 0, ProcessCommandLine)
-// Only select commandlines that have a remote IP
-| where isnotempty(RemoteIP)
-// Filter Localhost, more IPs can be added to this list if they generate false postives.
-| where not( RemoteIP in ('127.0.0.1'))
-| project Timestamp, DeviceName, ProcessCommandLine, RemoteIP
+    DeviceProcessEvents
+    | where FileName =~ "WMIC.exe"
+    // Extract IP Addresses from the commandline
+    | extend RemoteIP = extract(IPRegex, 0, ProcessCommandLine)
+    // Only select commandlines that have a remote IP
+    | where isnotempty(RemoteIP)
+    // Filter Localhost, more IPs can be added to this list if they generate false postives.
+    | where not( RemoteIP in ('127.0.0.1'))
+    | project Timestamp, DeviceName, ProcessCommandLine, RemoteIP
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

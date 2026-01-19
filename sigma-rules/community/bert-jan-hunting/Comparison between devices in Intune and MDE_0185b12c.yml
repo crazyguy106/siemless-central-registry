@@ -11,15 +11,15 @@ logsource:
 detection:
   _kql_query: |
     let SearchPeriod = 30d;
-let MDEDevices = DeviceProcessEvents
+    let MDEDevices = DeviceProcessEvents
     | where TimeGenerated > ago(SearchPeriod)
     | extend DeviceNameWithoutDomain = tostring(split(DeviceName, ".", 0)[0])
     | distinct DeviceNameWithoutDomain;
-IntuneDevices
-| where todatetime(LastContact) > ago(SearchPeriod)
-| summarize arg_max(TimeGenerated, DeviceName, LastContact) by DeviceId
-| extend MDEStatus = iff(DeviceName in~ (MDEDevices), "MDE Onboarded", "Not Onboarded")
-| summarize Total = count(), Devices = make_set(DeviceName) by MDEStatus
+    IntuneDevices
+    | where todatetime(LastContact) > ago(SearchPeriod)
+    | summarize arg_max(TimeGenerated, DeviceName, LastContact) by DeviceId
+    | extend MDEStatus = iff(DeviceName in~ (MDEDevices), "MDE Onboarded", "Not Onboarded")
+    | summarize Total = count(), Devices = make_set(DeviceName) by MDEStatus
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

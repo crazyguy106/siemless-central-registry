@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     DeviceTvmSecureConfigurationAssessment
-| summarize TotalDevices = dcount(DeviceId) by ConfigurationId, ConfigurationCategory
-| join kind=inner DeviceTvmSecureConfigurationAssessmentKB on ConfigurationId
-| sort by ConfigurationImpact, TotalDevices
-| project-reorder ConfigurationId, ConfigurationImpact, TotalDevices, ConfigurationName,  ConfigurationCategory, ConfigurationSubcategory
+    | summarize TotalDevices = dcount(DeviceId) by ConfigurationId, ConfigurationCategory
+    | join kind=inner DeviceTvmSecureConfigurationAssessmentKB on ConfigurationId
+    | sort by ConfigurationImpact, TotalDevices
+    | project-reorder ConfigurationId, ConfigurationImpact, TotalDevices, ConfigurationName,  ConfigurationCategory, ConfigurationSubcategory
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

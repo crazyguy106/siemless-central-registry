@@ -13,12 +13,12 @@ logsource:
 detection:
   _kql_query: |
     UrlClickEvents
-| where ActionType == 'ClickBlocked'
-// Only filter on Safe Links actions from mail
-| where Workload == 'Email'
-// join the email events
-| join kind=leftouter (EmailEvents | project NetworkMessageId, Subject, SenderFromAddress) on NetworkMessageId
-| project Timestamp, AccountUpn, Product = Workload, Url, ThreatTypes, Subject, SenderFromAddress, UrlChain
+    | where ActionType == 'ClickBlocked'
+    // Only filter on Safe Links actions from mail
+    | where Workload == 'Email'
+    // join the email events
+    | join kind=leftouter (EmailEvents | project NetworkMessageId, Subject, SenderFromAddress) on NetworkMessageId
+    | project Timestamp, AccountUpn, Product = Workload, Url, ThreatTypes, Subject, SenderFromAddress, UrlChain
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

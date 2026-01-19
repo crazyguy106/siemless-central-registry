@@ -11,14 +11,14 @@ logsource:
 detection:
   _kql_query: |
     let CompromisedDevice = "laptop.contoso.com";
-let SearchWindow = 48h; //Customizable h = hours, d = days
-DeviceEvents
-| where Timestamp > ago(SearchWindow)
-| where DeviceName == CompromisedDevice
-| where ActionType == "BrowserLaunchedToOpenUrl"
-| where InitiatingProcessFileName == "outlook.exe"
-| where RemoteUrl startswith "http"
-| project
+    let SearchWindow = 48h; //Customizable h = hours, d = days
+    DeviceEvents
+    | where Timestamp > ago(SearchWindow)
+    | where DeviceName == CompromisedDevice
+    | where ActionType == "BrowserLaunchedToOpenUrl"
+    | where InitiatingProcessFileName == "outlook.exe"
+    | where RemoteUrl startswith "http"
+    | project
      Timestamp,
      DeviceName,
      RemoteUrl,

@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where Timestamp > ago(30d)
-| where ActionType == "ExclusionConfigurationAdded"
-| extend Workload = tostring(parse_json(RawEventData).Workload), ResultStatus = tostring(parse_json(RawEventData).ResultStatus), ResultDescription = tostring(parse_json(RawEventData).ResultDescription)
-| project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
-| project-reorder Timestamp, Workload, ResultDescription, ResultStatus,  InitiatedByAccountName, InitiatedByAccounttId
+    | where Timestamp > ago(30d)
+    | where ActionType == "ExclusionConfigurationAdded"
+    | extend Workload = tostring(parse_json(RawEventData).Workload), ResultStatus = tostring(parse_json(RawEventData).ResultStatus), ResultDescription = tostring(parse_json(RawEventData).ResultDescription)
+    | project-rename InitiatedByAccountName = AccountDisplayName, InitiatedByAccounttId = AccountId
+    | project-reorder Timestamp, Workload, ResultDescription, ResultStatus,  InitiatedByAccountName, InitiatedByAccounttId
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

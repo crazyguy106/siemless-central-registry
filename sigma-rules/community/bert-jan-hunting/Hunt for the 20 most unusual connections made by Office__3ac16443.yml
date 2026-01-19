@@ -5,7 +5,7 @@ level: medium
 description: |
   Hunt for the 20 most unusual connections made by Office. 
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_defender_endpoint
@@ -13,13 +13,13 @@ logsource:
 detection:
   _kql_query: |
     let ConnectionsMadeByOfficeRegKey = @'\SOFTWARE\Microsoft\Office\16.0\Common\Internet\Server Cache';
-DeviceRegistryEvents
-| where ActionType == "RegistryValueSet"
-| where RegistryKey contains ConnectionsMadeByOfficeRegKey
-| extend Connection = split(RegistryKey, ConnectionsMadeByOfficeRegKey, 1)
-| extend Domain = extract(@"([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+", 0, RegistryKey)
-| summarize count(), InitatingDevices = make_set(DeviceName) by Domain
-| top 20 by count_ asc
+    DeviceRegistryEvents
+    | where ActionType == "RegistryValueSet"
+    | where RegistryKey contains ConnectionsMadeByOfficeRegKey
+    | extend Connection = split(RegistryKey, ConnectionsMadeByOfficeRegKey, 1)
+    | extend Domain = extract(@"([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+", 0, RegistryKey)
+    | summarize count(), InitatingDevices = make_set(DeviceName) by Domain
+    | top 20 by count_ asc
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

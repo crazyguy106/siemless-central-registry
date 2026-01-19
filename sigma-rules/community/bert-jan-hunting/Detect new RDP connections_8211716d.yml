@@ -5,7 +5,7 @@ level: medium
 description: |
   Detect new RDP connections to devices that have not been established in the past 20 days
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_defender_endpoint
@@ -17,15 +17,15 @@ detection:
      | where Timestamp > ago(20d)
      | where ActionType == "ConnectionSuccess"
      | where not(InitiatingProcessFileName == "Microsoft.Tri.Sensor.exe") 
-// DFI Sensor
+    // DFI Sensor
      | where RemotePort == 3389
      );
-PreviousRDPConnections
-| where Timestamp > ago(2d)
-| join kind=leftanti (PreviousRDPConnections
+    PreviousRDPConnections
+    | where Timestamp > ago(2d)
+    | join kind=leftanti (PreviousRDPConnections
      | where Timestamp > ago(1d))
      on DeviceName, InitiatingProcessAccountName
-| project
+    | project
      Timestamp,
      DeviceName,
      InitiatingProcessAccountDomain,
@@ -33,7 +33,7 @@ PreviousRDPConnections
      InitiatingProcessCommandLine,
      RemoteUrl,
      RemoteIP
-| sort by Timestamp
+    | sort by Timestamp
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -4,10 +4,10 @@ status: experimental
 level: medium
 description: |
   Actor: Yanluowang
-IOC Source: https://blog.talosintelligence.com/2022/08/recent-cyber-attack.html
-Publish Date: 10 August 2022
+  IOC Source: https://blog.talosintelligence.com/2022/08/recent-cyber-attack.html
+  Publish Date: 10 August 2022
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_threat_hunting
@@ -15,7 +15,7 @@ logsource:
 detection:
   _kql_query: |
     // based on https://blog.talosintelligence.com/2022/08/recent-cyber-attack.html
-let SHA256_IOC = dynamic ([
+    let SHA256_IOC = dynamic ([
      '184a2570d71eedc3c77b63fd9d2a066cd025d20ceef0f75d428c6f7e5c6965f3',
      '2fc5bf9edcfa19d48e235315e8f571638c99a1220be867e24f3965328fe94a03',
      '542c9da985633d027317e9a226ee70b4f0742dcbc59dfd2d4e59977bb870058d',
@@ -27,7 +27,7 @@ let SHA256_IOC = dynamic ([
      'bb62138d173de997b36e9b07c20b2ca13ea15e9e6cd75ea0e8162e0d3ded83b7',
      'eb3452c64970f805f1448b78cd3c05d851d758421896edd5dfbe68e08e783d18'
      ]);
-let IP_IOC = dynamic (['104.131.30.201',
+    let IP_IOC = dynamic (['104.131.30.201',
      '108.191.224.47',
      '131.150.216.118',
      '134.209.88.140',
@@ -99,7 +99,7 @@ let IP_IOC = dynamic (['104.131.30.201',
      '87.251.67.41',
      '94.142.241.194'
      ]);
-let Domain_IOC = dynamic(['cisco-help.cf',
+    let Domain_IOC = dynamic(['cisco-help.cf',
      'cisco-helpdesk.cf',
      'ciscovpn1.com',
      'ciscovpn2.com',
@@ -113,14 +113,14 @@ let Domain_IOC = dynamic(['cisco-help.cf',
      'mycisco-helpdesk.ml',
      'primecisco.com',
      'pwresetcisco.com']);
-(union isfuzzy=true
+    (union isfuzzy=true
      (DeviceFileEvents
      | where SHA256 has_any (SHA256_IOC)),
      (DeviceNetworkEvents
      | where RemoteIP has_any (IP_IOC)),
      (DeviceNetworkEvents
      | where RemoteUrl has_any (Domain_IOC))
-)
+    )
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

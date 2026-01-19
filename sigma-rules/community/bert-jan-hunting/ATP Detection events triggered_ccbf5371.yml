@@ -5,7 +5,7 @@ level: medium
 description: |
   Displays the *AtpDetection* events in CloudAppEvents.
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_security
@@ -13,12 +13,12 @@ logsource:
 detection:
   _kql_query: |
     CloudAppEvents
-| where ActionType == "AtpDetection"
-| extend
+    | where ActionType == "AtpDetection"
+    | extend
      DetectionMethod = parse_json(RawEventData).DetectionMethod,
      EventDeepLink = parse_json(RawEventData).EventDeepLink,
      FileData = parse_json(RawEventData).FileData
-| project-reorder
+    | project-reorder
      Timestamp,
      ActionType,
      Application,

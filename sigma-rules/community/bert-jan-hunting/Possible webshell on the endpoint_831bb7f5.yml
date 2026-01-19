@@ -11,15 +11,15 @@ logsource:
 detection:
   _kql_query: |
     let webservers = dynamic(["beasvc.exe", "coldfusion.exe", "httpd.exe", "owstimer.exe", "visualsvnserver.exe", "w3wp.exe", "tomcat", "apache2", "nginx"]);
-let linuxShells = dynamic(["/bin/bash", "/bin/sh", "python", "python3"]);
-let windowsShells = dynamic(["powershell.exe", "powershell_ise.exe", "cmd.exe"]);
-let exclusions = dynamic(["csc.exe", "php-cgi.exe", "vbc.exe", "conhost.exe"]);
-DeviceProcessEvents
-| where (InitiatingProcessParentFileName in~(webservers) or InitiatingProcessCommandLine in~(webservers))
-| where (InitiatingProcessFileName in~(windowsShells) or InitiatingProcessCommandLine has_any(linuxShells))
-| where FileName !in~ (exclusions)
-| extend Reason = iff(InitiatingProcessParentFileName in~ (webservers), "Suspicious web shell execution", "Suspicious webserver process")
-| summarize by FileName, DeviceName, Reason, InitiatingProcessParentFileName, InitiatingProcessCommandLine
+    let linuxShells = dynamic(["/bin/bash", "/bin/sh", "python", "python3"]);
+    let windowsShells = dynamic(["powershell.exe", "powershell_ise.exe", "cmd.exe"]);
+    let exclusions = dynamic(["csc.exe", "php-cgi.exe", "vbc.exe", "conhost.exe"]);
+    DeviceProcessEvents
+    | where (InitiatingProcessParentFileName in~(webservers) or InitiatingProcessCommandLine in~(webservers))
+    | where (InitiatingProcessFileName in~(windowsShells) or InitiatingProcessCommandLine has_any(linuxShells))
+    | where FileName !in~ (exclusions)
+    | extend Reason = iff(InitiatingProcessParentFileName in~ (webservers), "Suspicious web shell execution", "Suspicious webserver process")
+    | summarize by FileName, DeviceName, Reason, InitiatingProcessParentFileName, InitiatingProcessCommandLine
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

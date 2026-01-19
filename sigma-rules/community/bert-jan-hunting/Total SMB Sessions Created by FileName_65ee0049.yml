@@ -5,7 +5,7 @@ level: medium
 description: |
   Total SMB Sessions Created by FileName
 
-## Defender XDR
+  ## Defender XDR
 author: Bert-JanP
 logsource:
   product: microsoft_defender_endpoint
@@ -13,12 +13,12 @@ logsource:
 detection:
   _kql_query: |
     let TimeFrame = 24h; //Customizable h = hours, d = days
-DeviceNetworkEvents
-| where Timestamp > ago(TimeFrame)
-| where RemotePort == 445
-| where InitiatingProcessFileName <> "Microsoft.Tri.Sensor.exe" // MDI Sensor
-| where InitiatingProcessFileName <> "sensendr.exe" // MDE Device Discovery
-| summarize dcount(RemoteIP) by InitiatingProcessFileName, InitiatingProcessFolderPath
+    DeviceNetworkEvents
+    | where Timestamp > ago(TimeFrame)
+    | where RemotePort == 445
+    | where InitiatingProcessFileName <> "Microsoft.Tri.Sensor.exe" // MDI Sensor
+    | where InitiatingProcessFileName <> "sensendr.exe" // MDE Device Discovery
+    | summarize dcount(RemoteIP) by InitiatingProcessFileName, InitiatingProcessFolderPath
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     let killnetRansomNote = "ru.txt";
-let killnetRansomExtension = ".killnet";
-DeviceFileEvents
-| where FileName =~ killnetRansomNote or FileName endswith killnetRansomExtension
-| project-reorder Timestamp, DeviceName, FileName, FolderPath, InitiatingProcessCommandLine
+    let killnetRansomExtension = ".killnet";
+    DeviceFileEvents
+    | where FileName =~ killnetRansomNote or FileName endswith killnetRansomExtension
+    | project-reorder Timestamp, DeviceName, FileName, FolderPath, InitiatingProcessCommandLine
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

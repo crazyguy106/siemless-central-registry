@@ -11,11 +11,11 @@ logsource:
 detection:
   _kql_query: |
     let SuspiciousChildProcesses = dynamic(['cmd.exe', 'powershell.exe', 'bash.exe', 'csscript.exe', 'mshta.exe', 'msiexec.exe', 'rundll32.exe']);
-DeviceProcessEvents
-| where InitiatingProcessFileName =~ 'mshta.exe' or ProcessVersionInfoOriginalFileName  =~ 'mshta.exe'
-// Optionally only list suspicious child processes
-//| where FileName in~ (SuspiciousChildProcesses)
-| project-reorder  Timestamp, DeviceName, ProcessCommandLine, InitiatingProcessCommandLine, AccountUpn, ProcessVersionInfoOriginalFileName
+    DeviceProcessEvents
+    | where InitiatingProcessFileName =~ 'mshta.exe' or ProcessVersionInfoOriginalFileName  =~ 'mshta.exe'
+    // Optionally only list suspicious child processes
+    //| where FileName in~ (SuspiciousChildProcesses)
+    | project-reorder  Timestamp, DeviceName, ProcessCommandLine, InitiatingProcessCommandLine, AccountUpn, ProcessVersionInfoOriginalFileName
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

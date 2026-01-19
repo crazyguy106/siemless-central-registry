@@ -11,13 +11,13 @@ logsource:
 detection:
   _kql_query: |
     DeviceNetworkEvents
-| where ActionType == "NetworkSignatureInspected"
-| extend
+    | where ActionType == "NetworkSignatureInspected"
+    | extend
      SignatureName = parse_json(AdditionalFields).SignatureName,
      SignatureMatchedContent = 
-parse_json(AdditionalFields).SignatureMatchedContent
-| summarize count() by tostring(SignatureName)
-| render piechart with(title="Inspected Network Signatures")
+    parse_json(AdditionalFields).SignatureMatchedContent
+    | summarize count() by tostring(SignatureName)
+    | render piechart with(title="Inspected Network Signatures")
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -11,10 +11,10 @@ logsource:
 detection:
   _kql_query: |
     AuditLogs
-| where OperationName contains "Download users"
-| extend InitiatedByInfo = parse_json(InitiatedBy).['user']
-| extend InitiatedByUser = InitiatedByInfo.userPrincipalName
-| project-reorder OperationName, ResultDescription, InitiatedByUser, TimeGenerated
+    | where OperationName contains "Download users"
+    | extend InitiatedByInfo = parse_json(InitiatedBy).['user']
+    | extend InitiatedByUser = InitiatedByInfo.userPrincipalName
+    | project-reorder OperationName, ResultDescription, InitiatedByUser, TimeGenerated
   condition: _kql_query
 references:
   - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules
