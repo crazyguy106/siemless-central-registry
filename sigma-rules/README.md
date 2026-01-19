@@ -1,8 +1,8 @@
 # SIEMLess Sigma Rules Repository
 
-**Purpose**: Central repository for Sigma rules, including original SigmaHQ rules and Sigma+ enhanced rules
+**Purpose**: Central repository for Sigma detection rules from multiple sources
 
-**Last Updated**: January 3, 2026
+**Last Updated**: January 20, 2026
 
 ---
 
@@ -12,69 +12,56 @@
 sigma-rules/
 ├── README.md                    # This file
 ├── index.yaml                   # Index of all rules
-├── original/                    # Original SigmaHQ rules (3,000+)
+├── sigmahq/                     # Original SigmaHQ rules (3,000+)
 │   ├── windows/                 # Windows detection rules
-│   │   ├── process_creation/
-│   │   ├── security/
-│   │   ├── powershell/
-│   │   └── ...
 │   ├── linux/                   # Linux detection rules
 │   ├── cloud/                   # Cloud provider rules
 │   ├── network/                 # Network traffic rules
+│   ├── application/             # Application-specific rules
 │   └── ...
 │
-└── sigma-plus/                  # Sigma+ Enhanced rules
-    ├── windows/
-    ├── linux/
-    ├── cloud/
-    └── ...
+├── community/                   # Community-contributed rules (4,600+)
+│   ├── splunk/                  # From Splunk Security Content
+│   ├── wazuh/                   # From Wazuh
+│   ├── chronicle/               # From Google Chronicle
+│   ├── azure-sentinel/          # From Microsoft Sentinel
+│   ├── bert-jan-hunting/        # From Bert-JanP hunting queries
+│   └── mdecrevoisier/           # From mdecrevoisier
+│
+├── converted/                   # Vendor rules converted to Sigma (1,100+)
+│   └── elastic/                 # Elastic detection rules converted
+│
+├── manual/                      # Manually created custom rules
+│
+└── sigma-plus/                  # Reserved for future Sigma+ enhanced rules
 ```
 
-## What is Sigma+?
+## Folder Descriptions
 
-Sigma+ is an extension to standard Sigma rules that adds:
+| Folder | Source | Description |
+|--------|--------|-------------|
+| `sigmahq/` | [SigmaHQ/sigma](https://github.com/SigmaHQ/sigma) | Official SigmaHQ rules - auto-synced weekly |
+| `community/` | Multiple sources | Enhanced rules from security vendors and researchers |
+| `converted/` | Elastic, etc. | Vendor detection rules converted to Sigma format |
+| `manual/` | Custom | Hand-crafted rules for specific use cases |
+| `sigma-plus/` | Future | Reserved for AI-enhanced rules |
 
-| Extension | Purpose |
-|-----------|---------|
-| AGGREGATION | Count-based detection (e.g., "5+ failed logins in 1 minute") |
-| SEQUENCE | Ordered event chains (e.g., "login → privesc → lateral movement") |
-| TIME_WINDOW | Temporal constraints between events |
-| CORRELATION | Cross-log correlation (e.g., network + endpoint) |
-| TRANSFORMATION | Field value transformations (base64 decode, regex extract) |
+## Automatic Sync
 
-### Sigma+ Example
+SigmaHQ rules are automatically synced every Sunday at 2 AM UTC via GitHub Actions.
 
-```yaml
-title: Privileged Account Brute Force Attack Detection
-# ... standard Sigma fields ...
-
-# Sigma+ Extensions
-x-siemless-plus:
-  aggregation:
-    count: selection
-    groupby:
-      - TargetUserName
-      - SourceIP
-    condition: "> 5"
-    timespan: 5m
-  sequence:
-    - failed_login
-    - successful_login
-    ordered: true
-    maxspan: 15m
+**Flow:**
+```
+SigmaHQ/sigma (GitHub)
+    ↓ Weekly cron
+siemless-central-registry/sigma-rules/sigmahq/
+    ↓ Auto-commit
+SIEMLess database (via sync_from_local_registry.py)
 ```
 
 ## Statistics
 
-| Category | Original | Sigma+ | Total |
-|----------|----------|--------|-------|
-| Windows | - | - | - |
-| Linux | - | - | - |
-| Cloud | - | - | - |
-| Network | - | - | - |
-| **Total** | - | - | - |
-
-*Statistics auto-updated via sync script*
+See `index.yaml` for current rule counts by source and category.
 
 ## Sync to SIEMLess Instance
 
@@ -95,27 +82,15 @@ curl -X POST "https://your-instance/api/v1/detection/sigma-rules/sync/github" \
   -d '{"categories": ["windows", "linux"]}'
 ```
 
-## Enhancement Pipeline
-
-Rules in `sigma-plus/` have been enhanced through the SIEMLess Sigma+ Enhancement Pipeline:
-
-1. **NORMALIZE** - Map vendor fields to Sigma taxonomy
-2. **LOGIC_COMPLETION** - Fix incomplete detection logic
-3. **METADATA_ENRICHMENT** - Add MITRE ATT&CK, descriptions, false positives
-4. **SIGMA_PLUS_EXTENSION** - Add aggregation, sequence, correlation
-5. **VALIDATION** - Verify enhanced rule quality
-
-Typical enhancement metrics:
-- **Quality improvement**: +25-40 points
-- **Cost**: ~$0.06 per rule
-- **Duration**: ~14 seconds per rule
-
-## Source
-
-- **Original**: [SigmaHQ/sigma](https://github.com/SigmaHQ/sigma)
-- **Enhanced**: SIEMLess AI Enhancement Pipeline
+### Via CLI (On-Prem)
+```bash
+python scripts/sync_from_local_registry.py \
+  --path /opt/siemless/data/siemless-central-registry \
+  --sigma
+```
 
 ## License
 
-- Original Sigma rules: [SigmaHQ License](https://github.com/SigmaHQ/sigma/blob/master/LICENSE)
-- Sigma+ extensions: Proprietary - SIEMLess Technologies
+- SigmaHQ rules: [Detection Rule License (DRL) 1.1](https://github.com/SigmaHQ/sigma/blob/master/LICENSE)
+- Community rules: Various (see individual rule files)
+- Converted rules: Original vendor licenses apply
