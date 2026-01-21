@@ -1,223 +1,49 @@
-# Salesforce Audit and Security Logs - Signatures
-# Source: Elastic Filebeat Salesforce Module Documentation
-# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-salesforce
-
 signatures:
-  # =============================================================================
-  # Apex Execution Logs
-  # =============================================================================
-  - vendor: salesforce
-    product: audit
-    log_type: apex
-    version: null
-    log_format: json
-    signature_name: Salesforce Apex Execution Log
-    primary_pattern: salesforce\.apex|apex.*execution
-    confidence: 0.95
-    priority: 5
-    source: elastic_filebeat
-    description: Salesforce Apex code execution, triggers, and callouts
-    event_type: execution
-    sample_logs:
-      - '{"salesforce":{"apex":{"action":"callout","class_name":"MyController","cpu_time":150,"request_id":"abc123"}}}'
-    fields:
-      - name: salesforce.apex.action
-        type: keyword
-        ecs: event.action
-        cim: action
-        asim: EventType
-        description: Action performed by the callout
-      - name: salesforce.apex.class_name
-        type: keyword
-        ecs: code.stacktrace
-        cim: class_name
-        asim: TargetProcessName
-        description: The Apex class name
-      - name: salesforce.apex.cpu_time
-        type: float
-        ecs: event.duration
-        cim: duration
-        asim: EventDuration
-        description: CPU time in milliseconds
-      - name: salesforce.apex.request_id
-        type: keyword
-        ecs: http.request.id
-        cim: transaction_id
-        asim: EventOriginalUid
-        description: Unique ID of a single transaction
-      - name: salesforce.apex.trigger_name
-        type: keyword
-        ecs: rule.name
-        cim: signature
-        asim: RuleName
-        description: The trigger name
-      - name: salesforce.apex.user_id_derived
-        type: keyword
-        ecs: user.id
-        cim: user_id
-        asim: ActorUserId
-        description: The 18-character case-safe ID of the user
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Login Events
-  # =============================================================================
-  - vendor: salesforce
-    product: audit
-    log_type: login
-    version: null
-    log_format: json
-    signature_name: Salesforce Login Event
-    primary_pattern: salesforce\.login|Login.*event
-    confidence: 0.95
-    priority: 5
-    source: elastic_filebeat
-    description: Salesforce user authentication events
-    event_type: authentication
-    sample_logs:
-      - '{"salesforce":{"login":{"application":"Browser","client_ip":"192.168.1.100","event_type":"Login","user_id":"005xx000001234"}}}'
-    fields:
-      - name: salesforce.login.application
-        type: keyword
-        ecs: user_agent.name
-        cim: app
-        asim: TargetAppName
-        description: Application used to access the organization
-      - name: salesforce.login.client_ip
-        type: keyword
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-        description: IP address of the client
-      - name: salesforce.login.event_type
-        type: keyword
-        ecs: event.action
-        cim: action
-        asim: EventType
-        description: The type of event (Login)
-      - name: salesforce.login.session.key
-        type: keyword
-        ecs: session.id
-        cim: session_id
-        asim: TargetSessionId
-        description: The user's unique session ID
-      - name: salesforce.login.user_id
-        type: keyword
-        ecs: user.id
-        cim: user_id
-        asim: ActorUserId
-        description: The 15-character ID of the user
-      - name: salesforce.login.organization_id
-        type: keyword
-        ecs: organization.id
-        cim: vendor_account
-        asim: ActorScope
-        description: The 15-character ID of the organization
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Logout Events
-  # =============================================================================
-  - vendor: salesforce
-    product: audit
-    log_type: logout
-    version: null
-    log_format: json
-    signature_name: Salesforce Logout Event
-    primary_pattern: salesforce\.logout|Logout.*event
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: Salesforce user logout events
-    event_type: authentication
-    sample_logs:
-      - '{"salesforce":{"logout":{"event_type":"Logout","user_id":"005xx000001234","user_initiated_logout":"1"}}}'
-    fields:
-      - name: salesforce.logout.event_type
-        type: keyword
-        ecs: event.action
-        cim: action
-        asim: EventType
-        description: The type of event (Logout)
-      - name: salesforce.logout.session.key
-        type: keyword
-        ecs: session.id
-        cim: session_id
-        asim: TargetSessionId
-        description: The user's unique session ID
-      - name: salesforce.logout.user_id
-        type: keyword
-        ecs: user.id
-        cim: user_id
-        asim: ActorUserId
-        description: The 15-character ID of the user
-      - name: salesforce.logout.user_initiated_logout
-        type: keyword
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: Whether user intentionally logged out (1) or timed out (0)
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Setup Audit Trail
-  # =============================================================================
-  - vendor: salesforce
-    product: audit
-    log_type: setup_audit_trail
-    version: null
-    log_format: json
-    signature_name: Salesforce Setup Audit Trail
-    primary_pattern: salesforce\.setup_audit_trail|SetupAuditTrail
-    confidence: 0.95
-    priority: 5
-    source: elastic_filebeat
-    description: Salesforce administrative setup change audit trail
-    event_type: audit
-    sample_logs:
-      - '{"salesforce":{"setup_audit_trail":{"display":"Created permission set MAD","section":"Manage Users","created_by_id":"005xx000001234"}}}'
-    fields:
-      - name: salesforce.setup_audit_trail.display
-        type: keyword
-        ecs: message
-        cim: description
-        asim: EventMessage
-        description: Full description of changes made in Setup
-      - name: salesforce.setup_audit_trail.section
-        type: keyword
-        ecs: event.category
-        cim: category
-        asim: EventSubType
-        description: Section in the Setup menu where action occurred
-      - name: salesforce.setup_audit_trail.created_by_id
-        type: keyword
-        ecs: user.id
-        cim: user_id
-        asim: ActorUserId
-        description: ID of the user who made the change
-      - name: salesforce.setup_audit_trail.delegate_user
-        type: keyword
-        ecs: user.effective.name
-        cim: effective_user
-        asim: ActingAppName
-        description: The Login-As user who executed the action
-    upstream_sources:
-      - filebeat
-
-metadata:
-  vendor: Salesforce
-  product: Audit
-  product_full_name: Salesforce Audit and Security Logs
-  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-salesforce
-  created_date: "2026-01-19"
-  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
-  log_formats:
-    - json
-  categories:
-    - apex
-    - login
-    - logout
-    - setup_audit_trail
+- vendor: salesforce
+  product: audit
+  log_type: apex
+  version: null
+  log_format: json
+  signature_name: Salesforce Apex Execution Log
+  primary_pattern: salesforce\.apex|apex.*execution
+  confidence: 0.95
+  priority: 5
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: salesforce
+  product: audit
+  log_type: login
+  version: null
+  log_format: json
+  signature_name: Salesforce Login Event
+  primary_pattern: salesforce\.login|Login.*event
+  confidence: 0.95
+  priority: 5
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: salesforce
+  product: audit
+  log_type: logout
+  version: null
+  log_format: json
+  signature_name: Salesforce Logout Event
+  primary_pattern: salesforce\.logout|Logout.*event
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: salesforce
+  product: audit
+  log_type: setup_audit_trail
+  version: null
+  log_format: json
+  signature_name: Salesforce Setup Audit Trail
+  primary_pattern: salesforce\.setup_audit_trail|SetupAuditTrail
+  confidence: 0.95
+  priority: 5
+  source: filebeat_import
+  upstream_sources:
+  - filebeat

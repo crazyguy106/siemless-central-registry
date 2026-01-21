@@ -1,438 +1,110 @@
-# Juniper EX Series Ethernet Switch - Log Signatures
-# Source: Juniper TechLibrary - System Logging for Switches
-# https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
-
 signatures:
-  # =============================================================================
-  # ESWD - Ethernet Switching Daemon
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: switching
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX MAC Address Learning
-    primary_pattern: "ESWD_"
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: Ethernet switching daemon events (MAC learning, VLAN)
-    event_type: network
-    sample_logs:
-      - "ESWD_ST_CTL_ERROR: STP error on interface ge-0/0/1"
-      - "ESWD_STP_STATE_CHANGE_INFO: Interface ge-0/0/1 state changed from LEARNING to FORWARDING for VLAN default"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-        description: Interface name
-      - name: vlan
-        type: string
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-        description: VLAN name/ID
-      - name: state
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-        description: Port state (forwarding, blocking, learning)
-      - name: mac-address
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-        description: MAC address learned
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # L2ALD - Layer 2 Address Learning Daemon
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: switching
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX L2 Address Learning
-    primary_pattern: "L2ALD_"
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: Layer 2 address learning events
-    event_type: network
-    sample_logs:
-      - "L2ALD_MAC_LIMIT_REACHED: MAC address limit reached on interface ge-0/0/1"
-      - "L2ALD_MAC_MOVE_NOTIFICATION: MAC address 00:11:22:33:44:55 moved from ge-0/0/1 to ge-0/0/2"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: mac-address
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-        description: Affected MAC address
-      - name: vlan
-        type: string
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-      - name: old-interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: src_interface
-        asim: SrcDvcInterface
-        description: Previous interface (MAC move)
-      - name: new-interface
-        type: string
-        ecs: observer.egress.interface.name
-        cim: dest_interface
-        asim: DstDvcInterface
-        description: New interface (MAC move)
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # LACPD - Link Aggregation Control Protocol Daemon
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: switching
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX LACP Event
-    primary_pattern: "LACPD_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: Link aggregation protocol events
-    event_type: network
-    sample_logs:
-      - "LACPD_TIMEOUT: LACP timeout on interface ge-0/0/1 in ae0"
-      - "LACPD_INTF_UP: Interface ge-0/0/1 is now up in ae0"
-      - "LACPD_INTF_DOWN: Interface ge-0/0/1 is now down in ae0"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-        description: Member interface
-      - name: aggregate
-        type: string
-        ecs: network.name
-        cim: channel
-        asim: DvcInterface
-        description: Aggregate interface (ae0, ae1, etc.)
-      - name: partner-system-id
-        type: string
-        ecs: destination.mac
-        cim: dest_mac
-        asim: DstMacAddr
-        description: LACP partner system ID
-      - name: state
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-        description: LACP state
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # DOT1XD - 802.1X Authentication Daemon
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: authentication
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX 802.1X Authentication
-    primary_pattern: "DOT1XD_"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: 802.1X network access control events
-    event_type: authentication
-    sample_logs:
-      - "DOT1XD_AUTH_SUCCESS: 802.1X authentication successful for user john@example.com on interface ge-0/0/1 mac 00:11:22:33:44:55"
-      - "DOT1XD_AUTH_FAILURE: 802.1X authentication failed for user jane@example.com on interface ge-0/0/2 reason=invalid-credentials"
-      - "DOT1XD_RADIUS_ACCESS_ACCEPT: RADIUS server accepted user john@example.com"
-    fields:
-      - name: username
-        type: string
-        ecs: user.name
-        cim: user
-        asim: TargetUsername
-        description: Authenticated username
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-        description: Switch port
-      - name: mac-address
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-        description: Client MAC address
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: Authentication failure reason
-      - name: vlan
-        type: string
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-        description: Assigned VLAN
-      - name: radius-server
-        type: ip
-        ecs: server.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: RADIUS server IP
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # SNMP_TRAP - SNMP Trap Events
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX SNMP Link Event
-    primary_pattern: "SNMP_TRAP_LINK_"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: Interface link up/down events via SNMP trap
-    event_type: network
-    sample_logs:
-      - "SNMP_TRAP_LINK_DOWN: ifIndex 82, ifAdminStatus up(1), ifOperStatus down(2), ifName ge-0/0/1"
-      - "SNMP_TRAP_LINK_UP: ifIndex 82, ifAdminStatus up(1), ifOperStatus up(1), ifName ge-0/0/1"
-    fields:
-      - name: ifIndex
-        type: number
-        ecs: observer.ingress.interface.id
-        cim: interface_id
-        asim: DvcInterfaceGuid
-        description: SNMP interface index
-      - name: ifAdminStatus
-        type: string
-        ecs: event.action
-        cim: admin_status
-        asim: DvcOriginalAction
-        description: Administrative status
-      - name: ifOperStatus
-        type: string
-        ecs: event.outcome
-        cim: oper_status
-        asim: EventResult
-        description: Operational status
-      - name: ifName
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-        description: Interface name
-    upstream_sources:
-      - sigma
-      - filebeat
-
-  # =============================================================================
-  # STP/RSTP/MSTP - Spanning Tree Protocol
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: switching
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX Spanning Tree Event
-    primary_pattern: "STP_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: Spanning tree protocol events
-    event_type: network
-    sample_logs:
-      - "STP_TOPOLOGY_CHANGE: Topology change detected on interface ge-0/0/1"
-      - "STP_ROOT_CHANGE: Root bridge changed from 00:11:22:33:44:55 to 00:aa:bb:cc:dd:ee"
-      - "STP_BPDU_GUARD_TRIGGERED: BPDU guard triggered on interface ge-0/0/5"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: root-bridge
-        type: string
-        ecs: observer.mac
-        cim: dvc_mac
-        asim: DvcMacAddr
-        description: Root bridge MAC
-      - name: vlan
-        type: string
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-      - name: state
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-        description: STP port state
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Storm Control
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: switching
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX Storm Control
-    primary_pattern: "STORM_CONTROL_"
-    confidence: 0.9
-    priority: 10
-    source: official_documentation
-    description: Storm control bandwidth limit events
-    event_type: alert
-    sample_logs:
-      - "STORM_CONTROL_TRIGGERED: Storm control triggered on interface ge-0/0/1 traffic-type=broadcast"
-      - "STORM_CONTROL_CLEARED: Storm control cleared on interface ge-0/0/1"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: traffic-type
-        type: string
-        ecs: network.protocol
-        cim: protocol
-        asim: NetworkProtocol
-        description: Traffic type (broadcast, multicast, unknown-unicast)
-      - name: bandwidth-percentage
-        type: number
-        ecs: network.bytes
-        cim: bytes
-        asim: NetworkBytes
-        description: Bandwidth threshold hit
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # PoE - Power over Ethernet
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX PoE Event
-    primary_pattern: "POE_"
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: Power over Ethernet events
-    event_type: system
-    sample_logs:
-      - "POE_OVERLOAD: PoE overload on interface ge-0/0/1, device disconnected"
-      - "POE_DEVICE_DETECTED: PoE device detected on interface ge-0/0/1 power=15.4W class=3"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: power
-        type: string
-        ecs: observer.power
-        cim: power
-        asim: DvcOriginalAction
-        description: Power consumption (Watts)
-      - name: class
-        type: string
-        ecs: observer.type
-        cim: category
-        asim: EventCategory
-        description: PoE device class
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # LLDP - Link Layer Discovery Protocol
-  # =============================================================================
-  - vendor: juniper
-    product: ex
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper EX LLDP Event
-    primary_pattern: "LLDP_"
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: LLDP neighbor discovery events
-    event_type: network
-    sample_logs:
-      - "LLDP_NEIGHBOR_UP: LLDP neighbor detected on ge-0/0/1: system-name=switch2, port-id=ge-0/0/5"
-      - "LLDP_NEIGHBOR_DOWN: LLDP neighbor removed on ge-0/0/1"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: system-name
-        type: string
-        ecs: destination.domain
-        cim: dest_host
-        asim: DstHostname
-        description: LLDP neighbor system name
-      - name: port-id
-        type: string
-        ecs: destination.port
-        cim: dest_port
-        asim: DstPortNumber
-        description: LLDP neighbor port
-      - name: chassis-id
-        type: string
-        ecs: destination.mac
-        cim: dest_mac
-        asim: DstMacAddr
-        description: LLDP neighbor chassis ID
-    upstream_sources:
-      - sigma
-
-metadata:
-  vendor: Juniper
-  product: EX
-  product_full_name: Juniper EX Series Ethernet Switch
-  documentation_url: https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
-  created_date: "2026-01-18"
-  created_by: Claude (SIEMLess AI)
-  junos_version: "21.x+"
-  log_formats:
-    - syslog
-    - structured-syslog
-  categories:
-    - switching
-    - authentication
-    - system
-    - network
+- vendor: juniper
+  product: ex
+  log_type: authentication
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX 802.1X Authentication
+  primary_pattern: DOT1XD_
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: switching
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX LACP Event
+  primary_pattern: LACPD_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: switching
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX Storm Control
+  primary_pattern: STORM_CONTROL_
+  confidence: 0.9
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: switching
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX L2 Address Learning
+  primary_pattern: L2ALD_
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: switching
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX MAC Address Learning
+  primary_pattern: ESWD_
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: switching
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX Spanning Tree Event
+  primary_pattern: STP_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX PoE Event
+  primary_pattern: POE_
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX LLDP Event
+  primary_pattern: LLDP_
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: ex
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper EX SNMP Link Event
+  primary_pattern: SNMP_TRAP_LINK_
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+  - filebeat

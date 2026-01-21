@@ -1,284 +1,49 @@
-# CyberArk Privileged Access Security - Audit Log Signatures
-# Source: Elastic Filebeat CyberArk PAS Module Documentation
-# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-cyberarkpas
-
 signatures:
-  # =============================================================================
-  # Audit Events
-  # =============================================================================
-  - vendor: cyberark
-    product: pas
-    log_type: audit
-    version: null
-    log_format: json
-    signature_name: CyberArk PAS Audit Event
-    primary_pattern: cyberarkpas\.audit|Audit
-    confidence: 0.95
-    priority: 5
-    source: elastic_filebeat
-    description: CyberArk PAS audit record for all privileged access activities
-    event_type: audit
-    sample_logs:
-      - '{"action":"Logon","source_user":"admin","station":"192.168.1.100","safe":"AdminSafe","severity":"Info"}'
-    fields:
-      - name: cyberarkpas.audit.action
-        type: keyword
-        ecs: event.action
-        cim: action
-        asim: EventType
-        description: Audit record description
-      - name: cyberarkpas.audit.source_user
-        type: keyword
-        ecs: user.name
-        cim: user
-        asim: ActorUsername
-        description: User who performed the operation
-      - name: cyberarkpas.audit.target_user
-        type: keyword
-        ecs: user.target.name
-        cim: dest_user
-        asim: TargetUsername
-        description: User on which the operation was performed
-      - name: cyberarkpas.audit.station
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-        description: IP or hostname from which operation was performed
-      - name: cyberarkpas.audit.gateway_station
-        type: ip
-        ecs: observer.ip
-        cim: dvc_ip
-        asim: DvcIpAddr
-        description: IP or hostname of the PVWA server
-      - name: cyberarkpas.audit.safe
-        type: keyword
-        ecs: file.directory
-        cim: object_path
-        asim: TargetFilePath
-        description: Target Safe name
-      - name: cyberarkpas.audit.file
-        type: keyword
-        ecs: file.name
-        cim: object
-        asim: TargetFileName
-        description: Target file name
-      - name: cyberarkpas.audit.severity
-        type: keyword
-        ecs: event.severity
-        cim: severity
-        asim: EventSeverity
-        description: Audit record severity
-      - name: cyberarkpas.audit.message_id
-        type: keyword
-        ecs: event.id
-        cim: signature_id
-        asim: EventOriginalUid
-        description: Unique message ID
-      - name: cyberarkpas.audit.reason
-        type: keyword
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: Reason for the operation
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Privileged Session Events
-  # =============================================================================
-  - vendor: cyberark
-    product: pas
-    log_type: session
-    version: null
-    log_format: json
-    signature_name: CyberArk PSM Session Event
-    primary_pattern: PSM.*Session|session_id
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: CyberArk Privileged Session Manager session events
-    event_type: session
-    sample_logs:
-      - '{"action":"PSM Connect","session_id":"abc123","dst_host":"server01","protocol":"RDP","session_duration":3600}'
-    fields:
-      - name: cyberarkpas.audit.extra_details.session_id
-        type: keyword
-        ecs: session.id
-        cim: session_id
-        asim: TargetSessionId
-        description: Session identifier
-      - name: cyberarkpas.audit.extra_details.session_duration
-        type: long
-        ecs: event.duration
-        cim: duration
-        asim: EventDuration
-        description: Session duration in seconds
-      - name: cyberarkpas.audit.extra_details.dst_host
-        type: keyword
-        ecs: destination.address
-        cim: dest
-        asim: DstHostname
-        description: Destination hostname
-      - name: cyberarkpas.audit.extra_details.src_host
-        type: keyword
-        ecs: source.address
-        cim: src
-        asim: SrcHostname
-        description: Source hostname
-      - name: cyberarkpas.audit.extra_details.protocol
-        type: keyword
-        ecs: network.protocol
-        cim: protocol
-        asim: NetworkProtocol
-        description: Protocol used (RDP, SSH, etc.)
-      - name: cyberarkpas.audit.extra_details.psmid
-        type: keyword
-        ecs: observer.id
-        cim: dvc_id
-        asim: DvcId
-        description: PSM server ID
-      - name: cyberarkpas.audit.extra_details.connection_component_id
-        type: keyword
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: Connection component identifier
-      - name: cyberarkpas.audit.extra_details.recording_file
-        type: keyword
-        ecs: file.path
-        cim: file_path
-        asim: TargetFilePath
-        description: Session recording file path
-      - name: cyberarkpas.audit.extra_details.command
-        type: keyword
-        ecs: process.command_line
-        cim: process
-        asim: TargetProcessCommandLine
-        description: Command executed during session
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Password Management Events (CPM)
-  # =============================================================================
-  - vendor: cyberark
-    product: pas
-    log_type: password
-    version: null
-    log_format: json
-    signature_name: CyberArk CPM Password Event
-    primary_pattern: Password.*Change|CPM|Verify
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: CyberArk Central Policy Manager password operations
-    event_type: password
-    sample_logs:
-      - '{"action":"CPM Verify Password","ca_properties":{"user_name":"svc_account","address":"server01","cpm_status":"success"}}'
-    fields:
-      - name: cyberarkpas.audit.ca_properties.user_name
-        type: keyword
-        ecs: user.target.name
-        cim: dest_user
-        asim: TargetUsername
-        description: Target account username
-      - name: cyberarkpas.audit.ca_properties.address
-        type: keyword
-        ecs: destination.address
-        cim: dest
-        asim: DstHostname
-        description: Target account address
-      - name: cyberarkpas.audit.ca_properties.cpm_status
-        type: keyword
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-        description: CPM status of the account
-      - name: cyberarkpas.audit.ca_properties.last_task
-        type: keyword
-        ecs: event.action
-        cim: change_type
-        asim: ActorOriginalUserType
-        description: Last CPM task performed
-      - name: cyberarkpas.audit.ca_properties.retries_count
-        type: integer
-        ecs: event.retry
-        cim: retry_count
-        asim: EventCount
-        description: Number of retries
-      - name: cyberarkpas.audit.ca_properties.policy_id
-        type: keyword
-        ecs: rule.id
-        cim: policy_id
-        asim: RuleNumber
-        description: Policy ID
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Account Management Events
-  # =============================================================================
-  - vendor: cyberark
-    product: pas
-    log_type: account
-    version: null
-    log_format: json
-    signature_name: CyberArk Account Management Event
-    primary_pattern: Account.*Add|Account.*Delete|Account.*Update
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: CyberArk account lifecycle management events
-    event_type: account
-    sample_logs:
-      - '{"action":"Add Account","safe":"AdminSafe","ca_properties":{"user_name":"admin","device_type":"Windows Server"}}'
-    fields:
-      - name: cyberarkpas.audit.ca_properties.device_type
-        type: keyword
-        ecs: host.type
-        cim: dest_type
-        asim: DstDeviceType
-        description: Type of device
-      - name: cyberarkpas.audit.ca_properties.database
-        type: keyword
-        ecs: database.name
-        cim: db_name
-        asim: TargetAppName
-        description: Target database name
-      - name: cyberarkpas.audit.ca_properties.port
-        type: integer
-        ecs: destination.port
-        cim: dest_port
-        asim: DstPortNumber
-        description: Target port number
-      - name: cyberarkpas.audit.ca_properties.logon_domain
-        type: keyword
-        ecs: user.domain
-        cim: user_domain
-        asim: ActorScope
-        description: Logon domain
-      - name: cyberarkpas.audit.ca_properties.group_name
-        type: keyword
-        ecs: group.name
-        cim: group
-        asim: ActorScope
-        description: Group name
-    upstream_sources:
-      - filebeat
-
-metadata:
-  vendor: CyberArk
-  product: PAS
-  product_full_name: CyberArk Privileged Access Security
-  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-cyberarkpas
-  created_date: "2026-01-19"
-  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
-  log_formats:
-    - json
-    - syslog
-  categories:
-    - audit
-    - session
-    - password
-    - account
+- vendor: cyberark
+  product: pas
+  log_type: account
+  version: null
+  log_format: json
+  signature_name: CyberArk Account Management Event
+  primary_pattern: Account.*Add|Account.*Delete|Account.*Update
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: cyberark
+  product: pas
+  log_type: audit
+  version: null
+  log_format: json
+  signature_name: CyberArk PAS Audit Event
+  primary_pattern: cyberarkpas|CyberArk.*(?:PAS|Vault|PSM|CPM)|Privileged.*Access.*Security
+  confidence: 0.95
+  priority: 5
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: cyberark
+  product: pas
+  log_type: password
+  version: null
+  log_format: json
+  signature_name: CyberArk CPM Password Event
+  primary_pattern: Password.*Change|CPM|Verify
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: cyberark
+  product: pas
+  log_type: session
+  version: null
+  log_format: json
+  signature_name: CyberArk PSM Session Event
+  primary_pattern: PSM.*Session|session_id
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat

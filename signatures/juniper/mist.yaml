@@ -1,409 +1,85 @@
-# Juniper Mist AI-Driven Wireless Platform - Log Signatures
-# Source: Juniper TechLibrary - Mist Syslog Configuration
-# https://www.juniper.net/documentation/us/en/software/mist/mist-wired/topics/task/configure-syslog.html
-
 signatures:
-  # =============================================================================
-  # Mist Access Point Events
-  # =============================================================================
-  - vendor: juniper
-    product: mist
-    log_type: wireless
-    version: "2024+"
-    log_format: syslog
-    signature_name: Juniper Mist AP Client Association
-    primary_pattern: "MIST_CLIENT_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: Wireless client association/disassociation events
-    event_type: authentication
-    sample_logs:
-      - "MIST_CLIENT_CONNECT: Client 00:11:22:33:44:55 associated to AP ap-lobby SSID=Corporate BSSID=00:aa:bb:cc:dd:01"
-      - "MIST_CLIENT_DISCONNECT: Client 00:11:22:33:44:55 disassociated from AP ap-lobby reason=deauthenticated"
-      - "MIST_CLIENT_ROAM: Client 00:11:22:33:44:55 roamed from AP ap-lobby to AP ap-conf-room"
-    fields:
-      - name: client-mac
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-        description: Client MAC address
-      - name: ap-name
-        type: string
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: Access point name
-      - name: ssid
-        type: string
-        ecs: network.name
-        cim: ssid
-        asim: NetworkProtocol
-        description: Wireless network SSID
-      - name: bssid
-        type: string
-        ecs: observer.mac
-        cim: dvc_mac
-        asim: DvcMacAddr
-        description: Basic Service Set Identifier
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: Association/disassociation reason
-      - name: band
-        type: string
-        ecs: network.protocol
-        cim: protocol
-        asim: NetworkProtocol
-        description: Radio band (2.4GHz, 5GHz, 6GHz)
-      - name: channel
-        type: number
-        ecs: network.vlan.id
-        cim: channel
-        asim: NetworkVlanId
-        description: Radio channel
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Mist Authentication Events
-  # =============================================================================
-  - vendor: juniper
-    product: mist
-    log_type: authentication
-    version: "2024+"
-    log_format: syslog
-    signature_name: Juniper Mist 802.1X Authentication
-    primary_pattern: "MIST_AUTH_"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: 802.1X/RADIUS authentication events
-    event_type: authentication
-    sample_logs:
-      - "MIST_AUTH_SUCCESS: 802.1X authentication successful for user john@example.com mac 00:11:22:33:44:55 AP ap-lobby"
-      - "MIST_AUTH_FAILURE: 802.1X authentication failed for user jane@example.com mac 00:11:22:33:44:66 reason=invalid-password"
-      - "MIST_AUTH_RADIUS_TIMEOUT: RADIUS timeout for client 00:11:22:33:44:77 server 10.0.0.100"
-    fields:
-      - name: username
-        type: string
-        ecs: user.name
-        cim: user
-        asim: TargetUsername
-        description: Authenticated username
-      - name: client-mac
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-        description: Client MAC address
-      - name: ap-name
-        type: string
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: Access point name
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: Authentication result reason
-      - name: radius-server
-        type: ip
-        ecs: server.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: RADIUS server IP
-      - name: vlan
-        type: string
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-        description: Assigned VLAN
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Mist Rogue AP Detection
-  # =============================================================================
-  - vendor: juniper
-    product: mist
-    log_type: security
-    version: "2024+"
-    log_format: syslog
-    signature_name: Juniper Mist Rogue AP Detection
-    primary_pattern: "MIST_ROGUE_"
-    confidence: 0.9
-    priority: 5
-    source: official_documentation
-    description: Rogue access point detection events
-    event_type: alert
-    sample_logs:
-      - "MIST_ROGUE_AP_DETECTED: Rogue AP detected BSSID=00:de:ad:be:ef:01 SSID=FreeWifi detected_by=ap-lobby rssi=-55"
-      - "MIST_ROGUE_AP_CLEARED: Rogue AP cleared BSSID=00:de:ad:be:ef:01"
-    fields:
-      - name: rogue-bssid
-        type: string
-        ecs: destination.mac
-        cim: dest_mac
-        asim: DstMacAddr
-        description: Rogue AP BSSID
-      - name: rogue-ssid
-        type: string
-        ecs: network.name
-        cim: ssid
-        asim: NetworkProtocol
-        description: Rogue AP SSID
-      - name: detected-by
-        type: string
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: Detecting AP name
-      - name: rssi
-        type: number
-        ecs: event.severity
-        cim: severity
-        asim: EventSeverity
-        description: Signal strength (dBm)
-      - name: channel
-        type: number
-        ecs: network.vlan.id
-        cim: channel
-        asim: NetworkVlanId
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Mist AP Health Events
-  # =============================================================================
-  - vendor: juniper
-    product: mist
-    log_type: system
-    version: "2024+"
-    log_format: syslog
-    signature_name: Juniper Mist AP Health Event
-    primary_pattern: "MIST_AP_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: Access point health and status events
-    event_type: system
-    sample_logs:
-      - "MIST_AP_ONLINE: AP ap-lobby is online firmware=0.14.27839"
-      - "MIST_AP_OFFLINE: AP ap-conf-room went offline last_seen=2026-01-18T10:30:00Z"
-      - "MIST_AP_REBOOT: AP ap-lobby rebooting reason=firmware-upgrade"
-      - "MIST_AP_HIGH_CPU: AP ap-lobby CPU utilization high (85%)"
-    fields:
-      - name: ap-name
-        type: string
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: Access point name
-      - name: firmware
-        type: string
-        ecs: observer.version
-        cim: dvc_version
-        asim: DvcOsVersion
-        description: Firmware version
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-      - name: last-seen
-        type: datetime
-        ecs: event.end
-        cim: time
-        asim: EventEndTime
-        description: Last seen timestamp
-      - name: cpu-utilization
-        type: number
-        ecs: system.cpu.total.pct
-        cim: cpu_load_percent
-        asim: DvcOriginalAction
-        description: CPU utilization percentage
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Mist Marvis AI Events
-  # =============================================================================
-  - vendor: juniper
-    product: mist
-    log_type: system
-    version: "2024+"
-    log_format: syslog
-    signature_name: Juniper Mist Marvis AI Alert
-    primary_pattern: "MIST_MARVIS_"
-    confidence: 0.9
-    priority: 10
-    source: official_documentation
-    description: Marvis AI-driven alerts and anomalies
-    event_type: alert
-    sample_logs:
-      - "MIST_MARVIS_ANOMALY: Network anomaly detected site=building-a type=high-failure-rate metric=auth_failures threshold=10%"
-      - "MIST_MARVIS_ACTION: Marvis Action recommended site=building-a action=check_radius_server"
-    fields:
-      - name: site
-        type: string
-        ecs: observer.geo.name
-        cim: site
-        asim: DvcZone
-        description: Site name
-      - name: anomaly-type
-        type: string
-        ecs: event.category
-        cim: category
-        asim: EventCategory
-        description: Type of anomaly detected
-      - name: metric
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-        description: Affected metric
-      - name: threshold
-        type: string
-        ecs: event.severity
-        cim: severity
-        asim: EventSeverity
-        description: Threshold exceeded
-      - name: action
-        type: string
-        ecs: event.recommendation
-        cim: recommendation
-        asim: EventResultDetails
-        description: Recommended action
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Mist Location Services
-  # =============================================================================
-  - vendor: juniper
-    product: mist
-    log_type: location
-    version: "2024+"
-    log_format: syslog
-    signature_name: Juniper Mist Location Event
-    primary_pattern: "MIST_LOCATION_"
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: Client location and wayfinding events
-    event_type: network
-    sample_logs:
-      - "MIST_LOCATION_UPDATE: Client 00:11:22:33:44:55 location updated zone=lobby x=50.5 y=30.2"
-      - "MIST_LOCATION_ZONE_ENTER: Client 00:11:22:33:44:55 entered zone conference-room"
-      - "MIST_LOCATION_ZONE_EXIT: Client 00:11:22:33:44:55 exited zone lobby"
-    fields:
-      - name: client-mac
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-      - name: zone
-        type: string
-        ecs: observer.geo.name
-        cim: site
-        asim: DvcZone
-        description: Location zone name
-      - name: x-coordinate
-        type: number
-        ecs: geo.location.lon
-        cim: longitude
-        asim: SrcGeoLongitude
-        description: X coordinate on map
-      - name: y-coordinate
-        type: number
-        ecs: geo.location.lat
-        cim: latitude
-        asim: SrcGeoLatitude
-        description: Y coordinate on map
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Mist WAN Assurance (SSR/Session Smart Router)
-  # =============================================================================
-  - vendor: juniper
-    product: mist
-    log_type: wan
-    version: "2024+"
-    log_format: syslog
-    signature_name: Juniper Mist WAN Assurance Event
-    primary_pattern: "MIST_WAN_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: WAN Assurance and SD-WAN events
-    event_type: network
-    sample_logs:
-      - "MIST_WAN_LINK_DOWN: WAN link wan0 is down site=branch-1 peer=hub-1"
-      - "MIST_WAN_PATH_CHANGE: Traffic path changed for application=zoom from wan0 to lte0 reason=latency"
-      - "MIST_WAN_SLA_VIOLATION: SLA violation detected site=branch-1 app=voip latency=150ms threshold=100ms"
-    fields:
-      - name: link
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-        description: WAN link name
-      - name: site
-        type: string
-        ecs: observer.geo.name
-        cim: site
-        asim: DvcZone
-        description: Site name
-      - name: peer
-        type: string
-        ecs: destination.domain
-        cim: dest_host
-        asim: DstHostname
-        description: WAN peer/hub name
-      - name: application
-        type: string
-        ecs: network.application
-        cim: app
-        asim: NetworkApplicationProtocol
-        description: Affected application
-      - name: latency
-        type: string
-        ecs: event.duration
-        cim: duration
-        asim: NetworkDuration
-        description: Current latency
-      - name: threshold
-        type: string
-        ecs: event.severity
-        cim: severity
-        asim: EventSeverity
-        description: SLA threshold
-    upstream_sources:
-      - sigma
-
-metadata:
-  vendor: Juniper
-  product: Mist
-  product_full_name: Juniper Mist AI-Driven Network Platform
-  documentation_url: https://www.juniper.net/documentation/us/en/software/mist/mist-wired/topics/task/configure-syslog.html
-  created_date: "2026-01-18"
-  created_by: Claude (SIEMLess AI)
-  version: "2024+"
-  log_formats:
-    - syslog
-    - json
-    - webhook
-  categories:
-    - wireless
-    - authentication
-    - security
-    - system
-    - location
-    - wan
+- vendor: juniper
+  product: mist
+  log_type: authentication
+  version: null
+  log_format: syslog
+  signature_name: Juniper Mist 802.1X Authentication
+  primary_pattern: MIST_AUTH_
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mist
+  log_type: location
+  version: null
+  log_format: syslog
+  signature_name: Juniper Mist Location Event
+  primary_pattern: MIST_LOCATION_
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mist
+  log_type: security
+  version: null
+  log_format: syslog
+  signature_name: Juniper Mist Rogue AP Detection
+  primary_pattern: MIST_ROGUE_
+  confidence: 0.9
+  priority: 5
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mist
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper Mist AP Health Event
+  primary_pattern: MIST_AP_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mist
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper Mist Marvis AI Alert
+  primary_pattern: MIST_MARVIS_
+  confidence: 0.9
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mist
+  log_type: wan
+  version: null
+  log_format: syslog
+  signature_name: Juniper Mist WAN Assurance Event
+  primary_pattern: MIST_WAN_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mist
+  log_type: wireless
+  version: null
+  log_format: syslog
+  signature_name: Juniper Mist AP Client Association
+  primary_pattern: MIST_CLIENT_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma

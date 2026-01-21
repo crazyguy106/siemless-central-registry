@@ -1,524 +1,146 @@
-# Juniper MX Series Router - Log Signatures
-# Source: Juniper TechLibrary - System Logging and Routing Protocols
-# https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
-
 signatures:
-  # =============================================================================
-  # RPD_BGP - BGP Routing Protocol Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX BGP Neighbor State Change
-    primary_pattern: "RPD_BGP_NEIGHBOR_STATE_CHANGED"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: BGP neighbor session state transition
-    event_type: routing
-    sample_logs:
-      - "RPD_BGP_NEIGHBOR_STATE_CHANGED: BGP peer 203.0.113.1 (AS 65001) changed from Established to Idle"
-      - "RPD_BGP_NEIGHBOR_STATE_CHANGED: BGP peer 198.51.100.1 (AS 65002) changed from Idle to Established"
-    fields:
-      - name: peer-address
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: BGP peer IP address
-      - name: peer-as
-        type: number
-        ecs: destination.as.number
-        cim: dest_as
-        asim: DstOriginalRiskLevel
-        description: BGP peer AS number
-      - name: old-state
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcOriginalAction
-        description: Previous BGP state
-      - name: new-state
-        type: string
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-        description: New BGP state
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: State change reason
-    upstream_sources:
-      - sigma
-
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX BGP Notification
-    primary_pattern: "bgp_send_notification"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: BGP NOTIFICATION message sent to peer
-    event_type: routing
-    sample_logs:
-      - "bgp_send_notification: NOTIFICATION sent to 203.0.113.1 (External AS 65001): code 6 (Cease) subcode 6 (Other Configuration Change)"
-    fields:
-      - name: peer-address
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: peer-as
-        type: number
-        ecs: destination.as.number
-        cim: dest_as
-        asim: DstOriginalRiskLevel
-      - name: notification-code
-        type: number
-        ecs: event.code
-        cim: signature_id
-        asim: EventOriginalUid
-        description: BGP notification code
-      - name: notification-subcode
-        type: number
-        ecs: event.code
-        cim: signature_id
-        asim: EventOriginalSubType
-        description: BGP notification subcode
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # RPD_OSPF - OSPF Routing Protocol Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX OSPF Neighbor State Change
-    primary_pattern: "RPD_OSPF_NBRDOWN"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: OSPF neighbor state changed to Down
-    event_type: routing
-    sample_logs:
-      - "RPD_OSPF_NBRDOWN: OSPF neighbor 10.0.0.2 (ge-0/0/1.0) state changed from Full to Down due to Kill all neighbors"
-      - "RPD_OSPF_NBRDOWN: OSPF neighbor 10.0.0.3 (ge-0/0/2.0) state changed from Full to Down due to Inactivity timer expired"
-    fields:
-      - name: neighbor-address
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: OSPF neighbor router ID
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-        description: Interface to neighbor
-      - name: old-state
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcOriginalAction
-        description: Previous OSPF state
-      - name: new-state
-        type: string
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-        description: New OSPF state
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: State change reason
-    upstream_sources:
-      - sigma
-
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX OSPF Neighbor Up
-    primary_pattern: "RPD_OSPF_NBRUP"
-    confidence: 0.95
-    priority: 15
-    source: official_documentation
-    description: OSPF neighbor adjacency established
-    event_type: routing
-    sample_logs:
-      - "RPD_OSPF_NBRUP: OSPF neighbor 10.0.0.2 (ge-0/0/1.0) state changed to Full"
-    fields:
-      - name: neighbor-address
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: state
-        type: string
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # RPD_ISIS - IS-IS Routing Protocol Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX IS-IS Adjacency Change
-    primary_pattern: "RPD_ISIS_ADJACENCY"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: IS-IS adjacency state change
-    event_type: routing
-    sample_logs:
-      - "RPD_ISIS_ADJACENCY_DOWN: IS-IS adjacency to 0000.0000.0002 on ge-0/0/1.0 went down"
-      - "RPD_ISIS_ADJACENCY_UP: IS-IS adjacency to 0000.0000.0002 on ge-0/0/1.0 came up"
-    fields:
-      - name: system-id
-        type: string
-        ecs: destination.domain
-        cim: dest_host
-        asim: DstHostname
-        description: IS-IS system ID
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: level
-        type: string
-        ecs: event.category
-        cim: category
-        asim: EventCategory
-        description: IS-IS level (L1, L2)
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # RPD_LDP - LDP/MPLS Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX LDP Session Event
-    primary_pattern: "RPD_LDP_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: LDP session state changes
-    event_type: routing
-    sample_logs:
-      - "RPD_LDP_SESSION_UP: LDP session to 10.0.0.2 (ge-0/0/1.0) is up"
-      - "RPD_LDP_SESSION_DOWN: LDP session to 10.0.0.2 (ge-0/0/1.0) is down"
-    fields:
-      - name: neighbor-address
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # RPD_RSVP - RSVP/MPLS Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX RSVP LSP Event
-    primary_pattern: "RPD_RSVP_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: RSVP LSP state changes
-    event_type: routing
-    sample_logs:
-      - "RPD_RSVP_LSP_UP: RSVP LSP to-router2 is up"
-      - "RPD_RSVP_LSP_DOWN: RSVP LSP to-router2 is down, reason: path error"
-    fields:
-      - name: lsp-name
-        type: string
-        ecs: network.name
-        cim: channel
-        asim: NetworkProtocol
-        description: LSP name
-      - name: destination
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: LSP destination
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # SNMP_TRAP - Interface Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX Interface Link Event
-    primary_pattern: "SNMP_TRAP_LINK_"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: Interface link state changes
-    event_type: network
-    sample_logs:
-      - "SNMP_TRAP_LINK_DOWN: ifIndex 534, ifAdminStatus up(1), ifOperStatus down(2), ifName ge-0/0/1"
-      - "SNMP_TRAP_LINK_UP: ifIndex 534, ifAdminStatus up(1), ifOperStatus up(1), ifName ge-0/0/1"
-    fields:
-      - name: ifIndex
-        type: number
-        ecs: observer.ingress.interface.id
-        cim: interface_id
-        asim: DvcInterfaceGuid
-      - name: ifAdminStatus
-        type: string
-        ecs: event.action
-        cim: admin_status
-        asim: DvcOriginalAction
-      - name: ifOperStatus
-        type: string
-        ecs: event.outcome
-        cim: oper_status
-        asim: EventResult
-      - name: ifName
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-    upstream_sources:
-      - sigma
-      - filebeat
-
-  # =============================================================================
-  # CHASSISD - Chassis/Hardware Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX Chassis Event
-    primary_pattern: "CHASSISD_"
-    confidence: 0.9
-    priority: 5
-    source: official_documentation
-    description: Chassis hardware and component events
-    event_type: system
-    sample_logs:
-      - "CHASSISD_SNMP_TRAP7: FPC 0 is offline"
-      - "CHASSISD_FPC_OFFLINE: FPC 0 went offline"
-      - "CHASSISD_PEM_FAILURE: Power supply 0 has failed"
-      - "CHASSISD_FAN_FAILURE: Fan 0 has failed"
-    fields:
-      - name: component
-        type: string
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: Hardware component (FPC, PIC, PEM, FAN)
-      - name: slot
-        type: number
-        ecs: observer.ingress.interface.id
-        cim: interface_id
-        asim: DvcInterfaceGuid
-        description: Component slot number
-      - name: status
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-        description: Component status
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # RE - Routing Engine Events
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX Routing Engine Switchover
-    primary_pattern: "GRES_"
-    confidence: 0.9
-    priority: 5
-    source: official_documentation
-    description: Graceful Routing Engine Switchover events
-    event_type: system
-    sample_logs:
-      - "GRES_MASTER_CHANGE: New master RE is re0"
-      - "GRES_SWITCHOVER_COMPLETE: GRES switchover completed successfully"
-    fields:
-      - name: master-re
-        type: string
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: Master routing engine
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # BFD - Bidirectional Forwarding Detection
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX BFD Session Event
-    primary_pattern: "RPD_BFD_"
-    confidence: 0.9
-    priority: 10
-    source: official_documentation
-    description: BFD session state changes
-    event_type: routing
-    sample_logs:
-      - "RPD_BFD_SESSION_DOWN: BFD session to 10.0.0.2 is down, reason: Control detection time expired"
-      - "RPD_BFD_SESSION_UP: BFD session to 10.0.0.2 is up"
-    fields:
-      - name: neighbor-address
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-      - name: local-discriminator
-        type: string
-        ecs: network.session_id
-        cim: session_id
-        asim: NetworkSessionId
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Subscriber/AAA Events (BNG)
-  # =============================================================================
-  - vendor: juniper
-    product: mx
-    log_type: authentication
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper MX Subscriber Session Event
-    primary_pattern: "JDHCPD_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: DHCP/subscriber session events
-    event_type: authentication
-    sample_logs:
-      - "JDHCPD_SUBSCRIBER_SESSION_UP: Subscriber session created for 192.168.1.100 mac 00:11:22:33:44:55"
-      - "JDHCPD_SUBSCRIBER_SESSION_DOWN: Subscriber session terminated for 192.168.1.100"
-    fields:
-      - name: subscriber-ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: mac-address
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: username
-        type: string
-        ecs: user.name
-        cim: user
-        asim: SrcUsername
-    upstream_sources:
-      - sigma
-
-metadata:
-  vendor: Juniper
-  product: MX
-  product_full_name: Juniper MX Series Router
-  documentation_url: https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
-  created_date: "2026-01-18"
-  created_by: Claude (SIEMLess AI)
-  junos_version: "21.x+"
-  log_formats:
-    - syslog
-    - structured-syslog
-  categories:
-    - routing
-    - system
-    - authentication
+- vendor: juniper
+  product: mx
+  log_type: authentication
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX Subscriber Session Event
+  primary_pattern: JDHCPD_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX OSPF Neighbor State Change
+  primary_pattern: RPD_OSPF_NBRDOWN
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX OSPF Neighbor Up
+  primary_pattern: RPD_OSPF_NBRUP
+  confidence: 0.95
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX IS-IS Adjacency Change
+  primary_pattern: RPD_ISIS_ADJACENCY
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX BGP Neighbor State Change
+  primary_pattern: RPD_BGP_NEIGHBOR_STATE_CHANGED
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX RSVP LSP Event
+  primary_pattern: RPD_RSVP_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX BFD Session Event
+  primary_pattern: RPD_BFD_
+  confidence: 0.9
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX BGP Notification
+  primary_pattern: bgp_send_notification
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX LDP Session Event
+  primary_pattern: RPD_LDP_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX Routing Engine Switchover
+  primary_pattern: GRES_
+  confidence: 0.9
+  priority: 5
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: mx
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX Interface Link Event
+  primary_pattern: SNMP_TRAP_LINK_
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+  - filebeat
+- vendor: juniper
+  product: mx
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper MX Chassis Event
+  primary_pattern: CHASSISD_
+  confidence: 0.9
+  priority: 5
+  source: documentation_discovery
+  upstream_sources:
+  - sigma

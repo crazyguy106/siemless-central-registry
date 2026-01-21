@@ -1,36 +1,63 @@
-version: '1.0'
-vendor: Microsoft
-product: Windows Security Events
-product_full_name: Microsoft Windows Security Event Log
-log_type: structured
-source_document: 'Appendix L: Events to Monitor'
-source_url: https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor
-extraction_date: '2026-01-02'
-source_file: windows-security-events-signatures.json
-generated_at: '2026-01-04T09:34:59.787099'
-categories:
-- HighCriticality
-- System
-- PolicyTrust
-- Logon
-- ObjectAccess
-- PrivilegeUse
-- Process
-- DataProtection
-- ServiceTask
-- AccountManagement
-- Groups
-- GroupManagement
-- Kerberos
-- FirewallSecurity
-- CertificateServices
-- Firewall
-- IPsec
-- WindowsFilteringPlatform
-- NetworkPolicyServer
-field_count: 0
-fields: []
-mapped_field_count: 0
-notes: 'Windows Security Events are logged in the Security channel of Windows Event
-  Log. Criticality levels: HIGH (immediate investigation), MEDIUM (review within 24
-  hours), LOW (routine monitoring).'
+signatures:
+- vendor: microsoft
+  product: windows security
+  log_type: audit
+  version: null
+  log_format: syslog
+  signature_name: winsyslog_audit_success
+  primary_pattern: MSWinEventLog.*Audit Success
+  confidence: 0.95
+  priority: 5
+  source: bulk_import
+  upstream_sources:
+  - json:kiwi-syslog-windows-signatures.json
+- vendor: microsoft
+  product: windows security
+  log_type: audit
+  version: null
+  log_format: syslog
+  signature_name: winsyslog_audit_failure
+  primary_pattern: MSWinEventLog.*Audit Failure
+  confidence: 0.95
+  priority: 5
+  source: bulk_import
+  upstream_sources:
+  - json:kiwi-syslog-windows-signatures.json
+- vendor: microsoft
+  product: windows security
+  log_type: security
+  version: null
+  log_format: syslog
+  signature_name: kiwi_winsyslog_security
+  primary_pattern: MSWinEventLog.*Security.*Microsoft-Windows-Security-Auditing
+  confidence: 0.98
+  priority: 2
+  source: bulk_import
+  upstream_sources:
+  - json:kiwi-syslog-windows-signatures.json
+- vendor: microsoft
+  product: windows security
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: kiwi_winsyslog_generic
+  primary_pattern: MSWinEventLog.*Microsoft-Windows
+  confidence: 0.95
+  priority: 5
+  source: bulk_import
+  upstream_sources:
+  - json:kiwi-syslog-windows-signatures.json
+- vendor: Microsoft
+  product: Windows Security
+  log_type: security_event
+  version: null
+  log_format: syslog
+  signature_name: MSWinEventLog (Kiwi Syslog Format)
+  primary_pattern: MSWinEventLog.*Security.*Microsoft-Windows-Security-Auditing
+  confidence: 0.98
+  priority: 2
+  source: manual
+  secondary_patterns:
+  - Audit Success
+  - Audit Failure
+  - EventID

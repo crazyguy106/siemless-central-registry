@@ -1,76 +1,13 @@
-# MongoDB Database - Log Signatures
-# Source: Elastic Filebeat MongoDB Module Documentation
-# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-mongodb
-
 signatures:
-  - vendor: mongodb
-    product: database
-    log_type: log
-    version: null
-    log_format: json
-    signature_name: MongoDB Database Log
-    primary_pattern: mongodb\.log|mongod|mongos
-    confidence: 0.95
-    priority: 5
-    source: elastic_filebeat
-    description: MongoDB database server logs
-    event_type: database
-    sample_logs:
-      - '{"t":{"$date":"2026-01-19T10:00:00.000Z"},"s":"I","c":"COMMAND","ctx":"conn123","msg":"command","attr":{"command":"find"}}'
-    fields:
-      - name: mongodb.log.component
-        type: keyword
-        ecs: event.category
-        cim: category
-        asim: EventSubType
-        description: Functional category (ACCESS, COMMAND, CONTROL)
-      - name: mongodb.log.context
-        type: keyword
-        ecs: event.action
-        cim: action
-        asim: EventType
-        description: Log context (connection, initandlisten)
-      - name: mongodb.log.severity
-        type: keyword
-        ecs: log.level
-        cim: log_level
-        asim: EventSeverity
-        description: Severity level (F, E, W, I, D1-D5)
-      - name: mongodb.log.attr.command
-        type: keyword
-        ecs: event.action
-        cim: command
-        asim: EventType
-        description: Database command executed
-      - name: mongodb.log.attr.ns
-        type: keyword
-        ecs: database.name
-        cim: db_name
-        asim: TargetAppName
-        description: Namespace (database.collection)
-      - name: mongodb.log.attr.durationMillis
-        type: long
-        ecs: event.duration
-        cim: duration
-        asim: EventDuration
-        description: Operation duration in milliseconds
-      - name: mongodb.log.attr.user
-        type: keyword
-        ecs: user.name
-        cim: user
-        asim: ActorUsername
-        description: Authenticated user
-    upstream_sources:
-      - filebeat
-
-metadata:
-  vendor: MongoDB
-  product: Database
-  product_full_name: MongoDB Database Server
-  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-mongodb
-  created_date: "2026-01-19"
-  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
-  log_formats:
-    - json
-  categories:
-    - log
+- vendor: mongodb
+  product: database
+  log_type: log
+  version: null
+  log_format: json
+  signature_name: MongoDB Database Log
+  primary_pattern: mongodb\.log|mongod|mongos
+  confidence: 0.95
+  priority: 5
+  source: filebeat_import
+  upstream_sources:
+  - filebeat

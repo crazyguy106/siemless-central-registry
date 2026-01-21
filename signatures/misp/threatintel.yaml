@@ -1,287 +1,61 @@
-# MISP Malware Information Sharing Platform - Threat Intelligence Signatures
-# Source: Elastic Filebeat MISP Module Documentation
-# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-misp
-
 signatures:
-  # =============================================================================
-  # Threat Indicator Events
-  # =============================================================================
-  - vendor: misp
-    product: threatintel
-    log_type: indicator
-    version: null
-    log_format: json
-    signature_name: MISP Threat Indicator
-    primary_pattern: misp\.threat_indicator|indicator
-    confidence: 0.95
-    priority: 5
-    source: elastic_filebeat
-    description: MISP threat indicator (IOC) with attribution and context
-    event_type: indicator
-    sample_logs:
-      - '{"misp":{"threat_indicator":{"id":"indicator--abc123","type":"ip-src","description":"C2 server","confidence":"high"}}}'
-    fields:
-      - name: misp.threat_indicator.id
-        type: keyword
-        ecs: threat.indicator.id
-        cim: indicator_id
-        asim: ThreatId
-        description: Identifier of the threat indicator
-      - name: misp.threat_indicator.type
-        type: keyword
-        ecs: threat.indicator.type
-        cim: indicator_type
-        asim: ThreatField
-        description: Type of the threat indicator (ip-src, domain, hash, etc.)
-      - name: misp.threat_indicator.description
-        type: text
-        ecs: threat.indicator.description
-        cim: description
-        asim: ThreatDescription
-        description: Description of the threat indicator
-      - name: misp.threat_indicator.feed
-        type: text
-        ecs: threat.feed.name
-        cim: feed_name
-        asim: ThreatFeedName
-        description: Name of the threat feed
-      - name: misp.threat_indicator.valid_from
-        type: date
-        ecs: threat.indicator.first_seen
-        cim: start_time
-        asim: ThreatFirstSeen
-        description: The time from which this indicator should be considered valid
-      - name: misp.threat_indicator.valid_until
-        type: date
-        ecs: threat.indicator.last_seen
-        cim: end_time
-        asim: ThreatLastSeen
-        description: The time at which this indicator should no longer be considered valid
-      - name: misp.threat_indicator.severity
-        type: keyword
-        ecs: event.severity
-        cim: severity
-        asim: ThreatRiskLevel
-        description: Threat severity (high, medium, low)
-      - name: misp.threat_indicator.confidence
-        type: keyword
-        ecs: threat.indicator.confidence
-        cim: confidence
-        asim: ThreatConfidence
-        description: Confidence level (high, medium, low)
-      - name: misp.threat_indicator.mitre_tactic
-        type: keyword
-        ecs: threat.tactic.name
-        cim: mitre_tactic
-        asim: ThreatCategory
-        description: MITRE ATT&CK tactic
-      - name: misp.threat_indicator.mitre_technique
-        type: keyword
-        ecs: threat.technique.name
-        cim: mitre_technique
-        asim: ThreatName
-        description: MITRE ATT&CK technique
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Threat Actor Events
-  # =============================================================================
-  - vendor: misp
-    product: threatintel
-    log_type: threat_actor
-    version: null
-    log_format: json
-    signature_name: MISP Threat Actor
-    primary_pattern: misp\.threat_actor|threat_actor
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: MISP threat actor information with attribution
-    event_type: threat_actor
-    sample_logs:
-      - '{"misp":{"threat_actor":{"id":"threat-actor--xyz789","name":"APT29","aliases":["Cozy Bear","The Dukes"]}}}'
-    fields:
-      - name: misp.threat_actor.id
-        type: keyword
-        ecs: threat.group.id
-        cim: actor_id
-        asim: ThreatId
-        description: Identifier of the threat actor
-      - name: misp.threat_actor.name
-        type: keyword
-        ecs: threat.group.name
-        cim: threat_actor
-        asim: ThreatName
-        description: Name of the threat actor
-      - name: misp.threat_actor.description
-        type: text
-        ecs: threat.group.description
-        cim: description
-        asim: ThreatDescription
-        description: Description of the threat actor
-      - name: misp.threat_actor.aliases
-        type: text
-        ecs: threat.group.alias
-        cim: aliases
-        asim: ThreatName
-        description: Alternative names for the threat actor
-      - name: misp.threat_actor.sophistication
-        type: text
-        ecs: threat.group.sophistication
-        cim: sophistication
-        asim: ThreatRiskLevel
-        description: Threat actor sophistication level
-      - name: misp.threat_actor.primary_motivation
-        type: text
-        ecs: threat.group.motivation
-        cim: motivation
-        asim: ThreatCategory
-        description: Primary motivation of the threat actor
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Malware Events
-  # =============================================================================
-  - vendor: misp
-    product: threatintel
-    log_type: malware
-    version: null
-    log_format: json
-    signature_name: MISP Malware
-    primary_pattern: misp\.malware|malware
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: MISP malware information
-    event_type: malware
-    sample_logs:
-      - '{"misp":{"malware":{"id":"malware--def456","name":"Emotet","labels":["trojan","banking"]}}}'
-    fields:
-      - name: misp.malware.id
-        type: keyword
-        ecs: threat.indicator.id
-        cim: malware_id
-        asim: ThreatId
-        description: Identifier of the malware
-      - name: misp.malware.name
-        type: keyword
-        ecs: threat.indicator.name
-        cim: malware
-        asim: ThreatName
-        description: Name of the malware
-      - name: misp.malware.description
-        type: text
-        ecs: threat.indicator.description
-        cim: description
-        asim: ThreatDescription
-        description: Description of the malware
-      - name: misp.malware.labels
-        type: keyword
-        ecs: threat.indicator.type
-        cim: malware_type
-        asim: ThreatCategory
-        description: Malware type labels (ransomware, trojan, etc.)
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Campaign Events
-  # =============================================================================
-  - vendor: misp
-    product: threatintel
-    log_type: campaign
-    version: null
-    log_format: json
-    signature_name: MISP Campaign
-    primary_pattern: misp\.campaign|campaign
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: MISP attack campaign information
-    event_type: campaign
-    sample_logs:
-      - '{"misp":{"campaign":{"id":"campaign--ghi789","name":"Operation Aurora","first_seen":"2009-12-01"}}}'
-    fields:
-      - name: misp.campaign.id
-        type: keyword
-        ecs: threat.campaign.id
-        cim: campaign_id
-        asim: ThreatId
-        description: Identifier of the campaign
-      - name: misp.campaign.name
-        type: keyword
-        ecs: threat.campaign.name
-        cim: campaign
-        asim: ThreatName
-        description: Name of the campaign
-      - name: misp.campaign.description
-        type: text
-        ecs: threat.campaign.description
-        cim: description
-        asim: ThreatDescription
-        description: Description of the campaign
-      - name: misp.campaign.first_seen
-        type: date
-        ecs: threat.campaign.first_seen
-        cim: start_time
-        asim: ThreatFirstSeen
-        description: When the campaign was first seen
-      - name: misp.campaign.last_seen
-        type: date
-        ecs: threat.campaign.last_seen
-        cim: end_time
-        asim: ThreatLastSeen
-        description: When the campaign was last seen
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Intrusion Set Events
-  # =============================================================================
-  - vendor: misp
-    product: threatintel
-    log_type: intrusion_set
-    version: null
-    log_format: json
-    signature_name: MISP Intrusion Set
-    primary_pattern: misp\.intrusion_set|intrusion_set
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: MISP intrusion set information
-    event_type: intrusion_set
-    sample_logs:
-      - '{"misp":{"intrusion_set":{"id":"intrusion-set--jkl012","name":"Fancy Bear"}}}'
-    fields:
-      - name: misp.intrusion_set.id
-        type: keyword
-        ecs: threat.group.id
-        cim: intrusion_set_id
-        asim: ThreatId
-        description: Identifier of the intrusion set
-      - name: misp.intrusion_set.name
-        type: keyword
-        ecs: threat.group.name
-        cim: intrusion_set
-        asim: ThreatName
-        description: Name of the intrusion set
-    upstream_sources:
-      - filebeat
-
-metadata:
-  vendor: MISP
-  product: ThreatIntel
-  product_full_name: MISP Malware Information Sharing Platform
-  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-misp
-  created_date: "2026-01-19"
-  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
-  log_formats:
-    - json
-  categories:
-    - indicator
-    - threat_actor
-    - malware
-    - campaign
-    - intrusion_set
+- vendor: misp
+  product: threatintel
+  log_type: campaign
+  version: null
+  log_format: json
+  signature_name: MISP Campaign
+  primary_pattern: misp\.campaign|campaign
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: misp
+  product: threatintel
+  log_type: indicator
+  version: null
+  log_format: json
+  signature_name: MISP Threat Indicator
+  primary_pattern: misp\.threat_indicator|indicator
+  confidence: 0.95
+  priority: 5
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: misp
+  product: threatintel
+  log_type: intrusion_set
+  version: null
+  log_format: json
+  signature_name: MISP Intrusion Set
+  primary_pattern: misp\.intrusion_set|intrusion_set
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: misp
+  product: threatintel
+  log_type: malware
+  version: null
+  log_format: json
+  signature_name: MISP Malware
+  primary_pattern: misp\.malware|malware
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: misp
+  product: threatintel
+  log_type: threat_actor
+  version: null
+  log_format: json
+  signature_name: MISP Threat Actor
+  primary_pattern: misp\.threat_actor|threat_actor
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat

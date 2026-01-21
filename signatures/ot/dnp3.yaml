@@ -1,6 +1,18 @@
 signatures:
 - vendor: ot
   product: dnp3
+  log_type: ot_traffic
+  version: null
+  log_format: kv
+  signature_name: dnp3_generic
+  primary_pattern: (?i)dnp3|(?:source_address|destination_address|function_code)\s*[=:]\s*\d+.*(?:outstation|master)
+  confidence: 0.85
+  priority: 10
+  source: bulk_import
+  upstream_sources:
+  - json:ot-dnp3-signatures.json
+- vendor: ot
+  product: dnp3
   log_type: utilities
   version: null
   log_format: syslog
@@ -11,69 +23,6 @@ signatures:
   source: github_sync
   sample_logs:
   - dnp3_function=1 source_address=1 destination_address=1024
-  - "DNP3: Master->Outstation src_addr=1 dst_addr=10 FC=1 READ"
   upstream_sources:
   - zeek
   - suricata
-  documentation_url: https://www.dnp.org/
-  fields:
-  - name: source_address
-    type: number
-    description: DNP3 source station address (0-65519)
-    ecs_field: source.address
-    cim_field: src_id
-    asim_field: SrcDvcId
-  - name: destination_address
-    type: number
-    description: DNP3 destination station address (0-65519)
-    ecs_field: destination.address
-    cim_field: dest_id
-    asim_field: DstDvcId
-  - name: function_code
-    type: number
-    description: DNP3 function code (0-255)
-    ecs_field: event.code
-    cim_field: signature_id
-    asim_field: EventOriginalType
-  - name: object_group
-    type: number
-    description: DNP3 object group (data type category)
-    ecs_field: file.type
-    cim_field: object_category
-    asim_field: TargetFileType
-  - name: object_variation
-    type: number
-    description: DNP3 object variation (data format)
-    ecs_field: file.extension
-    cim_field: object_type
-    asim_field: TargetFileName
-  - name: point_index
-    type: number
-    description: Data point index within object group
-    ecs_field: file.offset
-    cim_field: object_path
-    asim_field: TargetFilePath
-  - name: point_value
-    type: string
-    description: Data point value
-    ecs_field: file.hash.md5
-    cim_field: file_hash
-    asim_field: TargetFileHashMd5
-  - name: control_code
-    type: number
-    description: Control relay output block code
-    ecs_field: event.outcome
-    cim_field: result
-    asim_field: EventResult
-  - name: source_ip
-    type: ip
-    description: Master station IP address
-    ecs_field: source.ip
-    cim_field: src_ip
-    asim_field: SrcIpAddr
-  - name: destination_ip
-    type: ip
-    description: Outstation IP address
-    ecs_field: destination.ip
-    cim_field: dest_ip
-    asim_field: DstIpAddr

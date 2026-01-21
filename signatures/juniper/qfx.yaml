@@ -1,378 +1,110 @@
-# Juniper QFX Series Data Center Switch - Log Signatures
-# Source: Juniper TechLibrary - System Logging for Switches
-# https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
-
 signatures:
-  # =============================================================================
-  # VXLAN/EVPN - Data Center Fabric Events
-  # =============================================================================
-  - vendor: juniper
-    product: qfx
-    log_type: fabric
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX EVPN Event
-    primary_pattern: "RPD_EVPN_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: EVPN control plane events
-    event_type: routing
-    sample_logs:
-      - "RPD_EVPN_INSTANCE_UP: EVPN instance vxlan100 is up"
-      - "RPD_EVPN_INSTANCE_DOWN: EVPN instance vxlan100 is down"
-      - "RPD_EVPN_MAC_ROUTE_ADD: MAC route 00:11:22:33:44:55 added to EVPN instance vxlan100"
-    fields:
-      - name: evpn-instance
-        type: string
-        ecs: network.name
-        cim: channel
-        asim: NetworkProtocol
-        description: EVPN instance name
-      - name: vni
-        type: number
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-        description: VXLAN Network Identifier
-      - name: mac-address
-        type: string
-        ecs: source.mac
-        cim: src_mac
-        asim: SrcMacAddr
-        description: MAC address in route
-      - name: vtep-ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: VTEP endpoint IP
-    upstream_sources:
-      - sigma
-
-  - vendor: juniper
-    product: qfx
-    log_type: fabric
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX VXLAN Tunnel Event
-    primary_pattern: "VXLAN_"
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: VXLAN tunnel events
-    event_type: network
-    sample_logs:
-      - "VXLAN_TUNNEL_UP: VXLAN tunnel to 10.0.0.2 is up, VNI 10000"
-      - "VXLAN_TUNNEL_DOWN: VXLAN tunnel to 10.0.0.2 is down"
-    fields:
-      - name: remote-vtep
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: Remote VTEP IP
-      - name: vni
-        type: number
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-      - name: local-vtep
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-        description: Local VTEP IP
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # ESWD - Ethernet Switching (same as EX but includes DC features)
-  # =============================================================================
-  - vendor: juniper
-    product: qfx
-    log_type: switching
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX MAC Learning Event
-    primary_pattern: "ESWD_"
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: Layer 2 switching events
-    event_type: network
-    sample_logs:
-      - "ESWD_ST_CTL_ERROR: STP error on interface et-0/0/1"
-      - "ESWD_STP_STATE_CHANGE_INFO: Interface et-0/0/1 state changed from BLOCKING to FORWARDING"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: vlan
-        type: string
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-      - name: state
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Virtual Chassis / MC-LAG
-  # =============================================================================
-  - vendor: juniper
-    product: qfx
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX Virtual Chassis Event
-    primary_pattern: "VC_"
-    confidence: 0.9
-    priority: 10
-    source: official_documentation
-    description: Virtual Chassis fabric events
-    event_type: system
-    sample_logs:
-      - "VC_MEMBER_JOIN: Member 1 joined virtual chassis"
-      - "VC_MEMBER_LEAVE: Member 1 left virtual chassis"
-      - "VC_MASTER_CHANGE: Master changed from member 0 to member 1"
-    fields:
-      - name: member-id
-        type: number
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-        description: VC member ID
-      - name: role
-        type: string
-        ecs: observer.type
-        cim: category
-        asim: EventCategory
-        description: Member role (master, backup, linecard)
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-    upstream_sources:
-      - sigma
-
-  - vendor: juniper
-    product: qfx
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX MC-LAG Event
-    primary_pattern: "MCLAG_"
-    confidence: 0.9
-    priority: 10
-    source: official_documentation
-    description: Multi-Chassis LAG events
-    event_type: network
-    sample_logs:
-      - "MCLAG_PEER_UP: MC-LAG peer 10.0.0.2 is up"
-      - "MCLAG_PEER_DOWN: MC-LAG peer 10.0.0.2 is down"
-      - "MCLAG_INTERFACE_UP: MC-LAG interface ae0 is active"
-    fields:
-      - name: peer-ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-        description: MC-LAG peer IP
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-        description: MC-LAG interface
-      - name: status
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # DCBX/PFC - Data Center Bridging
-  # =============================================================================
-  - vendor: juniper
-    product: qfx
-    log_type: switching
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX DCB Event
-    primary_pattern: "DCBX_"
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: Data Center Bridging Exchange events
-    event_type: network
-    sample_logs:
-      - "DCBX_PEER_DETECTED: DCBX peer detected on interface et-0/0/1"
-      - "DCBX_PFC_ENABLED: PFC enabled on interface et-0/0/1 for priority 3"
-    fields:
-      - name: interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-      - name: priority
-        type: number
-        ecs: network.vlan.id
-        cim: vlan
-        asim: NetworkVlanId
-        description: CoS priority
-      - name: peer-mac
-        type: string
-        ecs: destination.mac
-        cim: dest_mac
-        asim: DstMacAddr
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # BGP/OSPF (same as MX but common in QFX Spine/Leaf)
-  # =============================================================================
-  - vendor: juniper
-    product: qfx
-    log_type: routing
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX BGP Event
-    primary_pattern: "RPD_BGP_NEIGHBOR_STATE_CHANGED"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: BGP neighbor state changes for spine/leaf
-    event_type: routing
-    sample_logs:
-      - "RPD_BGP_NEIGHBOR_STATE_CHANGED: BGP peer 10.0.0.1 (AS 65000) changed from Established to Idle"
-    fields:
-      - name: peer-address
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: peer-as
-        type: number
-        ecs: destination.as.number
-        cim: dest_as
-        asim: DstOriginalRiskLevel
-      - name: old-state
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcOriginalAction
-      - name: new-state
-        type: string
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # SNMP Interface Events
-  # =============================================================================
-  - vendor: juniper
-    product: qfx
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX Interface Link Event
-    primary_pattern: "SNMP_TRAP_LINK_"
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: Interface link state changes
-    event_type: network
-    sample_logs:
-      - "SNMP_TRAP_LINK_DOWN: ifIndex 512, ifAdminStatus up(1), ifOperStatus down(2), ifName et-0/0/1"
-      - "SNMP_TRAP_LINK_UP: ifIndex 512, ifAdminStatus up(1), ifOperStatus up(1), ifName et-0/0/1"
-    fields:
-      - name: ifIndex
-        type: number
-        ecs: observer.ingress.interface.id
-        cim: interface_id
-        asim: DvcInterfaceGuid
-      - name: ifAdminStatus
-        type: string
-        ecs: event.action
-        cim: admin_status
-        asim: DvcOriginalAction
-      - name: ifOperStatus
-        type: string
-        ecs: event.outcome
-        cim: oper_status
-        asim: EventResult
-      - name: ifName
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: interface
-        asim: DvcInboundInterface
-    upstream_sources:
-      - sigma
-      - filebeat
-
-  # =============================================================================
-  # Chassis Events
-  # =============================================================================
-  - vendor: juniper
-    product: qfx
-    log_type: system
-    version: "21.x+"
-    log_format: syslog
-    signature_name: Juniper QFX Chassis Event
-    primary_pattern: "CHASSISD_"
-    confidence: 0.9
-    priority: 5
-    source: official_documentation
-    description: Chassis hardware events
-    event_type: system
-    sample_logs:
-      - "CHASSISD_FAN_FAILURE: Fan 0 has failed"
-      - "CHASSISD_PSU_FAILURE: Power supply 0 has failed"
-      - "CHASSISD_TEMPERATURE_WARNING: Temperature warning on FPC 0"
-    fields:
-      - name: component
-        type: string
-        ecs: observer.name
-        cim: dvc_name
-        asim: DvcHostname
-      - name: slot
-        type: number
-        ecs: observer.ingress.interface.id
-        cim: interface_id
-        asim: DvcInterfaceGuid
-      - name: status
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-    upstream_sources:
-      - sigma
-
-metadata:
-  vendor: Juniper
-  product: QFX
-  product_full_name: Juniper QFX Series Data Center Switch
-  documentation_url: https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/system-logging.html
-  created_date: "2026-01-18"
-  created_by: Claude (SIEMLess AI)
-  junos_version: "21.x+"
-  log_formats:
-    - syslog
-    - structured-syslog
-  categories:
-    - fabric
-    - switching
-    - routing
-    - system
+- vendor: juniper
+  product: qfx
+  log_type: fabric
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX VXLAN Tunnel Event
+  primary_pattern: VXLAN_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: fabric
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX EVPN Event
+  primary_pattern: RPD_EVPN_
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: routing
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX BGP Event
+  primary_pattern: RPD_BGP_NEIGHBOR_STATE_CHANGED
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: switching
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX MAC Learning Event
+  primary_pattern: ESWD_
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: switching
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX DCB Event
+  primary_pattern: DCBX_
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX Chassis Event
+  primary_pattern: CHASSISD_
+  confidence: 0.9
+  priority: 5
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX Virtual Chassis Event
+  primary_pattern: VC_
+  confidence: 0.9
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX MC-LAG Event
+  primary_pattern: MCLAG_
+  confidence: 0.9
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: juniper
+  product: qfx
+  log_type: system
+  version: null
+  log_format: syslog
+  signature_name: Juniper QFX Interface Link Event
+  primary_pattern: SNMP_TRAP_LINK_
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+  - filebeat

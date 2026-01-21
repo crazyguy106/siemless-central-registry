@@ -1,605 +1,176 @@
-# Cisco Secure Firewall Threat Defense (FTD/Firepower) - Log Signatures
-# Source: Cisco Secure Firewall Threat Defense Syslog Messages Guide
-# https://www.cisco.com/c/en/us/td/docs/security/firepower/Syslogs/fptd_syslog_guide.html
-
 signatures:
-  # =============================================================================
-  # Connection/Traffic Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: traffic
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD Connection Established
-    primary_pattern: '%FTD-6-302013'
-    confidence: 0.95
-    priority: 15
-    source: official_documentation
-    description: TCP connection established (outbound)
-    event_type: traffic
-    action: allowed
-    sample_logs:
-      - "<166>:2026-01-18T12:17:46Z FTD01: %FTD-6-302013: Built outbound TCP connection 12345 for outside:10.1.1.1/443 to inside:192.168.1.100/54321"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: src_port
-        type: port
-        ecs: source.port
-        cim: src_port
-        asim: SrcPortNumber
-      - name: dst_port
-        type: port
-        ecs: destination.port
-        cim: dest_port
-        asim: DstPortNumber
-      - name: src_interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: src_interface
-        asim: DvcInboundInterface
-      - name: dst_interface
-        type: string
-        ecs: observer.egress.interface.name
-        cim: dest_interface
-        asim: DvcOutboundInterface
-      - name: user
-        type: string
-        ecs: user.name
-        cim: user
-        asim: TargetUsername
-    upstream_sources:
-      - sigma
-      - filebeat
-
-  - vendor: cisco
-    product: ftd
-    log_type: traffic
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD Connection Teardown
-    primary_pattern: '%FTD-6-302014'
-    confidence: 0.95
-    priority: 20
-    source: official_documentation
-    description: TCP connection teardown (outbound)
-    event_type: traffic
-    sample_logs:
-      - "<166>:2026-01-18T12:18:00Z FTD01: %FTD-6-302014: Teardown TCP connection 12345 duration 0:00:14 bytes 52340"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: duration
-        type: number
-        ecs: event.duration
-        cim: duration
-        asim: NetworkDuration
-      - name: bytes_in
-        type: number
-        ecs: source.bytes
-        cim: bytes_in
-        asim: SrcBytes
-      - name: bytes_out
-        type: number
-        ecs: destination.bytes
-        cim: bytes_out
-        asim: DstBytes
-    upstream_sources:
-      - sigma
-      - filebeat
-
-  - vendor: cisco
-    product: ftd
-    log_type: traffic
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD Connection Denied
-    primary_pattern: '%FTD-4-106023'
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: Connection denied by access rule
-    event_type: traffic
-    action: denied
-    sample_logs:
-      - "<165>:2026-01-18T12:19:00Z FTD01: %FTD-4-106023: Deny tcp src inside:192.168.1.100/54321 dst outside:203.0.113.50/22 by access-group 'BLOCK-SSH'"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: src_port
-        type: port
-        ecs: source.port
-        cim: src_port
-        asim: SrcPortNumber
-      - name: dst_port
-        type: port
-        ecs: destination.port
-        cim: dest_port
-        asim: DstPortNumber
-      - name: src_interface
-        type: string
-        ecs: observer.ingress.interface.name
-        cim: src_interface
-        asim: DvcInboundInterface
-      - name: dst_interface
-        type: string
-        ecs: observer.egress.interface.name
-        cim: dest_interface
-        asim: DvcOutboundInterface
-      - name: access_control_rule_name
-        type: string
-        ecs: rule.name
-        cim: rule
-        asim: RuleName
-    upstream_sources:
-      - sigma
-      - filebeat
-
-  # =============================================================================
-  # Access Control Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: security
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD Access Control Rule
-    primary_pattern: '%FTD-6-430003'
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: Access control rule action
-    event_type: security
-    sample_logs:
-      - "<166>:2026-01-18T12:20:00Z FTD01: %FTD-6-430003: AccessControlRuleAction: Allow, AccessControlRuleName: AllowHTTPS, SrcIP: 192.168.1.100, DstIP: 8.8.8.8, Application: HTTPS"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: access_control_rule_name
-        type: string
-        ecs: rule.name
-        cim: rule
-        asim: RuleName
-      - name: access_control_rule_action
-        type: string
-        ecs: rule.ruleset
-        cim: rule_action
-        asim: RuleDescription
-      - name: application
-        type: string
-        ecs: network.application
-        cim: app
-        asim: NetworkApplicationProtocol
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Intrusion Detection Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: intrusion
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD Intrusion Alert
-    primary_pattern: '%FTD-[1234]-430002'
-    confidence: 0.95
-    priority: 5
-    source: official_documentation
-    description: IPS/Intrusion detection event
-    event_type: intrusion
-    sample_logs:
-      - "<162>:2026-01-18T12:21:00Z FTD01: %FTD-2-430002: IntrusionPolicy: Balanced, GID: 1, SID: 40000, Classification: trojan-activity, Priority: 1"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: src_port
-        type: port
-        ecs: source.port
-        cim: src_port
-        asim: SrcPortNumber
-      - name: dst_port
-        type: port
-        ecs: destination.port
-        cim: dest_port
-        asim: DstPortNumber
-      - name: ips_signature_id
-        type: string
-        ecs: rule.id
-        cim: signature
-        asim: ThreatId
-      - name: ips_signature_name
-        type: string
-        ecs: rule.name
-        cim: signature_name
-        asim: ThreatName
-      - name: classification
-        type: string
-        ecs: threat.indicator.type
-        cim: category
-        asim: ThreatCategory
-      - name: priority
-        type: number
-        ecs: event.severity
-        cim: priority
-        asim: ThreatConfidence
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # Malware Detection Events (AMP)
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: malware
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD Malware Detection
-    primary_pattern: '%FTD-[1234]-430004'
-    confidence: 0.95
-    priority: 5
-    source: official_documentation
-    description: AMP malware detection event
-    event_type: malware
-    sample_logs:
-      - "<162>:2026-01-18T12:22:00Z FTD01: %FTD-2-430004: Malware detected, SHA256: abc123..., Disposition: Malware, ThreatName: W32.Trojan.Gen"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: file_name
-        type: string
-        ecs: file.name
-        cim: file_name
-        asim: TargetFileName
-      - name: file_sha256
-        type: string
-        ecs: file.hash.sha256
-        cim: file_hash
-        asim: TargetFileSHA256
-      - name: malware_disposition
-        type: string
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-      - name: threat_name
-        type: string
-        ecs: threat.indicator.description
-        cim: threat_name
-        asim: ThreatName
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # File Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: file
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD File Event
-    primary_pattern: '%FTD-[456]-430005'
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: File transfer detected
-    event_type: file
-    sample_logs:
-      - "<166>:2026-01-18T12:23:00Z FTD01: %FTD-6-430005: FileEvent: FileName: document.pdf, FileType: PDF, SHA256: def456..."
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: file_name
-        type: string
-        ecs: file.name
-        cim: file_name
-        asim: TargetFileName
-      - name: file_type
-        type: string
-        ecs: file.mime_type
-        cim: file_type
-        asim: TargetFileType
-      - name: file_sha256
-        type: string
-        ecs: file.hash.sha256
-        cim: file_hash
-        asim: TargetFileSHA256
-      - name: action
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # URL Filtering Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: web
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD URL Filter Event
-    primary_pattern: '%FTD-[456]-338'
-    confidence: 0.9
-    priority: 15
-    source: official_documentation
-    description: URL filtering event
-    event_type: web
-    sample_logs:
-      - "<166>:2026-01-18T12:24:00Z FTD01: %FTD-6-338001: URL category: Social Networking, URL: facebook.com"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: url
-        type: string
-        ecs: url.original
-        cim: url
-        asim: Url
-      - name: url_category
-        type: string
-        ecs: url.category
-        cim: url_category
-        asim: UrlCategory
-      - name: action
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-      - name: user
-        type: string
-        ecs: user.name
-        cim: user
-        asim: TargetUsername
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # VPN Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: vpn
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD VPN Session
-    primary_pattern: '%FTD-6-713'
-    confidence: 0.9
-    priority: 10
-    source: official_documentation
-    description: VPN session event
-    event_type: vpn
-    sample_logs:
-      - "<166>:2026-01-18T12:25:00Z FTD01: %FTD-6-713228: IPSec: SA created, SrcIP: 203.0.113.100, DstIP: 10.0.0.1"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: user
-        type: string
-        ecs: user.name
-        cim: user
-        asim: TargetUsername
-      - name: vpn_group
-        type: string
-        ecs: network.name
-        cim: tunnel_group
-        asim: NetworkSessionId
-      - name: vpn_type
-        type: string
-        ecs: network.type
-        cim: vpn_type
-        asim: NetworkProtocol
-      - name: action
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-    upstream_sources:
-      - sigma
-
-  - vendor: cisco
-    product: ftd
-    log_type: authentication
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD VPN User Authentication
-    primary_pattern: '%FTD-6-722022'
-    confidence: 0.95
-    priority: 10
-    source: official_documentation
-    description: VPN user authentication
-    event_type: authentication
-    sample_logs:
-      - "<166>:2026-01-18T12:26:00Z FTD01: %FTD-6-722022: Group RA-VPN User admin IP 203.0.113.100 SVC Message: Connection established"
-    fields:
-      - name: user
-        type: string
-        ecs: user.name
-        cim: user
-        asim: TargetUsername
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: vpn_group
-        type: string
-        ecs: network.name
-        cim: tunnel_group
-        asim: NetworkSessionId
-      - name: action
-        type: string
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # NAT Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: nat
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD NAT Translation
-    primary_pattern: '%FTD-6-30501'
-    confidence: 0.9
-    priority: 20
-    source: official_documentation
-    description: NAT translation event
-    event_type: nat
-    sample_logs:
-      - "<166>:2026-01-18T12:27:00Z FTD01: %FTD-6-305011: Built dynamic TCP translation from inside:192.168.1.100/54321 to outside:203.0.113.1/54321"
-    fields:
-      - name: src_ip
-        type: ip
-        ecs: source.ip
-        cim: src_ip
-        asim: SrcIpAddr
-      - name: src_port
-        type: port
-        ecs: source.port
-        cim: src_port
-        asim: SrcPortNumber
-      - name: nat_src_ip
-        type: ip
-        ecs: source.nat.ip
-        cim: src_translated_ip
-        asim: SrcNatIpAddr
-      - name: nat_src_port
-        type: port
-        ecs: source.nat.port
-        cim: src_translated_port
-        asim: SrcNatPortNumber
-      - name: dst_ip
-        type: ip
-        ecs: destination.ip
-        cim: dest_ip
-        asim: DstIpAddr
-      - name: dst_port
-        type: port
-        ecs: destination.port
-        cim: dest_port
-        asim: DstPortNumber
-    upstream_sources:
-      - sigma
-
-  # =============================================================================
-  # High Availability Events
-  # =============================================================================
-  - vendor: cisco
-    product: ftd
-    log_type: system
-    version: "7.0+"
-    log_format: emblem
-    signature_name: Cisco FTD Failover Event
-    primary_pattern: '%FTD-[16]-104'
-    confidence: 0.9
-    priority: 5
-    source: official_documentation
-    description: High availability failover event
-    event_type: system
-    sample_logs:
-      - "<166>:2026-01-18T12:28:00Z FTD01: %FTD-1-104001: (Primary) Switching to ACTIVE - Loss of failover messages"
-    fields:
-      - name: reason
-        type: string
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-    upstream_sources:
-      - sigma
-
-metadata:
-  vendor: Cisco
-  product: FTD
-  product_full_name: Cisco Secure Firewall Threat Defense (Firepower)
-  documentation_url: https://www.cisco.com/c/en/us/td/docs/security/firepower/Syslogs/fptd_syslog_guide.html
-  created_date: "2026-01-18"
-  created_by: Claude (SIEMLess AI)
-  ftd_version: "7.0+"
-  log_formats:
-    - emblem
-    - rfc5424
-  categories:
-    - traffic
-    - security
-    - intrusion
-    - malware
-    - file
-    - web
-    - vpn
-    - nat
-    - authentication
-    - system
+- vendor: cisco
+  product: ftd
+  log_type: authentication
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD VPN User Authentication
+  primary_pattern: '%FTD-6-722022'
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: file
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD File Event
+  primary_pattern: '%FTD-[456]-430005'
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: firewall
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD EMBLEM Format
+  primary_pattern: '%FTD-\d+-\d+:'
+  confidence: 0.98
+  priority: 10
+  source: github_sync
+  sample_logs:
+  - 'FTD01 %FTD-6-430003: DeviceUUID: 12345, AccessControlRuleAction: Allow, SrcIP:
+    10.1.1.1'
+  upstream_sources:
+  - grok
+  - filebeat
+- vendor: cisco
+  product: ftd
+  log_type: intrusion
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD Intrusion Alert
+  primary_pattern: '%FTD-[1234]-430002'
+  confidence: 0.95
+  priority: 5
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: malware
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD Malware Detection
+  primary_pattern: '%FTD-[1234]-430004'
+  confidence: 0.95
+  priority: 5
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: nat
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD NAT Translation
+  primary_pattern: '%FTD-6-30501'
+  confidence: 0.9
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: security
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD Access Control Rule
+  primary_pattern: '%FTD-6-430003'
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: security
+  version: null
+  log_format: syslog
+  signature_name: cisco_ftd_generic
+  primary_pattern: '(?::\s*)?%FTD-[0-7]-\d{6}:'
+  confidence: 0.98
+  priority: 3
+  source: bulk_import
+  upstream_sources:
+  - json:cisco-ftd-signatures.json
+- vendor: cisco
+  product: ftd
+  log_type: system
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD Failover Event
+  primary_pattern: '%FTD-[16]-104'
+  confidence: 0.9
+  priority: 5
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: traffic
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD Connection Teardown
+  primary_pattern: '%FTD-6-302014'
+  confidence: 0.95
+  priority: 20
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+  - filebeat
+- vendor: cisco
+  product: ftd
+  log_type: traffic
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD Connection Denied
+  primary_pattern: '%FTD-4-106023'
+  confidence: 0.95
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+  - filebeat
+- vendor: cisco
+  product: ftd
+  log_type: traffic
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD Connection Established
+  primary_pattern: '%FTD-6-302013'
+  confidence: 0.95
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+  - filebeat
+- vendor: cisco
+  product: ftd
+  log_type: vpn
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD VPN Session
+  primary_pattern: '%FTD-6-713'
+  confidence: 0.9
+  priority: 10
+  source: documentation_discovery
+  upstream_sources:
+  - sigma
+- vendor: cisco
+  product: ftd
+  log_type: web
+  version: null
+  log_format: emblem
+  signature_name: Cisco FTD URL Filter Event
+  primary_pattern: '%FTD-[456]-338'
+  confidence: 0.9
+  priority: 15
+  source: documentation_discovery
+  upstream_sources:
+  - sigma

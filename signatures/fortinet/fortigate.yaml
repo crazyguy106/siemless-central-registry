@@ -33,3 +33,15 @@ signatures:
   - type=traffic subtype=forward srcip=10.1.1.1 dstip=8.8.8.8 action=accept
   upstream_sources:
   - grok
+- vendor: fortinet
+  product: fortigate
+  log_type: security
+  version: 7.4.8
+  log_format: kv
+  signature_name: fortigate_generic
+  primary_pattern: (?:date=\d{4}-\d{2}-\d{2}.*)?type="?(?:traffic|event|utm|anomaly|virus|ips|webfilter|dlp|app-ctrl)"?.*subtype=
+  confidence: 0.95
+  priority: 5
+  source: bulk_import
+  upstream_sources:
+  - json:fortinet-fortigate-signatures.json

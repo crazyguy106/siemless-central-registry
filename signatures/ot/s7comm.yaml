@@ -11,75 +11,18 @@ signatures:
   source: github_sync
   sample_logs:
   - rack=0 slot=2 db_number=1
-  - "S7comm: Read Var src=192.168.1.100 dst=192.168.1.10 Area=DB DB=1"
   upstream_sources:
   - zeek
   - suricata
-  documentation_url: https://wiki.wireshark.org/S7comm
-  fields:
-  - name: source_ip
-    type: ip
-    description: Client/HMI IP address
-    ecs_field: source.ip
-    cim_field: src_ip
-    asim_field: SrcIpAddr
-  - name: destination_ip
-    type: ip
-    description: PLC IP address
-    ecs_field: destination.ip
-    cim_field: dest_ip
-    asim_field: DstIpAddr
-  - name: rosctr
-    type: number
-    description: Remote Operating Service Control (1=Job, 2=Ack, 3=Ack_Data, 7=Userdata)
-    ecs_field: event.code
-    cim_field: signature_id
-    asim_field: EventOriginalType
-  - name: function_code
-    type: number
-    description: S7 function code
-    ecs_field: event.action
-    cim_field: action
-    asim_field: DvcAction
-  - name: area
-    type: string
-    description: S7 memory area (I=Inputs, Q=Outputs, M=Markers, DB=Data Block)
-    ecs_field: file.type
-    cim_field: object_category
-    asim_field: TargetFileType
-  - name: db_number
-    type: number
-    description: Data block number (for DB area)
-    ecs_field: file.inode
-    cim_field: file_id
-    asim_field: TargetFileId
-  - name: start_address
-    type: number
-    description: Starting byte address
-    ecs_field: file.offset
-    cim_field: object_path
-    asim_field: TargetFilePath
-  - name: length
-    type: number
-    description: Number of bytes to read/write
-    ecs_field: file.size
-    cim_field: bytes
-    asim_field: SrcBytes
-  - name: data_value
-    type: string
-    description: Read/written data value
-    ecs_field: file.hash.md5
-    cim_field: file_hash
-    asim_field: TargetFileHashMd5
-  - name: rack
-    type: number
-    description: PLC rack number
-    ecs_field: host.geo.region_name
-    cim_field: dest_zone
-    asim_field: DstZone
-  - name: slot
-    type: number
-    description: PLC slot number
-    ecs_field: host.geo.city_name
-    cim_field: dest_location
-    asim_field: DstGeoCity
+- vendor: ot
+  product: s7comm
+  log_type: ot_traffic
+  version: null
+  log_format: kv
+  signature_name: s7comm_generic
+  primary_pattern: (?i)s7comm|(?:rosctr|rack|slot|db_number|area)\s*[=:]\s*\d+
+  confidence: 0.85
+  priority: 10
+  source: bulk_import
+  upstream_sources:
+  - json:ot-s7comm-signatures.json

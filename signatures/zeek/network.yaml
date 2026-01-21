@@ -1,486 +1,104 @@
-# Zeek (Bro) Network Security Monitor - Log Signatures
-# Source: Elastic Filebeat Zeek Module and Official Zeek Documentation
-# https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-zeek
-
 signatures:
-  # =============================================================================
-  # Connection Log (conn.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: connection
-    version: null
-    log_format: json
-    signature_name: Zeek Connection Log
-    primary_pattern: zeek\.connection|conn\.log
-    confidence: 0.95
-    priority: 10
-    source: elastic_filebeat
-    description: Network connection metadata and statistics
-    event_type: connection
-    sample_logs:
-      - '{"uid":"C1234","id.orig_h":"192.168.1.100","id.resp_h":"10.0.0.1","proto":"tcp","service":"http","duration":1.5,"orig_bytes":1000,"resp_bytes":5000}'
-    fields:
-      - name: zeek.session_id
-        type: keyword
-        ecs: network.session_id
-        cim: session_id
-        asim: NetworkSessionId
-        description: Unique session identifier (uid)
-      - name: zeek.connection.state
-        type: keyword
-        ecs: network.transport
-        cim: connection_state
-        asim: NetworkConnectionState
-        description: Connection state (S0, S1, SF, REJ, etc.)
-      - name: zeek.connection.history
-        type: keyword
-        ecs: network.transport
-        cim: tcp_flag
-        asim: TcpFlags
-        description: Connection history flags
-      - name: zeek.connection.orig_bytes
-        type: long
-        ecs: source.bytes
-        cim: bytes_out
-        asim: SrcBytes
-        description: Bytes sent by originator
-      - name: zeek.connection.resp_bytes
-        type: long
-        ecs: destination.bytes
-        cim: bytes_in
-        asim: DstBytes
-        description: Bytes sent by responder
-      - name: zeek.connection.orig_pkts
-        type: long
-        ecs: source.packets
-        cim: packets_out
-        asim: SrcPackets
-        description: Packets sent by originator
-      - name: zeek.connection.resp_pkts
-        type: long
-        ecs: destination.packets
-        cim: packets_in
-        asim: DstPackets
-        description: Packets sent by responder
-      - name: zeek.connection.duration
-        type: float
-        ecs: event.duration
-        cim: duration
-        asim: NetworkDuration
-        description: Connection duration in seconds
-    upstream_sources:
-      - filebeat
-      - sigma
-
-  # =============================================================================
-  # DNS Log (dns.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: dns
-    version: null
-    log_format: json
-    signature_name: Zeek DNS Log
-    primary_pattern: zeek\.dns|dns\.log
-    confidence: 0.95
-    priority: 10
-    source: elastic_filebeat
-    description: DNS query and response logs
-    event_type: dns
-    sample_logs:
-      - '{"uid":"D1234","query":"example.com","qtype_name":"A","rcode_name":"NOERROR","answers":["93.184.216.34"]}'
-    fields:
-      - name: zeek.dns.query
-        type: keyword
-        ecs: dns.question.name
-        cim: query
-        asim: DnsQuery
-        description: DNS query name
-      - name: zeek.dns.qtype_name
-        type: keyword
-        ecs: dns.question.type
-        cim: record_type
-        asim: DnsQueryType
-        description: DNS query type name
-      - name: zeek.dns.rcode_name
-        type: keyword
-        ecs: dns.response_code
-        cim: reply_code
-        asim: DnsResponseCode
-        description: DNS response code name
-      - name: zeek.dns.answers
-        type: keyword
-        ecs: dns.answers.data
-        cim: answer
-        asim: DnsResponseName
-        description: DNS answer records
-      - name: zeek.dns.TTLs
-        type: long
-        ecs: dns.answers.ttl
-        cim: ttl
-        asim: DnsResponseTtl
-        description: DNS TTL values
-      - name: zeek.dns.rejected
-        type: boolean
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-        description: Whether query was rejected
-    upstream_sources:
-      - filebeat
-      - sigma
-
-  # =============================================================================
-  # HTTP Log (http.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: http
-    version: null
-    log_format: json
-    signature_name: Zeek HTTP Log
-    primary_pattern: zeek\.http|http\.log
-    confidence: 0.95
-    priority: 10
-    source: elastic_filebeat
-    description: HTTP request and response logs
-    event_type: http
-    sample_logs:
-      - '{"uid":"H1234","method":"GET","host":"example.com","uri":"/index.html","status_code":200,"user_agent":"Mozilla/5.0"}'
-    fields:
-      - name: zeek.http.method
-        type: keyword
-        ecs: http.request.method
-        cim: http_method
-        asim: HttpRequestMethod
-        description: HTTP request method
-      - name: zeek.http.host
-        type: keyword
-        ecs: url.domain
-        cim: url_domain
-        asim: UrlHostname
-        description: HTTP Host header
-      - name: zeek.http.uri
-        type: keyword
-        ecs: url.path
-        cim: uri_path
-        asim: UrlPath
-        description: HTTP request URI
-      - name: zeek.http.referrer
-        type: keyword
-        ecs: http.request.referrer
-        cim: http_referrer
-        asim: HttpReferrer
-        description: HTTP Referer header
-      - name: zeek.http.user_agent
-        type: keyword
-        ecs: user_agent.original
-        cim: http_user_agent
-        asim: HttpUserAgent
-        description: HTTP User-Agent header
-      - name: zeek.http.status_code
-        type: integer
-        ecs: http.response.status_code
-        cim: status
-        asim: HttpStatusCode
-        description: HTTP response status code
-      - name: zeek.http.resp_mime_types
-        type: keyword
-        ecs: http.response.mime_type
-        cim: http_content_type
-        asim: HttpContentType
-        description: HTTP response MIME types
-    upstream_sources:
-      - filebeat
-      - sigma
-
-  # =============================================================================
-  # SSL/TLS Log (ssl.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: ssl
-    version: null
-    log_format: json
-    signature_name: Zeek SSL/TLS Log
-    primary_pattern: zeek\.ssl|ssl\.log
-    confidence: 0.95
-    priority: 10
-    source: elastic_filebeat
-    description: SSL/TLS handshake and certificate logs
-    event_type: tls
-    sample_logs:
-      - '{"uid":"S1234","version":"TLSv1.2","cipher":"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384","server_name":"example.com","ja3":"abc123"}'
-    fields:
-      - name: zeek.ssl.version
-        type: keyword
-        ecs: tls.version
-        cim: ssl_version
-        asim: TlsVersion
-        description: SSL/TLS version
-      - name: zeek.ssl.cipher
-        type: keyword
-        ecs: tls.cipher
-        cim: ssl_cipher
-        asim: TlsCipher
-        description: SSL/TLS cipher suite
-      - name: zeek.ssl.server_name
-        type: keyword
-        ecs: tls.client.server_name
-        cim: ssl_subject
-        asim: TlsSni
-        description: Server Name Indication
-      - name: zeek.ssl.subject
-        type: keyword
-        ecs: tls.server.subject
-        cim: ssl_subject
-        asim: TlsCertificateSubject
-        description: Certificate subject
-      - name: zeek.ssl.issuer
-        type: keyword
-        ecs: tls.server.issuer
-        cim: ssl_issuer
-        asim: TlsCertificateIssuer
-        description: Certificate issuer
-      - name: zeek.ssl.ja3
-        type: keyword
-        ecs: tls.client.ja3
-        cim: ja3_hash
-        asim: TlsJa3
-        description: JA3 fingerprint
-      - name: zeek.ssl.ja3s
-        type: keyword
-        ecs: tls.server.ja3s
-        cim: ja3s_hash
-        asim: TlsJa3s
-        description: JA3S fingerprint
-    upstream_sources:
-      - filebeat
-      - sigma
-
-  # =============================================================================
-  # Files Log (files.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: files
-    version: null
-    log_format: json
-    signature_name: Zeek Files Log
-    primary_pattern: zeek\.files|files\.log
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: File analysis and hash logs
-    event_type: file
-    sample_logs:
-      - '{"fuid":"F1234","filename":"document.pdf","mime_type":"application/pdf","md5":"abc123","sha256":"def456"}'
-    fields:
-      - name: zeek.files.fuid
-        type: keyword
-        ecs: file.uid
-        cim: file_id
-        asim: TargetFileId
-        description: File unique ID
-      - name: zeek.files.filename
-        type: keyword
-        ecs: file.name
-        cim: file_name
-        asim: TargetFileName
-        description: File name
-      - name: zeek.files.mime_type
-        type: keyword
-        ecs: file.mime_type
-        cim: file_type
-        asim: TargetFileMimeType
-        description: File MIME type
-      - name: zeek.files.total_bytes
-        type: long
-        ecs: file.size
-        cim: file_size
-        asim: TargetFileSize
-        description: File size in bytes
-      - name: zeek.files.md5
-        type: keyword
-        ecs: file.hash.md5
-        cim: file_hash
-        asim: TargetFileMD5
-        description: File MD5 hash
-      - name: zeek.files.sha1
-        type: keyword
-        ecs: file.hash.sha1
-        cim: file_hash
-        asim: TargetFileSHA1
-        description: File SHA1 hash
-      - name: zeek.files.sha256
-        type: keyword
-        ecs: file.hash.sha256
-        cim: file_hash
-        asim: TargetFileSHA256
-        description: File SHA256 hash
-    upstream_sources:
-      - filebeat
-
-  # =============================================================================
-  # Notice Log (notice.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: notice
-    version: null
-    log_format: json
-    signature_name: Zeek Notice Log
-    primary_pattern: zeek\.notice|notice\.log
-    confidence: 0.95
-    priority: 5
-    source: elastic_filebeat
-    description: Zeek notices and alerts
-    event_type: alert
-    sample_logs:
-      - '{"note":"Scan::Port_Scan","msg":"192.168.1.100 scanned 100 ports","actions":["Notice::ACTION_LOG"]}'
-    fields:
-      - name: zeek.notice.note
-        type: keyword
-        ecs: rule.name
-        cim: signature
-        asim: RuleName
-        description: Notice type
-      - name: zeek.notice.msg
-        type: keyword
-        ecs: message
-        cim: description
-        asim: EventMessage
-        description: Notice message
-      - name: zeek.notice.sub
-        type: keyword
-        ecs: event.reason
-        cim: reason
-        asim: EventResultDetails
-        description: Notice sub-message
-      - name: zeek.notice.actions
-        type: keyword
-        ecs: event.action
-        cim: action
-        asim: DvcAction
-        description: Actions taken
-    upstream_sources:
-      - filebeat
-      - sigma
-
-  # =============================================================================
-  # SSH Log (ssh.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: ssh
-    version: null
-    log_format: json
-    signature_name: Zeek SSH Log
-    primary_pattern: zeek\.ssh|ssh\.log
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: SSH connection logs
-    event_type: ssh
-    sample_logs:
-      - '{"uid":"SSH1234","client":"SSH-2.0-OpenSSH_8.0","server":"SSH-2.0-OpenSSH_7.9","auth_success":true}'
-    fields:
-      - name: zeek.ssh.client
-        type: keyword
-        ecs: network.protocol_version
-        cim: ssh_client_version
-        asim: SrcAppName
-        description: SSH client software
-      - name: zeek.ssh.server
-        type: keyword
-        ecs: network.protocol_version
-        cim: ssh_server_version
-        asim: DstAppName
-        description: SSH server software
-      - name: zeek.ssh.auth_success
-        type: boolean
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-        description: Whether authentication succeeded
-      - name: zeek.ssh.direction
-        type: keyword
-        ecs: network.direction
-        cim: direction
-        asim: NetworkDirection
-        description: Connection direction
-    upstream_sources:
-      - filebeat
-      - sigma
-
-  # =============================================================================
-  # Kerberos Log (kerberos.log)
-  # =============================================================================
-  - vendor: zeek
-    product: network
-    log_type: kerberos
-    version: null
-    log_format: json
-    signature_name: Zeek Kerberos Log
-    primary_pattern: zeek\.kerberos|kerberos\.log
-    confidence: 0.9
-    priority: 10
-    source: elastic_filebeat
-    description: Kerberos authentication logs
-    event_type: authentication
-    sample_logs:
-      - '{"request_type":"AS","client":"user@DOMAIN.COM","service":"krbtgt/DOMAIN.COM","success":true}'
-    fields:
-      - name: zeek.kerberos.request_type
-        type: keyword
-        ecs: event.action
-        cim: action
-        asim: EventType
-        description: Kerberos request type (AS, TGS)
-      - name: zeek.kerberos.client
-        type: keyword
-        ecs: user.name
-        cim: user
-        asim: ActorUsername
-        description: Kerberos client principal
-      - name: zeek.kerberos.service
-        type: keyword
-        ecs: service.name
-        cim: service
-        asim: TargetAppName
-        description: Kerberos service principal
-      - name: zeek.kerberos.success
-        type: boolean
-        ecs: event.outcome
-        cim: result
-        asim: EventResult
-        description: Whether request succeeded
-      - name: zeek.kerberos.error_msg
-        type: keyword
-        ecs: error.message
-        cim: error_message
-        asim: EventResultDetails
-        description: Kerberos error message
-    upstream_sources:
-      - filebeat
-      - sigma
-
-metadata:
-  vendor: Zeek
-  product: Network
-  product_full_name: Zeek Network Security Monitor
-  documentation_url: https://www.elastic.co/docs/reference/beats/filebeat/exported-fields-zeek
-  created_date: "2026-01-19"
-  created_by: Claude (SIEMLess AI) - Based on Elastic Filebeat Documentation
-  log_formats:
-    - json
-  categories:
-    - connection
-    - dns
-    - http
-    - ssl
-    - files
-    - notice
-    - ssh
-    - kerberos
+- vendor: zeek
+  product: network
+  log_type: connection
+  version: null
+  log_format: json
+  signature_name: Zeek Connection Log
+  primary_pattern: zeek\.connection|conn\.log
+  confidence: 0.95
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+  - sigma
+- vendor: zeek
+  product: network
+  log_type: dns
+  version: null
+  log_format: json
+  signature_name: Zeek DNS Log
+  primary_pattern: zeek\.dns|dns\.log
+  confidence: 0.95
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+  - sigma
+- vendor: zeek
+  product: network
+  log_type: files
+  version: null
+  log_format: json
+  signature_name: Zeek Files Log
+  primary_pattern: zeek\.files|files\.log
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+- vendor: zeek
+  product: network
+  log_type: http
+  version: null
+  log_format: json
+  signature_name: Zeek HTTP Log
+  primary_pattern: zeek\.http|http\.log
+  confidence: 0.95
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+  - sigma
+- vendor: zeek
+  product: network
+  log_type: kerberos
+  version: null
+  log_format: json
+  signature_name: Zeek Kerberos Log
+  primary_pattern: zeek\.kerberos|kerberos\.log
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+  - sigma
+- vendor: zeek
+  product: network
+  log_type: notice
+  version: null
+  log_format: json
+  signature_name: Zeek Notice Log
+  primary_pattern: zeek\.notice|notice\.log
+  confidence: 0.95
+  priority: 5
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+  - sigma
+- vendor: zeek
+  product: network
+  log_type: ssh
+  version: null
+  log_format: json
+  signature_name: Zeek SSH Log
+  primary_pattern: zeek\.ssh|ssh\.log
+  confidence: 0.9
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+  - sigma
+- vendor: zeek
+  product: network
+  log_type: ssl
+  version: null
+  log_format: json
+  signature_name: Zeek SSL/TLS Log
+  primary_pattern: zeek\.ssl|ssl\.log
+  confidence: 0.95
+  priority: 10
+  source: filebeat_import
+  upstream_sources:
+  - filebeat
+  - sigma
