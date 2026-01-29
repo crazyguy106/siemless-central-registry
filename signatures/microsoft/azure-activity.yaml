@@ -7,7 +7,7 @@ source_document: Azure Activity Log Event Schema
 source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log-schema
 extraction_date: '2026-01-02'
 source_file: azure-activity-signatures.json
-generated_at: '2026-01-04T09:34:54.245647'
+generated_at: '2026-01-29T12:24:48.053929'
 categories:
 - Administrative
 - HttpRequest
@@ -121,7 +121,7 @@ fields:
   field_type: string
   description: Severity level (Critical/Error/Warning/Informational)
   category: Administrative
-  ecs_field: event.severity
+  ecs_field: log.level
   cim_field: severity
   asim_field: EventSeverity
 - field_name: operationId
@@ -489,6 +489,14 @@ fields:
   cim_field: subscriptionId
   asim_field: subscriptionId
 mapped_field_count: 5
+signatures:
+- name: azure_activity_generic
+  description: Generic Azure Activity Log detection - matches operationName field
+  regex_pattern: '"operationName":\s*"Microsoft\.[A-Za-z]+/[A-Za-z]+/'
+  priority: 5
+  confidence: 0.95
+  log_type: audit
+  log_format: json
 notes: Azure Activity Log provides insight into subscription-level events including
   Administrative, ServiceHealth, ResourceHealth, Alert, Autoscale, Security, Recommendation,
   and Policy categories.

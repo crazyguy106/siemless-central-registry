@@ -1,146 +1,288 @@
+version: '1.0'
+vendor: Juniper
+product: SRX
+product_full_name: SRX
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: juniper-srx-signatures.json
+generated_at: '2026-01-29T12:25:00.163271'
+field_count: 27
+fields:
+- field_name: source-address
+  field_type: ip
+  description: Source IP address of the session
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: source-port
+  field_type: port
+  description: Source port of the session
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination-address
+  field_type: ip
+  description: Destination IP address of the session
+  category: network
+  ecs_field: vendor.destination-address
+  cim_field: destination-address
+  asim_field: destination-address
+- field_name: destination-port
+  field_type: port
+  description: Destination port of the session
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: service-name
+  field_type: string
+  description: Name of the service associated with the session (e.g., junos-http,
+    junos-ssh)
+  category: network
+  ecs_field: vendor.service-name
+  cim_field: service-name
+  asim_field: service-name
+- field_name: protocol-id
+  field_type: number
+  description: IP protocol number (6=TCP, 17=UDP, 1=ICMP)
+  category: network
+  ecs_field: network.iana_number
+  cim_field: protocol_id
+  asim_field: NetworkProtocolVersion
+- field_name: policy-name
+  field_type: string
+  description: Name of the security policy that permitted or denied the session
+  category: security
+  ecs_field: rule.name
+  cim_field: policy_name
+  asim_field: RuleName
+- field_name: nat-source-address
+  field_type: ip
+  description: Translated source IP address after source NAT
+  category: network
+  ecs_field: vendor.nat-source-address
+  cim_field: nat-source-address
+  asim_field: nat-source-address
+- field_name: nat-source-port
+  field_type: port
+  description: Translated source port after source NAT
+  category: network
+  ecs_field: vendor.nat-source-port
+  cim_field: nat-source-port
+  asim_field: nat-source-port
+- field_name: nat-destination-address
+  field_type: ip
+  description: Translated destination IP address after destination NAT
+  category: network
+  ecs_field: vendor.nat-destination-address
+  cim_field: nat-destination-address
+  asim_field: nat-destination-address
+- field_name: nat-destination-port
+  field_type: port
+  description: Translated destination port after destination NAT
+  category: network
+  ecs_field: vendor.nat-destination-port
+  cim_field: nat-destination-port
+  asim_field: nat-destination-port
+- field_name: src-nat-rule-name
+  field_type: string
+  description: Name of the source NAT rule applied to the session
+  category: security
+  ecs_field: vendor.src-nat-rule-name
+  cim_field: src-nat-rule-name
+  asim_field: src-nat-rule-name
+- field_name: dst-nat-rule-name
+  field_type: string
+  description: Name of the destination NAT rule applied to the session
+  category: security
+  ecs_field: vendor.dst-nat-rule-name
+  cim_field: dst-nat-rule-name
+  asim_field: dst-nat-rule-name
+- field_name: session-id-32
+  field_type: string
+  description: 32-bit unique session identifier
+  category: session
+  ecs_field: vendor.session-id-32
+  cim_field: session-id-32
+  asim_field: session-id-32
+- field_name: reason
+  field_type: string
+  description: Reason the session was closed (e.g., TCP FIN, timeout, policy deny)
+  category: session
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: packets-from-client
+  field_type: number
+  description: Number of packets sent from client to server during session
+  category: stats
+  ecs_field: vendor.packets-from-client
+  cim_field: packets-from-client
+  asim_field: packets-from-client
+- field_name: bytes-from-client
+  field_type: number
+  description: Number of bytes sent from client to server during session
+  category: stats
+  ecs_field: vendor.bytes-from-client
+  cim_field: bytes-from-client
+  asim_field: bytes-from-client
+- field_name: packets-from-server
+  field_type: number
+  description: Number of packets sent from server to client during session
+  category: stats
+  ecs_field: vendor.packets-from-server
+  cim_field: packets-from-server
+  asim_field: packets-from-server
+- field_name: bytes-from-server
+  field_type: number
+  description: Number of bytes sent from server to client during session
+  category: stats
+  ecs_field: vendor.bytes-from-server
+  cim_field: bytes-from-server
+  asim_field: bytes-from-server
+- field_name: elapsed-time
+  field_type: number
+  description: Duration of the session in seconds
+  category: stats
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: icmp-type
+  field_type: number
+  description: ICMP message type (for ICMP sessions only)
+  category: network
+  ecs_field: network.icmp.type
+  cim_field: icmp_type
+  asim_field: IcmpType
+- field_name: source-zone-name
+  field_type: string
+  description: Security zone of the source interface
+  category: security
+  ecs_field: vendor.source-zone-name
+  cim_field: source-zone-name
+  asim_field: source-zone-name
+- field_name: destination-zone-name
+  field_type: string
+  description: Security zone of the destination interface
+  category: security
+  ecs_field: vendor.destination-zone-name
+  cim_field: destination-zone-name
+  asim_field: destination-zone-name
+- field_name: username
+  field_type: string
+  description: Username associated with the session (if authenticated)
+  category: identity
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
+- field_name: roles
+  field_type: string
+  description: Roles assigned to the authenticated user
+  category: identity
+  ecs_field: vendor.roles
+  cim_field: roles
+  asim_field: roles
+- field_name: application
+  field_type: string
+  description: Application identified by AppID/AppTrack
+  category: application
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
+- field_name: nested-application
+  field_type: string
+  description: Nested application within tunneled traffic
+  category: application
+  ecs_field: vendor.nested-application
+  cim_field: nested-application
+  asim_field: nested-application
+mapped_field_count: 10
 signatures:
-- vendor: juniper
-  product: srx
-  log_type: firewall
-  version: null
-  log_format: syslog
-  signature_name: Juniper SRX Flow Session
-  primary_pattern: RT_FLOW_SESSION_
-  confidence: 0.95
-  priority: 10
-  source: github_sync
-  sample_logs:
-  - 'Mar 15 12:30:45 srx01 RT_FLOW: RT_FLOW_SESSION_CREATE: session created 10.1.1.1/12345->8.8.8.8/443'
-  - 'RT_FLOW_SESSION_CLOSE: session closed 10.1.1.1/12345->8.8.8.8/443 reason: idle
-    timeout'
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: juniper
-  product: srx
-  log_type: firewall
-  version: null
-  log_format: kv
-  signature_name: Juniper SRX Flow Session Close
-  primary_pattern: RT_FLOW_SESSION_CLOSE
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - filebeat
-  - sigma
-  - logstash
-- vendor: juniper
-  product: srx
-  log_type: firewall
-  version: null
-  log_format: kv
-  signature_name: Juniper SRX Flow Session Create
-  primary_pattern: RT_FLOW_SESSION_CREATE
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - filebeat
-  - sigma
-  - logstash
-- vendor: juniper
-  product: srx
-  log_type: firewall
-  version: null
-  log_format: kv
-  signature_name: Juniper SRX Source-Address
-  primary_pattern: source-address="[^"]+" destination-address="[^"]+"
-  confidence: 0.9
-  priority: 20
-  source: github_sync
-  sample_logs:
-  - source-address="10.1.1.1" destination-address="8.8.8.8" service="https" action="permit"
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: srx
-  log_type: firewall
-  version: null
-  log_format: kv
-  signature_name: Juniper SRX Flow Session Deny
-  primary_pattern: RT_FLOW_SESSION_DENY
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - filebeat
-  - sigma
-  - logstash
-- vendor: juniper
-  product: srx
-  log_type: ha
-  version: null
-  log_format: syslog
-  signature_name: Juniper SRX Cluster Failover
-  primary_pattern: JSRPD_
-  confidence: 0.9
+- name: juniper_srx_generic
+  description: Generic Juniper SRX Security Gateway detection - RT_FLOW messages
+  regex_pattern: RT_FLOW(?::|_SESSION_(?:CREATE|CLOSE|DENY))
   priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: srx
-  log_type: idp
-  version: null
-  log_format: syslog
-  signature_name: Juniper SRX IDP Attack Log
-  primary_pattern: IDP_ATTACK_LOG_EVENT
   confidence: 0.95
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: srx
-  log_type: ids
-  version: null
-  log_format: syslog
-  signature_name: Juniper SRX IDS Screen Event
-  primary_pattern: 'RT_IDS:'
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: srx
   log_type: security
-  version: null
   log_format: syslog
-  signature_name: juniper_srx_generic
-  primary_pattern: RT_FLOW(?::|_SESSION_(?:CREATE|CLOSE|DENY))
-  confidence: 0.95
-  priority: 5
-  source: bulk_import
-  upstream_sources:
-  - json:juniper-srx-signatures.json
-- vendor: juniper
-  product: srx
-  log_type: utm
-  version: null
-  log_format: syslog
-  signature_name: Juniper SRX UTM Event
-  primary_pattern: RT_UTM
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: srx
-  log_type: vpn
-  version: null
-  log_format: syslog
-  signature_name: Juniper SRX IPsec VPN Event
-  primary_pattern: KMD_VPN
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
+- name: juniper_rt_flow_session_create
+  pattern: RT_FLOW_SESSION_CREATE
+  description: Session created - traffic permitted by security policy
+  event_type: session_start
+  action: allowed
+  fields:
+  - source-address
+  - source-port
+  - destination-address
+  - destination-port
+  - service-name
+  - protocol-id
+  - policy-name
+  - nat-source-address
+  - nat-source-port
+  - nat-destination-address
+  - nat-destination-port
+  - src-nat-rule-name
+  - dst-nat-rule-name
+  - session-id-32
+  - source-zone-name
+  - destination-zone-name
+  - username
+  - roles
+  - application
+  - nested-application
+- name: juniper_rt_flow_session_close
+  pattern: RT_FLOW_SESSION_CLOSE
+  description: Session closed - includes traffic statistics
+  event_type: session_end
+  action: allowed
+  fields:
+  - source-address
+  - source-port
+  - destination-address
+  - destination-port
+  - service-name
+  - protocol-id
+  - policy-name
+  - nat-source-address
+  - nat-source-port
+  - nat-destination-address
+  - nat-destination-port
+  - src-nat-rule-name
+  - dst-nat-rule-name
+  - session-id-32
+  - reason
+  - packets-from-client
+  - bytes-from-client
+  - packets-from-server
+  - bytes-from-server
+  - elapsed-time
+  - source-zone-name
+  - destination-zone-name
+  - username
+  - roles
+  - application
+  - nested-application
+- name: juniper_rt_flow_session_deny
+  pattern: RT_FLOW_SESSION_DENY
+  description: Session denied - traffic blocked by security policy
+  event_type: denied
+  action: denied
+  fields:
+  - source-address
+  - source-port
+  - destination-address
+  - destination-port
+  - service-name
+  - protocol-id
+  - icmp-type
+  - policy-name
+  - source-zone-name
+  - destination-zone-name
+  - username
+  - roles
+  - application

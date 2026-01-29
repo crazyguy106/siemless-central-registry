@@ -1,110 +1,210 @@
+version: '1.0'
+vendor: Juniper
+product: EX
+product_full_name: EX
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: juniper-ex-signatures.json
+generated_at: '2026-01-29T12:25:00.073134'
+field_count: 16
+fields:
+- field_name: interface
+  field_type: string
+  description: Switch interface name (e.g., ge-0/0/1)
+  category: network
+  ecs_field: observer.ingress.interface.name
+  cim_field: interface
+  asim_field: DvcInterface
+- field_name: vlan
+  field_type: string
+  description: VLAN name or ID
+  category: network
+  ecs_field: vendor.vlan
+  cim_field: vlan
+  asim_field: vlan
+- field_name: mac-address
+  field_type: string
+  description: MAC address
+  category: network
+  ecs_field: vendor.mac-address
+  cim_field: mac-address
+  asim_field: mac-address
+- field_name: state
+  field_type: string
+  description: Port or protocol state
+  category: network
+  ecs_field: vendor.state
+  cim_field: state
+  asim_field: state
+- field_name: username
+  field_type: string
+  description: Authenticated username (802.1X)
+  category: identity
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
+- field_name: reason
+  field_type: string
+  description: Event reason or failure cause
+  category: system
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: ifIndex
+  field_type: number
+  description: SNMP interface index
+  category: network
+  ecs_field: vendor.ifIndex
+  cim_field: ifIndex
+  asim_field: ifIndex
+- field_name: ifAdminStatus
+  field_type: string
+  description: Administrative status (up/down)
+  category: network
+  ecs_field: vendor.ifAdminStatus
+  cim_field: ifAdminStatus
+  asim_field: ifAdminStatus
+- field_name: ifOperStatus
+  field_type: string
+  description: Operational status (up/down)
+  category: network
+  ecs_field: vendor.ifOperStatus
+  cim_field: ifOperStatus
+  asim_field: ifOperStatus
+- field_name: ifName
+  field_type: string
+  description: Interface name from SNMP
+  category: network
+  ecs_field: vendor.ifName
+  cim_field: ifName
+  asim_field: ifName
+- field_name: radius-server
+  field_type: ip
+  description: RADIUS server IP address
+  category: authentication
+  ecs_field: vendor.radius-server
+  cim_field: radius-server
+  asim_field: radius-server
+- field_name: aggregate
+  field_type: string
+  description: Aggregate interface (ae0, ae1)
+  category: network
+  ecs_field: vendor.aggregate
+  cim_field: aggregate
+  asim_field: aggregate
+- field_name: root-bridge
+  field_type: string
+  description: STP root bridge MAC
+  category: network
+  ecs_field: vendor.root-bridge
+  cim_field: root-bridge
+  asim_field: root-bridge
+- field_name: traffic-type
+  field_type: string
+  description: Storm control traffic type
+  category: network
+  ecs_field: vendor.traffic-type
+  cim_field: traffic-type
+  asim_field: traffic-type
+- field_name: power
+  field_type: string
+  description: Power consumption in Watts
+  category: system
+  ecs_field: vendor.power
+  cim_field: power
+  asim_field: power
+- field_name: system-name
+  field_type: string
+  description: LLDP neighbor system name
+  category: network
+  ecs_field: vendor.system-name
+  cim_field: system-name
+  asim_field: system-name
+mapped_field_count: 3
 signatures:
-- vendor: juniper
-  product: ex
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX 802.1X Authentication
-  primary_pattern: DOT1XD_
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: switching
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX LACP Event
-  primary_pattern: LACPD_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: switching
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX Storm Control
-  primary_pattern: STORM_CONTROL_
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: switching
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX L2 Address Learning
-  primary_pattern: L2ALD_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: switching
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX MAC Address Learning
-  primary_pattern: ESWD_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: switching
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX Spanning Tree Event
-  primary_pattern: STP_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX PoE Event
-  primary_pattern: POE_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX LLDP Event
-  primary_pattern: LLDP_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: ex
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper EX SNMP Link Event
-  primary_pattern: SNMP_TRAP_LINK_
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
+- name: juniper_ex_dot1x_auth_success
+  pattern: DOT1XD_AUTH_SUCCESS
+  description: 802.1X authentication successful
+  event_type: authentication
+  action: allowed
+  fields:
+  - username
+  - interface
+  - mac-address
+  - vlan
+- name: juniper_ex_dot1x_auth_failure
+  pattern: DOT1XD_AUTH_FAILURE
+  description: 802.1X authentication failed
+  event_type: authentication
+  action: denied
+  fields:
+  - username
+  - interface
+  - mac-address
+  - reason
+- name: juniper_ex_link_down
+  pattern: SNMP_TRAP_LINK_DOWN
+  description: Interface link down
+  event_type: network
+  action: down
+  fields:
+  - ifIndex
+  - ifAdminStatus
+  - ifOperStatus
+  - ifName
+- name: juniper_ex_link_up
+  pattern: SNMP_TRAP_LINK_UP
+  description: Interface link up
+  event_type: network
+  action: up
+  fields:
+  - ifIndex
+  - ifAdminStatus
+  - ifOperStatus
+  - ifName
+- name: juniper_ex_stp_topology_change
+  pattern: STP_TOPOLOGY_CHANGE
+  description: Spanning tree topology change
+  event_type: network
+  fields:
+  - interface
+  - vlan
+  - root-bridge
+- name: juniper_ex_storm_control
+  pattern: STORM_CONTROL_TRIGGERED
+  description: Storm control activated
+  event_type: alert
+  fields:
+  - interface
+  - traffic-type
+- name: juniper_ex_mac_move
+  pattern: L2ALD_MAC_MOVE
+  description: MAC address moved between interfaces
+  event_type: network
+  fields:
+  - mac-address
+  - interface
+  - vlan
+- name: juniper_ex_lacp_timeout
+  pattern: LACPD_TIMEOUT
+  description: LACP timeout on interface
+  event_type: network
+  fields:
+  - interface
+  - aggregate
+- name: juniper_ex_poe_device
+  pattern: POE_DEVICE_DETECTED
+  description: PoE device detected
+  event_type: system
+  fields:
+  - interface
+  - power
+- name: juniper_ex_lldp_neighbor
+  pattern: LLDP_NEIGHBOR_UP
+  description: LLDP neighbor detected
+  event_type: network
+  fields:
+  - interface
+  - system-name

@@ -1,104 +1,74 @@
+version: '1.0'
+vendor: Zeek
+product: Network
+product_full_name: Network
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: zeek-network-signatures.json
+generated_at: '2026-01-29T12:25:02.093630'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: zeek
-  product: network
-  log_type: connection
-  version: null
-  log_format: json
-  signature_name: Zeek Connection Log
-  primary_pattern: zeek\.connection|conn\.log
+- name: zeek_connection
+  description: Zeek connection log (conn.log)
+  pattern: zeek\.connection|conn\.log
+  event_type: connection
   confidence: 0.95
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: zeek
-  product: network
-  log_type: dns
-  version: null
-  log_format: json
-  signature_name: Zeek DNS Log
-  primary_pattern: zeek\.dns|dns\.log
+- name: zeek_dns
+  description: Zeek DNS log (dns.log)
+  pattern: zeek\.dns|dns\.log
+  event_type: dns
   confidence: 0.95
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: zeek
-  product: network
-  log_type: files
-  version: null
-  log_format: json
-  signature_name: Zeek Files Log
-  primary_pattern: zeek\.files|files\.log
+- name: zeek_http
+  description: Zeek HTTP log (http.log)
+  pattern: zeek\.http|http\.log
+  event_type: http
+  confidence: 0.95
+- name: zeek_ssl
+  description: Zeek SSL/TLS log (ssl.log)
+  pattern: zeek\.ssl|ssl\.log
+  event_type: tls
+  confidence: 0.95
+- name: zeek_files
+  description: Zeek file analysis log (files.log)
+  pattern: zeek\.files|files\.log
+  event_type: file
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: zeek
-  product: network
-  log_type: http
-  version: null
-  log_format: json
-  signature_name: Zeek HTTP Log
-  primary_pattern: zeek\.http|http\.log
+- name: zeek_notice
+  description: Zeek notice/alert log (notice.log)
+  pattern: zeek\.notice|notice\.log
+  event_type: alert
   confidence: 0.95
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: zeek
-  product: network
-  log_type: kerberos
-  version: null
-  log_format: json
-  signature_name: Zeek Kerberos Log
-  primary_pattern: zeek\.kerberos|kerberos\.log
+- name: zeek_ssh
+  description: Zeek SSH log (ssh.log)
+  pattern: zeek\.ssh|ssh\.log
+  event_type: ssh
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: zeek
-  product: network
-  log_type: notice
-  version: null
-  log_format: json
-  signature_name: Zeek Notice Log
-  primary_pattern: zeek\.notice|notice\.log
-  confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: zeek
-  product: network
-  log_type: ssh
-  version: null
-  log_format: json
-  signature_name: Zeek SSH Log
-  primary_pattern: zeek\.ssh|ssh\.log
+- name: zeek_x509
+  description: Zeek X.509 certificate log (x509.log)
+  pattern: zeek\.x509|x509\.log
+  event_type: certificate
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: zeek
-  product: network
-  log_type: ssl
-  version: null
-  log_format: json
-  signature_name: Zeek SSL/TLS Log
-  primary_pattern: zeek\.ssl|ssl\.log
-  confidence: 0.95
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
+- name: zeek_kerberos
+  description: Zeek Kerberos log (kerberos.log)
+  pattern: zeek\.kerberos|kerberos\.log
+  event_type: authentication
+  confidence: 0.9
+- name: zeek_rdp
+  description: Zeek RDP log (rdp.log)
+  pattern: zeek\.rdp|rdp\.log
+  event_type: rdp
+  confidence: 0.9
+- name: zeek_smtp
+  description: Zeek SMTP log (smtp.log)
+  pattern: zeek\.smtp|smtp\.log
+  event_type: email
+  confidence: 0.9
+- name: zeek_weird
+  description: Zeek weird/anomaly log (weird.log)
+  pattern: zeek\.weird|weird\.log
+  event_type: anomaly
+  confidence: 0.85

@@ -7,7 +7,7 @@ source_document: PAN-OS Administrator Guide v11.0
 source_url: https://docs.paloaltonetworks.com/pan-os/11-0/pan-os-admin/monitoring/use-syslog-for-monitoring/syslog-field-descriptions
 extraction_date: '2026-01-01'
 source_file: paloalto-panos-signatures.json
-generated_at: '2026-01-04T09:34:59.407682'
+generated_at: '2026-01-29T12:25:00.736976'
 categories:
 - Traffic
 - Threat
@@ -32,9 +32,9 @@ fields:
   field_type: string
   description: Serial number of the firewall that generated the log.
   category: Traffic
-  ecs_field: device.serial_number
+  ecs_field: observer.serial_number
   cim_field: device_serial
-  asim_field: DeviceSerialNumber
+  asim_field: DvcSerial
 - field_name: type
   field_type: string
   description: Specifies the type of log; value is TRAFFIC.
@@ -44,12 +44,13 @@ fields:
   asim_field: EventId
 - field_name: subtype
   field_type: string
-  description: Subtype of traffic log; values are start, end, drop, and deny   Startsession started   Endsession ended   Dropsession
-    dropped before the application is identified  and there is no rule that allows the session.   Denysession dropped after
-    the application is identified  and there is a rule to block or no rule that allows the  session.
+  description: Subtype of traffic log; values are start, end, drop, and deny   Startsession
+    started   Endsession ended   Dropsession dropped before the application is identified  and
+    there is no rule that allows the session.   Denysession dropped after the application
+    is identified  and there is a rule to block or no rule that allows the  session.
   category: Traffic
   ecs_field: event.category
-  cim_field: category
+  cim_field: log_subtype
   asim_field: EventCategory
 - field_name: src
   field_type: ip
@@ -83,9 +84,9 @@ fields:
   field_type: string
   description: Name of the rule that the session matched.
   category: Traffic
-  ecs_field: rule.id
-  cim_field: rule_id
-  asim_field: RuleNumber
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
 - field_name: srcuser
   field_type: string
   description: Username of the user who initiated the session.
@@ -104,9 +105,9 @@ fields:
   field_type: string
   description: Application associated with the session.
   category: Traffic
-  ecs_field: network.application
-  cim_field: app_id
-  asim_field: DstAppId
+  ecs_field: network.protocol
+  cim_field: app
+  asim_field: DstAppName
 - field_name: vsys
   field_type: string
   description: Virtual System associated with the session.
@@ -158,7 +159,8 @@ fields:
   asim_field: NetworkSessionId
 - field_name: repeatcnt
   field_type: int
-  description: Number of sessions with same Source IP, Destination IP,  Application, and Subtype seen within 5 seconds.
+  description: Number of sessions with same Source IP, Destination IP,  Application,
+    and Subtype seen within 5 seconds.
   category: Traffic
   ecs_field: event.sequence
   cim_field: repeat_count
@@ -193,8 +195,9 @@ fields:
   asim_field: DstNatPortNumber
 - field_name: flags
   field_type: string
-  description: '32-bit field that provides details on session; this field can be  decoded by AND-ing the values with the logged
-    value:   0x80000000session has a packet capture (PCAP)'
+  description: '32-bit field that provides details on session; this field can be  decoded
+    by AND-ing the values with the logged value:   0x80000000session has a packet
+    capture (PCAP)'
   category: Traffic
   ecs_field: network.ip_flags
   cim_field: ip_flags
@@ -264,7 +267,8 @@ fields:
   asim_field: EventCategory
 - field_name: seqno
   field_type: int
-  description: A 64-bit log entry identifier incremented sequentially; each log  type has a unique number space.
+  description: A 64-bit log entry identifier incremented sequentially; each log  type
+    has a unique number space.
   category: Traffic
   ecs_field: event.sequence
   cim_field: sequence_number
@@ -278,14 +282,16 @@ fields:
   asim_field: EventResultDetails
 - field_name: srcloc
   field_type: string
-  description: Source country or Internal region for private addresses;  maximum length is 32 bytes.
+  description: Source country or Internal region for private addresses;  maximum length
+    is 32 bytes.
   category: Traffic
   ecs_field: source.geo.country_name
   cim_field: src_country
   asim_field: SrcGeoCountry
 - field_name: dstloc
   field_type: string
-  description: Destination country or Internal region for private addresses.  Maximum length is 32 bytes.
+  description: Destination country or Internal region for private addresses.  Maximum
+    length is 32 bytes.
   category: Traffic
   ecs_field: destination.geo.country_name
   cim_field: dest_country
@@ -306,19 +312,21 @@ fields:
   asim_field: DstPackets
 - field_name: session_end_reason
   field_type: string
-  description: 'The reason a session terminated. If the termination had  multiple causes, this field displays only the highest
-    priority  reason. The possible session end reason values are as follows,  in order of priority (where the first is highest):   threatThe
-    firewall detected a threat associated with a  reset, drop, or block (IP address) action.   policy-denyThe session matched
-    a security rule with a  deny or drop action.   decrypt-cert-validationThe session terminated  because you configured the
-    firewall '
+  description: 'The reason a session terminated. If the termination had  multiple
+    causes, this field displays only the highest priority  reason. The possible session
+    end reason values are as follows,  in order of priority (where the first is highest):   threatThe
+    firewall detected a threat associated with a  reset, drop, or block (IP address)
+    action.   policy-denyThe session matched a security rule with a  deny or drop
+    action.   decrypt-cert-validationThe session terminated  because you configured
+    the firewall '
   category: Traffic
   ecs_field: event.reason
   cim_field: session_end_reason
   asim_field: EventResultDetails
 - field_name: vsys_name
   field_type: string
-  description: The name of the virtual system associated with the session;  only valid on firewalls enabled for multiple virtual
-    systems.
+  description: The name of the virtual system associated with the session;  only valid
+    on firewalls enabled for multiple virtual systems.
   category: Traffic
   ecs_field: observer.name
   cim_field: vsys_name
@@ -332,37 +340,42 @@ fields:
   asim_field: DvcHostname
 - field_name: action_source
   field_type: string
-  description: Specifies whether the action taken to allow or block an  application was defined in the application or in policy.
-    The  actions can be allow, deny, drop, reset- server, reset-client or  reset-both for the session.
+  description: Specifies whether the action taken to allow or block an  application
+    was defined in the application or in policy. The  actions can be allow, deny,
+    drop, reset- server, reset-client or  reset-both for the session.
   category: Traffic
   ecs_field: vendor.action_source
   cim_field: action_source
   asim_field: action_source
 - field_name: src_uuid
   field_type: int
-  description: Identifies the source universal unique identifier for a guest  virtual machine in the VMware NSX environment.
+  description: Identifies the source universal unique identifier for a guest  virtual
+    machine in the VMware NSX environment.
   category: Traffic
   ecs_field: vendor.src_uuid
   cim_field: src_uuid
   asim_field: src_uuid
 - field_name: dst_uuid
   field_type: int
-  description: Identifies the destination universal unique identifier for a guest  virtual machine in the VMware NSX environment.
+  description: Identifies the destination universal unique identifier for a guest  virtual
+    machine in the VMware NSX environment.
   category: Traffic
   ecs_field: vendor.dst_uuid
   cim_field: dst_uuid
   asim_field: dst_uuid
 - field_name: parent_session_id
   field_type: int
-  description: ID of the session in which this session is tunneled. Applies to  inner tunnel (if two levels of tunneling)
-    or inside content (if one  level of tunneling) only.
+  description: ID of the session in which this session is tunneled. Applies to  inner
+    tunnel (if two levels of tunneling) or inside content (if one  level of tunneling)
+    only.
   category: Traffic
   ecs_field: vendor.parent_session_id
   cim_field: parent_session_id
   asim_field: parent_session_id
 - field_name: parent_start_time
   field_type: datetime
-  description: Year/month/day hours:minutes:seconds that the parent tunnel  session began.
+  description: Year/month/day hours:minutes:seconds that the parent tunnel  session
+    began.
   category: Traffic
   ecs_field: vendor.parent_start_time
   cim_field: parent_start_time
@@ -376,7 +389,8 @@ fields:
   asim_field: tunnel
 - field_name: assoc_id
   field_type: int
-  description: Number that identifies all connections for an association  between two SCTP endpoints.
+  description: Number that identifies all connections for an association  between
+    two SCTP endpoints.
   category: Traffic
   ecs_field: vendor.assoc_id
   cim_field: assoc_id
@@ -411,8 +425,8 @@ fields:
   asim_field: rule_uuid
 - field_name: http2_connection
   field_type: string
-  description: 'Identifies if traffic used an HTTP/2 Connection by displaying  one of the following values:   Parent session
-    IDHTTP/2 connection   0SSL session'
+  description: 'Identifies if traffic used an HTTP/2 Connection by displaying  one
+    of the following values:   Parent session IDHTTP/2 connection   0SSL session'
   category: Traffic
   ecs_field: vendor.http2_connection
   cim_field: http2_connection
@@ -428,13 +442,14 @@ fields:
   field_type: int
   description: Name of the SD-WAN policy.
   category: Traffic
-  ecs_field: rule.id
+  ecs_field: vendor.policy_id
   cim_field: policy_id
-  asim_field: RuleId
+  asim_field: policy_id
 - field_name: link_switches
   field_type: string
-  description: Contains up to four link flap entries, with each entry containing  the link name, link tag, link type, physical
-    interface, timestamp,  bytes read, bytes written, link health, and link flap cause.
+  description: Contains up to four link flap entries, with each entry containing  the
+    link name, link tag, link type, physical interface, timestamp,  bytes read, bytes
+    written, link health, and link flap cause.
   category: Traffic
   ecs_field: vendor.link_switches
   cim_field: link_switches
@@ -483,138 +498,155 @@ fields:
   asim_field: sdwan_site
 - field_name: dynusergroup_name
   field_type: string
-  description: Name of the dynamic user group that contains the user who  initiated the session.
+  description: Name of the dynamic user group that contains the user who  initiated
+    the session.
   category: Traffic
   ecs_field: vendor.dynusergroup_name
   cim_field: dynusergroup_name
   asim_field: dynusergroup_name
 - field_name: xff_ip
   field_type: ip
-  description: The IP address of the user who requested the web page or  the IP address of the next to last device that the
-    request  traversed. If the request goes through one or more proxies,  load balancers, or other upstream devices, the firewall
-    displays  the IP address of the most recent device.  Based on different appliance implementations, the  XFF field may
-    contain non-IP address values.
+  description: The IP address of the user who requested the web page or  the IP address
+    of the next to last device that the request  traversed. If the request goes through
+    one or more proxies,  load balancers, or other upstream devices, the firewall
+    displays  the IP address of the most recent device.  Based on different appliance
+    implementations, the  XFF field may contain non-IP address values.
   category: Traffic
   ecs_field: vendor.xff_ip
   cim_field: xff_ip
   asim_field: xff_ip
 - field_name: src_category
   field_type: string
-  description: The category for the device that Device-ID identifies as the  source of the traffic.
+  description: The category for the device that Device-ID identifies as the  source
+    of the traffic.
   category: Traffic
   ecs_field: vendor.src_category
   cim_field: src_category
   asim_field: src_category
 - field_name: src_profile
   field_type: string
-  description: The device profile for the device that Device-ID identifies as  the source of the traffic.
+  description: The device profile for the device that Device-ID identifies as  the
+    source of the traffic.
   category: Traffic
   ecs_field: vendor.src_profile
   cim_field: src_profile
   asim_field: src_profile
 - field_name: src_model
   field_type: string
-  description: The model of the device that Device-ID identifies as the  source of the traffic.
+  description: The model of the device that Device-ID identifies as the  source of
+    the traffic.
   category: Traffic
   ecs_field: vendor.src_model
   cim_field: src_model
   asim_field: src_model
 - field_name: src_vendor
   field_type: string
-  description: The vendor of the device that Device-ID identifies as the  source of the traffic.
+  description: The vendor of the device that Device-ID identifies as the  source of
+    the traffic.
   category: Traffic
   ecs_field: vendor.src_vendor
   cim_field: src_vendor
   asim_field: src_vendor
 - field_name: src_osfamily
   field_type: string
-  description: The operating system type for the device that Device-ID  identifies as the source of the traffic.
+  description: The operating system type for the device that Device-ID  identifies
+    as the source of the traffic.
   category: Traffic
   ecs_field: vendor.src_osfamily
   cim_field: src_osfamily
   asim_field: src_osfamily
 - field_name: src_osversion
   field_type: string
-  description: The version of the operating system for the device that  Device-ID identifies as the source of the traffic.
+  description: The version of the operating system for the device that  Device-ID
+    identifies as the source of the traffic.
   category: Traffic
   ecs_field: vendor.src_osversion
   cim_field: src_osversion
   asim_field: src_osversion
 - field_name: src_host
   field_type: string
-  description: The hostname of the device that Device-ID identifies as the  source of the traffic.
+  description: The hostname of the device that Device-ID identifies as the  source
+    of the traffic.
   category: Traffic
   ecs_field: source.domain
   cim_field: src
   asim_field: SrcHostname
 - field_name: src_mac
   field_type: ip
-  description: The MAC address for the device that Device-ID identifies as  the source of the traffic.
+  description: The MAC address for the device that Device-ID identifies as  the source
+    of the traffic.
   category: Traffic
   ecs_field: source.mac
   cim_field: src_mac
   asim_field: SrcMacAddr
 - field_name: dst_category
   field_type: string
-  description: The category for the device that Device-ID identifies as the  destination for the traffic.
+  description: The category for the device that Device-ID identifies as the  destination
+    for the traffic.
   category: Traffic
   ecs_field: vendor.dst_category
   cim_field: dst_category
   asim_field: dst_category
 - field_name: dst_profile
   field_type: string
-  description: The device profile for the device that Device-ID identifies as  the destination for the traffic.
+  description: The device profile for the device that Device-ID identifies as  the
+    destination for the traffic.
   category: Traffic
   ecs_field: vendor.dst_profile
   cim_field: dst_profile
   asim_field: dst_profile
 - field_name: dst_model
   field_type: string
-  description: The model of the device that Device-ID identifies as the  destination for the traffic.
+  description: The model of the device that Device-ID identifies as the  destination
+    for the traffic.
   category: Traffic
   ecs_field: vendor.dst_model
   cim_field: dst_model
   asim_field: dst_model
 - field_name: dst_vendor
   field_type: string
-  description: The vendor of the device that Device-ID identifies as the  destination for the traffic.  Destination Device
-    OS
+  description: The vendor of the device that Device-ID identifies as the  destination
+    for the traffic.  Destination Device OS
   category: Traffic
   ecs_field: vendor.dst_vendor
   cim_field: dst_vendor
   asim_field: dst_vendor
 - field_name: dst_osfamily
   field_type: string
-  description: The operating system type for the device that Device-ID  identifies as the destination for the traffic.  Destination
-    Device OS
+  description: The operating system type for the device that Device-ID  identifies
+    as the destination for the traffic.  Destination Device OS
   category: Traffic
   ecs_field: vendor.dst_osfamily
   cim_field: dst_osfamily
   asim_field: dst_osfamily
 - field_name: dst_osversion
   field_type: string
-  description: The version of the operating system for the device that  Device-ID identifies as the destination for the traffic.
+  description: The version of the operating system for the device that  Device-ID
+    identifies as the destination for the traffic.
   category: Traffic
   ecs_field: vendor.dst_osversion
   cim_field: dst_osversion
   asim_field: dst_osversion
 - field_name: dst_host
   field_type: string
-  description: The hostname of the device that Device-ID identifies as the  destination for the traffic.
+  description: The hostname of the device that Device-ID identifies as the  destination
+    for the traffic.
   category: Traffic
   ecs_field: destination.domain
   cim_field: dest
   asim_field: DstHostname
 - field_name: dst_mac
   field_type: ip
-  description: The MAC address for the device that Device-ID identifies as  the destination for the traffic.
+  description: The MAC address for the device that Device-ID identifies as  the destination
+    for the traffic.
   category: Traffic
   ecs_field: destination.mac
   cim_field: dest_mac
   asim_field: DstMacAddr
 - field_name: container_id
   field_type: int
-  description: The container ID of the PAN-NGFW pod on the Kubernetes  node where the application POD is deployed.
+  description: The container ID of the PAN-NGFW pod on the Kubernetes  node where
+    the application POD is deployed.
   category: Traffic
   ecs_field: container.id
   cim_field: container_id
@@ -635,14 +667,16 @@ fields:
   asim_field: pod_name
 - field_name: src_edl
   field_type: string
-  description: The name of the external dynamic list that contains the source  IP address of the traffic.  Destination External
+  description: The name of the external dynamic list that contains the source  IP
+    address of the traffic.  Destination External
   category: Traffic
   ecs_field: vendor.src_edl
   cim_field: src_edl
   asim_field: src_edl
 - field_name: dst_edl
   field_type: string
-  description: The name of the external dynamic list that contains the  destination IP address of the traffic.
+  description: The name of the external dynamic list that contains the  destination
+    IP address of the traffic.
   category: Traffic
   ecs_field: vendor.dst_edl
   cim_field: dst_edl
@@ -663,7 +697,8 @@ fields:
   asim_field: serialnumber
 - field_name: src_dag
   field_type: string
-  description: Original session source dynamic address group.  Destination Dynamic Address
+  description: Original session source dynamic address group.  Destination Dynamic
+    Address
   category: Traffic
   ecs_field: vendor.src_dag
   cim_field: src_dag
@@ -677,18 +712,21 @@ fields:
   asim_field: dst_dag
 - field_name: session_owner
   field_type: string
-  description: The original high availability (HA) peer session owner in an HA  cluster from which the session table data
-    was synchronized  upon HA failover.
+  description: The original high availability (HA) peer session owner in an HA  cluster
+    from which the session table data was synchronized  upon HA failover.
   category: Traffic
   ecs_field: vendor.session_owner
   cim_field: session_owner
   asim_field: session_owner
 - field_name: high_res_timestamp
   field_type: datetime
-  description: 'Time in milliseconds the log was received at the management  plane.  The format for this new field is YYYY-MM-DDThh:ss:sssTZD:   YYYYFour
-    digit year   MMTwo-digit month   DDTwo-digit day of the month (01 through 31)   TIndicator for the beginning of the timestamp   hhTwo-digit
-    hour using 24-hour time (00 through 23)   mmTwo-digit minute (00 through 59)   ssTwo-digit second (00 through 60)   sssOne
-    or more digits for millisecond   TZDTime zone designator (+hh:mm or -hh:mm)  The High Resolution Ti'
+  description: 'Time in milliseconds the log was received at the management  plane.  The
+    format for this new field is YYYY-MM-DDThh:ss:sssTZD:   YYYYFour digit year   MMTwo-digit
+    month   DDTwo-digit day of the month (01 through 31)   TIndicator for the beginning
+    of the timestamp   hhTwo-digit hour using 24-hour time (00 through 23)   mmTwo-digit
+    minute (00 through 59)   ssTwo-digit second (00 through 60)   sssOne or more digits
+    for millisecond   TZDTime zone designator (+hh:mm or -hh:mm)  The High Resolution
+    Ti'
   category: Traffic
   ecs_field: vendor.high_res_timestamp
   cim_field: high_res_timestamp
@@ -709,21 +747,24 @@ fields:
   asim_field: nssai_sd
 - field_name: subcategory_of_app
   field_type: string
-  description: The application subcategory specified in the application  configuration properties.
+  description: The application subcategory specified in the application  configuration
+    properties.
   category: Traffic
   ecs_field: vendor.subcategory_of_app
   cim_field: subcategory_of_app
   asim_field: subcategory_of_app
 - field_name: category_of_app
   field_type: string
-  description: 'The application category specified in the application  configuration properties. Values are:   business-systems   collaboration   general-internet   media   networking   saas'
+  description: 'The application category specified in the application  configuration
+    properties. Values are:   business-systems   collaboration   general-internet   media   networking   saas'
   category: Traffic
   ecs_field: vendor.category_of_app
   cim_field: category_of_app
   asim_field: category_of_app
 - field_name: technology_of_app
   field_type: string
-  description: 'The application technology specified in the application  configuration properties. Values are:   browser-based   client-server   network-protocol   peer-to-peer'
+  description: 'The application technology specified in the application  configuration
+    properties. Values are:   browser-based   client-server   network-protocol   peer-to-peer'
   category: Traffic
   ecs_field: vendor.technology_of_app
   cim_field: technology_of_app
@@ -772,15 +813,17 @@ fields:
   asim_field: sanctioned_state_of_app
 - field_name: offloaded
   field_type: string
-  description: Displays 1 if traffic flow has been offloaded or 0 if traffic flow  was not offloaded.
+  description: Displays 1 if traffic flow has been offloaded or 0 if traffic flow  was
+    not offloaded.
   category: Traffic
   ecs_field: vendor.offloaded
   cim_field: offloaded
   asim_field: offloaded
 - field_name: flow_type
   field_type: string
-  description: Identifies the type of proxy used for traffic. If a proxy is used,  Explicit Proxy or Transparent Proxy is
-    displayed. If  no proxy is used, NonProxyTraffic is displayed.
+  description: Identifies the type of proxy used for traffic. If a proxy is used,  Explicit
+    Proxy or Transparent Proxy is displayed. If  no proxy is used, NonProxyTraffic
+    is displayed.
   category: Traffic
   ecs_field: vendor.flow_type
   cim_field: flow_type
@@ -789,62 +832,69 @@ fields:
   field_type: string
   description: Name of the CN-Series firewall cluster.
   category: Traffic
-  ecs_field: orchestrator.cluster.name
+  ecs_field: vendor.cluster_name
   cim_field: cluster_name
-  asim_field: ClusterName
+  asim_field: cluster_name
 - field_name: misc
   field_type: string
-  description: Field with variable length. A Filename has a maximum of 63  characters. A URL has a maximum of 1023 characters  The
-    actual URI when the subtype is url  File name or file type when the subtype is file  File name when the subtype is virus  File
-    name when the subtype is wildfire-virus  File name when the subtype is wildfire  URL or File name when the subtype is
-    vulnerability if applicable  URL when Threat Category is domain-edl
+  description: Field with variable length. A Filename has a maximum of 63  characters.
+    A URL has a maximum of 1023 characters  The actual URI when the subtype is url  File
+    name or file type when the subtype is file  File name when the subtype is virus  File
+    name when the subtype is wildfire-virus  File name when the subtype is wildfire  URL
+    or File name when the subtype is vulnerability if applicable  URL when Threat
+    Category is domain-edl
   category: Threat
   ecs_field: vendor.misc
   cim_field: misc
   asim_field: misc
 - field_name: threatid
   field_type: int
-  description: 'Palo Alto Networks identifier for known and custom threats. It  is a description string followed by a 64-bit
-    numerical identifier in  parentheses for some Subtypes:   8000  8099 scan detection   8500  8599 flood detection   9999
-    URL filtering log   10000  19999 spyware phone home detection   20000  29999 spyware download detection   30000  44999
-    vulnerability exploit detection'
+  description: 'Palo Alto Networks identifier for known and custom threats. It  is
+    a description string followed by a 64-bit numerical identifier in  parentheses
+    for some Subtypes:   8000  8099 scan detection   8500  8599 flood detection   9999
+    URL filtering log   10000  19999 spyware phone home detection   20000  29999 spyware
+    download detection   30000  44999 vulnerability exploit detection'
   category: Threat
   ecs_field: threat.indicator.reference
   cim_field: threat_id
   asim_field: ThreatId
 - field_name: thr_category
   field_type: string
-  description: field names to create updated  reports, filter threat logs, and ACC activity.
+  description: field names to create updated  reports, filter threat logs, and ACC
+    activity.
   category: Threat
   ecs_field: threat.indicator.type
   cim_field: threat_category
   asim_field: ThreatCategory
 - field_name: severity
   field_type: string
-  description: Severity associated with the threat; values are informational, low,  medium, high, critical.
+  description: Severity associated with the threat; values are informational, low,  medium,
+    high, critical.
   category: Threat
   ecs_field: log.level
   cim_field: log_level
   asim_field: EventSeverity
 - field_name: direction
   field_type: string
-  description: 'Indicates the direction of the attack, client-to-server or server-to-client:   0direction of the threat is
-    client to server   1direction of the threat is server to client'
+  description: 'Indicates the direction of the attack, client-to-server or server-to-client:   0direction
+    of the threat is client to server   1direction of the threat is server to client'
   category: Threat
   ecs_field: network.direction
   cim_field: direction
   asim_field: NetworkDirection
 - field_name: contenttype
   field_type: string
-  description: Applicable only when Subtype is URL.  Content type of the HTTP response data. Maximum length 32  bytes.
+  description: Applicable only when Subtype is URL.  Content type of the HTTP response
+    data. Maximum length 32  bytes.
   category: Threat
   ecs_field: http.response.mime_type
   cim_field: content_type
   asim_field: HttpContentType
 - field_name: pcap_id
   field_type: int
-  description: The packet capture (pcap) ID is a 64 bit unsigned integral denoting  an ID to correlate threat pcap files with
-    extended pcaps taken as  a part of that flow. All threat logs will contain either a pcap_id of 0  (no associated pcap),
+  description: The packet capture (pcap) ID is a 64 bit unsigned integral denoting  an
+    ID to correlate threat pcap files with extended pcaps taken as  a part of that
+    flow. All threat logs will contain either a pcap_id of 0  (no associated pcap),
     or an ID referencing the extended pcap file.
   category: Threat
   ecs_field: vendor.pcap_id
@@ -852,8 +902,9 @@ fields:
   asim_field: pcap_id
 - field_name: filedigest
   field_type: string
-  description: Only for WildFire subtype; all other types do not use this field  The filedigest string shows the binary hash
-    of the file sent to be  analyzed by the WildFire service.
+  description: Only for WildFire subtype; all other types do not use this field  The
+    filedigest string shows the binary hash of the file sent to be  analyzed by the
+    WildFire service.
   category: Threat
   ecs_field: file.hash.sha256
   cim_field: file_hash
@@ -867,17 +918,20 @@ fields:
   asim_field: ThreatConfidence
 - field_name: private
   field_type: string
-  description: or the WildFire cloud (public) from where the file was  uploaded for analysis.
+  description: or the WildFire cloud (public) from where the file was  uploaded for
+    analysis.
   category: Threat
   ecs_field: vendor.private
   cim_field: private
   asim_field: private
 - field_name: url_idx
   field_type: int
-  description: Used in URL Filtering and WildFire subtypes.  When an application uses TCP keepalives to keep a connection  open
-    for a length of time, all the log entries for that session have a  single session ID. In such cases, when you have a single
-    threat log  (and session ID) that includes multiple URL entries, the url_idx is  a counter that allows you to correlate
-    the order of each log entry  within the single session.  For example, to learn the URL of a file that the firewall forwarded  to
+  description: Used in URL Filtering and WildFire subtypes.  When an application uses
+    TCP keepalives to keep a connection  open for a length of time, all the log entries
+    for that session have a  single session ID. In such cases, when you have a single
+    threat log  (and session ID) that includes multiple URL entries, the url_idx is  a
+    counter that allows you to correlate the order of each log entry  within the single
+    session.  For example, to learn the URL of a file that the firewall forwarded  to
     WildFire for a
   category: Threat
   ecs_field: vendor.url_idx
@@ -885,39 +939,43 @@ fields:
   asim_field: url_idx
 - field_name: user_agent
   field_type: string
-  description: Only for the URL Filtering subtype; all other types do not use this  field.  The User Agent field specifies
-    the web browser that the user used  to access the URL, for example Internet Explorer. This information  is sent in the
-    HTTP request to the server.
+  description: Only for the URL Filtering subtype; all other types do not use this  field.  The
+    User Agent field specifies the web browser that the user used  to access the URL,
+    for example Internet Explorer. This information  is sent in the HTTP request to
+    the server.
   category: Threat
   ecs_field: user_agent.original
   cim_field: http_user_agent
   asim_field: UserAgent
 - field_name: filetype
   field_type: string
-  description: Only for WildFire subtype; all other types do not use this field.  Specifies the type of file that the firewall
-    forwarded for WildFire  analysis.
+  description: Only for WildFire subtype; all other types do not use this field.  Specifies
+    the type of file that the firewall forwarded for WildFire  analysis.
   category: Threat
   ecs_field: vendor.filetype
   cim_field: filetype
   asim_field: filetype
 - field_name: xff
   field_type: string
-  description: Only for the URL Filtering subtype; all other types do not use this  field.  The X-Forwarded-For field in the
-    HTTP header contains the IP  address of the user who requested the web page. It allows you to  identify the IP address
-    of the user, which is useful particularly if  you have a proxy server on your network that replaces the user IP  address
-    with its own address in the source IP address field of the  packet header.
+  description: Only for the URL Filtering subtype; all other types do not use this  field.  The
+    X-Forwarded-For field in the HTTP header contains the IP  address of the user
+    who requested the web page. It allows you to  identify the IP address of the user,
+    which is useful particularly if  you have a proxy server on your network that
+    replaces the user IP  address with its own address in the source IP address field
+    of the  packet header.
   category: Threat
-  ecs_field: network.forwarded_ip
-  cim_field: x_forwarded_for
-  asim_field: XForwardedFor
+  ecs_field: vendor.xff
+  cim_field: xff
+  asim_field: xff
 - field_name: referer
   field_type: string
-  description: Only for the URL Filtering subtype; all other types do not use this  field.  The Referer field in the HTTP
-    header contains the URL of the web  page that linked the user to another web page; it is the source  that redirected (referred)
-    the user to the web page that is being  requested.
+  description: Only for the URL Filtering subtype; all other types do not use this  field.  The
+    Referer field in the HTTP header contains the URL of the web  page that linked
+    the user to another web page; it is the source  that redirected (referred) the
+    user to the web page that is being  requested.
   category: Threat
   ecs_field: http.request.referrer
-  cim_field: http_referer
+  cim_field: http_referrer
   asim_field: HttpReferrer
 - field_name: sender
   field_type: string
@@ -942,16 +1000,18 @@ fields:
   asim_field: DstUserEmail
 - field_name: reportid
   field_type: port
-  description: Only for Data Filtering and WildFire subtype; all other types do not  use this field.  Identifies the analysis
-    request on the firewall, WildFire cloud, or the  WildFire appliance.
+  description: Only for Data Filtering and WildFire subtype; all other types do not  use
+    this field.  Identifies the analysis request on the firewall, WildFire cloud,
+    or the  WildFire appliance.
   category: Threat
   ecs_field: vendor.reportid
   cim_field: reportid
   asim_field: reportid
 - field_name: http_method
   field_type: string
-  description: 'Only in URL filtering logs. Describes the HTTP Method used in the  web request. Only the following methods
-    are logged: Connect,  Delete, Get, Head, Options, Post, Put.'
+  description: 'Only in URL filtering logs. Describes the HTTP Method used in the  web
+    request. Only the following methods are logged: Connect,  Delete, Get, Head, Options,
+    Post, Put.'
   category: Threat
   ecs_field: http.request.method
   cim_field: http_method
@@ -986,7 +1046,8 @@ fields:
   asim_field: url_category_list
 - field_name: domain_edl
   field_type: string
-  description: The name of the external dynamic list that contains the domain  name of the traffic.  Source Dynamic
+  description: The name of the external dynamic list that contains the domain  name
+    of the traffic.  Source Dynamic
   category: Threat
   ecs_field: vendor.domain_edl
   cim_field: domain_edl
@@ -1014,10 +1075,11 @@ fields:
   asim_field: justification
 - field_name: cloud_reportid
   field_type: port
-  description: (PAN-OS 10.2.0) Unique 32 character ID for a file scanned by the  DLP cloud service sent by a firewall.  (PAN-OS
-    10.2.1 and later releases) Unique 67 character ID for a file  scanned by the DLP cloud service sent by a firewall.  The
-    same Cloud Report ID is displayed for a file the DLP cloud  service has already scanned and generated a Cloud Report ID
-    for.
+  description: (PAN-OS 10.2.0) Unique 32 character ID for a file scanned by the  DLP
+    cloud service sent by a firewall.  (PAN-OS 10.2.1 and later releases) Unique 67
+    character ID for a file  scanned by the DLP cloud service sent by a firewall.  The
+    same Cloud Report ID is displayed for a file the DLP cloud  service has already
+    scanned and generated a Cloud Report ID for.
   category: Threat
   ecs_field: vendor.cloud_reportid
   cim_field: cloud_reportid
@@ -1031,7 +1093,8 @@ fields:
   asim_field: machinename
 - field_name: os
   field_type: string
-  description: The operating system installed on the users machine or device (or on  the client system).
+  description: The operating system installed on the users machine or device (or on  the
+    client system).
   category: HIP Match
   ecs_field: vendor.os
   cim_field: os
@@ -1073,8 +1136,8 @@ fields:
   asim_field: SrcMacAddr
 - field_name: receive_time
   field_type: datetime
-  description: 'The time that the log was received at the management plane.  Serial # (serial) The serial number of the firewall
-    that generated the log.'
+  description: 'The time that the log was received at the management plane.  Serial
+    # (serial) The serial number of the firewall that generated the log.'
   category: GlobalProtect
   ecs_field: event.ingested
   cim_field: receive_time
@@ -1095,7 +1158,8 @@ fields:
   asim_field: eventid
 - field_name: stage
   field_type: string
-  description: A string showing the stage of the connection (for example, before-login,  login, or tunnel).  Authentication
+  description: A string showing the stage of the connection (for example, before-login,  login,
+    or tunnel).  Authentication
   category: GlobalProtect
   ecs_field: vendor.stage
   cim_field: stage
@@ -1193,22 +1257,24 @@ fields:
   asim_field: EventResult
 - field_name: location
   field_type: string
-  description: A string showing the administrator-defined location of the  GlobalProtect portal or gateway.
+  description: A string showing the administrator-defined location of the  GlobalProtect
+    portal or gateway.
   category: GlobalProtect
   ecs_field: vendor.location
   cim_field: location
   asim_field: location
 - field_name: login_duration
   field_type: datetime
-  description: The length of time, in seconds, the user is connected to the  GlobalProtect gateway from logging in to logging
-    out.
+  description: The length of time, in seconds, the user is connected to the  GlobalProtect
+    gateway from logging in to logging out.
   category: GlobalProtect
   ecs_field: event.duration
   cim_field: login_duration
   asim_field: EventDuration
 - field_name: connect_method
   field_type: string
-  description: A string showing the how the GlobalProtect app connects to Gateway,  (for example, on-demand or user-logon.
+  description: A string showing the how the GlobalProtect app connects to Gateway,  (for
+    example, on-demand or user-logon.
   category: GlobalProtect
   ecs_field: vendor.connect_method
   cim_field: connect_method
@@ -1229,33 +1295,36 @@ fields:
   asim_field: portal
 - field_name: selection_type
   field_type: string
-  description: The connection method that is selected to connect to the gateway.   manualThe gateway to which you want the
-    GlobalProtect app to  manually connect.   preferredThe preferred gateway to which you want the  GlobalProtect app to connect.   autoAutomatically
-    connect to the Best Available gateway based  on the priority assigned to the gateway and the response time.
+  description: The connection method that is selected to connect to the gateway.   manualThe
+    gateway to which you want the GlobalProtect app to  manually connect.   preferredThe
+    preferred gateway to which you want the  GlobalProtect app to connect.   autoAutomatically
+    connect to the Best Available gateway based  on the priority assigned to the gateway
+    and the response time.
   category: GlobalProtect
   ecs_field: vendor.selection_type
   cim_field: selection_type
   asim_field: selection_type
 - field_name: response_time
   field_type: datetime
-  description: The SSL response time of the selected gateway that is measured in  milliseconds on the endpoint during tunnel
-    setup.
+  description: The SSL response time of the selected gateway that is measured in  milliseconds
+    on the endpoint during tunnel setup.
   category: GlobalProtect
   ecs_field: vendor.response_time
   cim_field: response_time
   asim_field: response_time
 - field_name: priority
   field_type: string
-  description: The priority order of the gateway that is based on highest (1), high (2),  medium (3), low (4), or lowest (5)
-    to which the GlobalProtect app can  connect.
+  description: The priority order of the gateway that is based on highest (1), high
+    (2),  medium (3), low (4), or lowest (5) to which the GlobalProtect app can  connect.
   category: GlobalProtect
   ecs_field: event.severity
   cim_field: severity
   asim_field: EventSeverity
 - field_name: attempted_gateways
   field_type: string
-  description: The fields that are collected for each gateway connection attempt  with the gateway name, SSL response time,
-    and priority (see Gateway  Priority in a Multiple Gateway Configuration. Each field entry is  separated by commas such
+  description: The fields that are collected for each gateway connection attempt  with
+    the gateway name, SSL response time, and priority (see Gateway  Priority in a
+    Multiple Gateway Configuration. Each field entry is  separated by commas such
     as g82-gateway,12,3. Each gateway  entry is separated by semicolons such as g83-gateway,10,2;g84-  gateway,-1,1.
   category: GlobalProtect
   ecs_field: vendor.attempted_gateways
@@ -1284,7 +1353,8 @@ fields:
   asim_field: EventOriginalUid
 - field_name: timeout
   field_type: datetime
-  description: The amount of time before the IP address-to-tag mapping expires for  the source IP address.
+  description: The amount of time before the IP address-to-tag mapping expires for  the
+    source IP address.
   category: IP-Tag
   ecs_field: vendor.timeout
   cim_field: timeout
@@ -1305,7 +1375,8 @@ fields:
   asim_field: datasource_type
 - field_name: datasource_subtype
   field_type: string
-  description: The mechanism used to identify the IP address-to-username mappings  within a data source.
+  description: The mechanism used to identify the IP address-to-username mappings  within
+    a data source.
   category: IP-Tag
   ecs_field: vendor.datasource_subtype
   cim_field: datasource_subtype
@@ -1354,7 +1425,8 @@ fields:
   asim_field: datasourcetype
 - field_name: factortype
   field_type: string
-  description: Vendor used to authenticate a user when Multi Factor  authentication is present.
+  description: Vendor used to authenticate a user when Multi Factor  authentication
+    is present.
   category: User-ID
   ecs_field: vendor.factortype
   cim_field: factortype
@@ -1368,23 +1440,26 @@ fields:
   asim_field: factorcompletiontime
 - field_name: factorno
   field_type: string
-  description: Indicates the use of primary authentication (1) or additional factors  (2, 3).
+  description: Indicates the use of primary authentication (1) or additional factors  (2,
+    3).
   category: User-ID
   ecs_field: vendor.factorno
   cim_field: factorno
   asim_field: factorno
 - field_name: ugflags
   field_type: string
-  description: 'Displays whether the user group that was found during user group  mapping. Supported values are:   User Group
-    FoundIndicates whether the user could be mapped  to a group.   Duplicate UserIndicates whether duplicate users were found
-    in  a user group. Displays N/A if no user group is found.'
+  description: 'Displays whether the user group that was found during user group  mapping.
+    Supported values are:   User Group FoundIndicates whether the user could be mapped  to
+    a group.   Duplicate UserIndicates whether duplicate users were found in  a user
+    group. Displays N/A if no user group is found.'
   category: User-ID
   ecs_field: vendor.ugflags
   cim_field: ugflags
   asim_field: ugflags
 - field_name: userbysource
   field_type: string
-  description: Indicates the username received from the source through IP  address-to-username mapping.
+  description: Indicates the username received from the source through IP  address-to-username
+    mapping.
   category: User-ID
   ecs_field: vendor.userbysource
   cim_field: userbysource
@@ -1433,14 +1508,16 @@ fields:
   asim_field: tls_keyxchg
 - field_name: tls_enc
   field_type: string
-  description: The algorithm used to encrypt the session data, such as AES-128-CBC,  AES-256-GCM, etc.
+  description: The algorithm used to encrypt the session data, such as AES-128-CBC,  AES-256-GCM,
+    etc.
   category: Decryption
   ecs_field: vendor.tls_enc
   cim_field: tls_enc
   asim_field: tls_enc
 - field_name: tls_auth
   field_type: string
-  description: The authentication algorithm used for the session, for example, SHA,  SHA256, SHA384, etc.
+  description: The authentication algorithm used for the session, for example, SHA,  SHA256,
+    SHA384, etc.
   category: Decryption
   ecs_field: vendor.tls_auth
   cim_field: tls_auth
@@ -1454,22 +1531,24 @@ fields:
   asim_field: RuleName
 - field_name: ec_curve
   field_type: string
-  description: The elliptic cryptography curve that the client and server negotiate  and use for connections that use ECDHE
-    cipher suites.
+  description: The elliptic cryptography curve that the client and server negotiate  and
+    use for connections that use ECDHE cipher suites.
   category: Decryption
   ecs_field: vendor.ec_curve
   cim_field: ec_curve
   asim_field: ec_curve
 - field_name: err_index
   field_type: string
-  description: 'The type of error that occurred: Cipher, Resource, Resume, Version,  Protocol, Certificate, Feature, or HSM.'
+  description: 'The type of error that occurred: Cipher, Resource, Resume, Version,  Protocol,
+    Certificate, Feature, or HSM.'
   category: Decryption
   ecs_field: vendor.err_index
   cim_field: err_index
   asim_field: err_index
 - field_name: root_status
   field_type: string
-  description: The status of the root certificate, for example, trusted, untrusted, or  uninspected.
+  description: The status of the root certificate, for example, trusted, untrusted,
+    or  uninspected.
   category: Decryption
   ecs_field: vendor.root_status
   cim_field: root_status
@@ -1483,8 +1562,9 @@ fields:
   asim_field: chain_status
 - field_name: proxy_type
   field_type: string
-  description: The Decryption proxy type, such as Forward for Forward Proxy,  Inbound for Inbound Inspection, No Decrypt for
-    undecrypted traffic,  GlobalProtect, etc.  Certificate Serial
+  description: The Decryption proxy type, such as Forward for Forward Proxy,  Inbound
+    for Inbound Inspection, No Decrypt for undecrypted traffic,  GlobalProtect, etc.  Certificate
+    Serial
   category: Decryption
   ecs_field: vendor.proxy_type
   cim_field: proxy_type
@@ -1505,14 +1585,16 @@ fields:
   asim_field: fingerprint
 - field_name: notbefore
   field_type: string
-  description: The time the certificate became valid (certificate in invalid before this  time).
+  description: The time the certificate became valid (certificate in invalid before
+    this  time).
   category: Decryption
   ecs_field: vendor.notbefore
   cim_field: notbefore
   asim_field: notbefore
 - field_name: notafter
   field_type: string
-  description: The time the certificate expires (certificate becomes invalid after this  time).
+  description: The time the certificate expires (certificate becomes invalid after
+    this  time).
   category: Decryption
   ecs_field: vendor.notafter
   cim_field: notafter
@@ -1561,17 +1643,19 @@ fields:
   asim_field: sni_len
 - field_name: cert_flags
   field_type: string
-  description: 'The certificate flags can return seven values:   Session is resumed (b_resume_session)   Certificate (subject)
-    common name is truncated  (b_cert_cn_truncated)   Issuer common name is truncated (b_issuer_cn_truncated)   Root common
-    name is truncated (b_root_cn_truncated)   Server Name Indication (SNI) is truncated (b_sni_truncated)   Certificate type,
-    RSA or ECDSA (b_cert_type)   Unused (padding3)  Subject Common'
+  description: 'The certificate flags can return seven values:   Session is resumed
+    (b_resume_session)   Certificate (subject) common name is truncated  (b_cert_cn_truncated)   Issuer
+    common name is truncated (b_issuer_cn_truncated)   Root common name is truncated
+    (b_root_cn_truncated)   Server Name Indication (SNI) is truncated (b_sni_truncated)   Certificate
+    type, RSA or ECDSA (b_cert_type)   Unused (padding3)  Subject Common'
   category: Decryption
   ecs_field: vendor.cert_flags
   cim_field: cert_flags
   asim_field: cert_flags
 - field_name: cn
   field_type: string
-  description: The domain name (the name of the server that the certificate protects).  Issuer Common
+  description: The domain name (the name of the server that the certificate protects).  Issuer
+    Common
   category: Decryption
   ecs_field: vendor.cn
   cim_field: cn
@@ -1592,48 +1676,53 @@ fields:
   asim_field: root_cn
 - field_name: sni
   field_type: string
-  description: The hostname of the server that the client is trying to contact. Using  SNIs enables a server to host multiple
-    websites and present multiple  certificates on the same IP address and TCP port because each  website has a unique SNI.
+  description: The hostname of the server that the client is trying to contact. Using  SNIs
+    enables a server to host multiple websites and present multiple  certificates
+    on the same IP address and TCP port because each  website has a unique SNI.
   category: Decryption
   ecs_field: vendor.sni
   cim_field: sni
   asim_field: sni
 - field_name: tunnelid
   field_type: int
-  description: ID of the tunnel being inspected or the International Mobile Subscriber  Identity (IMSI) ID of the mobile user.
+  description: ID of the tunnel being inspected or the International Mobile Subscriber  Identity
+    (IMSI) ID of the mobile user.
   category: Tunnel Inspection
   ecs_field: vendor.tunnelid
   cim_field: tunnelid
   asim_field: tunnelid
 - field_name: monitortag
   field_type: string
-  description: Monitor name you configured for the Tunnel Inspection policy rule or  the International Mobile Equipment Identity
-    (IMEI) ID of the mobile  device.
+  description: Monitor name you configured for the Tunnel Inspection policy rule or  the
+    International Mobile Equipment Identity (IMEI) ID of the mobile  device.
   category: Tunnel Inspection
   ecs_field: vendor.monitortag
   cim_field: monitortag
   asim_field: monitortag
 - field_name: max_encap
   field_type: string
-  description: Number of packets the firewall dropped because the packet exceeded  the maximum number of encapsulation levels
-    configured in the Tunnel  Inspection policy rule (Drop packet if over maximum tunnel inspection  level).
+  description: Number of packets the firewall dropped because the packet exceeded  the
+    maximum number of encapsulation levels configured in the Tunnel  Inspection policy
+    rule (Drop packet if over maximum tunnel inspection  level).
   category: Tunnel Inspection
   ecs_field: vendor.max_encap
   cim_field: max_encap
   asim_field: max_encap
 - field_name: unknown_proto
   field_type: string
-  description: Number of packets the firewall dropped because the packet contains  an unknown protocol, as enabled in the
-    Tunnel Inspection policy rule  (Drop packet if unknown protocol inside tunnel).
+  description: Number of packets the firewall dropped because the packet contains  an
+    unknown protocol, as enabled in the Tunnel Inspection policy rule  (Drop packet
+    if unknown protocol inside tunnel).
   category: Tunnel Inspection
   ecs_field: vendor.unknown_proto
   cim_field: unknown_proto
   asim_field: unknown_proto
 - field_name: strict_check
   field_type: string
-  description: Number of packets the firewall dropped because the tunnel protocol  header in the packet failed to comply with
-    the RFC for the tunnel  protocol, as enabled in the Tunnel Inspection policy rule (Drop packet  if tunnel protocol fails
-    strict header check).
+  description: Number of packets the firewall dropped because the tunnel protocol  header
+    in the packet failed to comply with the RFC for the tunnel  protocol, as enabled
+    in the Tunnel Inspection policy rule (Drop packet  if tunnel protocol fails strict
+    header check).
   category: Tunnel Inspection
   ecs_field: vendor.strict_check
   cim_field: strict_check
@@ -1675,7 +1764,8 @@ fields:
   asim_field: remote_user_ip
 - field_name: remote_user_id
   field_type: int
-  description: IMSI identity of a remote user, and if available, one IMEI identity or  one MSISDN identity.
+  description: IMSI identity of a remote user, and if available, one IMEI identity
+    or  one MSISDN identity.
   category: Tunnel Inspection
   ecs_field: vendor.remote_user_id
   cim_field: remote_user_id
@@ -1689,53 +1779,57 @@ fields:
   asim_field: pdu_session_id
 - field_name: sctp_chunk_type
   field_type: string
-  description: Describes the type of information contained in a chunk, such  as control or data.
+  description: Describes the type of information contained in a chunk, such  as control
+    or data.
   category: SCTP
   ecs_field: vendor.sctp_chunk_type
   cim_field: sctp_chunk_type
   asim_field: sctp_chunk_type
 - field_name: sctp_event_type
   field_type: string
-  description: Defines the event triggered per SCTP chunk or packet when  SCTP protection profile is applied to the SCTP traffic.
-    It is also  triggered by start or end of a SCTP association.
+  description: Defines the event triggered per SCTP chunk or packet when  SCTP protection
+    profile is applied to the SCTP traffic. It is also  triggered by start or end
+    of a SCTP association.
   category: SCTP
   ecs_field: vendor.sctp_event_type
   cim_field: sctp_event_type
   asim_field: sctp_event_type
 - field_name: verif_tag_1
   field_type: string
-  description: Used by endpoint1 which initiates the association to verify if  the SCTP packet received belongs to current
-    SCTP association  and validate the endpoint2.
+  description: Used by endpoint1 which initiates the association to verify if  the
+    SCTP packet received belongs to current SCTP association  and validate the endpoint2.
   category: SCTP
   ecs_field: vendor.verif_tag_1
   cim_field: verif_tag_1
   asim_field: verif_tag_1
 - field_name: verif_tag_2
   field_type: string
-  description: Used by endpoint2 to verify if the SCTP packet received  belongs to current SCTP association and validate the  endpoint1.
+  description: Used by endpoint2 to verify if the SCTP packet received  belongs to
+    current SCTP association and validate the  endpoint1.
   category: SCTP
   ecs_field: vendor.verif_tag_2
   cim_field: verif_tag_2
   asim_field: verif_tag_2
 - field_name: sctp_cause_code
   field_type: string
-  description: Sent by an endpoint to specify reason for an error condition to  other endpoint of same SCTP association.
+  description: Sent by an endpoint to specify reason for an error condition to  other
+    endpoint of same SCTP association.
   category: SCTP
   ecs_field: vendor.sctp_cause_code
   cim_field: sctp_cause_code
   asim_field: sctp_cause_code
 - field_name: diam_app_id
   field_type: int
-  description: The diameter application in the data chunk which triggered  the event. Diameter Application ID is assigned
-    by Internet  Assigned Numbers Authority (IANA).
+  description: The diameter application in the data chunk which triggered  the event.
+    Diameter Application ID is assigned by Internet  Assigned Numbers Authority (IANA).
   category: SCTP
   ecs_field: vendor.diam_app_id
   cim_field: diam_app_id
   asim_field: diam_app_id
 - field_name: diam_cmd_code
   field_type: string
-  description: The diameter command code in the data chunk which  triggered the event. Diameter Command Code is assigned by  Internet
-    Assigned Numbers Authority (IANA)
+  description: The diameter command code in the data chunk which  triggered the event.
+    Diameter Command Code is assigned by  Internet Assigned Numbers Authority (IANA)
   category: SCTP
   ecs_field: vendor.diam_cmd_code
   cim_field: diam_cmd_code
@@ -1749,41 +1843,45 @@ fields:
   asim_field: diam_avp_code
 - field_name: stream_id
   field_type: int
-  description: ID of the stream which carries the data chunk which triggered  the event.  SCTP Association End
+  description: ID of the stream which carries the data chunk which triggered  the
+    event.  SCTP Association End
   category: SCTP
   ecs_field: vendor.stream_id
   cim_field: stream_id
   asim_field: stream_id
 - field_name: assoc_end_reason
   field_type: string
-  description: 'Reason an association was terminated. If the termination had  multiple causes, the highest priority reason
-    is displayed. The  possible session end reasons in descending priority are:   shutdown-from-endpoint (highest)endpoint
-    sends out  SHUTDOWN   abort-from-endpointendpoint sends out ABORT   unknown (lowest)the association aged out, or association  termination
-    reason is not covered by one of the previous  reasons (for example, a clear session all command).'
+  description: 'Reason an association was terminated. If the termination had  multiple
+    causes, the highest priority reason is displayed. The  possible session end reasons
+    in descending priority are:   shutdown-from-endpoint (highest)endpoint sends out  SHUTDOWN   abort-from-endpointendpoint
+    sends out ABORT   unknown (lowest)the association aged out, or association  termination
+    reason is not covered by one of the previous  reasons (for example, a clear session
+    all command).'
   category: SCTP
   ecs_field: vendor.assoc_end_reason
   cim_field: assoc_end_reason
   asim_field: assoc_end_reason
 - field_name: op_code
   field_type: string
-  description: Identifies the operation code of application layer SS7  protocols, like MAP or CAP, in the data chunk which
-    triggered  the event.
+  description: Identifies the operation code of application layer SS7  protocols,
+    like MAP or CAP, in the data chunk which triggered  the event.
   category: SCTP
   ecs_field: vendor.op_code
   cim_field: op_code
   asim_field: op_code
 - field_name: sccp_calling_ssn
   field_type: string
-  description: The Signaling Connection Control Part (SCCP) calling party  subsystem number (SSN) in the data chunk which
-    triggered the  event.  SCCP Calling Party Global
+  description: The Signaling Connection Control Part (SCCP) calling party  subsystem
+    number (SSN) in the data chunk which triggered the  event.  SCCP Calling Party
+    Global
   category: SCTP
   ecs_field: vendor.sccp_calling_ssn
   cim_field: sccp_calling_ssn
   asim_field: sccp_calling_ssn
 - field_name: sccp_calling_gt
   field_type: string
-  description: The Signaling Connection Control Part (SCCP) calling party  global title (GT) in the data chunk which triggered
-    the event.
+  description: The Signaling Connection Control Part (SCCP) calling party  global
+    title (GT) in the data chunk which triggered the event.
   category: SCTP
   ecs_field: vendor.sccp_calling_gt
   cim_field: sccp_calling_gt
@@ -1797,7 +1895,8 @@ fields:
   asim_field: sctp_filter
 - field_name: normalize_user
   field_type: string
-  description: Normalized version of username being authenticated (such as  appending a domain name to the username).
+  description: Normalized version of username being authenticated (such as  appending
+    a domain name to the username).
   category: Authentication
   ecs_field: vendor.normalize_user
   cim_field: normalize_user
@@ -1811,14 +1910,16 @@ fields:
   asim_field: TargetFileName
 - field_name: authpolicy
   field_type: string
-  description: Policy invoked for authentication before allowing access to a  protected resource.
+  description: Policy invoked for authentication before allowing access to a  protected
+    resource.
   category: Authentication
   ecs_field: rule.name
   cim_field: auth_policy
   asim_field: RuleName
 - field_name: authid
   field_type: int
-  description: Unique ID given across primary authentication and additional (multi  factor) authentication.
+  description: Unique ID given across primary authentication and additional (multi  factor)
+    authentication.
   category: Authentication
   ecs_field: vendor.authid
   cim_field: authid
@@ -1860,7 +1961,8 @@ fields:
   asim_field: event
 - field_name: authproto
   field_type: string
-  description: Indicates the authentication protocol used by the server. For example,  PEAP with GTC.
+  description: Indicates the authentication protocol used by the server. For example,  PEAP
+    with GTC.
   category: Authentication
   ecs_field: network.protocol
   cim_field: auth_protocol
@@ -1881,7 +1983,8 @@ fields:
   asim_field: UrlHost
 - field_name: cmd
   field_type: string
-  description: Command performed by the Admin; values are add, clone, commit,  delete, edit, move, rename, set.
+  description: Command performed by the Admin; values are add, clone, commit,  delete,
+    edit, move, rename, set.
   category: Config
   ecs_field: vendor.cmd
   cim_field: cmd
@@ -1902,40 +2005,45 @@ fields:
   asim_field: SrcMacAddr
 - field_name: result
   field_type: string
-  description: Result of the configuration action; values are Submitted, Succeeded,  Failed, and Unauthorized
+  description: Result of the configuration action; values are Submitted, Succeeded,  Failed,
+    and Unauthorized
   category: Config
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
 - field_name: path
   field_type: string
-  description: The path of the configuration command issued; up to 512 bytes in  length  Before Change
+  description: The path of the configuration command issued; up to 512 bytes in  length  Before
+    Change
   category: Config
   ecs_field: url.path
   cim_field: uri_path
   asim_field: UrlPath
 - field_name: dg_id
   field_type: int
-  description: The device group the firewall belongs to if managed by a Panorama  management server.
+  description: The device group the firewall belongs to if managed by a Panorama  management
+    server.
   category: Config
   ecs_field: vendor.dg_id
   cim_field: dg_id
   asim_field: dg_id
 - field_name: comment
   field_type: string
-  description: The audit comment entered in a policy rule configuration change.  High Resolution
+  description: The audit comment entered in a policy rule configuration change.  High
+    Resolution
   category: Config
   ecs_field: vendor.comment
   cim_field: comment
   asim_field: comment
 - field_name: module
   field_type: string
-  description: This field is valid only when the value of the Subtype field is general. It  provides additional information
-    about the sub-system generating the  log; values are general, management, auth, ha, upgrade, chassis.
+  description: This field is valid only when the value of the Subtype field is general.
+    It  provides additional information about the sub-system generating the  log;
+    values are general, management, auth, ha, upgrade, chassis.
   category: System
-  ecs_field: process.name
+  ecs_field: vendor.module
   cim_field: module
-  asim_field: TargetProcessName
+  asim_field: module
 - field_name: objectname
   field_type: string
   description: Name of the correlation object that was matched on.
@@ -1952,39 +2060,44 @@ fields:
   asim_field: object_id
 - field_name: evidence
   field_type: int
-  description: A summary statement that indicates how many times the host has  matched against the conditions defined in the
-    correlation object. For  example, Host visited known malware URl (19 times).
+  description: A summary statement that indicates how many times the host has  matched
+    against the conditions defined in the correlation object. For  example, Host visited
+    known malware URl (19 times).
   category: Correlated Events
   ecs_field: vendor.evidence
   cim_field: evidence
   asim_field: evidence
 - field_name: event_type
   field_type: string
-  description: Defines event triggered by a GTP message when checks in  GTP protection profile are applied to the GTP traffic.
-    Also  triggered by the start or end of a GTP session.
+  description: Defines event triggered by a GTP message when checks in  GTP protection
+    profile are applied to the GTP traffic. Also  triggered by the start or end of
+    a GTP session.
   category: GTP
   ecs_field: vendor.event_type
   cim_field: event_type
   asim_field: event_type
 - field_name: msisdn
   field_type: string
-  description: Service identity associated with the mobile subscriber  composed of a Country Code, National Destination Code  and
-    a Subscriber. Consists of decimal digits (0-9) only with a  maximum of 15 digits.
+  description: Service identity associated with the mobile subscriber  composed of
+    a Country Code, National Destination Code  and a Subscriber. Consists of decimal
+    digits (0-9) only with a  maximum of 15 digits.
   category: GTP
   ecs_field: vendor.msisdn
   cim_field: msisdn
   asim_field: msisdn
 - field_name: apn
   field_type: string
-  description: Reference to a Packet Data Network Data Gateway (PGW)/  Gateway GPRS Support Node in a mobile network. Composed  of
-    a mandatory APN Network Identifier and an optional APN  Operator Identifier.
+  description: Reference to a Packet Data Network Data Gateway (PGW)/  Gateway GPRS
+    Support Node in a mobile network. Composed  of a mandatory APN Network Identifier
+    and an optional APN  Operator Identifier.
   category: GTP
   ecs_field: vendor.apn
   cim_field: apn
   asim_field: apn
 - field_name: rat
   field_type: string
-  description: Type of technology used for radio access. For example,  EUTRAN, WLAN, Virtual, HSPA Evolution, GAN and GERAN.
+  description: Type of technology used for radio access. For example,  EUTRAN, WLAN,
+    Virtual, HSPA Evolution, GAN and GERAN.
   category: GTP
   ecs_field: vendor.rat
   cim_field: rat
@@ -2005,14 +2118,16 @@ fields:
   asim_field: end_ip_adr
 - field_name: teid1
   field_type: int
-  description: Identifies the GTP tunnel in the network node. TEID1 is the  first TEID in the GTP message.
+  description: Identifies the GTP tunnel in the network node. TEID1 is the  first
+    TEID in the GTP message.
   category: GTP
   ecs_field: vendor.teid1
   cim_field: teid1
   asim_field: teid1
 - field_name: teid2
   field_type: int
-  description: Identifies the GTP tunnel in the network node. TEID2 is the  second TEID in the GTP message.
+  description: Identifies the GTP tunnel in the network node. TEID2 is the  second
+    TEID in the GTP message.
   category: GTP
   ecs_field: vendor.teid2
   cim_field: teid2
@@ -2026,8 +2141,9 @@ fields:
   asim_field: gtp_interface
 - field_name: cause_code
   field_type: string
-  description: GTP cause value in logs responses which contain an  Information Element that provides information about  acceptance
-    or rejection of GTP requests by a network node.
+  description: GTP cause value in logs responses which contain an  Information Element
+    that provides information about  acceptance or rejection of GTP requests by a
+    network node.
   category: GTP
   ecs_field: vendor.cause_code
   cim_field: cause_code
@@ -2069,17 +2185,18 @@ fields:
   asim_field: EventId
 - field_name: imsi
   field_type: string
-  description: International Mobile Subscriber Identity (IMSI) is a unique  number allocated to each mobile subscriber in
-    the GSM/  UMTS/EPS system. IMSI shall consist of decimal digits (0  through 9) only and maximum number of digits allowed
-    are 15.
+  description: International Mobile Subscriber Identity (IMSI) is a unique  number
+    allocated to each mobile subscriber in the GSM/  UMTS/EPS system. IMSI shall consist
+    of decimal digits (0  through 9) only and maximum number of digits allowed are
+    15.
   category: GTP
   ecs_field: vendor.imsi
   cim_field: imsi
   asim_field: imsi
 - field_name: imei
   field_type: string
-  description: International Mobile Equipment Identity (IMEI) is a unique 15  or 16 digit number allocated to each mobile
-    station equipment.
+  description: International Mobile Equipment Identity (IMEI) is a unique 15  or 16
+    digit number allocated to each mobile station equipment.
   category: GTP
   ecs_field: vendor.imei
   cim_field: imei
@@ -2100,32 +2217,38 @@ fields:
   asim_field: nsdsai_sd
 - field_name: cleartext
   field_type: string
-  description: No SNMP community access for all  MIBs on a device  SNMPv3 EngineID, username,  and authentication  password
-    (SHA  Privacy  password for  AES (128,  192, or 256)  encryption  Yes User access based on views that  include or exclude
-    specific OIDs    SNMPVersion Authentication Message Privacy MessageIntegrity MIB Access Granularity  hashing for the  password)  of
-    SNMP  messages  SNMP Implementation illustrates a deployment in which firewalls forward traps to an SNMP  manager while
-    also forwarding l
+  description: No SNMP community access for all  MIBs on a device  SNMPv3 EngineID,
+    username,  and authentication  password (SHA  Privacy  password for  AES (128,  192,
+    or 256)  encryption  Yes User access based on views that  include or exclude specific
+    OIDs    SNMPVersion Authentication Message Privacy MessageIntegrity MIB Access
+    Granularity  hashing for the  password)  of SNMP  messages  SNMP Implementation
+    illustrates a deployment in which firewalls forward traps to an SNMP  manager
+    while also forwarding l
   category: Audit
   ecs_field: vendor.cleartext
   cim_field: cleartext
   asim_field: cleartext
 - field_name: statistic
   field_type: string
-  description: and want to know  the OIDs of similar objects so you can monitor them, you can explore the MIB that contains
-    the  known OID.  STEP 1 | Load all the Supported MIBs into your SNMP manager.  STEP 2 | Search the entire MIB tree for
-    the known OID. The search result displays the MIB path for  the OID, as well as information about the OID (for example,
-    name, status, and description).  You can then select other OIDs in the same MIB to see information about them.  STEP 3
-    | (Optional) Walk a MIB to displa
+  description: and want to know  the OIDs of similar objects so you can monitor them,
+    you can explore the MIB that contains the  known OID.  STEP 1 | Load all the Supported
+    MIBs into your SNMP manager.  STEP 2 | Search the entire MIB tree for the known
+    OID. The search result displays the MIB path for  the OID, as well as information
+    about the OID (for example, name, status, and description).  You can then select
+    other OIDs in the same MIB to see information about them.  STEP 3 | (Optional)
+    Walk a MIB to displa
   category: Audit
   ecs_field: vendor.statistic
   cim_field: statistic
   asim_field: statistic
 - field_name: sec
   field_type: string
-  description: '------------------------------------------------------  192.168.201.1 vsys1 UIAacme\george 210  192.168.201.11
-    vsys1 UIAacme\duane210  192.168.201.50 vsys1 UIAacme\betsy 210  192.168.201.10 vsys1 UIAacme\administrator210  192.168.201.100
-    vsys1 AD acme\administrator748  Total: 5 users  *: WMI probe succeeded  User-ID  STEP 4 | Test your Security policy rule.   From
-    a machine in the zone where User-ID is enabled, attempt to access sites and  applications to test the rules you defined
+  description: '------------------------------------------------------  192.168.201.1
+    vsys1 UIAacme\george 210  192.168.201.11 vsys1 UIAacme\duane210  192.168.201.50
+    vsys1 UIAacme\betsy 210  192.168.201.10 vsys1 UIAacme\administrator210  192.168.201.100
+    vsys1 AD acme\administrator748  Total: 5 users  *: WMI probe succeeded  User-ID  STEP
+    4 | Test your Security policy rule.   From a machine in the zone where User-ID
+    is enabled, attempt to access sites and  applications to test the rules you defined
     in your polic'
   category: Audit
   ecs_field: vendor.sec
@@ -2133,21 +2256,25 @@ fields:
   asim_field: sec
 - field_name: allowed
   field_type: string
-  description: applications. Policies > Security > Policy  Optimizer > No App Specified displays all port-based rules (Apps
-    Allowed is any).  STEP 2 | Prioritize which port-based rules to convert first.  Policies > Security > Policy Optimizer
-    > No App Specified enables you to sort rules without  affecting their order in the rulebase and provides other information
-    that helps you prioritize  rules for conversion based on your business goals and risk tolerance.   Traffic (Bytes, 30
-    days)(Click to sort.) Rules tha
+  description: applications. Policies > Security > Policy  Optimizer > No App Specified
+    displays all port-based rules (Apps Allowed is any).  STEP 2 | Prioritize which
+    port-based rules to convert first.  Policies > Security > Policy Optimizer > No
+    App Specified enables you to sort rules without  affecting their order in the
+    rulebase and provides other information that helps you prioritize  rules for conversion
+    based on your business goals and risk tolerance.   Traffic (Bytes, 30 days)(Click
+    to sort.) Rules tha
   category: Audit
   ecs_field: vendor.allowed
   cim_field: allowed
   asim_field: allowed
 - field_name: allocation
   field_type: string
-  description: 'is one percent of the devices log storage capacity for Decryption  logs and one percent for the general decryption
-    summary. There is no default allocation for  hourly, daily, or weekly decryption summaries.  Many factors determine the
-    amount of storage you may need for Decryption logs and they  depend on your deployment. For example, take these factors
-    into account:   The amount of TLS traffic that passes through the firewall.   The amount of TLS traffic that you decrypt.   Your
+  description: 'is one percent of the devices log storage capacity for Decryption  logs
+    and one percent for the general decryption summary. There is no default allocation
+    for  hourly, daily, or weekly decryption summaries.  Many factors determine the
+    amount of storage you may need for Decryption logs and they  depend on your deployment.
+    For example, take these factors into account:   The amount of TLS traffic that
+    passes through the firewall.   The amount of TLS traffic that you decrypt.   Your
     usage of other l'
   category: Audit
   ecs_field: vendor.allocation
@@ -2155,42 +2282,51 @@ fields:
   asim_field: allocation
 - field_name: general
   field_type: string
-  description: 'This message indicates that an error  doesn''t meet the criteria for any of the  aforementioned resource errors.  Decryption  Table
-    8: Resume Errors  Decryption Error Message Additional Information and Resources  No resume entry in firewall cache Description:
-    The firewall tried to resume a  session for which a cache entry doesn''t exist.  General sessions resumption error This
-    message indicates that an error  doesn''t meet the criteria for any of the  aforementioned resume errors.  Table 9: Version'
+  description: 'This message indicates that an error  doesn''t meet the criteria for
+    any of the  aforementioned resource errors.  Decryption  Table 8: Resume Errors  Decryption
+    Error Message Additional Information and Resources  No resume entry in firewall
+    cache Description: The firewall tried to resume a  session for which a cache entry
+    doesn''t exist.  General sessions resumption error This message indicates that
+    an error  doesn''t meet the criteria for any of the  aforementioned resume errors.  Table
+    9: Version'
   category: Audit
   ecs_field: vendor.general
   cim_field: general
   asim_field: general
 - field_name: information
   field_type: string
-  description: 'that you want to include in the custom report. If you  dont want to refine the custom report any further,
-    click OK to generate the report.  Decryption  4. If desired, refine the output of the custom Decryption report using the
-    Query Builder and the  four templates introduced in PAN-OS 10.0. To select a template to filter the report output,  click
-    Load Template and select from the four Decryption templates:  The Query column shows the filter query that each template
-    represents. Load the desired q'
+  description: 'that you want to include in the custom report. If you  dont want to
+    refine the custom report any further, click OK to generate the report.  Decryption  4.
+    If desired, refine the output of the custom Decryption report using the Query
+    Builder and the  four templates introduced in PAN-OS 10.0. To select a template
+    to filter the report output,  click Load Template and select from the four Decryption
+    templates:  The Query column shows the filter query that each template represents.
+    Load the desired q'
   category: Audit
   ecs_field: vendor.information
   cim_field: information
   asim_field: information
 - field_name: default
   field_type: string
-  description: Allows the traffic.  Deny Blocks traffic and enforces the default Deny Action defined for  the application
-    that is being denied. To view the deny action  defined by default for an application, view the application details  in
-    Objects > Applications or check the application details in  Applipedia.  Drop Silently drops the traffic; for an application,
-    it overrides the default  deny action. A TCP reset is not sent to the host/application.  For Layer 3 interfaces, to optionally
-    send an ICMP unreacha
+  description: Allows the traffic.  Deny Blocks traffic and enforces the default Deny
+    Action defined for  the application that is being denied. To view the deny action  defined
+    by default for an application, view the application details  in Objects > Applications
+    or check the application details in  Applipedia.  Drop Silently drops the traffic;
+    for an application, it overrides the default  deny action. A TCP reset is not
+    sent to the host/application.  For Layer 3 interfaces, to optionally send an ICMP
+    unreacha
   category: Audit
   ecs_field: vendor.default
   cim_field: default
   asim_field: default
 - field_name: regulated
   field_type: string
-  description: information from different  countries of the world, such as social security numbers (United States), INSEE
-    Identification  numbers (France), and New Zealand Internal Revenue Department Identification Numbers.  Many of the predefined
-    data filtering patterns enable compliance for standards such as HIPAA,  GDPR, Gramm-Leach-Bliley Act.   Built-In Support
-    for Azure Information Protection and Titus Data ClassificationPredefined  file properties allow you to filter content
+  description: information from different  countries of the world, such as social
+    security numbers (United States), INSEE Identification  numbers (France), and
+    New Zealand Internal Revenue Department Identification Numbers.  Many of the predefined
+    data filtering patterns enable compliance for standards such as HIPAA,  GDPR,
+    Gramm-Leach-Bliley Act.   Built-In Support for Azure Information Protection and
+    Titus Data ClassificationPredefined  file properties allow you to filter content
     based on Azure Information P
   category: Audit
   ecs_field: vendor.regulated
@@ -2198,382 +2334,168 @@ fields:
   asim_field: regulated
 - field_name: es
   field_type: string
-  description: and other values assigned to each  VM.  When monitoring ESXi hosts that are part of the VM-Series NSX edition
-    solution, use
+  description: and other values assigned to each  VM.  When monitoring ESXi hosts
+    that are part of the VM-Series NSX edition solution, use
   category: Audit
   ecs_field: vendor.es
   cim_field: es
   asim_field: es
 - field_name: min
   field_type: string
-  description: are greater than 0 in  authentication settings. If an administrator reaches the Failed Attempts threshold,
-    the  administrator is locked out for the duration defined in the Lockout Time (min) field.  (Panorama managed firewalls)
-    You must ensure that Failed Attempts and Lockout Time  (min) are greater than 0 in the authentication settings (Device
-    > Setup > Management) in the  template or template stack configuration with which your managed firewalls in FIPS-CC mode  are
+  description: are greater than 0 in  authentication settings. If an administrator
+    reaches the Failed Attempts threshold, the  administrator is locked out for the
+    duration defined in the Lockout Time (min) field.  (Panorama managed firewalls)
+    You must ensure that Failed Attempts and Lockout Time  (min) are greater than
+    0 in the authentication settings (Device > Setup > Management) in the  template
+    or template stack configuration with which your managed firewalls in FIPS-CC mode  are
     associated. This is require
   category: Audit
   ecs_field: vendor.min
   cim_field: min
   asim_field: min
-mapped_field_count: 94
+mapped_field_count: 90
 signatures:
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: TRAFFIC
-  signature_name: Palo Alto Networks PAN-OS Traffic Log
-  primary_pattern: \b(TRAFFIC),(start|end|drop|deny),\d{4}/\d{2}/\d{2}\s\d{2}:\d{2}:\d{2}
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_traffic_log
   description: Palo Alto Networks PAN-OS Traffic Log
-  event_type: TRAFFIC
+  log_type: TRAFFIC
+  regex_pattern: \b(TRAFFIC),(start|end|drop|deny),\d{4}/\d{2}/\d{2}\s\d{2}:\d{2}:\d{2}
+  confidence: 0.95
   fields:
   - type
   - subtype
   - start
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: THREAT
-  signature_name: Palo Alto Networks PAN-OS Threat Log
-  primary_pattern: \b(THREAT),(virus|spyware|vulnerability|url|wildfire|data|flood|scan|file),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_threat_log
   description: Palo Alto Networks PAN-OS Threat Log
-  event_type: THREAT
+  log_type: THREAT
+  regex_pattern: \b(THREAT),(virus|spyware|vulnerability|url|wildfire|data|flood|scan|file),
+  confidence: 0.95
   fields:
   - type
   - subtype
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: SYSTEM
-  signature_name: Palo Alto Networks PAN-OS System Log
-  primary_pattern: \b(SYSTEM),(general|auth|dhcp|globalprotect|ha|ntp|satd|upgrade|user-id|vm-info),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_system_log
   description: Palo Alto Networks PAN-OS System Log
-  event_type: SYSTEM
+  log_type: SYSTEM
+  regex_pattern: \b(SYSTEM),(general|auth|dhcp|globalprotect|ha|ntp|satd|upgrade|user-id|vm-info),
+  confidence: 0.95
   fields:
   - type
   - subtype
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: CONFIG
-  signature_name: Palo Alto Networks PAN-OS Configuration Log
-  primary_pattern: \b(CONFIG),(add|clone|commit|delete|edit|move|rename|set),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_config_log
   description: Palo Alto Networks PAN-OS Configuration Log
-  event_type: CONFIG
+  log_type: CONFIG
+  regex_pattern: \b(CONFIG),(add|clone|commit|delete|edit|move|rename|set),
+  confidence: 0.95
   fields:
   - type
   - cmd
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: HIPMATCH
-  signature_name: Palo Alto Networks PAN-OS HIP Match Log
-  primary_pattern: \b(HIPMATCH),(object|profile),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_hip_match_log
   description: Palo Alto Networks PAN-OS HIP Match Log
-  event_type: HIPMATCH
+  log_type: HIPMATCH
+  regex_pattern: \b(HIPMATCH),(object|profile),
+  confidence: 0.95
   fields:
   - type
   - matchtype
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: URL
-  signature_name: Palo Alto Networks PAN-OS URL Filtering Log
-  primary_pattern: \b(GLOBALPROTECT),(gateway-auth|portal-auth|tunnel-connect|tunnel-disconnect),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_url_filtering_log
   description: Palo Alto Networks PAN-OS URL Filtering Log
-  event_type: URL
+  log_type: URL
+  regex_pattern: \b(GLOBALPROTECT),(gateway-auth|portal-auth|tunnel-connect|tunnel-disconnect),
+  confidence: 0.95
   fields:
   - type
   - eventid
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: GLOBALPROTECT
-  signature_name: Palo Alto Networks PAN-OS GlobalProtect Log
-  primary_pattern: \b(GLOBALPROTECT),(portal-auth|gateway-auth|tunnel-connect|tunnel-disconnect|before-login),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_globalprotect_log
   description: Palo Alto Networks PAN-OS GlobalProtect Log
-  event_type: GLOBALPROTECT
+  log_type: GLOBALPROTECT
+  regex_pattern: \b(GLOBALPROTECT),(portal-auth|gateway-auth|tunnel-connect|tunnel-disconnect|before-login),
+  confidence: 0.95
   fields:
   - type
   - stage
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: USERID
-  signature_name: Palo Alto Networks PAN-OS User-ID Log
-  primary_pattern: \b(USERID),(login|logout|timeout),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_userid_log
   description: Palo Alto Networks PAN-OS User-ID Log
-  event_type: USERID
+  log_type: USERID
+  regex_pattern: \b(USERID),(login|logout|timeout),
+  confidence: 0.95
   fields:
   - type
   - subtype
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: DECRYPTION
-  signature_name: Palo Alto Networks PAN-OS Decryption Log
-  primary_pattern: \b(DECRYPTION),(success|failure|bypass|cert-expired|cert-untrusted),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_decryption_log
   description: Palo Alto Networks PAN-OS Decryption Log
-  event_type: DECRYPTION
+  log_type: DECRYPTION
+  regex_pattern: \b(DECRYPTION),(success|failure|bypass|cert-expired|cert-untrusted),
+  confidence: 0.95
   fields:
   - type
   - subtype
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: AUTHENTICATION
-  signature_name: Palo Alto Networks PAN-OS Authentication Log
-  primary_pattern: \b(AUTHENTICATION),(success|failure|timeout),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_auth_log
   description: Palo Alto Networks PAN-OS Authentication Log
-  event_type: AUTHENTICATION
+  log_type: AUTHENTICATION
+  regex_pattern: \b(AUTHENTICATION),(success|failure|timeout),
+  confidence: 0.95
   fields:
   - type
   - event
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: TUNNEL
-  signature_name: Palo Alto Networks PAN-OS Tunnel Inspection Log
-  primary_pattern: \b(TUNNEL),(gre|ipsec|gtp|vxlan),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_tunnel_inspection_log
   description: Palo Alto Networks PAN-OS Tunnel Inspection Log
-  event_type: TUNNEL
+  log_type: TUNNEL
+  regex_pattern: \b(TUNNEL),(gre|ipsec|gtp|vxlan),
+  confidence: 0.95
   fields:
   - type
   - tunnel
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: SCTP
-  signature_name: Palo Alto Networks PAN-OS SCTP Log
-  primary_pattern: \b(SCTP),(data|init|init-ack|sack|heartbeat|shutdown),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_sctp_log
   description: Palo Alto Networks PAN-OS SCTP Log
-  event_type: SCTP
+  log_type: SCTP
+  regex_pattern: \b(SCTP),(data|init|init-ack|sack|heartbeat|shutdown),
+  confidence: 0.95
   fields:
   - type
   - sctp_chunk_type
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: GTP
-  signature_name: Palo Alto Networks PAN-OS GTP Log
-  primary_pattern: \b(GTP),(create-pdp|delete-pdp|update-pdp|echo-request|echo-response),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_gtp_log
   description: Palo Alto Networks PAN-OS GTP Log
-  event_type: GTP
+  log_type: GTP
+  regex_pattern: \b(GTP),(create-pdp|delete-pdp|update-pdp|echo-request|echo-response),
+  confidence: 0.95
   fields:
   - type
   - msg_type
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: IP-TAG
-  signature_name: Palo Alto Networks PAN-OS IP-Tag Log
-  primary_pattern: \b(IP-TAG),(register|unregister|update),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_iptag_log
   description: Palo Alto Networks PAN-OS IP-Tag Log
-  event_type: IP-TAG
+  log_type: IP-TAG
+  regex_pattern: \b(IP-TAG),(register|unregister|update),
+  confidence: 0.95
   fields:
   - type
   - event_id
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: CORRELATED-EVENTS
-  signature_name: Palo Alto Networks PAN-OS Correlated Events Log
-  primary_pattern: \b(CORRELATED-EVENTS),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_correlated_events_log
   description: Palo Alto Networks PAN-OS Correlated Events Log
-  event_type: CORRELATED-EVENTS
+  log_type: CORRELATED-EVENTS
+  regex_pattern: \b(CORRELATED-EVENTS),
+  confidence: 0.9
   fields:
   - type
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: TRAFFIC
-  signature_name: Palo Alto Networks PAN-OS Log with hostname prefix
-  primary_pattern: \s+(paloalto|pan-|pa-)\S*\s+(TRAFFIC|THREAT|SYSTEM|CONFIG|GLOBALPROTECT|USERID),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_hostname_traffic
   description: Palo Alto Networks PAN-OS Log with hostname prefix
-  event_type: TRAFFIC
+  log_type: TRAFFIC
+  regex_pattern: \s+(paloalto|pan-|pa-)\S*\s+(TRAFFIC|THREAT|SYSTEM|CONFIG|GLOBALPROTECT|USERID),
+  confidence: 0.9
   fields:
   - device_name
   - type
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: TRAFFIC
-  signature_name: Palo Alto Networks PAN-OS Syslog format
-  primary_pattern: \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[\+\-]\d{2}:\d{2}\s+\S+\s+(TRAFFIC|THREAT|SYSTEM|CONFIG),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.92
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_syslog_format
   description: Palo Alto Networks PAN-OS Syslog format
-  event_type: TRAFFIC
+  log_type: TRAFFIC
+  regex_pattern: \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[\+\-]\d{2}:\d{2}\s+\S+\s+(TRAFFIC|THREAT|SYSTEM|CONFIG),
+  confidence: 0.92
   fields:
   - time_generated
   - type
-- vendor: Palo Alto Networks
-  product: PAN-OS
-  log_type: TRAFFIC
-  signature_name: Palo Alto Networks CSV-style Traffic Log
-  primary_pattern: \d+,\d{4}/\d{2}/\d{2}\s\d{2}:\d{2}:\d{2},(TRAFFIC|THREAT|SYSTEM|CONFIG),
-  secondary_patterns: []
-  exclusion_patterns: []
-  log_format: syslog
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - paloalto_docs
-  version: '1.0'
-  sample_logs: []
+- name: panos_csv_traffic
   description: Palo Alto Networks CSV-style Traffic Log
-  event_type: TRAFFIC
+  log_type: TRAFFIC
+  regex_pattern: \d+,\d{4}/\d{2}/\d{2}\s\d{2}:\d{2}:\d{2},(TRAFFIC|THREAT|SYSTEM|CONFIG),
+  confidence: 0.9
   fields:
   - receive_time
   - type

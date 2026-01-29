@@ -1,193 +1,286 @@
+version: '1.0'
+vendor: Juniper
+product: Junos
+product_full_name: Junos
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: juniper-junos-common-signatures.json
+generated_at: '2026-01-29T12:25:00.090323'
+field_count: 17
+fields:
+- field_name: username
+  field_type: string
+  description: User account name
+  category: identity
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
+- field_name: source-ip
+  field_type: ip
+  description: Login source IP address
+  category: authentication
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: source-port
+  field_type: port
+  description: Login source port
+  category: authentication
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: method
+  field_type: string
+  description: Authentication method (ssh, console, telnet, netconf)
+  category: authentication
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
+- field_name: auth-method
+  field_type: string
+  description: SSH authentication method (password, publickey)
+  category: authentication
+  ecs_field: event.action
+  cim_field: auth_method
+  asim_field: LogonProtocol
+- field_name: command
+  field_type: string
+  description: CLI command executed
+  category: audit
+  ecs_field: vendor.command
+  cim_field: command
+  asim_field: command
+- field_name: comment
+  field_type: string
+  description: Configuration commit comment
+  category: audit
+  ecs_field: vendor.comment
+  cim_field: comment
+  asim_field: comment
+- field_name: reason
+  field_type: string
+  description: Event reason or failure cause
+  category: system
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: ntp-server
+  field_type: ip
+  description: NTP server IP address
+  category: system
+  ecs_field: vendor.ntp-server
+  cim_field: ntp-server
+  asim_field: ntp-server
+- field_name: offset
+  field_type: string
+  description: NTP time offset
+  category: system
+  ecs_field: network.fragment_offset
+  cim_field: fragment_offset
+  asim_field: FragmentOffset
+- field_name: radius-server
+  field_type: ip
+  description: RADIUS server IP address
+  category: authentication
+  ecs_field: vendor.radius-server
+  cim_field: radius-server
+  asim_field: radius-server
+- field_name: tacacs-server
+  field_type: ip
+  description: TACACS+ server IP address
+  category: authentication
+  ecs_field: vendor.tacacs-server
+  cim_field: tacacs-server
+  asim_field: tacacs-server
+- field_name: result
+  field_type: string
+  description: Authentication result
+  category: authentication
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: feature
+  field_type: string
+  description: Licensed feature name
+  category: system
+  ecs_field: vendor.feature
+  cim_field: feature
+  asim_field: feature
+- field_name: expiry-date
+  field_type: datetime
+  description: License expiration date
+  category: system
+  ecs_field: vendor.expiry-date
+  cim_field: expiry-date
+  asim_field: expiry-date
+- field_name: filename
+  field_type: string
+  description: Transferred file path
+  category: audit
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: TargetFileName
+- field_name: destination
+  field_type: ip
+  description: File transfer destination
+  category: audit
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+mapped_field_count: 10
 signatures:
-- vendor: juniper
-  product: junos
-  log_type: audit
-  version: null
-  log_format: syslog
-  signature_name: Junos Configuration Logout
-  primary_pattern: UI_DBASE_LOGOUT_EVENT
-  confidence: 0.95
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: audit
-  version: null
-  log_format: syslog
-  signature_name: Junos File Transfer
-  primary_pattern: FTPD_|TRANSFER_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: audit
-  version: null
-  log_format: syslog
-  signature_name: Junos CLI Command Executed
-  primary_pattern: UI_CMDLINE_READ_LINE
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: audit
-  version: null
-  log_format: syslog
-  signature_name: Junos Configuration Commit
-  primary_pattern: UI_COMMIT
-  confidence: 0.95
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: audit
-  version: null
-  log_format: syslog
-  signature_name: Junos Configuration Login
-  primary_pattern: UI_DBASE_LOGIN_EVENT
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Junos User Login
-  primary_pattern: UI_LOGIN_EVENT
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Junos Authentication Failure
-  primary_pattern: UI_AUTH_INVALID_
-  confidence: 0.95
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Junos TACACS+ Event
-  primary_pattern: TACACSD_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Junos SSH Authentication
-  primary_pattern: SSHD_
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Junos User Logout
-  primary_pattern: UI_LOGOUT_EVENT
-  confidence: 0.95
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Junos RADIUS Event
-  primary_pattern: RADIUS_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Junos NTP Event
-  primary_pattern: NTPD_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Junos License Event
-  primary_pattern: LICENSE_
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Junos Kernel Panic
-  primary_pattern: KERNEL_
-  confidence: 0.9
-  priority: 1
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Junos SNMP Warm Start
-  primary_pattern: SNMP_TRAP_WARM_START
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: junos
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Junos SNMP Cold Start
-  primary_pattern: SNMP_TRAP_COLD_START
-  confidence: 0.95
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
+- name: junos_config_login
+  pattern: UI_DBASE_LOGIN_EVENT
+  description: User entered configuration mode
+  event_type: audit
+  fields:
+  - username
+- name: junos_config_logout
+  pattern: UI_DBASE_LOGOUT_EVENT
+  description: User exited configuration mode
+  event_type: audit
+  fields:
+  - username
+- name: junos_commit
+  pattern: UI_COMMIT
+  description: Configuration committed
+  event_type: audit
+  fields:
+  - username
+  - comment
+- name: junos_user_login
+  pattern: UI_LOGIN_EVENT
+  description: User logged into device
+  event_type: authentication
+  action: allowed
+  fields:
+  - username
+  - source-ip
+  - method
+- name: junos_user_logout
+  pattern: UI_LOGOUT_EVENT
+  description: User logged out of device
+  event_type: authentication
+  fields:
+  - username
+  - source-ip
+- name: junos_auth_invalid_user
+  pattern: UI_AUTH_INVALID_USER
+  description: Invalid username authentication attempt
+  event_type: authentication
+  action: denied
+  fields:
+  - username
+  - source-ip
+- name: junos_auth_invalid_password
+  pattern: UI_AUTH_INVALID_PASSWORD
+  description: Invalid password authentication attempt
+  event_type: authentication
+  action: denied
+  fields:
+  - username
+  - source-ip
+- name: junos_cli_command
+  pattern: UI_CMDLINE_READ_LINE
+  description: CLI command executed
+  event_type: audit
+  fields:
+  - username
+  - command
+- name: junos_ssh_accepted
+  pattern: SSHD_LOGIN_ACCEPTED
+  description: SSH login accepted
+  event_type: authentication
+  action: allowed
+  fields:
+  - username
+  - source-ip
+  - source-port
+  - auth-method
+- name: junos_ssh_failed
+  pattern: SSHD_LOGIN_FAILED
+  description: SSH login failed
+  event_type: authentication
+  action: denied
+  fields:
+  - username
+  - source-ip
+  - source-port
+- name: junos_cold_start
+  pattern: SNMP_TRAP_COLD_START
+  description: Device rebooted (cold start)
+  event_type: system
+  fields: []
+- name: junos_warm_start
+  pattern: SNMP_TRAP_WARM_START
+  description: Device restarted (warm start)
+  event_type: system
+  fields: []
+- name: junos_kernel
+  pattern: KERNEL_
+  description: Kernel event
+  event_type: system
+  fields:
+  - reason
+- name: junos_ntp
+  pattern: NTPD_
+  description: NTP synchronization event
+  event_type: system
+  fields:
+  - ntp-server
+  - offset
+- name: junos_radius_accept
+  pattern: RADIUS_ACCESS_ACCEPT
+  description: RADIUS authentication accepted
+  event_type: authentication
+  action: allowed
+  fields:
+  - username
+  - radius-server
+- name: junos_radius_reject
+  pattern: RADIUS_ACCESS_REJECT
+  description: RADIUS authentication rejected
+  event_type: authentication
+  action: denied
+  fields:
+  - username
+  - radius-server
+- name: junos_tacacs_accept
+  pattern: TACACSD_AUTH_ACCEPT
+  description: TACACS+ authentication accepted
+  event_type: authentication
+  action: allowed
+  fields:
+  - username
+  - tacacs-server
+- name: junos_tacacs_reject
+  pattern: TACACSD_AUTH_REJECT
+  description: TACACS+ authentication rejected
+  event_type: authentication
+  action: denied
+  fields:
+  - username
+  - tacacs-server
+- name: junos_license_expired
+  pattern: LICENSE_EXPIRED
+  description: License expired
+  event_type: alert
+  fields:
+  - feature
+- name: junos_license_expiring
+  pattern: LICENSE_EXPIRING
+  description: License expiring soon
+  event_type: alert
+  fields:
+  - feature
+  - expiry-date
+- name: junos_file_transfer
+  pattern: TRANSFER_COMPLETED
+  description: File transfer completed
+  event_type: audit
+  fields:
+  - filename
+  - destination
+  - username

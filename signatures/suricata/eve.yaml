@@ -1,75 +1,49 @@
+version: '1.0'
+vendor: Suricata
+product: EVE
+product_full_name: EVE
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: suricata-eve-signatures.json
+generated_at: '2026-01-29T12:25:01.466531'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: suricata
-  product: eve
-  log_type: dns
-  version: null
-  log_format: json
-  signature_name: Suricata DNS Event
-  primary_pattern: event_type.*dns|suricata\.eve\.dns
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: suricata
-  product: eve
-  log_type: fileinfo
-  version: null
-  log_format: json
-  signature_name: Suricata File Info Event
-  primary_pattern: event_type.*fileinfo|suricata\.eve\.fileinfo
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: suricata
-  product: eve
-  log_type: flow
-  version: null
-  log_format: json
-  signature_name: Suricata Flow Event
-  primary_pattern: event_type.*flow|suricata\.eve\.flow
-  confidence: 0.85
-  priority: 15
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: suricata
-  product: eve
-  log_type: http
-  version: null
-  log_format: json
-  signature_name: Suricata HTTP Event
-  primary_pattern: event_type.*http|suricata\.eve\.http
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: suricata
-  product: eve
-  log_type: ids
-  version: null
-  log_format: json
-  signature_name: Suricata IDS Alert
-  primary_pattern: event_type.*alert|suricata\.eve\.alert
+- name: suricata_alert
+  description: Suricata IDS/IPS alert event
+  pattern: suricata\.eve\.alert|event_type.*alert
+  event_type: alert
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: suricata
-  product: eve
-  log_type: tls
-  version: null
-  log_format: json
-  signature_name: Suricata TLS Event
-  primary_pattern: event_type.*tls|suricata\.eve\.tls
+- name: suricata_dns
+  description: Suricata DNS event
+  pattern: suricata\.eve\.dns|event_type.*dns
+  event_type: dns
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
+- name: suricata_http
+  description: Suricata HTTP event
+  pattern: suricata\.eve\.http|event_type.*http
+  event_type: http
+  confidence: 0.9
+- name: suricata_tls
+  description: Suricata TLS event
+  pattern: suricata\.eve\.tls|event_type.*tls
+  event_type: tls
+  confidence: 0.9
+- name: suricata_flow
+  description: Suricata flow event
+  pattern: suricata\.eve\.flow|event_type.*flow
+  event_type: flow
+  confidence: 0.85
+- name: suricata_fileinfo
+  description: Suricata file info event
+  pattern: suricata\.eve\.fileinfo|event_type.*fileinfo
+  event_type: file
+  confidence: 0.9
+- name: suricata_ssh
+  description: Suricata SSH event
+  pattern: suricata\.eve\.ssh|event_type.*ssh
+  event_type: ssh
+  confidence: 0.9

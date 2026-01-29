@@ -1,110 +1,235 @@
+version: '1.0'
+vendor: Juniper
+product: QFX
+product_full_name: QFX
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: juniper-qfx-signatures.json
+generated_at: '2026-01-29T12:25:00.148453'
+field_count: 19
+fields:
+- field_name: evpn-instance
+  field_type: string
+  description: EVPN instance name
+  category: fabric
+  ecs_field: vendor.evpn-instance
+  cim_field: evpn-instance
+  asim_field: evpn-instance
+- field_name: vni
+  field_type: number
+  description: VXLAN Network Identifier
+  category: fabric
+  ecs_field: vendor.vni
+  cim_field: vni
+  asim_field: vni
+- field_name: vtep-ip
+  field_type: ip
+  description: VXLAN Tunnel Endpoint IP
+  category: fabric
+  ecs_field: vendor.vtep-ip
+  cim_field: vtep-ip
+  asim_field: vtep-ip
+- field_name: remote-vtep
+  field_type: ip
+  description: Remote VTEP IP address
+  category: fabric
+  ecs_field: vendor.remote-vtep
+  cim_field: remote-vtep
+  asim_field: remote-vtep
+- field_name: local-vtep
+  field_type: ip
+  description: Local VTEP IP address
+  category: fabric
+  ecs_field: vendor.local-vtep
+  cim_field: local-vtep
+  asim_field: local-vtep
+- field_name: mac-address
+  field_type: string
+  description: MAC address in EVPN route
+  category: fabric
+  ecs_field: vendor.mac-address
+  cim_field: mac-address
+  asim_field: mac-address
+- field_name: member-id
+  field_type: number
+  description: Virtual Chassis member ID
+  category: system
+  ecs_field: observer.cluster.member
+  cim_field: cluster_member
+  asim_field: DvcClusterMember
+- field_name: role
+  field_type: string
+  description: VC member role (master, backup, linecard)
+  category: system
+  ecs_field: vendor.role
+  cim_field: role
+  asim_field: role
+- field_name: peer-ip
+  field_type: ip
+  description: MC-LAG peer IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: vpn_peer_ip
+  asim_field: DstIpAddr
+- field_name: interface
+  field_type: string
+  description: Interface name (et-0/0/1)
+  category: network
+  ecs_field: observer.ingress.interface.name
+  cim_field: interface
+  asim_field: DvcInterface
+- field_name: priority
+  field_type: number
+  description: Class of Service priority (DCB)
+  category: fabric
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
+- field_name: peer-address
+  field_type: ip
+  description: BGP peer IP (spine/leaf)
+  category: routing
+  ecs_field: vendor.peer-address
+  cim_field: peer-address
+  asim_field: peer-address
+- field_name: peer-as
+  field_type: number
+  description: BGP peer AS number
+  category: routing
+  ecs_field: vendor.peer-as
+  cim_field: peer-as
+  asim_field: peer-as
+- field_name: vlan
+  field_type: string
+  description: VLAN name or ID
+  category: network
+  ecs_field: vendor.vlan
+  cim_field: vlan
+  asim_field: vlan
+- field_name: state
+  field_type: string
+  description: Port or protocol state
+  category: network
+  ecs_field: vendor.state
+  cim_field: state
+  asim_field: state
+- field_name: reason
+  field_type: string
+  description: Event reason
+  category: system
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: ifIndex
+  field_type: number
+  description: SNMP interface index
+  category: network
+  ecs_field: vendor.ifIndex
+  cim_field: ifIndex
+  asim_field: ifIndex
+- field_name: ifName
+  field_type: string
+  description: Interface name from SNMP
+  category: network
+  ecs_field: vendor.ifName
+  cim_field: ifName
+  asim_field: ifName
+- field_name: component
+  field_type: string
+  description: Chassis component
+  category: system
+  ecs_field: vendor.component
+  cim_field: component
+  asim_field: component
+mapped_field_count: 5
 signatures:
-- vendor: juniper
-  product: qfx
-  log_type: fabric
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX VXLAN Tunnel Event
-  primary_pattern: VXLAN_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: fabric
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX EVPN Event
-  primary_pattern: RPD_EVPN_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX BGP Event
-  primary_pattern: RPD_BGP_NEIGHBOR_STATE_CHANGED
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: switching
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX MAC Learning Event
-  primary_pattern: ESWD_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: switching
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX DCB Event
-  primary_pattern: DCBX_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX Chassis Event
-  primary_pattern: CHASSISD_
-  confidence: 0.9
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX Virtual Chassis Event
-  primary_pattern: VC_
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX MC-LAG Event
-  primary_pattern: MCLAG_
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: qfx
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper QFX Interface Link Event
-  primary_pattern: SNMP_TRAP_LINK_
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
+- name: juniper_qfx_evpn_instance
+  pattern: RPD_EVPN_INSTANCE
+  description: EVPN instance state change
+  event_type: fabric
+  fields:
+  - evpn-instance
+  - vni
+- name: juniper_qfx_evpn_mac_route
+  pattern: RPD_EVPN_MAC_ROUTE
+  description: EVPN MAC route update
+  event_type: fabric
+  fields:
+  - evpn-instance
+  - mac-address
+  - vtep-ip
+- name: juniper_qfx_vxlan_tunnel
+  pattern: VXLAN_TUNNEL
+  description: VXLAN tunnel state change
+  event_type: fabric
+  fields:
+  - remote-vtep
+  - local-vtep
+  - vni
+- name: juniper_qfx_vc_member
+  pattern: VC_MEMBER
+  description: Virtual Chassis member event
+  event_type: system
+  fields:
+  - member-id
+  - role
+  - reason
+- name: juniper_qfx_vc_master_change
+  pattern: VC_MASTER_CHANGE
+  description: Virtual Chassis master changed
+  event_type: system
+  fields:
+  - member-id
+  - role
+- name: juniper_qfx_mclag_peer
+  pattern: MCLAG_PEER
+  description: MC-LAG peer state change
+  event_type: network
+  fields:
+  - peer-ip
+  - interface
+- name: juniper_qfx_dcbx
+  pattern: DCBX_
+  description: Data Center Bridging event
+  event_type: network
+  fields:
+  - interface
+  - priority
+- name: juniper_qfx_bgp_state_change
+  pattern: RPD_BGP_NEIGHBOR_STATE_CHANGED
+  description: BGP neighbor state change (spine/leaf)
+  event_type: routing
+  fields:
+  - peer-address
+  - peer-as
+- name: juniper_qfx_eswd_stp
+  pattern: ESWD_STP
+  description: STP state change
+  event_type: switching
+  fields:
+  - interface
+  - vlan
+  - state
+- name: juniper_qfx_link_down
+  pattern: SNMP_TRAP_LINK_DOWN
+  description: Interface link down
+  event_type: network
+  fields:
+  - ifIndex
+  - ifName
+- name: juniper_qfx_link_up
+  pattern: SNMP_TRAP_LINK_UP
+  description: Interface link up
+  event_type: network
+  fields:
+  - ifIndex
+  - ifName
+- name: juniper_qfx_chassis
+  pattern: CHASSISD_
+  description: Chassis hardware event
+  event_type: system
+  fields:
+  - component
+  - reason

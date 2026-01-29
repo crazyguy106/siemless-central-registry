@@ -1,140 +1,68 @@
+version: '1.0'
+vendor: CrowdStrike
+product: Falcon
+product_full_name: Falcon
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: crowdstrike-falcon-signatures.json
+generated_at: '2026-01-29T12:24:52.686172'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon Network Event
-  primary_pattern: LocalAddressIP4|RemoteAddressIP4|LocalPort|RemotePort
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon Authentication Event
-  primary_pattern: UserName|UserSid|UserPrincipal|LogonType
-  confidence: 0.85
-  priority: 15
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon Registry Event
-  primary_pattern: RegObjectName|RegValueName|RegStringValue
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon File Event
-  primary_pattern: TargetFileName|TargetDirectoryName|SHA256String
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon DNS Event
-  primary_pattern: DomainName|RequestType|ContextBaseFileName
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon Incident
-  primary_pattern: incident\.fine_score|incident\.objective
-  confidence: 0.95
+- name: crowdstrike_falcon_generic_cef
+  description: Generic CrowdStrike Falcon detection - CEF format
+  regex_pattern: CEF:\d+\|CrowdStrike\|(?:Falcon|FalconHost)\|
   priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon Agent Metadata
-  primary_pattern: aid|cid|aip
-  confidence: 0.85
-  priority: 20
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon Process Event
-  primary_pattern: ProcessStartTime|ProcessEndTime|ImageFileName|CommandLine
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: crowdstrike
-  product: falcon
-  log_type: edr
-  version: null
-  log_format: json
-  signature_name: CrowdStrike Falcon Detection Summary
-  primary_pattern: DetectName|DetectDescription|SeverityName
-  confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: crowdstrike
-  product: falcon
-  log_type: security
-  version: null
-  log_format: cef
-  signature_name: crowdstrike_falcon_generic_cef
-  primary_pattern: CEF:\d+\|CrowdStrike\|(?:Falcon|FalconHost)\|
   confidence: 0.98
-  priority: 5
-  source: bulk_import
-  upstream_sources:
-  - json:crowdstrike-falcon-signatures.json
-- vendor: crowdstrike
-  product: falcon
   log_type: security
-  version: null
-  log_format: json
-  signature_name: crowdstrike_falcon_generic_json
-  primary_pattern: '"(?:customerIDString|cid)":\s*"[a-f0-9]{32}"'
-  confidence: 0.95
+  log_format: cef
+- name: crowdstrike_falcon_generic_json
+  description: Generic CrowdStrike Falcon detection - JSON format
+  regex_pattern: '"(?:customerIDString|cid)":\s*"[a-f0-9]{32}"'
   priority: 5
-  source: bulk_import
-  upstream_sources:
-  - json:crowdstrike-falcon-signatures.json
+  confidence: 0.95
+  log_type: security
+  log_format: json
+- name: crowdstrike_detection_summary
+  description: CrowdStrike Falcon detection summary event
+  pattern: DetectName|DetectDescription|SeverityName
+  event_type: detection
+  confidence: 0.95
+- name: crowdstrike_process_event
+  description: Process creation/termination events
+  pattern: ProcessStartTime|ProcessEndTime|ImageFileName|CommandLine
+  event_type: process
+  confidence: 0.9
+- name: crowdstrike_network_event
+  description: Network connection events
+  pattern: LocalAddressIP4|RemoteAddressIP4|LocalPort|RemotePort|Protocol
+  event_type: network
+  confidence: 0.9
+- name: crowdstrike_dns_event
+  description: DNS request events
+  pattern: DomainName|RequestType|ContextBaseFileName
+  event_type: dns
+  confidence: 0.9
+- name: crowdstrike_auth_event
+  description: Authentication and user activity events
+  pattern: UserName|UserSid|UserPrincipal|LogonType
+  event_type: authentication
+  confidence: 0.85
+- name: crowdstrike_file_event
+  description: File write/modification events
+  pattern: TargetFileName|TargetDirectoryName|SHA256String|MD5String
+  event_type: file
+  confidence: 0.9
+- name: crowdstrike_registry_event
+  description: Windows registry modification events
+  pattern: RegObjectName|RegValueName|RegStringValue
+  event_type: registry
+  confidence: 0.9
+- name: crowdstrike_incident
+  description: CrowdStrike incident aggregation
+  pattern: incident\.fine_score|incident\.objective
+  event_type: incident
+  confidence: 0.95

@@ -7,7 +7,7 @@ source_document: SonicOS/X 7.0.1 Log Events Reference Guide
 source_url: https://www.sonicwall.com/support/technical-documentation
 extraction_date: '2026-01-01'
 source_file: sonicwall-sonicosX-signatures.json
-generated_at: '2026-01-04T09:34:59.554235'
+generated_at: '2026-01-29T12:25:01.145338'
 categories:
 - Network
 - Traffic Statistics
@@ -356,9 +356,9 @@ fields:
   field_type: string
   description: Numeric application ID
   category: Application Filter
-  ecs_field: network.application
-  cim_field: app_id
-  asim_field: DstAppId
+  ecs_field: network.protocol
+  cim_field: app
+  asim_field: DstAppName
 - field_name: appcat
   field_type: string
   description: Application category
@@ -420,7 +420,7 @@ fields:
   description: HTTP Referrer URI
   category: Web/Content
   ecs_field: http.request.referrer
-  cim_field: http_referer
+  cim_field: http_referrer
   asim_field: HttpReferrer
 - field_name: op
   field_type: string
@@ -433,9 +433,9 @@ fields:
   field_type: string
   description: HTTP result code (200, 403, etc)
   category: Web/Content
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
 - field_name: category
   field_type: string
   description: CFS blocked content category
@@ -538,9 +538,9 @@ fields:
   field_type: string
   description: Rule ID associated with event
   category: Firewall
-  ecs_field: rule.id
-  cim_field: rule_id
-  asim_field: RuleNumber
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
 - field_name: conns
   field_type: int
   description: Number of connections in use
@@ -671,9 +671,9 @@ fields:
   field_type: int
   description: Standby SA in use flag
   category: Common
-  ecs_field: observer.state
-  cim_field: standby_sa
-  asim_field: DvcAction
+  ecs_field: vendor.usestandbysa
+  cim_field: usestandbysa
+  asim_field: usestandbysa
 - field_name: change
   field_type: string
   description: Web page that performed last config change
@@ -779,5 +779,5 @@ fields:
   ecs_field: vendor.newValue
   cim_field: newValue
   asim_field: newValue
-mapped_field_count: 73
+mapped_field_count: 72
 notes: Extracted from SonicWall Syslog Tags table - includes gcat group categories

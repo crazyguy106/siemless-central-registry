@@ -1,157 +1,337 @@
+version: '1.0'
+vendor: Cisco
+product: IOS
+product_full_name: Cisco IOS and IOS-XE Network Operating System
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: cisco-ios-signatures.json
+generated_at: '2026-01-29T12:24:52.595976'
+field_count: 25
+fields:
+- field_name: sequence_number
+  field_type: number
+  description: Sequential message counter
+  category: system
+  ecs_field: network.sequence_number
+  cim_field: sequence_number
+  asim_field: TcpSeqNum
+- field_name: timestamp
+  field_type: datetime
+  description: Event timestamp
+  category: system
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
+- field_name: facility
+  field_type: string
+  description: Source module that generated the message (e.g., SYS, LINK, OSPF)
+  category: system
+  ecs_field: vendor.facility
+  cim_field: facility
+  asim_field: facility
+- field_name: severity
+  field_type: number
+  description: Severity level 0-7 (0=emergencies, 7=debugging)
+  category: system
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
+- field_name: mnemonic
+  field_type: string
+  description: Short code identifying the specific message type
+  category: system
+  ecs_field: vendor.mnemonic
+  cim_field: mnemonic
+  asim_field: mnemonic
+- field_name: message
+  field_type: string
+  description: Descriptive text explaining the event
+  category: system
+  ecs_field: message
+  cim_field: msg
+  asim_field: EventMessage
+- field_name: hostname
+  field_type: string
+  description: Device hostname
+  category: system
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
+- field_name: interface
+  field_type: string
+  description: Network interface name (e.g., GigabitEthernet0/1)
+  category: network
+  ecs_field: observer.ingress.interface.name
+  cim_field: interface
+  asim_field: DvcInterface
+- field_name: state
+  field_type: string
+  description: Interface or protocol state (up/down)
+  category: network
+  ecs_field: vendor.state
+  cim_field: state
+  asim_field: state
+- field_name: source_ip
+  field_type: ip
+  description: Source IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Destination IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Source port number
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: Destination port number
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: protocol
+  field_type: string
+  description: Network protocol (TCP, UDP, ICMP)
+  category: network
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
+- field_name: username
+  field_type: string
+  description: User account name
+  category: authentication
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
+- field_name: source_address
+  field_type: ip
+  description: Login source IP address
+  category: authentication
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: vty
+  field_type: string
+  description: Virtual terminal line number
+  category: authentication
+  ecs_field: vendor.vty
+  cim_field: vty
+  asim_field: vty
+- field_name: neighbor_ip
+  field_type: ip
+  description: Routing protocol neighbor IP address
+  category: routing
+  ecs_field: vendor.neighbor_ip
+  cim_field: neighbor_ip
+  asim_field: neighbor_ip
+- field_name: neighbor_as
+  field_type: number
+  description: BGP neighbor autonomous system number
+  category: routing
+  ecs_field: vendor.neighbor_as
+  cim_field: neighbor_as
+  asim_field: neighbor_as
+- field_name: area
+  field_type: string
+  description: OSPF area ID
+  category: routing
+  ecs_field: vendor.area
+  cim_field: area
+  asim_field: area
+- field_name: vlan
+  field_type: number
+  description: VLAN ID
+  category: switching
+  ecs_field: vendor.vlan
+  cim_field: vlan
+  asim_field: vlan
+- field_name: mac_address
+  field_type: string
+  description: Hardware MAC address
+  category: switching
+  ecs_field: vendor.mac_address
+  cim_field: mac_address
+  asim_field: mac_address
+- field_name: acl_name
+  field_type: string
+  description: Access control list name
+  category: security
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
+- field_name: action
+  field_type: string
+  description: Action taken (permit/deny)
+  category: security
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: reason
+  field_type: string
+  description: Event reason or failure cause
+  category: system
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+mapped_field_count: 16
 signatures:
-- vendor: cisco
-  product: ios
-  log_type: authentication
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS AAA Authentication
-  primary_pattern: '%AAA-[456]-'
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ios
-  log_type: network
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS Line Protocol State Change
-  primary_pattern: '%LINEPROTO-5-UPDOWN'
-  confidence: 0.95
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
-- vendor: cisco
-  product: ios
-  log_type: network
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS EMBLEM Format
-  primary_pattern: '%[A-Z0-9_]+-\d+-[A-Z0-9_]+:'
-  confidence: 0.85
-  priority: 50
-  source: github_sync
-  exclusion_patterns:
-  - '%ASA-'
-  - '%FTD-'
-  - '%FWSM-'
-  sample_logs:
-  - 'router01 %SYS-5-CONFIG_I: Configured from console by admin'
-  - '%LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to down'
-  upstream_sources:
-  - grok
-  - wazuh
-- vendor: cisco
-  product: ios
-  log_type: network
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS HSRP State Change
-  primary_pattern: '%HSRP-[56]-STATECHANGE'
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ios
-  log_type: network
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS Link State Change
-  primary_pattern: '%LINK-[35]-UPDOWN'
-  confidence: 0.95
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
-- vendor: cisco
-  product: ios
-  log_type: routing
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS BGP Neighbor State Change
-  primary_pattern: '%BGP-5-ADJCHANGE'
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ios
-  log_type: routing
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS EIGRP Neighbor Change
-  primary_pattern: '%DUAL-5-NBRCHANGE'
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ios
-  log_type: routing
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS OSPF Adjacency Change
-  primary_pattern: '%OSPF-5-ADJCHG'
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ios
-  log_type: security
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS ACL Log Entry
-  primary_pattern: '%SEC-6-IPACCESSLOG'
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
-- vendor: cisco
-  product: ios
-  log_type: switching
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS STP Topology Change
-  primary_pattern: '%SPANTREE-[56]-'
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ios
-  log_type: system
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS System Reload
-  primary_pattern: '%SYS-[05]-RELOAD'
-  confidence: 0.95
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ios
-  log_type: system
-  version: null
-  log_format: emblem
-  signature_name: Cisco IOS Configuration Change
-  primary_pattern: '%SYS-5-CONFIG_I'
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
+- name: cisco_ios_config_change
+  pattern: '%SYS-5-CONFIG_I'
+  description: Configuration changed from console/vty
+  event_type: audit
+  fields:
+  - username
+  - source_address
+  - vty
+- name: cisco_ios_link_updown
+  pattern: '%LINK-[35]-UPDOWN'
+  description: Interface link state changed
+  event_type: network
+  fields:
+  - interface
+  - state
+- name: cisco_ios_lineproto_updown
+  pattern: '%LINEPROTO-5-UPDOWN'
+  description: Line protocol state changed
+  event_type: network
+  fields:
+  - interface
+  - state
+- name: cisco_ios_ospf_adjchg
+  pattern: '%OSPF-5-ADJCHG'
+  description: OSPF neighbor adjacency changed
+  event_type: routing
+  fields:
+  - neighbor_ip
+  - interface
+  - area
+  - state
+- name: cisco_ios_bgp_adjchange
+  pattern: '%BGP-5-ADJCHANGE'
+  description: BGP neighbor state changed
+  event_type: routing
+  fields:
+  - neighbor_ip
+  - neighbor_as
+  - state
+  - reason
+- name: cisco_ios_eigrp_nbrchange
+  pattern: '%DUAL-5-NBRCHANGE'
+  description: EIGRP neighbor state changed
+  event_type: routing
+  fields:
+  - neighbor_ip
+  - interface
+  - state
+  - reason
+- name: cisco_ios_ssh_login
+  pattern: '%SEC-6-IPACCESSLOG'
+  description: SSH/Telnet login attempt
+  event_type: authentication
+  fields:
+  - username
+  - source_ip
+  - vty
+  - action
+- name: cisco_ios_aaa_auth
+  pattern: '%AAA-[456]-[A-Z_]+'
+  description: AAA authentication event
+  event_type: authentication
+  fields:
+  - username
+  - source_ip
+  - action
+  - reason
+- name: cisco_ios_acl_log
+  pattern: '%SEC-6-IPACCESSLOGP'
+  description: ACL permit/deny log entry
+  event_type: security
+  action: allowed
+  fields:
+  - acl_name
+  - action
+  - source_ip
+  - destination_ip
+  - source_port
+  - destination_port
+  - protocol
+- name: cisco_ios_hsrp_statechange
+  pattern: '%HSRP-[56]-STATECHANGE'
+  description: HSRP state changed
+  event_type: network
+  fields:
+  - interface
+  - state
+- name: cisco_ios_stp_root
+  pattern: '%SPANTREE-[56]-[A-Z_]+'
+  description: Spanning tree topology change
+  event_type: switching
+  fields:
+  - interface
+  - vlan
+  - state
+- name: cisco_ios_cdp_neighbor
+  pattern: '%CDP-4-[A-Z_]+'
+  description: CDP neighbor event
+  event_type: network
+  fields:
+  - interface
+  - hostname
+- name: cisco_ios_dhcp_snooping
+  pattern: '%DHCP_SNOOPING-[456]-[A-Z_]+'
+  description: DHCP snooping event
+  event_type: security
+  fields:
+  - interface
+  - mac_address
+  - source_ip
+  - vlan
+- name: cisco_ios_crypto_ikev2
+  pattern: '%CRYPTO-[456]-IKEV2_[A-Z_]+'
+  description: IKEv2 VPN event
+  event_type: vpn
+  fields:
+  - source_ip
+  - destination_ip
+  - action
+  - reason
+- name: cisco_ios_nat_translation
+  pattern: '%NAT-[456]-[A-Z_]+'
+  description: NAT translation event
+  event_type: network
+  fields:
+  - source_ip
+  - destination_ip
+  - protocol
+- name: cisco_ios_reload
+  pattern: '%SYS-[05]-RELOAD'
+  description: System reload/reboot
+  event_type: system
+  fields:
+  - reason
+  - username
+- name: cisco_ios_memory_low
+  pattern: '%SYS-[23]-MEMORY_LOW'
+  description: Low memory warning
+  event_type: system
+  fields:
+  - reason
+- name: cisco_ios_snmp_trap
+  pattern: '%SNMP-[456]-[A-Z_]+'
+  description: SNMP trap event
+  event_type: system
+  fields:
+  - interface
+  - state

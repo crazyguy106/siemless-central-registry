@@ -1,61 +1,39 @@
+version: '1.0'
+vendor: MISP
+product: ThreatIntel
+product_full_name: ThreatIntel
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: misp-threatintel-signatures.json
+generated_at: '2026-01-29T12:25:00.470803'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: misp
-  product: threatintel
-  log_type: campaign
-  version: null
-  log_format: json
-  signature_name: MISP Campaign
-  primary_pattern: misp\.campaign|campaign
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: misp
-  product: threatintel
-  log_type: indicator
-  version: null
-  log_format: json
-  signature_name: MISP Threat Indicator
-  primary_pattern: misp\.threat_indicator|indicator
+- name: misp_threat_indicator
+  description: MISP threat indicator (IOC)
+  pattern: misp\.threat_indicator|indicator
+  event_type: indicator
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: misp
-  product: threatintel
-  log_type: intrusion_set
-  version: null
-  log_format: json
-  signature_name: MISP Intrusion Set
-  primary_pattern: misp\.intrusion_set|intrusion_set
+- name: misp_threat_actor
+  description: MISP threat actor information
+  pattern: misp\.threat_actor|threat_actor
+  event_type: threat_actor
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: misp
-  product: threatintel
-  log_type: malware
-  version: null
-  log_format: json
-  signature_name: MISP Malware
-  primary_pattern: misp\.malware|malware
+- name: misp_malware
+  description: MISP malware information
+  pattern: misp\.malware|malware
+  event_type: malware
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: misp
-  product: threatintel
-  log_type: threat_actor
-  version: null
-  log_format: json
-  signature_name: MISP Threat Actor
-  primary_pattern: misp\.threat_actor|threat_actor
+- name: misp_campaign
+  description: MISP campaign information
+  pattern: misp\.campaign|campaign
+  event_type: campaign
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
+- name: misp_intrusion_set
+  description: MISP intrusion set information
+  pattern: misp\.intrusion_set|intrusion_set
+  event_type: intrusion_set
+  confidence: 0.9

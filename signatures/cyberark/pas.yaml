@@ -1,49 +1,39 @@
+version: '1.0'
+vendor: CyberArk
+product: PAS
+product_full_name: PAS
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: cyberark-pas-signatures.json
+generated_at: '2026-01-29T12:24:52.693253'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: cyberark
-  product: pas
-  log_type: account
-  version: null
-  log_format: json
-  signature_name: CyberArk Account Management Event
-  primary_pattern: Account.*Add|Account.*Delete|Account.*Update
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: cyberark
-  product: pas
-  log_type: audit
-  version: null
-  log_format: json
-  signature_name: CyberArk PAS Audit Event
-  primary_pattern: cyberarkpas|CyberArk.*(?:PAS|Vault|PSM|CPM)|Privileged.*Access.*Security
+- name: cyberark_audit
+  description: CyberArk PAS audit event
+  pattern: cyberarkpas|CyberArk.*(?:PAS|Vault|PSM|CPM|PVWA)|Privileged.*Access.*Security
+  event_type: audit
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: cyberark
-  product: pas
-  log_type: password
-  version: null
-  log_format: json
-  signature_name: CyberArk CPM Password Event
-  primary_pattern: Password.*Change|CPM|Verify
+- name: cyberark_session
+  description: CyberArk privileged session event
+  pattern: PSM.*Session|session_id
+  event_type: session
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: cyberark
-  product: pas
-  log_type: session
-  version: null
-  log_format: json
-  signature_name: CyberArk PSM Session Event
-  primary_pattern: PSM.*Session|session_id
+- name: cyberark_password
+  description: CyberArk password management event
+  pattern: Password.*Change|CPM|Verify
+  event_type: password
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
+- name: cyberark_safe
+  description: CyberArk Safe operation event
+  pattern: Safe.*Create|Safe.*Delete|Safe.*Update
+  event_type: safe
+  confidence: 0.9
+- name: cyberark_account
+  description: CyberArk account management event
+  pattern: Account.*Add|Account.*Delete|Account.*Update
+  event_type: account
+  confidence: 0.9

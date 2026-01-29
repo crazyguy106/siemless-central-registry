@@ -7,7 +7,7 @@ source_document: Fireware v12.10.x Log Message Catalog
 source_url: https://www.watchguard.com/help/docs/help-center/en-US/Content/Integration-Guides/log-catalog/log-catalog.html
 extraction_date: '2026-01-01'
 source_file: watchguard-firebox-signatures.json
-generated_at: '2026-01-04T09:34:59.733727'
+generated_at: '2026-01-29T12:25:01.634446'
 categories:
 - Proxy Policy
 - VPN
@@ -108,15 +108,15 @@ fields:
   description: Network protocol
   category: Common
   ecs_field: network.transport
-  cim_field: protocol
-  asim_field: NetworkTransport
+  cim_field: transport
+  asim_field: NetworkProtocol
 - field_name: service
   field_type: string
   description: Service name
   category: Common
-  ecs_field: network.application
+  ecs_field: network.protocol
   cim_field: service
-  asim_field: DstAppName
+  asim_field: NetworkApplicationProtocol
 - field_name: sent_bytes
   field_type: int
   description: Bytes sent
@@ -296,9 +296,9 @@ fields:
   field_type: string
   description: Content MIME type
   category: Common
-  ecs_field: file.mime_type
+  ecs_field: http.response.mime_type
   cim_field: content_type
-  asim_field: FileMimeType
+  asim_field: HttpContentType
 - field_name: url
   field_type: string
   description: URL accessed
@@ -332,7 +332,7 @@ fields:
   description: HTTP referer
   category: Common
   ecs_field: http.request.referrer
-  cim_field: http_referer
+  cim_field: http_referrer
   asim_field: HttpReferrer
 - field_name: user_agent
   field_type: string
@@ -506,9 +506,9 @@ fields:
   field_type: string
   description: Email attachment name
   category: Common
-  ecs_field: file.name
+  ecs_field: vendor.attachment
   cim_field: attachment
-  asim_field: TargetFileName
+  asim_field: attachment
 - field_name: vpn_type
   field_type: string
   description: VPN type
@@ -1066,9 +1066,9 @@ fields:
   field_type: string
   description: WatchGuard Networking field
   category: Networking
-  ecs_field: url.domain
-  cim_field: url_domain
-  asim_field: UrlHost
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
 - field_name: server_ip
   field_type: ip
   description: WatchGuard Networking field
@@ -1150,9 +1150,9 @@ fields:
   field_type: int
   description: WatchGuard Networking field
   category: Networking
-  ecs_field: network.session_id
+  ecs_field: event.id
   cim_field: session_id
-  asim_field: NetworkSessionId
+  asim_field: EventOriginalUid
 - field_name: ipaddr
   field_type: ip
   description: WatchGuard Networking field
@@ -1220,16 +1220,16 @@ fields:
   field_type: string
   description: WatchGuard Networking field
   category: Networking
-  ecs_field: event.target
+  ecs_field: vendor.target
   cim_field: target
-  asim_field: TargetObject
+  asim_field: target
 - field_name: scan_type
   field_type: string
   description: WatchGuard Networking field
   category: Networking
-  ecs_field: event.action
+  ecs_field: vendor.scan_type
   cim_field: scan_type
-  asim_field: EventAction
+  asim_field: scan_type
 - field_name: scan_stage
   field_type: string
   description: WatchGuard Networking field
@@ -1325,9 +1325,9 @@ fields:
   field_type: string
   description: WatchGuard Proxy Policy field
   category: Proxy Policy
-  ecs_field: rule.id
-  cim_field: rule_id
-  asim_field: RuleNumber
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
 - field_name: uuid
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1493,9 +1493,9 @@ fields:
   field_type: int
   description: WatchGuard Proxy Policy field
   category: Proxy Policy
-  ecs_field: network.bytes
+  ecs_field: vendor.length
   cim_field: length
-  asim_field: NetworkBytes
+  asim_field: length
 - field_name: version
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1535,9 +1535,9 @@ fields:
   field_type: string
   description: WatchGuard Proxy Policy field
   category: Proxy Policy
-  ecs_field: file.name
+  ecs_field: vendor.file
   cim_field: file
-  asim_field: TargetFileName
+  asim_field: file
 - field_name: ctl_dst
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1731,9 +1731,9 @@ fields:
   field_type: string
   description: WatchGuard Management field
   category: Management
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
 - field_name: device
   field_type: string
   description: WatchGuard Management field
@@ -1857,9 +1857,9 @@ fields:
   field_type: string
   description: WatchGuard FireCluster field
   category: FireCluster
-  ecs_field: event.outcome
+  ecs_field: vendor.state
   cim_field: state
-  asim_field: EventResult
+  asim_field: state
 - field_name: master
   field_type: string
   description: WatchGuard FireCluster field
@@ -2147,6 +2147,6 @@ fields:
   ecs_field: vendor.local_time
   cim_field: local_time
   asim_field: local_time
-mapped_field_count: 140
+mapped_field_count: 134
 notes: Extracted from WatchGuard Log Catalog - fields from key=value patterns and
   documentation

@@ -7,7 +7,7 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-01-02'
 source_file: zscaler-zia-signatures.json
-generated_at: '2026-01-04T09:34:59.893251'
+generated_at: '2026-01-29T12:25:02.105200'
 categories:
 - HTTP
 - Activity
@@ -1324,9 +1324,9 @@ fields:
   field_type: integer
   description: Number of matches
   category: DLP
-  ecs_field: event.sequence
+  ecs_field: vendor.match_count
   cim_field: match_count
-  asim_field: EventCount
+  asim_field: match_count
   format: '%d{match_count}'
 - field_name: matchedfiles
   field_type: integer
@@ -1653,8 +1653,8 @@ fields:
   description: Protocol (ESP, AH)
   category: IKE
   ecs_field: network.transport
-  cim_field: protocol
-  asim_field: NetworkTransport
+  cim_field: transport
+  asim_field: NetworkProtocol
   format: '%s{protocol}'
 - field_name: reason
   field_type: string
@@ -1828,9 +1828,9 @@ fields:
   field_type: string
   description: Result (SUCCESS, FAILURE)
   category: Audit
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
   format: '%s{result}'
 - field_name: risk_score
   field_type: integer
@@ -1844,9 +1844,9 @@ fields:
   field_type: string
   description: Rule matched
   category: Action
-  ecs_field: rule.id
-  cim_field: rule_id
-  asim_field: RuleNumber
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   format: '%s{rule}'
 - field_name: rulelabel
   field_type: string
@@ -2408,7 +2408,7 @@ fields:
   cim_field: ztunnelversion
   asim_field: ztunnelversion
   format: '%s{ztunnelversion}'
-mapped_field_count: 37
+mapped_field_count: 36
 notes: Zscaler Internet Access provides cloud-native security for web traffic, DNS,
   firewall, DLP, and SaaS applications. NSS (Nanolog Streaming Service) delivers logs
   in configurable formats.

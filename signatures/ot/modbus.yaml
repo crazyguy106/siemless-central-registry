@@ -1,28 +1,243 @@
+version: '1.0'
+vendor: OT
+product: Modbus
+product_full_name: Modbus TCP/RTU Industrial Protocol
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-modbus-signatures.json
+generated_at: '2026-01-29T12:25:00.688529'
+field_count: 16
+fields:
+- field_name: transaction_id
+  field_type: number
+  description: Unique identifier for request/response matching (Modbus TCP)
+  category: protocol
+  ecs_field: vendor.transaction_id
+  cim_field: transaction_id
+  asim_field: transaction_id
+- field_name: unit_id
+  field_type: number
+  description: Slave device address (1-247)
+  category: device
+  ecs_field: vendor.unit_id
+  cim_field: unit_id
+  asim_field: unit_id
+- field_name: function_code
+  field_type: number
+  description: Modbus function code (1-127)
+  category: protocol
+  ecs_field: vendor.function_code
+  cim_field: function_code
+  asim_field: function_code
+- field_name: function_name
+  field_type: string
+  description: Human-readable function name (Read Coils, Write Register, etc.)
+  category: protocol
+  ecs_field: vendor.function_name
+  cim_field: function_name
+  asim_field: function_name
+- field_name: register_address
+  field_type: number
+  description: Starting register/coil address (0-65535)
+  category: data
+  ecs_field: vendor.register_address
+  cim_field: register_address
+  asim_field: register_address
+- field_name: register_count
+  field_type: number
+  description: Number of registers/coils to read/write
+  category: data
+  ecs_field: vendor.register_count
+  cim_field: register_count
+  asim_field: register_count
+- field_name: register_value
+  field_type: string
+  description: Value read from or written to register
+  category: data
+  ecs_field: vendor.register_value
+  cim_field: register_value
+  asim_field: register_value
+- field_name: exception_code
+  field_type: number
+  description: Modbus exception code (1-11) for error responses
+  category: error
+  ecs_field: vendor.exception_code
+  cim_field: exception_code
+  asim_field: exception_code
+- field_name: exception_name
+  field_type: string
+  description: Human-readable exception name (Illegal Function, Illegal Address, etc.)
+  category: error
+  ecs_field: vendor.exception_name
+  cim_field: exception_name
+  asim_field: exception_name
+- field_name: source_ip
+  field_type: ip
+  description: Master/client IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Slave/server IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Client ephemeral port
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: Server port (typically 502 for Modbus TCP)
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: protocol_id
+  field_type: number
+  description: Modbus protocol identifier (always 0 for standard Modbus)
+  category: protocol
+  ecs_field: network.iana_number
+  cim_field: protocol_id
+  asim_field: NetworkProtocolVersion
+- field_name: length
+  field_type: number
+  description: Protocol data unit length in bytes
+  category: protocol
+  ecs_field: vendor.length
+  cim_field: length
+  asim_field: length
+- field_name: direction
+  field_type: string
+  description: Request or Response
+  category: protocol
+  ecs_field: network.direction
+  cim_field: direction
+  asim_field: NetworkDirection
+mapped_field_count: 6
 signatures:
-- vendor: ot
-  product: modbus
-  log_type: industrial
-  version: null
-  log_format: syslog
-  signature_name: Modbus Protocol Traffic
-  primary_pattern: (?:function_code|unit_id|transaction_id)\s*[=:]\s*\d+
-  confidence: 0.9
-  priority: 30
-  source: github_sync
-  sample_logs:
-  - function_code=3 unit_id=1 transaction_id=12345
-  upstream_sources:
-  - zeek
-  - suricata
-- vendor: ot
-  product: modbus
-  log_type: ot_traffic
-  version: null
-  log_format: kv
-  signature_name: modbus_generic
-  primary_pattern: (?:function_code|fc|unit_id|slave_address|transaction_id)\s*[=:]\s*\d+
-  confidence: 0.85
+- name: modbus_generic
+  description: Generic Modbus TCP/RTU protocol detection
+  regex_pattern: (?:function_code|fc|unit_id|slave_address|transaction_id)\s*[=:]\s*\d+
   priority: 10
-  source: bulk_import
-  upstream_sources:
-  - json:ot-modbus-signatures.json
+  confidence: 0.85
+  log_type: ot_traffic
+  log_format: kv
+- name: modbus_read_coils
+  pattern: function_code[=:]\s*0?1\b|FC=0?1\b|Read Coils
+  description: 'Modbus Function 01: Read Coils (Digital Outputs)'
+  event_type: ot_traffic
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_count
+- name: modbus_read_discrete_inputs
+  pattern: function_code[=:]\s*0?2\b|FC=0?2\b|Read Discrete Inputs
+  description: 'Modbus Function 02: Read Discrete Inputs'
+  event_type: ot_traffic
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_count
+- name: modbus_read_holding_registers
+  pattern: function_code[=:]\s*0?3\b|FC=0?3\b|Read Holding Registers
+  description: 'Modbus Function 03: Read Holding Registers'
+  event_type: ot_traffic
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_count
+- name: modbus_read_input_registers
+  pattern: function_code[=:]\s*0?4\b|FC=0?4\b|Read Input Registers
+  description: 'Modbus Function 04: Read Input Registers'
+  event_type: ot_traffic
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_count
+- name: modbus_write_single_coil
+  pattern: function_code[=:]\s*0?5\b|FC=0?5\b|Write Single Coil
+  description: 'Modbus Function 05: Write Single Coil - CRITICAL WRITE OPERATION'
+  event_type: ot_traffic
+  severity: medium
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_value
+- name: modbus_write_single_register
+  pattern: function_code[=:]\s*0?6\b|FC=0?6\b|Write Single Register
+  description: 'Modbus Function 06: Write Single Register - CRITICAL WRITE OPERATION'
+  event_type: ot_traffic
+  severity: medium
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_value
+- name: modbus_write_multiple_coils
+  pattern: function_code[=:]\s*15\b|FC=15\b|Write Multiple Coils
+  description: 'Modbus Function 15: Write Multiple Coils - HIGH RISK BULK WRITE'
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_count
+- name: modbus_write_multiple_registers
+  pattern: function_code[=:]\s*16\b|FC=16\b|Write Multiple Registers
+  description: 'Modbus Function 16: Write Multiple Registers - HIGH RISK BULK WRITE'
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - register_address
+  - register_count
+- name: modbus_exception
+  pattern: exception_code|Modbus Exception|function_code[=:]\s*(129|130|131|132|133|134|143|144)
+  description: Modbus exception response (function code >= 128)
+  event_type: ot_error
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+  - exception_code
+  - exception_name
+- name: modbus_diagnostics
+  pattern: function_code[=:]\s*0?8\b|FC=0?8\b|Diagnostics
+  description: 'Modbus Function 08: Diagnostics - Device troubleshooting'
+  event_type: ot_traffic
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code
+- name: modbus_device_identification
+  pattern: function_code[=:]\s*43\b|FC=43\b|Read Device Identification|MEI
+  description: 'Modbus Function 43: Encapsulated Interface Transport / Device Identification'
+  event_type: ot_traffic
+  fields:
+  - transaction_id
+  - unit_id
+  - function_code

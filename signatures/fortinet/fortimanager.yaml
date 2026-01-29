@@ -7,7 +7,7 @@ source_document: FortiManager & FortiAnalyzer 7.4.0 Log Reference
 source_url: https://docs.fortinet.com/document/fortianalyzer/7.4.0/log-reference
 extraction_date: '2026-01-01'
 source_file: fortinet-fortimanager-signatures.json
-generated_at: '2026-01-04T09:34:59.156012'
+generated_at: '2026-01-29T12:24:59.855427'
 categories:
 - User/Authentication
 - Administrative Domain
@@ -55,7 +55,7 @@ fields:
   description: Log subtype (system, report, ha, etc)
   category: Common
   ecs_field: event.category
-  cim_field: category
+  cim_field: log_subtype
   asim_field: EventCategory
 - field_name: eventtype
   field_type: string
@@ -68,7 +68,7 @@ fields:
   field_type: string
   description: Log level (notice, warning, error)
   category: Common
-  ecs_field: event.severity
+  ecs_field: log.level
   cim_field: severity
   asim_field: EventSeverity
 - field_name: pri
@@ -173,9 +173,9 @@ fields:
   field_type: string
   description: Device ID
   category: Device
-  ecs_field: observer.name
-  cim_field: dvc
-  asim_field: DvcHostname
+  ecs_field: observer.serial_number
+  cim_field: device_id
+  asim_field: DvcId
 - field_name: device
   field_type: string
   description: Device name
@@ -194,9 +194,9 @@ fields:
   field_type: string
   description: Device serial number
   category: Device
-  ecs_field: device.serial_number
+  ecs_field: observer.serial_number
   cim_field: device_serial
-  asim_field: DeviceSerialNumber
+  asim_field: DvcSerial
 - field_name: vdom
   field_type: string
   description: Virtual domain
@@ -278,9 +278,9 @@ fields:
   field_type: string
   description: Operation result
   category: Action/Result
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
 - field_name: successful
   field_type: string
   description: Success indicator
@@ -663,30 +663,30 @@ fields:
   field_type: string
   description: Data source
   category: Reporting
-  ecs_field: event.provider
-  cim_field: data_source
-  asim_field: EventSource
+  ecs_field: vendor.data_src
+  cim_field: data_src
+  asim_field: data_src
 - field_name: data_src_id
   field_type: string
   description: Data source ID
   category: Reporting
-  ecs_field: event.id
-  cim_field: data_source_id
-  asim_field: EventOriginalUid
+  ecs_field: vendor.data_src_id
+  cim_field: data_src_id
+  asim_field: data_src_id
 - field_name: data_src_type
   field_type: string
   description: Data source type
   category: Reporting
-  ecs_field: event.category
-  cim_field: data_source_type
-  asim_field: EventCategory
+  ecs_field: vendor.data_src_type
+  cim_field: data_src_type
+  asim_field: data_src_type
 - field_name: attach_source
   field_type: string
   description: Attachment source
   category: Reporting
-  ecs_field: file.path
-  cim_field: attachment_source
-  asim_field: TargetFilePath
+  ecs_field: vendor.attach_source
+  cim_field: attach_source
+  asim_field: attach_source
 - field_name: attach_source_id
   field_type: string
   description: Attachment source ID
@@ -698,16 +698,16 @@ fields:
   field_type: string
   description: Attachment name
   category: Reporting
-  ecs_field: file.name
+  ecs_field: vendor.attachment
   cim_field: attachment
-  asim_field: TargetFileName
+  asim_field: attachment
 - field_name: attachment_type
   field_type: string
   description: Attachment type
   category: Reporting
-  ecs_field: file.type
+  ecs_field: vendor.attachment_type
   cim_field: attachment_type
-  asim_field: TargetFileType
+  asim_field: attachment_type
 - field_name: event
   field_type: string
   description: Event name
@@ -782,72 +782,72 @@ fields:
   field_type: string
   description: Disk label
   category: System Metrics
-  ecs_field: host.disk.name
+  ecs_field: vendor.disk_label
   cim_field: disk_label
-  asim_field: DvcDiskName
+  asim_field: disk_label
 - field_name: disk_stat_before
   field_type: string
   description: Disk status before
   category: System Metrics
-  ecs_field: event.original
+  ecs_field: vendor.disk_stat_before
   cim_field: disk_stat_before
-  asim_field: EventOriginal
+  asim_field: disk_stat_before
 - field_name: disk_stat_current
   field_type: string
   description: Current disk status
   category: System Metrics
-  ecs_field: event.outcome
+  ecs_field: vendor.disk_stat_current
   cim_field: disk_stat_current
-  asim_field: EventResult
+  asim_field: disk_stat_current
 - field_name: raid_stat_before
   field_type: string
   description: RAID status before
   category: System Metrics
-  ecs_field: event.original
+  ecs_field: vendor.raid_stat_before
   cim_field: raid_stat_before
-  asim_field: EventOriginal
+  asim_field: raid_stat_before
 - field_name: raid_stat_current
   field_type: string
   description: Current RAID status
   category: System Metrics
-  ecs_field: event.outcome
+  ecs_field: vendor.raid_stat_current
   cim_field: raid_stat_current
-  asim_field: EventResult
+  asim_field: raid_stat_current
 - field_name: remote_ip
   field_type: ip
   description: Remote IP address
   category: Network
-  ecs_field: source.ip
-  cim_field: src_ip
-  asim_field: SrcIpAddr
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
 - field_name: remote_host
   field_type: string
   description: Remote hostname
   category: Network
-  ecs_field: source.address
-  cim_field: src_host
-  asim_field: SrcHostname
+  ecs_field: vendor.remote_host
+  cim_field: remote_host
+  asim_field: remote_host
 - field_name: remote_port
   field_type: port
   description: Remote port
   category: Network
-  ecs_field: source.port
-  cim_field: src_port
-  asim_field: SrcPortNumber
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
 - field_name: remote_path
   field_type: string
   description: Remote path
   category: Network
-  ecs_field: url.path
+  ecs_field: vendor.remote_path
   cim_field: remote_path
-  asim_field: UrlPath
+  asim_field: remote_path
 - field_name: remote_filename
   field_type: string
   description: Remote filename
   category: Network
-  ecs_field: file.name
-  cim_field: remote_file
-  asim_field: TargetFileName
+  ecs_field: vendor.remote_filename
+  cim_field: remote_filename
+  asim_field: remote_filename
 - field_name: address
   field_type: string
   description: Address
@@ -859,65 +859,65 @@ fields:
   field_type: string
   description: HA peer
   category: Network
-  ecs_field: destination.address
-  cim_field: ha_peer
-  asim_field: DstHostname
+  ecs_field: vendor.peer
+  cim_field: peer
+  asim_field: peer
 - field_name: intfname
   field_type: string
   description: Interface name
   category: Network
-  ecs_field: observer.ingress.interface.name
-  cim_field: interface
-  asim_field: SrcInterfaceName
+  ecs_field: vendor.intfname
+  cim_field: intfname
+  asim_field: intfname
 - field_name: dmstate
   field_type: string
   description: Device manager state
   category: High Availability
-  ecs_field: observer.state
-  cim_field: dm_state
-  asim_field: DvcAction
+  ecs_field: vendor.dmstate
+  cim_field: dmstate
+  asim_field: dmstate
 - field_name: confstatus
   field_type: string
   description: Configuration status
   category: Action/Result
-  ecs_field: event.outcome
-  cim_field: config_status
-  asim_field: EventResult
+  ecs_field: vendor.confstatus
+  cim_field: confstatus
+  asim_field: confstatus
 - field_name: connect_status
   field_type: string
   description: Connection status
   category: Action/Result
-  ecs_field: event.outcome
+  ecs_field: vendor.connect_status
   cim_field: connect_status
-  asim_field: EventResult
+  asim_field: connect_status
 - field_name: operstat
   field_type: string
   description: Operational status
   category: High Availability
-  ecs_field: event.outcome
-  cim_field: oper_status
-  asim_field: EventResult
+  ecs_field: vendor.operstat
+  cim_field: operstat
+  asim_field: operstat
 - field_name: offline_stat
   field_type: string
   description: Offline status
   category: High Availability
-  ecs_field: event.outcome
-  cim_field: offline_status
-  asim_field: EventResult
+  ecs_field: vendor.offline_stat
+  cim_field: offline_stat
+  asim_field: offline_stat
 - field_name: stat
   field_type: string
   description: Status
   category: High Availability
-  ecs_field: event.outcome
-  cim_field: status
-  asim_field: EventResult
+  ecs_field: vendor.stat
+  cim_field: stat
+  asim_field: stat
 - field_name: state
   field_type: string
   description: State
   category: High Availability
-  ecs_field: event.outcome
+  ecs_field: vendor.state
   cim_field: state
-  asim_field: EventResult
+  asim_field: state
 - field_name: version
   field_type: string
   description: Version number
@@ -943,9 +943,9 @@ fields:
   field_type: string
   description: New version
   category: Version/Upgrade
-  ecs_field: event.outcome
+  ecs_field: vendor.new_version
   cim_field: new_version
-  asim_field: EventResult
+  asim_field: new_version
 - field_name: to_version
   field_type: string
   description: Target version
@@ -999,23 +999,23 @@ fields:
   field_type: string
   description: Database status
   category: Database
-  ecs_field: event.outcome
-  cim_field: db_status
-  asim_field: EventResult
+  ecs_field: vendor.dbstatus
+  cim_field: dbstatus
+  asim_field: dbstatus
 - field_name: dbver
   field_type: string
   description: Database version
   category: Database
-  ecs_field: observer.version
-  cim_field: db_version
-  asim_field: DvcVersion
+  ecs_field: vendor.dbver
+  cim_field: dbver
+  asim_field: dbver
 - field_name: rundb_ver
   field_type: string
   description: Running database version
   category: Database
-  ecs_field: observer.version
-  cim_field: running_db_version
-  asim_field: DvcVersion
+  ecs_field: vendor.rundb_ver
+  cim_field: rundb_ver
+  asim_field: rundb_ver
 - field_name: upddb_ver
   field_type: string
   description: Updated database version
@@ -1076,9 +1076,9 @@ fields:
   field_type: string
   description: Session ID
   category: Common
-  ecs_field: network.session_id
+  ecs_field: event.id
   cim_field: session_id
-  asim_field: NetworkSessionId
+  asim_field: EventOriginalUid
 - field_name: pid
   field_type: int
   description: Process ID
@@ -1090,37 +1090,37 @@ fields:
   field_type: string
   description: Module name
   category: Common
-  ecs_field: process.name
+  ecs_field: vendor.module
   cim_field: module
-  asim_field: TargetProcessName
+  asim_field: module
 - field_name: function
   field_type: string
   description: Function name
   category: Common
-  ecs_field: process.name
+  ecs_field: vendor.function
   cim_field: function
-  asim_field: TargetProcessName
+  asim_field: function
 - field_name: service
   field_type: string
   description: Service name
   category: Common
-  ecs_field: network.application
+  ecs_field: network.protocol
   cim_field: service
-  asim_field: DstAppName
+  asim_field: NetworkApplicationProtocol
 - field_name: app
   field_type: string
   description: Application name
   category: Common
-  ecs_field: network.application
-  cim_field: app_id
-  asim_field: DstAppId
+  ecs_field: network.protocol
+  cim_field: app
+  asim_field: DstAppName
 - field_name: file
   field_type: string
   description: File name
   category: Common
-  ecs_field: file.name
+  ecs_field: vendor.file
   cim_field: file
-  asim_field: TargetFileName
+  asim_field: file
 - field_name: path
   field_type: string
   description: File path
@@ -1132,23 +1132,23 @@ fields:
   field_type: string
   description: Local file path
   category: Common
-  ecs_field: file.path
+  ecs_field: vendor.local_file
   cim_field: local_file
-  asim_field: TargetFilePath
+  asim_field: local_file
 - field_name: lnk_path
   field_type: string
   description: Link path
   category: Common
-  ecs_field: file.path
-  cim_field: link_path
-  asim_field: TargetFilePath
+  ecs_field: vendor.lnk_path
+  cim_field: lnk_path
+  asim_field: lnk_path
 - field_name: zip_path
   field_type: string
   description: ZIP file path
   category: Common
-  ecs_field: file.path
+  ecs_field: vendor.zip_path
   cim_field: zip_path
-  asim_field: TargetFilePath
+  asim_field: zip_path
 - field_name: url
   field_type: string
   description: URL
@@ -1273,8 +1273,8 @@ fields:
   description: Protocol
   category: Common
   ecs_field: network.transport
-  cim_field: protocol
-  asim_field: NetworkTransport
+  cim_field: transport
+  asim_field: NetworkProtocol
 - field_name: reboot_reason
   field_type: string
   description: Reboot reason
@@ -1478,6 +1478,6 @@ fields:
   ecs_field: vendor.rolling_max_allowed
   cim_field: rolling_max_allowed
   asim_field: rolling_max_allowed
-mapped_field_count: 153
+mapped_field_count: 120
 notes: Management/audit logs for FortiManager and FortiAnalyzer - admin actions, config
   changes, incidents

@@ -1,18 +1,205 @@
+version: '1.0'
+vendor: OT
+product: EtherNet/IP
+product_full_name: Ethernet Industrial Protocol
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-ethernet_ip-signatures.json
+generated_at: '2026-01-29T12:25:00.644571'
+field_count: 15
+fields:
+- field_name: source_ip
+  field_type: ip
+  description: Originator IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Target IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Source port
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: Destination port (44818 TCP/UDP)
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: command
+  field_type: number
+  description: EtherNet/IP encapsulation command code
+  category: protocol
+  ecs_field: vendor.command
+  cim_field: command
+  asim_field: command
+- field_name: command_name
+  field_type: string
+  description: Human-readable command name
+  category: protocol
+  ecs_field: vendor.command_name
+  cim_field: command_name
+  asim_field: command_name
+- field_name: session_handle
+  field_type: number
+  description: Session identifier
+  category: session
+  ecs_field: vendor.session_handle
+  cim_field: session_handle
+  asim_field: session_handle
+- field_name: cip_service
+  field_type: number
+  description: CIP service code
+  category: protocol
+  ecs_field: vendor.cip_service
+  cim_field: cip_service
+  asim_field: cip_service
+- field_name: cip_service_name
+  field_type: string
+  description: Human-readable CIP service name
+  category: protocol
+  ecs_field: vendor.cip_service_name
+  cim_field: cip_service_name
+  asim_field: cip_service_name
+- field_name: class_id
+  field_type: number
+  description: CIP object class ID
+  category: data
+  ecs_field: vendor.class_id
+  cim_field: class_id
+  asim_field: class_id
+- field_name: instance_id
+  field_type: number
+  description: CIP object instance ID
+  category: data
+  ecs_field: vendor.instance_id
+  cim_field: instance_id
+  asim_field: instance_id
+- field_name: attribute_id
+  field_type: number
+  description: CIP attribute ID
+  category: data
+  ecs_field: vendor.attribute_id
+  cim_field: attribute_id
+  asim_field: attribute_id
+- field_name: data_value
+  field_type: string
+  description: Attribute or tag value
+  category: data
+  ecs_field: vendor.data_value
+  cim_field: data_value
+  asim_field: data_value
+- field_name: status
+  field_type: number
+  description: CIP general status code
+  category: result
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
+- field_name: connection_id
+  field_type: number
+  description: I/O connection identifier
+  category: connection
+  ecs_field: user.identity_provider_id
+  cim_field: connection_id
+  asim_field: ActorIdProviderId
+mapped_field_count: 6
 signatures:
-- vendor: ot
-  product: ethernet_ip
-  log_type: industrial
-  version: null
-  log_format: syslog
-  signature_name: EtherNet/IP CIP Protocol
-  primary_pattern: (?:cip_service|connection_id|originator)
-  confidence: 0.9
-  priority: 30
-  source: github_sync
-  sample_logs:
-  - cip_service=0x4c connection_id=0x12345678 originator=10.1.1.1
-  - 'enip: cip_service: get_attribute_single, connection_id: 12345'
-  - ethernet_ip originator=10.0.0.100 target=10.0.0.1 service=read_tag
-  upstream_sources:
-  - zeek
-  - suricata
+- name: enip_register_session
+  pattern: command[=:]\s*0x0065|RegisterSession
+  description: EtherNet/IP Register Session
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - session_handle
+- name: enip_unregister_session
+  pattern: command[=:]\s*0x0066|UnregisterSession
+  description: EtherNet/IP Unregister Session
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - session_handle
+- name: enip_list_services
+  pattern: command[=:]\s*0x0004|ListServices
+  description: EtherNet/IP List Services - Discovery
+  event_type: ot_discovery
+  fields:
+  - source_ip
+  - destination_ip
+- name: enip_list_identity
+  pattern: command[=:]\s*0x0063|ListIdentity
+  description: EtherNet/IP List Identity - Device discovery
+  event_type: ot_discovery
+  fields:
+  - source_ip
+  - destination_ip
+- name: cip_get_attribute
+  pattern: cip_service[=:]\s*0x0e|Get_Attribute|CIP.*Read
+  description: CIP Get Attribute Single/All - Read data
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - class_id
+  - instance_id
+  - attribute_id
+- name: cip_set_attribute
+  pattern: cip_service[=:]\s*0x10|Set_Attribute|CIP.*Write
+  description: CIP Set Attribute - CRITICAL WRITE OPERATION
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_ip
+  - destination_ip
+  - class_id
+  - instance_id
+  - attribute_id
+  - data_value
+- name: cip_forward_open
+  pattern: cip_service[=:]\s*0x54|Forward_Open
+  description: CIP Forward Open - Establish I/O connection
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - connection_id
+- name: cip_forward_close
+  pattern: cip_service[=:]\s*0x4e|Forward_Close
+  description: CIP Forward Close - Terminate I/O connection
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - connection_id
+- name: cip_reset
+  pattern: cip_service[=:]\s*0x05|Reset
+  description: CIP Reset Service - CRITICAL DEVICE RESET
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - class_id
+  - instance_id
+- name: cip_error
+  pattern: status[=:]\s*0x[^0]|CIP.*Error|General Status.*[^0]
+  description: CIP Error Response
+  event_type: ot_error
+  fields:
+  - source_ip
+  - destination_ip
+  - status

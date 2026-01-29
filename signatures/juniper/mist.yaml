@@ -1,85 +1,251 @@
+version: '1.0'
+vendor: Juniper
+product: Mist
+product_full_name: Mist
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: juniper-mist-signatures.json
+generated_at: '2026-01-29T12:25:00.108262'
+field_count: 20
+fields:
+- field_name: client-mac
+  field_type: string
+  description: Wireless client MAC address
+  category: wireless
+  ecs_field: vendor.client-mac
+  cim_field: client-mac
+  asim_field: client-mac
+- field_name: ap-name
+  field_type: string
+  description: Access point name
+  category: wireless
+  ecs_field: vendor.ap-name
+  cim_field: ap-name
+  asim_field: ap-name
+- field_name: ssid
+  field_type: string
+  description: Wireless network SSID
+  category: wireless
+  ecs_field: vendor.ssid
+  cim_field: ssid
+  asim_field: ssid
+- field_name: bssid
+  field_type: string
+  description: Basic Service Set Identifier
+  category: wireless
+  ecs_field: observer.mac
+  cim_field: bssid
+  asim_field: DvcMacAddr
+- field_name: username
+  field_type: string
+  description: Authenticated username (802.1X)
+  category: authentication
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
+- field_name: reason
+  field_type: string
+  description: Event reason or failure cause
+  category: system
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: band
+  field_type: string
+  description: Radio band (2.4GHz, 5GHz, 6GHz)
+  category: wireless
+  ecs_field: vendor.band
+  cim_field: band
+  asim_field: band
+- field_name: channel
+  field_type: number
+  description: Radio channel number
+  category: wireless
+  ecs_field: network.inner.channel
+  cim_field: channel
+  asim_field: NetworkChannel
+- field_name: vlan
+  field_type: string
+  description: Assigned VLAN
+  category: network
+  ecs_field: vendor.vlan
+  cim_field: vlan
+  asim_field: vlan
+- field_name: radius-server
+  field_type: ip
+  description: RADIUS server IP
+  category: authentication
+  ecs_field: vendor.radius-server
+  cim_field: radius-server
+  asim_field: radius-server
+- field_name: rogue-bssid
+  field_type: string
+  description: Rogue AP BSSID
+  category: security
+  ecs_field: vendor.rogue-bssid
+  cim_field: rogue-bssid
+  asim_field: rogue-bssid
+- field_name: rogue-ssid
+  field_type: string
+  description: Rogue AP SSID
+  category: security
+  ecs_field: vendor.rogue-ssid
+  cim_field: rogue-ssid
+  asim_field: rogue-ssid
+- field_name: rssi
+  field_type: number
+  description: Signal strength (dBm)
+  category: wireless
+  ecs_field: network.inner.signal_strength
+  cim_field: rssi
+  asim_field: NetworkSignalStrength
+- field_name: firmware
+  field_type: string
+  description: AP firmware version
+  category: system
+  ecs_field: vendor.firmware
+  cim_field: firmware
+  asim_field: firmware
+- field_name: site
+  field_type: string
+  description: Mist site name
+  category: location
+  ecs_field: vendor.site
+  cim_field: site
+  asim_field: site
+- field_name: anomaly-type
+  field_type: string
+  description: Marvis AI detected anomaly type
+  category: ai
+  ecs_field: vendor.anomaly-type
+  cim_field: anomaly-type
+  asim_field: anomaly-type
+- field_name: zone
+  field_type: string
+  description: Location services zone
+  category: location
+  ecs_field: vendor.zone
+  cim_field: zone
+  asim_field: zone
+- field_name: link
+  field_type: string
+  description: WAN link name
+  category: wan
+  ecs_field: vendor.link
+  cim_field: link
+  asim_field: link
+- field_name: application
+  field_type: string
+  description: WAN application name
+  category: wan
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
+- field_name: latency
+  field_type: string
+  description: WAN link latency
+  category: wan
+  ecs_field: vendor.latency
+  cim_field: latency
+  asim_field: latency
+mapped_field_count: 6
 signatures:
-- vendor: juniper
-  product: mist
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Juniper Mist 802.1X Authentication
-  primary_pattern: MIST_AUTH_
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mist
-  log_type: location
-  version: null
-  log_format: syslog
-  signature_name: Juniper Mist Location Event
-  primary_pattern: MIST_LOCATION_
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mist
-  log_type: security
-  version: null
-  log_format: syslog
-  signature_name: Juniper Mist Rogue AP Detection
-  primary_pattern: MIST_ROGUE_
-  confidence: 0.9
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mist
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper Mist AP Health Event
-  primary_pattern: MIST_AP_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mist
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper Mist Marvis AI Alert
-  primary_pattern: MIST_MARVIS_
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mist
-  log_type: wan
-  version: null
-  log_format: syslog
-  signature_name: Juniper Mist WAN Assurance Event
-  primary_pattern: MIST_WAN_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mist
-  log_type: wireless
-  version: null
-  log_format: syslog
-  signature_name: Juniper Mist AP Client Association
-  primary_pattern: MIST_CLIENT_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
+- name: juniper_mist_client_connect
+  pattern: MIST_CLIENT_CONNECT
+  description: Wireless client associated
+  event_type: authentication
+  action: allowed
+  fields:
+  - client-mac
+  - ap-name
+  - ssid
+  - bssid
+  - band
+  - channel
+- name: juniper_mist_client_disconnect
+  pattern: MIST_CLIENT_DISCONNECT
+  description: Wireless client disassociated
+  event_type: authentication
+  fields:
+  - client-mac
+  - ap-name
+  - reason
+- name: juniper_mist_client_roam
+  pattern: MIST_CLIENT_ROAM
+  description: Client roamed between APs
+  event_type: wireless
+  fields:
+  - client-mac
+  - ap-name
+- name: juniper_mist_auth_success
+  pattern: MIST_AUTH_SUCCESS
+  description: 802.1X authentication successful
+  event_type: authentication
+  action: allowed
+  fields:
+  - username
+  - client-mac
+  - ap-name
+  - vlan
+- name: juniper_mist_auth_failure
+  pattern: MIST_AUTH_FAILURE
+  description: 802.1X authentication failed
+  event_type: authentication
+  action: denied
+  fields:
+  - username
+  - client-mac
+  - reason
+- name: juniper_mist_rogue_detected
+  pattern: MIST_ROGUE_AP_DETECTED
+  description: Rogue AP detected
+  event_type: alert
+  fields:
+  - rogue-bssid
+  - rogue-ssid
+  - ap-name
+  - rssi
+- name: juniper_mist_ap_online
+  pattern: MIST_AP_ONLINE
+  description: Access point came online
+  event_type: system
+  fields:
+  - ap-name
+  - firmware
+- name: juniper_mist_ap_offline
+  pattern: MIST_AP_OFFLINE
+  description: Access point went offline
+  event_type: alert
+  fields:
+  - ap-name
+- name: juniper_mist_marvis_anomaly
+  pattern: MIST_MARVIS_ANOMALY
+  description: Marvis AI detected anomaly
+  event_type: alert
+  fields:
+  - site
+  - anomaly-type
+- name: juniper_mist_location_zone
+  pattern: MIST_LOCATION_ZONE
+  description: Client entered/exited zone
+  event_type: location
+  fields:
+  - client-mac
+  - zone
+- name: juniper_mist_wan_link
+  pattern: MIST_WAN_LINK
+  description: WAN link state change
+  event_type: wan
+  fields:
+  - link
+  - site
+- name: juniper_mist_wan_sla
+  pattern: MIST_WAN_SLA
+  description: WAN SLA violation
+  event_type: alert
+  fields:
+  - site
+  - application
+  - latency

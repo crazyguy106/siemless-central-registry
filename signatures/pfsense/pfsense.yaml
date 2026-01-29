@@ -7,7 +7,7 @@ source_document: pfSense Raw Filter Log Format (BNF)
 source_url: https://docs.netgate.com/pfsense/en/latest/monitoring/logs/raw-filter-format.html
 extraction_date: '2026-01-01'
 source_file: pfsense-filterlog-signatures.json
-generated_at: '2026-01-04T09:34:59.476566'
+generated_at: '2026-01-29T12:25:00.927005'
 categories:
 - Base
 - IPv4
@@ -79,9 +79,9 @@ fields:
   field_type: int
   description: 'IP version: 4 or 6'
   category: Base
-  ecs_field: network.type
+  ecs_field: vendor.ip_version
   cim_field: ip_version
-  asim_field: NetworkIpVersion
+  asim_field: ip_version
 - field_name: tos
   field_type: hex
   description: Type of Service identification
@@ -142,44 +142,44 @@ fields:
   field_type: hex
   description: ToS traffic class
   category: IPv6
-  ecs_field: network.traffic_class
-  cim_field: traffic_class
-  asim_field: TrafficClass
+  ecs_field: vendor.class
+  cim_field: class
+  asim_field: class
 - field_name: flow_label
   field_type: string
   description: IPv6 Flow label
   category: IPv6
-  ecs_field: network.flow_label
+  ecs_field: vendor.flow_label
   cim_field: flow_label
-  asim_field: FlowLabel
+  asim_field: flow_label
 - field_name: hop_limit
   field_type: int
   description: Hop Limit (similar to IPv4 TTL)
   category: IPv6
-  ecs_field: network.ttl
+  ecs_field: vendor.hop_limit
   cim_field: hop_limit
-  asim_field: HopLimit
+  asim_field: hop_limit
 - field_name: length
   field_type: int
   description: Length of the packet in bytes
   category: IP Data
-  ecs_field: network.bytes
+  ecs_field: vendor.length
   cim_field: length
-  asim_field: NetworkBytes
+  asim_field: length
 - field_name: source_address
   field_type: ip
   description: Source IP address of the logged traffic
   category: IP Data
   ecs_field: source.ip
-  cim_field: source_address
+  cim_field: src_ip
   asim_field: SrcIpAddr
 - field_name: destination_address
   field_type: ip
   description: Destination IP address of the logged traffic
   category: IP Data
-  ecs_field: destination.ip
+  ecs_field: vendor.destination_address
   cim_field: destination_address
-  asim_field: DstIpAddr
+  asim_field: destination_address
 - field_name: source_port
   field_type: port
   description: Source port number
@@ -198,9 +198,9 @@ fields:
   field_type: int
   description: Data/payload length
   category: TCP
-  ecs_field: network.bytes
+  ecs_field: vendor.data_length
   cim_field: data_length
-  asim_field: PayloadBytes
+  asim_field: data_length
 - field_name: tcp_flags
   field_type: string
   description: 'TCP Flags: S(SYN), A(ACK), .(no flags), F(FIN), R(RST), P(PSH), U(URG),
@@ -220,30 +220,30 @@ fields:
   field_type: int
   description: TCP ACK number
   category: TCP
-  ecs_field: network.ack_number
+  ecs_field: vendor.ack_number
   cim_field: ack_number
-  asim_field: TcpAckNum
+  asim_field: ack_number
 - field_name: tcp_window
   field_type: int
   description: TCP Window size
   category: TCP
-  ecs_field: network.window_size
+  ecs_field: vendor.tcp_window
   cim_field: tcp_window
-  asim_field: TcpWindowSize
+  asim_field: tcp_window
 - field_name: urg
   field_type: string
   description: Urgent pointer data
   category: TCP
-  ecs_field: network.urgent_pointer
+  ecs_field: vendor.urg
   cim_field: urg
-  asim_field: TcpUrgentPointer
+  asim_field: urg
 - field_name: tcp_options
   field_type: string
   description: TCP Options
   category: TCP
-  ecs_field: network.tcp_options
+  ecs_field: vendor.tcp_options
   cim_field: tcp_options
-  asim_field: TcpOptions
+  asim_field: tcp_options
 - field_name: udp_source_port
   field_type: port
   description: UDP Source port number
@@ -277,114 +277,114 @@ fields:
   field_type: int
   description: ID of the echo request/reply
   category: ICMP
-  ecs_field: network.icmp.id
+  ecs_field: vendor.icmp_id
   cim_field: icmp_id
-  asim_field: IcmpId
+  asim_field: icmp_id
 - field_name: icmp_sequence
   field_type: int
   description: Sequence number of the echo request/reply
   category: ICMP
-  ecs_field: network.icmp.sequence
+  ecs_field: vendor.icmp_sequence
   cim_field: icmp_sequence
-  asim_field: IcmpSequence
+  asim_field: icmp_sequence
 - field_name: icmp_destination_ip
   field_type: ip
   description: Original destination address of the connection that caused this notification
   category: ICMP
-  ecs_field: destination.ip
+  ecs_field: vendor.icmp_destination_ip
   cim_field: icmp_destination_ip
-  asim_field: IcmpDstIpAddr
+  asim_field: icmp_destination_ip
 - field_name: unreachable_protocol_id
   field_type: int
   description: Protocol ID number that was unreachable
   category: ICMP
-  ecs_field: network.iana_number
+  ecs_field: vendor.unreachable_protocol_id
   cim_field: unreachable_protocol_id
-  asim_field: UnreachableProtocol
+  asim_field: unreachable_protocol_id
 - field_name: unreachable_port_number
   field_type: int
   description: Port number that was unreachable
   category: ICMP
-  ecs_field: destination.port
+  ecs_field: vendor.unreachable_port_number
   cim_field: unreachable_port_number
-  asim_field: UnreachablePort
+  asim_field: unreachable_port_number
 - field_name: icmp_description
   field_type: string
   description: Description from the ICMP packet
   category: ICMP
-  ecs_field: message
+  ecs_field: vendor.icmp_description
   cim_field: icmp_description
-  asim_field: IcmpDescription
+  asim_field: icmp_description
 - field_name: icmp_mtu
   field_type: int
   description: MTU to use for subsequent data to this destination
   category: ICMP
-  ecs_field: network.mtu
+  ecs_field: vendor.icmp_mtu
   cim_field: icmp_mtu
-  asim_field: IcmpMtu
+  asim_field: icmp_mtu
 - field_name: icmp_otime
   field_type: timestamp
   description: ICMP Originate Timestamp
   category: ICMP
-  ecs_field: event.created
+  ecs_field: vendor.icmp_otime
   cim_field: icmp_otime
-  asim_field: IcmpOriginateTime
+  asim_field: icmp_otime
 - field_name: icmp_rtime
   field_type: timestamp
   description: ICMP Receive Timestamp
   category: ICMP
-  ecs_field: event.ingested
+  ecs_field: vendor.icmp_rtime
   cim_field: icmp_rtime
-  asim_field: IcmpReceiveTime
+  asim_field: icmp_rtime
 - field_name: icmp_ttime
   field_type: timestamp
   description: ICMP Transmit Timestamp
   category: ICMP
-  ecs_field: event.end
+  ecs_field: vendor.icmp_ttime
   cim_field: icmp_ttime
-  asim_field: IcmpTransmitTime
+  asim_field: icmp_ttime
 - field_name: carp_type
   field_type: string
   description: Type of CARP/VRRP
   category: CARP
-  ecs_field: network.protocol
+  ecs_field: vendor.carp_type
   cim_field: carp_type
-  asim_field: CarpType
+  asim_field: carp_type
 - field_name: carp_ttl
   field_type: int
   description: CARP Time to Live
   category: CARP
-  ecs_field: network.ttl
+  ecs_field: vendor.carp_ttl
   cim_field: carp_ttl
-  asim_field: CarpTtl
+  asim_field: carp_ttl
 - field_name: vhid
   field_type: int
   description: Virtual Host ID
   category: CARP
-  ecs_field: network.vlan.id
+  ecs_field: vendor.vhid
   cim_field: vhid
-  asim_field: VirtualHostId
+  asim_field: vhid
 - field_name: carp_version
   field_type: int
   description: CARP Version
   category: CARP
-  ecs_field: network.protocol_version
+  ecs_field: vendor.carp_version
   cim_field: carp_version
-  asim_field: CarpVersion
+  asim_field: carp_version
 - field_name: advbase
   field_type: int
   description: Advertisement base timer interval (seconds)
   category: CARP
-  ecs_field: network.interval
+  ecs_field: vendor.advbase
   cim_field: advbase
-  asim_field: AdvertisementBase
+  asim_field: advbase
 - field_name: advskew
   field_type: int
   description: Advertisement skew (1/256 of a second)
   category: CARP
-  ecs_field: network.skew
+  ecs_field: vendor.advskew
   cim_field: advskew
-  asim_field: AdvertisementSkew
-mapped_field_count: 49
+  asim_field: advskew
+mapped_field_count: 22
 notes: pfSense filterlog uses CSV format with position-based fields. Field order varies
   by IP version and protocol.

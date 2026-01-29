@@ -1,176 +1,450 @@
+version: '1.0'
+vendor: Cisco
+product: FTD
+product_full_name: Cisco Secure Firewall Threat Defense (Firepower)
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: cisco-ftd-signatures.json
+generated_at: '2026-01-29T12:24:52.540111'
+field_count: 39
+fields:
+- field_name: timestamp
+  field_type: datetime
+  description: Event timestamp (RFC5424 format)
+  category: system
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
+- field_name: device_id
+  field_type: string
+  description: Firewall device identifier
+  category: system
+  ecs_field: host.id
+  cim_field: device_id
+  asim_field: DvcId
+- field_name: message_id
+  field_type: string
+  description: Syslog message ID (e.g., 430003)
+  category: system
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
+- field_name: severity
+  field_type: number
+  description: Syslog severity level 0-7
+  category: system
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
+- field_name: src_ip
+  field_type: ip
+  description: Source IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: dst_ip
+  field_type: ip
+  description: Destination IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: src_port
+  field_type: port
+  description: Source port number
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: dst_port
+  field_type: port
+  description: Destination port number
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: protocol
+  field_type: string
+  description: Network protocol (TCP, UDP, ICMP)
+  category: network
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
+- field_name: src_interface
+  field_type: string
+  description: Ingress interface/zone
+  category: network
+  ecs_field: observer.ingress.interface.name
+  cim_field: src_interface
+  asim_field: SrcInterfaceName
+- field_name: dst_interface
+  field_type: string
+  description: Egress interface/zone
+  category: network
+  ecs_field: observer.egress.interface.name
+  cim_field: dest_interface
+  asim_field: DstInterfaceName
+- field_name: action
+  field_type: string
+  description: Firewall action (Allow, Block, Monitor)
+  category: security
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: access_control_rule_name
+  field_type: string
+  description: Access control policy rule name
+  category: security
+  ecs_field: vendor.access_control_rule_name
+  cim_field: access_control_rule_name
+  asim_field: access_control_rule_name
+- field_name: access_control_rule_action
+  field_type: string
+  description: Access control rule action
+  category: security
+  ecs_field: vendor.access_control_rule_action
+  cim_field: access_control_rule_action
+  asim_field: access_control_rule_action
+- field_name: user
+  field_type: string
+  description: Identified user
+  category: authentication
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
+- field_name: application
+  field_type: string
+  description: Detected application name
+  category: application
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
+- field_name: url
+  field_type: string
+  description: Request URL
+  category: web
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
+- field_name: url_category
+  field_type: string
+  description: URL filtering category
+  category: web
+  ecs_field: vendor.url_category
+  cim_field: url_category
+  asim_field: url_category
+- field_name: bytes_in
+  field_type: number
+  description: Inbound bytes
+  category: network
+  ecs_field: source.bytes
+  cim_field: bytes_in
+  asim_field: SrcBytes
+- field_name: bytes_out
+  field_type: number
+  description: Outbound bytes
+  category: network
+  ecs_field: destination.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
+- field_name: packets_in
+  field_type: number
+  description: Inbound packets
+  category: network
+  ecs_field: vendor.packets_in
+  cim_field: packets_in
+  asim_field: packets_in
+- field_name: packets_out
+  field_type: number
+  description: Outbound packets
+  category: network
+  ecs_field: vendor.packets_out
+  cim_field: packets_out
+  asim_field: packets_out
+- field_name: duration
+  field_type: number
+  description: Connection duration in seconds
+  category: network
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: ips_signature_id
+  field_type: string
+  description: Snort/Intrusion rule signature ID
+  category: threat
+  ecs_field: vendor.ips_signature_id
+  cim_field: ips_signature_id
+  asim_field: ips_signature_id
+- field_name: ips_signature_name
+  field_type: string
+  description: Intrusion rule name
+  category: threat
+  ecs_field: vendor.ips_signature_name
+  cim_field: ips_signature_name
+  asim_field: ips_signature_name
+- field_name: classification
+  field_type: string
+  description: IPS classification (e.g., trojan-activity)
+  category: threat
+  ecs_field: vendor.classification
+  cim_field: classification
+  asim_field: classification
+- field_name: priority
+  field_type: number
+  description: IPS event priority (1-4)
+  category: threat
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
+- field_name: file_name
+  field_type: string
+  description: File name in transfer
+  category: file
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: TargetFileName
+- field_name: file_type
+  field_type: string
+  description: File type/MIME type
+  category: file
+  ecs_field: file.type
+  cim_field: file_type
+  asim_field: TargetFileType
+- field_name: file_sha256
+  field_type: string
+  description: SHA256 hash of file
+  category: file
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
+- field_name: malware_disposition
+  field_type: string
+  description: AMP verdict (Clean, Malware, Unknown)
+  category: malware
+  ecs_field: vendor.malware_disposition
+  cim_field: malware_disposition
+  asim_field: malware_disposition
+- field_name: threat_name
+  field_type: string
+  description: Detected malware/threat name
+  category: malware
+  ecs_field: threat.indicator.name
+  cim_field: threat_name
+  asim_field: ThreatName
+- field_name: nat_src_ip
+  field_type: ip
+  description: NAT translated source IP
+  category: nat
+  ecs_field: vendor.nat_src_ip
+  cim_field: nat_src_ip
+  asim_field: nat_src_ip
+- field_name: nat_src_port
+  field_type: port
+  description: NAT translated source port
+  category: nat
+  ecs_field: vendor.nat_src_port
+  cim_field: nat_src_port
+  asim_field: nat_src_port
+- field_name: nat_dst_ip
+  field_type: ip
+  description: NAT translated destination IP
+  category: nat
+  ecs_field: vendor.nat_dst_ip
+  cim_field: nat_dst_ip
+  asim_field: nat_dst_ip
+- field_name: nat_dst_port
+  field_type: port
+  description: NAT translated destination port
+  category: nat
+  ecs_field: vendor.nat_dst_port
+  cim_field: nat_dst_port
+  asim_field: nat_dst_port
+- field_name: vpn_group
+  field_type: string
+  description: VPN tunnel group name
+  category: vpn
+  ecs_field: vendor.vpn_group
+  cim_field: vpn_group
+  asim_field: vpn_group
+- field_name: vpn_type
+  field_type: string
+  description: VPN connection type (Remote Access, Site-to-Site)
+  category: vpn
+  ecs_field: vendor.vpn_type
+  cim_field: vpn_type
+  asim_field: vpn_type
+- field_name: reason
+  field_type: string
+  description: Event reason or detail message
+  category: system
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+mapped_field_count: 24
 signatures:
-- vendor: cisco
-  product: ftd
-  log_type: authentication
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD VPN User Authentication
-  primary_pattern: '%FTD-6-722022'
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: file
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD File Event
-  primary_pattern: '%FTD-[456]-430005'
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: firewall
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD EMBLEM Format
-  primary_pattern: '%FTD-\d+-\d+:'
-  confidence: 0.98
-  priority: 10
-  source: github_sync
-  sample_logs:
-  - 'FTD01 %FTD-6-430003: DeviceUUID: 12345, AccessControlRuleAction: Allow, SrcIP:
-    10.1.1.1'
-  upstream_sources:
-  - grok
-  - filebeat
-- vendor: cisco
-  product: ftd
-  log_type: intrusion
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD Intrusion Alert
-  primary_pattern: '%FTD-[1234]-430002'
-  confidence: 0.95
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: malware
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD Malware Detection
-  primary_pattern: '%FTD-[1234]-430004'
-  confidence: 0.95
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: nat
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD NAT Translation
-  primary_pattern: '%FTD-6-30501'
-  confidence: 0.9
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: security
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD Access Control Rule
-  primary_pattern: '%FTD-6-430003'
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: security
-  version: null
-  log_format: syslog
-  signature_name: cisco_ftd_generic
-  primary_pattern: '(?::\s*)?%FTD-[0-7]-\d{6}:'
-  confidence: 0.98
+- name: cisco_ftd_generic
+  description: Generic Cisco FTD/Firepower Threat Defense detection
+  regex_pattern: '(?::\s*)?%FTD-[0-7]-\d{6}:'
   priority: 3
-  source: bulk_import
-  upstream_sources:
-  - json:cisco-ftd-signatures.json
-- vendor: cisco
-  product: ftd
-  log_type: system
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD Failover Event
-  primary_pattern: '%FTD-[16]-104'
-  confidence: 0.9
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: traffic
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD Connection Teardown
-  primary_pattern: '%FTD-6-302014'
-  confidence: 0.95
-  priority: 20
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
-- vendor: cisco
-  product: ftd
-  log_type: traffic
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD Connection Denied
-  primary_pattern: '%FTD-4-106023'
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
-- vendor: cisco
-  product: ftd
-  log_type: traffic
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD Connection Established
-  primary_pattern: '%FTD-6-302013'
-  confidence: 0.95
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
-- vendor: cisco
-  product: ftd
-  log_type: vpn
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD VPN Session
-  primary_pattern: '%FTD-6-713'
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: cisco
-  product: ftd
-  log_type: web
-  version: null
-  log_format: emblem
-  signature_name: Cisco FTD URL Filter Event
-  primary_pattern: '%FTD-[456]-338'
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
+  confidence: 0.98
+  log_type: security
+  log_format: syslog
+- name: cisco_ftd_connection_start
+  pattern: '%FTD-6-302013'
+  description: TCP connection established (outbound)
+  event_type: traffic
+  action: allowed
+  fields:
+  - src_ip
+  - src_port
+  - dst_ip
+  - dst_port
+  - src_interface
+  - dst_interface
+  - user
+- name: cisco_ftd_connection_end
+  pattern: '%FTD-6-302014'
+  description: TCP connection teardown (outbound)
+  event_type: traffic
+  fields:
+  - src_ip
+  - src_port
+  - dst_ip
+  - dst_port
+  - duration
+  - bytes_in
+  - bytes_out
+- name: cisco_ftd_connection_denied
+  pattern: '%FTD-4-106023'
+  description: Connection denied by access rule
+  event_type: traffic
+  action: denied
+  fields:
+  - src_ip
+  - src_port
+  - dst_ip
+  - dst_port
+  - src_interface
+  - dst_interface
+  - access_control_rule_name
+- name: cisco_ftd_access_rule
+  pattern: '%FTD-6-430003'
+  description: Access control rule action
+  event_type: security
+  fields:
+  - src_ip
+  - dst_ip
+  - access_control_rule_name
+  - access_control_rule_action
+  - application
+- name: cisco_ftd_intrusion_alert
+  pattern: '%FTD-[1234]-430002'
+  description: IPS/Intrusion detection event
+  event_type: intrusion
+  fields:
+  - src_ip
+  - dst_ip
+  - src_port
+  - dst_port
+  - ips_signature_id
+  - ips_signature_name
+  - classification
+  - priority
+- name: cisco_ftd_malware_detection
+  pattern: '%FTD-[1234]-430004'
+  description: AMP malware detection event
+  event_type: malware
+  fields:
+  - src_ip
+  - dst_ip
+  - file_name
+  - file_sha256
+  - malware_disposition
+  - threat_name
+- name: cisco_ftd_file_event
+  pattern: '%FTD-[456]-430005'
+  description: File event (transfer detected)
+  event_type: file
+  fields:
+  - src_ip
+  - dst_ip
+  - file_name
+  - file_type
+  - file_sha256
+  - action
+- name: cisco_ftd_url_filter
+  pattern: '%FTD-[456]-338[0-9]+'
+  description: URL filtering event
+  event_type: web
+  fields:
+  - src_ip
+  - dst_ip
+  - url
+  - url_category
+  - action
+  - user
+- name: cisco_ftd_ssl_inspection
+  pattern: '%FTD-6-725001'
+  description: SSL/TLS inspection event
+  event_type: web
+  fields:
+  - src_ip
+  - dst_ip
+  - action
+- name: cisco_ftd_vpn_session
+  pattern: '%FTD-6-713[0-9]+'
+  description: VPN session event
+  event_type: vpn
+  fields:
+  - src_ip
+  - user
+  - vpn_group
+  - vpn_type
+  - action
+- name: cisco_ftd_vpn_user_auth
+  pattern: '%FTD-6-722022'
+  description: VPN user authentication
+  event_type: authentication
+  fields:
+  - user
+  - src_ip
+  - vpn_group
+  - action
+- name: cisco_ftd_nat
+  pattern: '%FTD-6-30501[0-9]'
+  description: NAT translation event
+  event_type: nat
+  fields:
+  - src_ip
+  - src_port
+  - nat_src_ip
+  - nat_src_port
+  - dst_ip
+  - dst_port
+- name: cisco_ftd_failover
+  pattern: '%FTD-[16]-104[0-9]+'
+  description: High availability failover event
+  event_type: system
+  fields:
+  - reason
+- name: cisco_ftd_threat_prevention
+  pattern: '%FTD-[1234]-733[0-9]+'
+  description: Threat prevention event
+  event_type: threat
+  fields:
+  - src_ip
+  - dst_ip
+  - threat_name
+  - action
+- name: cisco_ftd_identity_auth
+  pattern: '%FTD-6-34[0-9]+'
+  description: Identity/user authentication event
+  event_type: authentication
+  fields:
+  - user
+  - src_ip
+  - action
+  - reason

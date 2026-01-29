@@ -7,7 +7,7 @@ source_document: Meraki Syslog Event Types and Log Samples
 source_url: https://documentation.meraki.com/General_Administration/Monitoring_and_Reporting/Syslog_Event_Types_and_Log_Samples
 extraction_date: '2026-01-01'
 source_file: meraki-signatures.json
-generated_at: '2026-01-04T09:34:59.267338'
+generated_at: '2026-01-29T12:25:00.288191'
 categories:
 - MX Security Appliance
 - MR Access Points
@@ -68,8 +68,8 @@ fields:
   description: Network protocol (tcp, udp, etc)
   category: Common
   ecs_field: network.transport
-  cim_field: protocol
-  asim_field: NetworkTransport
+  cim_field: transport
+  asim_field: NetworkProtocol
 - field_name: pattern
   field_type: string
   description: Firewall rule pattern matched
@@ -284,9 +284,9 @@ fields:
   field_type: string
   description: Wireless channel
   category: Common
-  ecs_field: network.protocol
+  ecs_field: network.inner.channel
   cim_field: channel
-  asim_field: NetworkProtocol
+  asim_field: NetworkChannel
 - field_name: rssi
   field_type: int
   description: Signal strength (RSSI)
@@ -445,9 +445,9 @@ fields:
   field_type: string
   description: Flood state (start/end)
   category: Common
-  ecs_field: event.outcome
+  ecs_field: vendor.state
   cim_field: state
-  asim_field: EventResult
+  asim_field: state
 - field_name: alarm_id
   field_type: string
   description: Alarm identifier
@@ -553,6 +553,6 @@ fields:
   ecs_field: vendor.auth_neg_failed
   cim_field: auth_neg_failed
   asim_field: auth_neg_failed
-mapped_field_count: 63
+mapped_field_count: 62
 notes: Extracted from Meraki syslog documentation - fields from key=value patterns
   in log examples

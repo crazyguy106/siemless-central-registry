@@ -1,18 +1,218 @@
+version: '1.0'
+vendor: OT
+product: PROFINET
+product_full_name: Process Field Net
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-profinet-signatures.json
+generated_at: '2026-01-29T12:25:00.714299'
+field_count: 15
+fields:
+- field_name: source_ip
+  field_type: ip
+  description: Controller IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Device IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_mac
+  field_type: string
+  description: Source MAC address
+  category: network
+  ecs_field: vendor.source_mac
+  cim_field: source_mac
+  asim_field: source_mac
+- field_name: destination_mac
+  field_type: string
+  description: Destination MAC address
+  category: network
+  ecs_field: vendor.destination_mac
+  cim_field: destination_mac
+  asim_field: destination_mac
+- field_name: frame_id
+  field_type: number
+  description: PROFINET frame identifier
+  category: protocol
+  ecs_field: vendor.frame_id
+  cim_field: frame_id
+  asim_field: frame_id
+- field_name: service_type
+  field_type: string
+  description: Service type (RTC, RTA, DCP, etc.)
+  category: protocol
+  ecs_field: vendor.service_type
+  cim_field: service_type
+  asim_field: service_type
+- field_name: station_name
+  field_type: string
+  description: PROFINET device name
+  category: device
+  ecs_field: vendor.station_name
+  cim_field: station_name
+  asim_field: station_name
+- field_name: ar_uuid
+  field_type: string
+  description: Application Relationship UUID
+  category: session
+  ecs_field: vendor.ar_uuid
+  cim_field: ar_uuid
+  asim_field: ar_uuid
+- field_name: slot
+  field_type: number
+  description: Module slot number
+  category: data
+  ecs_field: vendor.slot
+  cim_field: slot
+  asim_field: slot
+- field_name: subslot
+  field_type: number
+  description: Module subslot number
+  category: data
+  ecs_field: vendor.subslot
+  cim_field: subslot
+  asim_field: subslot
+- field_name: index
+  field_type: number
+  description: Record data index
+  category: data
+  ecs_field: vendor.index
+  cim_field: index
+  asim_field: index
+- field_name: data_value
+  field_type: string
+  description: I/O data or parameter value
+  category: data
+  ecs_field: vendor.data_value
+  cim_field: data_value
+  asim_field: data_value
+- field_name: alarm_type
+  field_type: string
+  description: Type of alarm (diagnosis, process, etc.)
+  category: alarm
+  ecs_field: vendor.alarm_type
+  cim_field: alarm_type
+  asim_field: alarm_type
+- field_name: alarm_specifier
+  field_type: number
+  description: Alarm specifier bits
+  category: alarm
+  ecs_field: vendor.alarm_specifier
+  cim_field: alarm_specifier
+  asim_field: alarm_specifier
+- field_name: error_code
+  field_type: number
+  description: PROFINET error code
+  category: error
+  ecs_field: vendor.error_code
+  cim_field: error_code
+  asim_field: error_code
+mapped_field_count: 2
 signatures:
-- vendor: ot
-  product: profinet
-  log_type: manufacturing
-  version: null
-  log_format: syslog
-  signature_name: Profinet Protocol
-  primary_pattern: (?:ar_uuid|iocr|alarm_specifier)
-  confidence: 0.9
-  priority: 30
-  source: github_sync
-  sample_logs:
-  - ar_uuid=12345678-1234-1234-1234-123456789abc iocr=0x8001
-  - 'profinet: ar_uuid: abcd1234, alarm_specifier: 0x0001'
-  - pn_io iocr=0x8000 ar_uuid=a1b2c3d4-e5f6-7890-abcd-ef1234567890
-  upstream_sources:
-  - zeek
-  - wireshark
+- name: profinet_dcp_identify
+  pattern: DCP.*Identify|PN-DCP.*Ident
+  description: PROFINET DCP Identify - Device discovery
+  event_type: ot_discovery
+  fields:
+  - source_ip
+  - destination_ip
+  - station_name
+- name: profinet_dcp_set
+  pattern: DCP.*Set|PN-DCP.*Set
+  description: PROFINET DCP Set - Configure device parameters
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_ip
+  - destination_ip
+  - station_name
+- name: profinet_connect
+  pattern: Connect|AR.*Connect|Application.*Relationship
+  description: PROFINET Connect - Establish AR
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - ar_uuid
+- name: profinet_release
+  pattern: Release|AR.*Release
+  description: PROFINET Release - Terminate AR
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - ar_uuid
+- name: profinet_read
+  pattern: Read.*Request|ReadImplicit|ReadExplicit
+  description: PROFINET Read - Read device data
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - slot
+  - subslot
+  - index
+- name: profinet_write
+  pattern: Write.*Request|WriteImplicit|WriteExplicit
+  description: PROFINET Write - CRITICAL WRITE OPERATION
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_ip
+  - destination_ip
+  - slot
+  - subslot
+  - index
+  - data_value
+- name: profinet_cyclic_io
+  pattern: RTC|Cyclic.*IO|PN-IO.*RT|FrameID.*0x8
+  description: PROFINET Real-Time Cyclic I/O
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - frame_id
+- name: profinet_alarm
+  pattern: Alarm|PN-IO.*Alarm|AlarmNotification
+  description: PROFINET Alarm
+  event_type: ot_alarm
+  fields:
+  - source_ip
+  - destination_ip
+  - alarm_type
+  - slot
+  - subslot
+- name: profinet_diagnosis
+  pattern: Diagnosis|DiagnosisData|Channel.*Diagnosis
+  description: PROFINET Diagnosis Information
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - slot
+  - subslot
+- name: profinet_control
+  pattern: Control|PN-IO.*Control|PLC.*Stop|PLC.*Start
+  description: PROFINET Control Operation - CRITICAL
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - ar_uuid
+- name: profinet_error
+  pattern: Error|PROFINET.*Error|RPC.*Error
+  description: PROFINET Error
+  event_type: ot_error
+  fields:
+  - source_ip
+  - destination_ip
+  - error_code

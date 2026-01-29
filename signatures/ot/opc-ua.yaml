@@ -1,17 +1,210 @@
+version: '1.0'
+vendor: OT
+product: OPC-UA
+product_full_name: OPC Unified Architecture
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-opc_ua-signatures.json
+generated_at: '2026-01-29T12:25:00.702089'
+field_count: 16
+fields:
+- field_name: source_ip
+  field_type: ip
+  description: Client IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Server IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Client port
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: Server port (typically 4840)
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: message_type
+  field_type: string
+  description: OPC UA message type (HEL, ACK, OPN, CLO, MSG, ERR)
+  category: protocol
+  ecs_field: vendor.message_type
+  cim_field: message_type
+  asim_field: message_type
+- field_name: service_id
+  field_type: number
+  description: OPC UA service request/response ID
+  category: protocol
+  ecs_field: vendor.service_id
+  cim_field: service_id
+  asim_field: service_id
+- field_name: service_name
+  field_type: string
+  description: Human-readable service name
+  category: protocol
+  ecs_field: vendor.service_name
+  cim_field: service_name
+  asim_field: service_name
+- field_name: session_id
+  field_type: string
+  description: OPC UA session identifier
+  category: session
+  ecs_field: event.id
+  cim_field: session_id
+  asim_field: EventOriginalUid
+- field_name: authentication_token
+  field_type: string
+  description: Session authentication token
+  category: session
+  ecs_field: vendor.authentication_token
+  cim_field: authentication_token
+  asim_field: authentication_token
+- field_name: node_id
+  field_type: string
+  description: OPC UA node identifier
+  category: data
+  ecs_field: vendor.node_id
+  cim_field: node_id
+  asim_field: node_id
+- field_name: node_value
+  field_type: string
+  description: Value of the node
+  category: data
+  ecs_field: vendor.node_value
+  cim_field: node_value
+  asim_field: node_value
+- field_name: security_mode
+  field_type: string
+  description: Message security mode (None, Sign, SignAndEncrypt)
+  category: security
+  ecs_field: vendor.security_mode
+  cim_field: security_mode
+  asim_field: security_mode
+- field_name: security_policy
+  field_type: string
+  description: Security policy URI
+  category: security
+  ecs_field: vendor.security_policy
+  cim_field: security_policy
+  asim_field: security_policy
+- field_name: user_identity
+  field_type: string
+  description: Authenticated user identity
+  category: authentication
+  ecs_field: vendor.user_identity
+  cim_field: user_identity
+  asim_field: user_identity
+- field_name: status_code
+  field_type: number
+  description: OPC UA status code
+  category: result
+  ecs_field: http.response.status_code
+  cim_field: status
+  asim_field: HttpStatusCode
+- field_name: subscription_id
+  field_type: number
+  description: Subscription identifier for publish/subscribe
+  category: subscription
+  ecs_field: vendor.subscription_id
+  cim_field: subscription_id
+  asim_field: subscription_id
+mapped_field_count: 6
 signatures:
-- vendor: ot
-  product: opc_ua
-  log_type: industrial
-  version: null
-  log_format: syslog
-  signature_name: OPC UA Protocol
-  primary_pattern: (?:opcua|node_id|namespace_index)\s*[=:]
-  confidence: 0.88
-  priority: 35
-  source: github_sync
-  sample_logs:
-  - 'opcua: node_id: ns=2;s=Temperature, value: 25.5'
-  - namespace_index=2 node_id=1001 browse_name=PLC1.Temperature
-  - opc.tcp://server:4840 node_id=i=2258 value=running
-  upstream_sources:
-  - zeek
+- name: opcua_hello
+  pattern: message_type[=:]\s*HEL|OPC UA Hello
+  description: OPC UA Hello - Connection initiation
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+- name: opcua_open_secure_channel
+  pattern: message_type[=:]\s*OPN|OpenSecureChannel
+  description: OPC UA Open Secure Channel
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - security_mode
+  - security_policy
+- name: opcua_create_session
+  pattern: CreateSession|service_id[=:]\s*461
+  description: OPC UA Create Session
+  event_type: ot_session
+  fields:
+  - source_ip
+  - destination_ip
+  - session_id
+- name: opcua_activate_session
+  pattern: ActivateSession|service_id[=:]\s*467
+  description: OPC UA Activate Session - Authentication
+  event_type: ot_authentication
+  fields:
+  - source_ip
+  - destination_ip
+  - session_id
+  - user_identity
+- name: opcua_read
+  pattern: service_id[=:]\s*631|OPC UA Read
+  description: OPC UA Read - Read node values
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - node_id
+- name: opcua_write
+  pattern: service_id[=:]\s*673|OPC UA Write
+  description: OPC UA Write - CRITICAL WRITE OPERATION
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_ip
+  - destination_ip
+  - node_id
+  - node_value
+- name: opcua_browse
+  pattern: service_id[=:]\s*527|Browse
+  description: OPC UA Browse - Discover server address space
+  event_type: ot_discovery
+  fields:
+  - source_ip
+  - destination_ip
+  - node_id
+- name: opcua_call
+  pattern: service_id[=:]\s*790|Call
+  description: OPC UA Method Call - Execute server method
+  event_type: ot_traffic
+  severity: medium
+  fields:
+  - source_ip
+  - destination_ip
+  - node_id
+- name: opcua_create_subscription
+  pattern: CreateSubscription|service_id[=:]\s*787
+  description: OPC UA Create Subscription
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - subscription_id
+- name: opcua_error
+  pattern: message_type[=:]\s*ERR|ServiceFault|status_code[=:]\s*0x8
+  description: OPC UA Error/Fault
+  event_type: ot_error
+  fields:
+  - source_ip
+  - destination_ip
+  - status_code

@@ -1,37 +1,29 @@
+version: '1.0'
+vendor: HAProxy
+product: LoadBalancer
+product_full_name: LoadBalancer
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: haproxy-loadbalancer-signatures.json
+generated_at: '2026-01-29T12:25:00.054806'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: haproxy
-  product: loadbalancer
-  log_type: error
-  version: null
-  log_format: syslog
-  signature_name: HAProxy Error Log
-  primary_pattern: haproxy.*error|error_message
-  confidence: 0.9
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: haproxy
-  product: loadbalancer
-  log_type: http
-  version: null
-  log_format: syslog
-  signature_name: HAProxy HTTP Log
-  primary_pattern: haproxy.*http|haproxy\.http
+- name: haproxy_http
+  description: HAProxy HTTP mode log
+  pattern: haproxy.*http|haproxy\.http
+  event_type: http
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: haproxy
-  product: loadbalancer
-  log_type: tcp
-  version: null
-  log_format: syslog
-  signature_name: HAProxy TCP Log
-  primary_pattern: haproxy.*tcp|haproxy\.tcp
+- name: haproxy_tcp
+  description: HAProxy TCP mode log
+  pattern: haproxy.*tcp|haproxy\.tcp
+  event_type: connection
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
+- name: haproxy_error
+  description: HAProxy error log
+  pattern: haproxy.*error|error_message
+  event_type: error
+  confidence: 0.9

@@ -1,37 +1,29 @@
+version: '1.0'
+vendor: PostgreSQL
+product: Database
+product_full_name: Database
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: postgresql-database-signatures.json
+generated_at: '2026-01-29T12:25:00.978371'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: postgresql
-  product: database
-  log_type: error
-  version: null
-  log_format: syslog
-  signature_name: PostgreSQL Error Log
-  primary_pattern: 'ERROR:|FATAL:|PANIC:'
-  confidence: 0.9
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: postgresql
-  product: database
-  log_type: log
-  version: null
-  log_format: syslog
-  signature_name: PostgreSQL Database Log
-  primary_pattern: 'postgresql\.log|LOG:|ERROR:|WARNING:'
+- name: postgresql_log
+  description: PostgreSQL database log entry
+  pattern: 'postgresql\.log|LOG:|ERROR:|WARNING:|FATAL:'
+  event_type: database
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: postgresql
-  product: database
-  log_type: query
-  version: null
-  log_format: syslog
-  signature_name: PostgreSQL Query Log
-  primary_pattern: 'statement:|execute|duration:'
+- name: postgresql_error
+  description: PostgreSQL database error
+  pattern: 'ERROR:|FATAL:|PANIC:'
+  event_type: error
+  confidence: 0.9
+- name: postgresql_query
+  description: PostgreSQL query execution
+  pattern: statement:|execute|SELECT|INSERT|UPDATE|DELETE
+  event_type: query
   confidence: 0.85
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat

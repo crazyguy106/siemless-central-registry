@@ -1,28 +1,230 @@
+version: '1.0'
+vendor: OT
+product: DNP3
+product_full_name: Distributed Network Protocol 3
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-dnp3-signatures.json
+generated_at: '2026-01-29T12:25:00.627281'
+field_count: 16
+fields:
+- field_name: source_address
+  field_type: number
+  description: DNP3 source station address (0-65519)
+  category: device
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_address
+  field_type: number
+  description: DNP3 destination station address (0-65519)
+  category: device
+  ecs_field: vendor.destination_address
+  cim_field: destination_address
+  asim_field: destination_address
+- field_name: function_code
+  field_type: number
+  description: DNP3 function code (0-255)
+  category: protocol
+  ecs_field: vendor.function_code
+  cim_field: function_code
+  asim_field: function_code
+- field_name: function_name
+  field_type: string
+  description: Human-readable function name
+  category: protocol
+  ecs_field: vendor.function_name
+  cim_field: function_name
+  asim_field: function_name
+- field_name: object_group
+  field_type: number
+  description: DNP3 object group (data type category)
+  category: data
+  ecs_field: vendor.object_group
+  cim_field: object_group
+  asim_field: object_group
+- field_name: object_variation
+  field_type: number
+  description: DNP3 object variation (data format)
+  category: data
+  ecs_field: vendor.object_variation
+  cim_field: object_variation
+  asim_field: object_variation
+- field_name: point_index
+  field_type: number
+  description: Data point index within object group
+  category: data
+  ecs_field: vendor.point_index
+  cim_field: point_index
+  asim_field: point_index
+- field_name: point_value
+  field_type: string
+  description: Data point value
+  category: data
+  ecs_field: vendor.point_value
+  cim_field: point_value
+  asim_field: point_value
+- field_name: control_code
+  field_type: number
+  description: Control relay output block code
+  category: control
+  ecs_field: vendor.control_code
+  cim_field: control_code
+  asim_field: control_code
+- field_name: internal_indications
+  field_type: string
+  description: IIN bits indicating device status
+  category: status
+  ecs_field: vendor.internal_indications
+  cim_field: internal_indications
+  asim_field: internal_indications
+- field_name: source_ip
+  field_type: ip
+  description: Master station IP address (DNP3 over IP)
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Outstation IP address (DNP3 over IP)
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Client port
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: Server port (typically 20000 for DNP3)
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: sequence_number
+  field_type: number
+  description: Application layer sequence number
+  category: protocol
+  ecs_field: network.sequence_number
+  cim_field: sequence_number
+  asim_field: TcpSeqNum
+- field_name: unsolicited
+  field_type: string
+  description: Whether response is unsolicited (event-driven)
+  category: protocol
+  ecs_field: vendor.unsolicited
+  cim_field: unsolicited
+  asim_field: unsolicited
+mapped_field_count: 6
 signatures:
-- vendor: ot
-  product: dnp3
-  log_type: ot_traffic
-  version: null
-  log_format: kv
-  signature_name: dnp3_generic
-  primary_pattern: (?i)dnp3|(?:source_address|destination_address|function_code)\s*[=:]\s*\d+.*(?:outstation|master)
-  confidence: 0.85
+- name: dnp3_generic
+  description: Generic DNP3 (Distributed Network Protocol 3) detection
+  regex_pattern: (?i)dnp3|(?:source_address|destination_address|function_code)\s*[=:]\s*\d+.*(?:outstation|master)
   priority: 10
-  source: bulk_import
-  upstream_sources:
-  - json:ot-dnp3-signatures.json
-- vendor: ot
-  product: dnp3
-  log_type: utilities
-  version: null
-  log_format: syslog
-  signature_name: DNP3 SCADA Protocol
-  primary_pattern: (?:dnp3_|source_address\s*[=:].*destination_address)
-  confidence: 0.9
-  priority: 30
-  source: github_sync
-  sample_logs:
-  - dnp3_function=1 source_address=1 destination_address=1024
-  upstream_sources:
-  - zeek
-  - suricata
+  confidence: 0.85
+  log_type: ot_traffic
+  log_format: kv
+- name: dnp3_read
+  pattern: function_code[=:]\s*0?1\b|FC=0?1\b|DNP3.*READ|Read Request
+  description: 'DNP3 Function 01: Read - Request data from outstation'
+  event_type: ot_traffic
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+  - object_group
+  - object_variation
+- name: dnp3_write
+  pattern: function_code[=:]\s*0?2\b|FC=0?2\b|DNP3.*WRITE|Write Request
+  description: 'DNP3 Function 02: Write - CRITICAL WRITE OPERATION'
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+  - object_group
+  - point_index
+  - point_value
+- name: dnp3_select
+  pattern: function_code[=:]\s*0?3\b|FC=0?3\b|DNP3.*SELECT|Select Request
+  description: 'DNP3 Function 03: Select - Pre-authorize control operation'
+  event_type: ot_traffic
+  severity: medium
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+  - control_code
+- name: dnp3_operate
+  pattern: function_code[=:]\s*0?4\b|FC=0?4\b|DNP3.*OPERATE|Operate Request
+  description: 'DNP3 Function 04: Operate - Execute control operation - CRITICAL'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+  - control_code
+- name: dnp3_direct_operate
+  pattern: function_code[=:]\s*0?5\b|FC=0?5\b|DNP3.*DIRECT.*OPERATE|Direct Operate
+  description: 'DNP3 Function 05: Direct Operate - Execute without select - CRITICAL'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+  - control_code
+- name: dnp3_cold_restart
+  pattern: function_code[=:]\s*13\b|FC=13\b|Cold Restart
+  description: 'DNP3 Function 13: Cold Restart - Full device restart - CRITICAL'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+- name: dnp3_warm_restart
+  pattern: function_code[=:]\s*14\b|FC=14\b|Warm Restart
+  description: 'DNP3 Function 14: Warm Restart - Application restart'
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+- name: dnp3_unsolicited_response
+  pattern: unsolicited|UNS=1|Unsolicited Response
+  description: DNP3 Unsolicited Response - Event-driven data from outstation
+  event_type: ot_traffic
+  fields:
+  - source_address
+  - destination_address
+  - object_group
+  - point_index
+  - point_value
+- name: dnp3_authentication
+  pattern: function_code[=:]\s*(32|33)\b|FC=(32|33)\b|Authentication|Secure Authentication
+  description: DNP3 Secure Authentication (SA) messages
+  event_type: ot_authentication
+  fields:
+  - source_address
+  - destination_address
+  - function_code
+- name: dnp3_file_transfer
+  pattern: function_code[=:]\s*(25|26|27|28|29|30)\b|File.*Transfer
+  description: DNP3 File Transfer operations
+  event_type: ot_traffic
+  severity: medium
+  fields:
+  - source_address
+  - destination_address
+  - function_code

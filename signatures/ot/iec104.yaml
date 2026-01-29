@@ -1,15 +1,235 @@
+version: '1.0'
+vendor: OT
+product: IEC104
+product_full_name: IEC 60870-5-104
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-iec104-signatures.json
+generated_at: '2026-01-29T12:25:00.655086'
+field_count: 14
+fields:
+- field_name: source_ip
+  field_type: ip
+  description: Controlling station IP
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Controlled station IP
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Client port
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: Server port (typically 2404)
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: apdu_type
+  field_type: string
+  description: Application Protocol Data Unit type (I, S, U)
+  category: protocol
+  ecs_field: vendor.apdu_type
+  cim_field: apdu_type
+  asim_field: apdu_type
+- field_name: type_id
+  field_type: number
+  description: ASDU type identification (1-127)
+  category: protocol
+  ecs_field: vendor.type_id
+  cim_field: type_id
+  asim_field: type_id
+- field_name: type_name
+  field_type: string
+  description: Human-readable type name
+  category: protocol
+  ecs_field: vendor.type_name
+  cim_field: type_name
+  asim_field: type_name
+- field_name: cause_of_transmission
+  field_type: number
+  description: COT field indicating transmission reason
+  category: protocol
+  ecs_field: vendor.cause_of_transmission
+  cim_field: cause_of_transmission
+  asim_field: cause_of_transmission
+- field_name: common_address
+  field_type: number
+  description: ASDU address (station address)
+  category: device
+  ecs_field: vendor.common_address
+  cim_field: common_address
+  asim_field: common_address
+- field_name: information_object_address
+  field_type: number
+  description: Information Object Address
+  category: data
+  ecs_field: vendor.information_object_address
+  cim_field: information_object_address
+  asim_field: information_object_address
+- field_name: value
+  field_type: string
+  description: Data value (measurement, status, command)
+  category: data
+  ecs_field: vendor.value
+  cim_field: value
+  asim_field: value
+- field_name: quality
+  field_type: string
+  description: Data quality flags (IV, NT, SB, BL)
+  category: data
+  ecs_field: vendor.quality
+  cim_field: quality
+  asim_field: quality
+- field_name: sequence_number_tx
+  field_type: number
+  description: Transmit sequence number
+  category: protocol
+  ecs_field: vendor.sequence_number_tx
+  cim_field: sequence_number_tx
+  asim_field: sequence_number_tx
+- field_name: sequence_number_rx
+  field_type: number
+  description: Receive sequence number
+  category: protocol
+  ecs_field: vendor.sequence_number_rx
+  cim_field: sequence_number_rx
+  asim_field: sequence_number_rx
+mapped_field_count: 4
 signatures:
-- vendor: ot
-  product: iec104
-  log_type: power_grid
-  version: null
-  log_format: syslog
-  signature_name: IEC 60870-5-104 Protocol
-  primary_pattern: (?:asdu_type|information_object|cause_of_transmission)
-  confidence: 0.9
-  priority: 30
-  source: github_sync
-  sample_logs:
-  - asdu_type=30 information_object=1001
-  upstream_sources:
-  - zeek
+- name: iec104_single_point
+  pattern: type_id[=:]\s*0?1\b|M_SP_NA|Single Point
+  description: 'IEC 104 Type 1: Single Point Information'
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+  - value
+- name: iec104_double_point
+  pattern: type_id[=:]\s*0?3\b|M_DP_NA|Double Point
+  description: 'IEC 104 Type 3: Double Point Information'
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+  - value
+- name: iec104_measured_scaled
+  pattern: type_id[=:]\s*11\b|M_ME_NB|Measured.*Scaled
+  description: 'IEC 104 Type 11: Measured Value, Scaled'
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+  - value
+  - quality
+- name: iec104_measured_float
+  pattern: type_id[=:]\s*13\b|M_ME_NC|Measured.*Float
+  description: 'IEC 104 Type 13: Measured Value, Short Float'
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+  - value
+  - quality
+- name: iec104_single_command
+  pattern: type_id[=:]\s*45\b|C_SC_NA|Single Command
+  description: 'IEC 104 Type 45: Single Command - CRITICAL CONTROL'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+  - value
+- name: iec104_double_command
+  pattern: type_id[=:]\s*46\b|C_DC_NA|Double Command
+  description: 'IEC 104 Type 46: Double Command - CRITICAL CONTROL'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+  - value
+- name: iec104_regulating_step
+  pattern: type_id[=:]\s*47\b|C_RC_NA|Regulating Step
+  description: 'IEC 104 Type 47: Regulating Step Command - CRITICAL'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+- name: iec104_setpoint_scaled
+  pattern: type_id[=:]\s*49\b|C_SE_NB|Setpoint.*Scaled
+  description: 'IEC 104 Type 49: Set-point Command, Scaled - CRITICAL'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+  - information_object_address
+  - value
+- name: iec104_interrogation
+  pattern: type_id[=:]\s*100\b|C_IC_NA|Interrogation
+  description: 'IEC 104 Type 100: Interrogation Command'
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+- name: iec104_counter_interrogation
+  pattern: type_id[=:]\s*101\b|C_CI_NA|Counter Interrogation
+  description: 'IEC 104 Type 101: Counter Interrogation Command'
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+- name: iec104_clock_sync
+  pattern: type_id[=:]\s*103\b|C_CS_NA|Clock Sync
+  description: 'IEC 104 Type 103: Clock Synchronization'
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - common_address
+- name: iec104_startdt
+  pattern: STARTDT|U-format.*STARTDT
+  description: IEC 104 STARTDT - Start Data Transfer
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+- name: iec104_stopdt
+  pattern: STOPDT|U-format.*STOPDT
+  description: IEC 104 STOPDT - Stop Data Transfer
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip

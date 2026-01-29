@@ -1,146 +1,237 @@
+version: '1.0'
+vendor: Juniper
+product: MX
+product_full_name: MX
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: juniper-mx-signatures.json
+generated_at: '2026-01-29T12:25:00.132913'
+field_count: 17
+fields:
+- field_name: peer-address
+  field_type: ip
+  description: BGP/OSPF/LDP peer IP address
+  category: routing
+  ecs_field: vendor.peer-address
+  cim_field: peer-address
+  asim_field: peer-address
+- field_name: peer-as
+  field_type: number
+  description: BGP peer autonomous system number
+  category: routing
+  ecs_field: vendor.peer-as
+  cim_field: peer-as
+  asim_field: peer-as
+- field_name: neighbor-address
+  field_type: ip
+  description: OSPF/IS-IS neighbor router ID
+  category: routing
+  ecs_field: vendor.neighbor-address
+  cim_field: neighbor-address
+  asim_field: neighbor-address
+- field_name: interface
+  field_type: string
+  description: Interface name
+  category: network
+  ecs_field: observer.ingress.interface.name
+  cim_field: interface
+  asim_field: DvcInterface
+- field_name: old-state
+  field_type: string
+  description: Previous protocol state
+  category: routing
+  ecs_field: vendor.old-state
+  cim_field: old-state
+  asim_field: old-state
+- field_name: new-state
+  field_type: string
+  description: New protocol state
+  category: routing
+  ecs_field: vendor.new-state
+  cim_field: new-state
+  asim_field: new-state
+- field_name: reason
+  field_type: string
+  description: State change reason
+  category: routing
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: notification-code
+  field_type: number
+  description: BGP notification code
+  category: routing
+  ecs_field: vendor.notification-code
+  cim_field: notification-code
+  asim_field: notification-code
+- field_name: lsp-name
+  field_type: string
+  description: MPLS Label Switched Path name
+  category: routing
+  ecs_field: vendor.lsp-name
+  cim_field: lsp-name
+  asim_field: lsp-name
+- field_name: system-id
+  field_type: string
+  description: IS-IS system identifier
+  category: routing
+  ecs_field: vendor.system-id
+  cim_field: system-id
+  asim_field: system-id
+- field_name: component
+  field_type: string
+  description: Chassis component (FPC, PIC, PEM, FAN)
+  category: system
+  ecs_field: vendor.component
+  cim_field: component
+  asim_field: component
+- field_name: slot
+  field_type: number
+  description: Hardware slot number
+  category: system
+  ecs_field: vendor.slot
+  cim_field: slot
+  asim_field: slot
+- field_name: master-re
+  field_type: string
+  description: Master routing engine
+  category: system
+  ecs_field: vendor.master-re
+  cim_field: master-re
+  asim_field: master-re
+- field_name: subscriber-ip
+  field_type: ip
+  description: Subscriber session IP (BNG)
+  category: authentication
+  ecs_field: vendor.subscriber-ip
+  cim_field: subscriber-ip
+  asim_field: subscriber-ip
+- field_name: mac-address
+  field_type: string
+  description: Subscriber MAC address
+  category: authentication
+  ecs_field: vendor.mac-address
+  cim_field: mac-address
+  asim_field: mac-address
+- field_name: ifIndex
+  field_type: number
+  description: SNMP interface index
+  category: network
+  ecs_field: vendor.ifIndex
+  cim_field: ifIndex
+  asim_field: ifIndex
+- field_name: ifName
+  field_type: string
+  description: Interface name from SNMP
+  category: network
+  ecs_field: vendor.ifName
+  cim_field: ifName
+  asim_field: ifName
+mapped_field_count: 2
 signatures:
-- vendor: juniper
-  product: mx
-  log_type: authentication
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX Subscriber Session Event
-  primary_pattern: JDHCPD_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX OSPF Neighbor State Change
-  primary_pattern: RPD_OSPF_NBRDOWN
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX OSPF Neighbor Up
-  primary_pattern: RPD_OSPF_NBRUP
-  confidence: 0.95
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX IS-IS Adjacency Change
-  primary_pattern: RPD_ISIS_ADJACENCY
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX BGP Neighbor State Change
-  primary_pattern: RPD_BGP_NEIGHBOR_STATE_CHANGED
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX RSVP LSP Event
-  primary_pattern: RPD_RSVP_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX BFD Session Event
-  primary_pattern: RPD_BFD_
-  confidence: 0.9
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX BGP Notification
-  primary_pattern: bgp_send_notification
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: routing
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX LDP Session Event
-  primary_pattern: RPD_LDP_
-  confidence: 0.9
-  priority: 15
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX Routing Engine Switchover
-  primary_pattern: GRES_
-  confidence: 0.9
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-- vendor: juniper
-  product: mx
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX Interface Link Event
-  primary_pattern: SNMP_TRAP_LINK_
-  confidence: 0.95
-  priority: 10
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
-  - filebeat
-- vendor: juniper
-  product: mx
-  log_type: system
-  version: null
-  log_format: syslog
-  signature_name: Juniper MX Chassis Event
-  primary_pattern: CHASSISD_
-  confidence: 0.9
-  priority: 5
-  source: documentation_discovery
-  upstream_sources:
-  - sigma
+- name: juniper_mx_bgp_state_change
+  pattern: RPD_BGP_NEIGHBOR_STATE_CHANGED
+  description: BGP neighbor session state changed
+  event_type: routing
+  fields:
+  - peer-address
+  - peer-as
+  - old-state
+  - new-state
+  - reason
+- name: juniper_mx_bgp_notification
+  pattern: bgp_send_notification
+  description: BGP NOTIFICATION sent to peer
+  event_type: routing
+  fields:
+  - peer-address
+  - peer-as
+  - notification-code
+  - reason
+- name: juniper_mx_ospf_neighbor_down
+  pattern: RPD_OSPF_NBRDOWN
+  description: OSPF neighbor went down
+  event_type: routing
+  fields:
+  - neighbor-address
+  - interface
+  - old-state
+  - new-state
+  - reason
+- name: juniper_mx_ospf_neighbor_up
+  pattern: RPD_OSPF_NBRUP
+  description: OSPF neighbor adjacency established
+  event_type: routing
+  fields:
+  - neighbor-address
+  - interface
+  - new-state
+- name: juniper_mx_isis_adjacency
+  pattern: RPD_ISIS_ADJACENCY
+  description: IS-IS adjacency state change
+  event_type: routing
+  fields:
+  - system-id
+  - interface
+- name: juniper_mx_ldp_session
+  pattern: RPD_LDP_SESSION
+  description: LDP session state change
+  event_type: routing
+  fields:
+  - neighbor-address
+  - interface
+  - reason
+- name: juniper_mx_rsvp_lsp
+  pattern: RPD_RSVP_LSP
+  description: RSVP LSP state change
+  event_type: routing
+  fields:
+  - lsp-name
+  - reason
+- name: juniper_mx_bfd_session
+  pattern: RPD_BFD_SESSION
+  description: BFD session state change
+  event_type: routing
+  fields:
+  - neighbor-address
+  - interface
+  - reason
+- name: juniper_mx_link_down
+  pattern: SNMP_TRAP_LINK_DOWN
+  description: Interface link down
+  event_type: network
+  fields:
+  - ifIndex
+  - ifName
+- name: juniper_mx_link_up
+  pattern: SNMP_TRAP_LINK_UP
+  description: Interface link up
+  event_type: network
+  fields:
+  - ifIndex
+  - ifName
+- name: juniper_mx_chassis_event
+  pattern: CHASSISD_
+  description: Chassis hardware event
+  event_type: system
+  fields:
+  - component
+  - slot
+  - reason
+- name: juniper_mx_gres_switchover
+  pattern: GRES_
+  description: Graceful RE switchover
+  event_type: system
+  fields:
+  - master-re
+  - reason
+- name: juniper_mx_subscriber_session
+  pattern: JDHCPD_SUBSCRIBER
+  description: Subscriber session event (BNG)
+  event_type: authentication
+  fields:
+  - subscriber-ip
+  - mac-address
+  - interface

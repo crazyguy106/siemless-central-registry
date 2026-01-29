@@ -1,78 +1,52 @@
+version: '1.0'
+vendor: Okta
+product: Identity
+product_full_name: Identity
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: okta-identity-signatures.json
+generated_at: '2026-01-29T12:25:00.607270'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: okta
-  product: identity
-  log_type: application
-  version: null
-  log_format: json
-  signature_name: Okta Application Event
-  primary_pattern: application\.user_membership|app\.oauth2|application\.lifecycle
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: okta
-  product: identity
-  log_type: authentication
-  version: null
-  log_format: json
-  signature_name: Okta Authentication Event
-  primary_pattern: user\.session\.start|user\.session\.end|user\.authentication
-  confidence: 0.95
+- name: okta_generic
+  description: Generic Okta System Log detection - matches eventType hierarchical
+    pattern
+  regex_pattern: '"eventType":\s*"(?:user|app|system|policy|security|group)\.[a-z]+\.[a-z]+'
   priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: okta
-  product: identity
-  log_type: group
-  version: null
+  confidence: 0.95
+  log_type: security
   log_format: json
-  signature_name: Okta Group Event
-  primary_pattern: group\.user_membership|group\.lifecycle
+- name: okta_authentication_event
+  description: User authentication events (login, logout, MFA)
+  pattern: user\.session\.start|user\.session\.end|user\.authentication
+  event_type: authentication
+  confidence: 0.95
+- name: okta_user_lifecycle
+  description: User lifecycle events (create, update, delete, suspend)
+  pattern: user\.lifecycle\.|user\.account\.
+  event_type: user_management
+  confidence: 0.9
+- name: okta_application_event
+  description: Application access and assignment events
+  pattern: application\.user_membership|app\.oauth2|application\.lifecycle
+  event_type: application
+  confidence: 0.9
+- name: okta_policy_event
+  description: Policy evaluation and enforcement events
+  pattern: policy\.evaluate|policy\.rule\.
+  event_type: policy
   confidence: 0.85
-  priority: 15
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: okta
-  product: identity
-  log_type: security
-  version: null
-  log_format: json
-  signature_name: Okta Security Event
-  primary_pattern: security\.threat|security\.request\.blocked
+- name: okta_security_event
+  description: Security threat and suspicious activity events
+  pattern: security\.threat|security\.request\.blocked
+  event_type: security
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
-- vendor: okta
-  product: identity
-  log_type: security
-  version: null
-  log_format: json
-  signature_name: okta_generic
-  primary_pattern: '"eventType":\s*"(?:user|app|system|policy|security|group)\.[a-z]+\.[a-z]+'
-  confidence: 0.95
-  priority: 5
-  source: bulk_import
-  upstream_sources:
-  - json:okta-identity-signatures.json
-- vendor: okta
-  product: identity
-  log_type: user_management
-  version: null
-  log_format: json
-  signature_name: Okta User Lifecycle Event
-  primary_pattern: user\.lifecycle\.|user\.account\.
-  confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-  - sigma
+- name: okta_group_event
+  description: Group membership and management events
+  pattern: group\.user_membership|group\.lifecycle
+  event_type: group
+  confidence: 0.85

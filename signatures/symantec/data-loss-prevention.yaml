@@ -7,7 +7,7 @@ source_document: System Event Codes and Messages
 source_url: https://techdocs.broadcom.com/us/en/symantec-security-software/information-security/data-loss-prevention/25-1/managing-the-enforce-server/managing-system-events-and-messages/system-event-codes-and-messages.html
 extraction_date: '2026-01-02'
 source_file: symantec-dlp-signatures.json
-generated_at: '2026-01-04T09:34:59.673126'
+generated_at: '2026-01-29T12:25:01.473364'
 categories:
 - Syslog
 - CEF
@@ -147,23 +147,23 @@ fields:
   field_type: string
   description: Short event description
   category: Event
-  ecs_field: event.reason
+  ecs_field: vendor.event_summary
   cim_field: event_summary
-  asim_field: EventMessage
+  asim_field: event_summary
 - field_name: event_description
   field_type: string
   description: Detailed event description
   category: Event
   ecs_field: message
   cim_field: event_description
-  asim_field: EventDescription
+  asim_field: EventMessage
 - field_name: event_category
   field_type: string
   description: Event category (Detection/Policy/Admin)
   category: Event
-  ecs_field: event.category
-  cim_field: category
-  asim_field: EventCategory
+  ecs_field: vendor.event_category
+  cim_field: event_category
+  asim_field: event_category
 - field_name: server_name
   field_type: string
   description: Detection or Enforce server name
@@ -210,23 +210,23 @@ fields:
   field_type: string
   description: DLP policy unique identifier
   category: Policy
-  ecs_field: rule.id
+  ecs_field: vendor.policy_id
   cim_field: policy_id
-  asim_field: RuleId
+  asim_field: policy_id
 - field_name: policy_version
   field_type: number
   description: Policy version number
   category: Policy
-  ecs_field: rule.version
+  ecs_field: vendor.policy_version
   cim_field: policy_version
-  asim_field: RuleVersion
+  asim_field: policy_version
 - field_name: policy_group
   field_type: string
   description: Policy group name
   category: Policy
-  ecs_field: rule.ruleset
+  ecs_field: vendor.policy_group
   cim_field: policy_group
-  asim_field: RuleCategory
+  asim_field: policy_group
 - field_name: rule_name
   field_type: string
   description: Detection rule name
@@ -245,9 +245,9 @@ fields:
   field_type: number
   description: Number of incidents
   category: Incident
-  ecs_field: event.sequence
+  ecs_field: vendor.incident_count
   cim_field: incident_count
-  asim_field: EventCount
+  asim_field: incident_count
 - field_name: incident_severity
   field_type: string
   description: Incident severity level
@@ -259,9 +259,9 @@ fields:
   field_type: string
   description: Incident status
   category: Incident
-  ecs_field: event.outcome
+  ecs_field: vendor.incident_status
   cim_field: incident_status
-  asim_field: EventResult
+  asim_field: incident_status
 - field_name: user_name
   field_type: string
   description: Username involved in event
@@ -280,9 +280,9 @@ fields:
   field_type: string
   description: Administrator username
   category: User
-  ecs_field: user.name
+  ecs_field: vendor.admin_user
   cim_field: admin_user
-  asim_field: ActorUsername
+  asim_field: admin_user
 - field_name: account_name
   field_type: string
   description: Account name
@@ -301,9 +301,9 @@ fields:
   field_type: string
   description: Data source name or type
   category: DataSource
-  ecs_field: event.dataset
+  ecs_field: vendor.data_source
   cim_field: data_source
-  asim_field: EventDataset
+  asim_field: data_source
 - field_name: data_source_id
   field_type: string
   description: Data source identifier
@@ -315,23 +315,23 @@ fields:
   field_type: string
   description: Document source name
   category: DataSource
-  ecs_field: file.path
+  ecs_field: vendor.document_source
   cim_field: document_source
-  asim_field: FilePath
+  asim_field: document_source
 - field_name: profile_name
   field_type: string
   description: EDM/IDM profile name
   category: Profile
-  ecs_field: rule.name
+  ecs_field: vendor.profile_name
   cim_field: profile_name
-  asim_field: RuleName
+  asim_field: profile_name
 - field_name: profile_id
   field_type: string
   description: Profile identifier
   category: Profile
-  ecs_field: rule.id
+  ecs_field: vendor.profile_id
   cim_field: profile_id
-  asim_field: RuleId
+  asim_field: profile_id
 - field_name: profile_version
   field_type: number
   description: Profile version
@@ -343,30 +343,30 @@ fields:
   field_type: string
   description: Profile type (EDM/IDM/VML)
   category: Profile
-  ecs_field: rule.category
+  ecs_field: vendor.profile_type
   cim_field: profile_type
-  asim_field: RuleCategory
+  asim_field: profile_type
 - field_name: channel
   field_type: string
   description: DLP channel (SMTP/ICAP/Endpoint)
   category: Channel
-  ecs_field: network.protocol
+  ecs_field: network.inner.channel
   cim_field: channel
-  asim_field: NetworkProtocol
+  asim_field: NetworkChannel
 - field_name: channel_name
   field_type: string
   description: Monitor channel name
   category: Channel
-  ecs_field: network.application
+  ecs_field: vendor.channel_name
   cim_field: channel_name
-  asim_field: NetworkApplication
+  asim_field: channel_name
 - field_name: protocol
   field_type: string
   description: Network protocol
   category: Network
   ecs_field: network.transport
-  cim_field: protocol
-  asim_field: NetworkTransport
+  cim_field: transport
+  asim_field: NetworkProtocol
 - field_name: src_ip
   field_type: ip
   description: Source IP address
@@ -420,9 +420,9 @@ fields:
   field_type: string
   description: Discover target name
   category: Scan
-  ecs_field: destination.address
+  ecs_field: vendor.target_name
   cim_field: target_name
-  asim_field: DstHostname
+  asim_field: target_name
 - field_name: target_id
   field_type: string
   description: Discover target ID
@@ -434,9 +434,9 @@ fields:
   field_type: string
   description: Scan status
   category: Scan
-  ecs_field: process.state
+  ecs_field: vendor.scan_status
   cim_field: scan_status
-  asim_field: ProcessState
+  asim_field: scan_status
 - field_name: sender_email
   field_type: string
   description: Sender email address
@@ -469,16 +469,16 @@ fields:
   field_type: string
   description: Endpoint agent version
   category: Agent
-  ecs_field: agent.version
+  ecs_field: vendor.agent_version
   cim_field: agent_version
-  asim_field: AgentVersion
+  asim_field: agent_version
 - field_name: agent_status
   field_type: string
   description: Agent status
   category: Agent
-  ecs_field: agent.state
+  ecs_field: vendor.agent_status
   cim_field: agent_status
-  asim_field: AgentState
+  asim_field: agent_status
 - field_name: device_name
   field_type: string
   description: Endpoint device name
@@ -553,9 +553,9 @@ fields:
   field_type: string
   description: Operation result
   category: Status
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
 - field_name: disk_usage
   field_type: number
   description: Disk usage percentage
@@ -595,9 +595,9 @@ fields:
   field_type: string
   description: Cloud service name
   category: Cloud
-  ecs_field: cloud.provider
+  ecs_field: vendor.cloud_service
   cim_field: cloud_service
-  asim_field: CloudProvider
+  asim_field: cloud_service
 - field_name: cloud_detector
   field_type: string
   description: Cloud detector name
@@ -612,7 +612,7 @@ fields:
   ecs_field: vendor.oauth_app_id
   cim_field: oauth_app_id
   asim_field: oauth_app_id
-mapped_field_count: 47
+mapped_field_count: 28
 notes: 'Comprehensive DLP event coverage: Detection Server, Endpoint, Policy, Incident,
   EDM/IDM Profiles, Reporting, Cloud, OCR, Discover Cluster, and CyberArk integration
   events. Event codes range from 1000-6309.'

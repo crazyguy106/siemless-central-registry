@@ -7,7 +7,7 @@ source_document: Linux Audit Field Dictionary
 source_url: https://github.com/linux-audit/audit-documentation/blob/master/specs/fields/field-dictionary.csv
 extraction_date: '2026-01-02'
 source_file: linux-auditd-signatures.json
-generated_at: '2026-01-04T09:34:59.241046'
+generated_at: '2026-01-29T12:25:00.214328'
 categories:
 - Process
 - Subject
@@ -220,9 +220,9 @@ fields:
   field_type: string
   description: Resource class assigned to VM
   category: Virtualization
-  ecs_field: network.traffic_class
-  cim_field: traffic_class
-  asim_field: TrafficClass
+  ecs_field: vendor.class
+  cim_field: class
+  asim_field: class
 - field_name: cmd
   field_type: string
   description: Command being executed
@@ -283,9 +283,9 @@ fields:
   field_type: string
   description: Remote MAC address
   category: Network
-  ecs_field: destination.mac
-  cim_field: dest_mac
-  asim_field: DstMacAddr
+  ecs_field: vendor.dmac
+  cim_field: dmac
+  asim_field: dmac
 - field_name: dport
   field_type: port
   description: Remote port number
@@ -367,9 +367,9 @@ fields:
   field_type: string
   description: File name
   category: Object
-  ecs_field: file.name
+  ecs_field: vendor.file
   cim_field: file
-  asim_field: TargetFileName
+  asim_field: file
 - field_name: flags
   field_type: string
   description: mmap syscall flags
@@ -766,9 +766,9 @@ fields:
   field_type: string
   description: Result of the audited operation (success/fail)
   category: Audit
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
 - field_name: role
   field_type: string
   description: User's SELinux role
@@ -857,9 +857,9 @@ fields:
   field_type: string
   description: Local MAC address
   category: Network
-  ecs_field: source.mac
-  cim_field: src_mac
-  asim_field: SrcMacAddr
+  ecs_field: vendor.smac
+  cim_field: smac
+  asim_field: smac
 - field_name: sport
   field_type: port
   description: Local port number
@@ -871,9 +871,9 @@ fields:
   field_type: string
   description: Audit daemon configuration resulting state
   category: Kernel
-  ecs_field: event.outcome
+  ecs_field: vendor.state
   cim_field: state
-  asim_field: EventResult
+  asim_field: state
 - field_name: subj
   field_type: string
   description: LSPP subject's context string
@@ -892,9 +892,9 @@ fields:
   field_type: integer
   description: Set user ID
   category: Subject
-  ecs_field: user.id
-  cim_field: user_id
-  asim_field: UserId
+  ecs_field: vendor.suid
+  cim_field: suid
+  asim_field: suid
 - field_name: syscall
   field_type: integer
   description: Syscall number in effect when the event occurred
@@ -1007,6 +1007,6 @@ fields:
   ecs_field: vendor.watch
   cim_field: watch
   asim_field: watch
-mapped_field_count: 26
+mapped_field_count: 20
 notes: Linux auditd provides comprehensive system auditing including syscalls, file
   access, user authentication, SELinux decisions, and network activity.

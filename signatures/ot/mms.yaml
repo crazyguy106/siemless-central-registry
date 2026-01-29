@@ -1,17 +1,215 @@
+version: '1.0'
+vendor: OT
+product: MMS
+product_full_name: Manufacturing Message Specification (IEC 61850)
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-mms-signatures.json
+generated_at: '2026-01-29T12:25:00.670088'
+field_count: 15
+fields:
+- field_name: source_ip
+  field_type: ip
+  description: Client IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: Server (IED) IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Client port
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: Server port (typically 102)
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: service_type
+  field_type: string
+  description: MMS service type (confirmed/unconfirmed)
+  category: protocol
+  ecs_field: vendor.service_type
+  cim_field: service_type
+  asim_field: service_type
+- field_name: service_name
+  field_type: string
+  description: MMS service name
+  category: protocol
+  ecs_field: vendor.service_name
+  cim_field: service_name
+  asim_field: service_name
+- field_name: invoke_id
+  field_type: number
+  description: Request/response correlation ID
+  category: protocol
+  ecs_field: vendor.invoke_id
+  cim_field: invoke_id
+  asim_field: invoke_id
+- field_name: domain_name
+  field_type: string
+  description: VMD (Virtual Manufacturing Device) domain name
+  category: data
+  ecs_field: vendor.domain_name
+  cim_field: domain_name
+  asim_field: domain_name
+- field_name: item_id
+  field_type: string
+  description: Named variable or data object reference
+  category: data
+  ecs_field: vendor.item_id
+  cim_field: item_id
+  asim_field: item_id
+- field_name: data_value
+  field_type: string
+  description: Read/written data value
+  category: data
+  ecs_field: vendor.data_value
+  cim_field: data_value
+  asim_field: data_value
+- field_name: logical_node
+  field_type: string
+  description: IEC 61850 Logical Node (XCBR, CSWI, MMXU, etc.)
+  category: iec61850
+  ecs_field: vendor.logical_node
+  cim_field: logical_node
+  asim_field: logical_node
+- field_name: data_object
+  field_type: string
+  description: IEC 61850 Data Object (Pos, Mod, Beh, etc.)
+  category: iec61850
+  ecs_field: vendor.data_object
+  cim_field: data_object
+  asim_field: data_object
+- field_name: functional_constraint
+  field_type: string
+  description: IEC 61850 FC (ST, MX, CO, CF, etc.)
+  category: iec61850
+  ecs_field: vendor.functional_constraint
+  cim_field: functional_constraint
+  asim_field: functional_constraint
+- field_name: report_id
+  field_type: string
+  description: Report Control Block reference
+  category: reporting
+  ecs_field: rule.id
+  cim_field: report_id
+  asim_field: RuleId
+- field_name: error_class
+  field_type: string
+  description: MMS error class
+  category: error
+  ecs_field: vendor.error_class
+  cim_field: error_class
+  asim_field: error_class
+mapped_field_count: 5
 signatures:
-- vendor: ot
-  product: mms
-  log_type: power_grid
-  version: null
-  log_format: syslog
-  signature_name: MMS/IEC 61850 Protocol
-  primary_pattern: (?:mms_|goose_|logical_device|logical_node)
-  confidence: 0.88
-  priority: 35
-  source: github_sync
-  sample_logs:
-  - mms_confirmed_request logical_device=CTRL logical_node=XCBR1
-  - 'goose_publish: gocbRef=AA1J1Q01A1LD0/LLN0\'
-  - iec61850 logical_device=Relay1 logical_node=PTRC mms_read=true
-  upstream_sources:
-  - zeek
+- name: mms_read
+  pattern: Read|GetNamedVariableListAttributes|confirmed-RequestPDU.*read
+  description: MMS Read - Read variable values
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - domain_name
+  - item_id
+- name: mms_write
+  pattern: Write|confirmed-RequestPDU.*write
+  description: MMS Write - CRITICAL WRITE OPERATION
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_ip
+  - destination_ip
+  - domain_name
+  - item_id
+  - data_value
+- name: mms_get_name_list
+  pattern: GetNameList|getNameList
+  description: MMS GetNameList - Discover available objects
+  event_type: ot_discovery
+  fields:
+  - source_ip
+  - destination_ip
+  - domain_name
+- name: mms_define_named_variable_list
+  pattern: DefineNamedVariableList
+  description: MMS Define Named Variable List
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - domain_name
+  - item_id
+- name: mms_information_report
+  pattern: InformationReport|unconfirmed-PDU.*informationReport
+  description: MMS Information Report (Unsolicited data)
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - item_id
+  - data_value
+- name: iec61850_goose
+  pattern: GOOSE|goose|IEC.*61850.*GOOSE
+  description: IEC 61850 GOOSE - Fast multicast events
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - logical_node
+  - data_object
+- name: iec61850_sampled_values
+  pattern: SampledValues|SV|IEC.*61850.*SV
+  description: IEC 61850 Sampled Values - Real-time measurements
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - logical_node
+  - data_value
+- name: iec61850_control
+  pattern: Operate|SBOw|Select|Cancel|CSWI|XCBR
+  description: IEC 61850 Control Operation - CRITICAL
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - logical_node
+  - data_object
+  - data_value
+- name: mms_file_open
+  pattern: FileOpen|fileOpen
+  description: MMS File Open - Access IED files
+  event_type: ot_traffic
+  severity: medium
+  fields:
+  - source_ip
+  - destination_ip
+- name: mms_file_read
+  pattern: FileRead|fileRead
+  description: MMS File Read
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+- name: mms_error
+  pattern: confirmed-ErrorPDU|MMS.*Error|ServiceError
+  description: MMS Error Response
+  event_type: ot_error
+  fields:
+  - source_ip
+  - destination_ip
+  - error_class

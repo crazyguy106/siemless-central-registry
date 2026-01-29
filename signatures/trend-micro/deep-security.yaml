@@ -7,7 +7,7 @@ source_document: Event syslog message formats
 source_url: https://help.deepsecurity.trendmicro.com/20_0/on-premise/event-syslog-message-formats.html
 extraction_date: '2026-01-02'
 source_file: trendmicro-deepsecurity-signatures.json
-generated_at: '2026-01-04T09:34:59.709789'
+generated_at: '2026-01-29T12:25:01.583509'
 categories:
 - CEF Header
 - Container
@@ -281,9 +281,9 @@ fields:
   field_type: integer
   description: Packet position where trigger occurred
   category: IPS
-  ecs_field: event.sequence
-  cim_field: packet_position
-  asim_field: EventSequence
+  ecs_field: vendor.cn3
+  cim_field: cn3
+  asim_field: cn3
 - field_name: cn3Label
   field_type: string
   description: Packet position label
@@ -442,9 +442,9 @@ fields:
   field_type: string
   description: Destination MAC address
   category: Firewall
-  ecs_field: destination.mac
-  cim_field: dest_mac
-  asim_field: DstMacAddr
+  ecs_field: vendor.dmac
+  cim_field: dmac
+  asim_field: dmac
 - field_name: domainName
   field_type: string
   description: Domain name
@@ -484,9 +484,9 @@ fields:
   field_type: string
   description: Target user from log entry
   category: Log Inspection
-  ecs_field: user.target.name
-  cim_field: target_user
-  asim_field: DstUsername
+  ecs_field: vendor.duser
+  cim_field: duser
+  asim_field: duser
 - field_name: dvc
   field_type: ip
   description: IPv4 address of device
@@ -533,16 +533,16 @@ fields:
   field_type: string
   description: Target log file path
   category: Log Inspection
-  ecs_field: file.path
-  cim_field: log_file
-  asim_field: FilePath
+  ecs_field: vendor.fname
+  cim_field: fname
+  asim_field: fname
 - field_name: fsize
   field_type: integer
   description: File size in bytes
   category: Application Control
-  ecs_field: file.size
-  cim_field: file_size
-  asim_field: FileSize
+  ecs_field: vendor.fsize
+  cim_field: fsize
+  asim_field: fsize
 - field_name: in
   field_type: integer
   description: Inbound bytes read
@@ -604,9 +604,9 @@ fields:
   field_type: integer
   description: Block reason (0=BLOCK, 2=READ_ONLY)
   category: Device Control
-  ecs_field: event.outcome
+  ecs_field: vendor.permission
   cim_field: permission
-  asim_field: EventOutcome
+  asim_field: permission
 - field_name: processName
   field_type: string
   description: Accessing process name
@@ -653,23 +653,23 @@ fields:
   field_type: string
   description: Result outcome (Deleted, Quarantined, Cleaned, Failed)
   category: Anti-Malware
-  ecs_field: http.response.status_code
-  cim_field: http_status
-  asim_field: HttpStatusCode
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
 - field_name: rt
   field_type: datetime
   description: Receipt time / event timestamp
   category: Universal
-  ecs_field: event.created
-  cim_field: timestamp
-  asim_field: EventCreated
+  ecs_field: vendor.rt
+  cim_field: rt
+  asim_field: rt
 - field_name: serial
   field_type: string
   description: Device serial number
   category: Device Control
-  ecs_field: device.serial_number
+  ecs_field: observer.serial_number
   cim_field: device_serial
-  asim_field: DeviceSerialNumber
+  asim_field: DvcSerial
 - field_name: sev
   field_type: integer
   description: Severity level (1-10)
@@ -681,23 +681,23 @@ fields:
   field_type: string
   description: Source hostname
   category: Log Inspection
-  ecs_field: source.address
-  cim_field: source_host
-  asim_field: SrcHostname
+  ecs_field: vendor.shost
+  cim_field: shost
+  asim_field: shost
 - field_name: smac
   field_type: string
   description: Source MAC address
   category: Firewall
-  ecs_field: source.mac
-  cim_field: src_mac
-  asim_field: SrcMacAddr
+  ecs_field: vendor.smac
+  cim_field: smac
+  asim_field: smac
 - field_name: sproc
   field_type: string
   description: Source process name
   category: Integrity Monitoring
-  ecs_field: process.name
-  cim_field: source_process
-  asim_field: SourceProcessName
+  ecs_field: vendor.sproc
+  cim_field: sproc
+  asim_field: sproc
 - field_name: spt
   field_type: port
   description: Source port
@@ -730,23 +730,23 @@ fields:
   field_type: string
   description: User ID number
   category: Application Control
-  ecs_field: user.id
-  cim_field: user_id
-  asim_field: UserId
+  ecs_field: vendor.suid
+  cim_field: suid
+  asim_field: suid
 - field_name: suser
   field_type: string
   description: User account that made change
   category: Integrity Monitoring
-  ecs_field: user.name
-  cim_field: user
-  asim_field: TargetUsername
+  ecs_field: vendor.suser
+  cim_field: suser
+  asim_field: suser
 - field_name: target
   field_type: string
   description: Event subject (admin, computer)
   category: System Events
-  ecs_field: event.target
+  ecs_field: vendor.target
   cim_field: target
-  asim_field: TargetObject
+  asim_field: target
 - field_name: targetID
   field_type: string
   description: Manager-assigned identifier
@@ -779,10 +779,10 @@ fields:
   field_type: ip
   description: X-Forwarded-For IP address
   category: IPS
-  ecs_field: network.forwarded_ip
-  cim_field: x_forwarded_for
-  asim_field: XForwardedFor
-mapped_field_count: 38
+  ecs_field: vendor.xff
+  cim_field: xff
+  asim_field: xff
+mapped_field_count: 24
 event_types:
 - id: '10'
   name: Custom IPS Rule

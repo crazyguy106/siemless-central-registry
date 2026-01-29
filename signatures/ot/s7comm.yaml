@@ -1,28 +1,222 @@
+version: '1.0'
+vendor: OT
+product: S7comm
+product_full_name: Siemens S7 Communication Protocol
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: ot-s7comm-signatures.json
+generated_at: '2026-01-29T12:25:00.724860'
+field_count: 16
+fields:
+- field_name: source_ip
+  field_type: ip
+  description: Client/HMI IP address
+  category: network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: destination_ip
+  field_type: ip
+  description: PLC IP address
+  category: network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: source_port
+  field_type: port
+  description: Client port
+  category: network
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: destination_port
+  field_type: port
+  description: PLC port (typically 102 for ISO-TSAP)
+  category: network
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: rosctr
+  field_type: number
+  description: Remote Operating Service Control (1=Job, 2=Ack, 3=Ack_Data, 7=Userdata)
+  category: protocol
+  ecs_field: vendor.rosctr
+  cim_field: rosctr
+  asim_field: rosctr
+- field_name: function_code
+  field_type: number
+  description: S7 function code
+  category: protocol
+  ecs_field: vendor.function_code
+  cim_field: function_code
+  asim_field: function_code
+- field_name: function_name
+  field_type: string
+  description: Human-readable function name
+  category: protocol
+  ecs_field: vendor.function_name
+  cim_field: function_name
+  asim_field: function_name
+- field_name: area
+  field_type: string
+  description: S7 memory area (I=Inputs, Q=Outputs, M=Markers, DB=Data Block)
+  category: data
+  ecs_field: vendor.area
+  cim_field: area
+  asim_field: area
+- field_name: db_number
+  field_type: number
+  description: Data block number (for DB area)
+  category: data
+  ecs_field: vendor.db_number
+  cim_field: db_number
+  asim_field: db_number
+- field_name: start_address
+  field_type: number
+  description: Starting byte address
+  category: data
+  ecs_field: vendor.start_address
+  cim_field: start_address
+  asim_field: start_address
+- field_name: length
+  field_type: number
+  description: Number of bytes to read/write
+  category: data
+  ecs_field: vendor.length
+  cim_field: length
+  asim_field: length
+- field_name: data_value
+  field_type: string
+  description: Read/written data value
+  category: data
+  ecs_field: vendor.data_value
+  cim_field: data_value
+  asim_field: data_value
+- field_name: error_class
+  field_type: number
+  description: S7 error class
+  category: error
+  ecs_field: vendor.error_class
+  cim_field: error_class
+  asim_field: error_class
+- field_name: error_code
+  field_type: number
+  description: S7 error code
+  category: error
+  ecs_field: vendor.error_code
+  cim_field: error_code
+  asim_field: error_code
+- field_name: rack
+  field_type: number
+  description: PLC rack number
+  category: device
+  ecs_field: vendor.rack
+  cim_field: rack
+  asim_field: rack
+- field_name: slot
+  field_type: number
+  description: PLC slot number
+  category: device
+  ecs_field: vendor.slot
+  cim_field: slot
+  asim_field: slot
+mapped_field_count: 4
 signatures:
-- vendor: ot
-  product: s7comm
-  log_type: industrial
-  version: null
-  log_format: syslog
-  signature_name: Siemens S7comm Protocol
-  primary_pattern: (?:rack|slot|db_number|area)\s*[=:]\s*\d+
-  confidence: 0.9
-  priority: 30
-  source: github_sync
-  sample_logs:
-  - rack=0 slot=2 db_number=1
-  upstream_sources:
-  - zeek
-  - suricata
-- vendor: ot
-  product: s7comm
-  log_type: ot_traffic
-  version: null
-  log_format: kv
-  signature_name: s7comm_generic
-  primary_pattern: (?i)s7comm|(?:rosctr|rack|slot|db_number|area)\s*[=:]\s*\d+
-  confidence: 0.85
+- name: s7comm_generic
+  description: Generic Siemens S7comm protocol detection
+  regex_pattern: (?i)s7comm|(?:rosctr|rack|slot|db_number|area)\s*[=:]\s*\d+
   priority: 10
-  source: bulk_import
-  upstream_sources:
-  - json:ot-s7comm-signatures.json
+  confidence: 0.85
+  log_type: ot_traffic
+  log_format: kv
+- name: s7_read_var
+  pattern: function_code[=:]\s*0?4\b|Read Var|S7.*READ
+  description: S7 Read Variable - Read data from PLC memory
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - area
+  - db_number
+  - start_address
+  - length
+- name: s7_write_var
+  pattern: function_code[=:]\s*0?5\b|Write Var|S7.*WRITE
+  description: S7 Write Variable - CRITICAL WRITE OPERATION
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_ip
+  - destination_ip
+  - area
+  - db_number
+  - start_address
+  - data_value
+- name: s7_setup_communication
+  pattern: function_code[=:]\s*0?240\b|Setup Communication
+  description: S7 Setup Communication - Connection establishment
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+  - rack
+  - slot
+- name: s7_download_block
+  pattern: Download|Start Download|End Download
+  description: 'S7 Block Download - CRITICAL: Program modification'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+  - db_number
+- name: s7_upload_block
+  pattern: Upload|Start Upload|End Upload
+  description: S7 Block Upload - Reading program blocks
+  event_type: ot_traffic
+  severity: medium
+  fields:
+  - source_ip
+  - destination_ip
+  - db_number
+- name: s7_plc_stop
+  pattern: PLC Stop|CPU Stop|P_PROGRAM.*STOP
+  description: 'S7 PLC Stop - CRITICAL: Stopping PLC execution'
+  event_type: ot_traffic
+  severity: critical
+  fields:
+  - source_ip
+  - destination_ip
+- name: s7_plc_start
+  pattern: PLC Start|CPU Start|P_PROGRAM.*START
+  description: S7 PLC Start - Starting PLC execution
+  event_type: ot_traffic
+  severity: high
+  fields:
+  - source_ip
+  - destination_ip
+- name: s7_szl_read
+  pattern: SZL|System Status List|Read SZL
+  description: S7 Read System Status List - Device diagnostics
+  event_type: ot_traffic
+  fields:
+  - source_ip
+  - destination_ip
+- name: s7_password
+  pattern: Password|PLC Password|Authentication
+  description: S7 Password/Authentication attempt
+  event_type: ot_authentication
+  fields:
+  - source_ip
+  - destination_ip
+- name: s7_error
+  pattern: error_class|S7.*Error|Return Code.*[^0]
+  description: S7 Error Response
+  event_type: ot_error
+  fields:
+  - source_ip
+  - destination_ip
+  - error_class
+  - error_code

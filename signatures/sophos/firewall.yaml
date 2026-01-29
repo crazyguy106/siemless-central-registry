@@ -7,7 +7,7 @@ source_document: SF syslog file guide 22.0
 source_url: https://docs.sophos.com/nsg/sophos-firewall/22.0/Help/en-us/webhelp/onlinehelp/SyslogGuide/index.html
 extraction_date: '2026-01-01'
 source_file: sophos-firewall-signatures.json
-generated_at: '2026-01-04T09:34:59.576215'
+generated_at: '2026-01-29T12:25:01.219398'
 categories:
 - SD-WAN
 - IPS
@@ -120,9 +120,9 @@ fields:
   field_type: string
   description: ''
   category: Antivirus (HTTP / HTTPS)
-  ecs_field: url.domain
-  cim_field: url_domain
-  asim_field: UrlHost
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
 - field_name: src_ip
   field_type: ip
   description: ''
@@ -233,8 +233,8 @@ fields:
   description: ''
   category: Antivirus (HTTP / HTTPS)
   ecs_field: network.transport
-  cim_field: protocol
-  asim_field: NetworkTransport
+  cim_field: transport
+  asim_field: NetworkProtocol
 - field_name: src_zone_type
   field_type: string
   description: ''
@@ -358,9 +358,9 @@ fields:
   field_type: string
   description: ''
   category: Antivirus (FTP)
-  ecs_field: file.name
+  ecs_field: vendor.file
   cim_field: file
-  asim_field: TargetFileName
+  asim_field: file
 - field_name: file_path
   field_type: string
   description: ''
@@ -512,9 +512,9 @@ fields:
   field_type: string
   description: ''
   category: Reporting
-  ecs_field: threat.indicator.type
+  ecs_field: vendor.classification
   cim_field: classification
-  asim_field: Classification
+  asim_field: classification
 - field_name: app_resolved_by
   field_type: string
   description: ''
@@ -715,9 +715,9 @@ fields:
   field_type: datetime
   description: ''
   category: IPS
-  ecs_field: host.id
+  ecs_field: vendor.endpoint_id
   cim_field: endpoint_id
-  asim_field: DvcId
+  asim_field: endpoint_id
 - field_name: execution_path
   field_type: string
   description: ''
@@ -1828,9 +1828,9 @@ fields:
   field_type: string
   description: ''
   category: IPS
-  ecs_field: event.target
+  ecs_field: vendor.target
   cim_field: target
-  asim_field: TargetObject
+  asim_field: target
 - field_name: victim
   field_type: string
   description: ''
@@ -2122,16 +2122,16 @@ fields:
   field_type: int
   description: ''
   category: SD-WAN
-  ecs_field: rule.id
+  ecs_field: vendor.profile_id
   cim_field: profile_id
-  asim_field: RuleId
+  asim_field: profile_id
 - field_name: profile_name
   field_type: string
   description: ''
   category: SD-WAN
-  ecs_field: rule.name
+  ecs_field: vendor.profile_name
   cim_field: profile_name
-  asim_field: RuleName
+  asim_field: profile_name
 - field_name: gw_id
   field_type: int
   description: ''
@@ -2311,9 +2311,9 @@ fields:
   field_type: ip
   description: ''
   category: SSL VPN
-  ecs_field: source.ip
-  cim_field: src_ip
-  asim_field: SrcIpAddr
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
 - field_name: sessionid
   field_type: int
   description: ''
@@ -2325,9 +2325,9 @@ fields:
   field_type: int
   description: ''
   category: SSL VPN
-  ecs_field: network.session_id
+  ecs_field: event.id
   cim_field: session_id
-  asim_field: NetworkSessionId
+  asim_field: EventOriginalUid
 - field_name: resource_type
   field_type: string
   description: ''
@@ -2382,7 +2382,7 @@ fields:
   description: ''
   category: Firewall
   ecs_field: http.request.referrer
-  cim_field: http_referer
+  cim_field: http_referrer
   asim_field: HttpReferrer
 - field_name: method
   field_type: string
@@ -2423,9 +2423,9 @@ fields:
   field_type: string
   description: ''
   category: Firewall
-  ecs_field: file.mime_type
+  ecs_field: http.response.mime_type
   cim_field: content_type
-  asim_field: FileMimeType
+  asim_field: HttpContentType
 - field_name: useragent
   field_type: string
   description: ''
@@ -2640,9 +2640,9 @@ fields:
   field_type: string
   description: ''
   category: Web content policy
-  ecs_field: rule.id
-  cim_field: rule_id
-  asim_field: RuleNumber
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
 - field_name: contextmatch
   field_type: string
   description: ''
@@ -2853,5 +2853,5 @@ fields:
   ecs_field: vendor.ap
   cim_field: ap
   asim_field: ap
-mapped_field_count: 120
+mapped_field_count: 114
 notes: Extracted from Sophos Firewall Syslog Guide using field table pattern matching

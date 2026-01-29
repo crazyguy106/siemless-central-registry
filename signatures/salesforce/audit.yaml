@@ -1,49 +1,34 @@
+version: '1.0'
+vendor: Salesforce
+product: Audit
+product_full_name: Audit
+log_type: structured
+source_document: ''
+source_url: ''
+extraction_date: '2026-01-29'
+source_file: salesforce-audit-signatures.json
+generated_at: '2026-01-29T12:25:00.981299'
+field_count: 0
+fields: []
+mapped_field_count: 0
 signatures:
-- vendor: salesforce
-  product: audit
-  log_type: apex
-  version: null
-  log_format: json
-  signature_name: Salesforce Apex Execution Log
-  primary_pattern: salesforce\.apex|apex.*execution
+- name: salesforce_apex
+  description: Salesforce Apex execution log
+  pattern: salesforce\.apex|apex.*execution|apex.*trigger
+  event_type: execution
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: salesforce
-  product: audit
-  log_type: login
-  version: null
-  log_format: json
-  signature_name: Salesforce Login Event
-  primary_pattern: salesforce\.login|Login.*event
+- name: salesforce_login
+  description: Salesforce login event
+  pattern: salesforce\.login|Login.*event
+  event_type: authentication
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: salesforce
-  product: audit
-  log_type: logout
-  version: null
-  log_format: json
-  signature_name: Salesforce Logout Event
-  primary_pattern: salesforce\.logout|Logout.*event
+- name: salesforce_logout
+  description: Salesforce logout event
+  pattern: salesforce\.logout|Logout.*event
+  event_type: authentication
   confidence: 0.9
-  priority: 10
-  source: filebeat_import
-  upstream_sources:
-  - filebeat
-- vendor: salesforce
-  product: audit
-  log_type: setup_audit_trail
-  version: null
-  log_format: json
-  signature_name: Salesforce Setup Audit Trail
-  primary_pattern: salesforce\.setup_audit_trail|SetupAuditTrail
+- name: salesforce_setup_audit
+  description: Salesforce setup audit trail
+  pattern: salesforce\.setup_audit_trail|SetupAuditTrail
+  event_type: audit
   confidence: 0.95
-  priority: 5
-  source: filebeat_import
-  upstream_sources:
-  - filebeat

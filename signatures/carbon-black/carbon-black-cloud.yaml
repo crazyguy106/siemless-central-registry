@@ -7,7 +7,7 @@ source_document: Carbon Black Cloud Data Forwarder Schema Documentation
 source_url: https://developer.carbonblack.com/reference/carbon-black-cloud/
 extraction_date: '2026-01-01'
 source_file: carbonblack-cloud-signatures.json
-generated_at: '2026-01-04T09:34:54.298459'
+generated_at: '2026-01-29T12:24:48.169651'
 categories:
 - File/Module
 - Threat Intelligence
@@ -629,9 +629,9 @@ fields:
   field_type: string
   description: Watchlist report name
   category: Alert/Detection
-  ecs_field: event.dataset
+  ecs_field: rule.name
   cim_field: report_name
-  asim_field: EventDataset
+  asim_field: RuleName
 - field_name: policy_applied
   field_type: string
   description: Whether policy was applied (APPLIED, NOT_APPLIED)
@@ -995,7 +995,7 @@ fields:
   category: Common
   ecs_field: message
   cim_field: event_description
-  asim_field: EventDescription
+  asim_field: EventMessage
 - field_name: event_id
   field_type: string
   description: Unique event identifier
@@ -1035,9 +1035,9 @@ fields:
   field_type: int
   description: PID of forked process
   category: Process
-  ecs_field: process.pid
-  cim_field: fork_pid
-  asim_field: TargetProcessId
+  ecs_field: vendor.process_fork_pid
+  cim_field: process_fork_pid
+  asim_field: process_fork_pid
 - field_name: process_hash
   field_type: string
   description: MD5 and SHA-256 hashes
@@ -1049,9 +1049,9 @@ fields:
   field_type: int
   description: Windows MIC level
   category: Process
-  ecs_field: process.integrity_level
-  cim_field: integrity_level
-  asim_field: ProcessIntegrityLevel
+  ecs_field: vendor.process_integrity_level
+  cim_field: process_integrity_level
+  asim_field: process_integrity_level
 - field_name: process_path
   field_type: string
   description: Full path to process binary
@@ -1063,23 +1063,23 @@ fields:
   field_type: string
   description: Windows privileges
   category: Process
-  ecs_field: process.privileges
-  cim_field: privileges
-  asim_field: ProcessPrivileges
+  ecs_field: vendor.process_privileges
+  cim_field: process_privileges
+  asim_field: process_privileges
 - field_name: process_terminated
   field_type: boolean
   description: True if process terminated
   category: Process
-  ecs_field: event.outcome
-  cim_field: terminated
-  asim_field: EventOutcome
+  ecs_field: vendor.process_terminated
+  cim_field: process_terminated
+  asim_field: process_terminated
 - field_name: process_user_id
   field_type: string
   description: User ID (SID) of process
   category: Process
-  ecs_field: user.id
+  ecs_field: vendor.process_user_id
   cim_field: process_user_id
-  asim_field: TargetUserId
+  asim_field: process_user_id
 - field_name: parent_hash
   field_type: string
   description: Parent process hashes
@@ -1294,16 +1294,16 @@ fields:
   field_type: ip
   description: Remote IP address
   category: Network
-  ecs_field: source.ip
-  cim_field: src_ip
-  asim_field: SrcIpAddr
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
 - field_name: remote_port
   field_type: port
   description: Remote port
   category: Network
-  ecs_field: source.port
-  cim_field: src_port
-  asim_field: SrcPortNumber
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
 - field_name: netconn_application_protocol
   field_type: string
   description: Application layer protocol
@@ -1689,6 +1689,6 @@ fields:
   ecs_field: rule.tags
   cim_field: report_tags
   asim_field: RuleTags
-mapped_field_count: 233
+mapped_field_count: 228
 notes: Combined fields from Audit Log 1.0.0, Alert 2.1.0, Auth Event 1.0.0, Endpoint
   Event 1.2.0, Live Query 1.0.0, Watchlist Hit 1.0.0

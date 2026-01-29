@@ -7,7 +7,7 @@ source_document: CloudTrail Event Reference
 source_url: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
 extraction_date: '2026-01-02'
 source_file: aws-cloudtrail-signatures.json
-generated_at: '2026-01-04T09:34:54.177281'
+generated_at: '2026-01-29T12:24:47.921571'
 categories:
 - Addendum
 - RequestResponse
@@ -38,9 +38,9 @@ fields:
   field_type: string
   description: Reason for delayed delivery or update
   category: Addendum
-  ecs_field: event.reason
-  cim_field: addendum_reason
-  asim_field: EventReason
+  ecs_field: vendor.addendum.reason
+  cim_field: addendum.reason
+  asim_field: addendum.reason
 - field_name: addendum.updatedFields
   field_type: string
   description: Fields that were updated
@@ -458,7 +458,7 @@ fields:
   ecs_field: vendor.vpcEndpointId
   cim_field: vpcEndpointId
   asim_field: vpcEndpointId
-mapped_field_count: 4
+mapped_field_count: 3
 event_types:
 - code: AwsApiCall
   description: Request was made to an AWS API
@@ -470,5 +470,13 @@ event_types:
   description: Sign-in to the AWS Console
 - code: AwsVpceEvents
   description: VPC endpoint related events
+signatures:
+- name: aws_cloudtrail_generic
+  description: Generic AWS CloudTrail log detection - matches eventSource field
+  regex_pattern: '"eventSource":\s*"[a-z0-9.-]+\.amazonaws\.com"'
+  priority: 5
+  confidence: 0.98
+  log_type: audit
+  log_format: json
 notes: CloudTrail captures API calls and related events for AWS accounts. Covers userIdentity,
   sessionContext, request/response parameters, TLS details, and resource metadata.

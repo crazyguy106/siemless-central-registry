@@ -7,7 +7,7 @@ source_document: Event Forwarder Event Schema
 source_url: https://developer.carbonblack.com/reference/enterprise-response/connectors/event-forwarder/event-schema/
 extraction_date: '2026-01-02'
 source_file: carbonblack-edr-signatures.json
-generated_at: '2026-01-04T09:34:54.344692'
+generated_at: '2026-01-29T12:24:48.281847'
 categories:
 - ServerEvents
 - ProcessDocument
@@ -581,9 +581,9 @@ fields:
   field_type: string
   description: DNS name of network peer if available
   category: NetworkConnection
-  ecs_field: url.domain
-  cim_field: url_domain
-  asim_field: UrlHost
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
 - field_name: ipv4
   field_type: ip
   description: Remote IPv4 address (backward compatibility)
@@ -609,16 +609,16 @@ fields:
   field_type: ip
   description: IP of remote system
   category: NetworkConnection
-  ecs_field: source.ip
-  cim_field: src_ip
-  asim_field: SrcIpAddr
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
 - field_name: remote_port
   field_type: port
   description: Remote port
   category: NetworkConnection
-  ecs_field: source.port
-  cim_field: src_port
-  asim_field: SrcPortNumber
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
 - field_name: port
   field_type: port
   description: Remote port (backward compatibility)
@@ -631,8 +631,8 @@ fields:
   description: 'Protocol number: 6=TCP, 17=UDP'
   category: NetworkConnection
   ecs_field: network.transport
-  cim_field: protocol
-  asim_field: NetworkTransport
+  cim_field: transport
+  asim_field: NetworkProtocol
 - field_name: proxy
   field_type: boolean
   description: Whether web proxy was used
@@ -700,9 +700,9 @@ fields:
   field_type: string
   description: Path of target executable
   category: CrossProcess
-  ecs_field: file.directory
+  ecs_field: vendor.target_path
   cim_field: target_path
-  asim_field: FileDirectory
+  asim_field: target_path
 - field_name: target_pid
   field_type: integer
   description: Process ID of target
@@ -829,7 +829,7 @@ fields:
   ecs_field: vendor.watchlists
   cim_field: watchlists
   asim_field: watchlists
-mapped_field_count: 35
+mapped_field_count: 34
 event_types:
 - type: watchlist.hit.process
   description: Watchlist matched a process
