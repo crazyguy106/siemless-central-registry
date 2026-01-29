@@ -8,7 +8,7 @@ source_document: Configure Logging in IIS
 source_url: https://learn.microsoft.com/en-us/iis/manage/provisioning-and-managing-iis/configure-logging-in-iis
 extraction_date: '2026-01-02'
 source_file: iis-signatures.json
-generated_at: '2026-01-29T12:25:00.058337'
+generated_at: '2026-01-29T05:59:00.124887'
 categories:
 - Client
 - Server
@@ -20,163 +20,157 @@ fields:
 - field_name: date
   field_type: date
   description: The date on which the request occurred
+  ecs_field: vendor.date
+  cim_field: date
+  asim_field: date
   category: Timing
-  ecs_field: '@timestamp'
-  cim_field: _time
-  asim_field: EventTime
 - field_name: time
   field_type: time
   description: The time in Coordinated Universal Time (UTC) at which the request occurred
+  ecs_field: vendor.time
+  cim_field: time
+  asim_field: time
   category: Timing
-  ecs_field: '@timestamp'
-  cim_field: _time
-  asim_field: EventTime
 - field_name: time-taken
   field_type: integer
   description: The length of time that the action took in milliseconds
-  category: Timing
   ecs_field: vendor.time-taken
   cim_field: time-taken
   asim_field: time-taken
+  category: Timing
 - field_name: c-ip
   field_type: ip
   description: The IP address of the client that made the request
-  category: Client
   ecs_field: vendor.c-ip
   cim_field: c-ip
   asim_field: c-ip
+  category: Client
 - field_name: cs-username
   field_type: string
   description: The name of the authenticated user who accessed your server (hyphen
     for anonymous)
-  category: Client
   ecs_field: vendor.cs-username
   cim_field: cs-username
   asim_field: cs-username
+  category: Client
 - field_name: cs(User-Agent)
   field_type: string
   description: The browser type that the client used
-  category: Client
   ecs_field: vendor.cs(User-Agent)
   cim_field: cs(User-Agent)
   asim_field: cs(User-Agent)
+  category: Client
 - field_name: cs(Cookie)
   field_type: string
   description: The content of the cookie sent or received, if any
-  category: Client
   ecs_field: vendor.cs(Cookie)
   cim_field: cs(Cookie)
   asim_field: cs(Cookie)
+  category: Client
 - field_name: cs(Referer)
   field_type: string
   description: The site that the user last visited (provided a link to current site)
-  category: Client
   ecs_field: vendor.cs(Referer)
   cim_field: cs(Referer)
   asim_field: cs(Referer)
+  category: Client
 - field_name: s-sitename
   field_type: string
   description: The site instance number that fulfilled the request
-  category: Server
   ecs_field: vendor.s-sitename
   cim_field: s-sitename
   asim_field: s-sitename
+  category: Server
 - field_name: s-computername
   field_type: string
   description: The name of the server on which the log file entry was generated
-  category: Server
   ecs_field: vendor.s-computername
   cim_field: s-computername
   asim_field: s-computername
+  category: Server
 - field_name: s-ip
   field_type: ip
   description: The IP address of the server on which the log file entry was generated
-  category: Server
   ecs_field: vendor.s-ip
   cim_field: s-ip
   asim_field: s-ip
+  category: Server
 - field_name: s-port
   field_type: integer
   description: The server port number that is configured for the service
+  ecs_field: vendor.s-port
+  cim_field: s-port
+  asim_field: s-port
   category: Server
-  ecs_field: source.port
-  cim_field: src_port
-  asim_field: SrcPortNumber
 - field_name: cs-method
   field_type: string
   description: The requested action (GET, POST, etc.)
-  category: Request
   ecs_field: vendor.cs-method
   cim_field: cs-method
   asim_field: cs-method
+  category: Request
 - field_name: cs-uri-stem
   field_type: string
   description: The Universal Resource Identifier, or target, of the action
-  category: Request
   ecs_field: vendor.cs-uri-stem
   cim_field: cs-uri-stem
   asim_field: cs-uri-stem
+  category: Request
 - field_name: cs-uri-query
   field_type: string
   description: The query, if any, that the client was trying to perform
-  category: Request
   ecs_field: vendor.cs-uri-query
   cim_field: cs-uri-query
   asim_field: cs-uri-query
+  category: Request
 - field_name: cs-version
   field_type: string
   description: The protocol version that the client used
-  category: Request
   ecs_field: vendor.cs-version
   cim_field: cs-version
   asim_field: cs-version
+  category: Request
 - field_name: cs-host
   field_type: string
   description: The host name, if any
-  category: Request
   ecs_field: vendor.cs-host
   cim_field: cs-host
   asim_field: cs-host
+  category: Request
 - field_name: cs-bytes
   field_type: integer
   description: The number of bytes that the server received
-  category: Request
   ecs_field: vendor.cs-bytes
   cim_field: cs-bytes
   asim_field: cs-bytes
+  category: Request
 - field_name: sc-status
   field_type: integer
   description: The HTTP or FTP status code
-  category: Response
   ecs_field: vendor.sc-status
   cim_field: sc-status
   asim_field: sc-status
+  category: Response
 - field_name: sc-substatus
   field_type: integer
   description: The HTTP or FTP substatus code
-  category: Response
   ecs_field: vendor.sc-substatus
   cim_field: sc-substatus
   asim_field: sc-substatus
+  category: Response
 - field_name: sc-win32-status
   field_type: integer
   description: The Windows status code
-  category: Response
   ecs_field: vendor.sc-win32-status
   cim_field: sc-win32-status
   asim_field: sc-win32-status
+  category: Response
 - field_name: sc-bytes
   field_type: integer
   description: The number of bytes that the server sent
-  category: Response
   ecs_field: vendor.sc-bytes
   cim_field: sc-bytes
   asim_field: sc-bytes
-mapped_field_count: 3
+  category: Response
 notes: W3C Extended Log Format fields for IIS. All fields are optional and individually
   selectable. Time is recorded in UTC.
-log_format_notes:
-- W3C format is customizable - select which fields to log via IIS Manager
-- UTC timestamps - Time is recorded in Coordinated Universal Time (UTC)
-- Field separator is space
-- All fields are optional and can be individually selected
