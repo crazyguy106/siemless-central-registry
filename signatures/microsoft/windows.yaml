@@ -23,296 +23,296 @@ fields:
 - field_name: EventID
   field_type: int
   description: Windows Event ID
-  ecs_field: vendor.EventID
-  cim_field: EventID
-  asim_field: EventID
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
 - field_name: TimeCreated
   field_type: datetime
   description: Event timestamp
-  ecs_field: vendor.TimeCreated
-  cim_field: TimeCreated
-  asim_field: TimeCreated
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: TimeGenerated
 - field_name: Computer
   field_type: string
   description: Computer name
-  ecs_field: vendor.Computer
-  cim_field: Computer
-  asim_field: Computer
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
 - field_name: Channel
   field_type: string
   description: Log channel (Security)
-  ecs_field: vendor.Channel
-  cim_field: Channel
-  asim_field: Channel
+  ecs_field: log.syslog.facility.name
+  cim_field: source
+  asim_field: EventProduct
 - field_name: Provider
   field_type: string
   description: Event provider name
-  ecs_field: vendor.Provider
-  cim_field: Provider
-  asim_field: Provider
+  ecs_field: event.provider
+  cim_field: vendor_product
+  asim_field: EventVendor
 - field_name: Level
   field_type: int
   description: Event level (0=Info, 1=Critical, etc.)
-  ecs_field: vendor.Level
-  cim_field: Level
-  asim_field: Level
+  ecs_field: log.level
+  cim_field: severity
+  asim_field: EventSeverity
 - field_name: Task
   field_type: int
   description: Task category
-  ecs_field: vendor.Task
-  cim_field: Task
-  asim_field: Task
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
 - field_name: Keywords
   field_type: string
   description: Event keywords
-  ecs_field: vendor.Keywords
-  cim_field: Keywords
-  asim_field: Keywords
+  ecs_field: tags
+  cim_field: tag
+  asim_field: EventSchemaVersion
 - field_name: SubjectUserSid
   field_type: string
   description: Subject user SID
-  ecs_field: vendor.SubjectUserSid
-  cim_field: SubjectUserSid
-  asim_field: SubjectUserSid
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
 - field_name: SubjectUserName
   field_type: string
   description: Subject user name
-  ecs_field: vendor.SubjectUserName
-  cim_field: SubjectUserName
-  asim_field: SubjectUserName
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
 - field_name: SubjectDomainName
   field_type: string
   description: Subject domain name
-  ecs_field: vendor.SubjectDomainName
-  cim_field: SubjectDomainName
-  asim_field: SubjectDomainName
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: ActorUserDomain
 - field_name: SubjectLogonId
   field_type: string
   description: Subject logon ID
-  ecs_field: vendor.SubjectLogonId
-  cim_field: SubjectLogonId
-  asim_field: SubjectLogonId
+  ecs_field: user.effective.id
+  cim_field: session_id
+  asim_field: ActorSessionId
 - field_name: TargetUserSid
   field_type: string
   description: Target user SID
-  ecs_field: vendor.TargetUserSid
-  cim_field: TargetUserSid
-  asim_field: TargetUserSid
+  ecs_field: user.target.id
+  cim_field: dest_user_id
+  asim_field: TargetUserId
 - field_name: TargetUserName
   field_type: string
   description: Target user name
-  ecs_field: vendor.TargetUserName
-  cim_field: TargetUserName
-  asim_field: TargetUserName
+  ecs_field: user.target.name
+  cim_field: dest_user
+  asim_field: TargetUsername
 - field_name: TargetDomainName
   field_type: string
   description: Target domain name
-  ecs_field: vendor.TargetDomainName
-  cim_field: TargetDomainName
-  asim_field: TargetDomainName
+  ecs_field: user.target.domain
+  cim_field: dest_user_domain
+  asim_field: TargetUserDomain
 - field_name: TargetLogonId
   field_type: string
   description: Target logon ID
-  ecs_field: vendor.TargetLogonId
-  cim_field: TargetLogonId
-  asim_field: TargetLogonId
+  ecs_field: related.user
+  cim_field: dest_session_id
+  asim_field: TargetSessionId
 - field_name: LogonType
   field_type: int
   description: Logon type (2=Interactive, 3=Network, etc.)
-  ecs_field: vendor.LogonType
-  cim_field: LogonType
+  ecs_field: winlog.logon.type
+  cim_field: authentication_method
   asim_field: LogonType
 - field_name: LogonProcessName
   field_type: string
   description: Logon process name
-  ecs_field: vendor.LogonProcessName
-  cim_field: LogonProcessName
+  ecs_field: process.name
+  cim_field: process_name
   asim_field: LogonProcessName
 - field_name: AuthenticationPackageName
   field_type: string
   description: Authentication package
-  ecs_field: vendor.AuthenticationPackageName
-  cim_field: AuthenticationPackageName
-  asim_field: AuthenticationPackageName
+  ecs_field: winlog.logon.authentication_package
+  cim_field: authentication_service
+  asim_field: AuthenticationProtocol
 - field_name: WorkstationName
   field_type: string
   description: Workstation name
-  ecs_field: vendor.WorkstationName
-  cim_field: WorkstationName
-  asim_field: WorkstationName
+  ecs_field: source.domain
+  cim_field: src_host
+  asim_field: SrcHostname
 - field_name: LogonGuid
   field_type: string
   description: Logon GUID
-  ecs_field: vendor.LogonGuid
-  cim_field: LogonGuid
+  ecs_field: user.hash
+  cim_field: user_bunit
   asim_field: LogonGuid
 - field_name: IpAddress
   field_type: ip
   description: Source IP address
-  ecs_field: vendor.IpAddress
-  cim_field: IpAddress
-  asim_field: IpAddress
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
 - field_name: IpPort
   field_type: port
   description: Source port
-  ecs_field: vendor.IpPort
-  cim_field: IpPort
-  asim_field: IpPort
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
 - field_name: NewProcessId
   field_type: string
   description: New process ID
-  ecs_field: vendor.NewProcessId
-  cim_field: NewProcessId
-  asim_field: NewProcessId
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: TargetProcessId
 - field_name: NewProcessName
   field_type: string
   description: New process name/path
-  ecs_field: vendor.NewProcessName
-  cim_field: NewProcessName
-  asim_field: NewProcessName
+  ecs_field: process.executable
+  cim_field: process_path
+  asim_field: TargetProcessName
 - field_name: ProcessId
   field_type: string
   description: Process ID
-  ecs_field: vendor.ProcessId
-  cim_field: ProcessId
-  asim_field: ProcessId
+  ecs_field: process.parent.pid
+  cim_field: parent_process_id
+  asim_field: ActingProcessId
 - field_name: ProcessName
   field_type: string
   description: Process name/path
-  ecs_field: vendor.ProcessName
-  cim_field: ProcessName
-  asim_field: ProcessName
+  ecs_field: process.parent.executable
+  cim_field: parent_process_path
+  asim_field: ActingProcessName
 - field_name: CommandLine
   field_type: string
   description: Command line
-  ecs_field: vendor.CommandLine
-  cim_field: CommandLine
-  asim_field: CommandLine
+  ecs_field: process.command_line
+  cim_field: process
+  asim_field: TargetProcessCommandLine
 - field_name: ParentProcessName
   field_type: string
   description: Parent process name
-  ecs_field: vendor.ParentProcessName
-  cim_field: ParentProcessName
+  ecs_field: process.parent.name
+  cim_field: parent_process
   asim_field: ParentProcessName
 - field_name: ObjectType
   field_type: string
   description: Object type
-  ecs_field: vendor.ObjectType
-  cim_field: ObjectType
-  asim_field: ObjectType
+  ecs_field: file.type
+  cim_field: object_category
+  asim_field: TargetObjectType
 - field_name: ObjectName
   field_type: string
   description: Object name/path
-  ecs_field: vendor.ObjectName
-  cim_field: ObjectName
-  asim_field: ObjectName
+  ecs_field: file.path
+  cim_field: object_path
+  asim_field: TargetFilePath
 - field_name: HandleId
   field_type: string
   description: Handle ID
-  ecs_field: vendor.HandleId
-  cim_field: HandleId
-  asim_field: HandleId
+  ecs_field: event.id
+  cim_field: object_id
+  asim_field: TargetObject
 - field_name: AccessMask
   field_type: string
   description: Access mask
-  ecs_field: vendor.AccessMask
-  cim_field: AccessMask
+  ecs_field: winlog.event_data.AccessMask
+  cim_field: access
   asim_field: AccessMask
 - field_name: AccessList
   field_type: string
   description: Access list
-  ecs_field: vendor.AccessList
-  cim_field: AccessList
-  asim_field: AccessList
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResultDetails
 - field_name: TargetSid
   field_type: string
   description: Target account SID
-  ecs_field: vendor.TargetSid
-  cim_field: TargetSid
-  asim_field: TargetSid
+  ecs_field: group.id
+  cim_field: dest_nt_domain
+  asim_field: TargetUserSid
 - field_name: PrivilegeList
   field_type: string
   description: Privileges used
-  ecs_field: vendor.PrivilegeList
-  cim_field: PrivilegeList
+  ecs_field: winlog.event_data.PrivilegeList
+  cim_field: privilege
   asim_field: PrivilegeList
 - field_name: MemberSid
   field_type: string
   description: Group member SID
-  ecs_field: vendor.MemberSid
-  cim_field: MemberSid
-  asim_field: MemberSid
+  ecs_field: group.id
+  cim_field: member_id
+  asim_field: GroupMemberSid
 - field_name: MemberName
   field_type: string
   description: Group member name
-  ecs_field: vendor.MemberName
-  cim_field: MemberName
-  asim_field: MemberName
+  ecs_field: user.target.name
+  cim_field: member
+  asim_field: GroupMemberName
 - field_name: SamAccountName
   field_type: string
   description: SAM account name
-  ecs_field: vendor.SamAccountName
-  cim_field: SamAccountName
-  asim_field: SamAccountName
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
 - field_name: DisplayName
   field_type: string
   description: Display name
-  ecs_field: vendor.DisplayName
-  cim_field: DisplayName
-  asim_field: DisplayName
+  ecs_field: user.full_name
+  cim_field: user_name
+  asim_field: TargetUserDisplayName
 - field_name: UserPrincipalName
   field_type: string
   description: UPN
-  ecs_field: vendor.UserPrincipalName
-  cim_field: UserPrincipalName
-  asim_field: UserPrincipalName
+  ecs_field: user.email
+  cim_field: user_email
+  asim_field: TargetUserUPN
 - field_name: HomeDirectory
   field_type: string
   description: Home directory path
-  ecs_field: vendor.HomeDirectory
-  cim_field: HomeDirectory
-  asim_field: HomeDirectory
+  ecs_field: user.home
+  cim_field: home_dir
+  asim_field: TargetUserHomeDir
 - field_name: HomePath
   field_type: string
   description: Home path
-  ecs_field: vendor.HomePath
-  cim_field: HomePath
-  asim_field: HomePath
+  ecs_field: user.home
+  cim_field: home_path
+  asim_field: TargetUserHomePath
 - field_name: ScriptPath
   field_type: string
   description: Logon script path
-  ecs_field: vendor.ScriptPath
-  cim_field: ScriptPath
-  asim_field: ScriptPath
+  ecs_field: file.path
+  cim_field: script_path
+  asim_field: LogonScriptPath
 - field_name: ProfilePath
   field_type: string
   description: Profile path
-  ecs_field: vendor.ProfilePath
-  cim_field: ProfilePath
+  ecs_field: file.directory
+  cim_field: profile_path
   asim_field: ProfilePath
 - field_name: UserWorkstations
   field_type: string
   description: Allowed workstations
-  ecs_field: vendor.UserWorkstations
-  cim_field: UserWorkstations
-  asim_field: UserWorkstations
+  ecs_field: host.name
+  cim_field: allowed_workstations
+  asim_field: AllowedWorkstations
 - field_name: PasswordLastSet
   field_type: datetime
   description: Password last set time
-  ecs_field: vendor.PasswordLastSet
-  cim_field: PasswordLastSet
+  ecs_field: user.changes.password
+  cim_field: password_last_set
   asim_field: PasswordLastSet
 - field_name: AccountExpires
   field_type: datetime
   description: Account expiration time
-  ecs_field: vendor.AccountExpires
-  cim_field: AccountExpires
+  ecs_field: user.risk.static_score_norm
+  cim_field: account_expires
   asim_field: AccountExpires
 - field_name: UserAccountControl
   field_type: string
   description: Account control flags
-  ecs_field: vendor.UserAccountControl
-  cim_field: UserAccountControl
+  ecs_field: winlog.event_data.UserAccountControl
+  cim_field: user_account_control
   asim_field: UserAccountControl
 signatures:
 - name: windows_security_generic
