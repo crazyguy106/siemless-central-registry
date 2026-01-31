@@ -7,7 +7,7 @@ source_document: Google Workspace Audit Logging in Cloud Logging
 source_url: https://cloud.google.com/logging/docs/audit/gsuite-audit-logging
 extraction_date: '2026-01-02'
 source_file: google-workspace-signatures.json
-generated_at: '2026-01-29T05:59:00.102221'
+generated_at: '2026-01-31T04:25:53.963468'
 categories:
 - LogEntry
 - ProtoPayload
@@ -21,23 +21,23 @@ fields:
 - field_name: logName
   field_type: string
   description: Contains organization ID and audit log type (admin_activity or data_access)
-  ecs_field: vendor.logName
-  cim_field: logName
-  asim_field: logName
+  ecs_field: log.logger
+  cim_field: log_name
+  asim_field: LogName
   category: LogEntry
 - field_name: resource
   field_type: object
   description: Target of the audited operation
-  ecs_field: vendor.resource
-  cim_field: resource
-  asim_field: resource
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
   category: LogEntry
 - field_name: resource.type
   field_type: string
   description: Resource type being audited
-  ecs_field: vendor.resource.type
-  cim_field: resource.type
-  asim_field: resource.type
+  ecs_field: cloud.resource.type
+  cim_field: resource_type
+  asim_field: CloudResourceType
   category: LogEntry
 - field_name: resource.labels
   field_type: object
@@ -49,23 +49,23 @@ fields:
 - field_name: timestamp
   field_type: datetime
   description: Time when operation occurred (RFC 3339 format)
-  ecs_field: vendor.timestamp
-  cim_field: timestamp
-  asim_field: timestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: LogEntry
 - field_name: severity
   field_type: string
   description: Log severity level
-  ecs_field: vendor.severity
-  cim_field: severity
-  asim_field: severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: LogEntry
 - field_name: insertId
   field_type: string
   description: Unique identifier for the log entry
-  ecs_field: vendor.insertId
-  cim_field: insertId
-  asim_field: insertId
+  ecs_field: log.file.inode
+  cim_field: insert_id
+  asim_field: LogInsertId
   category: LogEntry
 - field_name: protoPayload.@type
   field_type: string
@@ -77,23 +77,23 @@ fields:
 - field_name: protoPayload.serviceName
   field_type: string
   description: Service generating the audit log (e.g., admin.googleapis.com)
-  ecs_field: vendor.protoPayload.serviceName
-  cim_field: protoPayload.serviceName
-  asim_field: protoPayload.serviceName
+  ecs_field: cloud.service.name
+  cim_field: gcp_service
+  asim_field: CloudServiceName
   category: ProtoPayload
 - field_name: protoPayload.methodName
   field_type: string
   description: Specific operation performed
-  ecs_field: vendor.protoPayload.methodName
-  cim_field: protoPayload.methodName
-  asim_field: protoPayload.methodName
+  ecs_field: event.action
+  cim_field: method_name
+  asim_field: EventAction
   category: ProtoPayload
 - field_name: protoPayload.resourceName
   field_type: string
   description: Organization identifier being audited
-  ecs_field: vendor.protoPayload.resourceName
-  cim_field: protoPayload.resourceName
-  asim_field: protoPayload.resourceName
+  ecs_field: cloud.resource.name
+  cim_field: resource_name
+  asim_field: CloudResourceName
   category: ProtoPayload
 - field_name: protoPayload.status
   field_type: object
@@ -105,9 +105,9 @@ fields:
 - field_name: protoPayload.authenticationInfo.principalEmail
   field_type: email
   description: Email of user performing the action
-  ecs_field: vendor.protoPayload.authenticationInfo.principalEmail
-  cim_field: protoPayload.authenticationInfo.principalEmail
-  asim_field: protoPayload.authenticationInfo.principalEmail
+  ecs_field: user.email
+  cim_field: principal_email
+  asim_field: ActorUserEmail
   category: AuthenticationInfo
 - field_name: protoPayload.authenticationInfo.principalSubject
   field_type: string
@@ -119,16 +119,16 @@ fields:
 - field_name: protoPayload.requestMetadata.callerIp
   field_type: ip
   description: Source IP address of the request
-  ecs_field: vendor.protoPayload.requestMetadata.callerIp
-  cim_field: protoPayload.requestMetadata.callerIp
-  asim_field: protoPayload.requestMetadata.callerIp
+  ecs_field: source.ip
+  cim_field: caller_ip
+  asim_field: SrcIpAddr
   category: RequestMetadata
 - field_name: protoPayload.requestMetadata.callerSuppliedUserAgent
   field_type: string
   description: User agent string from the caller
-  ecs_field: vendor.protoPayload.requestMetadata.callerSuppliedUserAgent
-  cim_field: protoPayload.requestMetadata.callerSuppliedUserAgent
-  asim_field: protoPayload.requestMetadata.callerSuppliedUserAgent
+  ecs_field: user_agent.original
+  cim_field: caller_user_agent
+  asim_field: UserAgent
   category: RequestMetadata
 - field_name: protoPayload.requestMetadata.requestAttributes
   field_type: object

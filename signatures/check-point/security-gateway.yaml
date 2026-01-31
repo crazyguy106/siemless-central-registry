@@ -7,7 +7,7 @@ source_document: Description of Fields in Check Point Logs (sk144192)
 source_url: https://support.checkpoint.com/results/sk/sk144192
 extraction_date: '2026-01-02'
 source_file: checkpoint-signatures.json
-generated_at: '2026-01-29T05:58:47.662137'
+generated_at: '2026-01-31T04:25:41.487972'
 categories:
 - Advanced Log Information
 - Anti-Bot
@@ -59,101 +59,115 @@ fields:
 - field_name: src
   field_type: ip
   description: Client source IP address
-  ecs_field: vendor.src
-  cim_field: src
-  asim_field: src
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Common
+  display_name: Source
 - field_name: dst
   field_type: ip
   description: Destination IP address
-  ecs_field: vendor.dst
-  cim_field: dst
-  asim_field: dst
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Common
+  display_name: Destination
 - field_name: src_ip
   field_type: ip
   description: Source IP address
-  ecs_field: vendor.src_ip
+  ecs_field: source.ip
   cim_field: src_ip
-  asim_field: src_ip
+  asim_field: SrcIpAddr
   category: Common
+  display_name: Source IP
 - field_name: dst_ip
   field_type: ip
   description: Destination IP address
-  ecs_field: vendor.dst_ip
-  cim_field: dst_ip
-  asim_field: dst_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Common
+  display_name: Destination IP
 - field_name: s_port
   field_type: port
   description: Source host port number
-  ecs_field: vendor.s_port
-  cim_field: s_port
-  asim_field: s_port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Common
+  display_name: Source Port
 - field_name: dst_port
   field_type: port
   description: Destination host port number
-  ecs_field: vendor.dst_port
-  cim_field: dst_port
-  asim_field: dst_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Common
+  display_name: Destination Port
 - field_name: service
   field_type: string
   description: Connection destination service/port
-  ecs_field: vendor.service
+  ecs_field: network.protocol
   cim_field: service
-  asim_field: service
+  asim_field: NetworkApplicationProtocol
   category: Common
+  display_name: Service
 - field_name: proto
   field_type: integer
   description: IP Protocol number
-  ecs_field: vendor.proto
-  cim_field: proto
-  asim_field: proto
+  ecs_field: network.iana_number
+  cim_field: protocol_number
+  asim_field: NetworkProtocolVersion
   category: Common
+  display_name: Protocol
 - field_name: action
   field_type: string
   description: Rule action (Accept/Drop/Reject)
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: Common
+  display_name: Action
 - field_name: rule
   field_type: integer
   description: Matched rule number
-  ecs_field: vendor.rule
+  ecs_field: rule.name
   cim_field: rule
-  asim_field: rule
+  asim_field: RuleName
   category: Common
+  display_name: Rule
 - field_name: rule_name
   field_type: string
   description: Matched rule name
-  ecs_field: vendor.rule_name
-  cim_field: rule_name
-  asim_field: rule_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Common
+  display_name: Rule Name
 - field_name: rule_uid
   field_type: string
   description: Unique rule identifier
-  ecs_field: vendor.rule_uid
-  cim_field: rule_uid
-  asim_field: rule_uid
+  ecs_field: rule.id
+  cim_field: rule_id
+  asim_field: RuleNumber
   category: Common
+  display_name: Rule UID
 - field_name: policy_name
   field_type: string
   description: Security policy name
-  ecs_field: vendor.policy_name
+  ecs_field: rule.name
   cim_field: policy_name
-  asim_field: policy_name
+  asim_field: RuleName
   category: Common
+  display_name: Policy Name
 - field_name: origin
   field_type: string
   description: Security Gateway that reported the event
-  ecs_field: vendor.origin
-  cim_field: origin
-  asim_field: origin
+  ecs_field: observer.ip
+  cim_field: dvc_ip
+  asim_field: DvcIpAddr
   category: Common
+  display_name: Origin
 - field_name: origin_ip
   field_type: ip
   description: IP of Security Gateway that generated log
@@ -161,41 +175,47 @@ fields:
   cim_field: origin_ip
   asim_field: origin_ip
   category: Common
+  display_name: Origin IP
 - field_name: product
   field_type: string
   description: Check Point product/blade name
-  ecs_field: vendor.product
+  ecs_field: observer.product
   cim_field: product
-  asim_field: product
+  asim_field: DvcProduct
   category: Common
+  display_name: Product/Blade
 - field_name: time
   field_type: datetime
   description: Log timestamp
-  ecs_field: vendor.time
-  cim_field: time
-  asim_field: time
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Common
+  display_name: Time
 - field_name: loguid
   field_type: string
   description: Unique log identifier
-  ecs_field: vendor.loguid
-  cim_field: loguid
-  asim_field: loguid
+  ecs_field: event.id
+  cim_field: log_id
+  asim_field: EventOriginalUid
   category: Common
+  display_name: Log UID
 - field_name: bytes
   field_type: integer
   description: Total bytes in connection
-  ecs_field: vendor.bytes
+  ecs_field: network.bytes
   cim_field: bytes
-  asim_field: bytes
+  asim_field: NetworkBytes
   category: Common
+  display_name: Bytes
 - field_name: sent_bytes
   field_type: integer
   description: Bytes sent
-  ecs_field: vendor.sent_bytes
-  cim_field: sent_bytes
-  asim_field: sent_bytes
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Common
+  display_name: Sent Bytes
 - field_name: received_bytes
   field_type: integer
   description: Bytes received
@@ -203,20 +223,23 @@ fields:
   cim_field: received_bytes
   asim_field: received_bytes
   category: Common
+  display_name: Received Bytes
 - field_name: packets
   field_type: integer
   description: Total packets in connection
-  ecs_field: vendor.packets
+  ecs_field: network.packets
   cim_field: packets
-  asim_field: packets
+  asim_field: NetworkPackets
   category: Common
+  display_name: Packets
 - field_name: user
   field_type: string
   description: Source username
-  ecs_field: vendor.user
+  ecs_field: user.name
   cim_field: user
-  asim_field: user
+  asim_field: TargetUsername
   category: Identity Awareness
+  display_name: User
 - field_name: src_user_name
   field_type: string
   description: Username connected to source IP
@@ -224,6 +247,7 @@ fields:
   cim_field: src_user_name
   asim_field: src_user_name
   category: Identity Awareness
+  display_name: Source User Name
 - field_name: dst_user_name
   field_type: string
   description: Username connected to destination IP
@@ -231,20 +255,23 @@ fields:
   cim_field: dst_user_name
   asim_field: dst_user_name
   category: Identity Awareness
+  display_name: Destination User Name
 - field_name: src_machine_name
   field_type: string
   description: Machine name of source
-  ecs_field: vendor.src_machine_name
-  cim_field: src_machine_name
-  asim_field: src_machine_name
+  ecs_field: source.domain
+  cim_field: src_host
+  asim_field: SrcHostname
   category: Identity Awareness
+  display_name: Source Machine
 - field_name: dst_machine_name
   field_type: string
   description: Machine name of destination
-  ecs_field: vendor.dst_machine_name
-  cim_field: dst_machine_name
-  asim_field: dst_machine_name
+  ecs_field: destination.domain
+  cim_field: dest_host
+  asim_field: DstHostname
   category: Identity Awareness
+  display_name: Destination Machine
 - field_name: inzone
   field_type: string
   description: Source security zone
@@ -252,6 +279,7 @@ fields:
   cim_field: inzone
   asim_field: inzone
   category: Firewall
+  display_name: Source Zone
 - field_name: outzone
   field_type: string
   description: Destination security zone
@@ -259,6 +287,7 @@ fields:
   cim_field: outzone
   asim_field: outzone
   category: Firewall
+  display_name: Destination Zone
 - field_name: interface_name
   field_type: string
   description: Network interface name
@@ -266,34 +295,39 @@ fields:
   cim_field: interface_name
   asim_field: interface_name
   category: Firewall
+  display_name: Interface
 - field_name: xlatesrc
   field_type: ip
   description: Source IP after NAT
-  ecs_field: vendor.xlatesrc
-  cim_field: xlatesrc
-  asim_field: xlatesrc
+  ecs_field: source.nat.ip
+  cim_field: src_translated_ip
+  asim_field: SrcNatIpAddr
   category: NAT
+  display_name: NAT Source IP
 - field_name: xlatedst
   field_type: ip
   description: Destination IP after NAT
-  ecs_field: vendor.xlatedst
-  cim_field: xlatedst
-  asim_field: xlatedst
+  ecs_field: destination.nat.ip
+  cim_field: dest_translated_ip
+  asim_field: DstNatIpAddr
   category: NAT
+  display_name: NAT Destination IP
 - field_name: nat_rulenum
   field_type: integer
   description: NAT rule that matched
-  ecs_field: vendor.nat_rulenum
-  cim_field: nat_rulenum
-  asim_field: nat_rulenum
+  ecs_field: rule.id
+  cim_field: nat_rule
+  asim_field: RuleNumber
   category: NAT
+  display_name: NAT Rule Number
 - field_name: protection_name
   field_type: string
   description: IPS/Threat protection signature name
-  ecs_field: vendor.protection_name
-  cim_field: protection_name
-  asim_field: protection_name
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
   category: IPS
+  display_name: Protection Name
 - field_name: protection_id
   field_type: string
   description: IPS protection identifier
@@ -301,20 +335,23 @@ fields:
   cim_field: protection_id
   asim_field: protection_id
   category: IPS
+  display_name: Protection ID
 - field_name: severity
   field_type: string
   description: Threat severity level
-  ecs_field: vendor.severity
-  cim_field: severity
-  asim_field: severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: Threat Prevention
+  display_name: Severity
 - field_name: confidence_level
   field_type: integer
   description: Detection confidence (0-5)
-  ecs_field: vendor.confidence_level
-  cim_field: confidence_level
-  asim_field: confidence_level
+  ecs_field: threat.indicator.confidence
+  cim_field: confidence
+  asim_field: ThreatConfidence
   category: Threat Prevention
+  display_name: Confidence Level
 - field_name: malware_family
   field_type: string
   description: Malware family name
@@ -322,69 +359,79 @@ fields:
   cim_field: malware_family
   asim_field: malware_family
   category: Threat Prevention
+  display_name: Malware Family
 - field_name: malware_action
   field_type: string
   description: Malware activity description
-  ecs_field: vendor.malware_action
+  ecs_field: event.action
   cim_field: malware_action
-  asim_field: malware_action
+  asim_field: EventType
   category: Threat Prevention
+  display_name: Malware Action
 - field_name: file_name
   field_type: string
   description: File name
-  ecs_field: vendor.file_name
+  ecs_field: file.name
   cim_field: file_name
-  asim_field: file_name
+  asim_field: TargetFileName
   category: Threat Prevention
+  display_name: File Name
 - field_name: file_md5
   field_type: string
   description: File MD5 hash
-  ecs_field: vendor.file_md5
-  cim_field: file_md5
-  asim_field: file_md5
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
   category: Threat Prevention
+  display_name: File MD5
 - field_name: file_sha1
   field_type: string
   description: File SHA1 hash
-  ecs_field: vendor.file_sha1
-  cim_field: file_sha1
-  asim_field: file_sha1
+  ecs_field: file.hash.sha1
+  cim_field: file_hash
+  asim_field: TargetFileSHA1
   category: Threat Prevention
+  display_name: File SHA1
 - field_name: file_sha256
   field_type: string
   description: File SHA256 hash
-  ecs_field: vendor.file_sha256
-  cim_field: file_sha256
-  asim_field: file_sha256
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
   category: Threat Prevention
+  display_name: File SHA256
 - field_name: file_size
   field_type: integer
   description: File size in bytes
-  ecs_field: vendor.file_size
+  ecs_field: file.size
   cim_field: file_size
-  asim_field: file_size
+  asim_field: TargetFileSize
   category: Threat Prevention
+  display_name: File Size
 - field_name: file_type
   field_type: string
   description: File type/extension
-  ecs_field: vendor.file_type
+  ecs_field: file.type
   cim_field: file_type
-  asim_field: file_type
+  asim_field: TargetFileType
   category: Threat Prevention
+  display_name: File Type
 - field_name: url
   field_type: string
   description: URL accessed
-  ecs_field: vendor.url
+  ecs_field: url.original
   cim_field: url
-  asim_field: url
+  asim_field: Url
   category: URL Filtering
+  display_name: URL
 - field_name: resource
   field_type: string
   description: HTTP resource/path
-  ecs_field: vendor.resource
-  cim_field: resource
-  asim_field: resource
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
   category: URL Filtering
+  display_name: Resource
 - field_name: appi_name
   field_type: string
   description: Application name
@@ -392,6 +439,7 @@ fields:
   cim_field: appi_name
   asim_field: appi_name
   category: Application Control
+  display_name: Application Name
 - field_name: app_category
   field_type: string
   description: Application category
@@ -399,6 +447,7 @@ fields:
   cim_field: app_category
   asim_field: app_category
   category: Application Control
+  display_name: App Category
 - field_name: app_risk
   field_type: integer
   description: Application risk level (0-5)
@@ -406,6 +455,7 @@ fields:
   cim_field: app_risk
   asim_field: app_risk
   category: Application Control
+  display_name: App Risk
 - field_name: verdict
   field_type: string
   description: Threat Emulation verdict
@@ -413,6 +463,7 @@ fields:
   cim_field: verdict
   asim_field: verdict
   category: Threat Emulation
+  display_name: Verdict
 - field_name: analyzed_on
   field_type: string
   description: Emulation environment
@@ -420,13 +471,15 @@ fields:
   cim_field: analyzed_on
   asim_field: analyzed_on
   category: Threat Emulation
+  display_name: Analyzed On
 - field_name: peer_gateway
   field_type: ip
   description: VPN peer Security Gateway IP
-  ecs_field: vendor.peer_gateway
-  cim_field: peer_gateway
-  asim_field: peer_gateway
+  ecs_field: destination.ip
+  cim_field: vpn_gateway
+  asim_field: DstIpAddr
   category: VPN
+  display_name: VPN Peer Gateway
 - field_name: ike
   field_type: string
   description: IKE phase (PHASE1, PHASE2)
@@ -434,6 +487,7 @@ fields:
   cim_field: ike
   asim_field: ike
   category: VPN
+  display_name: IKE Mode
 - field_name: community
   field_type: string
   description: VPN community name
@@ -441,6 +495,7 @@ fields:
   cim_field: community
   asim_field: community
   category: VPN
+  display_name: VPN Community
 - field_name: https_inspection_action
   field_type: string
   description: Inspect/Bypass/Error
@@ -448,27 +503,31 @@ fields:
   cim_field: https_inspection_action
   asim_field: https_inspection_action
   category: HTTPS Inspection
+  display_name: HTTPS Inspection Action
 - field_name: email_subject
   field_type: string
   description: Email subject line
-  ecs_field: vendor.email_subject
+  ecs_field: email.subject
   cim_field: email_subject
-  asim_field: email_subject
+  asim_field: EmailSubject
   category: Email Security
+  display_name: Email Subject
 - field_name: from
   field_type: string
   description: Email sender address
-  ecs_field: vendor.from
-  cim_field: from
-  asim_field: from
+  ecs_field: observer.ingress.zone
+  cim_field: src_zone
+  asim_field: SrcZone
   category: Email Security
+  display_name: Sender
 - field_name: to
   field_type: string
   description: Email recipient address
-  ecs_field: vendor.to
-  cim_field: to
-  asim_field: to
+  ecs_field: observer.egress.zone
+  cim_field: dest_zone
+  asim_field: DstZone
   category: Email Security
+  display_name: Recipient
 - field_name: mitre_initial_access
   field_type: string
   description: MITRE ATT&CK Initial Access tactics
@@ -476,6 +535,7 @@ fields:
   cim_field: mitre_initial_access
   asim_field: mitre_initial_access
   category: Threat Emulation
+  display_name: MITRE Initial Access
 - field_name: mitre_execution
   field_type: string
   description: MITRE ATT&CK Execution tactics
@@ -483,6 +543,7 @@ fields:
   cim_field: mitre_execution
   asim_field: mitre_execution
   category: Threat Emulation
+  display_name: MITRE Execution
 - field_name: mitre_persistence
   field_type: string
   description: MITRE ATT&CK Persistence tactics
@@ -490,6 +551,7 @@ fields:
   cim_field: mitre_persistence
   asim_field: mitre_persistence
   category: Threat Emulation
+  display_name: MITRE Persistence
 - field_name: mitre_privilege_escalation
   field_type: string
   description: MITRE ATT&CK Privilege Escalation tactics
@@ -497,6 +559,7 @@ fields:
   cim_field: mitre_privilege_escalation
   asim_field: mitre_privilege_escalation
   category: Threat Emulation
+  display_name: MITRE Privilege Escalation
 - field_name: mitre_defense_evasion
   field_type: string
   description: MITRE ATT&CK Defense Evasion tactics
@@ -504,6 +567,7 @@ fields:
   cim_field: mitre_defense_evasion
   asim_field: mitre_defense_evasion
   category: Threat Emulation
+  display_name: MITRE Defense Evasion
 - field_name: mitre_credential_access
   field_type: string
   description: MITRE ATT&CK Credential Access tactics
@@ -511,6 +575,7 @@ fields:
   cim_field: mitre_credential_access
   asim_field: mitre_credential_access
   category: Threat Emulation
+  display_name: MITRE Credential Access
 - field_name: mitre_lateral_movement
   field_type: string
   description: MITRE ATT&CK Lateral Movement tactics
@@ -518,6 +583,7 @@ fields:
   cim_field: mitre_lateral_movement
   asim_field: mitre_lateral_movement
   category: Threat Emulation
+  display_name: MITRE Lateral Movement
 - field_name: mitre_command_and_control
   field_type: string
   description: MITRE ATT&CK Command and Control tactics
@@ -525,6 +591,7 @@ fields:
   cim_field: mitre_command_and_control
   asim_field: mitre_command_and_control
   category: Threat Emulation
+  display_name: MITRE C2
 - field_name: mitre_exfiltration
   field_type: string
   description: MITRE ATT&CK Exfiltration tactics
@@ -532,6 +599,7 @@ fields:
   cim_field: mitre_exfiltration
   asim_field: mitre_exfiltration
   category: Threat Emulation
+  display_name: MITRE Exfiltration
 - field_name: calc_desc
   field_type: string
   description: Log description
@@ -539,13 +607,15 @@ fields:
   cim_field: calc_desc
   asim_field: calc_desc
   category: Common
+  display_name: Description
 - field_name: dst_country
   field_type: string
   description: Destination country
-  ecs_field: vendor.dst_country
-  cim_field: dst_country
-  asim_field: dst_country
+  ecs_field: destination.geo.country_name
+  cim_field: dest_country
+  asim_field: DstGeoCountry
   category: Common
+  display_name: Destination Country
 - field_name: email_id
   field_type: string
   description: Email number in SMTP connection
@@ -553,6 +623,7 @@ fields:
   cim_field: email_id
   asim_field: email_id
   category: Common
+  display_name: Email ID
 - field_name: email_session_id
   field_type: string
   description: Connection UUID
@@ -560,6 +631,7 @@ fields:
   cim_field: email_session_id
   asim_field: email_session_id
   category: Common
+  display_name: Email Session ID
 - field_name: event_count
   field_type: integer
   description: Number of events associated with the log
@@ -567,6 +639,7 @@ fields:
   cim_field: event_count
   asim_field: event_count
   category: Common
+  display_name: Event Count
 - field_name: failure_impact
   field_type: string
   description: The impact of update service failure
@@ -574,6 +647,7 @@ fields:
   cim_field: failure_impact
   asim_field: failure_impact
   category: Common
+  display_name: Failure Impact
 - field_name: file_id
   field_type: integer
   description: Unique file identifier
@@ -581,13 +655,15 @@ fields:
   cim_field: file_id
   asim_field: file_id
   category: Common
+  display_name: File Id
 - field_name: id
   field_type: integer
   description: Override application ID
-  ecs_field: vendor.id
-  cim_field: id
-  asim_field: id
+  ecs_field: network.packet_id
+  cim_field: packet_id
+  asim_field: NetworkPacketId
   category: Common
+  display_name: Id
 - field_name: information
   field_type: string
   description: Status of policy installation for a specific Software Blade (used only
@@ -596,6 +672,7 @@ fields:
   cim_field: information
   asim_field: information
   category: Common
+  display_name: Information
 - field_name: interfacedir
   field_type: string
   description: Connection direction
@@ -603,6 +680,7 @@ fields:
   cim_field: interfacedir
   asim_field: interfacedir
   category: Common
+  display_name: Direction
 - field_name: layer_name
   field_type: string
   description: Layer name (match table, Threat Prevention match table)
@@ -610,6 +688,7 @@ fields:
   cim_field: layer_name
   asim_field: layer_name
   category: Common
+  display_name: Layer Name
 - field_name: layer_uuid
   field_type: string
   description: Layer UUID (match table, Threat Prevention match table)
@@ -617,13 +696,15 @@ fields:
   cim_field: layer_uuid
   asim_field: layer_uuid
   category: Common
+  display_name: Layer Uuid
 - field_name: log_id
   field_type: integer
   description: 'Unique identity for logs includes: Type, Family,'
-  ecs_field: vendor.log_id
+  ecs_field: event.id
   cim_field: log_id
-  asim_field: log_id
+  asim_field: EventOriginalUid
   category: Common
+  display_name: Log ID
 - field_name: malware_rule_id
   field_type: string
   description: Threat Prevention rule ID (Threat Prevention match table)
@@ -631,6 +712,7 @@ fields:
   cim_field: malware_rule_id
   asim_field: malware_rule_id
   category: Common
+  display_name: Threat Prevention Rule ID
 - field_name: malware_rule_name
   field_type: string
   description: Threat Prevention rule name (Threat Prevention match table)
@@ -638,6 +720,7 @@ fields:
   cim_field: malware_rule_name
   asim_field: malware_rule_name
   category: Common
+  display_name: Threat Prevention Rule Name
 - field_name: matched_category
   field_type: string
   description: Name of the matched category (match table)
@@ -645,6 +728,7 @@ fields:
   cim_field: matched_category
   asim_field: matched_category
   category: Common
+  display_name: Matched Category
 - field_name: origin_sic_name
   field_type: string
   description: SIC name of the Security Gateway
@@ -652,13 +736,15 @@ fields:
   cim_field: origin_sic_name
   asim_field: origin_sic_name
   category: Common
+  display_name: Origin Sic Name
 - field_name: policy
   field_type: string
   description: Name of the Threat Policy that this Security Gateway fetched
-  ecs_field: vendor.policy
+  ecs_field: rule.ruleset
   cim_field: policy
-  asim_field: policy
+  asim_field: RulesetName
   category: Common
+  display_name: Threat Prevention Policy
 - field_name: policy_mgmt
   field_type: string
   description: Name of the Management Server that manages this Security Gateway
@@ -666,6 +752,7 @@ fields:
   cim_field: policy_mgmt
   asim_field: policy_mgmt
   category: Common
+  display_name: Policy Management
 - field_name: product_family
   field_type: integer
   description: The product family the blade/product belongs to
@@ -673,20 +760,23 @@ fields:
   cim_field: product_family
   asim_field: product_family
   category: Common
+  display_name: Product Family
 - field_name: protection_type
   field_type: string
   description: Type of protection used to detect the attack
-  ecs_field: vendor.protection_type
-  cim_field: protection_type
-  asim_field: protection_type
+  ecs_field: rule.category
+  cim_field: signature_type
+  asim_field: RuleType
   category: Common
+  display_name: Protection Type
 - field_name: protocol
   field_type: string
   description: Protocol detected on the connection
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Common
+  display_name: Protocol
 - field_name: proxy_src_ip
   field_type: ip
   description: Sender source IP (even when using proxy)
@@ -694,13 +784,15 @@ fields:
   cim_field: proxy_src_ip
   asim_field: proxy_src_ip
   category: Common
+  display_name: Proxied Source IP
 - field_name: reason
   field_type: string
   description: Information on the error occurred
-  ecs_field: vendor.reason
+  ecs_field: event.reason
   cim_field: reason
-  asim_field: reason
+  asim_field: EventResultDetails
   category: Common
+  display_name: Reason
 - field_name: rule_action
   field_type: string
   description: Action of the matched rule in the Access Control policy
@@ -708,6 +800,7 @@ fields:
   cim_field: rule_action
   asim_field: rule_action
   category: Common
+  display_name: Action
 - field_name: scan_direction
   field_type: string
   description: Scan direction
@@ -715,13 +808,15 @@ fields:
   cim_field: scan_direction
   asim_field: scan_direction
   category: Common
+  display_name: File-Direction
 - field_name: session_id
   field_type: string
   description: Log UID
-  ecs_field: vendor.session_id
+  ecs_field: event.id
   cim_field: session_id
-  asim_field: session_id
+  asim_field: EventOriginalUid
   category: Common
+  display_name: Session Identification
 - field_name: sequencenum
   field_type: integer
   description: Number added to order logs with the same Linux timestamp and origin
@@ -730,6 +825,7 @@ fields:
   cim_field: sequencenum
   asim_field: sequencenum
   category: Common
+  display_name: Sequencenum
 - field_name: service_id
   field_type: string
   description: Service found for the connection (by the destination port)
@@ -737,6 +833,7 @@ fields:
   cim_field: service_id
   asim_field: service_id
   category: Common
+  display_name: Service ID
 - field_name: source_os
   field_type: string
   description: OS of the computer that generated the attack
@@ -744,20 +841,23 @@ fields:
   cim_field: source_os
   asim_field: source_os
   category: Common
+  display_name: Source OS
 - field_name: src_country
   field_type: string
   description: Country name, derived from connection source IP address
-  ecs_field: vendor.src_country
+  ecs_field: source.geo.country_name
   cim_field: src_country
-  asim_field: src_country
+  asim_field: SrcGeoCountry
   category: Common
+  display_name: Source Country
 - field_name: src_port
   field_type: integer
   description: Source host port number
-  ecs_field: vendor.src_port
+  ecs_field: source.port
   cim_field: src_port
-  asim_field: src_port
+  asim_field: SrcPortNumber
   category: Common
+  display_name: Src Port
 - field_name: ticket_id
   field_type: string
   description: Unique ID per file
@@ -765,6 +865,7 @@ fields:
   cim_field: ticket_id
   asim_field: ticket_id
   category: Common
+  display_name: Ticket ID
 - field_name: tls_server_host_name
   field_type: string
   description: SNI/CN from the encrypted TLS connection used by URL Filtering for
@@ -773,13 +874,15 @@ fields:
   cim_field: tls_server_host_name
   asim_field: tls_server_host_name
   category: Common
+  display_name: TLS Server Host Name
 - field_name: type
   field_type: string
   description: Log type
-  ecs_field: vendor.type
-  cim_field: type
-  asim_field: type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Common
+  display_name: Type
 - field_name: vendor_list
   field_type: string
   description: The vendor name that provided the verdict for a malicious URL
@@ -787,6 +890,7 @@ fields:
   cim_field: vendor_list
   asim_field: vendor_list
   category: Common
+  display_name: Vendor List
 - field_name: xff_injected_header
   field_type: ip
   description: original client IP address
@@ -794,6 +898,7 @@ fields:
   cim_field: xff_injected_header
   asim_field: xff_injected_header
   category: Common
+  display_name: XFF Injected Header
 - field_name: web_client_type
   field_type: string
   description: 'Web client detected in the HTTP request (e.g: Chrome)'
@@ -801,6 +906,7 @@ fields:
   cim_field: web_client_type
   asim_field: web_client_type
   category: Common
+  display_name: Client Type
 - field_name: web_server_type
   field_type: string
   description: Web server detected in the HTTP response
@@ -808,6 +914,7 @@ fields:
   cim_field: web_server_type
   asim_field: web_server_type
   category: Common
+  display_name: Server Type
 - field_name: conn_direction
   field_type: string
   description: Direction of the connection
@@ -815,6 +922,7 @@ fields:
   cim_field: conn_direction
   asim_field: conn_direction
   category: Common
+  display_name: Connection Direction
 - field_name: host_type
   field_type: string
   description: Host type
@@ -822,6 +930,7 @@ fields:
   cim_field: host_type
   asim_field: host_type
   category: Common
+  display_name: Host Type
 - field_name: sub_policy_name
   field_type: string
   description: Layer name
@@ -829,6 +938,7 @@ fields:
   cim_field: sub_policy_name
   asim_field: sub_policy_name
   category: Firewall
+  display_name: Sub Policy Name
 - field_name: sub_policy_uid
   field_type: string
   description: Layer UID
@@ -836,6 +946,7 @@ fields:
   cim_field: sub_policy_uid
   asim_field: sub_policy_uid
   category: Firewall
+  display_name: Sub Policy Uid
 - field_name: fw_message
   field_type: string
   description: Used for various firewall errors
@@ -843,13 +954,15 @@ fields:
   cim_field: fw_message
   asim_field: fw_message
   category: Firewall
+  display_name: Firewall Message
 - field_name: message
   field_type: string
   description: ISP link has failed
-  ecs_field: vendor.message
-  cim_field: message
-  asim_field: message
+  ecs_field: message
+  cim_field: msg
+  asim_field: EventMessage
   category: Firewall
+  display_name: Message
 - field_name: isp_link
   field_type: string
   description: Name of ISP link
@@ -857,6 +970,7 @@ fields:
   cim_field: isp_link
   asim_field: isp_link
   category: Firewall
+  display_name: ISP link
 - field_name: fw_subproduct
   field_type: string
   description: Can be VPN or non-VPN
@@ -864,6 +978,7 @@ fields:
   cim_field: fw_subproduct
   asim_field: fw_subproduct
   category: Firewall
+  display_name: Subproduct
 - field_name: sctp_error
   field_type: string
   description: Error information, what caused SCTP to fail due to "out_of_state"
@@ -871,6 +986,7 @@ fields:
   cim_field: sctp_error
   asim_field: sctp_error
   category: Firewall
+  display_name: Sctp Error
 - field_name: chunk_type
   field_type: string
   description: Chunk of the SCTP stream
@@ -878,6 +994,7 @@ fields:
   cim_field: chunk_type
   asim_field: chunk_type
   category: Firewall
+  display_name: Chunk Type
 - field_name: sctp_association_state
   field_type: string
   description: The bad state you were trying to update to
@@ -885,6 +1002,7 @@ fields:
   cim_field: sctp_association_state
   asim_field: sctp_association_state
   category: Firewall
+  display_name: Sctp Association State
 - field_name: tcp_packet_out_of_state
   field_type: string
   description: State violation
@@ -892,13 +1010,15 @@ fields:
   cim_field: tcp_packet_out_of_state
   asim_field: tcp_packet_out_of_state
   category: Firewall
+  display_name: TCP packet out of state
 - field_name: tcp_flags
   field_type: string
   description: TCP packet flags (SYN, ACK, etc.,)
-  ecs_field: vendor.tcp_flags
+  ecs_field: network.tcp_flags
   cim_field: tcp_flags
-  asim_field: tcp_flags
+  asim_field: TcpFlags
   category: Firewall
+  display_name: TCP Flags
 - field_name: connectivity_level
   field_type: string
   description: Log for a new connection in wire mode
@@ -906,6 +1026,7 @@ fields:
   cim_field: connectivity_level
   asim_field: connectivity_level
   category: Firewall
+  display_name: Connectivity Level
 - field_name: ip_option
   field_type: integer
   description: IP option that was dropped
@@ -913,6 +1034,7 @@ fields:
   cim_field: ip_option
   asim_field: ip_option
   category: Firewall
+  display_name: IP Option
 - field_name: tcp_state
   field_type: string
   description: Log with a TCP state change
@@ -920,6 +1042,7 @@ fields:
   cim_field: tcp_state
   asim_field: tcp_state
   category: Firewall
+  display_name: Tcp State
 - field_name: expire_time
   field_type: datetime
   description: Connection closing time
@@ -927,13 +1050,15 @@ fields:
   cim_field: expire_time
   asim_field: expire_time
   category: Firewall
+  display_name: Expire Time
 - field_name: icmp_type
   field_type: integer
   description: In case a connection is ICMP, type info will be added to the log
-  ecs_field: vendor.icmp_type
+  ecs_field: network.icmp.type
   cim_field: icmp_type
-  asim_field: icmp_type
+  asim_field: IcmpType
   category: Firewall
+  display_name: ICMP Type
 - field_name: icmp_code
   field_type: integer
   description: In case a connection is ICMP, ICMP code info will be added to the log
@@ -941,6 +1066,7 @@ fields:
   cim_field: icmp_code
   asim_field: icmp_code
   category: Firewall
+  display_name: ICMP Code
 - field_name: rpc_prog
   field_type: integer
   description: Log for new RPC state - prog values
@@ -948,20 +1074,23 @@ fields:
   cim_field: rpc_prog
   asim_field: rpc_prog
   category: Firewall
+  display_name: RPC Program
 - field_name: start_time
   field_type: datetime
   description: Session start time
-  ecs_field: vendor.start_time
+  ecs_field: event.start
   cim_field: start_time
-  asim_field: start_time
+  asim_field: EventStartTime
   category: Firewall
+  display_name: Start Time
 - field_name: elapsed
   field_type: datetime
   description: Time passed since start time
-  ecs_field: vendor.elapsed
-  cim_field: elapsed
-  asim_field: elapsed
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: Firewall
+  display_name: Elapsed
 - field_name: packets_per_second
   field_type: integer
   description: Number of packets per second in the connection
@@ -969,34 +1098,39 @@ fields:
   cim_field: packets_per_second
   asim_field: packets_per_second
   category: Firewall
+  display_name: Packets Per Second
 - field_name: client_inbound_packets
   field_type: integer
   description: Number of packets, received by the client
-  ecs_field: vendor.client_inbound_packets
-  cim_field: client_inbound_packets
-  asim_field: client_inbound_packets
+  ecs_field: source.packets
+  cim_field: packets_in
+  asim_field: SrcPackets
   category: Firewall
+  display_name: Client Inbound Packets
 - field_name: client_outbound_packets
   field_type: integer
   description: Number of packets, sent from the client
-  ecs_field: vendor.client_outbound_packets
-  cim_field: client_outbound_packets
-  asim_field: client_outbound_packets
+  ecs_field: destination.packets
+  cim_field: packets_out
+  asim_field: DstPackets
   category: Firewall
+  display_name: Client Outbound Packets
 - field_name: server_inbound_packets
   field_type: integer
   description: Number of packets, received by the server
-  ecs_field: vendor.server_inbound_packets
-  cim_field: server_inbound_packets
-  asim_field: server_inbound_packets
+  ecs_field: destination.packets
+  cim_field: server_packets_in
+  asim_field: DstPackets
   category: Firewall
+  display_name: Server Inbound Packets
 - field_name: server_outbound_packets
   field_type: integer
   description: Number of packets, sent from the server
-  ecs_field: vendor.server_outbound_packets
-  cim_field: server_outbound_packets
-  asim_field: server_outbound_packets
+  ecs_field: source.packets
+  cim_field: server_packets_out
+  asim_field: SrcPackets
   category: Firewall
+  display_name: Server Outbound Packets
 - field_name: client_inbound_bytes
   field_type: integer
   description: Number of bytes received by the client
@@ -1004,6 +1138,7 @@ fields:
   cim_field: client_inbound_bytes
   asim_field: client_inbound_bytes
   category: Firewall
+  display_name: Client Inbound Bytes
 - field_name: client_outbound_bytes
   field_type: integer
   description: Number of bytes sent from the client
@@ -1011,6 +1146,7 @@ fields:
   cim_field: client_outbound_bytes
   asim_field: client_outbound_bytes
   category: Firewall
+  display_name: Client Outbound Bytes
 - field_name: server_inbound_bytes
   field_type: integer
   description: Number of packets received by the server
@@ -1018,6 +1154,7 @@ fields:
   cim_field: server_inbound_bytes
   asim_field: server_inbound_bytes
   category: Firewall
+  display_name: Server Inbound Bytes
 - field_name: server_outbound_bytes
   field_type: integer
   description: Number of packets sent from the server
@@ -1025,6 +1162,7 @@ fields:
   cim_field: server_outbound_bytes
   asim_field: server_outbound_bytes
   category: Firewall
+  display_name: Server Outbound Bytes
 - field_name: client_inbound_interface
   field_type: string
   description: Gateway interface, where the connection is received from in case of
@@ -1033,6 +1171,7 @@ fields:
   cim_field: client_inbound_interface
   asim_field: client_inbound_interface
   category: Firewall
+  display_name: Client Inbound Interface
 - field_name: client_outbound_interface
   field_type: string
   description: Gateway interface, where the connection is sent from, in case of an
@@ -1041,6 +1180,7 @@ fields:
   cim_field: client_outbound_interface
   asim_field: client_outbound_interface
   category: Firewall
+  display_name: Client Outbound Interface
 - field_name: server_inbound_interface
   field_type: string
   description: Gateway interface, where the connection is received from, in case of
@@ -1049,6 +1189,7 @@ fields:
   cim_field: server_inbound_interface
   asim_field: server_inbound_interface
   category: Firewall
+  display_name: Server Inbound Interface
 - field_name: server_outbound_interface
   field_type: string
   description: Gateway interface, where the connection is sent from, in case of an
@@ -1057,6 +1198,7 @@ fields:
   cim_field: server_outbound_interface
   asim_field: server_outbound_interface
   category: Firewall
+  display_name: Server Outbound Interface
 - field_name: icmp
   field_type: string
   description: ICMP message, will be added to the connection log
@@ -1064,6 +1206,7 @@ fields:
   cim_field: icmp
   asim_field: icmp
   category: Firewall
+  display_name: ICMP
 - field_name: capture_uuid
   field_type: string
   description: UUID generated for the capture. Used when enabling the capture when
@@ -1072,6 +1215,7 @@ fields:
   cim_field: capture_uuid
   asim_field: capture_uuid
   category: Firewall
+  display_name: Captured UUID
 - field_name: packet_length
   field_type: string
   description: Length of the packet
@@ -1079,6 +1223,7 @@ fields:
   cim_field: packet_length
   asim_field: packet_length
   category: Firewall
+  display_name: Packet Length
 - field_name: expected_length
   field_type: string
   description: Expected length of the packet
@@ -1086,6 +1231,7 @@ fields:
   cim_field: expected_length
   asim_field: expected_length
   category: Firewall
+  display_name: Expected Length
 - field_name: diameter_app_name
   field_type: string
   description: The name defined/pre-configured for the diameter application
@@ -1093,6 +1239,7 @@ fields:
   cim_field: diameter_app_name
   asim_field: diameter_app_name
   category: Firewall
+  display_name: Diameter App Name
 - field_name: diameter_cmd_code
   field_type: integer
   description: Diameter not allowed application command id
@@ -1100,6 +1247,7 @@ fields:
   cim_field: diameter_cmd_code
   asim_field: diameter_cmd_code
   category: Firewall
+  display_name: Diameter Cmd Code
 - field_name: diameter_msg_type
   field_type: string
   description: Diameter message type
@@ -1107,6 +1255,7 @@ fields:
   cim_field: diameter_msg_type
   asim_field: diameter_msg_type
   category: Firewall
+  display_name: Diameter Msg Type
 - field_name: info
   field_type: string
   description: Rule information on the blocked diameter CMD
@@ -1114,6 +1263,7 @@ fields:
   cim_field: info
   asim_field: info
   category: Firewall
+  display_name: Information
 - field_name: cp_message
   field_type: string
   description: Used to log a general message
@@ -1121,6 +1271,7 @@ fields:
   cim_field: cp_message
   asim_field: cp_message
   category: Firewall
+  display_name: Cp Message
 - field_name: log_delay
   field_type: integer
   description: Check Point Firewall field
@@ -1128,6 +1279,7 @@ fields:
   cim_field: log_delay
   asim_field: log_delay
   category: Firewall
+  display_name: Log Delay
 - field_name: connection_count
   field_type: integer
   description: Number of connections
@@ -1135,6 +1287,7 @@ fields:
   cim_field: connection_count
   asim_field: connection_count
   category: Firewall
+  display_name: Connections
 - field_name: active_conn_elapsed
   field_type: integer
   description: Total time of the connection
@@ -1142,6 +1295,7 @@ fields:
   cim_field: active_conn_elapsed
   asim_field: active_conn_elapsed
   category: Firewall
+  display_name: Active Connection Elapsed
 - field_name: during_sec
   field_type: integer
   description: Duration of the connection (seconds)
@@ -1149,6 +1303,7 @@ fields:
   cim_field: during_sec
   asim_field: during_sec
   category: Firewall
+  display_name: Duration in Seconds
 - field_name: fragments_dropped
   field_type: integer
   description: Number of dropped fragments in the connection
@@ -1156,6 +1311,7 @@ fields:
   cim_field: fragments_dropped
   asim_field: fragments_dropped
   category: Firewall
+  display_name: Duration in Seconds
 - field_name: ip_offset
   field_type: integer
   description: Offset of the fragment in the connection
@@ -1163,6 +1319,7 @@ fields:
   cim_field: ip_offset
   asim_field: ip_offset
   category: Firewall
+  display_name: IP Offset
 - field_name: email_spam_category
   field_type: string
   description: Email categories
@@ -1170,6 +1327,7 @@ fields:
   cim_field: email_spam_category
   asim_field: email_spam_category
   category: Anti-Spam
+  display_name: Email Spam Category
 - field_name: email_control
   field_type: string
   description: Engine name
@@ -1177,6 +1335,7 @@ fields:
   cim_field: email_control
   asim_field: email_control
   category: Anti-Spam
+  display_name: Email Control
 - field_name: email_control_analysis
   field_type: string
   description: Message classification, received from spam vendor engine
@@ -1184,6 +1343,7 @@ fields:
   cim_field: email_control_analysis
   asim_field: email_control_analysis
   category: Anti-Spam
+  display_name: Email Control Analysis
 - field_name: email_recipients_num
   field_type: integer
   description: Number of recipients
@@ -1191,6 +1351,7 @@ fields:
   cim_field: email_recipients_num
   asim_field: email_recipients_num
   category: Anti-Spam
+  display_name: Email Recipients Number
 - field_name: scan_result
   field_type: string
   description: '"Infected", or description of a failure'
@@ -1198,6 +1359,7 @@ fields:
   cim_field: scan_result
   asim_field: scan_result
   category: Anti-Virus
+  display_name: Scan Result
 - field_name: triggered_by
   field_type: string
   description: Engine or Software Blade that triggered the log
@@ -1205,6 +1367,7 @@ fields:
   cim_field: triggered_by
   asim_field: triggered_by
   category: Anti-Virus
+  display_name: Triggered By
 - field_name: original_queue_id
   field_type: string
   description: Original Postfix email queue ID
@@ -1212,6 +1375,7 @@ fields:
   cim_field: original_queue_id
   asim_field: original_queue_id
   category: Anti-Virus
+  display_name: Original Queue ID
 - field_name: risk
   field_type: string
   description: Risk level received from the engine
@@ -1219,6 +1383,7 @@ fields:
   cim_field: risk
   asim_field: risk
   category: Anti-Virus
+  display_name: Risk
 - field_name: observable_name
   field_type: string
   description: IoC observable signature name
@@ -1226,6 +1391,7 @@ fields:
   cim_field: observable_name
   asim_field: observable_name
   category: Anti-Virus
+  display_name: Observable Name
 - field_name: observable_id
   field_type: string
   description: IoC observable signature ID
@@ -1233,6 +1399,7 @@ fields:
   cim_field: observable_id
   asim_field: observable_id
   category: Anti-Virus
+  display_name: Observable Id
 - field_name: observable_comment
   field_type: string
   description: IoC observable signature description
@@ -1240,6 +1407,7 @@ fields:
   cim_field: observable_comment
   asim_field: observable_comment
   category: Anti-Virus
+  display_name: Observable Comment
 - field_name: indicator_name
   field_type: string
   description: IoC indicator name
@@ -1247,6 +1415,7 @@ fields:
   cim_field: indicator_name
   asim_field: indicator_name
   category: Anti-Virus
+  display_name: Indicator Name
 - field_name: indicator_description
   field_type: string
   description: IoC indicator description
@@ -1254,6 +1423,7 @@ fields:
   cim_field: indicator_description
   asim_field: indicator_description
   category: Anti-Virus
+  display_name: Indicator Description
 - field_name: indicator_reference
   field_type: string
   description: IoC indicator reference
@@ -1261,6 +1431,7 @@ fields:
   cim_field: indicator_reference
   asim_field: indicator_reference
   category: Anti-Virus
+  display_name: Indicator Reference
 - field_name: indicator_uuid
   field_type: string
   description: IoC indicator UUID
@@ -1268,6 +1439,7 @@ fields:
   cim_field: indicator_uuid
   asim_field: indicator_uuid
   category: Anti-Virus
+  display_name: Indicator Uuid
 - field_name: app_desc
   field_type: string
   description: Application description (match table)
@@ -1275,13 +1447,15 @@ fields:
   cim_field: app_desc
   asim_field: app_desc
   category: Application Control & URL Filtering
+  display_name: Application Description
 - field_name: app_id
   field_type: integer
   description: Application ID (match table)
-  ecs_field: vendor.app_id
+  ecs_field: network.application
   cim_field: app_id
-  asim_field: app_id
+  asim_field: DstAppId
   category: Application Control & URL Filtering
+  display_name: Application ID
 - field_name: app_properties
   field_type: string
   description: Application categories (match table)
@@ -1289,6 +1463,7 @@ fields:
   cim_field: app_properties
   asim_field: app_properties
   category: Application Control & URL Filtering
+  display_name: Additional Categories
 - field_name: app_rule_id
   field_type: string
   description: Rule number
@@ -1296,6 +1471,7 @@ fields:
   cim_field: app_rule_id
   asim_field: app_rule_id
   category: Application Control & URL Filtering
+  display_name: Application Rule ID
 - field_name: app_rule_name
   field_type: string
   description: Rule name
@@ -1303,6 +1479,7 @@ fields:
   cim_field: app_rule_name
   asim_field: app_rule_name
   category: Application Control & URL Filtering
+  display_name: Application Rule Name
 - field_name: app_sig_id
   field_type: string
   description: The signature ID, by which the application was detected (match table)
@@ -1310,6 +1487,7 @@ fields:
   cim_field: app_sig_id
   asim_field: app_sig_id
   category: Application Control & URL Filtering
+  display_name: Application Signature ID
 - field_name: categories
   field_type: string
   description: Matched categories
@@ -1317,6 +1495,7 @@ fields:
   cim_field: categories
   asim_field: categories
   category: Application Control & URL Filtering
+  display_name: Categories
 - field_name: certificate_resource
   field_type: string
   description: 'HTTPS resource Possible values:'
@@ -1324,6 +1503,7 @@ fields:
   cim_field: certificate_resource
   asim_field: certificate_resource
   category: Application Control & URL Filtering
+  display_name: Resource
 - field_name: certificate_validation
   field_type: string
   description: Precise error, describing HTTPS certificate failure under "HTTPS categorize
@@ -1332,13 +1512,15 @@ fields:
   cim_field: certificate_validation
   asim_field: certificate_validation
   category: Application Control & URL Filtering
+  display_name: Certificate Validation
 - field_name: description
   field_type: string
   description: Additional explanation about the certificate validation failure
-  ecs_field: vendor.description
-  cim_field: description
-  asim_field: description
+  ecs_field: message
+  cim_field: event_description
+  asim_field: EventMessage
   category: Application Control & URL Filtering
+  display_name: Description
 - field_name: usercheck_incident_uid
   field_type: string
   description: UserCheck incident ID
@@ -1346,6 +1528,7 @@ fields:
   cim_field: usercheck_incident_uid
   asim_field: usercheck_incident_uid
   category: Application Control & URL Filtering
+  display_name: UserCheck ID
 - field_name: usercheck_reference
   field_type: string
   description: UserCheck reference
@@ -1353,6 +1536,7 @@ fields:
   cim_field: usercheck_reference
   asim_field: usercheck_reference
   category: Application Control & URL Filtering
+  display_name: UserCheck Reference
 - field_name: browse_time
   field_type: datetime
   description: Application session browse time
@@ -1360,6 +1544,7 @@ fields:
   cim_field: browse_time
   asim_field: browse_time
   category: Application Control & URL Filtering
+  display_name: Browse Time
 - field_name: limit_requested
   field_type: integer
   description: Indicates whether data limit was requested for the session
@@ -1367,6 +1552,7 @@ fields:
   cim_field: limit_requested
   asim_field: limit_requested
   category: Application Control & URL Filtering
+  display_name: Limit Requested
 - field_name: limit_applied
   field_type: integer
   description: Indicates whether the session was actually date-limited
@@ -1374,6 +1560,7 @@ fields:
   cim_field: limit_applied
   asim_field: limit_applied
   category: Application Control & URL Filtering
+  display_name: Limit Applied
 - field_name: dropped_outgoing
   field_type: integer
   description: Number of outgoing dropped packets
@@ -1381,6 +1568,7 @@ fields:
   cim_field: dropped_outgoing
   asim_field: dropped_outgoing
   category: Application Control & URL Filtering
+  display_name: Dropped Outgoing
 - field_name: dropped_incoming
   field_type: integer
   description: Number of incoming dropped packets
@@ -1388,6 +1576,7 @@ fields:
   cim_field: dropped_incoming
   asim_field: dropped_incoming
   category: Application Control & URL Filtering
+  display_name: Dropped Incoming
 - field_name: dropped_total
   field_type: integer
   description: Number of dropped packets (both incoming and outgoing)
@@ -1395,6 +1584,7 @@ fields:
   cim_field: dropped_total
   asim_field: dropped_total
   category: Application Control & URL Filtering
+  display_name: Dropped Total
 - field_name: suppressed_logs
   field_type: integer
   description: Number of connections/HTTP sessions that were aggregated in this application
@@ -1403,6 +1593,7 @@ fields:
   cim_field: suppressed_logs
   asim_field: suppressed_logs
   category: Application Control & URL Filtering
+  display_name: Suppressed Logs
 - field_name: match_id
   field_type: integer
   description: Mapping of matched rule to its matched application (match table)
@@ -1410,6 +1601,7 @@ fields:
   cim_field: match_id
   asim_field: match_id
   category: Application Control & URL Filtering
+  display_name: Match Id
 - field_name: client_type_os
   field_type: string
   description: Client OS detected in the HTTP request
@@ -1417,13 +1609,15 @@ fields:
   cim_field: client_type_os
   asim_field: client_type_os
   category: Application Control & URL Filtering
+  display_name: Client Type Os
 - field_name: referrer
   field_type: string
   description: The referrer header, if exists
-  ecs_field: vendor.referrer
-  cim_field: referrer
-  asim_field: referrer
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
   category: Application Control & URL Filtering
+  display_name: Referrer
 - field_name: name
   field_type: string
   description: Application name
@@ -1431,6 +1625,7 @@ fields:
   cim_field: name
   asim_field: name
   category: Application Control & URL Filtering
+  display_name: Name
 - field_name: properties
   field_type: string
   description: Application categories (match table)
@@ -1438,20 +1633,23 @@ fields:
   cim_field: properties
   asim_field: properties
   category: Application Control & URL Filtering
+  display_name: Properties
 - field_name: sig_id
   field_type: string
   description: Application's signature ID, by which it was detected
-  ecs_field: vendor.sig_id
-  cim_field: sig_id
-  asim_field: sig_id
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: Application Control & URL Filtering
+  display_name: Sig Id
 - field_name: desc
   field_type: string
   description: Override application description
-  ecs_field: vendor.desc
-  cim_field: desc
-  asim_field: desc
+  ecs_field: message
+  cim_field: description
+  asim_field: EventMessage
   category: Application Control & URL Filtering
+  display_name: Desc
 - field_name: referrer_self_uid
   field_type: string
   description: UUID of the current log
@@ -1459,6 +1657,7 @@ fields:
   cim_field: referrer_self_uid
   asim_field: referrer_self_uid
   category: Application Control & URL Filtering
+  display_name: Referrer Self Uid
 - field_name: referrer_parent_uid
   field_type: string
   description: Log UUID of the referring application
@@ -1466,6 +1665,7 @@ fields:
   cim_field: referrer_parent_uid
   asim_field: referrer_parent_uid
   category: Application Control & URL Filtering
+  display_name: Referrer Parent Uid
 - field_name: needs_browse_time
   field_type: integer
   description: Browse time required for the connection
@@ -1473,6 +1673,7 @@ fields:
   cim_field: needs_browse_time
   asim_field: needs_browse_time
   category: Application Control & URL Filtering
+  display_name: Needs Browse Time
 - field_name: security_inzone
   field_type: string
   description: Source security zone
@@ -1480,6 +1681,7 @@ fields:
   cim_field: security_inzone
   asim_field: security_inzone
   category: Application Control & URL Filtering
+  display_name: Security Inzone
 - field_name: security_outzone
   field_type: string
   description: Destination security zone
@@ -1487,6 +1689,7 @@ fields:
   cim_field: security_outzone
   asim_field: security_outzone
   category: Application Control & URL Filtering
+  display_name: Security Outzone
 - field_name: app_byte_ps_in
   field_type: integer
   description: Incoming traffic of an application (Bytes per Second)
@@ -1494,6 +1697,7 @@ fields:
   cim_field: app_byte_ps_in
   asim_field: app_byte_ps_in
   category: Application Control & URL Filtering
+  display_name: Application Byte/Sec In
 - field_name: app_byte_ps_out
   field_type: integer
   description: Outgoing traffic of an application (Bytes per Second)
@@ -1501,6 +1705,7 @@ fields:
   cim_field: app_byte_ps_out
   asim_field: app_byte_ps_out
   category: Application Control & URL Filtering
+  display_name: Application Byte/Sec Out/td>
 - field_name: app_pack_ps_in
   field_type: integer
   description: Incoming traffic of an application (Packets per Second)
@@ -1508,6 +1713,7 @@ fields:
   cim_field: app_pack_ps_in
   asim_field: app_pack_ps_in
   category: Application Control & URL Filtering
+  display_name: Application Packet/Sec In
 - field_name: app_pack_ps_out
   field_type: integer
   description: Outgoing traffic of an application (Packets per Second)
@@ -1515,6 +1721,7 @@ fields:
   cim_field: app_pack_ps_out
   asim_field: app_pack_ps_out
   category: Application Control & URL Filtering
+  display_name: Application Packet/Sec Out/td>
 - field_name: matched_application
   field_type: string
   description: Name of the matched application
@@ -1522,6 +1729,7 @@ fields:
   cim_field: matched_application
   asim_field: matched_application
   category: Application Control & URL Filtering
+  display_name: Matched Application
 - field_name: cluster_info
   field_type: string
   description: Cluster information
@@ -1529,6 +1737,7 @@ fields:
   cim_field: cluster_info
   asim_field: cluster_info
   category: Cluster
+  display_name: Cluster information
 - field_name: sync
   field_type: string
   description: Sync status and the reason (stable, at risk)
@@ -1536,6 +1745,7 @@ fields:
   cim_field: sync
   asim_field: sync
   category: Cluster
+  display_name: Synchronization
 - field_name: file_direction
   field_type: string
   description: File direction
@@ -1543,6 +1753,7 @@ fields:
   cim_field: file_direction
   asim_field: file_direction
   category: Content Awareness
+  display_name: File Direction
 - field_name: invalid_file_size
   field_type: integer
   description: The "file_size" field is valid only if this field is set to 0
@@ -1550,6 +1761,7 @@ fields:
   cim_field: invalid_file_size
   asim_field: invalid_file_size
   category: Content Awareness
+  display_name: Invalid File Size
 - field_name: top_archive_file_name
   field_type: string
   description: 'In case of archive file: the file that was sent/received'
@@ -1557,6 +1769,7 @@ fields:
   cim_field: top_archive_file_name
   asim_field: top_archive_file_name
   category: Content Awareness
+  display_name: Archive File
 - field_name: data_type_name
   field_type: string
   description: Data type in rulebase that was matched
@@ -1564,6 +1777,7 @@ fields:
   cim_field: data_type_name
   asim_field: data_type_name
   category: Content Awareness
+  display_name: Data Type
 - field_name: specific_data_type_name
   field_type: string
   description: Compound/Group scenario, data type that was matched
@@ -1571,6 +1785,7 @@ fields:
   cim_field: specific_data_type_name
   asim_field: specific_data_type_name
   category: Content Awareness
+  display_name: Specific Data Type Name
 - field_name: word_list
   field_type: string
   description: Words matched by data type
@@ -1578,6 +1793,7 @@ fields:
   cim_field: word_list
   asim_field: word_list
   category: Content Awareness
+  display_name: Word List
 - field_name: outgoing_url
   field_type: string
   description: URL related to this log (for HTTP)
@@ -1585,6 +1801,7 @@ fields:
   cim_field: outgoing_url
   asim_field: outgoing_url
   category: Data Loss Prevention (DLP)
+  display_name: Outgoing URL
 - field_name: dlp_rule_name
   field_type: string
   description: Matched rule name
@@ -1592,6 +1809,7 @@ fields:
   cim_field: dlp_rule_name
   asim_field: dlp_rule_name
   category: Data Loss Prevention (DLP)
+  display_name: DLP Rule Name
 - field_name: dlp_recipients
   field_type: string
   description: Mail recipients
@@ -1599,6 +1817,7 @@ fields:
   cim_field: dlp_recipients
   asim_field: dlp_recipients
   category: Data Loss Prevention (DLP)
+  display_name: DLP Recipients
 - field_name: dlp_subject
   field_type: string
   description: Mail subject
@@ -1606,6 +1825,7 @@ fields:
   cim_field: dlp_subject
   asim_field: dlp_subject
   category: Data Loss Prevention (DLP)
+  display_name: Mail Subject
 - field_name: dlp_word_list
   field_type: string
   description: Phrases matched by data type
@@ -1613,6 +1833,7 @@ fields:
   cim_field: dlp_word_list
   asim_field: dlp_word_list
   category: Data Loss Prevention (DLP)
+  display_name: DLP Words List
 - field_name: dlp_template_score
   field_type: string
   description: Template data type match score
@@ -1620,6 +1841,7 @@ fields:
   cim_field: dlp_template_score
   asim_field: dlp_template_score
   category: Data Loss Prevention (DLP)
+  display_name: DLP Template Score
 - field_name: message_size
   field_type: integer
   description: Mail/post size
@@ -1627,6 +1849,7 @@ fields:
   cim_field: message_size
   asim_field: message_size
   category: Data Loss Prevention (DLP)
+  display_name: Message Size
 - field_name: dlp_rule_uid
   field_type: string
   description: Unique ID of the matched rule
@@ -1634,6 +1857,7 @@ fields:
   cim_field: dlp_rule_uid
   asim_field: dlp_rule_uid
   category: Data Loss Prevention (DLP)
+  display_name: DLP Rule UID
 - field_name: dlp_incident_uid
   field_type: string
   description: Unique incident ID
@@ -1641,6 +1865,7 @@ fields:
   cim_field: dlp_incident_uid
   asim_field: dlp_incident_uid
   category: Data Loss Prevention (DLP)
+  display_name: DLP Incident UID
 - field_name: dlp_related_incident_uid
   field_type: string
   description: Other ID related to this one
@@ -1648,6 +1873,7 @@ fields:
   cim_field: dlp_related_incident_uid
   asim_field: dlp_related_incident_uid
   category: Data Loss Prevention (DLP)
+  display_name: Related Incidents
 - field_name: dlp_data_type_name
   field_type: string
   description: Matched data type
@@ -1655,6 +1881,7 @@ fields:
   cim_field: dlp_data_type_name
   asim_field: dlp_data_type_name
   category: Data Loss Prevention (DLP)
+  display_name: DLP Data Type Nam
 - field_name: dlp_data_type_uid
   field_type: string
   description: Unique ID of the matched data type
@@ -1662,6 +1889,7 @@ fields:
   cim_field: dlp_data_type_uid
   asim_field: dlp_data_type_uid
   category: Data Loss Prevention (DLP)
+  display_name: Data Type UID
 - field_name: dlp_file_name
   field_type: string
   description: Matched file
@@ -1669,6 +1897,7 @@ fields:
   cim_field: dlp_file_name
   asim_field: dlp_file_name
   category: Data Loss Prevention (DLP)
+  display_name: Scanned Data Fragment
 - field_name: dlp_violation_description
   field_type: string
   description: Violation descriptions described in the rulebase
@@ -1676,6 +1905,7 @@ fields:
   cim_field: dlp_violation_description
   asim_field: dlp_violation_description
   category: Data Loss Prevention (DLP)
+  display_name: Message to User
 - field_name: dlp_relevant_data_types
   field_type: string
   description: 'In case of Compound/Group: the inner data types that were matched'
@@ -1683,6 +1913,7 @@ fields:
   cim_field: dlp_relevant_data_types
   asim_field: dlp_relevant_data_types
   category: Data Loss Prevention (DLP)
+  display_name: Dlp Relevant Data Types
 - field_name: dlp_action_reason
   field_type: string
   description: Action chosen reason
@@ -1690,6 +1921,7 @@ fields:
   cim_field: dlp_action_reason
   asim_field: dlp_action_reason
   category: Data Loss Prevention (DLP)
+  display_name: DLP Action Reason
 - field_name: dlp_categories
   field_type: string
   description: Data type category
@@ -1697,6 +1929,7 @@ fields:
   cim_field: dlp_categories
   asim_field: dlp_categories
   category: Data Loss Prevention (DLP)
+  display_name: DLP Categories
 - field_name: dlp_transint
   field_type: string
   description: HTTP/SMTP/FTP
@@ -1704,6 +1937,7 @@ fields:
   cim_field: dlp_transint
   asim_field: dlp_transint
   category: Data Loss Prevention (DLP)
+  display_name: DLP Transint
 - field_name: duplicate
   field_type: string
   description: Log marked as duplicated, when mail is split, and the Security Gateway
@@ -1712,6 +1946,7 @@ fields:
   cim_field: duplicate
   asim_field: duplicate
   category: Data Loss Prevention (DLP)
+  display_name: Duplicate
 - field_name: incident_extension
   field_type: string
   description: Format of original data
@@ -1719,6 +1954,7 @@ fields:
   cim_field: incident_extension
   asim_field: incident_extension
   category: Data Loss Prevention (DLP)
+  display_name: Incident Extension
 - field_name: matched_file
   field_type: string
   description: 'Fingerprint: the file from FP repository that was matched by the traffic'
@@ -1726,6 +1962,7 @@ fields:
   cim_field: matched_file
   asim_field: matched_file
   category: Data Loss Prevention (DLP)
+  display_name: Matched File
 - field_name: matched_file_text_segments
   field_type: integer
   description: 'Fingerprint: number of text segments matched by this traffic'
@@ -1733,6 +1970,7 @@ fields:
   cim_field: matched_file_text_segments
   asim_field: matched_file_text_segments
   category: Data Loss Prevention (DLP)
+  display_name: Matched File Text Segments
 - field_name: matched_file_percentage
   field_type: integer
   description: 'Fingerprint: match percentage of the traffic'
@@ -1740,6 +1978,7 @@ fields:
   cim_field: matched_file_percentage
   asim_field: matched_file_percentage
   category: Data Loss Prevention (DLP)
+  display_name: Matched File Percentage
 - field_name: dlp_addtional_action
   field_type: string
   description: Watermark or None
@@ -1747,6 +1986,7 @@ fields:
   cim_field: dlp_addtional_action
   asim_field: dlp_addtional_action
   category: Data Loss Prevention (DLP)
+  display_name: DLP Additional Action
 - field_name: dlp_watermark_profile
   field_type: string
   description: Watermark that was applied
@@ -1754,6 +1994,7 @@ fields:
   cim_field: dlp_watermark_profile
   asim_field: dlp_watermark_profile
   category: Data Loss Prevention (DLP)
+  display_name: DLP Watermark Profile
 - field_name: dlp_repository_id
   field_type: string
   description: ID of scanned repository
@@ -1761,6 +2002,7 @@ fields:
   cim_field: dlp_repository_id
   asim_field: dlp_repository_id
   category: Data Loss Prevention (DLP)
+  display_name: Repository ID
 - field_name: dlp_repository_root_path
   field_type: string
   description: Repository path
@@ -1768,6 +2010,7 @@ fields:
   cim_field: dlp_repository_root_path
   asim_field: dlp_repository_root_path
   category: Data Loss Prevention (DLP)
+  display_name: DLP Repository Root path
 - field_name: scan_id
   field_type: string
   description: Sequential number of scan
@@ -1775,6 +2018,7 @@ fields:
   cim_field: scan_id
   asim_field: scan_id
   category: Data Loss Prevention (DLP)
+  display_name: Scan ID
 - field_name: special_properties
   field_type: integer
   description: If this field is set to '1', then the log is not shown (used for monitoring
@@ -1783,6 +2027,7 @@ fields:
   cim_field: special_properties
   asim_field: special_properties
   category: Data Loss Prevention (DLP)
+  display_name: Special properties
 - field_name: dlp_repository_total_size
   field_type: integer
   description: Repository size
@@ -1790,6 +2035,7 @@ fields:
   cim_field: dlp_repository_total_size
   asim_field: dlp_repository_total_size
   category: Data Loss Prevention (DLP)
+  display_name: Repository size (MB)
 - field_name: dlp_repository_files_number
   field_type: integer
   description: Number of files in repository
@@ -1797,6 +2043,7 @@ fields:
   cim_field: dlp_repository_files_number
   asim_field: dlp_repository_files_number
   category: Data Loss Prevention (DLP)
+  display_name: Repository files
 - field_name: dlp_repository_scanned_files_number
   field_type: integer
   description: Number of scanned files in repository
@@ -1804,13 +2051,15 @@ fields:
   cim_field: dlp_repository_scanned_files_number
   asim_field: dlp_repository_scanned_files_number
   category: Data Loss Prevention (DLP)
+  display_name: Scanned files
 - field_name: duration
   field_type: datetime
   description: Scan duration
-  ecs_field: vendor.duration
+  ecs_field: event.duration
   cim_field: duration
-  asim_field: duration
+  asim_field: EventDuration
   category: Data Loss Prevention (DLP)
+  display_name: Duration
 - field_name: dlp_fingerprint_long_status
   field_type: string
   description: Scan status - long format
@@ -1818,6 +2067,7 @@ fields:
   cim_field: dlp_fingerprint_long_status
   asim_field: dlp_fingerprint_long_status
   category: Data Loss Prevention (DLP)
+  display_name: Scan Status
 - field_name: dlp_fingerprint_short_status
   field_type: string
   description: Scan status - short format
@@ -1825,6 +2075,7 @@ fields:
   cim_field: dlp_fingerprint_short_status
   asim_field: dlp_fingerprint_short_status
   category: Data Loss Prevention (DLP)
+  display_name: Scan Status Code
 - field_name: dlp_repository_directories_number
   field_type: integer
   description: Number of directories in repository
@@ -1832,6 +2083,7 @@ fields:
   cim_field: dlp_repository_directories_number
   asim_field: dlp_repository_directories_number
   category: Data Loss Prevention (DLP)
+  display_name: Directories
 - field_name: _directories_number
   field_type: integer
   description: Number of directories the Security Gateway was unable to read
@@ -1839,6 +2091,7 @@ fields:
   cim_field: _directories_number
   asim_field: _directories_number
   category: Data Loss Prevention (DLP)
+  display_name: Unreachable directories
 - field_name: dlp_fingerprinted_files_number
   field_type: integer
   description: Number of successfully scanned files in repository
@@ -1846,6 +2099,7 @@ fields:
   cim_field: dlp_fingerprinted_files_number
   asim_field: dlp_fingerprinted_files_number
   category: Data Loss Prevention (DLP)
+  display_name: Fingerprinted Files
 - field_name: dlp_repository_skipped_files_number
   field_type: integer
   description: Skipped number of files because of configuration
@@ -1853,6 +2107,7 @@ fields:
   cim_field: dlp_repository_skipped_files_number
   asim_field: dlp_repository_skipped_files_number
   category: Data Loss Prevention (DLP)
+  display_name: Filtered Files
 - field_name: dlp_repository_scanned_directories_number
   field_type: integer
   description: Number of directories scanned
@@ -1860,6 +2115,7 @@ fields:
   cim_field: dlp_repository_scanned_directories_number
   asim_field: dlp_repository_scanned_directories_number
   category: Data Loss Prevention (DLP)
+  display_name: Dlp Repository Scanned Directories Number
 - field_name: number_of_errors
   field_type: integer
   description: Number of files that were not scanned due to an error
@@ -1867,6 +2123,7 @@ fields:
   cim_field: number_of_errors
   asim_field: number_of_errors
   category: Data Loss Prevention (DLP)
+  display_name: Number of Errors
 - field_name: next_scheduled_scan_date
   field_type: datetime
   description: Next scan scheduled time according to time object
@@ -1874,6 +2131,7 @@ fields:
   cim_field: next_scheduled_scan_date
   asim_field: next_scheduled_scan_date
   category: Data Loss Prevention (DLP)
+  display_name: Next Scheduled Scan Date
 - field_name: dlp_repository_scanned_total_size
   field_type: integer
   description: Size scanned
@@ -1881,6 +2139,7 @@ fields:
   cim_field: dlp_repository_scanned_total_size
   asim_field: dlp_repository_scanned_total_size
   category: Data Loss Prevention (DLP)
+  display_name: Scanned Size (MB)
 - field_name: dlp_repository_reached_directories_number
   field_type: integer
   description: Number of scanned directories in repository
@@ -1888,6 +2147,7 @@ fields:
   cim_field: dlp_repository_reached_directories_number
   asim_field: dlp_repository_reached_directories_number
   category: Data Loss Prevention (DLP)
+  display_name: Reachable Directories
 - field_name: scanned_directories_percentage
   field_type: integer
   description: Percentage of directories the Security Gateway was unable to read
@@ -1895,6 +2155,7 @@ fields:
   cim_field: scanned_directories_percentage
   asim_field: scanned_directories_percentage
   category: Data Loss Prevention (DLP)
+  display_name: Not scanned directories percentage
 - field_name: speed
   field_type: integer
   description: Current scan speed
@@ -1902,6 +2163,7 @@ fields:
   cim_field: speed
   asim_field: speed
   category: Data Loss Prevention (DLP)
+  display_name: Speed
 - field_name: dlp_repository_scan_progress
   field_type: integer
   description: Scan percentage
@@ -1909,6 +2171,7 @@ fields:
   cim_field: dlp_repository_scan_progress
   asim_field: dlp_repository_scan_progress
   category: Data Loss Prevention (DLP)
+  display_name: Dlp Repository Scan Progress
 - field_name: dlp_transport
   field_type: string
   description: 'Protocol of the traffic of the incident: HTTP, FTP, SMTP'
@@ -1916,6 +2179,7 @@ fields:
   cim_field: dlp_transport
   asim_field: dlp_transport
   category: Data Loss Prevention (DLP)
+  display_name: DLP Transport
 - field_name: https_inspection_rule_id
   field_type: string
   description: ID of the matched rule
@@ -1923,6 +2187,7 @@ fields:
   cim_field: https_inspection_rule_id
   asim_field: https_inspection_rule_id
   category: HTTPS Inspection - R82 and higher
+  display_name: HTTPS Inspection Rule ID
 - field_name: https_inspection_rule_name
   field_type: string
   description: Name of the matched rule
@@ -1930,6 +2195,7 @@ fields:
   cim_field: https_inspection_rule_name
   asim_field: https_inspection_rule_name
   category: HTTPS Inspection - R82 and higher
+  display_name: HTTPS Inspection Rule Name
 - field_name: bypass_reason
   field_type: string
   description: Explains the bypass decision
@@ -1937,6 +2203,7 @@ fields:
   cim_field: bypass_reason
   asim_field: bypass_reason
   category: HTTPS Inspection - R82 and higher
+  display_name: Action Reason
 - field_name: reject_reason
   field_type: string
   description: Explains the reject decision
@@ -1944,6 +2211,7 @@ fields:
   cim_field: reject_reason
   asim_field: reject_reason
   category: HTTPS Inspection - R82 and higher
+  display_name: Action Reason
 - field_name: details
   field_type: string
   description: Detailed information about the action reason
@@ -1951,6 +2219,7 @@ fields:
   cim_field: details
   asim_field: details
   category: HTTPS Inspection - R82 and higher
+  display_name: Details
 - field_name: failure_details
   field_type: string
   description: Detailed information about the action reason in case of a failure
@@ -1958,6 +2227,7 @@ fields:
   cim_field: failure_details
   asim_field: failure_details
   category: HTTPS Inspection - R82 and higher
+  display_name: Failure Details
 - field_name: reason_description
   field_type: string
   description: General information about the action reason
@@ -1965,6 +2235,7 @@ fields:
   cim_field: reason_description
   asim_field: reason_description
   category: HTTPS Inspection - R82 and higher
+  display_name: Description
 - field_name: failure_type
   field_type: string
   description: Failure in the HTTPS connection
@@ -1972,6 +2243,7 @@ fields:
   cim_field: failure_type
   asim_field: failure_type
   category: HTTPS Inspection - R82 and higher
+  display_name: Failure Type
 - field_name: tls_alert_received
   field_type: string
   description: TLS Alert that the Security Gateway received from the HTTPS server
@@ -1979,6 +2251,7 @@ fields:
   cim_field: tls_alert_received
   asim_field: tls_alert_received
   category: HTTPS Inspection - R82 and higher
+  display_name: TLS Alert Received
 - field_name: https_validation
   field_type: string
   description: Certificate validation result in case of a failure
@@ -1986,6 +2259,7 @@ fields:
   cim_field: https_validation
   asim_field: https_validation
   category: HTTPS Inspection - R82 and higher
+  display_name: HTTPS Validation
 - field_name: gateway_to_server_tls_version
   field_type: string
   description: TLS version used in the HTTPS connection between the Security Gateway
@@ -1994,6 +2268,7 @@ fields:
   cim_field: gateway_to_server_tls_version
   asim_field: gateway_to_server_tls_version
   category: HTTPS Inspection - R82 and higher
+  display_name: TLS Version
 - field_name: client_to_gateway_tls_version
   field_type: string
   description: TLS version used in the HTTPS connection between the HTTPS client and
@@ -2002,6 +2277,7 @@ fields:
   cim_field: client_to_gateway_tls_version
   asim_field: client_to_gateway_tls_version
   category: HTTPS Inspection - R82 and higher
+  display_name: TLS Version
 - field_name: gateway_to_server_ciphers
   field_type: string
   description: Cipher Suite used in the HTTPS connection between the Security Gateway
@@ -2010,6 +2286,7 @@ fields:
   cim_field: gateway_to_server_ciphers
   asim_field: gateway_to_server_ciphers
   category: HTTPS Inspection - R82 and higher
+  display_name: Cipher Suite
 - field_name: client_to_gateway_ciphers
   field_type: string
   description: Cipher Suite used in the HTTPS connection between the HTTPS client
@@ -2018,6 +2295,7 @@ fields:
   cim_field: client_to_gateway_ciphers
   asim_field: client_to_gateway_ciphers
   category: HTTPS Inspection - R82 and higher
+  display_name: Cipher Suite
 - field_name: proxied_server_ip
   field_type: ip
   description: IP address of the proxied HTTPS server
@@ -2025,13 +2303,15 @@ fields:
   cim_field: proxied_server_ip
   asim_field: proxied_server_ip
   category: HTTPS Inspection - R82 and higher
+  display_name: Proxied Server Ip
 - field_name: status
   field_type: string
   description: Status of entering or exiting the Bypass Under Load mode
-  ecs_field: vendor.status
+  ecs_field: event.outcome
   cim_field: status
-  asim_field: status
+  asim_field: EventResult
   category: HTTPS Inspection - R82 and higher
+  display_name: Status
 - field_name: icap_service_id
   field_type: integer
   description: Service ID, can work with multiple servers, treated as "services"
@@ -2039,6 +2319,7 @@ fields:
   cim_field: icap_service_id
   asim_field: icap_service_id
   category: ICAP Client
+  display_name: Icap Service Id
 - field_name: icap_server_name
   field_type: string
   description: Server name
@@ -2046,6 +2327,7 @@ fields:
   cim_field: icap_server_name
   asim_field: icap_server_name
   category: ICAP Client
+  display_name: Icap Server Name
 - field_name: internal_error
   field_type: string
   description: Internal error, for troubleshooting
@@ -2053,6 +2335,7 @@ fields:
   cim_field: internal_error
   asim_field: internal_error
   category: ICAP Client
+  display_name: Internal Error
 - field_name: icap_more_info
   field_type: string
   description: Free text for verdict
@@ -2060,6 +2343,7 @@ fields:
   cim_field: icap_more_info
   asim_field: icap_more_info
   category: ICAP Client
+  display_name: Icap More Info
 - field_name: reply_status
   field_type: integer
   description: ICAP reply status code, e.g., 200 or 204
@@ -2067,6 +2351,7 @@ fields:
   cim_field: reply_status
   asim_field: reply_status
   category: ICAP Client
+  display_name: Reply Status
 - field_name: icap_server_service
   field_type: string
   description: Service name, as given in the ICAP URI
@@ -2074,6 +2359,7 @@ fields:
   cim_field: icap_server_service
   asim_field: icap_server_service
   category: ICAP Client
+  display_name: Icap Server Service
 - field_name: mirror_and_decrypt_type
   field_type: string
   description: Information about decrypt and forward
@@ -2081,6 +2367,7 @@ fields:
   cim_field: mirror_and_decrypt_type
   asim_field: mirror_and_decrypt_type
   category: ICAP Client
+  display_name: Mirror And Decrypt Type
 - field_name: session_uid
   field_type: integer
   description: HTTP session ID
@@ -2088,6 +2375,7 @@ fields:
   cim_field: session_uid
   asim_field: session_uid
   category: ICAP Client
+  display_name: Session Uid
 - field_name: broker_publisher
   field_type: ip
   description: IP address of the broker publisher who shared the session information
@@ -2095,6 +2383,7 @@ fields:
   cim_field: broker_publisher
   asim_field: broker_publisher
   category: Identity Awareness
+  display_name: Broker Publisher
 - field_name: src_user_dn
   field_type: string
   description: User distinguished name connected to the source IP address
@@ -2102,6 +2391,7 @@ fields:
   cim_field: src_user_dn
   asim_field: src_user_dn
   category: Identity Awareness
+  display_name: Src User Dn
 - field_name: src_user_group
   field_type: string
   description: User Group name
@@ -2109,6 +2399,7 @@ fields:
   cim_field: src_user_group
   asim_field: src_user_group
   category: Identity Awareness
+  display_name: Source User Group
 - field_name: proxy_user_name
   field_type: string
   description: Username connected to the proxy IP address
@@ -2116,6 +2407,7 @@ fields:
   cim_field: proxy_user_name
   asim_field: proxy_user_name
   category: Identity Awareness
+  display_name: Proxy User Name
 - field_name: proxy_machine_name
   field_type: string
   description: Machine name connected to the proxy IP address
@@ -2123,6 +2415,7 @@ fields:
   cim_field: proxy_machine_name
   asim_field: proxy_machine_name
   category: Identity Awareness
+  display_name: Proxy Machine Name
 - field_name: proxy_user_dn
   field_type: string
   description: User distinguished name connected to the proxy IP address
@@ -2130,6 +2423,7 @@ fields:
   cim_field: proxy_user_dn
   asim_field: proxy_user_dn
   category: Identity Awareness
+  display_name: Proxy User Dn
 - field_name: identity_type
   field_type: string
   description: Identity type (user, machine)
@@ -2137,13 +2431,15 @@ fields:
   cim_field: identity_type
   asim_field: identity_type
   category: Identity Awareness
+  display_name: Identity Type
 - field_name: query
   field_type: string
   description: DNS query
-  ecs_field: vendor.query
+  ecs_field: event.original
   cim_field: query
-  asim_field: query
+  asim_field: EventOriginal
   category: IPS
+  display_name: Query
 - field_name: dns_query
   field_type: string
   description: DNS query
@@ -2151,6 +2447,7 @@ fields:
   cim_field: dns_query
   asim_field: dns_query
   category: IPS
+  display_name: DNS query
 - field_name: dns_type
   field_type: string
   description: DNS query type
@@ -2158,6 +2455,7 @@ fields:
   cim_field: dns_type
   asim_field: dns_type
   category: IPS
+  display_name: DNS Type
 - field_name: inspection_item
   field_type: string
   description: Blade element performed inspection
@@ -2165,6 +2463,7 @@ fields:
   cim_field: inspection_item
   asim_field: inspection_item
   category: IPS
+  display_name: Inspection Item
 - field_name: performance_impact
   field_type: integer
   description: Protection performance impact
@@ -2172,6 +2471,7 @@ fields:
   cim_field: performance_impact
   asim_field: performance_impact
   category: IPS
+  display_name: Performance Impact
 - field_name: inspection_category
   field_type: string
   description: 'Inspection category: protocol anomaly, signature etc.'
@@ -2179,6 +2479,7 @@ fields:
   cim_field: inspection_category
   asim_field: inspection_category
   category: IPS
+  display_name: Inspection Category
 - field_name: inspection_profile
   field_type: string
   description: Profile which the activated protection belongs to
@@ -2186,6 +2487,7 @@ fields:
   cim_field: inspection_profile
   asim_field: inspection_profile
   category: IPS
+  display_name: Inspection Profile
 - field_name: inspection_information
   field_type: string
   description: Attack or violation description
@@ -2193,6 +2495,7 @@ fields:
   cim_field: inspection_information
   asim_field: inspection_information
   category: IPS
+  display_name: Inspection Information
 - field_name: summary
   field_type: string
   description: Summary message for non-compliant DNS traffic drops or detects
@@ -2200,6 +2503,7 @@ fields:
   cim_field: summary
   asim_field: summary
   category: IPS
+  display_name: Summary
 - field_name: tid
   field_type: integer
   description: DNS Transaction ID
@@ -2207,6 +2511,7 @@ fields:
   cim_field: tid
   asim_field: tid
   category: IPS
+  display_name: Tunnel ID
 - field_name: dns_message_type
   field_type: string
   description: DNS message type
@@ -2214,6 +2519,7 @@ fields:
   cim_field: dns_message_type
   asim_field: dns_message_type
   category: IPS
+  display_name: Dns Message Type
 - field_name: question_rdata
   field_type: string
   description: List of question records domains
@@ -2221,6 +2527,7 @@ fields:
   cim_field: question_rdata
   asim_field: question_rdata
   category: IPS
+  display_name: Question Rdata
 - field_name: answer_rdata
   field_type: string
   description: List of answer resource records to the questioned domains
@@ -2228,6 +2535,7 @@ fields:
   cim_field: answer_rdata
   asim_field: answer_rdata
   category: IPS
+  display_name: Answer Rdata
 - field_name: authority_rdata
   field_type: string
   description: List of authoritative servers
@@ -2235,6 +2543,7 @@ fields:
   cim_field: authority_rdata
   asim_field: authority_rdata
   category: IPS
+  display_name: Authority Rdata
 - field_name: additional_rdata
   field_type: string
   description: List of additional resource records
@@ -2242,6 +2551,7 @@ fields:
   cim_field: additional_rdata
   asim_field: additional_rdata
   category: IPS
+  display_name: Additional Rdata
 - field_name: files_names
   field_type: string
   description: List of files requested by FTP
@@ -2249,6 +2559,7 @@ fields:
   cim_field: files_names
   asim_field: files_names
   category: IPS
+  display_name: Files Names
 - field_name: ftp_user
   field_type: string
   description: FTP username
@@ -2256,6 +2567,7 @@ fields:
   cim_field: ftp_user
   asim_field: ftp_user
   category: IPS
+  display_name: Ftp User
 - field_name: mime_from
   field_type: string
   description: Sender's address
@@ -2263,6 +2575,7 @@ fields:
   cim_field: mime_from
   asim_field: mime_from
   category: IPS
+  display_name: Mime From
 - field_name: mime_to
   field_type: string
   description: List of receiver address
@@ -2270,6 +2583,7 @@ fields:
   cim_field: mime_to
   asim_field: mime_to
   category: IPS
+  display_name: Mime To
 - field_name: cc
   field_type: string
   description: List of CC addresses
@@ -2277,6 +2591,7 @@ fields:
   cim_field: cc
   asim_field: cc
   category: IPS
+  display_name: Cc
 - field_name: bcc
   field_type: string
   description: List of BCC addresses
@@ -2284,27 +2599,31 @@ fields:
   cim_field: bcc
   asim_field: bcc
   category: IPS
+  display_name: Bcc
 - field_name: content_type
   field_type: string
   description: Mail content type
-  ecs_field: vendor.content_type
+  ecs_field: http.response.mime_type
   cim_field: content_type
-  asim_field: content_type
+  asim_field: HttpContentType
   category: IPS
+  display_name: Content Type
 - field_name: subject
   field_type: string
   description: Mail subject
-  ecs_field: vendor.subject
-  cim_field: subject
-  asim_field: subject
+  ecs_field: email.subject
+  cim_field: email_subject
+  asim_field: EmailSubject
   category: IPS
+  display_name: Subject
 - field_name: user_agent
   field_type: string
   description: String that identifies the requesting software user-agent
-  ecs_field: vendor.user_agent
-  cim_field: user_agent
-  asim_field: user_agent
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: UserAgent
   category: IPS
+  display_name: User Agent
 - field_name: http_location
   field_type: string
   description: Response header, indicates the URL to redirect a page to
@@ -2312,6 +2631,7 @@ fields:
   cim_field: http_location
   asim_field: http_location
   category: IPS
+  display_name: Http Location
 - field_name: content_disposition
   field_type: string
   description: Indicates how the content is expected to be displayed inline in the
@@ -2320,6 +2640,7 @@ fields:
   cim_field: content_disposition
   asim_field: content_disposition
   category: IPS
+  display_name: Content Disposition
 - field_name: via
   field_type: string
   description: '"Via" header is added by proxies for tracking purposes to avoid sending
@@ -2328,6 +2649,7 @@ fields:
   cim_field: via
   asim_field: via
   category: IPS
+  display_name: Via
 - field_name: http_server
   field_type: string
   description: Server HTTP header value, contains information about the software used
@@ -2336,6 +2658,7 @@ fields:
   cim_field: http_server
   asim_field: http_server
   category: IPS
+  display_name: Http Server
 - field_name: content_length
   field_type: string
   description: Indicates the size of the entity-body of the HTTP header
@@ -2343,13 +2666,15 @@ fields:
   cim_field: content_length
   asim_field: content_length
   category: IPS
+  display_name: Content Length
 - field_name: method
   field_type: string
   description: HTTP method (GET, POST, PUT, etc.)
-  ecs_field: vendor.method
-  cim_field: method
-  asim_field: method
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: IPS
+  display_name: Method
 - field_name: authorization
   field_type: string
   description: Authorization HTTP header value
@@ -2357,6 +2682,7 @@ fields:
   cim_field: authorization
   asim_field: authorization
   category: IPS
+  display_name: Authorization
 - field_name: http_host
   field_type: string
   description: Domain name of the server that the HTTP request is sent to
@@ -2364,6 +2690,7 @@ fields:
   cim_field: http_host
   asim_field: http_host
   category: IPS
+  display_name: Http Host
 - field_name: industry_reference
   field_type: string
   description: CVE registry entry
@@ -2371,6 +2698,7 @@ fields:
   cim_field: industry_reference
   asim_field: industry_reference
   category: IPS
+  display_name: Industry Reference
 - field_name: inspection_settings_log
   field_type: string
   description: Indicates that the log was released by inspection settings
@@ -2378,6 +2706,7 @@ fields:
   cim_field: inspection_settings_log
   asim_field: inspection_settings_log
   category: IPS
+  display_name: Inspection Settings Log
 - field_name: caused_quarantine
   field_type: string
   description: Indicates whether attack caused a quarantine
@@ -2385,6 +2714,7 @@ fields:
   cim_field: caused_quarantine
   asim_field: caused_quarantine
   category: IPS
+  display_name: Caused Quarantine
 - field_name: email_message_id
   field_type: string
   description: Email session ID (unique ID of the mail)
@@ -2392,6 +2722,7 @@ fields:
   cim_field: email_message_id
   asim_field: email_message_id
   category: Mail Transfer Agent (MTA)
+  display_name: Email Message ID
 - field_name: email_queue_id
   field_type: string
   description: Postfix email queue ID
@@ -2399,6 +2730,7 @@ fields:
   cim_field: email_queue_id
   asim_field: email_queue_id
   category: Mail Transfer Agent (MTA)
+  display_name: Email Queue ID
 - field_name: email_queue_name
   field_type: string
   description: Postfix email queue name
@@ -2406,6 +2738,7 @@ fields:
   cim_field: email_queue_name
   asim_field: email_queue_name
   category: Mail Transfer Agent (MTA)
+  display_name: Email Queue Name
 - field_name: failure_reason
   field_type: string
   description: MTA failure description
@@ -2413,6 +2746,7 @@ fields:
   cim_field: failure_reason
   asim_field: failure_reason
   category: Mail Transfer Agent (MTA)
+  display_name: Failure Reason
 - field_name: email_headers
   field_type: string
   description: String containing all the email headers
@@ -2420,6 +2754,7 @@ fields:
   cim_field: email_headers
   asim_field: email_headers
   category: Mail Transfer Agent (MTA)
+  display_name: Email Headers
 - field_name: arrival_time
   field_type: datetime
   description: Email arrival timestamp
@@ -2427,6 +2762,7 @@ fields:
   cim_field: arrival_time
   asim_field: arrival_time
   category: Mail Transfer Agent (MTA)
+  display_name: Arrival Time
 - field_name: email_status
   field_type: string
   description: Describes the email's state
@@ -2434,6 +2770,7 @@ fields:
   cim_field: email_status
   asim_field: email_status
   category: Mail Transfer Agent (MTA)
+  display_name: Email Status
 - field_name: status_update
   field_type: datetime
   description: Last time log was updated
@@ -2441,6 +2778,7 @@ fields:
   cim_field: status_update
   asim_field: status_update
   category: Mail Transfer Agent (MTA)
+  display_name: Last status update
 - field_name: scan_started
   field_type: datetime
   description: Beginning of the scanning process timestamp
@@ -2448,6 +2786,7 @@ fields:
   cim_field: scan_started
   asim_field: scan_started
   category: Mail Transfer Agent (MTA)
+  display_name: Scan Started
 - field_name: scan_ended
   field_type: datetime
   description: End of the scanning process timestamp
@@ -2455,6 +2794,7 @@ fields:
   cim_field: scan_ended
   asim_field: scan_ended
   category: Mail Transfer Agent (MTA)
+  display_name: Scan Ended
 - field_name: delivery_time
   field_type: datetime
   description: Timestamp of when email was delivered (MTA finished handling the email
@@ -2462,6 +2802,7 @@ fields:
   cim_field: delivery_time
   asim_field: delivery_time
   category: Mail Transfer Agent (MTA)
+  display_name: Delivery Time
 - field_name: links_num
   field_type: integer
   description: Number of links in the mail
@@ -2469,6 +2810,7 @@ fields:
   cim_field: links_num
   asim_field: links_num
   category: Mail Transfer Agent (MTA)
+  display_name: Links Number
 - field_name: attachments_num
   field_type: integer
   description: Number of attachments in the mail
@@ -2476,6 +2818,7 @@ fields:
   cim_field: attachments_num
   asim_field: attachments_num
   category: Mail Transfer Agent (MTA)
+  display_name: Attachments Number
 - field_name: email_content
   field_type: string
   description: Mail contents
@@ -2483,13 +2826,15 @@ fields:
   cim_field: email_content
   asim_field: email_content
   category: Mail Transfer Agent (MTA)
+  display_name: Email Content
 - field_name: user_group
   field_type: string
   description: The group to which the user belongs, upon login
-  ecs_field: vendor.user_group
+  ecs_field: user.group.name
   cim_field: user_group
-  asim_field: user_group
+  asim_field: TargetUserGroup
   category: Mobile Access
+  display_name: User Group
 - field_name: cvpn_resource
   field_type: string
   description: Mobile Access application
@@ -2497,6 +2842,7 @@ fields:
   cim_field: cvpn_resource
   asim_field: cvpn_resource
   category: Mobile Access
+  display_name: Application
 - field_name: cvpn_category
   field_type: string
   description: Mobile Access application type
@@ -2504,6 +2850,7 @@ fields:
   cim_field: cvpn_category
   asim_field: cvpn_category
   category: Mobile Access
+  display_name: Mobile Access Category
 - field_name: reject_id
   field_type: string
   description: A reject ID that corresponds to the one presented in the Mobile Access
@@ -2512,6 +2859,7 @@ fields:
   cim_field: reject_id
   asim_field: reject_id
   category: Mobile Access
+  display_name: Reject ID
 - field_name: allocated_ports
   field_type: integer
   description: Amount of allocated NAT ports
@@ -2519,13 +2867,15 @@ fields:
   cim_field: allocated_ports
   asim_field: allocated_ports
   category: NAT
+  display_name: Allocated Ports
 - field_name: capacity
   field_type: integer
   description: Capacity of the NAT ports
-  ecs_field: vendor.capacity
+  ecs_field: host.disk.capacity
   cim_field: capacity
-  asim_field: capacity
+  asim_field: DvcDiskCapacity
   category: NAT
+  display_name: Capacity
 - field_name: ports_usage
   field_type: integer
   description: Percentage of allocated NAT ports
@@ -2533,6 +2883,7 @@ fields:
   cim_field: ports_usage
   asim_field: ports_usage
   category: NAT
+  display_name: Ports Usage
 - field_name: string
   field_type: 'yes'
   description: Check Point NAT field
@@ -2540,6 +2891,7 @@ fields:
   cim_field: string
   asim_field: string
   category: NAT
+  display_name: 4-tuple of an exhausted NAT pool
 - field_name: xlatesint
   field_type: integer
   description: Source port after applying Hide NAT on the source IP address
@@ -2547,6 +2899,7 @@ fields:
   cim_field: xlatesint
   asim_field: xlatesint
   category: NAT
+  display_name: Xlate (NAT) Source Port
 - field_name: xlatedint
   field_type: integer
   description: Destination port after applying NAT
@@ -2554,6 +2907,7 @@ fields:
   cim_field: xlatedint
   asim_field: xlatedint
   category: NAT
+  display_name: Xlate (NAT) Destination Port
 - field_name: nat_addtnl_rulenum
   field_type: integer
   description: When matching 2 automatic rules, the second rule match is shown. Otherwise,
@@ -2562,13 +2916,15 @@ fields:
   cim_field: nat_addtnl_rulenum
   asim_field: nat_addtnl_rulenum
   category: NAT
+  display_name: NAT Additional Rule Number
 - field_name: message_info
   field_type: string
   description: 'Used for information messages, for example:'
-  ecs_field: vendor.message_info
-  cim_field: message_info
-  asim_field: message_info
+  ecs_field: message
+  cim_field: msg
+  asim_field: EventMessage
   category: NAT
+  display_name: Message Information
 - field_name: nat46
   field_type: string
   description: NAT46 status
@@ -2576,13 +2932,15 @@ fields:
   cim_field: nat46
   asim_field: nat46
   category: NAT
+  display_name: Nat46
 - field_name: end_time
   field_type: datetime
   description: TCP connection end time
-  ecs_field: vendor.end_time
+  ecs_field: event.end
   cim_field: end_time
-  asim_field: end_time
+  asim_field: EventEndTime
   category: NAT
+  display_name: End Time
 - field_name: tcp_end_reason
   field_type: string
   description: Reason for TCP connection closure
@@ -2590,6 +2948,7 @@ fields:
   cim_field: tcp_end_reason
   asim_field: tcp_end_reason
   category: NAT
+  display_name: Tcp End Reason
 - field_name: cgnat
   field_type: string
   description: Describes the NAT allocation for specific subscriber
@@ -2597,6 +2956,7 @@ fields:
   cim_field: cgnat
   asim_field: cgnat
   category: NAT
+  display_name: CGNAT Information
 - field_name: hide_ip
   field_type: ip
   description: Source IP address to be used after CGNAT
@@ -2604,6 +2964,7 @@ fields:
   cim_field: hide_ip
   asim_field: hide_ip
   category: NAT
+  display_name: Hide Ip
 - field_name: int_start
   field_type: integer
   description: Subscriber start integer to be used for NAT
@@ -2611,6 +2972,7 @@ fields:
   cim_field: int_start
   asim_field: int_start
   category: NAT
+  display_name: Int Start
 - field_name: int_end
   field_type: integer
   description: Subscriber end integer to be used for NAT
@@ -2618,6 +2980,7 @@ fields:
   cim_field: int_end
   asim_field: int_end
   category: NAT
+  display_name: Int End
 - field_name: drop_reason
   field_type: string
   description: Aggregated logs of dropped packets
@@ -2625,6 +2988,7 @@ fields:
   cim_field: drop_reason
   asim_field: drop_reason
   category: SecureXL
+  display_name: Drop Reason
 - field_name: packet_amount
   field_type: integer
   description: Number of packets dropped
@@ -2632,6 +2996,7 @@ fields:
   cim_field: packet_amount
   asim_field: packet_amount
   category: SecureXL
+  display_name: Packet Amount
 - field_name: monitor_reason
   field_type: string
   description: Aggregated logs of monitored packets
@@ -2639,6 +3004,7 @@ fields:
   cim_field: monitor_reason
   asim_field: monitor_reason
   category: SecureXL
+  display_name: Monitor Reason
 - field_name: drops_amount
   field_type: integer
   description: Amount of multicast packets dropped
@@ -2646,6 +3012,7 @@ fields:
   cim_field: drops_amount
   asim_field: drops_amount
   category: SecureXL
+  display_name: Drops Amount
 - field_name: securexl_message
   field_type: string
   description: 'Two options for a SecureXL message:'
@@ -2653,6 +3020,7 @@ fields:
   cim_field: securexl_message
   asim_field: securexl_message
   category: SecureXL
+  display_name: Securexl Message
 - field_name: conns_amount
   field_type: integer
   description: Number of connections in the aggregated log
@@ -2660,6 +3028,7 @@ fields:
   cim_field: conns_amount
   asim_field: conns_amount
   category: SecureXL
+  display_name: Conns Amount
 - field_name: aggregation_info
   field_type: string
   description: List of aggregated source connections
@@ -2667,13 +3036,15 @@ fields:
   cim_field: aggregation_info
   asim_field: aggregation_info
   category: SecureXL
+  display_name: Aggregation Info
 - field_name: scope
   field_type: ip
   description: IP address related to the attack
-  ecs_field: vendor.scope
+  ecs_field: authorization.scope
   cim_field: scope
-  asim_field: scope
+  asim_field: AuthorizationScope
   category: Threat Emulation
+  display_name: Scope
 - field_name: detected_on
   field_type: string
   description: System and applications version, on which the file was emulated
@@ -2681,6 +3052,7 @@ fields:
   cim_field: detected_on
   asim_field: detected_on
   category: Threat Emulation
+  display_name: Vulnerable Operating Systems
 - field_name: dropped_file_name
   field_type: string
   description: List of names dropped from the original file
@@ -2688,6 +3060,7 @@ fields:
   cim_field: dropped_file_name
   asim_field: dropped_file_name
   category: Threat Emulation
+  display_name: Dropped File Name
 - field_name: dropped_file_type
   field_type: string
   description: List of file types dropped from the original file
@@ -2695,6 +3068,7 @@ fields:
   cim_field: dropped_file_type
   asim_field: dropped_file_type
   category: Threat Emulation
+  display_name: Dropped File Type
 - field_name: dropped_file_hash
   field_type: string
   description: List of file hashes dropped from the original file
@@ -2702,6 +3076,7 @@ fields:
   cim_field: dropped_file_hash
   asim_field: dropped_file_hash
   category: Threat Emulation
+  display_name: Dropped File Hash
 - field_name: dropped_file_verdict
   field_type: string
   description: List of file verdicts dropped from the original file
@@ -2709,6 +3084,7 @@ fields:
   cim_field: dropped_file_verdict
   asim_field: dropped_file_verdict
   category: Threat Emulation
+  display_name: Dropped File Verdict
 - field_name: emulated_on
   field_type: string
   description: Images, in which the files were emulated
@@ -2716,6 +3092,7 @@ fields:
   cim_field: emulated_on
   asim_field: emulated_on
   category: Threat Emulation
+  display_name: Not Vulnerable OS
 - field_name: extracted_file_type
   field_type: string
   description: Types of extracted files in case of an archive
@@ -2723,6 +3100,7 @@ fields:
   cim_field: extracted_file_type
   asim_field: extracted_file_type
   category: Threat Emulation
+  display_name: Extracted File Type
 - field_name: extracted_file_names
   field_type: string
   description: Names of extracted files in case of an archive
@@ -2730,6 +3108,7 @@ fields:
   cim_field: extracted_file_names
   asim_field: extracted_file_names
   category: Threat Emulation
+  display_name: Extracted File Names
 - field_name: extracted_file_hash
   field_type: string
   description: Archive hash in case of extracted files
@@ -2737,6 +3116,7 @@ fields:
   cim_field: extracted_file_hash
   asim_field: extracted_file_hash
   category: Threat Emulation
+  display_name: Extracted File Hash
 - field_name: extracted_file_verdict
   field_type: string
   description: Verdict of extracted files in case of an archive
@@ -2744,6 +3124,7 @@ fields:
   cim_field: extracted_file_verdict
   asim_field: extracted_file_verdict
   category: Threat Emulation
+  display_name: Extracted File Verdict
 - field_name: extracted_file_uid
   field_type: string
   description: UID of extracted files in case of an archive
@@ -2751,6 +3132,7 @@ fields:
   cim_field: extracted_file_uid
   asim_field: extracted_file_uid
   category: Threat Emulation
+  display_name: Extracted File Uid
 - field_name: mitre_discovery
   field_type: string
   description: The adversary is trying to expose information about your environment
@@ -2759,6 +3141,7 @@ fields:
   cim_field: mitre_discovery
   asim_field: mitre_discovery
   category: Threat Emulation
+  display_name: Mitre Discovery
 - field_name: mitre_collection
   field_type: string
   description: The adversary is trying to collect data of interest to achieve his
@@ -2767,6 +3150,7 @@ fields:
   cim_field: mitre_collection
   asim_field: mitre_collection
   category: Threat Emulation
+  display_name: Mitre Collection
 - field_name: mitre_impact
   field_type: string
   description: The adversary is trying to manipulate, interrupt, or destroy your systems
@@ -2775,6 +3159,7 @@ fields:
   cim_field: mitre_impact
   asim_field: mitre_impact
   category: Threat Emulation
+  display_name: Mitre Impact
 - field_name: parent_file_hash
   field_type: string
   description: Archive's hash in case of extracted files
@@ -2782,6 +3167,7 @@ fields:
   cim_field: parent_file_hash
   asim_field: parent_file_hash
   category: Threat Emulation
+  display_name: Parent File Hash
 - field_name: parent_file_name
   field_type: string
   description: Archive's name in case of extracted files
@@ -2789,6 +3175,7 @@ fields:
   cim_field: parent_file_name
   asim_field: parent_file_name
   category: Threat Emulation
+  display_name: Parent File Name
 - field_name: parent_file_uid
   field_type: string
   description: Archive's UID in case of extracted files
@@ -2796,6 +3183,7 @@ fields:
   cim_field: parent_file_uid
   asim_field: parent_file_uid
   category: Threat Emulation
+  display_name: Parent File Uid
 - field_name: similiar_iocs
   field_type: string
   description: Other IoCs, similar to the ones found, related to the malicious file
@@ -2803,6 +3191,7 @@ fields:
   cim_field: similiar_iocs
   asim_field: similiar_iocs
   category: Threat Emulation
+  display_name: Similar IoCs
 - field_name: similar_hashes
   field_type: string
   description: Hashes found similar to the malicious file
@@ -2810,6 +3199,7 @@ fields:
   cim_field: similar_hashes
   asim_field: similar_hashes
   category: Threat Emulation
+  display_name: Similar Hashes
 - field_name: similar_strings
   field_type: string
   description: Strings found similar to the malicious file
@@ -2817,6 +3207,7 @@ fields:
   cim_field: similar_strings
   asim_field: similar_strings
   category: Threat Emulation
+  display_name: Similar Strings
 - field_name: similar_communication
   field_type: string
   description: Network action found similar to the malicious file
@@ -2824,6 +3215,7 @@ fields:
   cim_field: similar_communication
   asim_field: similar_communication
   category: Threat Emulation
+  display_name: Similar Communication
 - field_name: te_verdict_determined_by
   field_type: string
   description: Emulators determined file verdict
@@ -2831,6 +3223,7 @@ fields:
   cim_field: te_verdict_determined_by
   asim_field: te_verdict_determined_by
   category: Threat Emulation
+  display_name: Determined By
 - field_name: packet_capture_unique_id
   field_type: string
   description: Identifier of the packet capture files
@@ -2838,6 +3231,7 @@ fields:
   cim_field: packet_capture_unique_id
   asim_field: packet_capture_unique_id
   category: Threat Emulation
+  display_name: Packet Capture Unique Id
 - field_name: total_attachments
   field_type: integer
   description: The number of attachments in an email
@@ -2845,6 +3239,7 @@ fields:
   cim_field: total_attachments
   asim_field: total_attachments
   category: Threat Emulation
+  display_name: Total Attachments
 - field_name: total_logs
   field_type: integer
   description: The total number of logs
@@ -2852,6 +3247,7 @@ fields:
   cim_field: total_logs
   asim_field: total_logs
   category: Threat Emulation
+  display_name: Total Logs
 - field_name: additional_info
   field_type: string
   description: ID of original file/mail which are sent by admin
@@ -2859,6 +3255,7 @@ fields:
   cim_field: additional_info
   asim_field: additional_info
   category: Threat Extraction
+  display_name: General Information
 - field_name: content_risk
   field_type: integer
   description: File risk
@@ -2866,13 +3263,15 @@ fields:
   cim_field: content_risk
   asim_field: content_risk
   category: Threat Extraction
+  display_name: Content Risk
 - field_name: operation
   field_type: string
   description: Operation made by Threat Extraction
-  ecs_field: vendor.operation
-  cim_field: operation
-  asim_field: operation
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Threat Extraction
+  display_name: Operation
 - field_name: scrubbed_content
   field_type: string
   description: Active content that was found
@@ -2880,6 +3279,7 @@ fields:
   cim_field: scrubbed_content
   asim_field: scrubbed_content
   category: Threat Extraction
+  display_name: Suspicious Content
 - field_name: scrub_time
   field_type: string
   description: Extraction process duration
@@ -2887,6 +3287,7 @@ fields:
   cim_field: scrub_time
   asim_field: scrub_time
   category: Threat Extraction
+  display_name: Scrub Time
 - field_name: scrub_download_time
   field_type: string
   description: File download time from resource
@@ -2894,6 +3295,7 @@ fields:
   cim_field: scrub_download_time
   asim_field: scrub_download_time
   category: Threat Extraction
+  display_name: Scrub Download Time
 - field_name: scrub_total_time
   field_type: string
   description: Threat extraction total file handling time
@@ -2901,6 +3303,7 @@ fields:
   cim_field: scrub_total_time
   asim_field: scrub_total_time
   category: Threat Extraction
+  display_name: Scrub Total Time
 - field_name: scrub_activity
   field_type: string
   description: The result of the extraction
@@ -2908,6 +3311,7 @@ fields:
   cim_field: scrub_activity
   asim_field: scrub_activity
   category: Threat Extraction
+  display_name: Threat Extraction Activity
 - field_name: watermark
   field_type: string
   description: Reports whether watermark is added to the cleaned file
@@ -2915,6 +3319,7 @@ fields:
   cim_field: watermark
   asim_field: watermark
   category: Threat Extraction
+  display_name: Watermark
 - field_name: domain_name
   field_type: string
   description: Domain name sent to DNS request
@@ -2922,6 +3327,7 @@ fields:
   cim_field: domain_name
   asim_field: domain_name
   category: Unified Policy
+  display_name: Domain Name
 - field_name: source_object
   field_type: string
   description: Matched object name on source column
@@ -2929,6 +3335,7 @@ fields:
   cim_field: source_object
   asim_field: source_object
   category: Unified Policy
+  display_name: Source Object
 - field_name: destination_object
   field_type: string
   description: Matched object name on destination column
@@ -2936,6 +3343,7 @@ fields:
   cim_field: destination_object
   asim_field: destination_object
   category: Unified Policy
+  display_name: Destination Object
 - field_name: hit
   field_type: integer
   description: Number of hits on a rule
@@ -2943,6 +3351,7 @@ fields:
   cim_field: hit
   asim_field: hit
   category: Unified Policy
+  display_name: Hit
 - field_name: rulebase_id
   field_type: integer
   description: Layer number
@@ -2950,6 +3359,7 @@ fields:
   cim_field: rulebase_id
   asim_field: rulebase_id
   category: Unified Policy
+  display_name: Rulebase Id
 - field_name: first_hit_time
   field_type: integer
   description: First hit time in current interval
@@ -2957,6 +3367,7 @@ fields:
   cim_field: first_hit_time
   asim_field: first_hit_time
   category: Unified Policy
+  display_name: First Hit Time
 - field_name: last_hit_time
   field_type: integer
   description: Last hit time in current interval
@@ -2964,6 +3375,7 @@ fields:
   cim_field: last_hit_time
   asim_field: last_hit_time
   category: Unified Policy
+  display_name: Last Update Time
 - field_name: rematch_info
   field_type: string
   description: Information sent when old connections cannot be matched during policy
@@ -2972,6 +3384,7 @@ fields:
   cim_field: rematch_info
   asim_field: rematch_info
   category: Unified Policy
+  display_name: Rematch Info
 - field_name: last_rematch_time
   field_type: datetime
   description: Connection rematched time
@@ -2979,6 +3392,7 @@ fields:
   cim_field: last_rematch_time
   asim_field: last_rematch_time
   category: Unified Policy
+  display_name: Last Rematch Time
 - field_name: action_reason
   field_type: string
   description: Connection drop reason
@@ -2986,6 +3400,7 @@ fields:
   cim_field: action_reason
   asim_field: action_reason
   category: Unified Policy
+  display_name: Action Reason
 - field_name: c_bytes
   field_type: integer
   description: Boolean value indicates whether bytes sent from the client side are
@@ -2994,6 +3409,7 @@ fields:
   cim_field: c_bytes
   asim_field: c_bytes
   category: Unified Policy
+  display_name: C Bytes
 - field_name: context_num
   field_type: integer
   description: Serial number of the log for a specific connection
@@ -3001,6 +3417,7 @@ fields:
   cim_field: context_num
   asim_field: context_num
   category: Unified Policy
+  display_name: Context Num
 - field_name: alert
   field_type: string
   description: Alert level of matched rule for connection logs (Unified Policy alert
@@ -3009,6 +3426,7 @@ fields:
   cim_field: alert
   asim_field: alert
   category: Unified Policy
+  display_name: Alert
 - field_name: parent_rule
   field_type: integer
   description: Parent rule number, in case of inline layer (match table)
@@ -3016,6 +3434,7 @@ fields:
   cim_field: parent_rule
   asim_field: parent_rule
   category: Unified Policy
+  display_name: Parent Rule
 - field_name: match_fk
   field_type: integer
   description: Rule number
@@ -3023,6 +3442,7 @@ fields:
   cim_field: match_fk
   asim_field: match_fk
   category: Unified Policy
+  display_name: Match Fk
 - field_name: media_type
   field_type: string
   description: Media used (audio, video, etc.)
@@ -3030,6 +3450,7 @@ fields:
   cim_field: media_type
   asim_field: media_type
   category: VoIP
+  display_name: Media Type
 - field_name: sip_reason
   field_type: string
   description: Explains why 'source_ip' is not allowed to redirect (handover)
@@ -3037,6 +3458,7 @@ fields:
   cim_field: sip_reason
   asim_field: sip_reason
   category: VoIP
+  display_name: SIP Reason
 - field_name: voip_method
   field_type: string
   description: Registration request
@@ -3044,6 +3466,7 @@ fields:
   cim_field: voip_method
   asim_field: voip_method
   category: VoIP
+  display_name: Request
 - field_name: voip_reg_user_type
   field_type: string
   description: Registered IP-Phone type
@@ -3051,6 +3474,7 @@ fields:
   cim_field: voip_reg_user_type
   asim_field: voip_reg_user_type
   category: VoIP
+  display_name: Registered IP-Phone Type
 - field_name: voip_call_id
   field_type: string
   description: Call-ID
@@ -3058,6 +3482,7 @@ fields:
   cim_field: voip_call_id
   asim_field: voip_call_id
   category: VoIP
+  display_name: VoIP Call ID
 - field_name: voip_reg_int
   field_type: integer
   description: Registration port
@@ -3065,6 +3490,7 @@ fields:
   cim_field: voip_reg_int
   asim_field: voip_reg_int
   category: VoIP
+  display_name: Registration Port
 - field_name: voip_reg_ipp
   field_type: integer
   description: Registration IP protocol
@@ -3072,6 +3498,7 @@ fields:
   cim_field: voip_reg_ipp
   asim_field: voip_reg_ipp
   category: VoIP
+  display_name: Registration IP Protocol
 - field_name: voip_reg_period
   field_type: integer
   description: Registration period
@@ -3079,6 +3506,7 @@ fields:
   cim_field: voip_reg_period
   asim_field: voip_reg_period
   category: VoIP
+  display_name: Registration Period
 - field_name: voip_log_type
   field_type: string
   description: VoIP log types
@@ -3086,6 +3514,7 @@ fields:
   cim_field: voip_log_type
   asim_field: voip_log_type
   category: VoIP
+  display_name: VoIP Log Type
 - field_name: src_phone_number
   field_type: string
   description: Source IP -Phone
@@ -3093,6 +3522,7 @@ fields:
   cim_field: src_phone_number
   asim_field: src_phone_number
   category: VoIP
+  display_name: Source IP-phone
 - field_name: voip_from_user_type
   field_type: string
   description: Source IP-Phone type
@@ -3100,6 +3530,7 @@ fields:
   cim_field: voip_from_user_type
   asim_field: voip_from_user_type
   category: VoIP
+  display_name: Source IP-Phone Type
 - field_name: dst_phone_number
   field_type: string
   description: Destination IP-Phone
@@ -3107,6 +3538,7 @@ fields:
   cim_field: dst_phone_number
   asim_field: dst_phone_number
   category: VoIP
+  display_name: Destination Phone Number
 - field_name: voip_to_user_type
   field_type: string
   description: Destination IP-Phone type
@@ -3114,6 +3546,7 @@ fields:
   cim_field: voip_to_user_type
   asim_field: voip_to_user_type
   category: VoIP
+  display_name: Destination IP-Phone Type
 - field_name: voip_call_dir
   field_type: string
   description: 'Call direction: in/out'
@@ -3121,6 +3554,7 @@ fields:
   cim_field: voip_call_dir
   asim_field: voip_call_dir
   category: VoIP
+  display_name: VoIP Call direction
 - field_name: voip_call_state
   field_type: string
   description: Call state
@@ -3128,6 +3562,7 @@ fields:
   cim_field: voip_call_state
   asim_field: voip_call_state
   category: VoIP
+  display_name: VoIP Call State
 - field_name: voip_call_term_time
   field_type: string
   description: Call termination time stamp
@@ -3135,6 +3570,7 @@ fields:
   cim_field: voip_call_term_time
   asim_field: voip_call_term_time
   category: VoIP
+  display_name: Call termination time stamp
 - field_name: voip_duration
   field_type: datetime
   description: Call duration (seconds)
@@ -3142,6 +3578,7 @@ fields:
   cim_field: voip_duration
   asim_field: voip_duration
   category: VoIP
+  display_name: VoIP Duration
 - field_name: voip_media_port
   field_type: string
   description: Media port
@@ -3149,6 +3586,7 @@ fields:
   cim_field: voip_media_port
   asim_field: voip_media_port
   category: VoIP
+  display_name: Media Port
 - field_name: voip_media_ipp
   field_type: string
   description: Media IP protocol
@@ -3156,6 +3594,7 @@ fields:
   cim_field: voip_media_ipp
   asim_field: voip_media_ipp
   category: VoIP
+  display_name: Media IP Protocol
 - field_name: voip_est_codec
   field_type: string
   description: Estimated codec
@@ -3163,6 +3602,7 @@ fields:
   cim_field: voip_est_codec
   asim_field: voip_est_codec
   category: VoIP
+  display_name: Estimated Codec
 - field_name: voip_exp
   field_type: integer
   description: Expiration
@@ -3170,6 +3610,7 @@ fields:
   cim_field: voip_exp
   asim_field: voip_exp
   category: VoIP
+  display_name: Expiration
 - field_name: voip_attach_sz
   field_type: integer
   description: Attachment size
@@ -3177,6 +3618,7 @@ fields:
   cim_field: voip_attach_sz
   asim_field: voip_attach_sz
   category: VoIP
+  display_name: VoIP Attachment Size
 - field_name: voip_attach_action_info
   field_type: string
   description: Attachment action information
@@ -3184,6 +3626,7 @@ fields:
   cim_field: voip_attach_action_info
   asim_field: voip_attach_action_info
   category: VoIP
+  display_name: VoIP Attach Action Information
 - field_name: voip_media_codec
   field_type: string
   description: Estimated codec
@@ -3191,6 +3634,7 @@ fields:
   cim_field: voip_media_codec
   asim_field: voip_media_codec
   category: VoIP
+  display_name: Voip Media Codec
 - field_name: voip_reject_reason
   field_type: string
   description: Reject reason
@@ -3198,6 +3642,7 @@ fields:
   cim_field: voip_reject_reason
   asim_field: voip_reject_reason
   category: VoIP
+  display_name: VoIP Reject Reason
 - field_name: voip_reason_info
   field_type: string
   description: Information
@@ -3205,6 +3650,7 @@ fields:
   cim_field: voip_reason_info
   asim_field: voip_reason_info
   category: VoIP
+  display_name: VoIP Reject Reason Information
 - field_name: voip_config
   field_type: string
   description: Configuration
@@ -3212,6 +3658,7 @@ fields:
   cim_field: voip_config
   asim_field: voip_config
   category: VoIP
+  display_name: VoIP Configuration
 - field_name: voip_reg_server
   field_type: ip
   description: Registrar server IP address
@@ -3219,6 +3666,7 @@ fields:
   cim_field: voip_reg_server
   asim_field: voip_reg_server
   category: VoIP
+  display_name: Registrar Server
 - field_name: scv_user
   field_type: string
   description: Username, whose packets are dropped during Secure Configuration Verification
@@ -3227,6 +3675,7 @@ fields:
   cim_field: scv_user
   asim_field: scv_user
   category: VPN
+  display_name: SCV User
 - field_name: scv_message_info
   field_type: string
   description: Drop reason
@@ -3234,6 +3683,7 @@ fields:
   cim_field: scv_message_info
   asim_field: scv_message_info
   category: VPN
+  display_name: SCV Message Information
 - field_name: ppp
   field_type: string
   description: Authentication status
@@ -3241,6 +3691,7 @@ fields:
   cim_field: ppp
   asim_field: ppp
   category: VPN
+  display_name: Point to Point Protocol
 - field_name: scheme
   field_type: string
   description: Describes the scheme used for the log
@@ -3248,13 +3699,15 @@ fields:
   cim_field: scheme
   asim_field: scheme
   category: VPN
+  display_name: Encryption Scheme
 - field_name: auth_method
   field_type: string
   description: Password authentication protocol used (PAP or EAP)
-  ecs_field: vendor.auth_method
+  ecs_field: event.action
   cim_field: auth_method
-  asim_field: auth_method
+  asim_field: LogonProtocol
   category: VPN
+  display_name: Authentication Method
 - field_name: machine
   field_type: string
   description: L2TP machine which triggered the log and the log refers to it
@@ -3262,6 +3715,7 @@ fields:
   cim_field: machine
   asim_field: machine
   category: VPN
+  display_name: Machine
 - field_name: vpn_feature_name
   field_type: string
   description: L2TP / IKE / Link Selection
@@ -3269,6 +3723,7 @@ fields:
   cim_field: vpn_feature_name
   asim_field: vpn_feature_name
   category: VPN
+  display_name: VPN Feature
 - field_name: reject_category
   field_type: string
   description: Authentication failure reason
@@ -3276,6 +3731,7 @@ fields:
   cim_field: reject_category
   asim_field: reject_category
   category: VPN
+  display_name: Reject Category
 - field_name: peer_ip_probing_status_update
   field_type: string
   description: IP address response status
@@ -3283,13 +3739,15 @@ fields:
   cim_field: peer_ip_probing_status_update
   asim_field: peer_ip_probing_status_update
   category: VPN
+  display_name: Peer Ip Probing Status Update
 - field_name: peer_ip
   field_type: string
   description: IP address which the client connects to
-  ecs_field: vendor.peer_ip
-  cim_field: peer_ip
-  asim_field: peer_ip
+  ecs_field: destination.ip
+  cim_field: vpn_peer_ip
+  asim_field: DstIpAddr
   category: VPN
+  display_name: Peer Ip
 - field_name: link_probing_status_update
   field_type: string
   description: IP address response status
@@ -3297,6 +3755,7 @@ fields:
   cim_field: link_probing_status_update
   asim_field: link_probing_status_update
   category: VPN
+  display_name: Link Probing Status Update
 - field_name: source_interface
   field_type: string
   description: External Interface name for source interface or Null if not found
@@ -3304,6 +3763,7 @@ fields:
   cim_field: source_interface
   asim_field: source_interface
   category: VPN
+  display_name: Source Interface
 - field_name: next_hop_ip
   field_type: string
   description: Next hop IP address
@@ -3311,6 +3771,7 @@ fields:
   cim_field: next_hop_ip
   asim_field: next_hop_ip
   category: VPN
+  display_name: Next Hop Ip
 - field_name: srckeyid
   field_type: string
   description: Initiator SPI ID
@@ -3318,6 +3779,7 @@ fields:
   cim_field: srckeyid
   asim_field: srckeyid
   category: VPN
+  display_name: Source Key ID
 - field_name: dstkeyid
   field_type: string
   description: Responder SPI ID
@@ -3325,6 +3787,7 @@ fields:
   cim_field: dstkeyid
   asim_field: dstkeyid
   category: VPN
+  display_name: Destination Key ID
 - field_name: encryption_failure
   field_type: string
   description: Check Point VPN field
@@ -3332,6 +3795,7 @@ fields:
   cim_field: encryption_failure
   asim_field: encryption_failure
   category: VPN
+  display_name: Encryption Failure
 - field_name: ike_ids
   field_type: string
   description: All Quick Mode (QM) IDs
@@ -3339,6 +3803,7 @@ fields:
   cim_field: ike_ids
   asim_field: ike_ids
   category: VPN
+  display_name: Ike Ids
 - field_name: msgid
   field_type: string
   description: Message ID
@@ -3346,6 +3811,7 @@ fields:
   cim_field: msgid
   asim_field: msgid
   category: VPN
+  display_name: IKE Phase2 Message ID
 - field_name: methods
   field_type: string
   description: IPsec methods
@@ -3353,6 +3819,7 @@ fields:
   cim_field: methods
   asim_field: methods
   category: VPN
+  display_name: Encryption Methods
 - field_name: connection_uid
   field_type: string
   description: Calculation of MD5 of the IP address and username as UID
@@ -3360,6 +3827,7 @@ fields:
   cim_field: connection_uid
   asim_field: connection_uid
   category: VPN
+  display_name: Connection UID
 - field_name: site_name
   field_type: string
   description: VPN Site name
@@ -3367,6 +3835,7 @@ fields:
   cim_field: site_name
   asim_field: site_name
   category: VPN
+  display_name: Site Name
 - field_name: esod_rule_name
   field_type: string
   description: Unknown rule name
@@ -3374,6 +3843,7 @@ fields:
   cim_field: esod_rule_name
   asim_field: esod_rule_name
   category: VPN
+  display_name: ESOD Rule Name
 - field_name: esod_rule_action
   field_type: string
   description: Unknown rule action
@@ -3381,6 +3851,7 @@ fields:
   cim_field: esod_rule_action
   asim_field: esod_rule_action
   category: VPN
+  display_name: ESOD Rule Action
 - field_name: esod_rule_type
   field_type: string
   description: Unknown rule type
@@ -3388,6 +3859,7 @@ fields:
   cim_field: esod_rule_type
   asim_field: esod_rule_type
   category: VPN
+  display_name: ESOD Rule Type
 - field_name: esod_noncompliance_reason
   field_type: string
   description: Non-compliance reason
@@ -3395,6 +3867,7 @@ fields:
   cim_field: esod_noncompliance_reason
   asim_field: esod_noncompliance_reason
   category: VPN
+  display_name: ESOD Noncompliance Reason
 - field_name: esod_associated_policies
   field_type: string
   description: Associated policies
@@ -3402,13 +3875,15 @@ fields:
   cim_field: esod_associated_policies
   asim_field: esod_associated_policies
   category: VPN
+  display_name: ESOD Associated Policies
 - field_name: spyware_name
   field_type: string
   description: Spyware name
-  ecs_field: vendor.spyware_name
+  ecs_field: threat.indicator.name
   cim_field: spyware_name
-  asim_field: spyware_name
+  asim_field: ThreatName
   category: VPN
+  display_name: Malware Name
 - field_name: spyware_type
   field_type: string
   description: Spyware type
@@ -3416,6 +3891,7 @@ fields:
   cim_field: spyware_type
   asim_field: spyware_type
   category: VPN
+  display_name: Malware Type
 - field_name: anti_virus_type
   field_type: string
   description: Anti-Virus type
@@ -3423,6 +3899,7 @@ fields:
   cim_field: anti_virus_type
   asim_field: anti_virus_type
   category: VPN
+  display_name: Virus Type
 - field_name: end_user_firewall_type
   field_type: string
   description: End user firewall type
@@ -3430,6 +3907,7 @@ fields:
   cim_field: end_user_firewall_type
   asim_field: end_user_firewall_type
   category: VPN
+  display_name: End User Firewall Type
 - field_name: esod_scan_status
   field_type: string
   description: Scan failed
@@ -3437,6 +3915,7 @@ fields:
   cim_field: esod_scan_status
   asim_field: esod_scan_status
   category: VPN
+  display_name: ESOD Scan Status
 - field_name: esod_access_status
   field_type: string
   description: Access denied
@@ -3444,6 +3923,7 @@ fields:
   cim_field: esod_access_status
   asim_field: esod_access_status
   category: VPN
+  display_name: ESOD access status
 - field_name: client_type
   field_type: string
   description: Endpoint Connect
@@ -3451,6 +3931,7 @@ fields:
   cim_field: client_type
   asim_field: client_type
   category: VPN
+  display_name: Client Type
 - field_name: cir
   field_type: integer
   description: Shows the Committed Information Rate (CIR, Bits per Second)
@@ -3458,6 +3939,7 @@ fields:
   cim_field: cir
   asim_field: cir
   category: VPN
+  display_name: CIR, Bps
 - field_name: cir_threshold
   field_type: integer
   description: Shows the Committed Information Rate Threshold (Bits per Second)
@@ -3465,6 +3947,7 @@ fields:
   cim_field: cir_threshold
   asim_field: cir_threshold
   category: VPN
+  display_name: CIR Threshold, Bps
 - field_name: rtt
   field_type: integer
   description: Shows the Round Trip Time (RTT, milliseconds)
@@ -3472,6 +3955,7 @@ fields:
   cim_field: rtt
   asim_field: rtt
   category: VPN
+  display_name: RTT, ms
 - field_name: wire_byte_ps_in
   field_type: integer
   description: Incoming Wire Mode speed (Bytes per Second)
@@ -3479,6 +3963,7 @@ fields:
   cim_field: wire_byte_ps_in
   asim_field: wire_byte_ps_in
   category: VPN
+  display_name: Wire Byte/Sec in
 - field_name: wire_byte_ps_out
   field_type: integer
   description: Outgoing Wire Mode speed (Bytes per Second)
@@ -3486,6 +3971,7 @@ fields:
   cim_field: wire_byte_ps_out
   asim_field: wire_byte_ps_out
   category: VPN
+  display_name: Wire Byte/Sec Out
 - field_name: wire_pack_ps_in
   field_type: integer
   description: Incoming Wire Mode speed (Packets per Second)
@@ -3493,6 +3979,7 @@ fields:
   cim_field: wire_pack_ps_in
   asim_field: wire_pack_ps_in
   category: VPN
+  display_name: Wire Packet/Sec in
 - field_name: wire_pack_ps_out
   field_type: integer
   description: Outgoing Wire Mode speed (Packets per Second)
@@ -3500,6 +3987,7 @@ fields:
   cim_field: wire_pack_ps_out
   asim_field: wire_pack_ps_out
   category: VPN
+  display_name: Wire Packet/Sec Out
 - field_name: precise_error
   field_type: string
   description: HTTP parser error
@@ -3507,6 +3995,7 @@ fields:
   cim_field: precise_error
   asim_field: precise_error
   category: Web Security
+  display_name: Precise Error
 - field_name: event_uuid
   field_type: string
   description: Internal unique event ID
@@ -3514,14 +4003,16 @@ fields:
   cim_field: event_uuid
   asim_field: event_uuid
   category: Common
+  display_name: event_uuid
 - field_name: user_name
   field_type: string
   description: Username of the user logged on when event occurred, including domain
     name
-  ecs_field: vendor.user_name
+  ecs_field: user.name
   cim_field: user_name
-  asim_field: user_name
+  asim_field: TargetUsername
   category: Common
+  display_name: Username
 - field_name: user_sid
   field_type: string
   description: Security Identifier of the user logged on when event occurred
@@ -3529,6 +4020,7 @@ fields:
   cim_field: user_sid
   asim_field: user_sid
   category: Common
+  display_name: user_sid
 - field_name: event_type
   field_type: string
   description: Name of the event
@@ -3536,6 +4028,7 @@ fields:
   cim_field: event_type
   asim_field: event_type
   category: Common
+  display_name: Event Type
 - field_name: local_time
   field_type: string
   description: Local time on the endpoint computer
@@ -3543,14 +4036,16 @@ fields:
   cim_field: local_time
   asim_field: local_time
   category: Common
+  display_name: local_time
 - field_name: client_name
   field_type: string
   description: Can be either Check Point Endpoint Security Client or Check Point Capsule
     Docs Client
-  ecs_field: vendor.client_name
+  ecs_field: application.name
   cim_field: client_name
-  asim_field: client_name
+  asim_field: ApplicationName
   category: Common
+  display_name: Client Name
 - field_name: client_version
   field_type: string
   description: Build version of Harmony Endpoint client installed on the computer
@@ -3558,6 +4053,7 @@ fields:
   cim_field: client_version
   asim_field: client_version
   category: Common
+  display_name: Client Version
 - field_name: installed_products
   field_type: string
   description: List of installed Endpoint Software Blades
@@ -3565,6 +4061,7 @@ fields:
   cim_field: installed_products
   asim_field: installed_products
   category: Common
+  display_name: Installed Blades
 - field_name: os_name
   field_type: string
   description: Name of the OS installed on the source endpoint computer
@@ -3572,6 +4069,7 @@ fields:
   cim_field: os_name
   asim_field: os_name
   category: Common
+  display_name: OS Name
 - field_name: os_version
   field_type: string
   description: Build version of the OS installed on the source endpoint computer
@@ -3579,6 +4077,7 @@ fields:
   cim_field: os_version
   asim_field: os_version
   category: Common
+  display_name: OS Version
 - field_name: tenant_id
   field_type: string
   description: For EPMaaS - unique id of the tenant
@@ -3586,6 +4085,7 @@ fields:
   cim_field: tenant_id
   asim_field: tenant_id
   category: Common
+  display_name: Tenant Id
 - field_name: virtual_groups
   field_type: string
   description: Displays which virtual groups the client belongs to
@@ -3593,6 +4093,7 @@ fields:
   cim_field: virtual_groups
   asim_field: virtual_groups
   category: Common
+  display_name: Virtual Groups
 - field_name: auth_type
   field_type: string
   description: Kerberos / Strong Authenatication - can be Device, User, or Both
@@ -3600,6 +4101,7 @@ fields:
   cim_field: auth_type
   asim_field: auth_type
   category: Core (Infrastructure)
+  display_name: auth_type
 - field_name: action_comment
   field_type: string
   description: Additional commented on policy installation
@@ -3607,6 +4109,7 @@ fields:
   cim_field: action_comment
   asim_field: action_comment
   category: Core (Infrastructure)
+  display_name: action_comment
 - field_name: policy_date
   field_type: string
   description: Date of policy installation
@@ -3614,6 +4117,7 @@ fields:
   cim_field: policy_date
   asim_field: policy_date
   category: Core (Infrastructure)
+  display_name: Policy Date
 - field_name: policy_type
   field_type: integer
   description: Internal number of policy, indicating which blade it belongs to
@@ -3621,6 +4125,7 @@ fields:
   cim_field: policy_type
   asim_field: policy_type
   category: Core (Infrastructure)
+  display_name: policy_type
 - field_name: policy_guid
   field_type: string
   description: Internal ID of policy on server
@@ -3628,6 +4133,7 @@ fields:
   cim_field: policy_guid
   asim_field: policy_guid
   category: Core (Infrastructure)
+  display_name: policy_guid
 - field_name: policy_version
   field_type: integer
   description: Policy version
@@ -3635,6 +4141,7 @@ fields:
   cim_field: policy_version
   asim_field: policy_version
   category: Core (Infrastructure)
+  display_name: policy_version
 - field_name: op_guid
   field_type: string
   description: Push Operation - Internal ID of operation
@@ -3642,6 +4149,7 @@ fields:
   cim_field: op_guid
   asim_field: op_guid
   category: Core (Infrastructure)
+  display_name: op_guid
 - field_name: op_type
   field_type: string
   description: Push operation type
@@ -3649,6 +4157,7 @@ fields:
   cim_field: op_type
   asim_field: op_type
   category: Core (Infrastructure)
+  display_name: op_type
 - field_name: op_owner
   field_type: string
   description: Bladed that performs the final execution of push operation
@@ -3656,6 +4165,7 @@ fields:
   cim_field: op_owner
   asim_field: op_owner
   category: Core (Infrastructure)
+  display_name: op_owner
 - field_name: op_status
   field_type: string
   description: Push Operation status
@@ -3663,6 +4173,7 @@ fields:
   cim_field: op_status
   asim_field: op_status
   category: Core (Infrastructure)
+  display_name: op_status
 - field_name: op_output
   field_type: string
   description: Push Operation result sent back to server
@@ -3670,6 +4181,7 @@ fields:
   cim_field: op_output
   asim_field: op_output
   category: Core (Infrastructure)
+  display_name: op_output
 - field_name: fde_details
   field_type: string
   description: Contains hostname and client version
@@ -3677,6 +4189,7 @@ fields:
   cim_field: fde_details
   asim_field: fde_details
   category: Full Disk Encryption
+  display_name: fde_details
 - field_name: fde_account
   field_type: string
   description: User Acquisition details (account name)
@@ -3684,6 +4197,7 @@ fields:
   cim_field: fde_account
   asim_field: fde_account
   category: Full Disk Encryption
+  display_name: fde_account
 - field_name: fde_account_guid
   field_type: string
   description: User Acquisition details (internal ID of user account)
@@ -3691,6 +4205,7 @@ fields:
   cim_field: fde_account_guid
   asim_field: fde_account_guid
   category: Full Disk Encryption
+  display_name: fde_account_guid
 - field_name: fde_rh_guid
   field_type: string
   description: User Acquisition details (for remote help)
@@ -3698,6 +4213,7 @@ fields:
   cim_field: fde_rh_guid
   asim_field: fde_rh_guid
   category: Full Disk Encryption
+  display_name: fde_rh_guid
 - field_name: client_status
   field_type: string
   description: Global status of FDE blade - Encrypted/Encrypting/Decrypting/…
@@ -3705,6 +4221,7 @@ fields:
   cim_field: client_status
   asim_field: client_status
   category: Full Disk Encryption
+  display_name: client_status
 - field_name: client_status_details
   field_type: integer
   description: Current encryption progress
@@ -3712,6 +4229,7 @@ fields:
   cim_field: client_status_details
   asim_field: client_status_details
   category: Full Disk Encryption
+  display_name: client_status_details
 - field_name: connectivity_state
   field_type: string
   description: Type of currently applied MEPP policy (Connected/Disconnected/Restricted)
@@ -3719,6 +4237,7 @@ fields:
   cim_field: connectivity_state
   asim_field: connectivity_state
   category: MEPP
+  display_name: Connectivity State
 - field_name: __policy_id_tag
   field_type: string
   description: Internal information about MEPP policy
@@ -3726,6 +4245,7 @@ fields:
   cim_field: __policy_id_tag
   asim_field: __policy_id_tag
   category: MEPP
+  display_name: __policy_id_tag
 - field_name: media
   field_type: string
   description: "Type of connected device (MEPP)\tYes"
@@ -3733,6 +4253,7 @@ fields:
   cim_field: media
   asim_field: media
   category: MEPP
+  display_name: "type\tmedia type"
 - field_name: media_description
   field_type: string
   description: Details about connected device (MEPP)
@@ -3740,6 +4261,7 @@ fields:
   cim_field: media_description
   asim_field: media_description
   category: MEPP
+  display_name: media_description
 - field_name: media_manufacturer
   field_type: string
   description: Details about connected device (MEPP)
@@ -3747,6 +4269,7 @@ fields:
   cim_field: media_manufacturer
   asim_field: media_manufacturer
   category: MEPP
+  display_name: media_manufacturer
 - field_name: media_encrypted
   field_type: string
   description: If inserted device is encrypted
@@ -3754,6 +4277,7 @@ fields:
   cim_field: media_encrypted
   asim_field: media_encrypted
   category: MEPP
+  display_name: media_encrypted
 - field_name: media_authorized
   field_type: integer
   description: If inserted device is authorized
@@ -3761,6 +4285,7 @@ fields:
   cim_field: media_authorized
   asim_field: media_authorized
   category: MEPP
+  display_name: media_authorized
 - field_name: media_class_id
   field_type: string
   description: Internal (Windows-assigned) device class
@@ -3768,6 +4293,7 @@ fields:
   cim_field: media_class_id
   asim_field: media_class_id
   category: MEPP
+  display_name: media_class_id
 - field_name: writing_data_access
   field_type: string
   description: Write data access policy - Allow/Block/Force Encryption/Fource encryption
@@ -3776,6 +4302,7 @@ fields:
   cim_field: writing_data_access
   asim_field: writing_data_access
   category: MEPP
+  display_name: writing_data_access
 - field_name: reading_data_access
   field_type: string
   description: Read data access policy - Allow/Block/Allow only plain/Allow only Encrypted
@@ -3783,6 +4310,7 @@ fields:
   cim_field: reading_data_access
   asim_field: reading_data_access
   category: MEPP
+  display_name: reading_data_access
 - field_name: is_scanned
   field_type: string
   description: Authorization scan result - Automatic/Manual/Failed/N-A
@@ -3790,13 +4318,15 @@ fields:
   cim_field: is_scanned
   asim_field: is_scanned
   category: MEPP
+  display_name: is_scanned
 - field_name: process
   field_type: string
   description: Process that tries to access data
-  ecs_field: vendor.process
+  ecs_field: process.name
   cim_field: process
-  asim_field: process
+  asim_field: TargetProcessName
   category: MEPP
+  display_name: process
 - field_name: source_path
   field_type: string
   description: Source path
@@ -3804,6 +4334,7 @@ fields:
   cim_field: source_path
   asim_field: source_path
   category: MEPP
+  display_name: source_path
 - field_name: destination_path
   field_type: string
   description: Destination path
@@ -3811,6 +4342,7 @@ fields:
   cim_field: destination_path
   asim_field: destination_path
   category: MEPP
+  display_name: destination_path
 - field_name: is_target_encrypted_storage
   field_type: integer
   description: If data is written to encrypted storage
@@ -3818,6 +4350,7 @@ fields:
   cim_field: is_target_encrypted_storage
   asim_field: is_target_encrypted_storage
   category: MEPP
+  display_name: is_target_encrypted_storage
 - field_name: is_organization_host
   field_type: integer
   description: If host is in the same org used for creating encrypted media
@@ -3825,6 +4358,7 @@ fields:
   cim_field: is_organization_host
   asim_field: is_organization_host
   category: MEPP
+  display_name: is_organization_host
 - field_name: file_operation
   field_type: string
   description: File Operation - can be Read/Write/Delete/Create/Move/Copy/Burn CD/Offline
@@ -3833,6 +4367,7 @@ fields:
   cim_field: file_operation
   asim_field: file_operation
   category: MEPP
+  display_name: File Operation
 - field_name: data_type
   field_type: string
   description: Can be Business-related or Non-Business related
@@ -3840,6 +4375,7 @@ fields:
   cim_field: data_type
   asim_field: data_type
   category: MEPP
+  display_name: data_type
 - field_name: user_status
   field_type: string
   description: Decision provided by user in User Check Message - can be Approved,
@@ -3848,6 +4384,7 @@ fields:
   cim_field: user_status
   asim_field: user_status
   category: MEPP
+  display_name: UserCheck Response
 - field_name: portal_message
   field_type: string
   description: Additional message provided to user
@@ -3855,6 +4392,7 @@ fields:
   cim_field: portal_message
   asim_field: portal_message
   category: MEPP
+  display_name: UserCheck Message to User
 - field_name: media_encrypted_algo
   field_type: string
   description: Algorithm used for encryption
@@ -3862,6 +4400,7 @@ fields:
   cim_field: media_encrypted_algo
   asim_field: media_encrypted_algo
   category: MEPP
+  display_name: media_encrypted_algo
 - field_name: media_size
   field_type: integer
   description: Size of media
@@ -3869,6 +4408,7 @@ fields:
   cim_field: media_size
   asim_field: media_size
   category: MEPP
+  display_name: media_size
 - field_name: media_encryptedbytes
   field_type: integer
   description: Size of encrypted part of media
@@ -3876,6 +4416,7 @@ fields:
   cim_field: media_encryptedbytes
   asim_field: media_encryptedbytes
   category: MEPP
+  display_name: media_encryptedbytes
 - field_name: integrity_av_invoke_type
   field_type: string
   description: Type of scan
@@ -3883,6 +4424,7 @@ fields:
   cim_field: integrity_av_invoke_type
   asim_field: integrity_av_invoke_type
   category: Anti-Malware
+  display_name: integrity_av_invoke_type
 - field_name: scan_level
   field_type: string
   description: Scan level
@@ -3890,6 +4432,7 @@ fields:
   cim_field: scan_level
   asim_field: scan_level
   category: Anti-Malware
+  display_name: scan_level
 - field_name: scanned_drives
   field_type: string
   description: Scanned drives
@@ -3897,6 +4440,7 @@ fields:
   cim_field: scanned_drives
   asim_field: scanned_drives
   category: Anti-Malware
+  display_name: scanned_drives
 - field_name: policy_number
   field_type: integer
   description: AM Policy version
@@ -3904,6 +4448,7 @@ fields:
   cim_field: policy_number
   asim_field: policy_number
   category: Anti-Malware
+  display_name: Policy Version
 - field_name: sig_ver
   field_type: string
   description: Signatures version
@@ -3911,6 +4456,7 @@ fields:
   cim_field: sig_ver
   asim_field: sig_ver
   category: Anti-Malware
+  display_name: sig_ver
 - field_name: engine_ver
   field_type: string
   description: Engine version
@@ -3918,6 +4464,7 @@ fields:
   cim_field: engine_ver
   asim_field: engine_ver
   category: Anti-Malware
+  display_name: engine_ver
 - field_name: items_scanned
   field_type: integer
   description: Number of scanned items
@@ -3925,6 +4472,7 @@ fields:
   cim_field: items_scanned
   asim_field: items_scanned
   category: Anti-Malware
+  display_name: items_scanned
 - field_name: items_detected
   field_type: integer
   description: Number of detected items
@@ -3932,6 +4480,7 @@ fields:
   cim_field: items_detected
   asim_field: items_detected
   category: Anti-Malware
+  display_name: items_detected
 - field_name: items_treated
   field_type: integer
   description: Number of treated (cured/deleted/…) items
@@ -3939,6 +4488,7 @@ fields:
   cim_field: items_treated
   asim_field: items_treated
   category: Anti-Malware
+  display_name: items_treated
 - field_name: action_details
   field_type: string
   description: Check Point Anti-Malware field
@@ -3946,6 +4496,7 @@ fields:
   cim_field: action_details
   asim_field: action_details
   category: Anti-Malware
+  display_name: Action Details
 - field_name: infection_category
   field_type: string
   description: Infection category - Virus/Trojan/Malware/Adware/Riskware/Unknown
@@ -3953,6 +4504,7 @@ fields:
   cim_field: infection_category
   asim_field: infection_category
   category: Anti-Malware
+  display_name: Infection Category
 - field_name: advanced_info
   field_type: string
   description: Internal field used for configuring exclusions
@@ -3960,6 +4512,7 @@ fields:
   cim_field: advanced_info
   asim_field: advanced_info
   category: Anti-Malware
+  display_name: advanced_info
 - field_name: failed_updates
   field_type: integer
   description: Counter of failed updates
@@ -3967,6 +4520,7 @@ fields:
   cim_field: failed_updates
   asim_field: failed_updates
   category: Anti-Malware
+  display_name: failed_updates
 - field_name: am_update_source
   field_type: string
   description: Source of AM updates (URL)
@@ -3974,6 +4528,7 @@ fields:
   cim_field: am_update_source
   asim_field: am_update_source
   category: Anti-Malware
+  display_name: am_update_source
 - field_name: am_update_proxy
   field_type: string
   description: If proxy was used
@@ -3981,13 +4536,15 @@ fields:
   cim_field: am_update_proxy
   asim_field: am_update_proxy
   category: Anti-Malware
+  display_name: am_update_proxy
 - field_name: result
   field_type: string
   description: Update result - Finished/Failed/Error
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Anti-Malware
+  display_name: result
 - field_name: previous_infection_status
   field_type: string
   description: Previous infection status of the computer - Clean/Infected/Not scanned
@@ -3995,6 +4552,7 @@ fields:
   cim_field: previous_infection_status
   asim_field: previous_infection_status
   category: Anti-Malware
+  display_name: previous_infection_status
 - field_name: current_infection_status
   field_type: string
   description: Current infection status of the computer - Clean/Infected/Not scanned
@@ -4002,6 +4560,7 @@ fields:
   cim_field: current_infection_status
   asim_field: current_infection_status
   category: Anti-Malware
+  display_name: current_infection_status
 - field_name: previous_untreated_infections
   field_type: integer
   description: Previous number of untreated infections
@@ -4009,6 +4568,7 @@ fields:
   cim_field: previous_untreated_infections
   asim_field: previous_untreated_infections
   category: Anti-Malware
+  display_name: previous_untreated_infections
 - field_name: current_untreated_infections
   field_type: integer
   description: Current number of untreated infections
@@ -4016,6 +4576,7 @@ fields:
   cim_field: current_untreated_infections
   asim_field: current_untreated_infections
   category: Anti-Malware
+  display_name: current_untreated_infections
 - field_name: update_ver
   field_type: string
   description: Signature version
@@ -4023,6 +4584,7 @@ fields:
   cim_field: update_ver
   asim_field: update_ver
   category: Anti-Malware
+  display_name: update_ver
 - field_name: program_name
   field_type: string
   description: For Endpoint Firewall, program name is not logged, only for Application
@@ -4031,6 +4593,7 @@ fields:
   cim_field: program_name
   asim_field: program_name
   category: Firewall
+  display_name: program_name
 - field_name: src_dns_name
   field_type: string
   description: Resolved name of source host
@@ -4038,6 +4601,7 @@ fields:
   cim_field: src_dns_name
   asim_field: src_dns_name
   category: Firewall
+  display_name: src_dns_name
 - field_name: dst_dns_name
   field_type: string
   description: Resolved name of destination host
@@ -4045,6 +4609,7 @@ fields:
   cim_field: dst_dns_name
   asim_field: dst_dns_name
   category: Firewall
+  display_name: dst_dns_name
 - field_name: ep_rule_id
   field_type: integer
   description: Number of matching rule
@@ -4052,6 +4617,7 @@ fields:
   cim_field: ep_rule_id
   asim_field: ep_rule_id
   category: Firewall
+  display_name: ep_rule_id
 - field_name: treatment_mode
   field_type: string
   description: Can be Manual, Auto or Unknown
@@ -4059,6 +4625,7 @@ fields:
   cim_field: treatment_mode
   asim_field: treatment_mode
   category: Application Control
+  display_name: treatment_mode
 - field_name: old_status
   field_type: string
   description: Previous Compliance status (Compliant/Observe/Warn/Restrict) when the
@@ -4067,6 +4634,7 @@ fields:
   cim_field: old_status
   asim_field: old_status
   category: Compliance
+  display_name: old_status
 - field_name: new_status
   field_type: string
   description: New Compliance status (Compliant/Observe/Warn/Restrict) when the status
@@ -4075,6 +4643,7 @@ fields:
   cim_field: new_status
   asim_field: new_status
   category: Compliance
+  display_name: new_status
 - field_name: remediation
   field_type: string
   description: Name of remediation command
@@ -4082,6 +4651,7 @@ fields:
   cim_field: remediation
   asim_field: remediation
   category: Compliance
+  display_name: remediation
 - field_name: remediation_result
   field_type: string
   description: Remediation result - Succeeded or Failed
@@ -4089,6 +4659,7 @@ fields:
   cim_field: remediation_result
   asim_field: remediation_result
   category: Compliance
+  display_name: remediation_result
 - field_name: remediation_scope
   field_type: string
   description: Remediation level - Check or Rule
@@ -4096,6 +4667,7 @@ fields:
   cim_field: remediation_scope
   asim_field: remediation_scope
   category: Compliance
+  display_name: remediation_scope
 - field_name: check_name
   field_type: string
   description: Name of matching compliance check
@@ -4103,6 +4675,7 @@ fields:
   cim_field: check_name
   asim_field: check_name
   category: Compliance
+  display_name: check_name
 - field_name: remediation_source
   field_type: string
   description: URL of remediation file
@@ -4110,6 +4683,7 @@ fields:
   cim_field: remediation_source
   asim_field: remediation_source
   category: Compliance
+  display_name: remediation_source
 - field_name: remediation_file
   field_type: string
   description: File path where remediation file is saved
@@ -4117,6 +4691,7 @@ fields:
   cim_field: remediation_file
   asim_field: remediation_file
   category: Compliance
+  display_name: remediation_file
 - field_name: run_as
   field_type: string
   description: User used for running remediatoin (SYSTEM of current user)
@@ -4124,6 +4699,7 @@ fields:
   cim_field: run_as
   asim_field: run_as
   category: Compliance
+  display_name: run_as
 - field_name: automatic_remediation
   field_type: string
   description: Was remediation automatic or initiated by user
@@ -4131,6 +4707,7 @@ fields:
   cim_field: automatic_remediation
   asim_field: automatic_remediation
   category: Compliance
+  display_name: automatic_remediation
 - field_name: check_type
   field_type: string
   description: Type of matching compliance check
@@ -4138,6 +4715,7 @@ fields:
   cim_field: check_type
   asim_field: check_type
   category: Compliance
+  display_name: check_type
 - field_name: check_requirement
   field_type: string
   description: Name of matching compliance requirement
@@ -4145,6 +4723,7 @@ fields:
   cim_field: check_requirement
   asim_field: check_requirement
   category: Compliance
+  display_name: check_requirement
 - field_name: check_details
   field_type: string
   description: Additional details of why the check matched
@@ -4152,6 +4731,7 @@ fields:
   cim_field: check_details
   asim_field: check_details
   category: Compliance
+  display_name: check_details
 - field_name: check_validations
   field_type: string
   description: Additional details of check validation
@@ -4159,13 +4739,15 @@ fields:
   cim_field: check_validations
   asim_field: check_validations
   category: Compliance
+  display_name: check_validations
 - field_name: port
   field_type: integer
   description: Requested port
-  ecs_field: vendor.port
-  cim_field: port
-  asim_field: port
+  ecs_field: observer.ingress.interface.name
+  cim_field: switch_port
+  asim_field: SrcInterfaceName
   category: SSL Inspection
+  display_name: port
 - field_name: certificates
   field_type: string
   description: Info about certificate chain
@@ -4173,6 +4755,7 @@ fields:
   cim_field: certificates
   asim_field: certificates
   category: SSL Inspection
+  display_name: certificates
 - field_name: signer
   field_type: string
   description: Signer of the inspected exe
@@ -4180,6 +4763,7 @@ fields:
   cim_field: signer
   asim_field: signer
   category: SSL Inspection
+  display_name: signer
 - field_name: machine_sid
   field_type: string
   description: Machine SID
@@ -4187,6 +4771,7 @@ fields:
   cim_field: machine_sid
   asim_field: machine_sid
   category: Forensics
+  display_name: machine_sid
 - field_name: detected_by
   field_type: string
   description: Name of Blade/Component that triggered Forensics
@@ -4194,6 +4779,7 @@ fields:
   cim_field: detected_by
   asim_field: detected_by
   category: Forensics
+  display_name: Triggered By
 - field_name: attack_status
   field_type: string
   description: Status of atack (Active/Blocked/…)
@@ -4201,6 +4787,7 @@ fields:
   cim_field: attack_status
   asim_field: attack_status
   category: Forensics
+  display_name: Attack Status
 - field_name: remediated_files
   field_type: string
   description: Remediated files
@@ -4208,6 +4795,7 @@ fields:
   cim_field: remediated_files
   asim_field: remediated_files
   category: Forensics
+  display_name: Remediated Files
 - field_name: impacted_files
   field_type: string
   description: Affected files
@@ -4215,6 +4803,7 @@ fields:
   cim_field: impacted_files
   asim_field: impacted_files
   category: Forensics
+  display_name: Impacted Files
 - field_name: suspicious_events
   field_type: string
   description: Events that lead to the trigger
@@ -4222,6 +4811,7 @@ fields:
   cim_field: suspicious_events
   asim_field: suspicious_events
   category: Forensics
+  display_name: Suspicious Events
 - field_name: incident_details
   field_type: string
   description: Additional details of Forensics Analysis
@@ -4229,6 +4819,7 @@ fields:
   cim_field: incident_details
   asim_field: incident_details
   category: Forensics
+  display_name: Incident Details
 - field_name: incident_uid
   field_type: string
   description: ID of EFR report, if relevant/exists
@@ -4236,6 +4827,7 @@ fields:
   cim_field: incident_uid
   asim_field: incident_uid
   category: Threat Emulation
+  display_name: incident_uid
 - field_name: extension_version
   field_type: string
   description: Build number of browser extension component
@@ -4243,6 +4835,7 @@ fields:
   cim_field: extension_version
   asim_field: extension_version
   category: Threat Extraction
+  display_name: Extension Version
 - field_name: trusted_domain
   field_type: string
   description: In case of phishing event, the domain, which the attacker was impersonating
@@ -4250,6 +4843,7 @@ fields:
   cim_field: trusted_domain
   asim_field: trusted_domain
   category: Zero Phishing
+  display_name: Trusted Domain
 - field_name: app_package
   field_type: string
   description: Unique identifier of the application on the protected mobile device
@@ -4257,6 +4851,7 @@ fields:
   cim_field: app_package
   asim_field: app_package
   category: Harmony Mobile App
+  display_name: App Package
 - field_name: app_repackaged
   field_type: string
   description: Indicates whether the original application was repackaged not by the
@@ -4265,6 +4860,7 @@ fields:
   cim_field: app_repackaged
   asim_field: app_repackaged
   category: Harmony Mobile App
+  display_name: Application Repackaged
 - field_name: app_sid_id
   field_type: string
   description: Unique SHA identifier of a mobile application
@@ -4272,6 +4868,7 @@ fields:
   cim_field: app_sid_id
   asim_field: app_sid_id
   category: Harmony Mobile App
+  display_name: Application Signature ID
 - field_name: app_version
   field_type: string
   description: Version of the application downloaded on the protected mobile device
@@ -4279,6 +4876,7 @@ fields:
   cim_field: app_version
   asim_field: app_version
   category: Harmony Mobile App
+  display_name: Application Version
 - field_name: developer_certificate_name
   field_type: string
   description: Name of the developer's certificate that was used to sign the mobile
@@ -4287,6 +4885,7 @@ fields:
   cim_field: developer_certificate_name
   asim_field: developer_certificate_name
   category: Harmony Mobile App
+  display_name: Developer Certificate Name
 - field_name: cp_component_version
   field_type: string
   description: Version of the AutoUpdater component
@@ -4294,6 +4893,7 @@ fields:
   cim_field: cp_component_version
   asim_field: cp_component_version
   category: Harmony Mobile App
+  display_name: N / A
 - field_name: cp_component_name
   field_type: string
   description: Name of the AutoUpdater component
@@ -4301,6 +4901,7 @@ fields:
   cim_field: cp_component_name
   asim_field: cp_component_name
   category: Harmony Mobile App
+  display_name: N / A
 - field_name: system_application
   field_type: string
   description: Name of the internal application
@@ -4308,6 +4909,7 @@ fields:
   cim_field: system_application
   asim_field: system_application
   category: Harmony Mobile App
+  display_name: N / A
 - field_name: package_action
   field_type: string
   description: Package action
@@ -4315,6 +4917,7 @@ fields:
   cim_field: package_action
   asim_field: package_action
   category: Harmony Mobile App
+  display_name: N / A
 - field_name: operation_results
   field_type: string
   description: Operation result
@@ -4322,6 +4925,7 @@ fields:
   cim_field: operation_results
   asim_field: operation_results
   category: Harmony Mobile App
+  display_name: N / A
 - field_name: administrator
   field_type: string
   description: User who performed the operation
@@ -4329,6 +4933,7 @@ fields:
   cim_field: administrator
   asim_field: administrator
   category: Audit
+  display_name: Administrator
 - field_name: fieldschanges
   field_type: string
   description: Specific changes done on the affected object
@@ -4336,6 +4941,7 @@ fields:
   cim_field: fieldschanges
   asim_field: fieldschanges
   category: Audit
+  display_name: Changes
 - field_name: client_ip
   field_type: ip
   description: IP address of the client machine, from which the change was performed
@@ -4343,6 +4949,7 @@ fields:
   cim_field: client_ip
   asim_field: client_ip
   category: Audit
+  display_name: Client IP
 - field_name: logic
   field_type: string
   description: Technical information about the specific changes done on the affected
@@ -4351,6 +4958,7 @@ fields:
   cim_field: logic
   asim_field: logic
   category: Audit
+  display_name: "changes\tLogic Changes"
 - field_name: objecttype
   field_type: string
   description: The type of the affected object
@@ -4358,6 +4966,7 @@ fields:
   cim_field: objecttype
   asim_field: objecttype
   category: Audit
+  display_name: Object Type
 - field_name: objectname
   field_type: string
   description: The name of the object that is affected by the action
@@ -4365,6 +4974,7 @@ fields:
   cim_field: objectname
   asim_field: objectname
   category: Audit
+  display_name: Performed On
 - field_name: session_name
   field_type: string
   description: The name of the session, in which the change was published
@@ -4372,6 +4982,7 @@ fields:
   cim_field: session_name
   asim_field: session_name
   category: Audit
+  display_name: Session Name
 - field_name: session_description
   field_type: string
   description: The description of the session, in which the change was published
@@ -4379,6 +4990,7 @@ fields:
   cim_field: session_description
   asim_field: session_description
   category: Audit
+  display_name: Session Description
 signatures:
 - name: checkpoint_fw_generic
   description: Generic Check Point Firewall detection - matches product name

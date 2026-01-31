@@ -5,11 +5,281 @@ product_full_name: EVE
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-29'
+extraction_date: '2026-01-31'
 source_file: suricata-eve-signatures.json
-generated_at: '2026-01-29T05:59:01.573863'
-field_count: 0
-fields: []
+generated_at: '2026-01-31T04:25:55.673703'
+field_count: 45
+fields:
+- field_name: suricata.eve.event_type
+  field_type: keyword
+  description: Type of Suricata event (alert, dns, http, tls, flow, etc.)
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: suricata.eve.flow_id
+  field_type: keyword
+  description: Unique flow identifier
+  ecs_field: network.session_id
+  cim_field: session_id
+  asim_field: NetworkSessionId
+- field_name: suricata.eve.in_iface
+  field_type: keyword
+  description: Input interface
+  ecs_field: observer.ingress.interface.name
+  cim_field: interface
+  asim_field: DvcInboundInterface
+- field_name: suricata.eve.alert.signature
+  field_type: keyword
+  description: Rule signature name
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
+- field_name: suricata.eve.alert.signature_id
+  field_type: long
+  description: Signature ID (SID)
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
+- field_name: suricata.eve.alert.category
+  field_type: keyword
+  description: Alert category
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: ThreatCategory
+- field_name: suricata.eve.alert.severity
+  field_type: keyword
+  description: Alert severity (1-4)
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: ThreatRiskLevel
+- field_name: suricata.eve.alert.rev
+  field_type: long
+  description: Rule revision
+  ecs_field: rule.version
+  cim_field: signature_version
+  asim_field: RuleVersion
+- field_name: suricata.eve.alert.gid
+  field_type: long
+  description: Generator ID
+  ecs_field: rule.ruleset
+  cim_field: vendor_signature_id
+  asim_field: EventVendorId
+- field_name: suricata.eve.alert.cve
+  field_type: keyword
+  description: CVE reference
+  ecs_field: vulnerability.id
+  cim_field: cve
+  asim_field: ThreatId
+- field_name: suricata.eve.alert.cwe_id
+  field_type: keyword
+  description: CWE ID
+  ecs_field: vulnerability.classification
+  cim_field: cwe_id
+  asim_field: ThreatCategory
+- field_name: suricata.eve.alert.malware
+  field_type: keyword
+  description: Malware name
+  ecs_field: threat.indicator.name
+  cim_field: malware
+  asim_field: ThreatName
+- field_name: suricata.eve.alert.attack_target
+  field_type: keyword
+  description: Attack target
+  ecs_field: threat.indicator.type
+  cim_field: attack_target
+  asim_field: ThreatField
+- field_name: suricata.eve.dns.type
+  field_type: keyword
+  description: DNS query or response
+  ecs_field: dns.type
+  cim_field: message_type
+  asim_field: EventSubType
+- field_name: suricata.eve.dns.rrtype
+  field_type: keyword
+  description: DNS record type (A, AAAA, MX, etc.)
+  ecs_field: dns.question.type
+  cim_field: record_type
+  asim_field: DnsQueryType
+- field_name: suricata.eve.dns.rrname
+  field_type: keyword
+  description: DNS record name
+  ecs_field: dns.question.name
+  cim_field: query
+  asim_field: DnsQuery
+- field_name: suricata.eve.dns.rdata
+  field_type: keyword
+  description: DNS record data
+  ecs_field: dns.answers.data
+  cim_field: answer
+  asim_field: DnsResponseName
+- field_name: suricata.eve.dns.ttl
+  field_type: long
+  description: DNS TTL
+  ecs_field: dns.answers.ttl
+  cim_field: ttl
+  asim_field: DnsResponseTtl
+- field_name: suricata.eve.dns.rcode
+  field_type: keyword
+  description: DNS response code
+  ecs_field: dns.response_code
+  cim_field: reply_code
+  asim_field: DnsResponseCode
+- field_name: suricata.eve.http.protocol
+  field_type: keyword
+  description: HTTP protocol version
+  ecs_field: http.version
+  cim_field: http_version
+  asim_field: HttpVersion
+- field_name: suricata.eve.http.http_content_type
+  field_type: keyword
+  description: HTTP content type
+  ecs_field: http.response.mime_type
+  cim_field: http_content_type
+  asim_field: HttpContentType
+- field_name: suricata.eve.http.redirect
+  field_type: keyword
+  description: HTTP redirect URL
+  ecs_field: http.response.redirect
+  cim_field: http_referrer
+  asim_field: HttpReferrer
+- field_name: suricata.eve.tls.sni
+  field_type: keyword
+  description: TLS Server Name Indication
+  ecs_field: tls.client.server_name
+  cim_field: ssl_subject
+  asim_field: TlsSni
+- field_name: suricata.eve.tls.version
+  field_type: keyword
+  description: TLS version
+  ecs_field: tls.version
+  cim_field: ssl_version
+  asim_field: TlsVersion
+- field_name: suricata.eve.tls.fingerprint
+  field_type: keyword
+  description: Certificate fingerprint
+  ecs_field: tls.server.hash.sha1
+  cim_field: ssl_hash
+  asim_field: TlsCertificateHash
+- field_name: suricata.eve.tls.serial
+  field_type: keyword
+  description: Certificate serial number
+  ecs_field: tls.server.x509.serial_number
+  cim_field: ssl_serial
+  asim_field: TlsCertificateSerial
+- field_name: suricata.eve.tls.subject
+  field_type: keyword
+  description: Certificate subject
+  ecs_field: tls.server.subject
+  cim_field: ssl_subject
+  asim_field: TlsCertificateSubject
+- field_name: suricata.eve.tls.issuerdn
+  field_type: keyword
+  description: Certificate issuer DN
+  ecs_field: tls.server.issuer
+  cim_field: ssl_issuer
+  asim_field: TlsCertificateIssuer
+- field_name: suricata.eve.tls.ja3.hash
+  field_type: keyword
+  description: JA3 fingerprint hash
+  ecs_field: tls.client.ja3
+  cim_field: ja3_hash
+  asim_field: TlsJa3
+- field_name: suricata.eve.tls.ja3s.hash
+  field_type: keyword
+  description: JA3S fingerprint hash
+  ecs_field: tls.server.ja3s
+  cim_field: ja3s_hash
+  asim_field: TlsJa3s
+- field_name: suricata.eve.fileinfo.sha256
+  field_type: keyword
+  description: File SHA256 hash
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
+- field_name: suricata.eve.fileinfo.md5
+  field_type: keyword
+  description: File MD5 hash
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
+- field_name: suricata.eve.fileinfo.sha1
+  field_type: keyword
+  description: File SHA1 hash
+  ecs_field: file.hash.sha1
+  cim_field: file_hash
+  asim_field: TargetFileSHA1
+- field_name: suricata.eve.fileinfo.state
+  field_type: keyword
+  description: File extraction state
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: suricata.eve.ssh.client.software_version
+  field_type: keyword
+  description: SSH client software version
+  ecs_field: network.protocol_version
+  cim_field: ssh_client_version
+  asim_field: SrcAppName
+- field_name: suricata.eve.ssh.server.software_version
+  field_type: keyword
+  description: SSH server software version
+  ecs_field: network.protocol_version
+  cim_field: ssh_server_version
+  asim_field: DstAppName
+- field_name: suricata.eve.flow.state
+  field_type: keyword
+  description: Flow state
+  ecs_field: network.transport
+  cim_field: connection_state
+  asim_field: NetworkConnectionState
+- field_name: suricata.eve.flow.reason
+  field_type: keyword
+  description: Flow end reason
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: suricata.eve.flow.age
+  field_type: long
+  description: Flow age in seconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: NetworkDuration
+- field_name: suricata.eve.tcp.state
+  field_type: keyword
+  description: TCP connection state
+  ecs_field: network.transport
+  cim_field: tcp_state
+  asim_field: NetworkConnectionState
+- field_name: suricata.eve.tcp.tcp_flags
+  field_type: keyword
+  description: TCP flags
+  ecs_field: network.transport
+  cim_field: tcp_flag
+  asim_field: TcpFlags
+- field_name: suricata.eve.smtp.mail_from
+  field_type: keyword
+  description: SMTP sender
+  ecs_field: email.from.address
+  cim_field: src_user
+  asim_field: SrcUsername
+- field_name: suricata.eve.smtp.rcpt_to
+  field_type: keyword
+  description: SMTP recipient
+  ecs_field: email.to.address
+  cim_field: recipient
+  asim_field: DstUsername
+- field_name: suricata.eve.icmp_type
+  field_type: long
+  description: ICMP message type
+  ecs_field: icmp.type
+  cim_field: icmp_type
+  asim_field: IcmpType
+- field_name: suricata.eve.icmp_code
+  field_type: long
+  description: ICMP message code
+  ecs_field: icmp.code
+  cim_field: icmp_code
+  asim_field: IcmpCode
 signatures:
 - name: suricata_alert
   description: Suricata IDS/IPS alert event

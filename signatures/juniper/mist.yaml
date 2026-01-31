@@ -5,151 +5,171 @@ product_full_name: Mist
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-29'
+extraction_date: '2026-01-31'
 source_file: juniper-mist-signatures.json
-generated_at: '2026-01-29T05:59:00.171743'
+generated_at: '2026-01-31T04:25:54.065966'
 field_count: 20
 fields:
 - field_name: client-mac
   field_type: string
   description: Wireless client MAC address
-  ecs_field: vendor.client-mac
-  cim_field: client-mac
-  asim_field: client-mac
+  ecs_field: source.mac
+  cim_field: src_mac
+  asim_field: SrcMacAddr
   category: wireless
+  display_name: Client MAC
 - field_name: ap-name
   field_type: string
   description: Access point name
-  ecs_field: vendor.ap-name
-  cim_field: ap-name
-  asim_field: ap-name
+  ecs_field: observer.name
+  cim_field: dvc_name
+  asim_field: DvcHostname
   category: wireless
+  display_name: AP Name
 - field_name: ssid
   field_type: string
   description: Wireless network SSID
-  ecs_field: vendor.ssid
+  ecs_field: network.name
   cim_field: ssid
-  asim_field: ssid
+  asim_field: NetworkProtocol
   category: wireless
+  display_name: SSID
 - field_name: bssid
   field_type: string
   description: Basic Service Set Identifier
-  ecs_field: vendor.bssid
-  cim_field: bssid
-  asim_field: bssid
+  ecs_field: observer.mac
+  cim_field: dvc_mac
+  asim_field: DvcMacAddr
   category: wireless
+  display_name: BSSID
 - field_name: username
   field_type: string
   description: Authenticated username (802.1X)
-  ecs_field: vendor.username
-  cim_field: username
-  asim_field: username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: authentication
+  display_name: Username
 - field_name: reason
   field_type: string
   description: Event reason or failure cause
-  ecs_field: vendor.reason
+  ecs_field: event.reason
   cim_field: reason
-  asim_field: reason
+  asim_field: EventResultDetails
   category: system
+  display_name: Reason
 - field_name: band
   field_type: string
   description: Radio band (2.4GHz, 5GHz, 6GHz)
-  ecs_field: vendor.band
-  cim_field: band
-  asim_field: band
+  ecs_field: network.protocol
+  cim_field: protocol
+  asim_field: NetworkProtocol
   category: wireless
+  display_name: Radio Band
 - field_name: channel
   field_type: number
   description: Radio channel number
-  ecs_field: vendor.channel
+  ecs_field: network.vlan.id
   cim_field: channel
-  asim_field: channel
+  asim_field: NetworkVlanId
   category: wireless
+  display_name: Channel
 - field_name: vlan
   field_type: string
   description: Assigned VLAN
-  ecs_field: vendor.vlan
+  ecs_field: network.vlan.id
   cim_field: vlan
-  asim_field: vlan
+  asim_field: NetworkVlanId
   category: network
+  display_name: VLAN
 - field_name: radius-server
   field_type: ip
   description: RADIUS server IP
-  ecs_field: vendor.radius-server
-  cim_field: radius-server
-  asim_field: radius-server
+  ecs_field: server.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: authentication
+  display_name: RADIUS Server
 - field_name: rogue-bssid
   field_type: string
   description: Rogue AP BSSID
-  ecs_field: vendor.rogue-bssid
-  cim_field: rogue-bssid
-  asim_field: rogue-bssid
+  ecs_field: destination.mac
+  cim_field: dest_mac
+  asim_field: DstMacAddr
   category: security
+  display_name: Rogue BSSID
 - field_name: rogue-ssid
   field_type: string
   description: Rogue AP SSID
-  ecs_field: vendor.rogue-ssid
-  cim_field: rogue-ssid
-  asim_field: rogue-ssid
+  ecs_field: network.name
+  cim_field: ssid
+  asim_field: NetworkProtocol
   category: security
+  display_name: Rogue SSID
 - field_name: rssi
   field_type: number
   description: Signal strength (dBm)
-  ecs_field: vendor.rssi
-  cim_field: rssi
-  asim_field: rssi
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: wireless
+  display_name: RSSI
 - field_name: firmware
   field_type: string
   description: AP firmware version
-  ecs_field: vendor.firmware
-  cim_field: firmware
-  asim_field: firmware
+  ecs_field: observer.version
+  cim_field: dvc_version
+  asim_field: DvcOsVersion
   category: system
+  display_name: Firmware
 - field_name: site
   field_type: string
   description: Mist site name
-  ecs_field: vendor.site
+  ecs_field: observer.geo.name
   cim_field: site
-  asim_field: site
+  asim_field: DvcZone
   category: location
+  display_name: Site
 - field_name: anomaly-type
   field_type: string
   description: Marvis AI detected anomaly type
-  ecs_field: vendor.anomaly-type
-  cim_field: anomaly-type
-  asim_field: anomaly-type
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
   category: ai
+  display_name: Anomaly Type
 - field_name: zone
   field_type: string
   description: Location services zone
-  ecs_field: vendor.zone
-  cim_field: zone
-  asim_field: zone
+  ecs_field: observer.geo.name
+  cim_field: site
+  asim_field: DvcZone
   category: location
+  display_name: Location Zone
 - field_name: link
   field_type: string
   description: WAN link name
-  ecs_field: vendor.link
-  cim_field: link
-  asim_field: link
+  ecs_field: observer.ingress.interface.name
+  cim_field: interface
+  asim_field: DvcInboundInterface
   category: wan
+  display_name: WAN Link
 - field_name: application
   field_type: string
   description: WAN application name
-  ecs_field: vendor.application
-  cim_field: application
-  asim_field: application
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplicationProtocol
   category: wan
+  display_name: Application
 - field_name: latency
   field_type: string
   description: WAN link latency
-  ecs_field: vendor.latency
-  cim_field: latency
-  asim_field: latency
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: NetworkDuration
   category: wan
+  display_name: Latency
 signatures:
 - name: juniper_mist_client_connect
   pattern: MIST_CLIENT_CONNECT

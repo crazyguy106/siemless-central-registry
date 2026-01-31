@@ -5,116 +5,131 @@ product_full_name: Ethernet Industrial Protocol
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-29'
+extraction_date: '2026-01-31'
 source_file: ot-ethernet_ip-signatures.json
-generated_at: '2026-01-29T05:59:00.740330'
+generated_at: '2026-01-31T04:25:54.721712'
 field_count: 15
 fields:
 - field_name: source_ip
   field_type: ip
   description: Originator IP address
-  ecs_field: vendor.source_ip
-  cim_field: source_ip
-  asim_field: source_ip
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: network
+  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: Target IP address
-  ecs_field: vendor.destination_ip
-  cim_field: destination_ip
-  asim_field: destination_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: network
+  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Source port
-  ecs_field: vendor.source_port
-  cim_field: source_port
-  asim_field: source_port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: network
+  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Destination port (44818 TCP/UDP)
-  ecs_field: vendor.destination_port
-  cim_field: destination_port
-  asim_field: destination_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: network
+  display_name: Destination Port
 - field_name: command
   field_type: number
   description: EtherNet/IP encapsulation command code
-  ecs_field: vendor.command
-  cim_field: command
-  asim_field: command
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
   category: protocol
+  display_name: Encapsulation Command
 - field_name: command_name
   field_type: string
   description: Human-readable command name
-  ecs_field: vendor.command_name
-  cim_field: command_name
-  asim_field: command_name
+  ecs_field: event.action
+  cim_field: action
+  asim_field: DvcAction
   category: protocol
+  display_name: Command Name
 - field_name: session_handle
   field_type: number
   description: Session identifier
-  ecs_field: vendor.session_handle
-  cim_field: session_handle
-  asim_field: session_handle
+  ecs_field: event.id
+  cim_field: session_id
+  asim_field: DvcScopeId
   category: session
+  display_name: Session Handle
 - field_name: cip_service
   field_type: number
   description: CIP service code
-  ecs_field: vendor.cip_service
-  cim_field: cip_service
-  asim_field: cip_service
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventType
   category: protocol
+  display_name: CIP Service
 - field_name: cip_service_name
   field_type: string
   description: Human-readable CIP service name
-  ecs_field: vendor.cip_service_name
-  cim_field: cip_service_name
-  asim_field: cip_service_name
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: protocol
+  display_name: CIP Service Name
 - field_name: class_id
   field_type: number
   description: CIP object class ID
-  ecs_field: vendor.class_id
-  cim_field: class_id
-  asim_field: class_id
+  ecs_field: file.type
+  cim_field: object_category
+  asim_field: TargetFileType
   category: data
+  display_name: Class ID
 - field_name: instance_id
   field_type: number
   description: CIP object instance ID
-  ecs_field: vendor.instance_id
-  cim_field: instance_id
-  asim_field: instance_id
+  ecs_field: file.inode
+  cim_field: file_id
+  asim_field: TargetFileId
   category: data
+  display_name: Instance ID
 - field_name: attribute_id
   field_type: number
   description: CIP attribute ID
-  ecs_field: vendor.attribute_id
-  cim_field: attribute_id
-  asim_field: attribute_id
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: TargetFileName
   category: data
+  display_name: Attribute ID
 - field_name: data_value
   field_type: string
   description: Attribute or tag value
-  ecs_field: vendor.data_value
-  cim_field: data_value
-  asim_field: data_value
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileHashMd5
   category: data
+  display_name: Data Value
 - field_name: status
   field_type: number
   description: CIP general status code
-  ecs_field: vendor.status
-  cim_field: status
-  asim_field: status
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
   category: result
+  display_name: Status Code
 - field_name: connection_id
   field_type: number
   description: I/O connection identifier
-  ecs_field: vendor.connection_id
-  cim_field: connection_id
-  asim_field: connection_id
+  ecs_field: event.sequence
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
   category: connection
+  display_name: Connection ID
 signatures:
 - name: enip_register_session
   pattern: command[=:]\s*0x0065|RegisterSession

@@ -7,7 +7,7 @@ source_document: Linux Audit Field Dictionary
 source_url: https://github.com/linux-audit/audit-documentation/blob/master/specs/fields/field-dictionary.csv
 extraction_date: '2026-01-02'
 source_file: linux-auditd-signatures.json
-generated_at: '2026-01-29T05:59:00.267760'
+generated_at: '2026-01-31T04:25:54.170522'
 categories:
 - Process
 - Subject
@@ -72,9 +72,9 @@ fields:
 - field_name: action
   field_type: string
   description: Netfilter packet disposition
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: Netfilter
 - field_name: addr
   field_type: ip
@@ -205,9 +205,9 @@ fields:
 - field_name: category
   field_type: string
   description: Resource category assigned to VM
-  ecs_field: vendor.category
+  ecs_field: event.category
   cim_field: category
-  asim_field: category
+  asim_field: EventCategory
   category: Virtualization
 - field_name: cipher
   field_type: string
@@ -275,9 +275,9 @@ fields:
 - field_name: direction
   field_type: string
   description: Direction of crypto operation
-  ecs_field: vendor.direction
+  ecs_field: network.direction
   cim_field: direction
-  asim_field: direction
+  asim_field: NetworkDirection
   category: Crypto
 - field_name: dmac
   field_type: string
@@ -289,9 +289,9 @@ fields:
 - field_name: dport
   field_type: port
   description: Remote port number
-  ecs_field: vendor.dport
-  cim_field: dport
-  asim_field: dport
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Network
 - field_name: egid
   field_type: integer
@@ -373,9 +373,9 @@ fields:
 - field_name: flags
   field_type: string
   description: mmap syscall flags
-  ecs_field: vendor.flags
-  cim_field: flags
-  asim_field: flags
+  ecs_field: network.ip_flags
+  cim_field: ip_flags
+  asim_field: IpFlags
   category: Syscall
 - field_name: format
   field_type: string
@@ -436,16 +436,16 @@ fields:
 - field_name: hostname
   field_type: string
   description: Hostname user is connecting from
-  ecs_field: vendor.hostname
-  cim_field: hostname
-  asim_field: hostname
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
   category: Network
 - field_name: icmp_type
   field_type: integer
   description: Type of ICMP message
-  ecs_field: vendor.icmp_type
+  ecs_field: network.icmp.type
   cim_field: icmp_type
-  asim_field: icmp_type
+  asim_field: IcmpType
   category: Netfilter
 - field_name: igid
   field_type: integer
@@ -555,9 +555,9 @@ fields:
 - field_name: mac
   field_type: string
   description: Crypto MAC algorithm selected
-  ecs_field: vendor.mac
-  cim_field: mac
-  asim_field: mac
+  ecs_field: host.mac
+  cim_field: src_mac
+  asim_field: SrcMacAddr
   category: Crypto
 - field_name: macproto
   field_type: string
@@ -576,9 +576,9 @@ fields:
 - field_name: msg
   field_type: string
   description: Payload of the audit record
-  ecs_field: vendor.msg
+  ecs_field: message
   cim_field: msg
-  asim_field: msg
+  asim_field: EventMessage
   category: Audit
 - field_name: name
   field_type: string
@@ -639,9 +639,9 @@ fields:
 - field_name: op
   field_type: string
   description: Operation being performed that is audited
-  ecs_field: vendor.op
-  cim_field: op
-  asim_field: op
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: Audit
 - field_name: ouid
   field_type: integer
@@ -667,9 +667,9 @@ fields:
 - field_name: path
   field_type: string
   description: File system path name
-  ecs_field: vendor.path
-  cim_field: path
-  asim_field: path
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Object
 - field_name: perm
   field_type: string
@@ -702,9 +702,9 @@ fields:
 - field_name: pid
   field_type: integer
   description: Process ID
-  ecs_field: vendor.pid
-  cim_field: pid
-  asim_field: pid
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: TargetProcessId
   category: Subject
 - field_name: ppid
   field_type: integer
@@ -723,9 +723,9 @@ fields:
 - field_name: proto
   field_type: string
   description: Network protocol
-  ecs_field: vendor.proto
-  cim_field: proto
-  asim_field: proto
+  ecs_field: network.iana_number
+  cim_field: protocol_number
+  asim_field: NetworkProtocolVersion
   category: Network
 - field_name: qbytes
   field_type: integer
@@ -751,9 +751,9 @@ fields:
 - field_name: reason
   field_type: string
   description: Text string denoting a reason for the action
-  ecs_field: vendor.reason
+  ecs_field: event.reason
   cim_field: reason
-  asim_field: reason
+  asim_field: EventResultDetails
   category: Audit
 - field_name: res
   field_type: string
@@ -765,9 +765,9 @@ fields:
 - field_name: result
   field_type: string
   description: Result of the audited operation (success/fail)
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Audit
 - field_name: role
   field_type: string
@@ -863,9 +863,9 @@ fields:
 - field_name: sport
   field_type: port
   description: Local port number
-  ecs_field: vendor.sport
-  cim_field: sport
-  asim_field: sport
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Network
 - field_name: state
   field_type: string
@@ -940,30 +940,30 @@ fields:
 - field_name: type
   field_type: string
   description: Audit record's type
-  ecs_field: vendor.type
-  cim_field: type
-  asim_field: type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Audit
 - field_name: uid
   field_type: integer
   description: Current user ID
-  ecs_field: vendor.uid
+  ecs_field: event.id
   cim_field: uid
-  asim_field: uid
+  asim_field: EventOriginalUid
   category: Subject
 - field_name: user
   field_type: string
   description: Account submitted for authentication
-  ecs_field: vendor.user
+  ecs_field: user.name
   cim_field: user
-  asim_field: user
+  asim_field: TargetUsername
   category: Subject
 - field_name: uuid
   field_type: string
   description: UUID
-  ecs_field: vendor.uuid
+  ecs_field: observer.id
   cim_field: uuid
-  asim_field: uuid
+  asim_field: DvcId
   category: Virtualization
 - field_name: ver
   field_type: string

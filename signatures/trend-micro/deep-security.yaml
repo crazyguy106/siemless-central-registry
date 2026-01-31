@@ -7,7 +7,7 @@ source_document: Event syslog message formats
 source_url: https://help.deepsecurity.trendmicro.com/20_0/on-premise/event-syslog-message-formats.html
 extraction_date: '2026-01-02'
 source_file: trendmicro-deepsecurity-signatures.json
-generated_at: '2026-01-29T05:59:01.680998'
+generated_at: '2026-01-31T04:25:55.797581'
 categories:
 - CEF Header
 - Container
@@ -63,16 +63,16 @@ fields:
 - field_name: Severity
   field_type: integer
   description: Event severity (0-10)
-  ecs_field: vendor.Severity
-  cim_field: Severity
-  asim_field: Severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: CEF Header
 - field_name: Signature_ID
   field_type: string
   description: Event signature ID
-  ecs_field: vendor.Signature_ID
-  cim_field: Signature_ID
-  asim_field: Signature_ID
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: CEF Header
 - field_name: TrendMicroDsCluster
   field_type: string
@@ -105,9 +105,9 @@ fields:
 - field_name: TrendMicroDsFileMD5
   field_type: string
   description: MD5 hash value of file
-  ecs_field: vendor.TrendMicroDsFileMD5
-  cim_field: TrendMicroDsFileMD5
-  asim_field: TrendMicroDsFileMD5
+  ecs_field: file.hash.md5
+  cim_field: file_hash_md5
+  asim_field: FileHashMd5
   category: Anti-Malware
 - field_name: TrendMicroDsFileSHA1
   field_type: string
@@ -119,9 +119,9 @@ fields:
 - field_name: TrendMicroDsFileSHA256
   field_type: string
   description: SHA256 hash value of file
-  ecs_field: vendor.TrendMicroDsFileSHA256
-  cim_field: TrendMicroDsFileSHA256
-  asim_field: TrendMicroDsFileSHA256
+  ecs_field: file.hash.sha256
+  cim_field: file_hash_sha256
+  asim_field: FileHashSha256
   category: Anti-Malware
 - field_name: TrendMicroDsFrameType
   field_type: string
@@ -259,16 +259,16 @@ fields:
 - field_name: cat
   field_type: string
   description: Event category
-  ecs_field: vendor.cat
-  cim_field: cat
-  asim_field: cat
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
   category: Universal
 - field_name: cn1
   field_type: integer
   description: Host identifier
-  ecs_field: vendor.cn1
-  cim_field: cn1
-  asim_field: cn1
+  ecs_field: host.id
+  cim_field: host_id
+  asim_field: DvcId
   category: Universal
 - field_name: cn1Label
   field_type: string
@@ -350,9 +350,9 @@ fields:
 - field_name: cs4
   field_type: string
   description: Resource type code (spyware)
-  ecs_field: vendor.cs4
-  cim_field: cs4
-  asim_field: cs4
+  ecs_field: event.original
+  cim_field: interface_stats
+  asim_field: EventOriginal
   category: Anti-Malware
 - field_name: cs4Label
   field_type: string
@@ -392,9 +392,9 @@ fields:
 - field_name: desc
   field_type: string
   description: Event description
-  ecs_field: vendor.desc
-  cim_field: desc
-  asim_field: desc
+  ecs_field: message
+  cim_field: description
+  asim_field: EventMessage
   category: Universal
 - field_name: devTime
   field_type: datetime
@@ -413,9 +413,9 @@ fields:
 - field_name: device
   field_type: string
   description: Device name accessed
-  ecs_field: vendor.device
-  cim_field: device
-  asim_field: device
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Device Control
 - field_name: deviceExternalId
   field_type: string
@@ -455,16 +455,16 @@ fields:
 - field_name: dpt
   field_type: port
   description: Destination port
-  ecs_field: vendor.dpt
-  cim_field: dpt
-  asim_field: dpt
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Firewall
 - field_name: dst
   field_type: ip
   description: Destination IP address
-  ecs_field: vendor.dst
-  cim_field: dst
-  asim_field: dst
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Firewall
 - field_name: dstMAC
   field_type: string
@@ -476,9 +476,9 @@ fields:
 - field_name: dstPort
   field_type: port
   description: Destination port (alternate)
-  ecs_field: vendor.dstPort
-  cim_field: dstPort
-  asim_field: dstPort
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Firewall
 - field_name: duser
   field_type: string
@@ -490,16 +490,16 @@ fields:
 - field_name: dvc
   field_type: ip
   description: IPv4 address of device
-  ecs_field: vendor.dvc
-  cim_field: dvc
-  asim_field: dvc
+  ecs_field: observer.ip
+  cim_field: dvc_ip
+  asim_field: DvcIpAddr
   category: Universal
 - field_name: dvchost
   field_type: string
   description: Hostname or IPv6 address of device
-  ecs_field: vendor.dvchost
-  cim_field: dvchost
-  asim_field: dvchost
+  ecs_field: observer.hostname
+  cim_field: dvc_host
+  asim_field: DvcHostname
   category: Universal
 - field_name: entityType
   field_type: string
@@ -575,9 +575,9 @@ fields:
 - field_name: msg
   field_type: string
   description: Scan type (Realtime, Scheduled, Manual, Quick)
-  ecs_field: vendor.msg
+  ecs_field: message
   cim_field: msg
-  asim_field: msg
+  asim_field: EventMessage
   category: Anti-Malware
 - field_name: name
   field_type: string
@@ -617,9 +617,9 @@ fields:
 - field_name: proto
   field_type: string
   description: Protocol (TCP, UDP, ICMP)
-  ecs_field: vendor.proto
-  cim_field: proto
-  asim_field: proto
+  ecs_field: network.iana_number
+  cim_field: protocol_number
+  asim_field: NetworkProtocolVersion
   category: Firewall
 - field_name: repeatCount
   field_type: integer
@@ -631,9 +631,9 @@ fields:
 - field_name: request
   field_type: string
   description: URL requested
-  ecs_field: vendor.request
-  cim_field: request
-  asim_field: request
+  ecs_field: url.original
+  cim_field: http_request
+  asim_field: Url
   category: Web Reputation
 - field_name: requestClientApplication
   field_type: string
@@ -652,9 +652,9 @@ fields:
 - field_name: result
   field_type: string
   description: Result outcome (Deleted, Quarantined, Cleaned, Failed)
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Anti-Malware
 - field_name: rt
   field_type: datetime
@@ -666,16 +666,16 @@ fields:
 - field_name: serial
   field_type: string
   description: Device serial number
-  ecs_field: vendor.serial
-  cim_field: serial
-  asim_field: serial
+  ecs_field: observer.serial_number
+  cim_field: device_serial
+  asim_field: DvcSerial
   category: Device Control
 - field_name: sev
   field_type: integer
   description: Severity level (1-10)
-  ecs_field: vendor.sev
-  cim_field: sev
-  asim_field: sev
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Universal
 - field_name: shost
   field_type: string
@@ -701,16 +701,16 @@ fields:
 - field_name: spt
   field_type: port
   description: Source port
-  ecs_field: vendor.spt
-  cim_field: spt
-  asim_field: spt
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Firewall
 - field_name: src
   field_type: ip
   description: Source IP address
-  ecs_field: vendor.src
-  cim_field: src
-  asim_field: src
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Firewall
 - field_name: srcMAC
   field_type: string
@@ -722,9 +722,9 @@ fields:
 - field_name: srcPort
   field_type: port
   description: Source port (alternate)
-  ecs_field: vendor.srcPort
-  cim_field: srcPort
-  asim_field: srcPort
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Firewall
 - field_name: suid
   field_type: string

@@ -7,7 +7,7 @@ source_document: SignInLogs Table Reference
 source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/signinlogs
 extraction_date: '2026-01-02'
 source_file: azure-signin-signatures.json
-generated_at: '2026-01-29T05:58:47.417594'
+generated_at: '2026-01-31T04:25:41.227292'
 categories:
 - Identity
 - Metadata
@@ -46,9 +46,9 @@ fields:
 - field_name: AppId
   field_type: string
   description: The application identifier in Azure Active Directory
-  ecs_field: vendor.AppId
-  cim_field: AppId
-  asim_field: AppId
+  ecs_field: network.application
+  cim_field: app_id
+  asim_field: DstAppId
   category: Application
 - field_name: AppOwnerTenantId
   field_type: string
@@ -145,9 +145,9 @@ fields:
 - field_name: Category
   field_type: string
   description: Event category
-  ecs_field: vendor.Category
-  cim_field: Category
-  asim_field: Category
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
   category: Metadata
 - field_name: ClientAppUsed
   field_type: string
@@ -264,16 +264,16 @@ fields:
 - field_name: Id
   field_type: string
   description: The identifier representing the sign-in activity
-  ecs_field: vendor.Id
-  cim_field: Id
-  asim_field: Id
+  ecs_field: network.packet_id
+  cim_field: packet_id
+  asim_field: NetworkPacketId
   category: Metadata
 - field_name: Identity
   field_type: string
   description: The display name of the actor identified in the sign-in
-  ecs_field: vendor.Identity
-  cim_field: Identity
-  asim_field: Identity
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: Identity
 - field_name: IncomingTokenType
   field_type: string
@@ -313,9 +313,9 @@ fields:
 - field_name: Level
   field_type: string
   description: Log level
-  ecs_field: vendor.Level
-  cim_field: Level
-  asim_field: Level
+  ecs_field: log.level
+  cim_field: severity
+  asim_field: EventSeverity
   category: Metadata
 - field_name: Location
   field_type: string
@@ -383,9 +383,9 @@ fields:
 - field_name: Resource
   field_type: string
   description: Resource signed into
-  ecs_field: vendor.Resource
-  cim_field: Resource
-  asim_field: Resource
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
   category: Application
 - field_name: ResourceDisplayName
   field_type: string
@@ -516,9 +516,9 @@ fields:
 - field_name: SessionId
   field_type: string
   description: ID of the session generated during sign-in
-  ecs_field: vendor.SessionId
-  cim_field: SessionId
-  asim_field: SessionId
+  ecs_field: network.session_id
+  cim_field: session_id
+  asim_field: NetworkSessionId
   category: Session
 - field_name: SessionLifetimePolicies
   field_type: string
@@ -551,9 +551,9 @@ fields:
 - field_name: Status
   field_type: object
   description: Sign-in status including error code and description
-  ecs_field: vendor.Status
-  cim_field: Status
-  asim_field: Status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Session
 - field_name: TimeGenerated
   field_type: datetime
@@ -586,9 +586,9 @@ fields:
 - field_name: Type
   field_type: string
   description: The name of the table
-  ecs_field: vendor.Type
-  cim_field: Type
-  asim_field: Type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Metadata
 - field_name: UniqueTokenIdentifier
   field_type: string
@@ -614,9 +614,9 @@ fields:
 - field_name: UserId
   field_type: string
   description: Identifier of the user
-  ecs_field: vendor.UserId
-  cim_field: UserId
-  asim_field: UserId
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: TargetUserId
   category: Identity
 - field_name: UserPrincipalName
   field_type: string

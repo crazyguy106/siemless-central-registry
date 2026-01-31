@@ -7,7 +7,7 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-01-02'
 source_file: zscaler-zia-signatures.json
-generated_at: '2026-01-29T05:59:02.204108'
+generated_at: '2026-01-31T04:25:56.373516'
 categories:
 - HTTP
 - Activity
@@ -51,9 +51,9 @@ fields:
 - field_name: action
   field_type: string
   description: Action taken (Allowed, Blocked)
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: HTTP
 - field_name: activity_result
   field_type: string
@@ -240,9 +240,9 @@ fields:
 - field_name: category
   field_type: string
   description: Category (Policies, Administration, etc.)
-  ecs_field: vendor.category
+  ecs_field: event.category
   cim_field: category
-  asim_field: category
+  asim_field: EventCategory
   category: Audit
 - field_name: cdip
   field_type: ip
@@ -380,9 +380,9 @@ fields:
 - field_name: contenttype
   field_type: string
   description: Content Type of response
-  ecs_field: vendor.contenttype
-  cim_field: contenttype
-  asim_field: contenttype
+  ecs_field: http.response.mime_type
+  cim_field: content_type
+  asim_field: HttpContentType
   category: Bandwidth
 - field_name: cpubip
   field_type: ip
@@ -625,9 +625,9 @@ fields:
 - field_name: dns_resp
   field_type: string
   description: DNS response IP/data
-  ecs_field: vendor.dns_resp
-  cim_field: dns_resp
-  asim_field: dns_resp
+  ecs_field: event.duration
+  cim_field: dns_response_time
+  asim_field: EventDuration
   category: Transaction
 - field_name: dns_resptype
   field_type: string
@@ -681,16 +681,16 @@ fields:
 - field_name: dstip
   field_type: ip
   description: Destination IP
-  ecs_field: vendor.dstip
-  cim_field: dstip
-  asim_field: dstip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: IKE
 - field_name: dstport
   field_type: port
   description: Destination port
-  ecs_field: vendor.dstport
-  cim_field: dstport
-  asim_field: dstport
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: IKE
 - field_name: dstsubnet
   field_type: string
@@ -786,9 +786,9 @@ fields:
 - field_name: email_subject
   field_type: string
   description: Email subject
-  ecs_field: vendor.email_subject
+  ecs_field: email.subject
   cim_field: email_subject
-  asim_field: email_subject
+  asim_field: EmailSubject
   category: Email
 - field_name: email_to
   field_type: email
@@ -898,16 +898,16 @@ fields:
 - field_name: file_md5
   field_type: string
   description: File MD5 hash
-  ecs_field: vendor.file_md5
-  cim_field: file_md5
-  asim_field: file_md5
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
   category: File
 - field_name: file_name
   field_type: string
   description: File name
-  ecs_field: vendor.file_name
+  ecs_field: file.name
   cim_field: file_name
-  asim_field: file_name
+  asim_field: TargetFileName
   category: File
 - field_name: file_owner
   field_type: string
@@ -919,9 +919,9 @@ fields:
 - field_name: file_sha256
   field_type: string
   description: File SHA256 hash
-  ecs_field: vendor.file_sha256
-  cim_field: file_sha256
-  asim_field: file_sha256
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
   category: File
 - field_name: file_sharing
   field_type: string
@@ -933,9 +933,9 @@ fields:
 - field_name: file_size
   field_type: integer
   description: File size in bytes
-  ecs_field: vendor.file_size
+  ecs_field: file.size
   cim_field: file_size
-  asim_field: file_size
+  asim_field: TargetFileSize
   category: File
 - field_name: file_source
   field_type: string
@@ -947,9 +947,9 @@ fields:
 - field_name: file_type
   field_type: string
   description: File type
-  ecs_field: vendor.file_type
+  ecs_field: file.type
   cim_field: file_type
-  asim_field: file_type
+  asim_field: TargetFileType
   category: File
 - field_name: fileclass
   field_type: string
@@ -1017,9 +1017,9 @@ fields:
 - field_name: hostname
   field_type: string
   description: Hostname from URL
-  ecs_field: vendor.hostname
-  cim_field: hostname
-  asim_field: hostname
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
   category: HTTP
 - field_name: hour
   field_type: integer
@@ -1045,9 +1045,9 @@ fields:
 - field_name: interface
   field_type: string
   description: Interface used (UI, API, Partner API)
-  ecs_field: vendor.interface
+  ecs_field: observer.ingress.interface.name
   cim_field: interface
-  asim_field: interface
+  asim_field: DvcInterface
   category: Audit
 - field_name: internalsslpolicyreason
   field_type: string
@@ -1409,9 +1409,9 @@ fields:
 - field_name: policy
   field_type: string
   description: Policy name
-  ecs_field: vendor.policy
+  ecs_field: rule.ruleset
   cim_field: policy
-  asim_field: policy
+  asim_field: RulesetName
   category: Common
 - field_name: policyproposal
   field_type: string
@@ -1444,30 +1444,30 @@ fields:
 - field_name: proto
   field_type: string
   description: Protocol (HTTP/HTTPS)
-  ecs_field: vendor.proto
-  cim_field: proto
-  asim_field: proto
+  ecs_field: network.iana_number
+  cim_field: protocol_number
+  asim_field: NetworkProtocolVersion
   category: Network
 - field_name: protocol
   field_type: string
   description: Protocol (ESP, AH)
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: IKE
 - field_name: reason
   field_type: string
   description: SSL Inspection status/reason
-  ecs_field: vendor.reason
+  ecs_field: event.reason
   cim_field: reason
-  asim_field: reason
+  asim_field: EventResultDetails
   category: User
 - field_name: recipient
   field_type: email
   description: Email recipient(s)
-  ecs_field: vendor.recipient
-  cim_field: recipient
-  asim_field: recipient
+  ecs_field: email.to.address
+  cim_field: dest_email
+  asim_field: DstUserEmail
   category: Email
 - field_name: recordid
   field_type: string
@@ -1563,9 +1563,9 @@ fields:
 - field_name: resource
   field_type: string
   description: Resource modified
-  ecs_field: vendor.resource
-  cim_field: resource
-  asim_field: resource
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
   category: Audit
 - field_name: respheadersize
   field_type: integer
@@ -1605,9 +1605,9 @@ fields:
 - field_name: result
   field_type: string
   description: Result (SUCCESS, FAILURE)
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Audit
 - field_name: risk_score
   field_type: integer
@@ -1619,9 +1619,9 @@ fields:
 - field_name: rule
   field_type: string
   description: Rule matched
-  ecs_field: vendor.rule
+  ecs_field: rule.name
   cim_field: rule
-  asim_field: rule
+  asim_field: RuleName
   category: Action
 - field_name: rulelabel
   field_type: string
@@ -1717,9 +1717,9 @@ fields:
 - field_name: sender
   field_type: email
   description: Email sender address
-  ecs_field: vendor.sender
-  cim_field: sender
-  asim_field: sender
+  ecs_field: email.from.address
+  cim_field: src_email
+  asim_field: SrcUserEmail
   category: Email
 - field_name: serverip
   field_type: ip
@@ -1731,9 +1731,9 @@ fields:
 - field_name: severity
   field_type: string
   description: Severity level
-  ecs_field: vendor.severity
-  cim_field: severity
-  asim_field: severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: DLP
 - field_name: sha256
   field_type: string
@@ -1759,9 +1759,9 @@ fields:
 - field_name: source_ip
   field_type: ip
   description: Source IP address
-  ecs_field: vendor.source_ip
-  cim_field: source_ip
-  asim_field: source_ip
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Activity
 - field_name: sourcepath
   field_type: string
@@ -1773,9 +1773,9 @@ fields:
 - field_name: spi
   field_type: string
   description: Security Parameter Index
-  ecs_field: vendor.spi
+  ecs_field: network.session_id
   cim_field: spi
-  asim_field: spi
+  asim_field: NetworkSessionId
   category: IKE
 - field_name: spi_in
   field_type: string
@@ -1794,16 +1794,16 @@ fields:
 - field_name: srcip
   field_type: ip
   description: Source IP
-  ecs_field: vendor.srcip
-  cim_field: srcip
-  asim_field: srcip
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: IKE
 - field_name: srcport
   field_type: port
   description: Source port
-  ecs_field: vendor.srcport
-  cim_field: srcport
-  asim_field: srcport
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: IKE
 - field_name: srcsubnet
   field_type: string
@@ -1871,9 +1871,9 @@ fields:
 - field_name: status
   field_type: string
   description: Transaction result
-  ecs_field: vendor.status
+  ecs_field: event.outcome
   cim_field: status
-  asim_field: status
+  asim_field: EventResult
   category: HTTP
 - field_name: subcategory
   field_type: string
@@ -1885,9 +1885,9 @@ fields:
 - field_name: subject
   field_type: string
   description: Email subject
-  ecs_field: vendor.subject
-  cim_field: subject
-  asim_field: subject
+  ecs_field: email.subject
+  cim_field: email_subject
+  asim_field: EmailSubject
   category: Email
 - field_name: tenant
   field_type: string
@@ -1941,9 +1941,9 @@ fields:
 - field_name: time
   field_type: datetime
   description: Epoch time
-  ecs_field: vendor.time
-  cim_field: time
-  asim_field: time
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: DateTime
 - field_name: timezone
   field_type: string
@@ -2046,9 +2046,9 @@ fields:
 - field_name: url
   field_type: string
   description: Full URL (obfuscated if enabled)
-  ecs_field: vendor.url
+  ecs_field: url.original
   cim_field: url
-  asim_field: url
+  asim_field: Url
   category: HTTP
 - field_name: urlcategory
   field_type: string
@@ -2074,9 +2074,9 @@ fields:
 - field_name: user
   field_type: string
   description: User email/identifier
-  ecs_field: vendor.user
+  ecs_field: user.name
   cim_field: user
-  asim_field: user
+  asim_field: TargetUsername
   category: Common
 - field_name: useragent
   field_type: string

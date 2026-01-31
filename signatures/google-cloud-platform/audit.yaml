@@ -7,7 +7,7 @@ source_document: Understanding Audit Logs
 source_url: https://docs.cloud.google.com/logging/docs/audit/understanding-audit-logs
 extraction_date: '2026-01-02'
 source_file: gcp-audit-signatures.json
-generated_at: '2026-01-29T05:59:00.048794'
+generated_at: '2026-01-31T04:25:53.911153'
 categories:
 - LogEntry
 - Operation
@@ -24,17 +24,17 @@ fields:
 - field_name: insertId
   field_type: string
   description: Unique identifier for the log entry
-  ecs_field: vendor.insertId
-  cim_field: insertId
-  asim_field: insertId
+  ecs_field: log.file.inode
+  cim_field: insert_id
+  asim_field: LogInsertId
   category: LogEntry
 - field_name: logName
   field_type: string
   description: Identifies the audit log type (activity, data_access, system_event,
     policy)
-  ecs_field: vendor.logName
-  cim_field: logName
-  asim_field: logName
+  ecs_field: log.logger
+  cim_field: log_name
+  asim_field: LogName
   category: LogEntry
 - field_name: operation.first
   field_type: boolean
@@ -67,9 +67,9 @@ fields:
 - field_name: protoPayload.authenticationInfo.principalEmail
   field_type: string
   description: Email of the user or service account that made the request
-  ecs_field: vendor.protoPayload.authenticationInfo.principalEmail
-  cim_field: protoPayload.authenticationInfo.principalEmail
-  asim_field: protoPayload.authenticationInfo.principalEmail
+  ecs_field: user.email
+  cim_field: principal_email
+  asim_field: ActorUserEmail
   category: AuthenticationInfo
 - field_name: protoPayload.authenticationInfo.principalSubject
   field_type: string
@@ -102,16 +102,16 @@ fields:
 - field_name: protoPayload.authorizationInfo[].granted
   field_type: boolean
   description: Whether permission was granted
-  ecs_field: vendor.protoPayload.authorizationInfo[].granted
-  cim_field: protoPayload.authorizationInfo[].granted
-  asim_field: protoPayload.authorizationInfo[].granted
+  ecs_field: event.outcome
+  cim_field: permission_granted
+  asim_field: EventOutcome
   category: AuthorizationInfo
 - field_name: protoPayload.authorizationInfo[].permission
   field_type: string
   description: Permission being checked (e.g., compute.instances.create)
-  ecs_field: vendor.protoPayload.authorizationInfo[].permission
-  cim_field: protoPayload.authorizationInfo[].permission
-  asim_field: protoPayload.authorizationInfo[].permission
+  ecs_field: event.permission
+  cim_field: permission
+  asim_field: EventPermission
   category: AuthorizationInfo
 - field_name: protoPayload.authorizationInfo[].resource
   field_type: string
@@ -137,9 +137,9 @@ fields:
 - field_name: protoPayload.methodName
   field_type: string
   description: The API method called (e.g., google.iam.admin.v1.SetIamPolicy)
-  ecs_field: vendor.protoPayload.methodName
-  cim_field: protoPayload.methodName
-  asim_field: protoPayload.methodName
+  ecs_field: event.action
+  cim_field: method_name
+  asim_field: EventAction
   category: AuditLog
 - field_name: protoPayload.numResponseItems
   field_type: integer
@@ -172,9 +172,9 @@ fields:
 - field_name: protoPayload.requestMetadata.callerIp
   field_type: ip
   description: IP address of the caller
-  ecs_field: vendor.protoPayload.requestMetadata.callerIp
-  cim_field: protoPayload.requestMetadata.callerIp
-  asim_field: protoPayload.requestMetadata.callerIp
+  ecs_field: source.ip
+  cim_field: caller_ip
+  asim_field: SrcIpAddr
   category: RequestMetadata
 - field_name: protoPayload.requestMetadata.callerNetwork
   field_type: string
@@ -186,9 +186,9 @@ fields:
 - field_name: protoPayload.requestMetadata.callerSuppliedUserAgent
   field_type: string
   description: User agent string provided by the caller
-  ecs_field: vendor.protoPayload.requestMetadata.callerSuppliedUserAgent
-  cim_field: protoPayload.requestMetadata.callerSuppliedUserAgent
-  asim_field: protoPayload.requestMetadata.callerSuppliedUserAgent
+  ecs_field: user_agent.original
+  cim_field: caller_user_agent
+  asim_field: UserAgent
   category: RequestMetadata
 - field_name: protoPayload.requestMetadata.destinationAttributes
   field_type: object
@@ -221,9 +221,9 @@ fields:
 - field_name: protoPayload.resourceName
   field_type: string
   description: Target resource or collection URI
-  ecs_field: vendor.protoPayload.resourceName
-  cim_field: protoPayload.resourceName
-  asim_field: protoPayload.resourceName
+  ecs_field: cloud.resource.name
+  cim_field: resource_name
+  asim_field: CloudResourceName
   category: AuditLog
 - field_name: protoPayload.resourceOriginalState
   field_type: object
@@ -249,16 +249,16 @@ fields:
 - field_name: protoPayload.serviceName
   field_type: string
   description: The Google Cloud service performing the operation (e.g., compute.googleapis.com)
-  ecs_field: vendor.protoPayload.serviceName
-  cim_field: protoPayload.serviceName
-  asim_field: protoPayload.serviceName
+  ecs_field: cloud.service.name
+  cim_field: gcp_service
+  asim_field: CloudServiceName
   category: AuditLog
 - field_name: protoPayload.status.code
   field_type: integer
   description: gRPC status code (0=OK, non-zero=error)
-  ecs_field: vendor.protoPayload.status.code
-  cim_field: protoPayload.status.code
-  asim_field: protoPayload.status.code
+  ecs_field: error.code
+  cim_field: status_code
+  asim_field: ErrorCode
   category: Status
 - field_name: protoPayload.status.details
   field_type: object
@@ -270,52 +270,52 @@ fields:
 - field_name: protoPayload.status.message
   field_type: string
   description: Error message if status is non-zero
-  ecs_field: vendor.protoPayload.status.message
-  cim_field: protoPayload.status.message
-  asim_field: protoPayload.status.message
+  ecs_field: error.message
+  cim_field: status_message
+  asim_field: ErrorMessage
   category: Status
 - field_name: resource.labels.project_id
   field_type: string
   description: Google Cloud project ID
-  ecs_field: vendor.resource.labels.project_id
-  cim_field: resource.labels.project_id
-  asim_field: resource.labels.project_id
+  ecs_field: cloud.project.id
+  cim_field: project_id
+  asim_field: CloudProjectId
   category: LogEntry
 - field_name: resource.labels.region
   field_type: string
   description: Compute region (for regional resources)
-  ecs_field: vendor.resource.labels.region
-  cim_field: resource.labels.region
-  asim_field: resource.labels.region
+  ecs_field: cloud.region
+  cim_field: region
+  asim_field: CloudRegion
   category: LogEntry
 - field_name: resource.labels.zone
   field_type: string
   description: Compute zone (for zonal resources)
-  ecs_field: vendor.resource.labels.zone
-  cim_field: resource.labels.zone
-  asim_field: resource.labels.zone
+  ecs_field: cloud.availability_zone
+  cim_field: zone
+  asim_field: CloudAvailabilityZone
   category: LogEntry
 - field_name: resource.type
   field_type: string
   description: Resource type (e.g., gce_instance, gcs_bucket, bigquery_resource)
-  ecs_field: vendor.resource.type
-  cim_field: resource.type
-  asim_field: resource.type
+  ecs_field: cloud.resource.type
+  cim_field: resource_type
+  asim_field: CloudResourceType
   category: LogEntry
 - field_name: severity
   field_type: string
   description: Log severity level (DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL,
     ALERT, EMERGENCY)
-  ecs_field: vendor.severity
-  cim_field: severity
-  asim_field: severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: LogEntry
 - field_name: timestamp
   field_type: datetime
   description: When the audit event occurred
-  ecs_field: vendor.timestamp
-  cim_field: timestamp
-  asim_field: timestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: LogEntry
 notes: Cloud Audit Logs provide audit trails for Google Cloud resources. Covers Admin
   Activity, Data Access, System Event, and Policy Denied logs.

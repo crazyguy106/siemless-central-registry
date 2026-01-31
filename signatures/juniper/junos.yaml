@@ -5,130 +5,147 @@ product_full_name: Junos
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-29'
+extraction_date: '2026-01-31'
 source_file: juniper-junos-common-signatures.json
-generated_at: '2026-01-29T05:59:00.152538'
+generated_at: '2026-01-31T04:25:54.045628'
 field_count: 17
 fields:
 - field_name: username
   field_type: string
   description: User account name
-  ecs_field: vendor.username
-  cim_field: username
-  asim_field: username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: identity
+  display_name: Username
 - field_name: source-ip
   field_type: ip
   description: Login source IP address
-  ecs_field: vendor.source-ip
-  cim_field: source-ip
-  asim_field: source-ip
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: authentication
+  display_name: Source IP
 - field_name: source-port
   field_type: port
   description: Login source port
-  ecs_field: vendor.source-port
-  cim_field: source-port
-  asim_field: source-port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: authentication
+  display_name: Source Port
 - field_name: method
   field_type: string
   description: Authentication method (ssh, console, telnet, netconf)
-  ecs_field: vendor.method
-  cim_field: method
-  asim_field: method
+  ecs_field: event.action
+  cim_field: action
+  asim_field: DvcAction
   category: authentication
+  display_name: Login Method
 - field_name: auth-method
   field_type: string
   description: SSH authentication method (password, publickey)
-  ecs_field: vendor.auth-method
-  cim_field: auth-method
-  asim_field: auth-method
+  ecs_field: event.action
+  cim_field: action
+  asim_field: DvcAction
   category: authentication
+  display_name: Auth Method
 - field_name: command
   field_type: string
   description: CLI command executed
-  ecs_field: vendor.command
-  cim_field: command
-  asim_field: command
+  ecs_field: process.command_line
+  cim_field: process_cmd
+  asim_field: ProcessCommandLine
   category: audit
+  display_name: Command
 - field_name: comment
   field_type: string
   description: Configuration commit comment
-  ecs_field: vendor.comment
-  cim_field: comment
-  asim_field: comment
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: audit
+  display_name: Commit Comment
 - field_name: reason
   field_type: string
   description: Event reason or failure cause
-  ecs_field: vendor.reason
+  ecs_field: event.reason
   cim_field: reason
-  asim_field: reason
+  asim_field: EventResultDetails
   category: system
+  display_name: Reason
 - field_name: ntp-server
   field_type: ip
   description: NTP server IP address
-  ecs_field: vendor.ntp-server
-  cim_field: ntp-server
-  asim_field: ntp-server
+  ecs_field: server.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: system
+  display_name: NTP Server
 - field_name: offset
   field_type: string
   description: NTP time offset
-  ecs_field: vendor.offset
-  cim_field: offset
-  asim_field: offset
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: NetworkDuration
   category: system
+  display_name: Time Offset
 - field_name: radius-server
   field_type: ip
   description: RADIUS server IP address
-  ecs_field: vendor.radius-server
-  cim_field: radius-server
-  asim_field: radius-server
+  ecs_field: server.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: authentication
+  display_name: RADIUS Server
 - field_name: tacacs-server
   field_type: ip
   description: TACACS+ server IP address
-  ecs_field: vendor.tacacs-server
-  cim_field: tacacs-server
-  asim_field: tacacs-server
+  ecs_field: server.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: authentication
+  display_name: TACACS+ Server
 - field_name: result
   field_type: string
   description: Authentication result
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: authentication
+  display_name: Result
 - field_name: feature
   field_type: string
   description: Licensed feature name
-  ecs_field: vendor.feature
-  cim_field: feature
-  asim_field: feature
+  ecs_field: event.module
+  cim_field: app
+  asim_field: NetworkApplicationProtocol
   category: system
+  display_name: License Feature
 - field_name: expiry-date
   field_type: datetime
   description: License expiration date
-  ecs_field: vendor.expiry-date
-  cim_field: expiry-date
-  asim_field: expiry-date
+  ecs_field: event.end
+  cim_field: time
+  asim_field: EventEndTime
   category: system
+  display_name: Expiry Date
 - field_name: filename
   field_type: string
   description: Transferred file path
-  ecs_field: vendor.filename
-  cim_field: filename
-  asim_field: filename
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFilePath
   category: audit
+  display_name: Filename
 - field_name: destination
   field_type: ip
   description: File transfer destination
-  ecs_field: vendor.destination
-  cim_field: destination
-  asim_field: destination
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: audit
+  display_name: Destination
 signatures:
 - name: junos_config_login
   pattern: UI_DBASE_LOGIN_EVENT

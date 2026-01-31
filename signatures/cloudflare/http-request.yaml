@@ -7,7 +7,7 @@ source_document: HTTP Request Log Fields
 source_url: https://developers.cloudflare.com/logs/reference/log-fields/zone/http_requests/
 extraction_date: '2026-01-02'
 source_file: cloudflare-http-signatures.json
-generated_at: '2026-01-29T05:58:52.336834'
+generated_at: '2026-01-31T04:25:46.109024'
 categories:
 - Bot
 - Cache
@@ -26,60 +26,60 @@ fields:
 - field_name: BotDetectionIDs
   field_type: array
   description: Correlates to Bot Management Heuristic detections
-  ecs_field: vendor.BotDetectionIDs
-  cim_field: BotDetectionIDs
-  asim_field: BotDetectionIDs
+  ecs_field: threat.indicator.reference
+  cim_field: bot_detection_ids
+  asim_field: ThreatReference
   category: Bot
 - field_name: BotDetectionTags
   field_type: array
   description: Tags corresponding to Bot Management Heuristic detections
-  ecs_field: vendor.BotDetectionTags
-  cim_field: BotDetectionTags
-  asim_field: BotDetectionTags
+  ecs_field: threat.indicator.type
+  cim_field: bot_detection_tags
+  asim_field: ThreatType
   category: Bot
 - field_name: BotScore
   field_type: integer
   description: Cloudflare Bot Score (scores <30 = automated traffic)
-  ecs_field: vendor.BotScore
-  cim_field: BotScore
-  asim_field: BotScore
+  ecs_field: threat.indicator.confidence
+  cim_field: bot_score
+  asim_field: ThreatConfidence
   category: Bot
 - field_name: BotScoreSrc
   field_type: string
   description: 'Detection engine: Heuristics, Machine Learning, Behavioral Analysis,
     etc.'
-  ecs_field: vendor.BotScoreSrc
-  cim_field: BotScoreSrc
-  asim_field: BotScoreSrc
+  ecs_field: threat.indicator.provider
+  cim_field: bot_score_src
+  asim_field: ThreatProvider
   category: Bot
 - field_name: BotTags
   field_type: array
   description: Type of bot traffic classification
-  ecs_field: vendor.BotTags
-  cim_field: BotTags
-  asim_field: BotTags
+  ecs_field: threat.indicator.type
+  cim_field: bot_tags
+  asim_field: ThreatType
   category: Bot
 - field_name: CacheCacheStatus
   field_type: string
   description: 'Cache status: miss, expired, updating, stale, hit, ignored, bypass,
     etc.'
-  ecs_field: vendor.CacheCacheStatus
-  cim_field: CacheCacheStatus
-  asim_field: CacheCacheStatus
+  ecs_field: event.action
+  cim_field: cache_status
+  asim_field: EventType
   category: Cache
 - field_name: CacheReserveUsed
   field_type: boolean
   description: Indicates if Cache Reserve served the request
-  ecs_field: vendor.CacheReserveUsed
-  cim_field: CacheReserveUsed
-  asim_field: CacheReserveUsed
+  ecs_field: event.outcome
+  cim_field: cache_reserve
+  asim_field: EventOutcome
   category: Cache
 - field_name: CacheResponseBytes
   field_type: integer
   description: Bytes returned by the cache
-  ecs_field: vendor.CacheResponseBytes
-  cim_field: CacheResponseBytes
-  asim_field: CacheResponseBytes
+  ecs_field: http.response.bytes
+  cim_field: cache_bytes
+  asim_field: DstBytes
   category: Cache
 - field_name: CacheResponseStatus
   field_type: integer
@@ -91,44 +91,44 @@ fields:
 - field_name: CacheTieredFill
   field_type: boolean
   description: Indicates if Tiered Cache served the request
-  ecs_field: vendor.CacheTieredFill
-  cim_field: CacheTieredFill
-  asim_field: CacheTieredFill
+  ecs_field: event.outcome
+  cim_field: tiered_fill
+  asim_field: EventOutcome
   category: Cache
 - field_name: ClientASN
   field_type: integer
   description: Client Autonomous System Number
-  ecs_field: vendor.ClientASN
-  cim_field: ClientASN
-  asim_field: ClientASN
+  ecs_field: source.as.number
+  cim_field: src_asn
+  asim_field: SrcAsn
   category: Client
 - field_name: ClientCity
   field_type: string
   description: Approximate city location of client
-  ecs_field: vendor.ClientCity
-  cim_field: ClientCity
-  asim_field: ClientCity
+  ecs_field: source.geo.city_name
+  cim_field: src_city
+  asim_field: SrcGeoCity
   category: Client
 - field_name: ClientCountry
   field_type: string
   description: 2-letter ISO-3166 country code
-  ecs_field: vendor.ClientCountry
-  cim_field: ClientCountry
-  asim_field: ClientCountry
+  ecs_field: source.geo.country_iso_code
+  cim_field: src_country
+  asim_field: SrcGeoCountry
   category: Client
 - field_name: ClientDeviceType
   field_type: string
   description: Client device classification
-  ecs_field: vendor.ClientDeviceType
-  cim_field: ClientDeviceType
-  asim_field: ClientDeviceType
+  ecs_field: user_agent.device.type
+  cim_field: device_type
+  asim_field: UserAgentDeviceType
   category: Client
 - field_name: ClientIP
   field_type: ip
   description: Client IP address
-  ecs_field: vendor.ClientIP
-  cim_field: ClientIP
-  asim_field: ClientIP
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Client
 - field_name: ClientIPClass
   field_type: string
@@ -175,44 +175,44 @@ fields:
 - field_name: ClientRequestBytes
   field_type: integer
   description: Bytes in client request
-  ecs_field: vendor.ClientRequestBytes
-  cim_field: ClientRequestBytes
-  asim_field: ClientRequestBytes
+  ecs_field: http.request.bytes
+  cim_field: bytes_in
+  asim_field: SrcBytes
   category: Request
 - field_name: ClientRequestHost
   field_type: string
   description: Host requested by client
-  ecs_field: vendor.ClientRequestHost
-  cim_field: ClientRequestHost
-  asim_field: ClientRequestHost
+  ecs_field: url.domain
+  cim_field: dest
+  asim_field: DstHostname
   category: Request
 - field_name: ClientRequestMethod
   field_type: string
   description: HTTP method of client request
-  ecs_field: vendor.ClientRequestMethod
-  cim_field: ClientRequestMethod
-  asim_field: ClientRequestMethod
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: Request
 - field_name: ClientRequestPath
   field_type: string
   description: URI path (without query string)
-  ecs_field: vendor.ClientRequestPath
-  cim_field: ClientRequestPath
-  asim_field: ClientRequestPath
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Request
 - field_name: ClientRequestProtocol
   field_type: string
   description: HTTP protocol version
-  ecs_field: vendor.ClientRequestProtocol
-  cim_field: ClientRequestProtocol
-  asim_field: ClientRequestProtocol
+  ecs_field: http.version
+  cim_field: http_version
+  asim_field: HttpVersion
   category: Request
 - field_name: ClientRequestReferer
   field_type: string
   description: HTTP referrer header value
-  ecs_field: vendor.ClientRequestReferer
-  cim_field: ClientRequestReferer
-  asim_field: ClientRequestReferer
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
   category: Request
 - field_name: ClientRequestScheme
   field_type: string
@@ -231,37 +231,37 @@ fields:
 - field_name: ClientRequestURI
   field_type: string
   description: Full URI including path and query string
-  ecs_field: vendor.ClientRequestURI
-  cim_field: ClientRequestURI
-  asim_field: ClientRequestURI
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
   category: Request
 - field_name: ClientRequestUserAgent
   field_type: string
   description: User agent from client
-  ecs_field: vendor.ClientRequestUserAgent
-  cim_field: ClientRequestUserAgent
-  asim_field: ClientRequestUserAgent
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: HttpUserAgent
   category: Request
 - field_name: ClientSSLCipher
   field_type: string
   description: SSL cipher used by client
-  ecs_field: vendor.ClientSSLCipher
-  cim_field: ClientSSLCipher
-  asim_field: ClientSSLCipher
+  ecs_field: tls.cipher
+  cim_field: ssl_cipher
+  asim_field: TlsCipher
   category: TLS
 - field_name: ClientSSLProtocol
   field_type: string
   description: TLS protocol version or "none"
-  ecs_field: vendor.ClientSSLProtocol
-  cim_field: ClientSSLProtocol
-  asim_field: ClientSSLProtocol
+  ecs_field: tls.version
+  cim_field: ssl_version
+  asim_field: TlsVersion
   category: TLS
 - field_name: ClientSrcPort
   field_type: port
   description: Client source port number
-  ecs_field: vendor.ClientSrcPort
-  cim_field: ClientSrcPort
-  asim_field: ClientSrcPort
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Client
 - field_name: ClientTCPRTTMs
   field_type: integer
@@ -315,51 +315,51 @@ fields:
 - field_name: EdgeColoCode
   field_type: string
   description: IATA airport code of receiving data center
-  ecs_field: vendor.EdgeColoCode
-  cim_field: EdgeColoCode
-  asim_field: EdgeColoCode
+  ecs_field: observer.geo.name
+  cim_field: edge_colo
+  asim_field: DvcGeoName
   category: Edge
 - field_name: EdgeColoID
   field_type: integer
   description: Cloudflare edge data center identifier
-  ecs_field: vendor.EdgeColoID
-  cim_field: EdgeColoID
-  asim_field: EdgeColoID
+  ecs_field: observer.geo.name
+  cim_field: edge_colo_id
+  asim_field: DvcGeoId
   category: Edge
 - field_name: EdgeEndTimestamp
   field_type: datetime
   description: Timestamp when edge finished sending response
-  ecs_field: vendor.EdgeEndTimestamp
-  cim_field: EdgeEndTimestamp
-  asim_field: EdgeEndTimestamp
+  ecs_field: event.end
+  cim_field: end_time
+  asim_field: EventEndTime
   category: Edge
 - field_name: EdgePathingOp
   field_type: string
   description: Type of response issued
-  ecs_field: vendor.EdgePathingOp
-  cim_field: EdgePathingOp
-  asim_field: EdgePathingOp
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Edge
 - field_name: EdgePathingSrc
   field_type: string
   description: Security classification details
-  ecs_field: vendor.EdgePathingSrc
-  cim_field: EdgePathingSrc
-  asim_field: EdgePathingSrc
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: Edge
 - field_name: EdgePathingStatus
   field_type: string
   description: Data used for handling
-  ecs_field: vendor.EdgePathingStatus
-  cim_field: EdgePathingStatus
-  asim_field: EdgePathingStatus
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
   category: Edge
 - field_name: EdgeRequestHost
   field_type: string
   description: Host header on edge-to-origin request
-  ecs_field: vendor.EdgeRequestHost
-  cim_field: EdgeRequestHost
-  asim_field: EdgeRequestHost
+  ecs_field: url.domain
+  cim_field: dest
+  asim_field: DstHostname
   category: Edge
 - field_name: EdgeResponseBodyBytes
   field_type: integer
@@ -371,9 +371,9 @@ fields:
 - field_name: EdgeResponseBytes
   field_type: integer
   description: Total bytes returned by edge to client
-  ecs_field: vendor.EdgeResponseBytes
-  cim_field: EdgeResponseBytes
-  asim_field: EdgeResponseBytes
+  ecs_field: http.response.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
   category: Edge
 - field_name: EdgeResponseCompressionRatio
   field_type: number
@@ -385,30 +385,30 @@ fields:
 - field_name: EdgeResponseContentType
   field_type: string
   description: Content-Type header value
-  ecs_field: vendor.EdgeResponseContentType
-  cim_field: EdgeResponseContentType
-  asim_field: EdgeResponseContentType
+  ecs_field: http.response.mime_type
+  cim_field: http_content_type
+  asim_field: HttpContentType
   category: Edge
 - field_name: EdgeResponseStatus
   field_type: integer
   description: HTTP status code returned to client
-  ecs_field: vendor.EdgeResponseStatus
-  cim_field: EdgeResponseStatus
-  asim_field: EdgeResponseStatus
+  ecs_field: http.response.status_code
+  cim_field: status
+  asim_field: HttpStatusCode
   category: Edge
 - field_name: EdgeServerIP
   field_type: ip
   description: IP of edge server making origin request
-  ecs_field: vendor.EdgeServerIP
-  cim_field: EdgeServerIP
-  asim_field: EdgeServerIP
+  ecs_field: destination.ip
+  cim_field: edge_ip
+  asim_field: DstIpAddr
   category: Edge
 - field_name: EdgeStartTimestamp
   field_type: datetime
   description: Timestamp when edge received client request
-  ecs_field: vendor.EdgeStartTimestamp
-  cim_field: EdgeStartTimestamp
-  asim_field: EdgeStartTimestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Edge
 - field_name: EdgeTimeToFirstByteMs
   field_type: integer
@@ -483,9 +483,9 @@ fields:
 - field_name: OriginIP
   field_type: ip
   description: Origin server IP address
-  ecs_field: vendor.OriginIP
-  cim_field: OriginIP
-  asim_field: OriginIP
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Origin
 - field_name: OriginRequestHeaderSendDurationMs
   field_type: integer
@@ -497,9 +497,9 @@ fields:
 - field_name: OriginResponseBytes
   field_type: integer
   description: Bytes returned by origin server (deprecated)
-  ecs_field: vendor.OriginResponseBytes
-  cim_field: OriginResponseBytes
-  asim_field: OriginResponseBytes
+  ecs_field: http.response.bytes
+  cim_field: origin_bytes
+  asim_field: DstBytes
   category: Origin
 - field_name: OriginResponseDurationMs
   field_type: integer
@@ -532,23 +532,23 @@ fields:
 - field_name: OriginResponseStatus
   field_type: integer
   description: Status from upstream server (0 = no response)
-  ecs_field: vendor.OriginResponseStatus
-  cim_field: OriginResponseStatus
-  asim_field: OriginResponseStatus
+  ecs_field: http.response.status_code
+  cim_field: origin_status
+  asim_field: HttpStatusCode
   category: Origin
 - field_name: OriginResponseTime
   field_type: integer
   description: Nanoseconds for origin to return response (deprecated)
-  ecs_field: vendor.OriginResponseTime
-  cim_field: OriginResponseTime
-  asim_field: OriginResponseTime
+  ecs_field: event.duration
+  cim_field: origin_duration
+  asim_field: EventDuration
   category: Origin
 - field_name: OriginSSLProtocol
   field_type: string
   description: TLS protocol used for origin connection
-  ecs_field: vendor.OriginSSLProtocol
-  cim_field: OriginSSLProtocol
-  asim_field: OriginSSLProtocol
+  ecs_field: tls.version
+  cim_field: origin_ssl_version
+  asim_field: TlsVersion
   category: Origin
 - field_name: OriginTCPHandshakeDurationMs
   field_type: integer
@@ -567,16 +567,16 @@ fields:
 - field_name: ParentRayID
   field_type: string
   description: Ray ID of parent request if made via Worker
-  ecs_field: vendor.ParentRayID
-  cim_field: ParentRayID
-  asim_field: ParentRayID
+  ecs_field: event.reference
+  cim_field: parent_transaction_id
+  asim_field: EventReferenceUid
   category: Metadata
 - field_name: RayID
   field_type: string
   description: Unique request identifier
-  ecs_field: vendor.RayID
-  cim_field: RayID
-  asim_field: RayID
+  ecs_field: event.id
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
   category: Metadata
 - field_name: RequestHeaders
   field_type: object
@@ -672,9 +672,9 @@ fields:
 - field_name: WAFMatchedVar
   field_type: string
   description: Most recently matched variable name (deprecated)
-  ecs_field: vendor.WAFMatchedVar
-  cim_field: WAFMatchedVar
-  asim_field: WAFMatchedVar
+  ecs_field: threat.indicator.matched.content
+  cim_field: matched_var
+  asim_field: ThreatMatchedContent
   category: Security
 - field_name: WAFRCEAttackScore
   field_type: integer

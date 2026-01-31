@@ -7,7 +7,7 @@ source_document: System Event Codes and Messages
 source_url: https://techdocs.broadcom.com/us/en/symantec-security-software/information-security/data-loss-prevention/25-1/managing-the-enforce-server/managing-system-events-and-messages/system-event-codes-and-messages.html
 extraction_date: '2026-01-02'
 source_file: symantec-dlp-signatures.json
-generated_at: '2026-01-29T05:59:01.587550'
+generated_at: '2026-01-31T04:25:55.698909'
 categories:
 - Syslog
 - CEF
@@ -34,9 +34,9 @@ fields:
 - field_name: priority
   field_type: number
   description: Syslog priority value
-  ecs_field: vendor.priority
-  cim_field: priority
-  asim_field: priority
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Syslog
 - field_name: facility
   field_type: number
@@ -48,23 +48,23 @@ fields:
 - field_name: severity
   field_type: number
   description: Syslog severity level
-  ecs_field: vendor.severity
-  cim_field: severity
-  asim_field: severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: Syslog
 - field_name: timestamp
   field_type: datetime
   description: Event timestamp
-  ecs_field: vendor.timestamp
-  cim_field: timestamp
-  asim_field: timestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Syslog
 - field_name: hostname
   field_type: string
   description: Source hostname
-  ecs_field: vendor.hostname
-  cim_field: hostname
-  asim_field: hostname
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
   category: Syslog
 - field_name: appname
   field_type: string
@@ -118,9 +118,9 @@ fields:
 - field_name: Signature_ID
   field_type: string
   description: Event code/signature ID
-  ecs_field: vendor.Signature_ID
-  cim_field: Signature_ID
-  asim_field: Signature_ID
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: CEF
 - field_name: Name
   field_type: string
@@ -132,16 +132,16 @@ fields:
 - field_name: Severity
   field_type: number
   description: Event severity (0-10)
-  ecs_field: vendor.Severity
-  cim_field: Severity
-  asim_field: Severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: CEF
 - field_name: event_code
   field_type: number
   description: Symantec DLP event code
-  ecs_field: vendor.event_code
+  ecs_field: event.code
   cim_field: event_code
-  asim_field: event_code
+  asim_field: EventId
   category: Event
 - field_name: event_summary
   field_type: string
@@ -153,9 +153,9 @@ fields:
 - field_name: event_description
   field_type: string
   description: Detailed event description
-  ecs_field: vendor.event_description
+  ecs_field: message
   cim_field: event_description
-  asim_field: event_description
+  asim_field: EventMessage
   category: Event
 - field_name: event_category
   field_type: string
@@ -195,16 +195,16 @@ fields:
 - field_name: process_name
   field_type: string
   description: Process or service name
-  ecs_field: vendor.process_name
+  ecs_field: process.name
   cim_field: process_name
-  asim_field: process_name
+  asim_field: TargetProcessName
   category: Server
 - field_name: policy_name
   field_type: string
   description: DLP policy name
-  ecs_field: vendor.policy_name
+  ecs_field: rule.name
   cim_field: policy_name
-  asim_field: policy_name
+  asim_field: RuleName
   category: Policy
 - field_name: policy_id
   field_type: string
@@ -230,16 +230,16 @@ fields:
 - field_name: rule_name
   field_type: string
   description: Detection rule name
-  ecs_field: vendor.rule_name
-  cim_field: rule_name
-  asim_field: rule_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Policy
 - field_name: incident_id
   field_type: string
   description: Unique incident identifier
-  ecs_field: vendor.incident_id
+  ecs_field: event.id
   cim_field: incident_id
-  asim_field: incident_id
+  asim_field: EventOriginalUid
   category: Incident
 - field_name: incident_count
   field_type: number
@@ -251,9 +251,9 @@ fields:
 - field_name: incident_severity
   field_type: string
   description: Incident severity level
-  ecs_field: vendor.incident_severity
+  ecs_field: event.severity
   cim_field: incident_severity
-  asim_field: incident_severity
+  asim_field: EventSeverity
   category: Incident
 - field_name: incident_status
   field_type: string
@@ -265,16 +265,16 @@ fields:
 - field_name: user_name
   field_type: string
   description: Username involved in event
-  ecs_field: vendor.user_name
+  ecs_field: user.name
   cim_field: user_name
-  asim_field: user_name
+  asim_field: TargetUsername
   category: User
 - field_name: user_id
   field_type: string
   description: User identifier
-  ecs_field: vendor.user_id
+  ecs_field: user.id
   cim_field: user_id
-  asim_field: user_id
+  asim_field: TargetUserId
   category: User
 - field_name: admin_user
   field_type: string
@@ -349,9 +349,9 @@ fields:
 - field_name: channel
   field_type: string
   description: DLP channel (SMTP/ICAP/Endpoint)
-  ecs_field: vendor.channel
+  ecs_field: network.inner.channel
   cim_field: channel
-  asim_field: channel
+  asim_field: NetworkChannel
   category: Channel
 - field_name: channel_name
   field_type: string
@@ -363,51 +363,51 @@ fields:
 - field_name: protocol
   field_type: string
   description: Network protocol
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Network
 - field_name: src_ip
   field_type: ip
   description: Source IP address
-  ecs_field: vendor.src_ip
+  ecs_field: source.ip
   cim_field: src_ip
-  asim_field: src_ip
+  asim_field: SrcIpAddr
   category: Network
 - field_name: dst_ip
   field_type: ip
   description: Destination IP address
-  ecs_field: vendor.dst_ip
-  cim_field: dst_ip
-  asim_field: dst_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Network
 - field_name: src_port
   field_type: port
   description: Source port
-  ecs_field: vendor.src_port
+  ecs_field: source.port
   cim_field: src_port
-  asim_field: src_port
+  asim_field: SrcPortNumber
   category: Network
 - field_name: dst_port
   field_type: port
   description: Destination port
-  ecs_field: vendor.dst_port
-  cim_field: dst_port
-  asim_field: dst_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Network
 - field_name: file_name
   field_type: string
   description: File name
-  ecs_field: vendor.file_name
+  ecs_field: file.name
   cim_field: file_name
-  asim_field: file_name
+  asim_field: TargetFileName
   category: File
 - field_name: file_path
   field_type: string
   description: File path
-  ecs_field: vendor.file_path
+  ecs_field: file.path
   cim_field: file_path
-  asim_field: file_path
+  asim_field: TargetFilePath
   category: File
 - field_name: folder_path
   field_type: string
@@ -454,9 +454,9 @@ fields:
 - field_name: email_subject
   field_type: string
   description: Email subject
-  ecs_field: vendor.email_subject
+  ecs_field: email.subject
   cim_field: email_subject
-  asim_field: email_subject
+  asim_field: EmailSubject
   category: Email
 - field_name: attachment_name
   field_type: string
@@ -482,16 +482,16 @@ fields:
 - field_name: device_name
   field_type: string
   description: Endpoint device name
-  ecs_field: vendor.device_name
+  ecs_field: host.hostname
   cim_field: device_name
-  asim_field: device_name
+  asim_field: DvcHostname
   category: Agent
 - field_name: device_id
   field_type: string
   description: Endpoint device ID
-  ecs_field: vendor.device_id
+  ecs_field: host.id
   cim_field: device_id
-  asim_field: device_id
+  asim_field: DvcId
   category: Agent
 - field_name: os_platform
   field_type: string
@@ -545,16 +545,16 @@ fields:
 - field_name: status
   field_type: string
   description: Status value
-  ecs_field: vendor.status
+  ecs_field: event.outcome
   cim_field: status
-  asim_field: status
+  asim_field: EventResult
   category: Status
 - field_name: result
   field_type: string
   description: Operation result
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Status
 - field_name: disk_usage
   field_type: number

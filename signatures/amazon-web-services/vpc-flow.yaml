@@ -7,7 +7,7 @@ source_document: VPC Flow Log Records
 source_url: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html
 extraction_date: '2026-01-02'
 source_file: aws-vpc-flow-signatures.json
-generated_at: '2026-01-29T05:58:47.279745'
+generated_at: '2026-01-31T04:25:41.088717'
 categories:
 - Core
 - Regional
@@ -29,9 +29,9 @@ fields:
 - field_name: action
   field_type: string
   description: 'Traffic action: ACCEPT or REJECT'
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: Core
 - field_name: az-id
   field_type: string
@@ -43,9 +43,9 @@ fields:
 - field_name: bytes
   field_type: number
   description: Number of bytes transferred during the flow
-  ecs_field: vendor.bytes
+  ecs_field: network.bytes
   cim_field: bytes
-  asim_field: bytes
+  asim_field: NetworkBytes
   category: Core
 - field_name: dstaddr
   field_type: ip
@@ -57,9 +57,9 @@ fields:
 - field_name: dstport
   field_type: port
   description: Destination port of the traffic
-  ecs_field: vendor.dstport
-  cim_field: dstport
-  asim_field: dstport
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Core
 - field_name: ecs-cluster-arn
   field_type: string
@@ -177,9 +177,9 @@ fields:
 - field_name: packets
   field_type: number
   description: Number of packets transferred during the flow
-  ecs_field: vendor.packets
+  ecs_field: network.packets
   cim_field: packets
-  asim_field: packets
+  asim_field: NetworkPackets
   category: Core
 - field_name: pkt-dst-aws-service
   field_type: string
@@ -212,9 +212,9 @@ fields:
 - field_name: protocol
   field_type: integer
   description: IANA protocol number
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Core
 - field_name: region
   field_type: string
@@ -247,16 +247,16 @@ fields:
 - field_name: srcport
   field_type: port
   description: Source port of the traffic
-  ecs_field: vendor.srcport
-  cim_field: srcport
-  asim_field: srcport
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Core
 - field_name: start
   field_type: datetime
   description: Unix timestamp when first packet was received
-  ecs_field: vendor.start
-  cim_field: start
-  asim_field: start
+  ecs_field: event.start
+  cim_field: start_time
+  asim_field: EventStartTime
   category: Core
 - field_name: sublocation-id
   field_type: string
@@ -297,16 +297,16 @@ fields:
 - field_name: type
   field_type: string
   description: 'Traffic type: IPv4, IPv6, or EFA'
-  ecs_field: vendor.type
-  cim_field: type
-  asim_field: type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Extended
 - field_name: version
   field_type: integer
   description: VPC Flow Logs version. Default format uses v2
-  ecs_field: vendor.version
+  ecs_field: observer.version
   cim_field: version
-  asim_field: version
+  asim_field: DvcVersion
   category: Core
 - field_name: vpc-id
   field_type: string

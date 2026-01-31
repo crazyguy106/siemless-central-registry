@@ -7,7 +7,7 @@ source_document: Sysmon Documentation
 source_url: https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
 extraction_date: '2026-01-02'
 source_file: sysmon-signatures.json
-generated_at: '2026-01-29T05:59:01.632258'
+generated_at: '2026-01-31T04:25:55.742757'
 categories:
 - Common
 - Process
@@ -39,9 +39,9 @@ fields:
 - field_name: ProcessId
   field_type: integer
   description: Windows process ID
-  ecs_field: vendor.ProcessId
-  cim_field: ProcessId
-  asim_field: ProcessId
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: TargetProcessId
   category: Common
 - field_name: Image
   field_type: string
@@ -53,9 +53,9 @@ fields:
 - field_name: User
   field_type: string
   description: User account running the process (DOMAIN\user)
-  ecs_field: vendor.User
-  cim_field: User
-  asim_field: User
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: Common
 - field_name: RuleName
   field_type: string
@@ -67,9 +67,9 @@ fields:
 - field_name: CommandLine
   field_type: string
   description: Complete command line arguments for the process
-  ecs_field: vendor.CommandLine
-  cim_field: CommandLine
-  asim_field: CommandLine
+  ecs_field: process.command_line
+  cim_field: process_exec
+  asim_field: TargetProcessCommandLine
   category: Process
 - field_name: CurrentDirectory
   field_type: string
@@ -165,16 +165,16 @@ fields:
 - field_name: Description
   field_type: string
   description: File description from PE header
-  ecs_field: vendor.Description
-  cim_field: Description
-  asim_field: Description
+  ecs_field: message
+  cim_field: event_description
+  asim_field: EventMessage
   category: Process
 - field_name: Product
   field_type: string
   description: Product name from PE header
-  ecs_field: vendor.Product
-  cim_field: Product
-  asim_field: Product
+  ecs_field: observer.product
+  cim_field: product
+  asim_field: DvcProduct
   category: Process
 - field_name: Company
   field_type: string
@@ -186,9 +186,9 @@ fields:
 - field_name: Protocol
   field_type: string
   description: Network protocol (tcp, udp)
-  ecs_field: vendor.Protocol
-  cim_field: Protocol
-  asim_field: Protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Network
 - field_name: Initiated
   field_type: boolean
@@ -319,8 +319,8 @@ fields:
 - field_name: EventType
   field_type: string
   description: Registry event type (CreateKey, DeleteKey, SetValue, etc.)
-  ecs_field: vendor.EventType
-  cim_field: EventType
+  ecs_field: event.type
+  cim_field: event_type
   asim_field: EventType
   category: Registry
 - field_name: TargetObject
@@ -354,9 +354,9 @@ fields:
 - field_name: Signature
   field_type: string
   description: Digital signature signer name
-  ecs_field: vendor.Signature
-  cim_field: Signature
-  asim_field: Signature
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
   category: Driver
 - field_name: SignatureStatus
   field_type: string
@@ -466,9 +466,9 @@ fields:
 - field_name: Device
   field_type: string
   description: Target device for raw read (\Device\HarddiskVolume1)
-  ecs_field: vendor.Device
-  cim_field: Device
-  asim_field: Device
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: File
 - field_name: PipeName
   field_type: string
@@ -480,9 +480,9 @@ fields:
 - field_name: Operation
   field_type: string
   description: WMI operation type
-  ecs_field: vendor.Operation
-  cim_field: Operation
-  asim_field: Operation
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: WMI
 - field_name: EventNamespace
   field_type: string
@@ -501,16 +501,16 @@ fields:
 - field_name: Query
   field_type: string
   description: WMI query/filter expression
-  ecs_field: vendor.Query
-  cim_field: Query
-  asim_field: Query
+  ecs_field: event.original
+  cim_field: query
+  asim_field: EventOriginal
   category: WMI
 - field_name: Type
   field_type: string
   description: Consumer type (CommandLineEventConsumer, etc.)
-  ecs_field: vendor.Type
-  cim_field: Type
-  asim_field: Type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: WMI
 - field_name: Destination
   field_type: string
@@ -578,9 +578,9 @@ fields:
 - field_name: Type
   field_type: string
   description: Tampering type (Image is replaced, Image is locked for access)
-  ecs_field: vendor.Type
-  cim_field: Type
-  asim_field: Type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Process
 - field_name: State
   field_type: string
@@ -592,9 +592,9 @@ fields:
 - field_name: Version
   field_type: string
   description: Sysmon version
-  ecs_field: vendor.Version
-  cim_field: Version
-  asim_field: Version
+  ecs_field: observer.version
+  cim_field: version
+  asim_field: DvcVersion
   category: Service
 - field_name: SchemaVersion
   field_type: string

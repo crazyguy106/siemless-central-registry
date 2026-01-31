@@ -5,11 +5,419 @@ product_full_name: Network
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-29'
+extraction_date: '2026-01-31'
 source_file: zeek-network-signatures.json
-generated_at: '2026-01-29T05:59:02.183081'
-field_count: 0
-fields: []
+generated_at: '2026-01-31T04:25:56.319786'
+field_count: 68
+fields:
+- field_name: zeek.session_id
+  field_type: keyword
+  description: Unique session/connection identifier (uid)
+  ecs_field: network.session_id
+  cim_field: session_id
+  asim_field: NetworkSessionId
+- field_name: zeek.connection.uid
+  field_type: keyword
+  description: Connection unique ID
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventOriginalUid
+- field_name: zeek.connection.local_orig
+  field_type: boolean
+  description: Whether connection originated locally
+  ecs_field: network.direction
+  cim_field: direction
+  asim_field: NetworkDirection
+- field_name: zeek.connection.local_resp
+  field_type: boolean
+  description: Whether responder is local
+  ecs_field: network.direction
+  cim_field: direction
+  asim_field: NetworkDirection
+- field_name: zeek.connection.missed_bytes
+  field_type: long
+  description: Bytes missed due to content gap
+  ecs_field: network.bytes
+  cim_field: bytes
+  asim_field: NetworkBytes
+- field_name: zeek.connection.state
+  field_type: keyword
+  description: Connection state (S0, S1, SF, REJ, etc.)
+  ecs_field: network.transport
+  cim_field: connection_state
+  asim_field: NetworkConnectionState
+- field_name: zeek.connection.state_message
+  field_type: keyword
+  description: Human-readable state description
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: zeek.connection.history
+  field_type: keyword
+  description: Connection history flags (ShAdDaFf)
+  ecs_field: network.transport
+  cim_field: tcp_flag
+  asim_field: TcpFlags
+- field_name: zeek.connection.orig_bytes
+  field_type: long
+  description: Bytes sent by originator
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
+- field_name: zeek.connection.resp_bytes
+  field_type: long
+  description: Bytes sent by responder
+  ecs_field: destination.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
+- field_name: zeek.connection.orig_pkts
+  field_type: long
+  description: Packets sent by originator
+  ecs_field: source.packets
+  cim_field: packets_out
+  asim_field: SrcPackets
+- field_name: zeek.connection.resp_pkts
+  field_type: long
+  description: Packets sent by responder
+  ecs_field: destination.packets
+  cim_field: packets_in
+  asim_field: DstPackets
+- field_name: zeek.connection.duration
+  field_type: float
+  description: Connection duration in seconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: NetworkDuration
+- field_name: zeek.dns.query
+  field_type: keyword
+  description: DNS query name
+  ecs_field: dns.question.name
+  cim_field: query
+  asim_field: DnsQuery
+- field_name: zeek.dns.qtype_name
+  field_type: keyword
+  description: DNS query type name (A, AAAA, MX, etc.)
+  ecs_field: dns.question.type
+  cim_field: record_type
+  asim_field: DnsQueryType
+- field_name: zeek.dns.qtype
+  field_type: integer
+  description: DNS query type number
+  ecs_field: dns.question.type
+  cim_field: record_type_id
+  asim_field: DnsQueryTypeNumber
+- field_name: zeek.dns.rcode_name
+  field_type: keyword
+  description: DNS response code name (NOERROR, NXDOMAIN, etc.)
+  ecs_field: dns.response_code
+  cim_field: reply_code
+  asim_field: DnsResponseCode
+- field_name: zeek.dns.rcode
+  field_type: integer
+  description: DNS response code number
+  ecs_field: dns.response_code
+  cim_field: reply_code_id
+  asim_field: DnsResponseCodeNumber
+- field_name: zeek.dns.answers
+  field_type: keyword
+  description: DNS answer records
+  ecs_field: dns.answers.data
+  cim_field: answer
+  asim_field: DnsResponseName
+- field_name: zeek.dns.TTLs
+  field_type: long
+  description: DNS TTL values
+  ecs_field: dns.answers.ttl
+  cim_field: ttl
+  asim_field: DnsResponseTtl
+- field_name: zeek.dns.AA
+  field_type: boolean
+  description: Authoritative answer flag
+  ecs_field: dns.header_flags
+  cim_field: flags
+  asim_field: DnsFlags
+- field_name: zeek.dns.rejected
+  field_type: boolean
+  description: Whether query was rejected
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: zeek.http.method
+  field_type: keyword
+  description: HTTP request method
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
+- field_name: zeek.http.host
+  field_type: keyword
+  description: HTTP Host header
+  ecs_field: url.domain
+  cim_field: url_domain
+  asim_field: UrlHostname
+- field_name: zeek.http.uri
+  field_type: keyword
+  description: HTTP request URI
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
+- field_name: zeek.http.referrer
+  field_type: keyword
+  description: HTTP Referer header
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
+- field_name: zeek.http.user_agent
+  field_type: keyword
+  description: HTTP User-Agent header
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: HttpUserAgent
+- field_name: zeek.http.status_code
+  field_type: integer
+  description: HTTP response status code
+  ecs_field: http.response.status_code
+  cim_field: status
+  asim_field: HttpStatusCode
+- field_name: zeek.http.status_msg
+  field_type: keyword
+  description: HTTP response status message
+  ecs_field: http.response.status_code
+  cim_field: status_description
+  asim_field: EventResultDetails
+- field_name: zeek.http.request_body_len
+  field_type: long
+  description: HTTP request body length
+  ecs_field: http.request.body.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
+- field_name: zeek.http.response_body_len
+  field_type: long
+  description: HTTP response body length
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
+- field_name: zeek.http.resp_mime_types
+  field_type: keyword
+  description: HTTP response MIME types
+  ecs_field: http.response.mime_type
+  cim_field: http_content_type
+  asim_field: HttpContentType
+- field_name: zeek.ssl.version
+  field_type: keyword
+  description: SSL/TLS version
+  ecs_field: tls.version
+  cim_field: ssl_version
+  asim_field: TlsVersion
+- field_name: zeek.ssl.cipher
+  field_type: keyword
+  description: SSL/TLS cipher suite
+  ecs_field: tls.cipher
+  cim_field: ssl_cipher
+  asim_field: TlsCipher
+- field_name: zeek.ssl.server_name
+  field_type: keyword
+  description: SSL/TLS Server Name Indication
+  ecs_field: tls.client.server_name
+  cim_field: ssl_subject
+  asim_field: TlsSni
+- field_name: zeek.ssl.subject
+  field_type: keyword
+  description: Certificate subject
+  ecs_field: tls.server.subject
+  cim_field: ssl_subject
+  asim_field: TlsCertificateSubject
+- field_name: zeek.ssl.issuer
+  field_type: keyword
+  description: Certificate issuer
+  ecs_field: tls.server.issuer
+  cim_field: ssl_issuer
+  asim_field: TlsCertificateIssuer
+- field_name: zeek.ssl.established
+  field_type: boolean
+  description: Whether SSL was established
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: zeek.ssl.resumed
+  field_type: boolean
+  description: Whether session was resumed
+  ecs_field: tls.resumed
+  cim_field: ssl_session_resumed
+  asim_field: TlsSessionResumed
+- field_name: zeek.ssl.ja3
+  field_type: keyword
+  description: JA3 fingerprint
+  ecs_field: tls.client.ja3
+  cim_field: ja3_hash
+  asim_field: TlsJa3
+- field_name: zeek.ssl.ja3s
+  field_type: keyword
+  description: JA3S fingerprint
+  ecs_field: tls.server.ja3s
+  cim_field: ja3s_hash
+  asim_field: TlsJa3s
+- field_name: zeek.files.fuid
+  field_type: keyword
+  description: File unique ID
+  ecs_field: file.uid
+  cim_field: file_id
+  asim_field: TargetFileId
+- field_name: zeek.files.filename
+  field_type: keyword
+  description: File name
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: TargetFileName
+- field_name: zeek.files.mime_type
+  field_type: keyword
+  description: File MIME type
+  ecs_field: file.mime_type
+  cim_field: file_type
+  asim_field: TargetFileMimeType
+- field_name: zeek.files.total_bytes
+  field_type: long
+  description: Total file size in bytes
+  ecs_field: file.size
+  cim_field: file_size
+  asim_field: TargetFileSize
+- field_name: zeek.files.md5
+  field_type: keyword
+  description: File MD5 hash
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
+- field_name: zeek.files.sha1
+  field_type: keyword
+  description: File SHA1 hash
+  ecs_field: file.hash.sha1
+  cim_field: file_hash
+  asim_field: TargetFileSHA1
+- field_name: zeek.files.sha256
+  field_type: keyword
+  description: File SHA256 hash
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
+- field_name: zeek.notice.note
+  field_type: keyword
+  description: Notice type (e.g., Scan::Port_Scan)
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
+- field_name: zeek.notice.msg
+  field_type: keyword
+  description: Notice message
+  ecs_field: message
+  cim_field: description
+  asim_field: EventMessage
+- field_name: zeek.notice.sub
+  field_type: keyword
+  description: Notice sub-message
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: zeek.notice.actions
+  field_type: keyword
+  description: Actions taken
+  ecs_field: event.action
+  cim_field: action
+  asim_field: DvcAction
+- field_name: zeek.notice.suppress_for
+  field_type: float
+  description: Suppression time
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: NetworkDuration
+- field_name: zeek.ssh.client
+  field_type: keyword
+  description: SSH client software
+  ecs_field: network.protocol_version
+  cim_field: ssh_client_version
+  asim_field: SrcAppName
+- field_name: zeek.ssh.server
+  field_type: keyword
+  description: SSH server software
+  ecs_field: network.protocol_version
+  cim_field: ssh_server_version
+  asim_field: DstAppName
+- field_name: zeek.ssh.auth_success
+  field_type: boolean
+  description: Whether authentication succeeded
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: zeek.ssh.direction
+  field_type: keyword
+  description: Connection direction
+  ecs_field: network.direction
+  cim_field: direction
+  asim_field: NetworkDirection
+- field_name: zeek.kerberos.request_type
+  field_type: keyword
+  description: Kerberos request type (AS, TGS)
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: zeek.kerberos.client
+  field_type: keyword
+  description: Kerberos client principal
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: zeek.kerberos.service
+  field_type: keyword
+  description: Kerberos service principal
+  ecs_field: service.name
+  cim_field: service
+  asim_field: TargetAppName
+- field_name: zeek.kerberos.success
+  field_type: boolean
+  description: Whether request succeeded
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: zeek.kerberos.error_msg
+  field_type: keyword
+  description: Kerberos error message
+  ecs_field: error.message
+  cim_field: error_message
+  asim_field: EventResultDetails
+- field_name: zeek.rdp.cookie
+  field_type: keyword
+  description: RDP cookie (username)
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: zeek.rdp.result
+  field_type: keyword
+  description: RDP connection result
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: zeek.rdp.security_protocol
+  field_type: keyword
+  description: RDP security protocol
+  ecs_field: tls.version
+  cim_field: protocol
+  asim_field: NetworkProtocol
+- field_name: zeek.weird.name
+  field_type: keyword
+  description: Weird event name
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
+- field_name: zeek.weird.addl
+  field_type: keyword
+  description: Additional weird event info
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: zeek.weird.notice
+  field_type: boolean
+  description: Whether notice was generated
+  ecs_field: event.action
+  cim_field: action
+  asim_field: DvcAction
 signatures:
 - name: zeek_connection
   description: Zeek connection log (conn.log)

@@ -7,7 +7,7 @@ source_document: SonicOS/X 7.0.1 Log Events Reference Guide
 source_url: https://www.sonicwall.com/support/technical-documentation
 extraction_date: '2026-01-01'
 source_file: sonicwall-sonicosX-signatures.json
-generated_at: '2026-01-29T05:59:01.274079'
+generated_at: '2026-01-31T04:25:55.344687'
 categories:
 - Network
 - Traffic Statistics
@@ -26,52 +26,59 @@ fields:
 - field_name: af_polid
   field_type: string
   description: Application Filter Policy ID
-  ecs_field: vendor.af_polid
-  cim_field: af_polid
-  asim_field: af_polid
+  ecs_field: rule.id
+  cim_field: rule_id
+  asim_field: RuleNumber
   category: Application Filter
+  display_name: Af Polid
 - field_name: af_policy
   field_type: string
   description: Application Policy name
-  ecs_field: vendor.af_policy
-  cim_field: af_policy
-  asim_field: af_policy
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Application Filter
+  display_name: Af Policy
 - field_name: af_type
   field_type: string
   description: Application Policy type (SMTP/HTTP/FTP/POP3/IPS/App Control)
-  ecs_field: vendor.af_type
-  cim_field: af_type
-  asim_field: af_type
+  ecs_field: rule.category
+  cim_field: rule_category
+  asim_field: RuleType
   category: Application Filter
+  display_name: Af Type
 - field_name: af_service
   field_type: string
   description: Application Policy service name
-  ecs_field: vendor.af_service
-  cim_field: af_service
-  asim_field: af_service
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
   category: Application Filter
+  display_name: Af Service
 - field_name: af_action
   field_type: string
   description: Application Policy action (Block/Redirect/Reset/Drop)
-  ecs_field: vendor.af_action
-  cim_field: af_action
-  asim_field: af_action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Application Filter
+  display_name: Af Action
 - field_name: af_object
   field_type: string
   description: Custom Application Policy object name
-  ecs_field: vendor.af_object
-  cim_field: af_object
-  asim_field: af_object
+  ecs_field: rule.name
+  cim_field: rule_object
+  asim_field: RuleName
   category: Application Filter
+  display_name: Af Object
 - field_name: src
   field_type: ip
   description: Source IP address, port, interface, and resolved name
-  ecs_field: vendor.src
-  cim_field: src
-  asim_field: src
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Network
+  display_name: Src
 - field_name: srcV6
   field_type: ip
   description: Source IPv6 address
@@ -79,13 +86,15 @@ fields:
   cim_field: srcV6
   asim_field: srcV6
   category: Network
+  display_name: Srcv6
 - field_name: dst
   field_type: ip
   description: Destination IP address, port, interface, and resolved name
-  ecs_field: vendor.dst
-  cim_field: dst
-  asim_field: dst
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Network
+  display_name: Dst
 - field_name: dstV6
   field_type: ip
   description: Destination IPv6 address
@@ -93,41 +102,47 @@ fields:
   cim_field: dstV6
   asim_field: dstV6
   category: Network
+  display_name: Dstv6
 - field_name: spt
   field_type: port
   description: Source port
-  ecs_field: vendor.spt
-  cim_field: spt
-  asim_field: spt
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Common
+  display_name: Spt
 - field_name: dpt
   field_type: port
   description: Destination port
-  ecs_field: vendor.dpt
-  cim_field: dpt
-  asim_field: dpt
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Common
+  display_name: Dpt
 - field_name: snpt
   field_type: port
   description: NAT source port
-  ecs_field: vendor.snpt
-  cim_field: snpt
-  asim_field: snpt
+  ecs_field: source.nat.port
+  cim_field: src_translated_port
+  asim_field: SrcNatPortNumber
   category: Common
+  display_name: Snpt
 - field_name: dnpt
   field_type: port
   description: NAT destination port
-  ecs_field: vendor.dnpt
-  cim_field: dnpt
-  asim_field: dnpt
+  ecs_field: destination.nat.port
+  cim_field: dest_translated_port
+  asim_field: DstNatPortNumber
   category: Common
+  display_name: Dnpt
 - field_name: proto
   field_type: string
   description: Protocol and service
-  ecs_field: vendor.proto
-  cim_field: proto
-  asim_field: proto
+  ecs_field: network.iana_number
+  cim_field: protocol_number
+  asim_field: NetworkProtocolVersion
   category: Network
+  display_name: Proto
 - field_name: srcMac
   field_type: string
   description: Source MAC Address
@@ -135,6 +150,7 @@ fields:
   cim_field: srcMac
   asim_field: srcMac
   category: Network
+  display_name: Srcmac
 - field_name: dstMac
   field_type: string
   description: Destination MAC Address
@@ -142,13 +158,15 @@ fields:
   cim_field: dstMac
   asim_field: dstMac
   category: Network
+  display_name: Dstmac
 - field_name: natSrc
   field_type: ip
   description: NAT source IP address
-  ecs_field: vendor.natSrc
-  cim_field: natSrc
-  asim_field: natSrc
+  ecs_field: source.nat.ip
+  cim_field: src_translated_ip
+  asim_field: SrcNatIpAddr
   category: Network
+  display_name: Natsrc
 - field_name: natSrcV6
   field_type: ip
   description: NAT source IPv6 address
@@ -156,13 +174,15 @@ fields:
   cim_field: natSrcV6
   asim_field: natSrcV6
   category: Network
+  display_name: Natsrcv6
 - field_name: natDst
   field_type: ip
   description: NAT destination IP address
-  ecs_field: vendor.natDst
-  cim_field: natDst
-  asim_field: natDst
+  ecs_field: destination.nat.ip
+  cim_field: dest_translated_ip
+  asim_field: DstNatIpAddr
   category: Network
+  display_name: Natdst
 - field_name: natDstV6
   field_type: ip
   description: NAT destination IPv6 address
@@ -170,6 +190,7 @@ fields:
   cim_field: natDstV6
   asim_field: natDstV6
   category: Network
+  display_name: Natdstv6
 - field_name: srcZone
   field_type: string
   description: Source zone name
@@ -177,6 +198,7 @@ fields:
   cim_field: srcZone
   asim_field: srcZone
   category: Network
+  display_name: Srczone
 - field_name: dstZone
   field_type: string
   description: Destination zone name
@@ -184,6 +206,7 @@ fields:
   cim_field: dstZone
   asim_field: dstZone
   category: Network
+  display_name: Dstzone
 - field_name: deviceInboundInterface
   field_type: string
   description: Interface on which packet enters device
@@ -191,6 +214,7 @@ fields:
   cim_field: deviceInboundInterface
   asim_field: deviceInboundInterface
   category: Network
+  display_name: Deviceinboundinterface
 - field_name: deviceOutboundInterface
   field_type: string
   description: Interface on which packet leaves device
@@ -198,6 +222,7 @@ fields:
   cim_field: deviceOutboundInterface
   asim_field: deviceOutboundInterface
   category: Network
+  display_name: Deviceoutboundinterface
 - field_name: if
   field_type: string
   description: Interface for statistics reporting
@@ -205,34 +230,39 @@ fields:
   cim_field: if
   asim_field: if
   category: Common
+  display_name: If
 - field_name: sent
   field_type: int
   description: Bytes sent within connection
-  ecs_field: vendor.sent
-  cim_field: sent
-  asim_field: sent
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Common
+  display_name: Sent
 - field_name: rcvd
   field_type: int
   description: Bytes received within connection
-  ecs_field: vendor.rcvd
-  cim_field: rcvd
-  asim_field: rcvd
+  ecs_field: destination.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: Common
+  display_name: Rcvd
 - field_name: spkt
   field_type: int
   description: Packets sent
-  ecs_field: vendor.spkt
-  cim_field: spkt
-  asim_field: spkt
+  ecs_field: source.packets
+  cim_field: packets_out
+  asim_field: SrcPackets
   category: Traffic Statistics
+  display_name: Spkt
 - field_name: rpkt
   field_type: int
   description: Packets received
-  ecs_field: vendor.rpkt
-  cim_field: rpkt
-  asim_field: rpkt
+  ecs_field: destination.packets
+  cim_field: packets_in
+  asim_field: DstPackets
   category: Traffic Statistics
+  display_name: Rpkt
 - field_name: bytesRx
   field_type: int
   description: Bytes received (interface stats)
@@ -240,6 +270,7 @@ fields:
   cim_field: bytesRx
   asim_field: bytesRx
   category: Traffic Statistics
+  display_name: Bytesrx
 - field_name: bytesTx
   field_type: int
   description: Bytes transmitted (interface stats)
@@ -247,6 +278,7 @@ fields:
   cim_field: bytesTx
   asim_field: bytesTx
   category: Traffic Statistics
+  display_name: Bytestx
 - field_name: bcastRx
   field_type: int
   description: Broadcast packets received
@@ -254,6 +286,7 @@ fields:
   cim_field: bcastRx
   asim_field: bcastRx
   category: Traffic Statistics
+  display_name: Bcastrx
 - field_name: bcastTx
   field_type: int
   description: Broadcast packets transmitted
@@ -261,6 +294,7 @@ fields:
   cim_field: bcastTx
   asim_field: bcastTx
   category: Traffic Statistics
+  display_name: Bcasttx
 - field_name: ucastRx
   field_type: int
   description: Unicast packets received
@@ -268,6 +302,7 @@ fields:
   cim_field: ucastRx
   asim_field: ucastRx
   category: Traffic Statistics
+  display_name: Ucastrx
 - field_name: ucastTx
   field_type: int
   description: Unicast packets transmitted
@@ -275,6 +310,7 @@ fields:
   cim_field: ucastTx
   asim_field: ucastTx
   category: Traffic Statistics
+  display_name: Ucasttx
 - field_name: goodRxBytes
   field_type: int
   description: Well-formed bytes received (SonicPoint)
@@ -282,6 +318,7 @@ fields:
   cim_field: goodRxBytes
   asim_field: goodRxBytes
   category: Traffic Statistics
+  display_name: Goodrxbytes
 - field_name: goodTxBytes
   field_type: int
   description: Well-formed bytes transmitted (SonicPoint)
@@ -289,34 +326,39 @@ fields:
   cim_field: goodTxBytes
   asim_field: goodTxBytes
   category: Traffic Statistics
+  display_name: Goodtxbytes
 - field_name: m
   field_type: string
   description: Message ID number
-  ecs_field: vendor.m
-  cim_field: m
-  asim_field: m
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
   category: Common
+  display_name: M
 - field_name: msg
   field_type: string
   description: Event message text
-  ecs_field: vendor.msg
+  ecs_field: message
   cim_field: msg
-  asim_field: msg
+  asim_field: EventMessage
   category: Common
+  display_name: Msg
 - field_name: n
   field_type: int
   description: Event occurrence count
-  ecs_field: vendor.n
-  cim_field: n
-  asim_field: n
+  ecs_field: event.sequence
+  cim_field: event_count
+  asim_field: EventCount
   category: Common
+  display_name: N
 - field_name: pri
   field_type: int
   description: Priority level (0=emergency, 7=debug)
-  ecs_field: vendor.pri
-  cim_field: pri
-  asim_field: pri
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Common
+  display_name: Pri
 - field_name: c
   field_type: string
   description: Message category (legacy)
@@ -324,55 +366,63 @@ fields:
   cim_field: c
   asim_field: c
   category: Common
+  display_name: C
 - field_name: gcat
   field_type: string
   description: Group category for Enhanced Syslog
-  ecs_field: vendor.gcat
-  cim_field: gcat
-  asim_field: gcat
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
   category: Common
+  display_name: Gcat
 - field_name: time
   field_type: datetime
   description: Time of event
-  ecs_field: vendor.time
-  cim_field: time
-  asim_field: time
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Common
+  display_name: Time
 - field_name: cdur
   field_type: int
   description: Connection duration in milliseconds
-  ecs_field: vendor.cdur
-  cim_field: cdur
-  asim_field: cdur
+  ecs_field: event.duration
+  cim_field: duration_ms
+  asim_field: EventDuration
   category: Common
+  display_name: Cdur
 - field_name: dur
   field_type: int
   description: Session duration in seconds
-  ecs_field: vendor.dur
-  cim_field: dur
-  asim_field: dur
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: Common
+  display_name: Dur
 - field_name: app
   field_type: string
   description: Numeric application ID
-  ecs_field: vendor.app
+  ecs_field: network.protocol
   cim_field: app
-  asim_field: app
+  asim_field: DstAppName
   category: Application Filter
+  display_name: App
 - field_name: appcat
   field_type: string
   description: Application category
-  ecs_field: vendor.appcat
-  cim_field: appcat
-  asim_field: appcat
+  ecs_field: rule.category
+  cim_field: app_category
+  asim_field: RuleType
   category: Application Filter
+  display_name: Appcat
 - field_name: appid
   field_type: string
   description: Application ID
-  ecs_field: vendor.appid
-  cim_field: appid
-  asim_field: appid
+  ecs_field: network.application
+  cim_field: app_id
+  asim_field: DstAppId
   category: Application Filter
+  display_name: Appid
 - field_name: appName
   field_type: string
   description: Non-signature Application Name
@@ -380,132 +430,151 @@ fields:
   cim_field: appName
   asim_field: appName
   category: Application Filter
+  display_name: Appname
 - field_name: usr
   field_type: string
   description: User name
-  ecs_field: vendor.usr
-  cim_field: usr
-  asim_field: usr
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: Users
+  display_name: Usr
 - field_name: user
   field_type: string
   description: User name (WebTrends format)
-  ecs_field: vendor.user
+  ecs_field: user.name
   cim_field: user
-  asim_field: user
+  asim_field: TargetUsername
   category: Users
+  display_name: User
 - field_name: sess
   field_type: string
   description: Session type (Web/Portal/VPN/CLI/Auto)
-  ecs_field: vendor.sess
-  cim_field: sess
-  asim_field: sess
+  ecs_field: event.category
+  cim_field: session_type
+  asim_field: EventCategory
   category: Users
+  display_name: Sess
 - field_name: arg
   field_type: string
   description: URL path name
-  ecs_field: vendor.arg
-  cim_field: arg
-  asim_field: arg
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Web/Content
+  display_name: Arg
 - field_name: dstname
   field_type: string
   description: URL of accessed websites and hosts
-  ecs_field: vendor.dstname
-  cim_field: dstname
-  asim_field: dstname
+  ecs_field: url.domain
+  cim_field: url_host
+  asim_field: UrlHost
   category: Network
+  display_name: Dstname
 - field_name: referer
   field_type: string
   description: HTTP Referrer URI
-  ecs_field: vendor.referer
-  cim_field: referer
-  asim_field: referer
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
   category: Web/Content
+  display_name: Referer
 - field_name: op
   field_type: string
   description: HTTP OP code (GET/POST/HEAD)
-  ecs_field: vendor.op
-  cim_field: op
-  asim_field: op
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: Web/Content
+  display_name: Op
 - field_name: result
   field_type: string
   description: HTTP result code (200, 403, etc)
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Web/Content
+  display_name: Result
 - field_name: category
   field_type: string
   description: CFS blocked content category
-  ecs_field: vendor.category
+  ecs_field: event.category
   cim_field: category
-  asim_field: category
+  asim_field: EventCategory
   category: Web/Content
+  display_name: Category
 - field_name: code
   field_type: string
   description: CFS block code
-  ecs_field: vendor.code
+  ecs_field: event.code
   cim_field: code
-  asim_field: code
+  asim_field: EventCode
   category: Web/Content
+  display_name: Code
 - field_name: catid
   field_type: string
   description: Rule category ID
-  ecs_field: vendor.catid
-  cim_field: catid
-  asim_field: catid
+  ecs_field: rule.id
+  cim_field: rule_category_id
+  asim_field: RuleNumber
   category: Common
+  display_name: Catid
 - field_name: sid
   field_type: string
   description: IPS or Anti-Spyware signature ID
-  ecs_field: vendor.sid
-  cim_field: sid
-  asim_field: sid
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: Security Services
+  display_name: Sid
 - field_name: ipscat
   field_type: string
   description: IPS category
-  ecs_field: vendor.ipscat
-  cim_field: ipscat
-  asim_field: ipscat
+  ecs_field: rule.category
+  cim_field: ips_category
+  asim_field: RuleType
   category: Security Services
+  display_name: Ipscat
 - field_name: ipspri
   field_type: int
   description: IPS priority
-  ecs_field: vendor.ipspri
-  cim_field: ipspri
-  asim_field: ipspri
+  ecs_field: event.severity
+  cim_field: ips_priority
+  asim_field: EventSeverity
   category: Security Services
+  display_name: Ipspri
 - field_name: dpi
   field_type: int
   description: Deep Packet Inspection flag (1=inspected, 0=not)
-  ecs_field: vendor.dpi
-  cim_field: dpi
-  asim_field: dpi
+  ecs_field: event.action
+  cim_field: dpi_inspected
+  asim_field: EventType
   category: Security Services
+  display_name: Dpi
 - field_name: spycat
   field_type: string
   description: Anti-Spyware category
-  ecs_field: vendor.spycat
-  cim_field: spycat
-  asim_field: spycat
+  ecs_field: rule.category
+  cim_field: spyware_category
+  asim_field: RuleType
   category: Security Services
+  display_name: Spycat
 - field_name: spypri
   field_type: int
   description: Anti-Spyware priority
-  ecs_field: vendor.spypri
-  cim_field: spypri
-  asim_field: spypri
+  ecs_field: event.severity
+  cim_field: spyware_priority
+  asim_field: EventSeverity
   category: Security Services
+  display_name: Spypri
 - field_name: type
   field_type: int
   description: ICMP type
-  ecs_field: vendor.type
-  cim_field: type
-  asim_field: type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Common
+  display_name: Type
 - field_name: icmpCode
   field_type: int
   description: ICMP code
@@ -513,48 +582,55 @@ fields:
   cim_field: icmpCode
   asim_field: icmpCode
   category: Web/Content
+  display_name: Icmpcode
 - field_name: fw
   field_type: ip
   description: Firewall WAN IP address
-  ecs_field: vendor.fw
-  cim_field: fw
-  asim_field: fw
+  ecs_field: observer.ip
+  cim_field: dvc_ip
+  asim_field: DvcIpAddr
   category: Firewall
+  display_name: Fw
 - field_name: fw_action
   field_type: string
   description: Firewall action (forward/drop/mgmt/NA)
-  ecs_field: vendor.fw_action
-  cim_field: fw_action
-  asim_field: fw_action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Firewall
+  display_name: Fw Action
 - field_name: fwlan
   field_type: ip
   description: LAN zone IP address
-  ecs_field: vendor.fwlan
-  cim_field: fwlan
-  asim_field: fwlan
+  ecs_field: observer.ip
+  cim_field: lan_ip
+  asim_field: DvcIpAddr
   category: Firewall
+  display_name: Fwlan
 - field_name: rule
   field_type: string
   description: Rule ID associated with event
-  ecs_field: vendor.rule
+  ecs_field: rule.name
   cim_field: rule
-  asim_field: rule
+  asim_field: RuleName
   category: Firewall
+  display_name: Rule
 - field_name: conns
   field_type: int
   description: Number of connections in use
-  ecs_field: vendor.conns
-  cim_field: conns
-  asim_field: conns
+  ecs_field: observer.connections
+  cim_field: connections
+  asim_field: DvcActiveConnections
   category: Firewall
+  display_name: Conns
 - field_name: vpnpolicy
   field_type: string
   description: Source VPN policy name
-  ecs_field: vendor.vpnpolicy
-  cim_field: vpnpolicy
-  asim_field: vpnpolicy
+  ecs_field: rule.name
+  cim_field: vpn_policy
+  asim_field: RuleName
   category: VPN
+  display_name: Vpnpolicy
 - field_name: vpnpolicyDst
   field_type: string
   description: Destination VPN policy name
@@ -562,48 +638,55 @@ fields:
   cim_field: vpnpolicyDst
   asim_field: vpnpolicyDst
   category: Network
+  display_name: Vpnpolicydst
 - field_name: sn
   field_type: string
   description: Device serial number
-  ecs_field: vendor.sn
-  cim_field: sn
-  asim_field: sn
+  ecs_field: observer.serial_number
+  cim_field: serial_number
+  asim_field: DvcSerialNumber
   category: Common
+  display_name: Sn
 - field_name: bid
   field_type: string
   description: Blade ID (blade architecture only)
-  ecs_field: vendor.bid
-  cim_field: bid
-  asim_field: bid
+  ecs_field: observer.id
+  cim_field: blade_id
+  asim_field: DvcId
   category: Common
+  display_name: Bid
 - field_name: uuid
   field_type: string
   description: Universally Unique Identifier
-  ecs_field: vendor.uuid
+  ecs_field: observer.id
   cim_field: uuid
-  asim_field: uuid
+  asim_field: DvcId
   category: Common
+  display_name: Uuid
 - field_name: ai
   field_type: string
   description: Active WAN Interface
-  ecs_field: vendor.ai
-  cim_field: ai
-  asim_field: ai
+  ecs_field: observer.egress.interface.name
+  cim_field: active_interface
+  asim_field: DstInterfaceName
   category: Common
+  display_name: Ai
 - field_name: fileid
   field_type: string
   description: File identification or name (may be MD5 or URL)
-  ecs_field: vendor.fileid
-  cim_field: fileid
-  asim_field: fileid
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
   category: Common
+  display_name: Fileid
 - field_name: filetxstatus
   field_type: string
   description: Capture ATP file transmission status
-  ecs_field: vendor.filetxstatus
-  cim_field: filetxstatus
-  asim_field: filetxstatus
+  ecs_field: event.outcome
+  cim_field: file_status
+  asim_field: EventResult
   category: Common
+  display_name: Filetxstatus
 - field_name: mailFrom
   field_type: string
   description: Email sender/originator
@@ -611,6 +694,7 @@ fields:
   cim_field: mailFrom
   asim_field: mailFrom
   category: Email
+  display_name: Mailfrom
 - field_name: rcptTo
   field_type: string
   description: Email recipient
@@ -618,55 +702,63 @@ fields:
   cim_field: rcptTo
   asim_field: rcptTo
   category: Email
+  display_name: Rcptto
 - field_name: radio
   field_type: string
   description: SonicWave/SonicPoint radio
-  ecs_field: vendor.radio
+  ecs_field: observer.ingress.interface.name
   cim_field: radio
-  asim_field: radio
+  asim_field: SrcInterfaceName
   category: Wireless
+  display_name: Radio
 - field_name: station
   field_type: string
   description: Wireless client station
-  ecs_field: vendor.station
-  cim_field: station
-  asim_field: station
+  ecs_field: source.mac
+  cim_field: client_mac
+  asim_field: SrcMacAddr
   category: Wireless
+  display_name: Station
 - field_name: dyn
   field_type: string
   description: HA and dialup connection state
-  ecs_field: vendor.dyn
-  cim_field: dyn
-  asim_field: dyn
+  ecs_field: observer.state
+  cim_field: ha_state
+  asim_field: DvcAction
   category: Common
+  display_name: Dyn
 - field_name: i
   field_type: int
   description: GMS message interval in seconds
-  ecs_field: vendor.i
-  cim_field: i
-  asim_field: i
+  ecs_field: event.duration
+  cim_field: gms_interval
+  asim_field: EventDuration
   category: Common
+  display_name: I
 - field_name: lic
   field_type: int
   description: Number of licenses
-  ecs_field: vendor.lic
-  cim_field: lic
-  asim_field: lic
+  ecs_field: observer.licenses
+  cim_field: license_count
+  asim_field: DvcLicenses
   category: Common
+  display_name: Lic
 - field_name: pt
   field_type: string
   description: HTTP/HTTPS management port
-  ecs_field: vendor.pt
-  cim_field: pt
-  asim_field: pt
+  ecs_field: url.port
+  cim_field: mgmt_port
+  asim_field: UrlPort
   category: Common
+  display_name: Pt
 - field_name: unsynched
   field_type: int
   description: Time since last local change in seconds
-  ecs_field: vendor.unsynched
-  cim_field: unsynched
-  asim_field: unsynched
+  ecs_field: event.duration
+  cim_field: unsync_time
+  asim_field: EventDuration
   category: Common
+  display_name: Unsynched
 - field_name: usestandbysa
   field_type: int
   description: Standby SA in use flag
@@ -674,27 +766,31 @@ fields:
   cim_field: usestandbysa
   asim_field: usestandbysa
   category: Common
+  display_name: Usestandbysa
 - field_name: change
   field_type: string
   description: Web page that performed last config change
-  ecs_field: vendor.change
-  cim_field: change
-  asim_field: change
+  ecs_field: url.path
+  cim_field: config_page
+  asim_field: UrlPath
   category: Configuration Auditing
+  display_name: Change
 - field_name: npcs
   field_type: string
   description: Network Packet Capture System URL
-  ecs_field: vendor.npcs
-  cim_field: npcs
-  asim_field: npcs
+  ecs_field: url.original
+  cim_field: npcs_url
+  asim_field: Url
   category: Common
+  display_name: Npcs
 - field_name: note
   field_type: string
   description: Additional application-dependent information
-  ecs_field: vendor.note
+  ecs_field: event.reason
   cim_field: note
-  asim_field: note
+  asim_field: EventReason
   category: Common
+  display_name: Note
 - field_name: contentObject
   field_type: string
   description: Application Filter rule name
@@ -702,20 +798,23 @@ fields:
   cim_field: contentObject
   asim_field: contentObject
   category: Application Filter
+  display_name: Contentobject
 - field_name: cs4
   field_type: string
   description: Interface statistics
-  ecs_field: vendor.cs4
-  cim_field: cs4
-  asim_field: cs4
+  ecs_field: event.original
+  cim_field: interface_stats
+  asim_field: EventOriginal
   category: Common
+  display_name: Cs4
 - field_name: f
   field_type: string
   description: Flow type when Flow Reporting disabled
-  ecs_field: vendor.f
-  cim_field: f
-  asim_field: f
+  ecs_field: network.type
+  cim_field: flow_type
+  asim_field: NetworkProtocol
   category: Common
+  display_name: F
 - field_name: auditId
   field_type: string
   description: Configuration Audit ID
@@ -723,6 +822,7 @@ fields:
   cim_field: auditId
   asim_field: auditId
   category: Configuration Auditing
+  display_name: Auditid
 - field_name: tranxId
   field_type: string
   description: Configuration Audit Transaction ID
@@ -730,6 +830,7 @@ fields:
   cim_field: tranxId
   asim_field: tranxId
   category: Configuration Auditing
+  display_name: Tranxid
 - field_name: userMode
   field_type: string
   description: User privileges mode
@@ -737,6 +838,7 @@ fields:
   cim_field: userMode
   asim_field: userMode
   category: Users
+  display_name: Usermode
 - field_name: auditTime
   field_type: datetime
   description: Configuration change timestamp
@@ -744,6 +846,7 @@ fields:
   cim_field: auditTime
   asim_field: auditTime
   category: Configuration Auditing
+  display_name: Audittime
 - field_name: auditPath
   field_type: string
   description: Logical location of configuration setting
@@ -751,6 +854,7 @@ fields:
   cim_field: auditPath
   asim_field: auditPath
   category: Configuration Auditing
+  display_name: Auditpath
 - field_name: grpName
   field_type: string
   description: Configuration Audit Group Name
@@ -758,6 +862,7 @@ fields:
   cim_field: grpName
   asim_field: grpName
   category: Configuration Auditing
+  display_name: Grpname
 - field_name: grpIndex
   field_type: string
   description: Configuration Audit Group Index
@@ -765,6 +870,7 @@ fields:
   cim_field: grpIndex
   asim_field: grpIndex
   category: Configuration Auditing
+  display_name: Grpindex
 - field_name: oldValue
   field_type: string
   description: Previous value of configuration object
@@ -772,6 +878,7 @@ fields:
   cim_field: oldValue
   asim_field: oldValue
   category: Configuration Auditing
+  display_name: Oldvalue
 - field_name: newValue
   field_type: string
   description: New value of configuration object
@@ -779,4 +886,5 @@ fields:
   cim_field: newValue
   asim_field: newValue
   category: Configuration Auditing
+  display_name: Newvalue
 notes: Extracted from SonicWall Syslog Tags table - includes gcat group categories

@@ -7,7 +7,7 @@ source_document: Azure Activity Log Event Schema
 source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log-schema
 extraction_date: '2026-01-02'
 source_file: azure-activity-signatures.json
-generated_at: '2026-01-29T05:58:47.337030'
+generated_at: '2026-01-31T04:25:41.146897'
 categories:
 - Administrative
 - HttpRequest
@@ -36,9 +36,9 @@ fields:
 - field_name: category
   field_type: string
   description: Event category (Administrative, ServiceHealth, etc.)
-  ecs_field: vendor.category
+  ecs_field: event.category
   cim_field: category
-  asim_field: category
+  asim_field: EventCategory
   category: Administrative
 - field_name: channels
   field_type: string
@@ -64,9 +64,9 @@ fields:
 - field_name: description
   field_type: string
   description: Static text description
-  ecs_field: vendor.description
-  cim_field: description
-  asim_field: description
+  ecs_field: message
+  cim_field: event_description
+  asim_field: EventMessage
   category: Administrative
 - field_name: eventDataId
   field_type: string
@@ -78,9 +78,9 @@ fields:
 - field_name: eventName
   field_type: object
   description: Friendly name with value and localizedValue
-  ecs_field: vendor.eventName
-  cim_field: eventName
-  asim_field: eventName
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventAction
   category: Administrative
 - field_name: eventTimestamp
   field_type: datetime
@@ -113,16 +113,16 @@ fields:
 - field_name: id
   field_type: string
   description: Full resource URI with event ID
-  ecs_field: vendor.id
-  cim_field: id
-  asim_field: id
+  ecs_field: network.packet_id
+  cim_field: packet_id
+  asim_field: NetworkPacketId
   category: Administrative
 - field_name: level
   field_type: string
   description: Severity level (Critical/Error/Warning/Informational)
-  ecs_field: vendor.level
-  cim_field: level
-  asim_field: level
+  ecs_field: log.level
+  cim_field: severity
+  asim_field: EventSeverity
   category: Administrative
 - field_name: operationId
   field_type: string
@@ -463,9 +463,9 @@ fields:
 - field_name: status
   field_type: object
   description: Succeeded, Failed, Started, In Progress
-  ecs_field: vendor.status
+  ecs_field: event.outcome
   cim_field: status
-  asim_field: status
+  asim_field: EventResult
   category: Administrative
 - field_name: subStatus
   field_type: object

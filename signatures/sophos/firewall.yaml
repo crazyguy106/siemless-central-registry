@@ -7,7 +7,7 @@ source_document: SF syslog file guide 22.0
 source_url: https://docs.sophos.com/nsg/sophos-firewall/22.0/Help/en-us/webhelp/onlinehelp/SyslogGuide/index.html
 extraction_date: '2026-01-01'
 source_file: sophos-firewall-signatures.json
-generated_at: '2026-01-29T05:59:01.332851'
+generated_at: '2026-01-31T04:25:55.408198'
 categories:
 - SD-WAN
 - IPS
@@ -35,52 +35,59 @@ fields:
 - field_name: log_type
   field_type: string
   description: ''
-  ecs_field: vendor.log_type
+  ecs_field: event.kind
   cim_field: log_type
-  asim_field: log_type
+  asim_field: EventType
   category: Antivirus (HTTP / HTTPS)
+  display_name: Log Type
 - field_name: log_subtype
   field_type: string
   description: ''
-  ecs_field: vendor.log_subtype
+  ecs_field: event.category
   cim_field: log_subtype
-  asim_field: log_subtype
+  asim_field: EventCategory
   category: Antivirus (HTTP / HTTPS)
+  display_name: Log Subtype
 - field_name: severity
   field_type: string
   description: ''
-  ecs_field: vendor.severity
-  cim_field: severity
-  asim_field: severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: Antivirus (HTTP / HTTPS)
+  display_name: Severity
 - field_name: fw_rule_id
   field_type: int
   description: ''
-  ecs_field: vendor.fw_rule_id
-  cim_field: fw_rule_id
-  asim_field: fw_rule_id
+  ecs_field: rule.id
+  cim_field: rule_id
+  asim_field: RuleNumber
   category: Antivirus (HTTP / HTTPS)
+  display_name: Fw Rule Id
 - field_name: user_name
   field_type: string
   description: ''
-  ecs_field: vendor.user_name
+  ecs_field: user.name
   cim_field: user_name
-  asim_field: user_name
+  asim_field: TargetUsername
   category: Antivirus (HTTP / HTTPS)
+  display_name: User Name
 - field_name: user
   field_type: string
   description: ''
-  ecs_field: vendor.user
+  ecs_field: user.name
   cim_field: user
-  asim_field: user
+  asim_field: TargetUsername
   category: Antivirus (HTTP / HTTPS)
+  display_name: User
 - field_name: web_policy_id
   field_type: int
   description: ''
-  ecs_field: vendor.web_policy_id
+  ecs_field: rule.id
   cim_field: web_policy_id
-  asim_field: web_policy_id
+  asim_field: RuleNumber
   category: Antivirus (HTTP / HTTPS)
+  display_name: Web Policy Id
 - field_name: transaction
   field_type: string
   description: ''
@@ -88,90 +95,103 @@ fields:
   cim_field: transaction
   asim_field: transaction
   category: Antivirus (HTTP / HTTPS)
+  display_name: Transaction
 - field_name: malware
   field_type: string
   description: ''
-  ecs_field: vendor.malware
-  cim_field: malware
-  asim_field: malware
+  ecs_field: threat.indicator.name
+  cim_field: malware_name
+  asim_field: ThreatName
   category: Antivirus (HTTP / HTTPS)
+  display_name: Malware
 - field_name: virus
   field_type: string
   description: ''
-  ecs_field: vendor.virus
-  cim_field: virus
-  asim_field: virus
+  ecs_field: threat.indicator.name
+  cim_field: virus_name
+  asim_field: ThreatName
   category: Antivirus (HTTP / HTTPS)
+  display_name: Virus
 - field_name: url
   field_type: string
   description: ''
-  ecs_field: vendor.url
+  ecs_field: url.original
   cim_field: url
-  asim_field: url
+  asim_field: Url
   category: Antivirus (HTTP / HTTPS)
+  display_name: Url
 - field_name: downloaded
   field_type: string
   description: ''
-  ecs_field: vendor.downloaded
-  cim_field: downloaded
-  asim_field: downloaded
+  ecs_field: http.response.body.bytes
+  cim_field: downloaded_bytes
+  asim_field: HttpResponseBodyBytes
   category: Antivirus (HTTP / HTTPS)
+  display_name: Downloaded
 - field_name: domain
   field_type: string
   description: ''
-  ecs_field: vendor.domain
-  cim_field: domain
-  asim_field: domain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
   category: Antivirus (HTTP / HTTPS)
+  display_name: Domain
 - field_name: src_ip
   field_type: ip
   description: ''
-  ecs_field: vendor.src_ip
+  ecs_field: source.ip
   cim_field: src_ip
-  asim_field: src_ip
+  asim_field: SrcIpAddr
   category: Antivirus (HTTP / HTTPS)
+  display_name: Src Ip
 - field_name: src_country
   field_type: int
   description: ''
-  ecs_field: vendor.src_country
+  ecs_field: source.geo.country_name
   cim_field: src_country
-  asim_field: src_country
+  asim_field: SrcGeoCountry
   category: Antivirus (HTTP / HTTPS)
+  display_name: Src Country
 - field_name: dst_ip
   field_type: ip
   description: ''
-  ecs_field: vendor.dst_ip
-  cim_field: dst_ip
-  asim_field: dst_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Antivirus (HTTP / HTTPS)
+  display_name: Dst Ip
 - field_name: dst_country
   field_type: int
   description: ''
-  ecs_field: vendor.dst_country
-  cim_field: dst_country
-  asim_field: dst_country
+  ecs_field: destination.geo.country_name
+  cim_field: dest_country
+  asim_field: DstGeoCountry
   category: Antivirus (HTTP / HTTPS)
+  display_name: Dst Country
 - field_name: src_port
   field_type: port
   description: ''
-  ecs_field: vendor.src_port
+  ecs_field: source.port
   cim_field: src_port
-  asim_field: src_port
+  asim_field: SrcPortNumber
   category: Antivirus (HTTP / HTTPS)
+  display_name: Src Port
 - field_name: dst_port
   field_type: port
   description: ''
-  ecs_field: vendor.dst_port
-  cim_field: dst_port
-  asim_field: dst_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Antivirus (HTTP / HTTPS)
+  display_name: Dst Port
 - field_name: bytes_sent
   field_type: int
   description: ''
-  ecs_field: vendor.bytes_sent
-  cim_field: bytes_sent
-  asim_field: bytes_sent
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Antivirus (HTTP / HTTPS)
+  display_name: Bytes Sent
 - field_name: destination
   field_type: string
   description: ''
@@ -179,41 +199,47 @@ fields:
   cim_field: destination
   asim_field: destination
   category: Antivirus (HTTP / HTTPS)
+  display_name: Destination
 - field_name: bytes_received
   field_type: int
   description: ''
-  ecs_field: vendor.bytes_received
-  cim_field: bytes_received
-  asim_field: bytes_received
+  ecs_field: destination.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: Antivirus (HTTP / HTTPS)
+  display_name: Bytes Received
 - field_name: user_agent
   field_type: string
   description: ''
-  ecs_field: vendor.user_agent
-  cim_field: user_agent
-  asim_field: user_agent
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: UserAgent
   category: Antivirus (HTTP / HTTPS)
+  display_name: User Agent
 - field_name: log_id
   field_type: int
   description: ''
-  ecs_field: vendor.log_id
+  ecs_field: event.id
   cim_field: log_id
-  asim_field: log_id
+  asim_field: EventOriginalUid
   category: Antivirus (HTTP / HTTPS)
+  display_name: Log Id
 - field_name: device_name
   field_type: string
   description: ''
-  ecs_field: vendor.device_name
+  ecs_field: host.hostname
   cim_field: device_name
-  asim_field: device_name
+  asim_field: DvcHostname
   category: Antivirus (HTTP / HTTPS)
+  display_name: Device Name
 - field_name: device_model
   field_type: string
   description: ''
-  ecs_field: vendor.device_model
+  ecs_field: observer.type
   cim_field: device_model
-  asim_field: device_model
+  asim_field: DvcType
   category: Antivirus (HTTP / HTTPS)
+  display_name: Device Model
 - field_name: device_serial_id
   field_type: int
   description: ''
@@ -221,20 +247,23 @@ fields:
   cim_field: device_serial_id
   asim_field: device_serial_id
   category: Antivirus (HTTP / HTTPS)
+  display_name: Device Serial Id
 - field_name: message
   field_type: string
   description: ''
-  ecs_field: vendor.message
-  cim_field: message
-  asim_field: message
+  ecs_field: message
+  cim_field: msg
+  asim_field: EventMessage
   category: Antivirus (HTTP / HTTPS)
+  display_name: Message
 - field_name: protocol
   field_type: string
   description: ''
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Antivirus (HTTP / HTTPS)
+  display_name: Protocol
 - field_name: src_zone_type
   field_type: string
   description: ''
@@ -242,13 +271,15 @@ fields:
   cim_field: src_zone_type
   asim_field: src_zone_type
   category: Antivirus (HTTP / HTTPS)
+  display_name: Src Zone Type
 - field_name: src_zone
   field_type: string
   description: ''
-  ecs_field: vendor.src_zone
+  ecs_field: observer.ingress.zone
   cim_field: src_zone
-  asim_field: src_zone
+  asim_field: SrcZone
   category: Antivirus (HTTP / HTTPS)
+  display_name: Src Zone
 - field_name: dst_zone_type
   field_type: string
   description: ''
@@ -256,34 +287,39 @@ fields:
   cim_field: dst_zone_type
   asim_field: dst_zone_type
   category: Antivirus (HTTP / HTTPS)
+  display_name: Dst Zone Type
 - field_name: dst_zone
   field_type: string
   description: ''
-  ecs_field: vendor.dst_zone
-  cim_field: dst_zone
-  asim_field: dst_zone
+  ecs_field: observer.egress.zone
+  cim_field: dest_zone
+  asim_field: DstZone
   category: Antivirus (HTTP / HTTPS)
+  display_name: Dst Zone
 - field_name: user_group
   field_type: string
   description: ''
-  ecs_field: vendor.user_group
+  ecs_field: user.group.name
   cim_field: user_group
-  asim_field: user_group
+  asim_field: TargetUserGroup
   category: Antivirus (HTTP / HTTPS)
+  display_name: User Group
 - field_name: log_component
   field_type: string
   description: ''
-  ecs_field: vendor.log_component
+  ecs_field: event.module
   cim_field: log_component
-  asim_field: log_component
+  asim_field: EventModule
   category: Antivirus (HTTP / HTTPS)
+  display_name: Log Component
 - field_name: priority
   field_type: string
   description: ''
-  ecs_field: vendor.priority
-  cim_field: priority
-  asim_field: priority
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Antivirus (HTTP / HTTPS)
+  display_name: Priority
 - field_name: iap
   field_type: string
   description: ''
@@ -291,6 +327,7 @@ fields:
   cim_field: iap
   asim_field: iap
   category: Antivirus (HTTP / HTTPS)
+  display_name: Iap
 - field_name: domainname
   field_type: string
   description: ''
@@ -298,41 +335,47 @@ fields:
   cim_field: domainname
   asim_field: domainname
   category: Antivirus (HTTP / HTTPS)
+  display_name: Domainname
 - field_name: sent_bytes
   field_type: int
   description: ''
-  ecs_field: vendor.sent_bytes
-  cim_field: sent_bytes
-  asim_field: sent_bytes
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Antivirus (HTTP / HTTPS)
+  display_name: Sent Bytes
 - field_name: recv_bytes
   field_type: int
   description: ''
-  ecs_field: vendor.recv_bytes
-  cim_field: recv_bytes
-  asim_field: recv_bytes
+  ecs_field: destination.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: Antivirus (HTTP / HTTPS)
+  display_name: Recv Bytes
 - field_name: device
   field_type: string
   description: ''
-  ecs_field: vendor.device
-  cim_field: device
-  asim_field: device
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Antivirus (HTTP / HTTPS)
+  display_name: Device
 - field_name: device_id
   field_type: int
   description: ''
-  ecs_field: vendor.device_id
+  ecs_field: host.id
   cim_field: device_id
-  asim_field: device_id
+  asim_field: DvcId
   category: Antivirus (HTTP / HTTPS)
+  display_name: Device Id
 - field_name: direction
   field_type: string
   description: ''
-  ecs_field: vendor.direction
+  ecs_field: network.direction
   cim_field: direction
-  asim_field: direction
+  asim_field: NetworkDirection
   category: Antivirus (FTP)
+  display_name: Direction
 - field_name: filename
   field_type: string
   description: ''
@@ -340,20 +383,23 @@ fields:
   cim_field: filename
   asim_field: filename
   category: Antivirus (FTP)
+  display_name: Filename
 - field_name: file_name
   field_type: string
   description: ''
-  ecs_field: vendor.file_name
+  ecs_field: file.name
   cim_field: file_name
-  asim_field: file_name
+  asim_field: TargetFileName
   category: Antivirus (FTP)
+  display_name: File Name
 - field_name: file_size
   field_type: int
   description: ''
-  ecs_field: vendor.file_size
+  ecs_field: file.size
   cim_field: file_size
-  asim_field: file_size
+  asim_field: TargetFileSize
   category: Antivirus (FTP)
+  display_name: File Size
 - field_name: file
   field_type: string
   description: ''
@@ -361,13 +407,15 @@ fields:
   cim_field: file
   asim_field: file
   category: Antivirus (FTP)
+  display_name: File
 - field_name: file_path
   field_type: string
   description: ''
-  ecs_field: vendor.file_path
+  ecs_field: file.path
   cim_field: file_path
-  asim_field: file_path
+  asim_field: TargetFilePath
   category: Antivirus (FTP)
+  display_name: File Path
 - field_name: ftpcommand
   field_type: string
   description: ''
@@ -375,6 +423,7 @@ fields:
   cim_field: ftpcommand
   asim_field: ftpcommand
   category: Antivirus (FTP)
+  display_name: Ftpcommand
 - field_name: cmd
   field_type: string
   description: ''
@@ -382,6 +431,7 @@ fields:
   cim_field: cmd
   asim_field: cmd
   category: Antivirus (FTP)
+  display_name: Cmd
 - field_name: address
   field_type: ip
   description: ''
@@ -389,6 +439,7 @@ fields:
   cim_field: address
   asim_field: address
   category: Antivirus (FTP)
+  display_name: Address
 - field_name: dstdomain
   field_type: string
   description: ''
@@ -396,6 +447,7 @@ fields:
   cim_field: dstdomain
   asim_field: dstdomain
   category: Antivirus (FTP)
+  display_name: Dstdomain
 - field_name: con_direction
   field_type: string
   description: ''
@@ -403,6 +455,7 @@ fields:
   cim_field: con_direction
   asim_field: con_direction
   category: Antivirus (FTP)
+  display_name: Con Direction
 - field_name: log_version
   field_type: string
   description: ''
@@ -410,13 +463,15 @@ fields:
   cim_field: log_version
   asim_field: log_version
   category: Antivirus (FTP)
+  display_name: Log Version
 - field_name: timestamp
   field_type: datetime
   description: ''
-  ecs_field: vendor.timestamp
-  cim_field: timestamp
-  asim_field: timestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Reporting
+  display_name: Timestamp
 - field_name: int32
   field_type: string
   description: ''
@@ -424,6 +479,7 @@ fields:
   cim_field: int32
   asim_field: int32
   category: Reporting
+  display_name: Int32
 - field_name: int16
   field_type: string
   description: ''
@@ -431,20 +487,23 @@ fields:
   cim_field: int16
   asim_field: int16
   category: Reporting
+  display_name: Int16
 - field_name: category
   field_type: string
   description: ''
-  ecs_field: vendor.category
+  ecs_field: event.category
   cim_field: category
-  asim_field: category
+  asim_field: EventCategory
   category: Reporting
+  display_name: Category
 - field_name: app_name
   field_type: string
   description: ''
-  ecs_field: vendor.app_name
-  cim_field: app_name
-  asim_field: app_name
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
   category: Reporting
+  display_name: App Name
 - field_name: app_risk
   field_type: string
   description: ''
@@ -452,6 +511,7 @@ fields:
   cim_field: app_risk
   asim_field: app_risk
   category: Reporting
+  display_name: App Risk
 - field_name: categorized
   field_type: string
   description: ''
@@ -459,6 +519,7 @@ fields:
   cim_field: categorized
   asim_field: categorized
   category: Reporting
+  display_name: Categorized
 - field_name: app_technology
   field_type: string
   description: ''
@@ -466,6 +527,7 @@ fields:
   cim_field: app_technology
   asim_field: app_technology
   category: Reporting
+  display_name: App Technology
 - field_name: app_category
   field_type: string
   description: ''
@@ -473,6 +535,7 @@ fields:
   cim_field: app_category
   asim_field: app_category
   category: Reporting
+  display_name: App Category
 - field_name: app_is_cloud
   field_type: string
   description: ''
@@ -480,6 +543,7 @@ fields:
   cim_field: app_is_cloud
   asim_field: app_is_cloud
   category: Reporting
+  display_name: App Is Cloud
 - field_name: 'true'
   field_type: string
   description: ''
@@ -487,6 +551,7 @@ fields:
   cim_field: 'true'
   asim_field: 'true'
   category: Reporting
+  display_name: 'True'
 - field_name: 'false'
   field_type: string
   description: ''
@@ -494,6 +559,7 @@ fields:
   cim_field: 'false'
   asim_field: 'false'
   category: Reporting
+  display_name: 'False'
 - field_name: parent_app
   field_type: string
   description: ''
@@ -501,6 +567,7 @@ fields:
   cim_field: parent_app
   asim_field: parent_app
   category: Reporting
+  display_name: Parent App
 - field_name: parent_app_risk
   field_type: string
   description: ''
@@ -508,6 +575,7 @@ fields:
   cim_field: parent_app_risk
   asim_field: parent_app_risk
   category: Reporting
+  display_name: Parent App Risk
 - field_name: classification
   field_type: string
   description: ''
@@ -515,6 +583,7 @@ fields:
   cim_field: classification
   asim_field: classification
   category: Reporting
+  display_name: Classification
 - field_name: app_resolved_by
   field_type: string
   description: ''
@@ -522,6 +591,7 @@ fields:
   cim_field: app_resolved_by
   asim_field: app_resolved_by
   category: Reporting
+  display_name: App Resolved By
 - field_name: qualifier
   field_type: string
   description: ''
@@ -529,13 +599,15 @@ fields:
   cim_field: qualifier
   asim_field: qualifier
   category: Reporting
+  display_name: Qualifier
 - field_name: status
   field_type: string
   description: ''
-  ecs_field: vendor.status
+  ecs_field: event.outcome
   cim_field: status
-  asim_field: status
+  asim_field: EventResult
   category: Reporting
+  display_name: Status
 - field_name: user_gp
   field_type: string
   description: ''
@@ -543,13 +615,15 @@ fields:
   cim_field: user_gp
   asim_field: user_gp
   category: Reporting
+  display_name: User Gp
 - field_name: policy
   field_type: string
   description: ''
-  ecs_field: vendor.policy
+  ecs_field: rule.ruleset
   cim_field: policy
-  asim_field: policy
+  asim_field: RulesetName
   category: Reporting
+  display_name: Policy
 - field_name: application_name
   field_type: string
   description: ''
@@ -557,6 +631,7 @@ fields:
   cim_field: application_name
   asim_field: application_name
   category: Reporting
+  display_name: Application Name
 - field_name: application_risk
   field_type: string
   description: ''
@@ -564,6 +639,7 @@ fields:
   cim_field: application_risk
   asim_field: application_risk
   category: Reporting
+  display_name: Application Risk
 - field_name: application_technology
   field_type: string
   description: ''
@@ -571,6 +647,7 @@ fields:
   cim_field: application_technology
   asim_field: application_technology
   category: Reporting
+  display_name: Application Technology
 - field_name: application_category
   field_type: string
   description: ''
@@ -578,20 +655,23 @@ fields:
   cim_field: application_category
   asim_field: application_category
   category: Reporting
+  display_name: Application Category
 - field_name: src_country_code
   field_type: int
   description: ''
-  ecs_field: vendor.src_country_code
+  ecs_field: source.geo.country_iso_code
   cim_field: src_country_code
-  asim_field: src_country_code
+  asim_field: SrcGeoCountryCode
   category: Reporting
+  display_name: Src Country Code
 - field_name: dst_country_code
   field_type: int
   description: ''
-  ecs_field: vendor.dst_country_code
-  cim_field: dst_country_code
-  asim_field: dst_country_code
+  ecs_field: destination.geo.country_iso_code
+  cim_field: dest_country_code
+  asim_field: DstGeoCountryCode
   category: Reporting
+  display_name: Dst Country Code
 - field_name: appresolvedby
   field_type: string
   description: ''
@@ -599,13 +679,15 @@ fields:
   cim_field: appresolvedby
   asim_field: appresolvedby
   category: Reporting
+  display_name: Appresolvedby
 - field_name: event_id
   field_type: int
   description: ''
-  ecs_field: vendor.event_id
+  ecs_field: event.id
   cim_field: event_id
-  asim_field: event_id
+  asim_field: EventOriginalUid
   category: IPS
+  display_name: Event Id
 - field_name: event_type
   field_type: string
   description: ''
@@ -613,6 +695,7 @@ fields:
   cim_field: event_type
   asim_field: event_type
   category: IPS
+  display_name: Event Type
 - field_name: reported_user
   field_type: port
   description: ''
@@ -620,6 +703,7 @@ fields:
   cim_field: reported_user
   asim_field: reported_user
   category: IPS
+  display_name: Reported User
 - field_name: proc_user
   field_type: string
   description: ''
@@ -627,6 +711,7 @@ fields:
   cim_field: proc_user
   asim_field: proc_user
   category: IPS
+  display_name: Proc User
 - field_name: reported_id
   field_type: port
   description: ''
@@ -634,6 +719,7 @@ fields:
   cim_field: reported_id
   asim_field: reported_id
   category: IPS
+  display_name: Reported Id
 - field_name: sourceip
   field_type: string
   description: ''
@@ -641,6 +727,7 @@ fields:
   cim_field: sourceip
   asim_field: sourceip
   category: IPS
+  display_name: Sourceip
 - field_name: ipaddr_t
   field_type: ip
   description: ''
@@ -648,6 +735,7 @@ fields:
   cim_field: ipaddr_t
   asim_field: ipaddr_t
   category: IPS
+  display_name: Ipaddr T
 - field_name: destinationip
   field_type: string
   description: ''
@@ -655,6 +743,7 @@ fields:
   cim_field: destinationip
   asim_field: destinationip
   category: IPS
+  display_name: Destinationip
 - field_name: threatname
   field_type: string
   description: ''
@@ -662,13 +751,15 @@ fields:
   cim_field: threatname
   asim_field: threatname
   category: IPS
+  display_name: Threatname
 - field_name: threat
   field_type: string
   description: ''
-  ecs_field: vendor.threat
+  ecs_field: threat.indicator.name
   cim_field: threat
-  asim_field: threat
+  asim_field: ThreatName
   category: IPS
+  display_name: Threat
 - field_name: eventid
   field_type: int
   description: ''
@@ -676,13 +767,15 @@ fields:
   cim_field: eventid
   asim_field: eventid
   category: IPS
+  display_name: Eventid
 - field_name: eventtype
   field_type: string
   description: ''
-  ecs_field: vendor.eventtype
-  cim_field: eventtype
-  asim_field: eventtype
+  ecs_field: event.type
+  cim_field: event_type
+  asim_field: EventType
   category: IPS
+  display_name: Eventtype
 - field_name: login_user
   field_type: string
   description: ''
@@ -690,6 +783,7 @@ fields:
   cim_field: login_user
   asim_field: login_user
   category: IPS
+  display_name: Login User
 - field_name: host_login_user
   field_type: string
   description: ''
@@ -697,6 +791,7 @@ fields:
   cim_field: host_login_user
   asim_field: host_login_user
   category: IPS
+  display_name: Host Login User
 - field_name: process_user
   field_type: string
   description: ''
@@ -704,6 +799,7 @@ fields:
   cim_field: process_user
   asim_field: process_user
   category: IPS
+  display_name: Process User
 - field_name: ep_uuid
   field_type: int
   description: ''
@@ -711,6 +807,7 @@ fields:
   cim_field: ep_uuid
   asim_field: ep_uuid
   category: IPS
+  display_name: Ep Uuid
 - field_name: endpoint_id
   field_type: datetime
   description: ''
@@ -718,6 +815,7 @@ fields:
   cim_field: endpoint_id
   asim_field: endpoint_id
   category: IPS
+  display_name: Endpoint Id
 - field_name: execution_path
   field_type: string
   description: ''
@@ -725,6 +823,7 @@ fields:
   cim_field: execution_path
   asim_field: execution_path
   category: IPS
+  display_name: Execution Path
 - field_name: client_used
   field_type: string
   description: ''
@@ -732,27 +831,31 @@ fields:
   cim_field: client_used
   asim_field: client_used
   category: Reporting
+  display_name: Client Used
 - field_name: reason
   field_type: string
   description: ''
-  ecs_field: vendor.reason
+  ecs_field: event.reason
   cim_field: reason
-  asim_field: reason
+  asim_field: EventResultDetails
   category: Reporting
+  display_name: Reason
 - field_name: src_mac
   field_type: string
   description: ''
-  ecs_field: vendor.src_mac
+  ecs_field: source.mac
   cim_field: src_mac
-  asim_field: src_mac
+  asim_field: SrcMacAddr
   category: Reporting
+  display_name: Src Mac
 - field_name: start
   field_type: datetime
   description: ''
-  ecs_field: vendor.start
-  cim_field: start
-  asim_field: start
+  ecs_field: event.start
+  cim_field: start_time
+  asim_field: EventStartTime
   category: Reporting
+  display_name: Start
 - field_name: end
   field_type: datetime
   description: ''
@@ -760,6 +863,7 @@ fields:
   cim_field: end
   asim_field: end
   category: Reporting
+  display_name: End
 - field_name: user_full_name
   field_type: string
   description: ''
@@ -767,6 +871,7 @@ fields:
   cim_field: user_full_name
   asim_field: user_full_name
   category: Reporting
+  display_name: User Full Name
 - field_name: usergroupname
   field_type: string
   description: ''
@@ -774,6 +879,7 @@ fields:
   cim_field: usergroupname
   asim_field: usergroupname
   category: Firewall
+  display_name: Usergroupname
 - field_name: auth_client
   field_type: string
   description: ''
@@ -781,6 +887,7 @@ fields:
   cim_field: auth_client
   asim_field: auth_client
   category: Firewall
+  display_name: Auth Client
 - field_name: refer
   field_type: string
   description: ''
@@ -788,20 +895,23 @@ fields:
   cim_field: refer
   asim_field: refer
   category: Firewall
+  display_name: Refer
 - field_name: auth_mechanism
   field_type: string
   description: ''
-  ecs_field: vendor.auth_mechanism
+  ecs_field: event.action
   cim_field: auth_mechanism
-  asim_field: auth_mechanism
+  asim_field: LogonProtocol
   category: Firewall
+  display_name: Auth Mechanism
 - field_name: start_time
   field_type: datetime
   description: ''
-  ecs_field: vendor.start_time
+  ecs_field: event.start
   cim_field: start_time
-  asim_field: start_time
+  asim_field: EventStartTime
   category: Firewall
+  display_name: Start Time
 - field_name: event_timestamp
   field_type: datetime
   description: ''
@@ -809,6 +919,7 @@ fields:
   cim_field: event_timestamp
   asim_field: event_timestamp
   category: Firewall
+  display_name: Event Timestamp
 - field_name: reached
   field_type: string
   description: ''
@@ -816,6 +927,7 @@ fields:
   cim_field: reached
   asim_field: reached
   category: Heartbeat
+  display_name: Reached
 - field_name: allowed
   field_type: string
   description: ''
@@ -823,6 +935,7 @@ fields:
   cim_field: allowed
   asim_field: allowed
   category: Heartbeat
+  display_name: Allowed
 - field_name: expired
   field_type: string
   description: ''
@@ -830,13 +943,15 @@ fields:
   cim_field: expired
   asim_field: expired
   category: Heartbeat
+  display_name: Expired
 - field_name: src_host
   field_type: string
   description: ''
-  ecs_field: vendor.src_host
-  cim_field: src_host
-  asim_field: src_host
+  ecs_field: source.domain
+  cim_field: src
+  asim_field: SrcHostname
   category: DDNS
+  display_name: Src Host
 - field_name: reported_ip
   field_type: port
   description: ''
@@ -844,6 +959,7 @@ fields:
   cim_field: reported_ip
   asim_field: reported_ip
   category: DDNS
+  display_name: Reported Ip
 - field_name: failure
   field_type: string
   description: ''
@@ -851,20 +967,23 @@ fields:
   cim_field: failure
   asim_field: failure
   category: DDNS
+  display_name: Failure
 - field_name: host
   field_type: string
   description: ''
-  ecs_field: vendor.host
-  cim_field: host
-  asim_field: host
+  ecs_field: url.domain
+  cim_field: url_host
+  asim_field: UrlHost
   category: DDNS
+  display_name: Host
 - field_name: hostname
   field_type: string
   description: ''
-  ecs_field: vendor.hostname
-  cim_field: hostname
-  asim_field: hostname
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
   category: DDNS
+  display_name: Hostname
 - field_name: updatedip
   field_type: datetime
   description: ''
@@ -872,6 +991,7 @@ fields:
   cim_field: updatedip
   asim_field: updatedip
   category: DDNS
+  display_name: Updatedip
 - field_name: updated_ip
   field_type: ip
   description: ''
@@ -879,6 +999,7 @@ fields:
   cim_field: updated_ip
   asim_field: updated_ip
   category: DDNS
+  display_name: Updated Ip
 - field_name: failure_reason
   field_type: string
   description: ''
@@ -886,6 +1007,7 @@ fields:
   cim_field: failure_reason
   asim_field: failure_reason
   category: DDNS
+  display_name: Failure Reason
 - field_name: authorization
   field_type: string
   description: ''
@@ -893,13 +1015,15 @@ fields:
   cim_field: authorization
   asim_field: authorization
   category: DDNS
+  display_name: Authorization
 - field_name: client
   field_type: string
   description: ''
-  ecs_field: vendor.client
-  cim_field: client
-  asim_field: client
+  ecs_field: source.mac
+  cim_field: dhcp_client
+  asim_field: SrcMacAddr
   category: Reporting
+  display_name: Client
 - field_name: reported_host
   field_type: port
   description: ''
@@ -907,6 +1031,7 @@ fields:
   cim_field: reported_host
   asim_field: reported_host
   category: Reporting
+  display_name: Reported Host
 - field_name: lease_time
   field_type: datetime
   description: ''
@@ -914,6 +1039,7 @@ fields:
   cim_field: lease_time
   asim_field: lease_time
   category: Reporting
+  display_name: Lease Time
 - field_name: ipaddress
   field_type: ip
   description: ''
@@ -921,6 +1047,7 @@ fields:
   cim_field: ipaddress
   asim_field: ipaddress
   category: Reporting
+  display_name: Ipaddress
 - field_name: leased_ip
   field_type: ip
   description: ''
@@ -928,6 +1055,7 @@ fields:
   cim_field: leased_ip
   asim_field: leased_ip
   category: Reporting
+  display_name: Leased Ip
 - field_name: client_physical_address
   field_type: ip
   description: ''
@@ -935,6 +1063,7 @@ fields:
   cim_field: client_physical_address
   asim_field: client_physical_address
   category: Reporting
+  display_name: Client Physical Address
 - field_name: client_host_name
   field_type: string
   description: ''
@@ -942,6 +1071,7 @@ fields:
   cim_field: client_host_name
   asim_field: client_host_name
   category: Reporting
+  display_name: Client Host Name
 - field_name: raw_data
   field_type: string
   description: ''
@@ -949,41 +1079,47 @@ fields:
   cim_field: raw_data
   asim_field: raw_data
   category: Reporting
+  display_name: Raw Data
 - field_name: policy_name
   field_type: string
   description: ''
-  ecs_field: vendor.policy_name
+  ecs_field: rule.name
   cim_field: policy_name
-  asim_field: policy_name
+  asim_field: RuleName
   category: Reporting
+  display_name: Policy Name
 - field_name: sender
   field_type: datetime
   description: ''
-  ecs_field: vendor.sender
-  cim_field: sender
-  asim_field: sender
+  ecs_field: email.from.address
+  cim_field: src_email
+  asim_field: SrcUserEmail
   category: Reporting
+  display_name: Sender
 - field_name: recipient
   field_type: string
   description: ''
-  ecs_field: vendor.recipient
-  cim_field: recipient
-  asim_field: recipient
+  ecs_field: email.to.address
+  cim_field: dest_email
+  asim_field: DstUserEmail
   category: Reporting
+  display_name: Recipient
 - field_name: subject
   field_type: string
   description: ''
-  ecs_field: vendor.subject
-  cim_field: subject
-  asim_field: subject
+  ecs_field: email.subject
+  cim_field: email_subject
+  asim_field: EmailSubject
   category: Reporting
+  display_name: Subject
 - field_name: message_id
   field_type: int
   description: ''
-  ecs_field: vendor.message_id
-  cim_field: message_id
-  asim_field: message_id
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
   category: Reporting
+  display_name: Message Id
 - field_name: email_size
   field_type: int
   description: ''
@@ -991,6 +1127,7 @@ fields:
   cim_field: email_size
   asim_field: email_size
   category: Reporting
+  display_name: Email Size
 - field_name: u_int32_t
   field_type: string
   description: ''
@@ -998,13 +1135,15 @@ fields:
   cim_field: u_int32_t
   asim_field: u_int32_t
   category: Reporting
+  display_name: U Int32 T
 - field_name: action
   field_type: string
   description: ''
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: Reporting
+  display_name: Action
 - field_name: blacklisted
   field_type: string
   description: ''
@@ -1012,13 +1151,15 @@ fields:
   cim_field: blacklisted
   asim_field: blacklisted
   category: Reporting
+  display_name: Blacklisted
 - field_name: dst_host
   field_type: string
   description: ''
-  ecs_field: vendor.dst_host
-  cim_field: dst_host
-  asim_field: dst_host
+  ecs_field: destination.domain
+  cim_field: dest
+  asim_field: DstHostname
   category: Reporting
+  display_name: Dst Host
 - field_name: u_int16_t
   field_type: string
   description: ''
@@ -1026,6 +1167,7 @@ fields:
   cim_field: u_int16_t
   asim_field: u_int16_t
   category: Reporting
+  display_name: U Int16 T
 - field_name: quarantine
   field_type: string
   description: ''
@@ -1033,6 +1175,7 @@ fields:
   cim_field: quarantine
   asim_field: quarantine
   category: Reporting
+  display_name: Quarantine
 - field_name: obsolete
   field_type: string
   description: ''
@@ -1040,6 +1183,7 @@ fields:
   cim_field: obsolete
   asim_field: obsolete
   category: Reporting
+  display_name: Obsolete
 - field_name: u_int8_t
   field_type: string
   description: ''
@@ -1047,6 +1191,7 @@ fields:
   cim_field: u_int8_t
   asim_field: u_int8_t
   category: Reporting
+  display_name: U Int8 T
 - field_name: spam
   field_type: string
   description: ''
@@ -1054,6 +1199,7 @@ fields:
   cim_field: spam
   asim_field: spam
   category: Reporting
+  display_name: Spam
 - field_name: av_policy_name
   field_type: string
   description: ''
@@ -1061,6 +1207,7 @@ fields:
   cim_field: av_policy_name
   asim_field: av_policy_name
   category: Reporting
+  display_name: Av Policy Name
 - field_name: avaspolicy
   field_type: string
   description: ''
@@ -1068,6 +1215,7 @@ fields:
   cim_field: avaspolicy
   asim_field: avaspolicy
   category: Reporting
+  display_name: Avaspolicy
 - field_name: to_email_address
   field_type: ip
   description: ''
@@ -1075,6 +1223,7 @@ fields:
   cim_field: to_email_address
   asim_field: to_email_address
   category: Reporting
+  display_name: To Email Address
 - field_name: rcpts
   field_type: string
   description: ''
@@ -1082,13 +1231,15 @@ fields:
   cim_field: rcpts
   asim_field: rcpts
   category: Reporting
+  display_name: Rcpts
 - field_name: email_subject
   field_type: string
   description: ''
-  ecs_field: vendor.email_subject
+  ecs_field: email.subject
   cim_field: email_subject
-  asim_field: email_subject
+  asim_field: EmailSubject
   category: Reporting
+  display_name: Email Subject
 - field_name: mailid
   field_type: int
   description: ''
@@ -1096,6 +1247,7 @@ fields:
   cim_field: mailid
   asim_field: mailid
   category: Reporting
+  display_name: Mailid
 - field_name: messageid
   field_type: int
   description: ''
@@ -1103,6 +1255,7 @@ fields:
   cim_field: messageid
   asim_field: messageid
   category: Reporting
+  display_name: Messageid
 - field_name: mailsize
   field_type: int
   description: ''
@@ -1110,6 +1263,7 @@ fields:
   cim_field: mailsize
   asim_field: mailsize
   category: Reporting
+  display_name: Mailsize
 - field_name: mail_size
   field_type: int
   description: ''
@@ -1117,6 +1271,7 @@ fields:
   cim_field: mail_size
   asim_field: mail_size
   category: Reporting
+  display_name: Mail Size
 - field_name: spamaction
   field_type: string
   description: ''
@@ -1124,6 +1279,7 @@ fields:
   cim_field: spamaction
   asim_field: spamaction
   category: Reporting
+  display_name: Spamaction
 - field_name: as
   field_type: string
   description: ''
@@ -1131,6 +1287,7 @@ fields:
   cim_field: as
   asim_field: as
   category: Reporting
+  display_name: As
 - field_name: containing
   field_type: string
   description: ''
@@ -1138,6 +1295,7 @@ fields:
   cim_field: containing
   asim_field: containing
   category: Reporting
+  display_name: Containing
 - field_name: confidential
   field_type: int
   description: ''
@@ -1145,6 +1303,7 @@ fields:
   cim_field: confidential
   asim_field: confidential
   category: Reporting
+  display_name: Confidential
 - field_name: src_domainname
   field_type: string
   description: ''
@@ -1152,6 +1311,7 @@ fields:
   cim_field: src_domainname
   asim_field: src_domainname
   category: Reporting
+  display_name: Src Domainname
 - field_name: dst_domainname
   field_type: string
   description: ''
@@ -1159,13 +1319,15 @@ fields:
   cim_field: dst_domainname
   asim_field: dst_domainname
   category: Reporting
+  display_name: Dst Domainname
 - field_name: code
   field_type: string
   description: ''
-  ecs_field: vendor.code
+  ecs_field: event.code
   cim_field: code
-  asim_field: code
+  asim_field: EventCode
   category: Reporting
+  display_name: Code
 - field_name: quarantine_reason
   field_type: string
   description: ''
@@ -1173,6 +1335,7 @@ fields:
   cim_field: quarantine_reason
   asim_field: quarantine_reason
   category: Reporting
+  display_name: Quarantine Reason
 - field_name: virusname
   field_type: string
   description: ''
@@ -1180,6 +1343,7 @@ fields:
   cim_field: virusname
   asim_field: virusname
   category: Email (antivirus)
+  display_name: Virusname
 - field_name: qname
   field_type: string
   description: ''
@@ -1187,6 +1351,7 @@ fields:
   cim_field: qname
   asim_field: qname
   category: Email (antivirus)
+  display_name: Qname
 - field_name: mail
   field_type: string
   description: ''
@@ -1194,27 +1359,31 @@ fields:
   cim_field: mail
   asim_field: mail
   category: Email quarantine
+  display_name: Mail
 - field_name: from
   field_type: string
   description: ''
-  ecs_field: vendor.from
-  cim_field: from
-  asim_field: from
+  ecs_field: observer.ingress.zone
+  cim_field: src_zone
+  asim_field: SrcZone
   category: Email quarantine
+  display_name: From
 - field_name: to
   field_type: string
   description: ''
-  ecs_field: vendor.to
-  cim_field: to
-  asim_field: to
+  ecs_field: observer.egress.zone
+  cim_field: dest_zone
+  asim_field: DstZone
   category: Email quarantine
+  display_name: To
 - field_name: duration
   field_type: datetime
   description: ''
-  ecs_field: vendor.duration
+  ecs_field: event.duration
   cim_field: duration
-  asim_field: duration
+  asim_field: EventDuration
   category: SSL VPN
+  display_name: Duration
 - field_name: con_duration
   field_type: datetime
   description: ''
@@ -1222,20 +1391,23 @@ fields:
   cim_field: con_duration
   asim_field: con_duration
   category: SSL VPN
+  display_name: Con Duration
 - field_name: connection
   field_type: string
   description: ''
-  ecs_field: vendor.connection
+  ecs_field: user.identity_provider
   cim_field: connection
-  asim_field: connection
+  asim_field: ActorIdProvider
   category: SSL VPN
+  display_name: Connection
 - field_name: request
   field_type: string
   description: ''
-  ecs_field: vendor.request
-  cim_field: request
-  asim_field: request
+  ecs_field: url.original
+  cim_field: http_request
+  asim_field: Url
   category: SSL VPN
+  display_name: Request
 - field_name: fw_rule_name
   field_type: string
   description: ''
@@ -1243,6 +1415,7 @@ fields:
   cim_field: fw_rule_name
   asim_field: fw_rule_name
   category: SSL VPN
+  display_name: Fw Rule Name
 - field_name: policy_type
   field_type: string
   description: ''
@@ -1250,13 +1423,15 @@ fields:
   cim_field: policy_type
   asim_field: policy_type
   category: SSL VPN
+  display_name: Policy Type
 - field_name: username
   field_type: string
   description: ''
-  ecs_field: vendor.username
-  cim_field: username
-  asim_field: username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: SSL VPN
+  display_name: Username
 - field_name: applied
   field_type: string
   description: ''
@@ -1264,13 +1439,15 @@ fields:
   cim_field: applied
   asim_field: applied
   category: SSL VPN
+  display_name: Applied
 - field_name: ips_policy_id
   field_type: int
   description: ''
-  ecs_field: vendor.ips_policy_id
+  ecs_field: rule.id
   cim_field: ips_policy_id
-  asim_field: ips_policy_id
+  asim_field: RuleNumber
   category: SSL VPN
+  display_name: Ips Policy Id
 - field_name: appfilter_policy_id
   field_type: int
   description: ''
@@ -1278,41 +1455,47 @@ fields:
   cim_field: appfilter_policy_id
   asim_field: appfilter_policy_id
   category: SSL VPN
+  display_name: Appfilter Policy Id
 - field_name: application
   field_type: string
   description: ''
-  ecs_field: vendor.application
-  cim_field: application
-  asim_field: application
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
   category: SSL VPN
+  display_name: Application
 - field_name: in_interface
   field_type: string
   description: ''
-  ecs_field: vendor.in_interface
-  cim_field: in_interface
-  asim_field: in_interface
+  ecs_field: observer.ingress.interface.name
+  cim_field: src_interface
+  asim_field: SrcInterfaceName
   category: SSL VPN
+  display_name: In Interface
 - field_name: out_interface
   field_type: string
   description: ''
-  ecs_field: vendor.out_interface
-  cim_field: out_interface
-  asim_field: out_interface
+  ecs_field: observer.egress.interface.name
+  cim_field: dest_interface
+  asim_field: DstInterfaceName
   category: SSL VPN
+  display_name: Out Interface
 - field_name: dst_mac
   field_type: string
   description: ''
-  ecs_field: vendor.dst_mac
-  cim_field: dst_mac
-  asim_field: dst_mac
+  ecs_field: destination.mac
+  cim_field: dest_mac
+  asim_field: DstMacAddr
   category: SSL VPN
+  display_name: Dst Mac
 - field_name: vlan_id
   field_type: int
   description: ''
-  ecs_field: vendor.vlan_id
+  ecs_field: network.vlan.id
   cim_field: vlan_id
-  asim_field: vlan_id
+  asim_field: SrcVlanId
   category: SSL VPN
+  display_name: Vlan Id
 - field_name: etc
   field_type: string
   description: ''
@@ -1320,13 +1503,15 @@ fields:
   cim_field: etc
   asim_field: etc
   category: SSL VPN
+  display_name: Etc
 - field_name: icmp_type
   field_type: string
   description: ''
-  ecs_field: vendor.icmp_type
+  ecs_field: network.icmp.type
   cim_field: icmp_type
-  asim_field: icmp_type
+  asim_field: IcmpType
   category: SSL VPN
+  display_name: Icmp Type
 - field_name: icmp_code
   field_type: string
   description: ''
@@ -1334,13 +1519,15 @@ fields:
   cim_field: icmp_code
   asim_field: icmp_code
   category: SSL VPN
+  display_name: Icmp Code
 - field_name: sent_pkts
   field_type: string
   description: ''
-  ecs_field: vendor.sent_pkts
-  cim_field: sent_pkts
-  asim_field: sent_pkts
+  ecs_field: source.packets
+  cim_field: packets_out
+  asim_field: SrcPackets
   category: SSL VPN
+  display_name: Sent Pkts
 - field_name: packets_sent
   field_type: int
   description: ''
@@ -1348,20 +1535,23 @@ fields:
   cim_field: packets_sent
   asim_field: packets_sent
   category: SSL VPN
+  display_name: Packets Sent
 - field_name: sent
   field_type: string
   description: ''
-  ecs_field: vendor.sent
-  cim_field: sent
-  asim_field: sent
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: SSL VPN
+  display_name: Sent
 - field_name: recv_pkts
   field_type: string
   description: ''
-  ecs_field: vendor.recv_pkts
-  cim_field: recv_pkts
-  asim_field: recv_pkts
+  ecs_field: destination.packets
+  cim_field: packets_in
+  asim_field: DstPackets
   category: SSL VPN
+  display_name: Recv Pkts
 - field_name: packets_received
   field_type: int
   description: ''
@@ -1369,6 +1559,7 @@ fields:
   cim_field: packets_received
   asim_field: packets_received
   category: SSL VPN
+  display_name: Packets Received
 - field_name: received
   field_type: string
   description: ''
@@ -1376,6 +1567,7 @@ fields:
   cim_field: received
   asim_field: received
   category: SSL VPN
+  display_name: Received
 - field_name: tran_src_ip
   field_type: ip
   description: ''
@@ -1383,6 +1575,7 @@ fields:
   cim_field: tran_src_ip
   asim_field: tran_src_ip
   category: SSL VPN
+  display_name: Tran Src Ip
 - field_name: src_trans_ip
   field_type: ip
   description: ''
@@ -1390,6 +1583,7 @@ fields:
   cim_field: src_trans_ip
   asim_field: src_trans_ip
   category: SSL VPN
+  display_name: Src Trans Ip
 - field_name: tran_src_port
   field_type: port
   description: ''
@@ -1397,6 +1591,7 @@ fields:
   cim_field: tran_src_port
   asim_field: tran_src_port
   category: SSL VPN
+  display_name: Tran Src Port
 - field_name: src_trans_port
   field_type: port
   description: ''
@@ -1404,6 +1599,7 @@ fields:
   cim_field: src_trans_port
   asim_field: src_trans_port
   category: SSL VPN
+  display_name: Src Trans Port
 - field_name: tran_dst_ip
   field_type: ip
   description: ''
@@ -1411,6 +1607,7 @@ fields:
   cim_field: tran_dst_ip
   asim_field: tran_dst_ip
   category: SSL VPN
+  display_name: Tran Dst Ip
 - field_name: dst_trans_ip
   field_type: ip
   description: ''
@@ -1418,6 +1615,7 @@ fields:
   cim_field: dst_trans_ip
   asim_field: dst_trans_ip
   category: SSL VPN
+  display_name: Dst Trans Ip
 - field_name: tran_dst_port
   field_type: port
   description: ''
@@ -1425,6 +1623,7 @@ fields:
   cim_field: tran_dst_port
   asim_field: tran_dst_port
   category: SSL VPN
+  display_name: Tran Dst Port
 - field_name: dst_trans_port
   field_type: port
   description: ''
@@ -1432,6 +1631,7 @@ fields:
   cim_field: dst_trans_port
   asim_field: dst_trans_port
   category: SSL VPN
+  display_name: Dst Trans Port
 - field_name: srczonetype
   field_type: string
   description: ''
@@ -1439,6 +1639,7 @@ fields:
   cim_field: srczonetype
   asim_field: srczonetype
   category: SSL VPN
+  display_name: Srczonetype
 - field_name: srczone
   field_type: string
   description: ''
@@ -1446,6 +1647,7 @@ fields:
   cim_field: srczone
   asim_field: srczone
   category: SSL VPN
+  display_name: Srczone
 - field_name: dstzonetype
   field_type: string
   description: ''
@@ -1453,6 +1655,7 @@ fields:
   cim_field: dstzonetype
   asim_field: dstzonetype
   category: SSL VPN
+  display_name: Dstzonetype
 - field_name: dstzone
   field_type: string
   description: ''
@@ -1460,6 +1663,7 @@ fields:
   cim_field: dstzone
   asim_field: dstzone
   category: SSL VPN
+  display_name: Dstzone
 - field_name: dir_disp
   field_type: string
   description: ''
@@ -1467,6 +1671,7 @@ fields:
   cim_field: dir_disp
   asim_field: dir_disp
   category: SSL VPN
+  display_name: Dir Disp
 - field_name: connevent
   field_type: string
   description: ''
@@ -1474,6 +1679,7 @@ fields:
   cim_field: connevent
   asim_field: connevent
   category: SSL VPN
+  display_name: Connevent
 - field_name: con_event
   field_type: string
   description: ''
@@ -1481,6 +1687,7 @@ fields:
   cim_field: con_event
   asim_field: con_event
   category: SSL VPN
+  display_name: Con Event
 - field_name: connid
   field_type: int
   description: ''
@@ -1488,6 +1695,7 @@ fields:
   cim_field: connid
   asim_field: connid
   category: SSL VPN
+  display_name: Connid
 - field_name: con_id
   field_type: int
   description: ''
@@ -1495,6 +1703,7 @@ fields:
   cim_field: con_id
   asim_field: con_id
   category: SSL VPN
+  display_name: Con Id
 - field_name: vconnid
   field_type: int
   description: ''
@@ -1502,6 +1711,7 @@ fields:
   cim_field: vconnid
   asim_field: vconnid
   category: SSL VPN
+  display_name: Vconnid
 - field_name: virt_con_id
   field_type: int
   description: ''
@@ -1509,6 +1719,7 @@ fields:
   cim_field: virt_con_id
   asim_field: virt_con_id
   category: SSL VPN
+  display_name: Virt Con Id
 - field_name: hb_health
   field_type: string
   description: ''
@@ -1516,6 +1727,7 @@ fields:
   cim_field: hb_health
   asim_field: hb_health
   category: SSL VPN
+  display_name: Hb Health
 - field_name: hb_status
   field_type: string
   description: ''
@@ -1523,6 +1735,7 @@ fields:
   cim_field: hb_status
   asim_field: hb_status
   category: SSL VPN
+  display_name: Hb Status
 - field_name: ether_type
   field_type: string
   description: ''
@@ -1530,6 +1743,7 @@ fields:
   cim_field: ether_type
   asim_field: ether_type
   category: SSL VPN
+  display_name: Ether Type
 - field_name: availability
   field_type: string
   description: ''
@@ -1537,6 +1751,7 @@ fields:
   cim_field: availability
   asim_field: availability
   category: SSL VPN
+  display_name: Availability
 - field_name: sdwan_profile_id_request
   field_type: int
   description: ''
@@ -1544,6 +1759,7 @@ fields:
   cim_field: sdwan_profile_id_request
   asim_field: sdwan_profile_id_request
   category: SSL VPN
+  display_name: Sdwan Profile Id Request
 - field_name: sdwan_profile_id_reply
   field_type: int
   description: ''
@@ -1551,6 +1767,7 @@ fields:
   cim_field: sdwan_profile_id_reply
   asim_field: sdwan_profile_id_reply
   category: SSL VPN
+  display_name: Sdwan Profile Id Reply
 - field_name: sdwan_profile_name_reply
   field_type: string
   description: ''
@@ -1558,6 +1775,7 @@ fields:
   cim_field: sdwan_profile_name_reply
   asim_field: sdwan_profile_name_reply
   category: SSL VPN
+  display_name: Sdwan Profile Name Reply
 - field_name: gw_id_request
   field_type: int
   description: ''
@@ -1565,6 +1783,7 @@ fields:
   cim_field: gw_id_request
   asim_field: gw_id_request
   category: SSL VPN
+  display_name: Gw Id Request
 - field_name: gw_name_request
   field_type: string
   description: ''
@@ -1572,6 +1791,7 @@ fields:
   cim_field: gw_name_request
   asim_field: gw_name_request
   category: SSL VPN
+  display_name: Gw Name Request
 - field_name: gw_id_reply
   field_type: int
   description: ''
@@ -1579,6 +1799,7 @@ fields:
   cim_field: gw_id_reply
   asim_field: gw_id_reply
   category: SSL VPN
+  display_name: Gw Id Reply
 - field_name: gw_name_reply
   field_type: string
   description: ''
@@ -1586,6 +1807,7 @@ fields:
   cim_field: gw_name_reply
   asim_field: gw_name_reply
   category: SSL VPN
+  display_name: Gw Name Reply
 - field_name: sdwan_route_id_request
   field_type: int
   description: ''
@@ -1593,6 +1815,7 @@ fields:
   cim_field: sdwan_route_id_request
   asim_field: sdwan_route_id_request
   category: SSL VPN
+  display_name: Sdwan Route Id Request
 - field_name: sdwan_route_name_request
   field_type: string
   description: ''
@@ -1600,6 +1823,7 @@ fields:
   cim_field: sdwan_route_name_request
   asim_field: sdwan_route_name_request
   category: SSL VPN
+  display_name: Sdwan Route Name Request
 - field_name: sdwan_route_id_reply
   field_type: int
   description: ''
@@ -1607,6 +1831,7 @@ fields:
   cim_field: sdwan_route_id_reply
   asim_field: sdwan_route_id_reply
   category: SSL VPN
+  display_name: Sdwan Route Id Reply
 - field_name: sdwan_route_name_reply
   field_type: string
   description: ''
@@ -1614,13 +1839,15 @@ fields:
   cim_field: sdwan_route_name_reply
   asim_field: sdwan_route_name_reply
   category: SSL VPN
+  display_name: Sdwan Route Name Reply
 - field_name: nat_rule_id
   field_type: int
   description: ''
-  ecs_field: vendor.nat_rule_id
+  ecs_field: rule.id
   cim_field: nat_rule_id
-  asim_field: nat_rule_id
+  asim_field: RuleNumber
   category: SSL VPN
+  display_name: Nat Rule Id
 - field_name: nat_rule_name
   field_type: string
   description: ''
@@ -1628,6 +1855,7 @@ fields:
   cim_field: nat_rule_name
   asim_field: nat_rule_name
   category: SSL VPN
+  display_name: Nat Rule Name
 - field_name: gatewayname
   field_type: string
   description: ''
@@ -1635,6 +1863,7 @@ fields:
   cim_field: gatewayname
   asim_field: gatewayname
   category: Gateway
+  display_name: Gatewayname
 - field_name: gw_name
   field_type: string
   description: ''
@@ -1642,6 +1871,7 @@ fields:
   cim_field: gw_name
   asim_field: gw_name
   category: Gateway
+  display_name: Gw Name
 - field_name: occurred
   field_type: string
   description: ''
@@ -1649,13 +1879,15 @@ fields:
   cim_field: occurred
   asim_field: occurred
   category: HA - High availability
+  display_name: Occurred
 - field_name: time
   field_type: datetime
   description: ''
-  ecs_field: vendor.time
-  cim_field: time
-  asim_field: time
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: HA - High availability
+  display_name: Time
 - field_name: timezone
   field_type: datetime
   description: ''
@@ -1663,6 +1895,7 @@ fields:
   cim_field: timezone
   asim_field: timezone
   category: HA - High availability
+  display_name: Timezone
 - field_name: red
   field_type: string
   description: ''
@@ -1670,6 +1903,7 @@ fields:
   cim_field: red
   asim_field: red
   category: RED
+  display_name: Red
 - field_name: yellow
   field_type: string
   description: ''
@@ -1677,6 +1911,7 @@ fields:
   cim_field: yellow
   asim_field: yellow
   category: RED
+  display_name: Yellow
 - field_name: green
   field_type: string
   description: ''
@@ -1684,6 +1919,7 @@ fields:
   cim_field: green
   asim_field: green
   category: RED
+  display_name: Green
 - field_name: total
   field_type: string
   description: ''
@@ -1691,6 +1927,7 @@ fields:
   cim_field: total
   asim_field: total
   category: RED
+  display_name: Total
 - field_name: ep_name
   field_type: string
   description: ''
@@ -1698,6 +1935,7 @@ fields:
   cim_field: ep_name
   asim_field: ep_name
   category: Heartbeat
+  display_name: Ep Name
 - field_name: endpoint
   field_type: datetime
   description: ''
@@ -1705,6 +1943,7 @@ fields:
   cim_field: endpoint
   asim_field: endpoint
   category: Heartbeat
+  display_name: Endpoint
 - field_name: allows
   field_type: string
   description: ''
@@ -1712,6 +1951,7 @@ fields:
   cim_field: allows
   asim_field: allows
   category: Heartbeat
+  display_name: Allows
 - field_name: ep_ip
   field_type: ip
   description: ''
@@ -1719,6 +1959,7 @@ fields:
   cim_field: ep_ip
   asim_field: ep_ip
   category: Heartbeat
+  display_name: Ep Ip
 - field_name: endpoint_ip
   field_type: ip
   description: ''
@@ -1726,6 +1967,7 @@ fields:
   cim_field: endpoint_ip
   asim_field: endpoint_ip
   category: Heartbeat
+  display_name: Endpoint Ip
 - field_name: ep_health
   field_type: string
   description: ''
@@ -1733,6 +1975,7 @@ fields:
   cim_field: ep_health
   asim_field: ep_health
   category: Heartbeat
+  display_name: Ep Health
 - field_name: unix
   field_type: string
   description: ''
@@ -1740,6 +1983,7 @@ fields:
   cim_field: unix
   asim_field: unix
   category: Heartbeat
+  display_name: Unix
 - field_name: stamp
   field_type: string
   description: ''
@@ -1747,13 +1991,15 @@ fields:
   cim_field: stamp
   asim_field: stamp
   category: Heartbeat
+  display_name: Stamp
 - field_name: interface
   field_type: string
   description: ''
-  ecs_field: vendor.interface
+  ecs_field: observer.ingress.interface.name
   cim_field: interface
-  asim_field: interface
+  asim_field: DvcInterface
   category: Interface
+  display_name: Interface
 - field_name: idp_policy_id
   field_type: int
   description: ''
@@ -1761,6 +2007,7 @@ fields:
   cim_field: idp_policy_id
   asim_field: idp_policy_id
   category: IPS
+  display_name: Idp Policy Id
 - field_name: configured
   field_type: string
   description: ''
@@ -1768,20 +2015,23 @@ fields:
   cim_field: configured
   asim_field: configured
   category: IPS
+  display_name: Configured
 - field_name: signature_id
   field_type: int
   description: ''
-  ecs_field: vendor.signature_id
+  ecs_field: rule.id
   cim_field: signature_id
-  asim_field: signature_id
+  asim_field: RuleNumber
   category: IPS
+  display_name: Signature Id
 - field_name: sig_id
   field_type: int
   description: ''
-  ecs_field: vendor.sig_id
-  cim_field: sig_id
-  asim_field: sig_id
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: IPS
+  display_name: Sig Id
 - field_name: triggered
   field_type: string
   description: ''
@@ -1789,13 +2039,15 @@ fields:
   cim_field: triggered
   asim_field: triggered
   category: IPS
+  display_name: Triggered
 - field_name: signature_msg
   field_type: string
   description: ''
-  ecs_field: vendor.signature_msg
-  cim_field: signature_msg
-  asim_field: signature_msg
+  ecs_field: rule.description
+  cim_field: signature_desc
+  asim_field: RuleDescription
   category: IPS
+  display_name: Signature Msg
 - field_name: rule_priority
   field_type: string
   description: ''
@@ -1803,6 +2055,7 @@ fields:
   cim_field: rule_priority
   asim_field: rule_priority
   category: IPS
+  display_name: Rule Priority
 - field_name: platform
   field_type: string
   description: ''
@@ -1810,6 +2063,7 @@ fields:
   cim_field: platform
   asim_field: platform
   category: IPS
+  display_name: Platform
 - field_name: classified
   field_type: string
   description: ''
@@ -1817,6 +2071,7 @@ fields:
   cim_field: classified
   asim_field: classified
   category: IPS
+  display_name: Classified
 - field_name: classfied
   field_type: string
   description: ''
@@ -1824,6 +2079,7 @@ fields:
   cim_field: classfied
   asim_field: classfied
   category: IPS
+  display_name: Classfied
 - field_name: target
   field_type: string
   description: ''
@@ -1831,6 +2087,7 @@ fields:
   cim_field: target
   asim_field: target
   category: IPS
+  display_name: Target
 - field_name: victim
   field_type: string
   description: ''
@@ -1838,6 +2095,7 @@ fields:
   cim_field: victim
   asim_field: victim
   category: IPS
+  display_name: Victim
 - field_name: set
   field_type: string
   description: ''
@@ -1845,6 +2103,7 @@ fields:
   cim_field: set
   asim_field: set
   category: IPS
+  display_name: Set
 - field_name: connectionname
   field_type: string
   description: ''
@@ -1852,6 +2111,7 @@ fields:
   cim_field: connectionname
   asim_field: connectionname
   category: IPsec
+  display_name: Connectionname
 - field_name: connectiontype
   field_type: string
   description: ''
@@ -1859,6 +2119,7 @@ fields:
   cim_field: connectiontype
   asim_field: connectiontype
   category: IPsec
+  display_name: Connectiontype
 - field_name: unused
   field_type: string
   description: ''
@@ -1866,6 +2127,7 @@ fields:
   cim_field: unused
   asim_field: unused
   category: IPsec
+  display_name: Unused
 - field_name: localinterfaceip
   field_type: string
   description: ''
@@ -1873,6 +2135,7 @@ fields:
   cim_field: localinterfaceip
   asim_field: localinterfaceip
   category: IPsec
+  display_name: Localinterfaceip
 - field_name: localgateway
   field_type: string
   description: ''
@@ -1880,6 +2143,7 @@ fields:
   cim_field: localgateway
   asim_field: localgateway
   category: IPsec
+  display_name: Localgateway
 - field_name: gw_ip
   field_type: ip
   description: ''
@@ -1887,6 +2151,7 @@ fields:
   cim_field: gw_ip
   asim_field: gw_ip
   category: IPsec
+  display_name: Gw Ip
 - field_name: localnetwork
   field_type: string
   description: ''
@@ -1894,6 +2159,7 @@ fields:
   cim_field: localnetwork
   asim_field: localnetwork
   category: IPsec
+  display_name: Localnetwork
 - field_name: local_network
   field_type: string
   description: ''
@@ -1901,6 +2167,7 @@ fields:
   cim_field: local_network
   asim_field: local_network
   category: IPsec
+  display_name: Local Network
 - field_name: remotenetwork
   field_type: string
   description: ''
@@ -1908,6 +2175,7 @@ fields:
   cim_field: remotenetwork
   asim_field: remotenetwork
   category: IPsec
+  display_name: Remotenetwork
 - field_name: remote_network
   field_type: string
   description: ''
@@ -1915,6 +2183,7 @@ fields:
   cim_field: remote_network
   asim_field: remote_network
   category: IPsec
+  display_name: Remote Network
 - field_name: reproduced
   field_type: string
   description: ''
@@ -1922,6 +2191,7 @@ fields:
   cim_field: reproduced
   asim_field: reproduced
   category: Reporting
+  display_name: Reproduced
 - field_name: localip
   field_type: string
   description: ''
@@ -1929,6 +2199,7 @@ fields:
   cim_field: localip
   asim_field: localip
   category: L2TP PPTP VPN
+  display_name: Localip
 - field_name: remotepeer
   field_type: string
   description: ''
@@ -1936,6 +2207,7 @@ fields:
   cim_field: remotepeer
   asim_field: remotepeer
   category: L2TP PPTP VPN
+  display_name: Remotepeer
 - field_name: ipleased
   field_type: string
   description: ''
@@ -1943,6 +2215,7 @@ fields:
   cim_field: ipleased
   asim_field: ipleased
   category: L2TP PPTP VPN
+  display_name: Ipleased
 - field_name: bytes_recv
   field_type: int
   description: ''
@@ -1950,6 +2223,7 @@ fields:
   cim_field: bytes_recv
   asim_field: bytes_recv
   category: L2TP PPTP VPN
+  display_name: Bytes Recv
 - field_name: con_name
   field_type: string
   description: ''
@@ -1957,6 +2231,7 @@ fields:
   cim_field: con_name
   asim_field: con_name
   category: RED
+  display_name: Con Name
 - field_name: disable_count
   field_type: int
   description: ''
@@ -1964,6 +2239,7 @@ fields:
   cim_field: disable_count
   asim_field: disable_count
   category: RED
+  display_name: Disable Count
 - field_name: enable_count
   field_type: int
   description: ''
@@ -1971,6 +2247,7 @@ fields:
   cim_field: enable_count
   asim_field: enable_count
   category: RED
+  display_name: Enable Count
 - field_name: disconnected
   field_type: string
   description: ''
@@ -1978,6 +2255,7 @@ fields:
   cim_field: disconnected
   asim_field: disconnected
   category: RED
+  display_name: Disconnected
 - field_name: con_count
   field_type: int
   description: ''
@@ -1985,6 +2263,7 @@ fields:
   cim_field: con_count
   asim_field: con_count
   category: RED
+  display_name: Con Count
 - field_name: red_id
   field_type: int
   description: ''
@@ -1992,13 +2271,15 @@ fields:
   cim_field: red_id
   asim_field: red_id
   category: RED
+  display_name: Red Id
 - field_name: eventtime
   field_type: datetime
   description: ''
-  ecs_field: vendor.eventtime
-  cim_field: eventtime
-  asim_field: eventtime
+  ecs_field: event.created
+  cim_field: event_time
+  asim_field: EventStartTime
   category: RED
+  display_name: Eventtime
 - field_name: branch_name
   field_type: string
   description: ''
@@ -2006,6 +2287,7 @@ fields:
   cim_field: branch_name
   asim_field: branch_name
   category: RED
+  display_name: Branch Name
 - field_name: filetype
   field_type: string
   description: ''
@@ -2013,13 +2295,15 @@ fields:
   cim_field: filetype
   asim_field: filetype
   category: Zero Day Protection events
+  display_name: Filetype
 - field_name: file_type
   field_type: string
   description: ''
-  ecs_field: vendor.file_type
+  ecs_field: file.type
   cim_field: file_type
-  asim_field: file_type
+  asim_field: TargetFileType
   category: Zero Day Protection events
+  display_name: File Type
 - field_name: analysed
   field_type: string
   description: ''
@@ -2027,6 +2311,7 @@ fields:
   cim_field: analysed
   asim_field: analysed
   category: Zero Day Protection events
+  display_name: Analysed
 - field_name: filesize
   field_type: int
   description: ''
@@ -2034,13 +2319,15 @@ fields:
   cim_field: filesize
   asim_field: filesize
   category: Zero Day Protection events
+  display_name: Filesize
 - field_name: file_hash
   field_type: string
   description: ''
-  ecs_field: vendor.file_hash
+  ecs_field: file.hash.sha256
   cim_field: file_hash
-  asim_field: file_hash
+  asim_field: TargetFileSHA256
   category: Zero Day Protection events
+  display_name: File Hash
 - field_name: source
   field_type: string
   description: ''
@@ -2048,6 +2335,7 @@ fields:
   cim_field: source
   asim_field: source
   category: Zero Day Protection events
+  display_name: Source
 - field_name: line
   field_type: string
   description: ''
@@ -2055,6 +2343,7 @@ fields:
   cim_field: line
   asim_field: line
   category: Zero Day Protection events
+  display_name: Line
 - field_name: eligible
   field_type: string
   description: ''
@@ -2062,6 +2351,7 @@ fields:
   cim_field: eligible
   asim_field: eligible
   category: Zero Day Protection events
+  display_name: Eligible
 - field_name: pending
   field_type: datetime
   description: ''
@@ -2069,6 +2359,7 @@ fields:
   cim_field: pending
   asim_field: pending
   category: Zero Day Protection events
+  display_name: Pending
 - field_name: cached
   field_type: string
   description: ''
@@ -2076,6 +2367,7 @@ fields:
   cim_field: cached
   asim_field: cached
   category: Zero Day Protection events
+  display_name: Cached
 - field_name: clean
   field_type: string
   description: ''
@@ -2083,6 +2375,7 @@ fields:
   cim_field: clean
   asim_field: clean
   category: Zero Day Protection events
+  display_name: Clean
 - field_name: malicious
   field_type: string
   description: ''
@@ -2090,20 +2383,23 @@ fields:
   cim_field: malicious
   asim_field: malicious
   category: Zero Day Protection events
+  display_name: Malicious
 - field_name: cloud
   field_type: string
   description: ''
-  ecs_field: vendor.cloud
-  cim_field: cloud
-  asim_field: cloud
+  ecs_field: threat.enrichments.indicator.marking.tlp
+  cim_field: cloud_verdict
+  asim_field: ThreatConfidence
   category: Zero Day Protection events
+  display_name: Cloud
 - field_name: error
   field_type: string
   description: ''
-  ecs_field: vendor.error
-  cim_field: error
-  asim_field: error
+  ecs_field: error.message
+  cim_field: error_msg
+  asim_field: EventMessage
   category: Zero Day Protection events
+  display_name: Error
 - field_name: email
   field_type: string
   description: ''
@@ -2111,6 +2407,7 @@ fields:
   cim_field: email
   asim_field: email
   category: Zero Day Protection events
+  display_name: Email
 - field_name: sha1sum
   field_type: string
   description: ''
@@ -2118,6 +2415,7 @@ fields:
   cim_field: sha1sum
   asim_field: sha1sum
   category: Zero Day Protection events
+  display_name: Sha1Sum
 - field_name: profile_id
   field_type: int
   description: ''
@@ -2125,6 +2423,7 @@ fields:
   cim_field: profile_id
   asim_field: profile_id
   category: SD-WAN
+  display_name: Profile Id
 - field_name: profile_name
   field_type: string
   description: ''
@@ -2132,6 +2431,7 @@ fields:
   cim_field: profile_name
   asim_field: profile_name
   category: SD-WAN
+  display_name: Profile Name
 - field_name: gw_id
   field_type: int
   description: ''
@@ -2139,6 +2439,7 @@ fields:
   cim_field: gw_id
   asim_field: gw_id
   category: SD-WAN
+  display_name: Gw Id
 - field_name: probe_target
   field_type: string
   description: ''
@@ -2146,6 +2447,7 @@ fields:
   cim_field: probe_target
   asim_field: probe_target
   category: SD-WAN
+  display_name: Probe Target
 - field_name: latency
   field_type: string
   description: ''
@@ -2153,6 +2455,7 @@ fields:
   cim_field: latency
   asim_field: latency
   category: SD-WAN
+  display_name: Latency
 - field_name: jitter
   field_type: string
   description: ''
@@ -2160,6 +2463,7 @@ fields:
   cim_field: jitter
   asim_field: jitter
   category: SD-WAN
+  display_name: Jitter
 - field_name: packet_loss
   field_type: string
   description: ''
@@ -2167,6 +2471,7 @@ fields:
   cim_field: packet_loss
   asim_field: packet_loss
   category: SD-WAN
+  display_name: Packet Loss
 - field_name: gw_status
   field_type: string
   description: ''
@@ -2174,6 +2479,7 @@ fields:
   cim_field: gw_status
   asim_field: gw_status
   category: SD-WAN
+  display_name: Gw Status
 - field_name: sla_status
   field_type: string
   description: ''
@@ -2181,6 +2487,7 @@ fields:
   cim_field: sla_status
   asim_field: sla_status
   category: SD-WAN
+  display_name: Sla Status
 - field_name: starttime
   field_type: datetime
   description: ''
@@ -2188,6 +2495,7 @@ fields:
   cim_field: starttime
   asim_field: starttime
   category: SD-WAN
+  display_name: Starttime
 - field_name: notify
   field_type: string
   description: ''
@@ -2195,6 +2503,7 @@ fields:
   cim_field: notify
   asim_field: notify
   category: Reporting
+  display_name: Notify
 - field_name: decrypt
   field_type: string
   description: ''
@@ -2202,13 +2511,15 @@ fields:
   cim_field: decrypt
   asim_field: decrypt
   category: Reporting
+  display_name: Decrypt
 - field_name: rule_id
   field_type: int
   description: ''
-  ecs_field: vendor.rule_id
+  ecs_field: rule.id
   cim_field: rule_id
-  asim_field: rule_id
+  asim_field: RuleId
   category: Reporting
+  display_name: Rule Id
 - field_name: bitmask
   field_type: string
   description: ''
@@ -2216,6 +2527,7 @@ fields:
   cim_field: bitmask
   asim_field: bitmask
   category: Reporting
+  display_name: Bitmask
 - field_name: key_type
   field_type: string
   description: ''
@@ -2223,6 +2535,7 @@ fields:
   cim_field: key_type
   asim_field: key_type
   category: Reporting
+  display_name: Key Type
 - field_name: resumed
   field_type: string
   description: ''
@@ -2230,6 +2543,7 @@ fields:
   cim_field: resumed
   asim_field: resumed
   category: Reporting
+  display_name: Resumed
 - field_name: value
   field_type: string
   description: ''
@@ -2237,6 +2551,7 @@ fields:
   cim_field: value
   asim_field: value
   category: Reporting
+  display_name: Value
 - field_name: key_param
   field_type: string
   description: ''
@@ -2244,6 +2559,7 @@ fields:
   cim_field: key_param
   asim_field: key_param
   category: Reporting
+  display_name: Key Param
 - field_name: fingerprint
   field_type: string
   description: ''
@@ -2251,6 +2567,7 @@ fields:
   cim_field: fingerprint
   asim_field: fingerprint
   category: Reporting
+  display_name: Fingerprint
 - field_name: cipher_suite
   field_type: string
   description: ''
@@ -2258,6 +2575,7 @@ fields:
   cim_field: cipher_suite
   asim_field: cipher_suite
   category: Reporting
+  display_name: Cipher Suite
 - field_name: sni
   field_type: string
   description: ''
@@ -2265,13 +2583,15 @@ fields:
   cim_field: sni
   asim_field: sni
   category: Reporting
+  display_name: Sni
 - field_name: rule_name
   field_type: string
   description: ''
-  ecs_field: vendor.rule_name
-  cim_field: rule_name
-  asim_field: rule_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Reporting
+  display_name: Rule Name
 - field_name: tls_version
   field_type: string
   description: ''
@@ -2279,6 +2599,7 @@ fields:
   cim_field: tls_version
   asim_field: tls_version
   category: Reporting
+  display_name: Tls Version
 - field_name: exceptions
   field_type: string
   description: ''
@@ -2286,6 +2607,7 @@ fields:
   cim_field: exceptions
   asim_field: exceptions
   category: Reporting
+  display_name: Exceptions
 - field_name: exception
   field_type: string
   description: ''
@@ -2293,6 +2615,7 @@ fields:
   cim_field: exception
   asim_field: exception
   category: Reporting
+  display_name: Exception
 - field_name: mode
   field_type: string
   description: ''
@@ -2300,6 +2623,7 @@ fields:
   cim_field: mode
   asim_field: mode
   category: SSL VPN
+  display_name: Mode
 - field_name: access_type
   field_type: string
   description: ''
@@ -2307,27 +2631,31 @@ fields:
   cim_field: access_type
   asim_field: access_type
   category: SSL VPN
+  display_name: Access Type
 - field_name: remote_ip
   field_type: ip
   description: ''
-  ecs_field: vendor.remote_ip
-  cim_field: remote_ip
-  asim_field: remote_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: SSL VPN
+  display_name: Remote Ip
 - field_name: sessionid
   field_type: int
   description: ''
-  ecs_field: vendor.sessionid
-  cim_field: sessionid
-  asim_field: sessionid
+  ecs_field: network.session_id
+  cim_field: session_id
+  asim_field: NetworkSessionId
   category: SSL VPN
+  display_name: Sessionid
 - field_name: session_id
   field_type: int
   description: ''
-  ecs_field: vendor.session_id
+  ecs_field: event.id
   cim_field: session_id
-  asim_field: session_id
+  asim_field: EventOriginalUid
   category: SSL VPN
+  display_name: Session Id
 - field_name: resource_type
   field_type: string
   description: ''
@@ -2335,27 +2663,31 @@ fields:
   cim_field: resource_type
   asim_field: resource_type
   category: SSL VPN
+  display_name: Resource Type
 - field_name: resource
   field_type: string
   description: ''
-  ecs_field: vendor.resource
-  cim_field: resource
-  asim_field: resource
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
   category: SSL VPN
+  display_name: Resource
 - field_name: server
   field_type: string
   description: ''
-  ecs_field: vendor.server
-  cim_field: server
-  asim_field: server
+  ecs_field: network.forwarded_ip
+  cim_field: dhcp_server
+  asim_field: DvcIpAddr
   category: Firewall
+  display_name: Server
 - field_name: local_ip
   field_type: ip
   description: ''
-  ecs_field: vendor.local_ip
-  cim_field: local_ip
-  asim_field: local_ip
+  ecs_field: host.ip
+  cim_field: src_ip
+  asim_field: DvcIpAddr
   category: Firewall
+  display_name: Local Ip
 - field_name: ws_protocol
   field_type: string
   description: ''
@@ -2363,6 +2695,7 @@ fields:
   cim_field: ws_protocol
   asim_field: ws_protocol
   category: Firewall
+  display_name: Ws Protocol
 - field_name: query_string
   field_type: string
   description: ''
@@ -2370,6 +2703,7 @@ fields:
   cim_field: query_string
   asim_field: query_string
   category: Firewall
+  display_name: Query String
 - field_name: cookie
   field_type: string
   description: ''
@@ -2377,20 +2711,23 @@ fields:
   cim_field: cookie
   asim_field: cookie
   category: Firewall
+  display_name: Cookie
 - field_name: referer
   field_type: string
   description: ''
-  ecs_field: vendor.referer
-  cim_field: referer
-  asim_field: referer
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
   category: Firewall
+  display_name: Referer
 - field_name: method
   field_type: string
   description: ''
-  ecs_field: vendor.method
-  cim_field: method
-  asim_field: method
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: Firewall
+  display_name: Method
 - field_name: standard
   field_type: string
   description: ''
@@ -2398,6 +2735,7 @@ fields:
   cim_field: standard
   asim_field: standard
   category: Firewall
+  display_name: Standard
 - field_name: httpstatus
   field_type: string
   description: ''
@@ -2405,6 +2743,7 @@ fields:
   cim_field: httpstatus
   asim_field: httpstatus
   category: Firewall
+  display_name: Httpstatus
 - field_name: extra
   field_type: string
   description: ''
@@ -2412,20 +2751,23 @@ fields:
   cim_field: extra
   asim_field: extra
   category: Firewall
+  display_name: Extra
 - field_name: contenttype
   field_type: string
   description: ''
-  ecs_field: vendor.contenttype
-  cim_field: contenttype
-  asim_field: contenttype
+  ecs_field: http.response.mime_type
+  cim_field: content_type
+  asim_field: HttpContentType
   category: Firewall
+  display_name: Contenttype
 - field_name: content_type
   field_type: string
   description: ''
-  ecs_field: vendor.content_type
+  ecs_field: http.response.mime_type
   cim_field: content_type
-  asim_field: content_type
+  asim_field: HttpContentType
   category: Firewall
+  display_name: Content Type
 - field_name: useragent
   field_type: string
   description: ''
@@ -2433,6 +2775,7 @@ fields:
   cim_field: useragent
   asim_field: useragent
   category: Firewall
+  display_name: Useragent
 - field_name: responsetime
   field_type: datetime
   description: ''
@@ -2440,6 +2783,7 @@ fields:
   cim_field: responsetime
   asim_field: responsetime
   category: Firewall
+  display_name: Responsetime
 - field_name: response_time
   field_type: datetime
   description: ''
@@ -2447,6 +2791,7 @@ fields:
   cim_field: response_time
   asim_field: response_time
   category: Firewall
+  display_name: Response Time
 - field_name: microseconds
   field_type: string
   description: ''
@@ -2454,6 +2799,7 @@ fields:
   cim_field: microseconds
   asim_field: microseconds
   category: Firewall
+  display_name: Microseconds
 - field_name: bytessent
   field_type: int
   description: ''
@@ -2461,6 +2807,7 @@ fields:
   cim_field: bytessent
   asim_field: bytessent
   category: Firewall
+  display_name: Bytessent
 - field_name: bytesrcv
   field_type: int
   description: ''
@@ -2468,6 +2815,7 @@ fields:
   cim_field: bytesrcv
   asim_field: bytesrcv
   category: Firewall
+  display_name: Bytesrcv
 - field_name: http_status
   field_type: string
   description: ''
@@ -2475,13 +2823,15 @@ fields:
   cim_field: http_status
   asim_field: http_status
   category: Web (System HTTPS Deny events)
+  display_name: Http Status
 - field_name: status_code
   field_type: string
   description: ''
-  ecs_field: vendor.status_code
-  cim_field: status_code
-  asim_field: status_code
+  ecs_field: http.response.status_code
+  cim_field: status
+  asim_field: HttpStatusCode
   category: Web (System HTTPS Deny events)
+  display_name: Status Code
 - field_name: originated
   field_type: string
   description: ''
@@ -2489,6 +2839,7 @@ fields:
   cim_field: originated
   asim_field: originated
   category: Web (System HTTPS Deny events)
+  display_name: Originated
 - field_name: country
   field_type: int
   description: ''
@@ -2496,6 +2847,7 @@ fields:
   cim_field: country
   asim_field: country
   category: Web (System HTTPS Deny events)
+  display_name: Country
 - field_name: made
   field_type: string
   description: ''
@@ -2503,13 +2855,15 @@ fields:
   cim_field: made
   asim_field: made
   category: Web (System HTTPS Deny events)
+  display_name: Made
 - field_name: userid
   field_type: int
   description: ''
-  ecs_field: vendor.userid
-  cim_field: userid
-  asim_field: userid
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: TargetUserId
   category: Web content policy
+  display_name: Userid
 - field_name: content
   field_type: string
   description: ''
@@ -2517,6 +2871,7 @@ fields:
   cim_field: content
   asim_field: content
   category: Web content policy
+  display_name: Content
 - field_name: transaction_id
   field_type: int
   description: ''
@@ -2524,6 +2879,7 @@ fields:
   cim_field: transaction_id
   asim_field: transaction_id
   category: Web content policy
+  display_name: Transaction Id
 - field_name: scanning
   field_type: string
   description: ''
@@ -2531,6 +2887,7 @@ fields:
   cim_field: scanning
   asim_field: scanning
   category: Web content policy
+  display_name: Scanning
 - field_name: http_category
   field_type: string
   description: ''
@@ -2538,6 +2895,7 @@ fields:
   cim_field: http_category
   asim_field: http_category
   category: Web content policy
+  display_name: Http Category
 - field_name: site_category
   field_type: string
   description: ''
@@ -2545,6 +2903,7 @@ fields:
   cim_field: site_category
   asim_field: site_category
   category: Web content policy
+  display_name: Site Category
 - field_name: website
   field_type: string
   description: ''
@@ -2552,6 +2911,7 @@ fields:
   cim_field: website
   asim_field: website
   category: Web content policy
+  display_name: Website
 - field_name: scanned
   field_type: string
   description: ''
@@ -2559,6 +2919,7 @@ fields:
   cim_field: scanned
   asim_field: scanned
   category: Web content policy
+  display_name: Scanned
 - field_name: in
   field_type: string
   description: ''
@@ -2566,6 +2927,7 @@ fields:
   cim_field: in
   asim_field: in
   category: Web content policy
+  display_name: In
 - field_name: out
   field_type: string
   description: ''
@@ -2573,6 +2935,7 @@ fields:
   cim_field: out
   asim_field: out
   category: Web content policy
+  display_name: Out
 - field_name: match
   field_type: string
   description: ''
@@ -2580,13 +2943,15 @@ fields:
   cim_field: match
   asim_field: match
   category: Web content policy
+  display_name: Match
 - field_name: decision
   field_type: string
   description: ''
-  ecs_field: vendor.decision
+  ecs_field: event.outcome
   cim_field: decision
-  asim_field: decision
+  asim_field: EventResult
   category: Web content policy
+  display_name: Decision
 - field_name: uploaded
   field_type: string
   description: ''
@@ -2594,6 +2959,7 @@ fields:
   cim_field: uploaded
   asim_field: uploaded
   category: Web content policy
+  display_name: Uploaded
 - field_name: context_match
   field_type: string
   description: ''
@@ -2601,6 +2967,7 @@ fields:
   cim_field: context_match
   asim_field: context_match
   category: Web content policy
+  display_name: Context Match
 - field_name: context_prefix
   field_type: string
   description: ''
@@ -2608,6 +2975,7 @@ fields:
   cim_field: context_prefix
   asim_field: context_prefix
   category: Web content policy
+  display_name: Context Prefix
 - field_name: context_suffix
   field_type: string
   description: ''
@@ -2615,6 +2983,7 @@ fields:
   cim_field: context_suffix
   asim_field: context_suffix
   category: Web content policy
+  display_name: Context Suffix
 - field_name: zone
   field_type: string
   description: ''
@@ -2622,6 +2991,7 @@ fields:
   cim_field: zone
   asim_field: zone
   category: Web content policy
+  display_name: Zone
 - field_name: transactionid
   field_type: int
   description: ''
@@ -2629,6 +2999,7 @@ fields:
   cim_field: transactionid
   asim_field: transactionid
   category: Web content policy
+  display_name: Transactionid
 - field_name: sitecategory
   field_type: string
   description: ''
@@ -2636,13 +3007,15 @@ fields:
   cim_field: sitecategory
   asim_field: sitecategory
   category: Web content policy
+  display_name: Sitecategory
 - field_name: rule
   field_type: string
   description: ''
-  ecs_field: vendor.rule
+  ecs_field: rule.name
   cim_field: rule
-  asim_field: rule
+  asim_field: RuleName
   category: Web content policy
+  display_name: Rule
 - field_name: contextmatch
   field_type: string
   description: ''
@@ -2650,6 +3023,7 @@ fields:
   cim_field: contextmatch
   asim_field: contextmatch
   category: Web content policy
+  display_name: Contextmatch
 - field_name: contextprefix
   field_type: string
   description: ''
@@ -2657,6 +3031,7 @@ fields:
   cim_field: contextprefix
   asim_field: contextprefix
   category: Web content policy
+  display_name: Contextprefix
 - field_name: contextsuffix
   field_type: string
   description: ''
@@ -2664,6 +3039,7 @@ fields:
   cim_field: contextsuffix
   asim_field: contextsuffix
   category: Web content policy
+  display_name: Contextsuffix
 - field_name: fw_rule_section
   field_type: string
   description: ''
@@ -2671,6 +3047,7 @@ fields:
   cim_field: fw_rule_section
   asim_field: fw_rule_section
   category: Web filter
+  display_name: Fw Rule Section
 - field_name: web_policy
   field_type: string
   description: ''
@@ -2678,6 +3055,7 @@ fields:
   cim_field: web_policy
   asim_field: web_policy
   category: Web filter
+  display_name: Web Policy
 - field_name: requested
   field_type: string
   description: ''
@@ -2685,6 +3063,7 @@ fields:
   cim_field: requested
   asim_field: requested
   category: Web filter
+  display_name: Requested
 - field_name: http_category_type
   field_type: string
   description: ''
@@ -2692,6 +3071,7 @@ fields:
   cim_field: http_category_type
   asim_field: http_category_type
   category: Web filter
+  display_name: Http Category Type
 - field_name: category_type
   field_type: string
   description: ''
@@ -2699,6 +3079,7 @@ fields:
   cim_field: category_type
   asim_field: category_type
   category: Web filter
+  display_name: Category Type
 - field_name: override_token
   field_type: int
   description: ''
@@ -2706,6 +3087,7 @@ fields:
   cim_field: override_token
   asim_field: override_token
   category: Web filter
+  display_name: Override Token
 - field_name: token
   field_type: string
   description: ''
@@ -2713,6 +3095,7 @@ fields:
   cim_field: token
   asim_field: token
   category: Web filter
+  display_name: Token
 - field_name: override_name
   field_type: int
   description: ''
@@ -2720,6 +3103,7 @@ fields:
   cim_field: override_name
   asim_field: override_name
   category: Web filter
+  display_name: Override Name
 - field_name: override_authorizer
   field_type: int
   description: ''
@@ -2727,6 +3111,7 @@ fields:
   cim_field: override_authorizer
   asim_field: override_authorizer
   category: Web filter
+  display_name: Override Authorizer
 - field_name: authorizer
   field_type: string
   description: ''
@@ -2734,6 +3119,7 @@ fields:
   cim_field: authorizer
   asim_field: authorizer
   category: Web filter
+  display_name: Authorizer
 - field_name: session
   field_type: string
   description: ''
@@ -2741,6 +3127,7 @@ fields:
   cim_field: session
   asim_field: session
   category: Web filter
+  display_name: Session
 - field_name: firewall
   field_type: string
   description: ''
@@ -2748,6 +3135,7 @@ fields:
   cim_field: firewall
   asim_field: firewall
   category: Web filter
+  display_name: Firewall
 - field_name: activity_name
   field_type: string
   description: ''
@@ -2755,6 +3143,7 @@ fields:
   cim_field: activity_name
   asim_field: activity_name
   category: Web filter
+  display_name: Activity Name
 - field_name: recorded
   field_type: string
   description: ''
@@ -2762,6 +3151,7 @@ fields:
   cim_field: recorded
   asim_field: recorded
   category: Web filter
+  display_name: Recorded
 - field_name: immediately
   field_type: string
   description: ''
@@ -2769,6 +3159,7 @@ fields:
   cim_field: immediately
   asim_field: immediately
   category: Web filter
+  display_name: Immediately
 - field_name: http_user_agent
   field_type: string
   description: ''
@@ -2776,6 +3167,7 @@ fields:
   cim_field: http_user_agent
   asim_field: http_user_agent
   category: Web filter
+  display_name: Http User Agent
 - field_name: http_referer
   field_type: string
   description: ''
@@ -2783,6 +3175,7 @@ fields:
   cim_field: http_referer
   asim_field: http_referer
   category: Web filter
+  display_name: Http Referer
 - field_name: download_file_type
   field_type: string
   description: ''
@@ -2790,6 +3183,7 @@ fields:
   cim_field: download_file_type
   asim_field: download_file_type
   category: Web filter
+  display_name: Download File Type
 - field_name: upload_file_name
   field_type: string
   description: ''
@@ -2797,6 +3191,7 @@ fields:
   cim_field: upload_file_name
   asim_field: upload_file_name
   category: Web filter
+  display_name: Upload File Name
 - field_name: upload_file_type
   field_type: string
   description: ''
@@ -2804,6 +3199,7 @@ fields:
   cim_field: upload_file_type
   asim_field: upload_file_type
   category: Web filter
+  display_name: Upload File Type
 - field_name: used_quota
   field_type: string
   description: ''
@@ -2811,6 +3207,7 @@ fields:
   cim_field: used_quota
   asim_field: used_quota
   category: Web filter
+  display_name: Used Quota
 - field_name: risk
   field_type: string
   description: ''
@@ -2818,6 +3215,7 @@ fields:
   cim_field: risk
   asim_field: risk
   category: Web filter
+  display_name: Risk
 - field_name: parent_app_category
   field_type: string
   description: ''
@@ -2825,6 +3223,7 @@ fields:
   cim_field: parent_app_category
   asim_field: parent_app_category
   category: Web filter
+  display_name: Parent App Category
 - field_name: namw
   field_type: string
   description: ''
@@ -2832,6 +3231,7 @@ fields:
   cim_field: namw
   asim_field: namw
   category: Firewall
+  display_name: Namw
 - field_name: activityname
   field_type: string
   description: ''
@@ -2839,6 +3239,7 @@ fields:
   cim_field: activityname
   asim_field: activityname
   category: Firewall
+  display_name: Activityname
 - field_name: ssid
   field_type: int
   description: ''
@@ -2846,6 +3247,7 @@ fields:
   cim_field: ssid
   asim_field: ssid
   category: Reporting
+  display_name: Ssid
 - field_name: ap
   field_type: string
   description: ''
@@ -2853,4 +3255,5 @@ fields:
   cim_field: ap
   asim_field: ap
   category: Reporting
+  display_name: Ap
 notes: Extracted from Sophos Firewall Syslog Guide using field table pattern matching

@@ -5,11 +5,95 @@ product_full_name: Proxy
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-29'
+extraction_date: '2026-01-31'
 source_file: traefik-proxy-signatures.json
-generated_at: '2026-01-29T05:59:01.678457'
-field_count: 0
-fields: []
+generated_at: '2026-01-31T04:25:55.788738'
+field_count: 14
+fields:
+- field_name: traefik.access.backend_url
+  field_type: keyword
+  description: The URL of the backend where request was forwarded
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
+- field_name: traefik.access.frontend_name
+  field_type: keyword
+  description: The name of the frontend used
+  ecs_field: observer.name
+  cim_field: dest_interface
+  asim_field: DvcInboundInterface
+- field_name: traefik.access.request_count
+  field_type: long
+  description: Number of requests received
+  ecs_field: event.sequence
+  cim_field: request_count
+  asim_field: EventCount
+- field_name: traefik.access.geoip.continent_name
+  field_type: keyword
+  description: Continent name from GeoIP
+  ecs_field: source.geo.continent_name
+  cim_field: src_continent
+  asim_field: SrcGeoContinent
+- field_name: traefik.access.geoip.country_iso_code
+  field_type: keyword
+  description: Country ISO code from GeoIP
+  ecs_field: source.geo.country_iso_code
+  cim_field: src_country
+  asim_field: SrcGeoCountry
+- field_name: traefik.access.geoip.city_name
+  field_type: keyword
+  description: City name from GeoIP
+  ecs_field: source.geo.city_name
+  cim_field: src_city
+  asim_field: SrcGeoCity
+- field_name: traefik.access.geoip.region_name
+  field_type: keyword
+  description: Region name from GeoIP
+  ecs_field: source.geo.region_name
+  cim_field: src_region
+  asim_field: SrcGeoRegion
+- field_name: traefik.access.geoip.location
+  field_type: geo_point
+  description: Geographic location
+  ecs_field: source.geo.location
+  cim_field: src_location
+  asim_field: SrcGeoLatLong
+- field_name: traefik.access.user_agent.device
+  field_type: keyword
+  description: Device type from user agent
+  ecs_field: user_agent.device.name
+  cim_field: http_user_agent_device
+  asim_field: HttpUserAgentDevice
+- field_name: traefik.access.user_agent.name
+  field_type: keyword
+  description: User agent name
+  ecs_field: user_agent.name
+  cim_field: http_user_agent
+  asim_field: HttpUserAgent
+- field_name: traefik.access.user_agent.os
+  field_type: keyword
+  description: Operating system from user agent
+  ecs_field: user_agent.os.name
+  cim_field: http_user_agent_os
+  asim_field: SrcDvcOs
+- field_name: traefik.access.user_agent.original
+  field_type: keyword
+  description: Original user agent string
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: HttpUserAgent
+- field_name: traefik.access.user_identifier
+  field_type: keyword
+  description: RFC 1413 identity of the client
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
+- field_name: traefik.access.user_name
+  field_type: keyword
+  description: User name from HTTP authentication
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
 signatures:
 - name: traefik_access
   description: Traefik access log

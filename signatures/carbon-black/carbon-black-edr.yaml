@@ -7,7 +7,7 @@ source_document: Event Forwarder Event Schema
 source_url: https://developer.carbonblack.com/reference/enterprise-response/connectors/event-forwarder/event-schema/
 extraction_date: '2026-01-02'
 source_file: carbonblack-edr-signatures.json
-generated_at: '2026-01-29T05:58:47.598843'
+generated_at: '2026-01-31T04:25:41.423899'
 categories:
 - ServerEvents
 - ProcessDocument
@@ -75,9 +75,9 @@ fields:
 - field_name: report_id
   field_type: string
   description: Identifier of report with matching IOC
-  ecs_field: vendor.report_id
+  ecs_field: rule.id
   cim_field: report_id
-  asim_field: report_id
+  asim_field: RuleId
   category: ServerEvents
 - field_name: ioc_type
   field_type: string
@@ -110,30 +110,30 @@ fields:
 - field_name: process_name
   field_type: string
   description: Filename of executable backing process
-  ecs_field: vendor.process_name
+  ecs_field: process.name
   cim_field: process_name
-  asim_field: process_name
+  asim_field: TargetProcessName
   category: ProcessDocument
 - field_name: process_md5
   field_type: hash
   description: MD5 of executable file backing process
-  ecs_field: vendor.process_md5
+  ecs_field: process.hash.md5
   cim_field: process_md5
-  asim_field: process_md5
+  asim_field: TargetProcessHashMd5
   category: ProcessDocument
 - field_name: process_pid
   field_type: integer
   description: PID of this process
-  ecs_field: vendor.process_pid
+  ecs_field: process.pid
   cim_field: process_pid
-  asim_field: process_pid
+  asim_field: TargetProcessId
   category: ProcessDocument
 - field_name: path
   field_type: string
   description: Full path to executable file backing process
-  ecs_field: vendor.path
-  cim_field: path
-  asim_field: path
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: ProcessDocument
 - field_name: cmdline
   field_type: string
@@ -145,16 +145,16 @@ fields:
 - field_name: username
   field_type: string
   description: User context in which process executed
-  ecs_field: vendor.username
-  cim_field: username
-  asim_field: username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: ProcessDocument
 - field_name: hostname
   field_type: string
   description: Hostname of computer where process executed
-  ecs_field: vendor.hostname
-  cim_field: hostname
-  asim_field: hostname
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
   category: ProcessDocument
 - field_name: sensor_id
   field_type: integer
@@ -166,9 +166,9 @@ fields:
 - field_name: group
   field_type: string
   description: Sensor group at time of process execution
-  ecs_field: vendor.group
-  cim_field: group
-  asim_field: group
+  ecs_field: user.group.name
+  cim_field: user_group
+  asim_field: TargetUserGroup
   category: ProcessDocument
 - field_name: host_type
   field_type: string
@@ -194,23 +194,23 @@ fields:
 - field_name: parent_name
   field_type: string
   description: Name of parent process
-  ecs_field: vendor.parent_name
+  ecs_field: process.parent.name
   cim_field: parent_name
-  asim_field: parent_name
+  asim_field: ParentProcessName
   category: ProcessDocument
 - field_name: parent_md5
   field_type: hash
   description: MD5 of parent process
-  ecs_field: vendor.parent_md5
+  ecs_field: process.parent.hash.md5
   cim_field: parent_md5
-  asim_field: parent_md5
+  asim_field: ParentProcessHashMd5
   category: ProcessDocument
 - field_name: parent_pid
   field_type: integer
   description: PID of parent process
-  ecs_field: vendor.parent_pid
+  ecs_field: process.parent.pid
   cim_field: parent_pid
-  asim_field: parent_pid
+  asim_field: ParentProcessId
   category: ProcessDocument
 - field_name: parent_unique_id
   field_type: string
@@ -222,9 +222,9 @@ fields:
 - field_name: start
   field_type: datetime
   description: Start time in endpoint local time
-  ecs_field: vendor.start
-  cim_field: start
-  asim_field: start
+  ecs_field: event.start
+  cim_field: start_time
+  asim_field: EventStartTime
   category: ProcessDocument
 - field_name: last_update
   field_type: datetime
@@ -264,9 +264,9 @@ fields:
 - field_name: modload_count
   field_type: integer
   description: Total count of module loads
-  ecs_field: vendor.modload_count
+  ecs_field: event.count
   cim_field: modload_count
-  asim_field: modload_count
+  asim_field: EventCount
   category: ProcessDocument
 - field_name: netconn_count
   field_type: integer
@@ -278,9 +278,9 @@ fields:
 - field_name: md5
   field_type: hash
   description: MD5 of binary
-  ecs_field: vendor.md5
-  cim_field: md5
-  asim_field: md5
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
   category: BinaryDocument
 - field_name: observed_filename
   field_type: string
@@ -369,9 +369,9 @@ fields:
 - field_name: product_name
   field_type: string
   description: Product Name (Windows Only)
-  ecs_field: vendor.product_name
+  ecs_field: device.product.name
   cim_field: product_name
-  asim_field: product_name
+  asim_field: DeviceProductName
   category: BinaryDocument
 - field_name: company_name
   field_type: string
@@ -411,23 +411,23 @@ fields:
 - field_name: command_line
   field_type: string
   description: Command line of new process
-  ecs_field: vendor.command_line
-  cim_field: command_line
-  asim_field: command_line
+  ecs_field: process.command_line
+  cim_field: process_exec
+  asim_field: TargetProcessCommandLine
   category: ProcessStart
 - field_name: process_guid
   field_type: string
   description: CB Process GUID
-  ecs_field: vendor.process_guid
+  ecs_field: process.entity_id
   cim_field: process_guid
-  asim_field: process_guid
+  asim_field: TargetProcessGuid
   category: ProcessStart
 - field_name: pid
   field_type: integer
   description: OS Process id
-  ecs_field: vendor.pid
-  cim_field: pid
-  asim_field: pid
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: TargetProcessId
   category: ProcessStart
 - field_name: computer_name
   field_type: string
@@ -453,16 +453,16 @@ fields:
 - field_name: timestamp
   field_type: integer
   description: Endpoint timestamp seconds since epoch
-  ecs_field: vendor.timestamp
-  cim_field: timestamp
-  asim_field: timestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: ProcessStart
 - field_name: type
   field_type: string
   description: Full event type (ingress.event.procstart)
-  ecs_field: vendor.type
-  cim_field: type
-  asim_field: type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: ProcessStart
 - field_name: parent_create_time
   field_type: integer
@@ -474,9 +474,9 @@ fields:
 - field_name: parent_path
   field_type: string
   description: File path of parent executable
-  ecs_field: vendor.parent_path
+  ecs_field: process.parent.executable
   cim_field: parent_path
-  asim_field: parent_path
+  asim_field: ParentProcessPath
   category: ProcessStart
 - field_name: parent_process_guid
   field_type: string
@@ -545,9 +545,9 @@ fields:
   field_type: string
   description: 'Action: create, write, delete, lastwrite (filemod) or createkey, writeval,
     delkey, delval (regmod)'
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: FileModification
 - field_name: actiontype
   field_type: integer
@@ -573,16 +573,16 @@ fields:
 - field_name: direction
   field_type: string
   description: 'Connection direction: inbound or outbound'
-  ecs_field: vendor.direction
+  ecs_field: network.direction
   cim_field: direction
-  asim_field: direction
+  asim_field: NetworkDirection
   category: NetworkConnection
 - field_name: domain
   field_type: string
   description: DNS name of network peer if available
-  ecs_field: vendor.domain
-  cim_field: domain
-  asim_field: domain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
   category: NetworkConnection
 - field_name: ipv4
   field_type: ip
@@ -594,44 +594,44 @@ fields:
 - field_name: local_ip
   field_type: ip
   description: Local IP address
-  ecs_field: vendor.local_ip
-  cim_field: local_ip
-  asim_field: local_ip
+  ecs_field: host.ip
+  cim_field: src_ip
+  asim_field: DvcIpAddr
   category: NetworkConnection
 - field_name: local_port
   field_type: port
   description: Local port of connection
-  ecs_field: vendor.local_port
-  cim_field: local_port
-  asim_field: local_port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: NetworkConnection
 - field_name: remote_ip
   field_type: ip
   description: IP of remote system
-  ecs_field: vendor.remote_ip
-  cim_field: remote_ip
-  asim_field: remote_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: NetworkConnection
 - field_name: remote_port
   field_type: port
   description: Remote port
-  ecs_field: vendor.remote_port
-  cim_field: remote_port
-  asim_field: remote_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: NetworkConnection
 - field_name: port
   field_type: port
   description: Remote port (backward compatibility)
-  ecs_field: vendor.port
-  cim_field: port
-  asim_field: port
+  ecs_field: observer.ingress.interface.name
+  cim_field: switch_port
+  asim_field: SrcInterfaceName
   category: NetworkConnection
 - field_name: protocol
   field_type: integer
   description: 'Protocol number: 6=TCP, 17=UDP'
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: NetworkConnection
 - field_name: proxy
   field_type: boolean
@@ -762,9 +762,9 @@ fields:
 - field_name: uid
   field_type: string
   description: Security Identifier (SID) of username
-  ecs_field: vendor.uid
+  ecs_field: event.id
   cim_field: uid
-  asim_field: uid
+  asim_field: EventOriginalUid
   category: Security
 - field_name: mitigation
   field_type: string
@@ -776,9 +776,9 @@ fields:
 - field_name: log_id
   field_type: integer
   description: EMET log ID
-  ecs_field: vendor.log_id
+  ecs_field: event.id
   cim_field: log_id
-  asim_field: log_id
+  asim_field: EventOriginalUid
   category: Security
 - field_name: log_message
   field_type: string
@@ -811,9 +811,9 @@ fields:
 - field_name: file_path
   field_type: string
   description: Path of binary file on server disk
-  ecs_field: vendor.file_path
+  ecs_field: file.path
   cim_field: file_path
-  asim_field: file_path
+  asim_field: TargetFilePath
   category: BinaryDocument
 - field_name: scores
   field_type: object

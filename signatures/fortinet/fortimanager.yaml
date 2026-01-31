@@ -7,7 +7,7 @@ source_document: FortiManager & FortiAnalyzer 7.4.0 Log Reference
 source_url: https://docs.fortinet.com/document/fortianalyzer/7.4.0/log-reference
 extraction_date: '2026-01-01'
 source_file: fortinet-fortimanager-signatures.json
-generated_at: '2026-01-29T05:58:59.934152'
+generated_at: '2026-01-31T04:25:53.794045'
 categories:
 - User/Authentication
 - Administrative Domain
@@ -32,171 +32,195 @@ fields:
 - field_name: log_id
   field_type: string
   description: 'Log ID (10-digit: type+subtype+msgid)'
-  ecs_field: vendor.log_id
+  ecs_field: event.id
   cim_field: log_id
-  asim_field: log_id
+  asim_field: EventOriginalUid
   category: Logging
+  display_name: Log Id
 - field_name: logid
   field_type: string
   description: Log ID (alternate format)
-  ecs_field: vendor.logid
-  cim_field: logid
-  asim_field: logid
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
   category: Logging
+  display_name: Logid
 - field_name: type
   field_type: string
   description: Log type (event, appevent)
-  ecs_field: vendor.type
-  cim_field: type
-  asim_field: type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Common
+  display_name: Type
 - field_name: subtype
   field_type: string
   description: Log subtype (system, report, ha, etc)
-  ecs_field: vendor.subtype
-  cim_field: subtype
-  asim_field: subtype
+  ecs_field: event.category
+  cim_field: log_subtype
+  asim_field: EventCategory
   category: Common
+  display_name: Subtype
 - field_name: eventtype
   field_type: string
   description: Event type for application logs
-  ecs_field: vendor.eventtype
-  cim_field: eventtype
-  asim_field: eventtype
+  ecs_field: event.type
+  cim_field: event_type
+  asim_field: EventType
   category: Common
+  display_name: Eventtype
 - field_name: level
   field_type: string
   description: Log level (notice, warning, error)
-  ecs_field: vendor.level
-  cim_field: level
-  asim_field: level
+  ecs_field: log.level
+  cim_field: severity
+  asim_field: EventSeverity
   category: Common
+  display_name: Level
 - field_name: pri
   field_type: string
   description: Priority level
-  ecs_field: vendor.pri
-  cim_field: pri
-  asim_field: pri
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Common
+  display_name: Pri
 - field_name: date
   field_type: datetime
   description: Event date
-  ecs_field: vendor.date
-  cim_field: date
-  asim_field: date
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Timestamp
+  display_name: Date
 - field_name: time
   field_type: datetime
   description: Event time
-  ecs_field: vendor.time
-  cim_field: time
-  asim_field: time
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Timestamp
+  display_name: Time
 - field_name: date_time
   field_type: datetime
   description: Combined date and time
-  ecs_field: vendor.date_time
-  cim_field: date_time
-  asim_field: date_time
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Timestamp
+  display_name: Date Time
 - field_name: start_time
   field_type: datetime
   description: Start time of operation
-  ecs_field: vendor.start_time
+  ecs_field: event.start
   cim_field: start_time
-  asim_field: start_time
+  asim_field: EventStartTime
   category: Timestamp
+  display_name: Start Time
 - field_name: end_time
   field_type: datetime
   description: End time of operation
-  ecs_field: vendor.end_time
+  ecs_field: event.end
   cim_field: end_time
-  asim_field: end_time
+  asim_field: EventEndTime
   category: Timestamp
+  display_name: End Time
 - field_name: tz
   field_type: string
   description: Timezone
-  ecs_field: vendor.tz
-  cim_field: tz
-  asim_field: tz
+  ecs_field: event.timezone
+  cim_field: timezone
+  asim_field: EventTimezone
   category: Common
+  display_name: Tz
 - field_name: user
   field_type: string
   description: Username performing action
-  ecs_field: vendor.user
+  ecs_field: user.name
   cim_field: user
-  asim_field: user
+  asim_field: TargetUsername
   category: User/Authentication
+  display_name: User
 - field_name: userfrom
   field_type: string
   description: Source of user session
-  ecs_field: vendor.userfrom
-  cim_field: userfrom
-  asim_field: userfrom
+  ecs_field: source.address
+  cim_field: src
+  asim_field: SrcIpAddr
   category: User/Authentication
+  display_name: Userfrom
 - field_name: user_from
   field_type: string
   description: Where user initiated activity
-  ecs_field: vendor.user_from
-  cim_field: user_from
-  asim_field: user_from
+  ecs_field: source.address
+  cim_field: src
+  asim_field: SrcIpAddr
   category: User/Authentication
+  display_name: User From
 - field_name: user_type
   field_type: string
   description: Type of user account
-  ecs_field: vendor.user_type
+  ecs_field: user.roles
   cim_field: user_type
-  asim_field: user_type
+  asim_field: TargetUserType
   category: User/Authentication
+  display_name: User Type
 - field_name: userid
   field_type: string
   description: User identifier
-  ecs_field: vendor.userid
-  cim_field: userid
-  asim_field: userid
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: TargetUserId
   category: User/Authentication
+  display_name: Userid
 - field_name: adminprof
   field_type: string
   description: Admin profile name
-  ecs_field: vendor.adminprof
-  cim_field: adminprof
-  asim_field: adminprof
+  ecs_field: user.roles
+  cim_field: admin_profile
+  asim_field: TargetUserType
   category: User/Authentication
+  display_name: Adminprof
 - field_name: authmsg
   field_type: string
   description: Authentication message
-  ecs_field: vendor.authmsg
-  cim_field: authmsg
-  asim_field: authmsg
+  ecs_field: event.reason
+  cim_field: auth_message
+  asim_field: EventReason
   category: User/Authentication
+  display_name: Authmsg
 - field_name: devid
   field_type: string
   description: Device ID
-  ecs_field: vendor.devid
-  cim_field: devid
-  asim_field: devid
+  ecs_field: observer.serial_number
+  cim_field: device_id
+  asim_field: DvcId
   category: Device
+  display_name: Devid
 - field_name: device
   field_type: string
   description: Device name
-  ecs_field: vendor.device
-  cim_field: device
-  asim_field: device
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Device
+  display_name: Device
 - field_name: dev_oid
   field_type: string
   description: Device object ID
-  ecs_field: vendor.dev_oid
-  cim_field: dev_oid
-  asim_field: dev_oid
+  ecs_field: observer.id
+  cim_field: dvc_id
+  asim_field: DvcId
   category: Device
+  display_name: Dev Oid
 - field_name: serial
   field_type: string
   description: Device serial number
-  ecs_field: vendor.serial
-  cim_field: serial
-  asim_field: serial
+  ecs_field: observer.serial_number
+  cim_field: device_serial
+  asim_field: DvcSerial
   category: Device
+  display_name: Serial
 - field_name: vdom
   field_type: string
   description: Virtual domain
@@ -204,6 +228,7 @@ fields:
   cim_field: vdom
   asim_field: vdom
   category: Administrative Domain
+  display_name: Vdom
 - field_name: vdoms
   field_type: string
   description: Virtual domains list
@@ -211,34 +236,39 @@ fields:
   cim_field: vdoms
   asim_field: vdoms
   category: Administrative Domain
+  display_name: Vdoms
 - field_name: vd
   field_type: string
   description: Virtual domain (short)
-  ecs_field: vendor.vd
-  cim_field: vd
-  asim_field: vd
+  ecs_field: observer.name
+  cim_field: virtual_domain
+  asim_field: DvcDomain
   category: Common
+  display_name: Vd
 - field_name: adom
   field_type: string
   description: Administrative domain name
-  ecs_field: vendor.adom
+  ecs_field: observer.ingress.zone
   cim_field: adom
-  asim_field: adom
+  asim_field: SrcZone
   category: Administrative Domain
+  display_name: Adom
 - field_name: adom_oid
   field_type: string
   description: ADOM object ID
-  ecs_field: vendor.adom_oid
-  cim_field: adom_oid
-  asim_field: adom_oid
+  ecs_field: observer.id
+  cim_field: adom_id
+  asim_field: DvcId
   category: Administrative Domain
+  display_name: Adom Oid
 - field_name: adomlock
   field_type: string
   description: ADOM lock status
-  ecs_field: vendor.adomlock
-  cim_field: adomlock
-  asim_field: adomlock
+  ecs_field: event.action
+  cim_field: adom_lock
+  asim_field: EventType
   category: Administrative Domain
+  display_name: Adomlock
 - field_name: inst_adom
   field_type: string
   description: Installation ADOM
@@ -246,6 +276,7 @@ fields:
   cim_field: inst_adom
   asim_field: inst_adom
   category: Administrative Domain
+  display_name: Inst Adom
 - field_name: upgrade_adom
   field_type: string
   description: Upgrade ADOM
@@ -253,83 +284,95 @@ fields:
   cim_field: upgrade_adom
   asim_field: upgrade_adom
   category: Administrative Domain
+  display_name: Upgrade Adom
 - field_name: action
   field_type: string
   description: Action performed
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: Action/Result
+  display_name: Action
 - field_name: operation
   field_type: string
   description: Operation type
-  ecs_field: vendor.operation
-  cim_field: operation
-  asim_field: operation
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Common
+  display_name: Operation
 - field_name: status
   field_type: string
   description: Operation status
-  ecs_field: vendor.status
+  ecs_field: event.outcome
   cim_field: status
-  asim_field: status
+  asim_field: EventResult
   category: Action/Result
+  display_name: Status
 - field_name: result
   field_type: string
   description: Operation result
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Action/Result
+  display_name: Result
 - field_name: successful
   field_type: string
   description: Success indicator
-  ecs_field: vendor.successful
-  cim_field: successful
-  asim_field: successful
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
   category: Action/Result
+  display_name: Successful
 - field_name: error
   field_type: string
   description: Error message
-  ecs_field: vendor.error
-  cim_field: error
-  asim_field: error
+  ecs_field: error.message
+  cim_field: error_msg
+  asim_field: EventMessage
   category: Action/Result
+  display_name: Error
 - field_name: errcode
   field_type: string
   description: Error code
-  ecs_field: vendor.errcode
-  cim_field: errcode
-  asim_field: errcode
+  ecs_field: error.code
+  cim_field: error_code
+  asim_field: EventCode
   category: Common
+  display_name: Errcode
 - field_name: msg
   field_type: string
   description: Log message text
-  ecs_field: vendor.msg
+  ecs_field: message
   cim_field: msg
-  asim_field: msg
+  asim_field: EventMessage
   category: Logging
+  display_name: Msg
 - field_name: desc
   field_type: string
   description: Description of event
-  ecs_field: vendor.desc
-  cim_field: desc
-  asim_field: desc
+  ecs_field: message
+  cim_field: description
+  asim_field: EventMessage
   category: Common
+  display_name: Desc
 - field_name: detail
   field_type: string
   description: Detailed information
-  ecs_field: vendor.detail
+  ecs_field: event.original
   cim_field: detail
-  asim_field: detail
+  asim_field: EventOriginal
   category: Common
+  display_name: Detail
 - field_name: note
   field_type: string
   description: Additional notes
-  ecs_field: vendor.note
+  ecs_field: event.reason
   cim_field: note
-  asim_field: note
+  asim_field: EventReason
   category: Common
+  display_name: Note
 - field_name: comment
   field_type: string
   description: User comment
@@ -337,97 +380,111 @@ fields:
   cim_field: comment
   asim_field: comment
   category: Common
+  display_name: Comment
 - field_name: extrainfo
   field_type: string
   description: Extra information
-  ecs_field: vendor.extrainfo
-  cim_field: extrainfo
-  asim_field: extrainfo
+  ecs_field: event.original
+  cim_field: extra_info
+  asim_field: EventOriginal
   category: Common
+  display_name: Extrainfo
 - field_name: object
   field_type: string
   description: Object being modified
-  ecs_field: vendor.object
+  ecs_field: file.name
   cim_field: object
-  asim_field: object
+  asim_field: TargetFileName
   category: Configuration
+  display_name: Object
 - field_name: objname
   field_type: string
   description: Object name
-  ecs_field: vendor.objname
-  cim_field: objname
-  asim_field: objname
+  ecs_field: file.name
+  cim_field: object_name
+  asim_field: TargetFileName
   category: Configuration
+  display_name: Objname
 - field_name: objtype
   field_type: string
   description: Object type
-  ecs_field: vendor.objtype
-  cim_field: objtype
-  asim_field: objtype
+  ecs_field: file.type
+  cim_field: object_type
+  asim_field: TargetFileType
   category: Configuration
+  display_name: Objtype
 - field_name: objattr
   field_type: string
   description: Object attribute
-  ecs_field: vendor.objattr
-  cim_field: objattr
-  asim_field: objattr
+  ecs_field: file.attributes
+  cim_field: object_attr
+  asim_field: TargetFileAttributes
   category: Configuration
+  display_name: Objattr
 - field_name: attrname
   field_type: string
   description: Attribute name
-  ecs_field: vendor.attrname
-  cim_field: attrname
-  asim_field: attrname
+  ecs_field: file.attributes
+  cim_field: attr_name
+  asim_field: TargetFileAttributes
   category: Configuration
+  display_name: Attrname
 - field_name: old_value
   field_type: string
   description: Previous value
-  ecs_field: vendor.old_value
+  ecs_field: event.original
   cim_field: old_value
-  asim_field: old_value
+  asim_field: EventOriginal
   category: Configuration
+  display_name: Old Value
 - field_name: new_value
   field_type: string
   description: New value
-  ecs_field: vendor.new_value
+  ecs_field: event.outcome
   cim_field: new_value
-  asim_field: new_value
+  asim_field: EventResult
   category: Configuration
+  display_name: New Value
 - field_name: changes
   field_type: string
   description: Configuration changes
-  ecs_field: vendor.changes
+  ecs_field: event.original
   cim_field: changes
-  asim_field: changes
+  asim_field: EventOriginal
   category: Configuration
+  display_name: Changes
 - field_name: pkg
   field_type: string
   description: Package name
-  ecs_field: vendor.pkg
-  cim_field: pkg
-  asim_field: pkg
+  ecs_field: rule.ruleset
+  cim_field: package
+  asim_field: RuleRuleset
   category: Policy/Package
+  display_name: Pkg
 - field_name: pkgname
   field_type: string
   description: Policy package name
-  ecs_field: vendor.pkgname
-  cim_field: pkgname
-  asim_field: pkgname
+  ecs_field: rule.ruleset
+  cim_field: package_name
+  asim_field: RuleRuleset
   category: Policy/Package
+  display_name: Pkgname
 - field_name: pkg_oid
   field_type: string
   description: Package object ID
-  ecs_field: vendor.pkg_oid
-  cim_field: pkg_oid
-  asim_field: pkg_oid
+  ecs_field: rule.id
+  cim_field: package_id
+  asim_field: RuleNumber
   category: Policy/Package
+  display_name: Pkg Oid
 - field_name: pkgadom
   field_type: string
   description: Package ADOM
-  ecs_field: vendor.pkgadom
-  cim_field: pkgadom
-  asim_field: pkgadom
+  ecs_field: rule.ruleset
+  cim_field: package_adom
+  asim_field: RuleRuleset
   category: Administrative Domain
+  display_name: Pkgadom
 - field_name: ppkgname
   field_type: string
   description: Parent package name
@@ -435,20 +492,23 @@ fields:
   cim_field: ppkgname
   asim_field: ppkgname
   category: Policy/Package
+  display_name: Ppkgname
 - field_name: instpkg
   field_type: string
   description: Installed package
-  ecs_field: vendor.instpkg
-  cim_field: instpkg
-  asim_field: instpkg
+  ecs_field: rule.ruleset
+  cim_field: installed_package
+  asim_field: RuleRuleset
   category: Policy/Package
+  display_name: Instpkg
 - field_name: package_type
   field_type: string
   description: Type of package
-  ecs_field: vendor.package_type
+  ecs_field: rule.category
   cim_field: package_type
-  asim_field: package_type
+  asim_field: RuleType
   category: Common
+  display_name: Package Type
 - field_name: package_desc
   field_type: string
   description: Package description
@@ -456,41 +516,47 @@ fields:
   cim_field: package_desc
   asim_field: package_desc
   category: Common
+  display_name: Package Desc
 - field_name: script
   field_type: string
   description: Script name
-  ecs_field: vendor.script
+  ecs_field: process.command_line
   cim_field: script
-  asim_field: script
+  asim_field: TargetProcessCommandLine
   category: Common
+  display_name: Script
 - field_name: cli_act
   field_type: string
   description: CLI action
-  ecs_field: vendor.cli_act
-  cim_field: cli_act
-  asim_field: cli_act
+  ecs_field: process.command_line
+  cim_field: cli_action
+  asim_field: TargetProcessCommandLine
   category: Common
+  display_name: Cli Act
 - field_name: cmd_from
   field_type: string
   description: Command source
-  ecs_field: vendor.cmd_from
-  cim_field: cmd_from
-  asim_field: cmd_from
+  ecs_field: source.address
+  cim_field: cmd_source
+  asim_field: SrcIpAddr
   category: Common
+  display_name: Cmd From
 - field_name: logdev_id
   field_type: string
   description: Logging device ID
-  ecs_field: vendor.logdev_id
-  cim_field: logdev_id
-  asim_field: logdev_id
+  ecs_field: observer.id
+  cim_field: log_device_id
+  asim_field: DvcId
   category: Device
+  display_name: Logdev Id
 - field_name: logdev_name
   field_type: string
   description: Logging device name
-  ecs_field: vendor.logdev_name
-  cim_field: logdev_name
-  asim_field: logdev_name
+  ecs_field: observer.name
+  cim_field: log_device
+  asim_field: DvcHostname
   category: Device
+  display_name: Logdev Name
 - field_name: logdev_last_logging
   field_type: datetime
   description: Last logging time
@@ -498,6 +564,7 @@ fields:
   cim_field: logdev_last_logging
   asim_field: logdev_last_logging
   category: Device
+  display_name: Logdev Last Logging
 - field_name: logdev_offline_
   field_type: string
   description: Offline status
@@ -505,6 +572,7 @@ fields:
   cim_field: logdev_offline_
   asim_field: logdev_offline_
   category: Device
+  display_name: 'Logdev Offline '
 - field_name: devlog
   field_type: string
   description: Device log info
@@ -512,48 +580,55 @@ fields:
   cim_field: devlog
   asim_field: devlog
   category: Device
+  display_name: Devlog
 - field_name: lograte
   field_type: int
   description: Log rate
-  ecs_field: vendor.lograte
-  cim_field: lograte
-  asim_field: lograte
+  ecs_field: event.rate
+  cim_field: log_rate
+  asim_field: EventRate
   category: Logging
+  display_name: Lograte
 - field_name: logratelimit
   field_type: int
   description: Log rate limit
-  ecs_field: vendor.logratelimit
-  cim_field: logratelimit
-  asim_field: logratelimit
+  ecs_field: event.rate
+  cim_field: log_rate_limit
+  asim_field: EventRate
   category: Logging
+  display_name: Logratelimit
 - field_name: logratepeak
   field_type: int
   description: Peak log rate
-  ecs_field: vendor.logratepeak
-  cim_field: logratepeak
-  asim_field: logratepeak
+  ecs_field: event.rate
+  cim_field: log_rate_peak
+  asim_field: EventRate
   category: Logging
+  display_name: Logratepeak
 - field_name: msgrate
   field_type: int
   description: Message rate
-  ecs_field: vendor.msgrate
-  cim_field: msgrate
-  asim_field: msgrate
+  ecs_field: event.rate
+  cim_field: message_rate
+  asim_field: EventRate
   category: Logging
+  display_name: Msgrate
 - field_name: log_size
   field_type: int
   description: Log size
-  ecs_field: vendor.log_size
+  ecs_field: file.size
   cim_field: log_size
-  asim_field: log_size
+  asim_field: TargetFileSize
   category: Logging
+  display_name: Log Size
 - field_name: log_path
   field_type: string
   description: Log file path
-  ecs_field: vendor.log_path
+  ecs_field: file.path
   cim_field: log_path
-  asim_field: log_path
+  asim_field: TargetFilePath
   category: Logging
+  display_name: Log Path
 - field_name: report_source
   field_type: string
   description: Report source
@@ -561,6 +636,7 @@ fields:
   cim_field: report_source
   asim_field: report_source
   category: Reporting
+  display_name: Report Source
 - field_name: report_source_id
   field_type: string
   description: Report source ID
@@ -568,20 +644,23 @@ fields:
   cim_field: report_source_id
   asim_field: report_source_id
   category: Reporting
+  display_name: Report Source Id
 - field_name: incident_id
   field_type: string
   description: Incident ID
-  ecs_field: vendor.incident_id
+  ecs_field: event.id
   cim_field: incident_id
-  asim_field: incident_id
+  asim_field: EventOriginalUid
   category: Incident Management
+  display_name: Incident Id
 - field_name: incident_severity
   field_type: string
   description: Incident severity
-  ecs_field: vendor.incident_severity
+  ecs_field: event.severity
   cim_field: incident_severity
-  asim_field: incident_severity
+  asim_field: EventSeverity
   category: Incident Management
+  display_name: Incident Severity
 - field_name: incident_assigned_
   field_type: string
   description: Incident assignee
@@ -589,6 +668,7 @@ fields:
   cim_field: incident_assigned_
   asim_field: incident_assigned_
   category: Incident Management
+  display_name: 'Incident Assigned '
 - field_name: incident_other_attrs
   field_type: string
   description: Other incident attributes
@@ -596,69 +676,79 @@ fields:
   cim_field: incident_other_attrs
   asim_field: incident_other_attrs
   category: Incident Management
+  display_name: Incident Other Attrs
 - field_name: analyst
   field_type: string
   description: Analyst name
-  ecs_field: vendor.analyst
+  ecs_field: user.name
   cim_field: analyst
-  asim_field: analyst
+  asim_field: TargetUsername
   category: Incident Management
+  display_name: Analyst
 - field_name: affected_assets
   field_type: string
   description: Affected assets list
-  ecs_field: vendor.affected_assets
+  ecs_field: host.name
   cim_field: affected_assets
-  asim_field: affected_assets
+  asim_field: DvcHostname
   category: Incident Management
+  display_name: Affected Assets
 - field_name: playbook_id
   field_type: string
   description: Playbook ID
-  ecs_field: vendor.playbook_id
+  ecs_field: rule.id
   cim_field: playbook_id
-  asim_field: playbook_id
+  asim_field: RuleNumber
   category: Automation
+  display_name: Playbook Id
 - field_name: playbook_name
   field_type: string
   description: Playbook name
-  ecs_field: vendor.playbook_name
-  cim_field: playbook_name
-  asim_field: playbook_name
+  ecs_field: rule.name
+  cim_field: playbook
+  asim_field: RuleName
   category: Automation
+  display_name: Playbook Name
 - field_name: task_id
   field_type: string
   description: Task ID
-  ecs_field: vendor.task_id
+  ecs_field: event.id
   cim_field: task_id
-  asim_field: task_id
+  asim_field: EventOriginalUid
   category: Automation
+  display_name: Task Id
 - field_name: task_name
   field_type: string
   description: Task name
-  ecs_field: vendor.task_name
-  cim_field: task_name
-  asim_field: task_name
+  ecs_field: event.action
+  cim_field: task
+  asim_field: EventType
   category: Automation
+  display_name: Task Name
 - field_name: trigger_name
   field_type: string
   description: Trigger name
-  ecs_field: vendor.trigger_name
-  cim_field: trigger_name
-  asim_field: trigger_name
+  ecs_field: rule.name
+  cim_field: trigger
+  asim_field: RuleName
   category: Automation
+  display_name: Trigger Name
 - field_name: trigger_type
   field_type: string
   description: Trigger type
-  ecs_field: vendor.trigger_type
+  ecs_field: rule.category
   cim_field: trigger_type
-  asim_field: trigger_type
+  asim_field: RuleType
   category: Automation
+  display_name: Trigger Type
 - field_name: connector_name
   field_type: string
   description: Connector name
-  ecs_field: vendor.connector_name
-  cim_field: connector_name
-  asim_field: connector_name
+  ecs_field: network.application
+  cim_field: connector
+  asim_field: DstAppName
   category: Automation
+  display_name: Connector Name
 - field_name: data_src
   field_type: string
   description: Data source
@@ -666,6 +756,7 @@ fields:
   cim_field: data_src
   asim_field: data_src
   category: Reporting
+  display_name: Data Src
 - field_name: data_src_id
   field_type: string
   description: Data source ID
@@ -673,6 +764,7 @@ fields:
   cim_field: data_src_id
   asim_field: data_src_id
   category: Reporting
+  display_name: Data Src Id
 - field_name: data_src_type
   field_type: string
   description: Data source type
@@ -680,6 +772,7 @@ fields:
   cim_field: data_src_type
   asim_field: data_src_type
   category: Reporting
+  display_name: Data Src Type
 - field_name: attach_source
   field_type: string
   description: Attachment source
@@ -687,6 +780,7 @@ fields:
   cim_field: attach_source
   asim_field: attach_source
   category: Reporting
+  display_name: Attach Source
 - field_name: attach_source_id
   field_type: string
   description: Attachment source ID
@@ -694,6 +788,7 @@ fields:
   cim_field: attach_source_id
   asim_field: attach_source_id
   category: Reporting
+  display_name: Attach Source Id
 - field_name: attachment
   field_type: string
   description: Attachment name
@@ -701,6 +796,7 @@ fields:
   cim_field: attachment
   asim_field: attachment
   category: Reporting
+  display_name: Attachment
 - field_name: attachment_type
   field_type: string
   description: Attachment type
@@ -708,6 +804,7 @@ fields:
   cim_field: attachment_type
   asim_field: attachment_type
   category: Reporting
+  display_name: Attachment Type
 - field_name: event
   field_type: string
   description: Event name
@@ -715,62 +812,71 @@ fields:
   cim_field: event
   asim_field: event
   category: Common
+  display_name: Event
 - field_name: event_id
   field_type: string
   description: Event ID
-  ecs_field: vendor.event_id
+  ecs_field: event.id
   cim_field: event_id
-  asim_field: event_id
+  asim_field: EventOriginalUid
   category: Common
+  display_name: Event Id
 - field_name: cpuusage
   field_type: int
   description: CPU usage percentage
-  ecs_field: vendor.cpuusage
-  cim_field: cpuusage
-  asim_field: cpuusage
+  ecs_field: host.cpu.usage
+  cim_field: cpu_usage
+  asim_field: DvcCpuUsage
   category: System Metrics
+  display_name: Cpuusage
 - field_name: memusage
   field_type: int
   description: Memory usage percentage
-  ecs_field: vendor.memusage
-  cim_field: memusage
-  asim_field: memusage
+  ecs_field: host.memory.usage
+  cim_field: mem_usage
+  asim_field: DvcMemUsage
   category: System Metrics
+  display_name: Memusage
 - field_name: diskusage
   field_type: int
   description: Disk usage percentage
-  ecs_field: vendor.diskusage
-  cim_field: diskusage
-  asim_field: diskusage
+  ecs_field: host.disk.usage
+  cim_field: disk_usage
+  asim_field: DvcDiskUsage
   category: System Metrics
+  display_name: Diskusage
 - field_name: capacity
   field_type: int
   description: Storage capacity
-  ecs_field: vendor.capacity
+  ecs_field: host.disk.capacity
   cim_field: capacity
-  asim_field: capacity
+  asim_field: DvcDiskCapacity
   category: System Metrics
+  display_name: Capacity
 - field_name: use_mb
   field_type: int
   description: Used megabytes
-  ecs_field: vendor.use_mb
-  cim_field: use_mb
-  asim_field: use_mb
+  ecs_field: host.disk.used
+  cim_field: used_mb
+  asim_field: DvcDiskUsed
   category: Common
+  display_name: Use Mb
 - field_name: max_mb
   field_type: int
   description: Maximum megabytes
-  ecs_field: vendor.max_mb
+  ecs_field: host.disk.capacity
   cim_field: max_mb
-  asim_field: max_mb
+  asim_field: DvcDiskCapacity
   category: Common
+  display_name: Max Mb
 - field_name: quota
   field_type: int
   description: Quota limit
-  ecs_field: vendor.quota
+  ecs_field: host.disk.quota
   cim_field: quota
-  asim_field: quota
+  asim_field: DvcDiskQuota
   category: System Metrics
+  display_name: Quota
 - field_name: percent
   field_type: int
   description: Percentage value
@@ -778,6 +884,7 @@ fields:
   cim_field: percent
   asim_field: percent
   category: Common
+  display_name: Percent
 - field_name: disk_label
   field_type: string
   description: Disk label
@@ -785,6 +892,7 @@ fields:
   cim_field: disk_label
   asim_field: disk_label
   category: System Metrics
+  display_name: Disk Label
 - field_name: disk_stat_before
   field_type: string
   description: Disk status before
@@ -792,6 +900,7 @@ fields:
   cim_field: disk_stat_before
   asim_field: disk_stat_before
   category: System Metrics
+  display_name: Disk Stat Before
 - field_name: disk_stat_current
   field_type: string
   description: Current disk status
@@ -799,6 +908,7 @@ fields:
   cim_field: disk_stat_current
   asim_field: disk_stat_current
   category: System Metrics
+  display_name: Disk Stat Current
 - field_name: raid_stat_before
   field_type: string
   description: RAID status before
@@ -806,6 +916,7 @@ fields:
   cim_field: raid_stat_before
   asim_field: raid_stat_before
   category: System Metrics
+  display_name: Raid Stat Before
 - field_name: raid_stat_current
   field_type: string
   description: Current RAID status
@@ -813,13 +924,15 @@ fields:
   cim_field: raid_stat_current
   asim_field: raid_stat_current
   category: System Metrics
+  display_name: Raid Stat Current
 - field_name: remote_ip
   field_type: ip
   description: Remote IP address
-  ecs_field: vendor.remote_ip
-  cim_field: remote_ip
-  asim_field: remote_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Network
+  display_name: Remote Ip
 - field_name: remote_host
   field_type: string
   description: Remote hostname
@@ -827,13 +940,15 @@ fields:
   cim_field: remote_host
   asim_field: remote_host
   category: Network
+  display_name: Remote Host
 - field_name: remote_port
   field_type: port
   description: Remote port
-  ecs_field: vendor.remote_port
-  cim_field: remote_port
-  asim_field: remote_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Network
+  display_name: Remote Port
 - field_name: remote_path
   field_type: string
   description: Remote path
@@ -841,6 +956,7 @@ fields:
   cim_field: remote_path
   asim_field: remote_path
   category: Network
+  display_name: Remote Path
 - field_name: remote_filename
   field_type: string
   description: Remote filename
@@ -848,6 +964,7 @@ fields:
   cim_field: remote_filename
   asim_field: remote_filename
   category: Network
+  display_name: Remote Filename
 - field_name: address
   field_type: string
   description: Address
@@ -855,6 +972,7 @@ fields:
   cim_field: address
   asim_field: address
   category: Network
+  display_name: Address
 - field_name: peer
   field_type: string
   description: HA peer
@@ -862,6 +980,7 @@ fields:
   cim_field: peer
   asim_field: peer
   category: Network
+  display_name: Peer
 - field_name: intfname
   field_type: string
   description: Interface name
@@ -869,6 +988,7 @@ fields:
   cim_field: intfname
   asim_field: intfname
   category: Network
+  display_name: Intfname
 - field_name: dmstate
   field_type: string
   description: Device manager state
@@ -876,6 +996,7 @@ fields:
   cim_field: dmstate
   asim_field: dmstate
   category: High Availability
+  display_name: Dmstate
 - field_name: confstatus
   field_type: string
   description: Configuration status
@@ -883,6 +1004,7 @@ fields:
   cim_field: confstatus
   asim_field: confstatus
   category: Action/Result
+  display_name: Confstatus
 - field_name: connect_status
   field_type: string
   description: Connection status
@@ -890,6 +1012,7 @@ fields:
   cim_field: connect_status
   asim_field: connect_status
   category: Action/Result
+  display_name: Connect Status
 - field_name: operstat
   field_type: string
   description: Operational status
@@ -897,6 +1020,7 @@ fields:
   cim_field: operstat
   asim_field: operstat
   category: High Availability
+  display_name: Operstat
 - field_name: offline_stat
   field_type: string
   description: Offline status
@@ -904,6 +1028,7 @@ fields:
   cim_field: offline_stat
   asim_field: offline_stat
   category: High Availability
+  display_name: Offline Stat
 - field_name: stat
   field_type: string
   description: Status
@@ -911,6 +1036,7 @@ fields:
   cim_field: stat
   asim_field: stat
   category: High Availability
+  display_name: Stat
 - field_name: state
   field_type: string
   description: State
@@ -918,27 +1044,31 @@ fields:
   cim_field: state
   asim_field: state
   category: High Availability
+  display_name: State
 - field_name: version
   field_type: string
   description: Version number
-  ecs_field: vendor.version
+  ecs_field: observer.version
   cim_field: version
-  asim_field: version
+  asim_field: DvcVersion
   category: Version/Upgrade
+  display_name: Version
 - field_name: sw_version
   field_type: string
   description: Software version
-  ecs_field: vendor.sw_version
+  ecs_field: observer.version
   cim_field: sw_version
-  asim_field: sw_version
+  asim_field: DvcVersion
   category: Version/Upgrade
+  display_name: Sw Version
 - field_name: pre_version
   field_type: string
   description: Previous version
-  ecs_field: vendor.pre_version
+  ecs_field: event.original
   cim_field: pre_version
-  asim_field: pre_version
+  asim_field: EventOriginal
   category: Version/Upgrade
+  display_name: Pre Version
 - field_name: new_version
   field_type: string
   description: New version
@@ -946,20 +1076,23 @@ fields:
   cim_field: new_version
   asim_field: new_version
   category: Version/Upgrade
+  display_name: New Version
 - field_name: to_version
   field_type: string
   description: Target version
-  ecs_field: vendor.to_version
-  cim_field: to_version
-  asim_field: to_version
+  ecs_field: event.outcome
+  cim_field: target_version
+  asim_field: EventResult
   category: Version/Upgrade
+  display_name: To Version
 - field_name: to_build
   field_type: string
   description: Target build
-  ecs_field: vendor.to_build
-  cim_field: to_build
-  asim_field: to_build
+  ecs_field: event.outcome
+  cim_field: target_build
+  asim_field: EventResult
   category: Version/Upgrade
+  display_name: To Build
 - field_name: to_release
   field_type: string
   description: Target release
@@ -967,34 +1100,39 @@ fields:
   cim_field: to_release
   asim_field: to_release
   category: Version/Upgrade
+  display_name: To Release
 - field_name: upgrade_from
   field_type: string
   description: Upgrade from version
-  ecs_field: vendor.upgrade_from
+  ecs_field: event.original
   cim_field: upgrade_from
-  asim_field: upgrade_from
+  asim_field: EventOriginal
   category: Version/Upgrade
+  display_name: Upgrade From
 - field_name: upgrade_to
   field_type: string
   description: Upgrade to version
-  ecs_field: vendor.upgrade_to
+  ecs_field: event.outcome
   cim_field: upgrade_to
-  asim_field: upgrade_to
+  asim_field: EventResult
   category: Version/Upgrade
+  display_name: Upgrade To
 - field_name: upg_act
   field_type: string
   description: Upgrade action
-  ecs_field: vendor.upg_act
-  cim_field: upg_act
-  asim_field: upg_act
+  ecs_field: event.action
+  cim_field: upgrade_action
+  asim_field: EventType
   category: Common
+  display_name: Upg Act
 - field_name: revision
   field_type: string
   description: Revision number
-  ecs_field: vendor.revision
+  ecs_field: observer.version
   cim_field: revision
-  asim_field: revision
+  asim_field: DvcVersion
   category: Version/Upgrade
+  display_name: Revision
 - field_name: dbstatus
   field_type: string
   description: Database status
@@ -1002,6 +1140,7 @@ fields:
   cim_field: dbstatus
   asim_field: dbstatus
   category: Database
+  display_name: Dbstatus
 - field_name: dbver
   field_type: string
   description: Database version
@@ -1009,6 +1148,7 @@ fields:
   cim_field: dbver
   asim_field: dbver
   category: Database
+  display_name: Dbver
 - field_name: rundb_ver
   field_type: string
   description: Running database version
@@ -1016,6 +1156,7 @@ fields:
   cim_field: rundb_ver
   asim_field: rundb_ver
   category: Database
+  display_name: Rundb Ver
 - field_name: upddb_ver
   field_type: string
   description: Updated database version
@@ -1023,41 +1164,47 @@ fields:
   cim_field: upddb_ver
   asim_field: upddb_ver
   category: Database
+  display_name: Upddb Ver
 - field_name: certname
   field_type: string
   description: Certificate name
-  ecs_field: vendor.certname
-  cim_field: certname
-  asim_field: certname
+  ecs_field: tls.server.certificate
+  cim_field: cert_name
+  asim_field: TlsCertificate
   category: Certificate/License
+  display_name: Certname
 - field_name: certtype
   field_type: string
   description: Certificate type
-  ecs_field: vendor.certtype
-  cim_field: certtype
-  asim_field: certtype
+  ecs_field: tls.server.certificate
+  cim_field: cert_type
+  asim_field: TlsCertificateType
   category: Certificate/License
+  display_name: Certtype
 - field_name: expiration
   field_type: datetime
   description: Expiration date
-  ecs_field: vendor.expiration
+  ecs_field: tls.server.not_after
   cim_field: expiration
-  asim_field: expiration
+  asim_field: TlsExpiration
   category: Certificate/License
+  display_name: Expiration
 - field_name: valid
   field_type: string
   description: Validity status
-  ecs_field: vendor.valid
+  ecs_field: event.outcome
   cim_field: valid
-  asim_field: valid
+  asim_field: EventResult
   category: Certificate/License
+  display_name: Valid
 - field_name: license_type
   field_type: string
   description: License type
-  ecs_field: vendor.license_type
+  ecs_field: observer.licenses
   cim_field: license_type
-  asim_field: license_type
+  asim_field: DvcLicenseType
   category: Certificate/License
+  display_name: License Type
 - field_name: lickey_type
   field_type: string
   description: License key type
@@ -1065,27 +1212,31 @@ fields:
   cim_field: lickey_type
   asim_field: lickey_type
   category: Certificate/License
+  display_name: Lickey Type
 - field_name: max_adoms
   field_type: int
   description: Maximum ADOMs allowed
-  ecs_field: vendor.max_adoms
+  ecs_field: observer.licenses
   cim_field: max_adoms
-  asim_field: max_adoms
+  asim_field: DvcLicenses
   category: Administrative Domain
+  display_name: Max Adoms
 - field_name: session_id
   field_type: string
   description: Session ID
-  ecs_field: vendor.session_id
+  ecs_field: event.id
   cim_field: session_id
-  asim_field: session_id
+  asim_field: EventOriginalUid
   category: Common
+  display_name: Session Id
 - field_name: pid
   field_type: int
   description: Process ID
-  ecs_field: vendor.pid
-  cim_field: pid
-  asim_field: pid
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: TargetProcessId
   category: Common
+  display_name: Pid
 - field_name: module
   field_type: string
   description: Module name
@@ -1093,6 +1244,7 @@ fields:
   cim_field: module
   asim_field: module
   category: Common
+  display_name: Module
 - field_name: function
   field_type: string
   description: Function name
@@ -1100,20 +1252,23 @@ fields:
   cim_field: function
   asim_field: function
   category: Common
+  display_name: Function
 - field_name: service
   field_type: string
   description: Service name
-  ecs_field: vendor.service
+  ecs_field: network.protocol
   cim_field: service
-  asim_field: service
+  asim_field: NetworkApplicationProtocol
   category: Common
+  display_name: Service
 - field_name: app
   field_type: string
   description: Application name
-  ecs_field: vendor.app
+  ecs_field: network.protocol
   cim_field: app
-  asim_field: app
+  asim_field: DstAppName
   category: Common
+  display_name: App
 - field_name: file
   field_type: string
   description: File name
@@ -1121,13 +1276,15 @@ fields:
   cim_field: file
   asim_field: file
   category: Common
+  display_name: File
 - field_name: path
   field_type: string
   description: File path
-  ecs_field: vendor.path
-  cim_field: path
-  asim_field: path
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Common
+  display_name: Path
 - field_name: local_file
   field_type: string
   description: Local file path
@@ -1135,6 +1292,7 @@ fields:
   cim_field: local_file
   asim_field: local_file
   category: Common
+  display_name: Local File
 - field_name: lnk_path
   field_type: string
   description: Link path
@@ -1142,6 +1300,7 @@ fields:
   cim_field: lnk_path
   asim_field: lnk_path
   category: Common
+  display_name: Lnk Path
 - field_name: zip_path
   field_type: string
   description: ZIP file path
@@ -1149,13 +1308,15 @@ fields:
   cim_field: zip_path
   asim_field: zip_path
   category: Common
+  display_name: Zip Path
 - field_name: url
   field_type: string
   description: URL
-  ecs_field: vendor.url
+  ecs_field: url.original
   cim_field: url
-  asim_field: url
+  asim_field: Url
   category: Common
+  display_name: Url
 - field_name: sensor_name
   field_type: string
   description: Sensor name
@@ -1163,6 +1324,7 @@ fields:
   cim_field: sensor_name
   asim_field: sensor_name
   category: Common
+  display_name: Sensor Name
 - field_name: sensor_st
   field_type: string
   description: Sensor status
@@ -1170,6 +1332,7 @@ fields:
   cim_field: sensor_st
   asim_field: sensor_st
   category: Common
+  display_name: Sensor St
 - field_name: sensor_val
   field_type: string
   description: Sensor value
@@ -1177,34 +1340,39 @@ fields:
   cim_field: sensor_val
   asim_field: sensor_val
   category: Common
+  display_name: Sensor Val
 - field_name: category
   field_type: string
   description: Category
-  ecs_field: vendor.category
+  ecs_field: event.category
   cim_field: category
-  asim_field: category
+  asim_field: EventCategory
   category: Common
+  display_name: Category
 - field_name: importance
   field_type: string
   description: Importance level
-  ecs_field: vendor.importance
+  ecs_field: event.severity
   cim_field: importance
-  asim_field: importance
+  asim_field: EventSeverity
   category: Common
+  display_name: Importance
 - field_name: cause
   field_type: string
   description: Cause of event
-  ecs_field: vendor.cause
+  ecs_field: event.reason
   cim_field: cause
-  asim_field: cause
+  asim_field: EventReason
   category: Common
+  display_name: Cause
 - field_name: condition
   field_type: string
   description: Condition
-  ecs_field: vendor.condition
+  ecs_field: rule.condition
   cim_field: condition
-  asim_field: condition
+  asim_field: RuleCondition
   category: Common
+  display_name: Condition
 - field_name: constmsg
   field_type: string
   description: Constant message
@@ -1212,13 +1380,15 @@ fields:
   cim_field: constmsg
   asim_field: constmsg
   category: Logging
+  display_name: Constmsg
 - field_name: duration
   field_type: int
   description: Duration in seconds
-  ecs_field: vendor.duration
+  ecs_field: event.duration
   cim_field: duration
-  asim_field: duration
+  asim_field: EventDuration
   category: Timestamp
+  display_name: Duration
 - field_name: number
   field_type: int
   description: Numeric value
@@ -1226,6 +1396,7 @@ fields:
   cim_field: number
   asim_field: number
   category: Common
+  display_name: Number
 - field_name: rate
   field_type: int
   description: Rate value
@@ -1233,13 +1404,15 @@ fields:
   cim_field: rate
   asim_field: rate
   category: Common
+  display_name: Rate
 - field_name: title
   field_type: string
   description: Title
-  ecs_field: vendor.title
+  ecs_field: event.action
   cim_field: title
-  asim_field: title
+  asim_field: EventType
   category: Common
+  display_name: Title
 - field_name: when
   field_type: string
   description: When condition
@@ -1247,6 +1420,7 @@ fields:
   cim_field: when
   asim_field: when
   category: Common
+  display_name: When
 - field_name: allowed
   field_type: string
   description: Allowed status
@@ -1254,6 +1428,7 @@ fields:
   cim_field: allowed
   asim_field: allowed
   category: Common
+  display_name: Allowed
 - field_name: whitelist_size
   field_type: int
   description: Whitelist size
@@ -1261,34 +1436,39 @@ fields:
   cim_field: whitelist_size
   asim_field: whitelist_size
   category: Common
+  display_name: Whitelist Size
 - field_name: profname
   field_type: string
   description: Profile name
-  ecs_field: vendor.profname
-  cim_field: profname
-  asim_field: profname
+  ecs_field: rule.name
+  cim_field: profile
+  asim_field: RuleName
   category: Common
+  display_name: Profname
 - field_name: protocol
   field_type: string
   description: Protocol
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Common
+  display_name: Protocol
 - field_name: reboot_reason
   field_type: string
   description: Reboot reason
-  ecs_field: vendor.reboot_reason
+  ecs_field: event.reason
   cim_field: reboot_reason
-  asim_field: reboot_reason
+  asim_field: EventReason
   category: Common
+  display_name: Reboot Reason
 - field_name: shutdown_reason
   field_type: string
   description: Shutdown reason
-  ecs_field: vendor.shutdown_reason
+  ecs_field: event.reason
   cim_field: shutdown_reason
-  asim_field: shutdown_reason
+  asim_field: EventReason
   category: Common
+  display_name: Shutdown Reason
 - field_name: setup
   field_type: string
   description: Setup status
@@ -1296,6 +1476,7 @@ fields:
   cim_field: setup
   asim_field: setup
   category: Common
+  display_name: Setup
 - field_name: runfrom
   field_type: string
   description: Run from location
@@ -1303,20 +1484,23 @@ fields:
   cim_field: runfrom
   asim_field: runfrom
   category: Common
+  display_name: Runfrom
 - field_name: performed_on
   field_type: string
   description: Performed on target
-  ecs_field: vendor.performed_on
-  cim_field: performed_on
-  asim_field: performed_on
+  ecs_field: destination.address
+  cim_field: target
+  asim_field: DstHostname
   category: Common
+  display_name: Performed On
 - field_name: uid
   field_type: string
   description: Unique identifier
-  ecs_field: vendor.uid
+  ecs_field: event.id
   cim_field: uid
-  asim_field: uid
+  asim_field: EventOriginalUid
   category: Common
+  display_name: Uid
 - field_name: ustr
   field_type: string
   description: User string
@@ -1324,6 +1508,7 @@ fields:
   cim_field: ustr
   asim_field: ustr
   category: Common
+  display_name: Ustr
 - field_name: string
   field_type: string
   description: String value
@@ -1331,6 +1516,7 @@ fields:
   cim_field: string
   asim_field: string
   category: Common
+  display_name: String
 - field_name: enum
   field_type: string
   description: Enumeration value
@@ -1338,6 +1524,7 @@ fields:
   cim_field: enum
   asim_field: enum
   category: Common
+  display_name: Enum
 - field_name: metafield
   field_type: string
   description: Meta field name
@@ -1345,6 +1532,7 @@ fields:
   cim_field: metafield
   asim_field: metafield
   category: Common
+  display_name: Metafield
 - field_name: metafield_leng
   field_type: int
   description: Meta field length
@@ -1352,6 +1540,7 @@ fields:
   cim_field: metafield_leng
   asim_field: metafield_leng
   category: Common
+  display_name: Metafield Leng
 - field_name: metafield_stat
   field_type: string
   description: Meta field status
@@ -1359,6 +1548,7 @@ fields:
   cim_field: metafield_stat
   asim_field: metafield_stat
   category: High Availability
+  display_name: Metafield Stat
 - field_name: newname
   field_type: string
   description: New name
@@ -1366,6 +1556,7 @@ fields:
   cim_field: newname
   asim_field: newname
   category: Common
+  display_name: Newname
 - field_name: dvmdb_obj
   field_type: string
   description: DVM database object
@@ -1373,6 +1564,7 @@ fields:
   cim_field: dvmdb_obj
   asim_field: dvmdb_obj
   category: Database
+  display_name: Dvmdb Obj
 - field_name: inst_dev
   field_type: string
   description: Installation device
@@ -1380,13 +1572,15 @@ fields:
   cim_field: inst_dev
   asim_field: inst_dev
   category: Device
+  display_name: Inst Dev
 - field_name: job_id
   field_type: string
   description: Job ID
-  ecs_field: vendor.job_id
+  ecs_field: event.id
   cim_field: job_id
-  asim_field: job_id
+  asim_field: EventOriginalUid
   category: Common
+  display_name: Job Id
 - field_name: fips_err
   field_type: string
   description: FIPS error
@@ -1394,6 +1588,7 @@ fields:
   cim_field: fips_err
   asim_field: fips_err
   category: Common
+  display_name: Fips Err
 - field_name: fips_method
   field_type: string
   description: FIPS method
@@ -1401,6 +1596,7 @@ fields:
   cim_field: fips_method
   asim_field: fips_method
   category: Common
+  display_name: Fips Method
 - field_name: pty_err
   field_type: string
   description: PTY error
@@ -1408,6 +1604,7 @@ fields:
   cim_field: pty_err
   asim_field: pty_err
   category: Common
+  display_name: Pty Err
 - field_name: pty_oper
   field_type: string
   description: PTY operation
@@ -1415,6 +1612,7 @@ fields:
   cim_field: pty_oper
   asim_field: pty_oper
   category: Common
+  display_name: Pty Oper
 - field_name: pty_sess
   field_type: string
   description: PTY session
@@ -1422,6 +1620,7 @@ fields:
   cim_field: pty_sess
   asim_field: pty_sess
   category: Common
+  display_name: Pty Sess
 - field_name: pty_step
   field_type: string
   description: PTY step
@@ -1429,6 +1628,7 @@ fields:
   cim_field: pty_step
   asim_field: pty_step
   category: Common
+  display_name: Pty Step
 - field_name: uploading_cur_
   field_type: int
   description: Current upload count
@@ -1436,6 +1636,7 @@ fields:
   cim_field: uploading_cur_
   asim_field: uploading_cur_
   category: Common
+  display_name: 'Uploading Cur '
 - field_name: uploading_max_
   field_type: int
   description: Maximum upload count
@@ -1443,6 +1644,7 @@ fields:
   cim_field: uploading_max_
   asim_field: uploading_max_
   category: Common
+  display_name: 'Uploading Max '
 - field_name: uploading_oper
   field_type: string
   description: Upload operation
@@ -1450,6 +1652,7 @@ fields:
   cim_field: uploading_oper
   asim_field: uploading_oper
   category: Common
+  display_name: Uploading Oper
 - field_name: uploading_pid
   field_type: int
   description: Upload process ID
@@ -1457,6 +1660,7 @@ fields:
   cim_field: uploading_pid
   asim_field: uploading_pid
   category: Common
+  display_name: Uploading Pid
 - field_name: uploading_server_
   field_type: string
   description: Upload server
@@ -1464,6 +1668,7 @@ fields:
   cim_field: uploading_server_
   asim_field: uploading_server_
   category: Common
+  display_name: 'Uploading Server '
 - field_name: rolling_cur_number
   field_type: int
   description: Current rolling number
@@ -1471,6 +1676,7 @@ fields:
   cim_field: rolling_cur_number
   asim_field: rolling_cur_number
   category: Common
+  display_name: Rolling Cur Number
 - field_name: rolling_max_allowed
   field_type: int
   description: Maximum rolling allowed
@@ -1478,5 +1684,6 @@ fields:
   cim_field: rolling_max_allowed
   asim_field: rolling_max_allowed
   category: Common
+  display_name: Rolling Max Allowed
 notes: Management/audit logs for FortiManager and FortiAnalyzer - admin actions, config
   changes, incidents

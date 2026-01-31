@@ -7,7 +7,7 @@ source_document: Nginx Core Module and Log Module Documentation
 source_url: https://nginx.org/en/docs/http/ngx_http_log_module.html
 extraction_date: '2026-01-02'
 source_file: nginx-signatures.json
-generated_at: '2026-01-29T05:59:00.591424'
+generated_at: '2026-01-31T04:25:54.542373'
 categories:
 - Client
 - Request
@@ -23,79 +23,79 @@ fields:
 - field_name: $remote_addr
   field_type: ip
   description: Client IP address
-  ecs_field: vendor.$remote_addr
-  cim_field: $remote_addr
-  asim_field: $remote_addr
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Client
 - field_name: $binary_remote_addr
   field_type: binary
   description: Client address in binary form (4 bytes IPv4, 16 bytes IPv6)
-  ecs_field: vendor.$binary_remote_addr
-  cim_field: $binary_remote_addr
-  asim_field: $binary_remote_addr
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Client
 - field_name: $remote_port
   field_type: integer
   description: Client port
-  ecs_field: vendor.$remote_port
-  cim_field: $remote_port
-  asim_field: $remote_port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Client
 - field_name: $remote_user
   field_type: string
   description: User name supplied with Basic authentication
-  ecs_field: vendor.$remote_user
-  cim_field: $remote_user
-  asim_field: $remote_user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: Client
 - field_name: $request
   field_type: string
   description: Full original request line (method + URI + protocol)
-  ecs_field: vendor.$request
-  cim_field: $request
-  asim_field: $request
+  ecs_field: http.request.line
+  cim_field: http_request
+  asim_field: HttpRequest
   category: Request
 - field_name: $request_method
   field_type: string
   description: Request method (GET, POST, etc.)
-  ecs_field: vendor.$request_method
-  cim_field: $request_method
-  asim_field: $request_method
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: Request
 - field_name: $request_uri
   field_type: string
   description: Full original request URI with arguments
-  ecs_field: vendor.$request_uri
-  cim_field: $request_uri
-  asim_field: $request_uri
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
   category: Request
 - field_name: $uri
   field_type: string
   description: Current URI in request, normalized
-  ecs_field: vendor.$uri
-  cim_field: $uri
-  asim_field: $uri
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Request
 - field_name: $document_uri
   field_type: string
   description: Same as $uri
-  ecs_field: vendor.$document_uri
-  cim_field: $document_uri
-  asim_field: $document_uri
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Request
 - field_name: $args
   field_type: string
   description: Arguments in the request line
-  ecs_field: vendor.$args
-  cim_field: $args
-  asim_field: $args
+  ecs_field: url.query
+  cim_field: uri_query
+  asim_field: UrlQuery
   category: Request
 - field_name: $query_string
   field_type: string
   description: Same as $args
-  ecs_field: vendor.$query_string
-  cim_field: $query_string
-  asim_field: $query_string
+  ecs_field: url.query
+  cim_field: uri_query
+  asim_field: UrlQuery
   category: Request
 - field_name: $arg_name
   field_type: string
@@ -114,9 +114,9 @@ fields:
 - field_name: $request_body
   field_type: string
   description: Request body (when read to memory buffer)
-  ecs_field: vendor.$request_body
-  cim_field: $request_body
-  asim_field: $request_body
+  ecs_field: http.request.body.content
+  cim_field: request_body
+  asim_field: HttpRequestBody
   category: Request
 - field_name: $request_body_file
   field_type: string
@@ -142,9 +142,9 @@ fields:
 - field_name: $request_length
   field_type: integer
   description: Request length including line, header, and body
-  ecs_field: vendor.$request_length
-  cim_field: $request_length
-  asim_field: $request_length
+  ecs_field: http.request.bytes
+  cim_field: bytes_in
+  asim_field: SrcBytes
   category: Request
 - field_name: $request_filename
   field_type: string
@@ -156,23 +156,23 @@ fields:
 - field_name: $status
   field_type: integer
   description: Response status code
-  ecs_field: vendor.$status
-  cim_field: $status
-  asim_field: $status
+  ecs_field: http.response.status_code
+  cim_field: status
+  asim_field: HttpStatusCode
   category: Response
 - field_name: $body_bytes_sent
   field_type: integer
   description: Number of bytes sent to client (excluding headers)
-  ecs_field: vendor.$body_bytes_sent
-  cim_field: $body_bytes_sent
-  asim_field: $body_bytes_sent
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
   category: Response
 - field_name: $bytes_sent
   field_type: integer
   description: Total number of bytes sent to client
-  ecs_field: vendor.$bytes_sent
-  cim_field: $bytes_sent
-  asim_field: $bytes_sent
+  ecs_field: http.response.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
   category: Response
 - field_name: $sent_http_name
   field_type: string
@@ -191,16 +191,16 @@ fields:
 - field_name: $connection
   field_type: integer
   description: Connection serial number
-  ecs_field: vendor.$connection
-  cim_field: $connection
-  asim_field: $connection
+  ecs_field: network.session_id
+  cim_field: session_id
+  asim_field: NetworkSessionId
   category: Connection
 - field_name: $connection_requests
   field_type: integer
   description: Current number of requests through this connection
-  ecs_field: vendor.$connection_requests
-  cim_field: $connection_requests
-  asim_field: $connection_requests
+  ecs_field: http.request.id
+  cim_field: request_id
+  asim_field: HttpRequestId
   category: Connection
 - field_name: $connection_time
   field_type: float
@@ -212,37 +212,37 @@ fields:
 - field_name: $pipe
   field_type: string
   description: '''p'' if request was pipelined, ''.'' otherwise'
-  ecs_field: vendor.$pipe
-  cim_field: $pipe
-  asim_field: $pipe
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
   category: Connection
 - field_name: $request_time
   field_type: float
   description: Request processing time in seconds with milliseconds
-  ecs_field: vendor.$request_time
-  cim_field: $request_time
-  asim_field: $request_time
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: Timing
 - field_name: $msec
   field_type: float
   description: Current time in seconds with milliseconds resolution
-  ecs_field: vendor.$msec
-  cim_field: $msec
-  asim_field: $msec
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Timing
 - field_name: $time_local
   field_type: datetime
   description: Local time in Common Log Format
-  ecs_field: vendor.$time_local
-  cim_field: $time_local
-  asim_field: $time_local
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Timing
 - field_name: $time_iso8601
   field_type: datetime
   description: Local time in ISO 8601 standard format
-  ecs_field: vendor.$time_iso8601
-  cim_field: $time_iso8601
-  asim_field: $time_iso8601
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Timing
 - field_name: $http_name
   field_type: string
@@ -254,30 +254,30 @@ fields:
 - field_name: $http_referer
   field_type: string
   description: HTTP Referer header
-  ecs_field: vendor.$http_referer
-  cim_field: $http_referer
-  asim_field: $http_referer
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
   category: Headers
 - field_name: $http_user_agent
   field_type: string
   description: HTTP User-Agent header
-  ecs_field: vendor.$http_user_agent
-  cim_field: $http_user_agent
-  asim_field: $http_user_agent
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: HttpUserAgent
   category: Headers
 - field_name: $http_cookie
   field_type: string
   description: HTTP Cookie header
-  ecs_field: vendor.$http_cookie
-  cim_field: $http_cookie
-  asim_field: $http_cookie
+  ecs_field: http.request.cookie
+  cim_field: cookie
+  asim_field: HttpCookie
   category: Headers
 - field_name: $http_host
   field_type: string
   description: HTTP Host header
-  ecs_field: vendor.$http_host
-  cim_field: $http_host
-  asim_field: $http_host
+  ecs_field: url.domain
+  cim_field: dest
+  asim_field: DstHostname
   category: Headers
 - field_name: $cookie_name
   field_type: string
@@ -289,65 +289,65 @@ fields:
 - field_name: $content_length
   field_type: integer
   description: Content-Length request header field
-  ecs_field: vendor.$content_length
-  cim_field: $content_length
-  asim_field: $content_length
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
   category: Headers
 - field_name: $content_type
   field_type: string
   description: Content-Type request header field
-  ecs_field: vendor.$content_type
-  cim_field: $content_type
-  asim_field: $content_type
+  ecs_field: http.response.mime_type
+  cim_field: http_content_type
+  asim_field: HttpContentType
   category: Headers
 - field_name: $host
   field_type: string
   description: Host name from request line, Host header, or server name
-  ecs_field: vendor.$host
-  cim_field: $host
-  asim_field: $host
+  ecs_field: url.domain
+  cim_field: dest
+  asim_field: DstHostname
   category: Server
 - field_name: $hostname
   field_type: string
   description: Machine host name
-  ecs_field: vendor.$hostname
-  cim_field: $hostname
-  asim_field: $hostname
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Server
 - field_name: $server_addr
   field_type: ip
   description: Address of the server which accepted the request
-  ecs_field: vendor.$server_addr
-  cim_field: $server_addr
-  asim_field: $server_addr
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Server
 - field_name: $server_name
   field_type: string
   description: Name of the server which accepted the request
-  ecs_field: vendor.$server_name
-  cim_field: $server_name
-  asim_field: $server_name
+  ecs_field: destination.domain
+  cim_field: dest
+  asim_field: DstHostname
   category: Server
 - field_name: $server_port
   field_type: integer
   description: Port of the server which accepted the request
-  ecs_field: vendor.$server_port
-  cim_field: $server_port
-  asim_field: $server_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Server
 - field_name: $server_protocol
   field_type: string
   description: Request protocol (HTTP/1.0, HTTP/1.1, HTTP/2.0, HTTP/3.0)
-  ecs_field: vendor.$server_protocol
-  cim_field: $server_protocol
-  asim_field: $server_protocol
+  ecs_field: http.version
+  cim_field: http_version
+  asim_field: HttpVersion
   category: Server
 - field_name: $scheme
   field_type: string
   description: 'Request scheme: ''http'' or ''https'''
-  ecs_field: vendor.$scheme
-  cim_field: $scheme
-  asim_field: $scheme
+  ecs_field: url.scheme
+  cim_field: uri_scheme
+  asim_field: UrlScheme
   category: Server
 - field_name: $https
   field_type: string
@@ -366,9 +366,9 @@ fields:
 - field_name: $pid
   field_type: integer
   description: PID of the worker process
-  ecs_field: vendor.$pid
-  cim_field: $pid
-  asim_field: $pid
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: DvcProcessId
   category: Server
 - field_name: $document_root
   field_type: string

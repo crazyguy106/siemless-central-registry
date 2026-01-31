@@ -7,7 +7,7 @@ source_document: Fireware v12.10.x Log Message Catalog
 source_url: https://www.watchguard.com/help/docs/help-center/en-US/Content/Integration-Guides/log-catalog/log-catalog.html
 extraction_date: '2026-01-01'
 source_file: watchguard-firebox-signatures.json
-generated_at: '2026-01-29T05:59:01.741841'
+generated_at: '2026-01-31T04:25:55.861877'
 categories:
 - Proxy Policy
 - VPN
@@ -22,206 +22,235 @@ fields:
 - field_name: msg_id
   field_type: string
   description: Message identification number
-  ecs_field: vendor.msg_id
-  cim_field: msg_id
-  asim_field: msg_id
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
   category: Common
+  display_name: Msg Id
 - field_name: id
   field_type: string
   description: Message ID (alternative format)
-  ecs_field: vendor.id
-  cim_field: id
-  asim_field: id
+  ecs_field: network.packet_id
+  cim_field: packet_id
+  asim_field: NetworkPacketId
   category: Common
+  display_name: Id
 - field_name: proc_id
   field_type: string
   description: Process that handles the traffic
-  ecs_field: vendor.proc_id
-  cim_field: proc_id
-  asim_field: proc_id
+  ecs_field: process.name
+  cim_field: process
+  asim_field: TargetProcessName
   category: Common
+  display_name: Proc Id
 - field_name: rc
   field_type: int
   description: Return code for the packet
-  ecs_field: vendor.rc
-  cim_field: rc
-  asim_field: rc
+  ecs_field: event.code
+  cim_field: return_code
+  asim_field: EventOriginalType
   category: Common
+  display_name: Rc
 - field_name: src_ip
   field_type: ip
   description: Source IP address
-  ecs_field: vendor.src_ip
+  ecs_field: source.ip
   cim_field: src_ip
-  asim_field: src_ip
+  asim_field: SrcIpAddr
   category: Common
+  display_name: Src Ip
 - field_name: dst_ip
   field_type: ip
   description: Destination IP address
-  ecs_field: vendor.dst_ip
-  cim_field: dst_ip
-  asim_field: dst_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Common
+  display_name: Dst Ip
 - field_name: src_ip_nat
   field_type: ip
   description: NAT source IP address
-  ecs_field: vendor.src_ip_nat
-  cim_field: src_ip_nat
-  asim_field: src_ip_nat
+  ecs_field: source.nat.ip
+  cim_field: src_translated_ip
+  asim_field: SrcNatIpAddr
   category: Common
+  display_name: Src Ip Nat
 - field_name: dst_ip_nat
   field_type: ip
   description: NAT destination IP address
-  ecs_field: vendor.dst_ip_nat
-  cim_field: dst_ip_nat
-  asim_field: dst_ip_nat
+  ecs_field: destination.nat.ip
+  cim_field: dest_translated_ip
+  asim_field: DstNatIpAddr
   category: Common
+  display_name: Dst Ip Nat
 - field_name: src_port
   field_type: port
   description: Source port number
-  ecs_field: vendor.src_port
+  ecs_field: source.port
   cim_field: src_port
-  asim_field: src_port
+  asim_field: SrcPortNumber
   category: Common
+  display_name: Src Port
 - field_name: dst_port
   field_type: port
   description: Destination port number
-  ecs_field: vendor.dst_port
-  cim_field: dst_port
-  asim_field: dst_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Common
+  display_name: Dst Port
 - field_name: src_intf
   field_type: string
   description: Source interface
-  ecs_field: vendor.src_intf
-  cim_field: src_intf
-  asim_field: src_intf
+  ecs_field: observer.ingress.interface.name
+  cim_field: src_interface
+  asim_field: SrcInterfaceName
   category: Common
+  display_name: Src Intf
 - field_name: dst_intf
   field_type: string
   description: Destination interface
-  ecs_field: vendor.dst_intf
-  cim_field: dst_intf
-  asim_field: dst_intf
+  ecs_field: observer.egress.interface.name
+  cim_field: dest_interface
+  asim_field: DstInterfaceName
   category: Common
+  display_name: Dst Intf
 - field_name: protocol
   field_type: string
   description: Network protocol
-  ecs_field: vendor.protocol
-  cim_field: protocol
-  asim_field: protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Common
+  display_name: Protocol
 - field_name: service
   field_type: string
   description: Service name
-  ecs_field: vendor.service
+  ecs_field: network.protocol
   cim_field: service
-  asim_field: service
+  asim_field: NetworkApplicationProtocol
   category: Common
+  display_name: Service
 - field_name: sent_bytes
   field_type: int
   description: Bytes sent
-  ecs_field: vendor.sent_bytes
-  cim_field: sent_bytes
-  asim_field: sent_bytes
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Common
+  display_name: Sent Bytes
 - field_name: rcvd_bytes
   field_type: int
   description: Bytes received
-  ecs_field: vendor.rcvd_bytes
-  cim_field: rcvd_bytes
-  asim_field: rcvd_bytes
+  ecs_field: destination.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: Common
+  display_name: Rcvd Bytes
 - field_name: sent_pkts
   field_type: int
   description: Packets sent
-  ecs_field: vendor.sent_pkts
-  cim_field: sent_pkts
-  asim_field: sent_pkts
+  ecs_field: source.packets
+  cim_field: packets_out
+  asim_field: SrcPackets
   category: Common
+  display_name: Sent Pkts
 - field_name: rcvd_pkts
   field_type: int
   description: Packets received
-  ecs_field: vendor.rcvd_pkts
-  cim_field: rcvd_pkts
-  asim_field: rcvd_pkts
+  ecs_field: destination.packets
+  cim_field: packets_in
+  asim_field: DstPackets
   category: Common
+  display_name: Rcvd Pkts
 - field_name: duration
   field_type: int
   description: Connection duration in seconds
-  ecs_field: vendor.duration
+  ecs_field: event.duration
   cim_field: duration
-  asim_field: duration
+  asim_field: EventDuration
   category: Common
+  display_name: Duration
 - field_name: elapsed_time
   field_type: int
   description: Elapsed time
-  ecs_field: vendor.elapsed_time
-  cim_field: elapsed_time
-  asim_field: elapsed_time
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: Common
+  display_name: Elapsed Time
 - field_name: tcp_info
   field_type: string
   description: TCP packet info (offset, seq, win)
-  ecs_field: vendor.tcp_info
+  ecs_field: network.inner
   cim_field: tcp_info
-  asim_field: tcp_info
+  asim_field: NetworkProtocolDetails
   category: Common
+  display_name: Tcp Info
 - field_name: flags
   field_type: string
   description: TCP/connection flags
-  ecs_field: vendor.flags
-  cim_field: flags
-  asim_field: flags
+  ecs_field: network.ip_flags
+  cim_field: ip_flags
+  asim_field: IpFlags
   category: Common
+  display_name: Flags
 - field_name: type
   field_type: string
   description: ICMP type or log type
-  ecs_field: vendor.type
-  cim_field: type
-  asim_field: type
+  ecs_field: event.code
+  cim_field: event_type
+  asim_field: EventId
   category: Common
+  display_name: Type
 - field_name: code
   field_type: int
   description: ICMP code
-  ecs_field: vendor.code
+  ecs_field: event.code
   cim_field: code
-  asim_field: code
+  asim_field: EventCode
   category: Common
+  display_name: Code
 - field_name: ttl
   field_type: int
   description: Time to live
-  ecs_field: vendor.ttl
+  ecs_field: network.ttl
   cim_field: ttl
-  asim_field: ttl
+  asim_field: NetworkTtl
   category: Common
+  display_name: Ttl
 - field_name: packet_len
   field_type: int
   description: Packet length in bytes
-  ecs_field: vendor.packet_len
-  cim_field: packet_len
-  asim_field: packet_len
+  ecs_field: network.bytes
+  cim_field: bytes
+  asim_field: NetworkBytes
   category: Common
+  display_name: Packet Len
 - field_name: policy
   field_type: string
   description: Policy name
-  ecs_field: vendor.policy
+  ecs_field: rule.ruleset
   cim_field: policy
-  asim_field: policy
+  asim_field: RulesetName
   category: Common
+  display_name: Policy
 - field_name: policy_name
   field_type: string
   description: Policy name
-  ecs_field: vendor.policy_name
+  ecs_field: rule.name
   cim_field: policy_name
-  asim_field: policy_name
+  asim_field: RuleName
   category: Common
+  display_name: Policy Name
 - field_name: action
   field_type: string
   description: Action taken (Allow/Deny)
-  ecs_field: vendor.action
+  ecs_field: event.action
   cim_field: action
-  asim_field: action
+  asim_field: EventType
   category: Common
+  display_name: Action
 - field_name: disposition
   field_type: string
   description: Traffic disposition
@@ -229,272 +258,311 @@ fields:
   cim_field: disposition
   asim_field: disposition
   category: Common
+  display_name: Disposition
 - field_name: disp
   field_type: string
   description: Disposition code
-  ecs_field: vendor.disp
-  cim_field: disp
-  asim_field: disp
+  ecs_field: event.outcome
+  cim_field: disposition
+  asim_field: EventResult
   category: Common
+  display_name: Disp
 - field_name: app_ctl_disp
   field_type: int
   description: Application control disposition
-  ecs_field: vendor.app_ctl_disp
-  cim_field: app_ctl_disp
-  asim_field: app_ctl_disp
+  ecs_field: event.outcome
+  cim_field: app_control_disposition
+  asim_field: EventResult
   category: Common
+  display_name: App Ctl Disp
 - field_name: user
   field_type: string
   description: Username
-  ecs_field: vendor.user
+  ecs_field: user.name
   cim_field: user
-  asim_field: user
+  asim_field: TargetUsername
   category: Common
+  display_name: User
 - field_name: src_user
   field_type: string
   description: Source username
-  ecs_field: vendor.src_user
+  ecs_field: source.user.name
   cim_field: src_user
-  asim_field: src_user
+  asim_field: SrcUsername
   category: Common
+  display_name: Src User
 - field_name: dst_user
   field_type: string
   description: Destination username
-  ecs_field: vendor.dst_user
-  cim_field: dst_user
-  asim_field: dst_user
+  ecs_field: destination.user.name
+  cim_field: dest_user
+  asim_field: DstUsername
   category: Common
+  display_name: Dst User
 - field_name: auth_user
   field_type: string
   description: Authenticated username
-  ecs_field: vendor.auth_user
-  cim_field: auth_user
-  asim_field: auth_user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
   category: Common
+  display_name: Auth User
 - field_name: auth_domain
   field_type: string
   description: Authentication domain
-  ecs_field: vendor.auth_domain
-  cim_field: auth_domain
-  asim_field: auth_domain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
   category: Common
+  display_name: Auth Domain
 - field_name: auth_method
   field_type: string
   description: Authentication method
-  ecs_field: vendor.auth_method
+  ecs_field: event.action
   cim_field: auth_method
-  asim_field: auth_method
+  asim_field: LogonProtocol
   category: Common
+  display_name: Auth Method
 - field_name: proxy_act
   field_type: string
   description: Proxy action
-  ecs_field: vendor.proxy_act
-  cim_field: proxy_act
-  asim_field: proxy_act
+  ecs_field: event.action
+  cim_field: proxy_action
+  asim_field: EventType
   category: Common
+  display_name: Proxy Act
 - field_name: content_type
   field_type: string
   description: Content MIME type
-  ecs_field: vendor.content_type
+  ecs_field: http.response.mime_type
   cim_field: content_type
-  asim_field: content_type
+  asim_field: HttpContentType
   category: Common
+  display_name: Content Type
 - field_name: url
   field_type: string
   description: URL accessed
-  ecs_field: vendor.url
+  ecs_field: url.original
   cim_field: url
-  asim_field: url
+  asim_field: Url
   category: Common
+  display_name: Url
 - field_name: host
   field_type: string
   description: HTTP host
-  ecs_field: vendor.host
-  cim_field: host
-  asim_field: host
+  ecs_field: url.domain
+  cim_field: url_host
+  asim_field: UrlHost
   category: Common
+  display_name: Host
 - field_name: method
   field_type: string
   description: HTTP method
-  ecs_field: vendor.method
-  cim_field: method
-  asim_field: method
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: Common
+  display_name: Method
 - field_name: path
   field_type: string
   description: URL path
-  ecs_field: vendor.path
-  cim_field: path
-  asim_field: path
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Common
+  display_name: Path
 - field_name: referer
   field_type: string
   description: HTTP referer
-  ecs_field: vendor.referer
-  cim_field: referer
-  asim_field: referer
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
   category: Common
+  display_name: Referer
 - field_name: user_agent
   field_type: string
   description: HTTP user agent
-  ecs_field: vendor.user_agent
-  cim_field: user_agent
-  asim_field: user_agent
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: UserAgent
   category: Common
+  display_name: User Agent
 - field_name: app_name
   field_type: string
   description: Application name
-  ecs_field: vendor.app_name
-  cim_field: app_name
-  asim_field: app_name
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
   category: Common
+  display_name: App Name
 - field_name: app_id
   field_type: int
   description: Application ID
-  ecs_field: vendor.app_id
+  ecs_field: network.application
   cim_field: app_id
-  asim_field: app_id
+  asim_field: DstAppId
   category: Common
+  display_name: App Id
 - field_name: app_cat
   field_type: string
   description: Application category
-  ecs_field: vendor.app_cat
-  cim_field: app_cat
-  asim_field: app_cat
+  ecs_field: rule.category
+  cim_field: app_category
+  asim_field: RuleType
   category: Common
+  display_name: App Cat
 - field_name: app_cat_id
   field_type: int
   description: Application category ID
-  ecs_field: vendor.app_cat_id
-  cim_field: app_cat_id
-  asim_field: app_cat_id
+  ecs_field: rule.id
+  cim_field: app_category_id
+  asim_field: RuleNumber
   category: Common
+  display_name: App Cat Id
 - field_name: app_behavior
   field_type: string
   description: Application behavior
-  ecs_field: vendor.app_behavior
+  ecs_field: event.action
   cim_field: app_behavior
-  asim_field: app_behavior
+  asim_field: EventType
   category: Common
+  display_name: App Behavior
 - field_name: sig_id
   field_type: string
   description: Signature ID
-  ecs_field: vendor.sig_id
-  cim_field: sig_id
-  asim_field: sig_id
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: Common
+  display_name: Sig Id
 - field_name: sig_name
   field_type: string
   description: Signature name
-  ecs_field: vendor.sig_name
-  cim_field: sig_name
-  asim_field: sig_name
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
   category: Common
+  display_name: Sig Name
 - field_name: sig_vers
   field_type: string
   description: Signature version
-  ecs_field: vendor.sig_vers
-  cim_field: sig_vers
-  asim_field: sig_vers
+  ecs_field: rule.version
+  cim_field: signature_version
+  asim_field: RuleVersion
   category: Common
+  display_name: Sig Vers
 - field_name: threat_id
   field_type: string
   description: Threat ID
-  ecs_field: vendor.threat_id
+  ecs_field: threat.indicator.id
   cim_field: threat_id
-  asim_field: threat_id
+  asim_field: ThreatId
   category: Common
+  display_name: Threat Id
 - field_name: threat_name
   field_type: string
   description: Threat name
-  ecs_field: vendor.threat_name
+  ecs_field: threat.indicator.name
   cim_field: threat_name
-  asim_field: threat_name
+  asim_field: ThreatName
   category: Common
+  display_name: Threat Name
 - field_name: threat_level
   field_type: int
   description: Threat level/severity
-  ecs_field: vendor.threat_level
-  cim_field: threat_level
-  asim_field: threat_level
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Common
+  display_name: Threat Level
 - field_name: virus_name
   field_type: string
   description: Virus/malware name
-  ecs_field: vendor.virus_name
+  ecs_field: threat.indicator.name
   cim_field: virus_name
-  asim_field: virus_name
+  asim_field: ThreatName
   category: Common
+  display_name: Virus Name
 - field_name: spyware_name
   field_type: string
   description: Spyware name
-  ecs_field: vendor.spyware_name
+  ecs_field: threat.indicator.name
   cim_field: spyware_name
-  asim_field: spyware_name
+  asim_field: ThreatName
   category: Common
+  display_name: Spyware Name
 - field_name: intrusion_name
   field_type: string
   description: Intrusion name (IPS)
-  ecs_field: vendor.intrusion_name
+  ecs_field: threat.indicator.name
   cim_field: intrusion_name
-  asim_field: intrusion_name
+  asim_field: ThreatName
   category: Common
+  display_name: Intrusion Name
 - field_name: intrusion_action
   field_type: string
   description: IPS action taken
-  ecs_field: vendor.intrusion_action
-  cim_field: intrusion_action
-  asim_field: intrusion_action
+  ecs_field: event.action
+  cim_field: ips_action
+  asim_field: EventType
   category: Common
+  display_name: Intrusion Action
 - field_name: botnet_name
   field_type: string
   description: Botnet name
-  ecs_field: vendor.botnet_name
+  ecs_field: threat.indicator.name
   cim_field: botnet_name
-  asim_field: botnet_name
+  asim_field: ThreatName
   category: Common
+  display_name: Botnet Name
 - field_name: apt_name
   field_type: string
   description: APT name
-  ecs_field: vendor.apt_name
+  ecs_field: threat.indicator.name
   cim_field: apt_name
-  asim_field: apt_name
+  asim_field: ThreatName
   category: Common
+  display_name: Apt Name
 - field_name: file_name
   field_type: string
   description: File name
-  ecs_field: vendor.file_name
+  ecs_field: file.name
   cim_field: file_name
-  asim_field: file_name
+  asim_field: TargetFileName
   category: Common
+  display_name: File Name
 - field_name: file_size
   field_type: int
   description: File size in bytes
-  ecs_field: vendor.file_size
+  ecs_field: file.size
   cim_field: file_size
-  asim_field: file_size
+  asim_field: TargetFileSize
   category: Common
+  display_name: File Size
 - field_name: file_type
   field_type: string
   description: File type/extension
-  ecs_field: vendor.file_type
+  ecs_field: file.type
   cim_field: file_type
-  asim_field: file_type
+  asim_field: TargetFileType
   category: Common
+  display_name: File Type
 - field_name: file_hash
   field_type: string
   description: File hash
-  ecs_field: vendor.file_hash
+  ecs_field: file.hash.sha256
   cim_field: file_hash
-  asim_field: file_hash
+  asim_field: TargetFileSHA256
   category: Common
+  display_name: File Hash
 - field_name: md5
   field_type: string
   description: MD5 hash
-  ecs_field: vendor.md5
-  cim_field: md5
-  asim_field: md5
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
   category: Common
+  display_name: Md5
 - field_name: sha256
   field_type: string
   description: SHA256 hash
@@ -502,6 +570,7 @@ fields:
   cim_field: sha256
   asim_field: sha256
   category: Common
+  display_name: Sha256
 - field_name: attachment
   field_type: string
   description: Email attachment name
@@ -509,6 +578,7 @@ fields:
   cim_field: attachment
   asim_field: attachment
   category: Common
+  display_name: Attachment
 - field_name: vpn_type
   field_type: string
   description: VPN type
@@ -516,223 +586,255 @@ fields:
   cim_field: vpn_type
   asim_field: vpn_type
   category: Common
+  display_name: Vpn Type
 - field_name: tunnel_type
   field_type: string
   description: Tunnel type
-  ecs_field: vendor.tunnel_type
+  ecs_field: network.type
   cim_field: tunnel_type
-  asim_field: tunnel_type
+  asim_field: NetworkSessionId
   category: Common
+  display_name: Tunnel Type
 - field_name: tunnel_id
   field_type: string
   description: Tunnel ID
-  ecs_field: vendor.tunnel_id
+  ecs_field: network.session_id
   cim_field: tunnel_id
-  asim_field: tunnel_id
+  asim_field: NetworkSessionId
   category: Common
+  display_name: Tunnel Id
 - field_name: peer_ip
   field_type: ip
   description: VPN peer IP
-  ecs_field: vendor.peer_ip
-  cim_field: peer_ip
-  asim_field: peer_ip
+  ecs_field: destination.ip
+  cim_field: vpn_peer_ip
+  asim_field: DstIpAddr
   category: Common
+  display_name: Peer Ip
 - field_name: peer_gateway
   field_type: ip
   description: Peer gateway IP
-  ecs_field: vendor.peer_gateway
-  cim_field: peer_gateway
-  asim_field: peer_gateway
+  ecs_field: destination.ip
+  cim_field: vpn_gateway
+  asim_field: DstIpAddr
   category: Common
+  display_name: Peer Gateway
 - field_name: local_net
   field_type: string
   description: Local network
-  ecs_field: vendor.local_net
-  cim_field: local_net
-  asim_field: local_net
+  ecs_field: source.ip
+  cim_field: local_network
+  asim_field: SrcIpAddr
   category: Common
+  display_name: Local Net
 - field_name: remote_net
   field_type: string
   description: Remote network
-  ecs_field: vendor.remote_net
-  cim_field: remote_net
-  asim_field: remote_net
+  ecs_field: destination.ip
+  cim_field: remote_network
+  asim_field: DstIpAddr
   category: Common
+  display_name: Remote Net
 - field_name: ike_version
   field_type: string
   description: IKE version
-  ecs_field: vendor.ike_version
+  ecs_field: network.protocol
   cim_field: ike_version
-  asim_field: ike_version
+  asim_field: NetworkApplicationProtocol
   category: Common
+  display_name: Ike Version
 - field_name: spi
   field_type: string
   description: Security Parameter Index
-  ecs_field: vendor.spi
+  ecs_field: network.session_id
   cim_field: spi
-  asim_field: spi
+  asim_field: NetworkSessionId
   category: Common
+  display_name: Spi
 - field_name: cluster_id
   field_type: string
   description: Cluster ID
-  ecs_field: vendor.cluster_id
+  ecs_field: observer.cluster.uuid
   cim_field: cluster_id
-  asim_field: cluster_id
+  asim_field: DvcCluster
   category: Common
+  display_name: Cluster Id
 - field_name: member_id
   field_type: string
   description: Cluster member ID
-  ecs_field: vendor.member_id
-  cim_field: member_id
-  asim_field: member_id
+  ecs_field: observer.cluster.member
+  cim_field: cluster_member
+  asim_field: DvcClusterMember
   category: Common
+  display_name: Member Id
 - field_name: member
   field_type: string
   description: Cluster member name
-  ecs_field: vendor.member
-  cim_field: member
-  asim_field: member
+  ecs_field: observer.cluster.member
+  cim_field: cluster_member
+  asim_field: DvcClusterMember
   category: Common
+  display_name: Member
 - field_name: sender
   field_type: string
   description: Email sender
-  ecs_field: vendor.sender
-  cim_field: sender
-  asim_field: sender
+  ecs_field: email.from.address
+  cim_field: src_email
+  asim_field: SrcUserEmail
   category: Common
+  display_name: Sender
 - field_name: recipient
   field_type: string
   description: Email recipient
-  ecs_field: vendor.recipient
-  cim_field: recipient
-  asim_field: recipient
+  ecs_field: email.to.address
+  cim_field: dest_email
+  asim_field: DstUserEmail
   category: Common
+  display_name: Recipient
 - field_name: subject
   field_type: string
   description: Email subject
-  ecs_field: vendor.subject
-  cim_field: subject
-  asim_field: subject
+  ecs_field: email.subject
+  cim_field: email_subject
+  asim_field: EmailSubject
   category: Common
+  display_name: Subject
 - field_name: smtp_from
   field_type: string
   description: SMTP FROM address
-  ecs_field: vendor.smtp_from
-  cim_field: smtp_from
-  asim_field: smtp_from
+  ecs_field: email.from.address
+  cim_field: src_email
+  asim_field: SrcUserEmail
   category: Common
+  display_name: Smtp From
 - field_name: smtp_to
   field_type: string
   description: SMTP TO address
-  ecs_field: vendor.smtp_to
-  cim_field: smtp_to
-  asim_field: smtp_to
+  ecs_field: email.to.address
+  cim_field: dest_email
+  asim_field: DstUserEmail
   category: Common
+  display_name: Smtp To
 - field_name: query
   field_type: string
   description: DNS query
-  ecs_field: vendor.query
+  ecs_field: event.original
   cim_field: query
-  asim_field: query
+  asim_field: EventOriginal
   category: Common
+  display_name: Query
 - field_name: query_type
   field_type: string
   description: DNS query type
-  ecs_field: vendor.query_type
-  cim_field: query_type
-  asim_field: query_type
+  ecs_field: dns.question.type
+  cim_field: dns_query_type
+  asim_field: DnsQueryType
   category: Common
+  display_name: Query Type
 - field_name: answer
   field_type: string
   description: DNS answer
-  ecs_field: vendor.answer
-  cim_field: answer
-  asim_field: answer
+  ecs_field: dns.answers.data
+  cim_field: dns_answer
+  asim_field: DnsResponseName
   category: Common
+  display_name: Answer
 - field_name: src_geo
   field_type: string
   description: Source geolocation
-  ecs_field: vendor.src_geo
-  cim_field: src_geo
-  asim_field: src_geo
+  ecs_field: source.geo.country_name
+  cim_field: src_country
+  asim_field: SrcGeoCountry
   category: Common
+  display_name: Src Geo
 - field_name: dst_geo
   field_type: string
   description: Destination geolocation
-  ecs_field: vendor.dst_geo
-  cim_field: dst_geo
-  asim_field: dst_geo
+  ecs_field: destination.geo.country_name
+  cim_field: dest_country
+  asim_field: DstGeoCountry
   category: Common
+  display_name: Dst Geo
 - field_name: src_country
   field_type: string
   description: Source country
-  ecs_field: vendor.src_country
+  ecs_field: source.geo.country_name
   cim_field: src_country
-  asim_field: src_country
+  asim_field: SrcGeoCountry
   category: Common
+  display_name: Src Country
 - field_name: dst_country
   field_type: string
   description: Destination country
-  ecs_field: vendor.dst_country
-  cim_field: dst_country
-  asim_field: dst_country
+  ecs_field: destination.geo.country_name
+  cim_field: dest_country
+  asim_field: DstGeoCountry
   category: Common
+  display_name: Dst Country
 - field_name: category
   field_type: string
   description: URL/content category
-  ecs_field: vendor.category
+  ecs_field: event.category
   cim_field: category
-  asim_field: category
+  asim_field: EventCategory
   category: Common
+  display_name: Category
 - field_name: category_id
   field_type: int
   description: Category ID
-  ecs_field: vendor.category_id
+  ecs_field: event.category
   cim_field: category_id
-  asim_field: category_id
+  asim_field: EventCategoryId
   category: Common
+  display_name: Category Id
 - field_name: reputation
   field_type: string
   description: Reputation score/level
-  ecs_field: vendor.reputation
+  ecs_field: event.risk_score
   cim_field: reputation
-  asim_field: reputation
+  asim_field: ThreatRiskLevel
   category: Common
+  display_name: Reputation
 - field_name: log_type
   field_type: string
   description: Log message type (TRAFFIC/EVENT/etc)
-  ecs_field: vendor.log_type
+  ecs_field: event.kind
   cim_field: log_type
-  asim_field: log_type
+  asim_field: EventType
   category: Common
+  display_name: Log Type
 - field_name: severity
   field_type: string
   description: Log severity level
-  ecs_field: vendor.severity
-  cim_field: severity
-  asim_field: severity
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
   category: Common
+  display_name: Severity
 - field_name: msg
   field_type: string
   description: Log message text
-  ecs_field: vendor.msg
+  ecs_field: message
   cim_field: msg
-  asim_field: msg
+  asim_field: EventMessage
   category: Common
+  display_name: Msg
 - field_name: reason
   field_type: string
   description: Reason for action
-  ecs_field: vendor.reason
+  ecs_field: event.reason
   cim_field: reason
-  asim_field: reason
+  asim_field: EventResultDetails
   category: Common
+  display_name: Reason
 - field_name: status
   field_type: string
   description: Status/result
-  ecs_field: vendor.status
+  ecs_field: event.outcome
   cim_field: status
-  asim_field: status
+  asim_field: EventResult
   category: Common
+  display_name: Status
 - field_name: pkts
   field_type: int
   description: WatchGuard Mobile Security field
@@ -740,20 +842,23 @@ fields:
   cim_field: pkts
   asim_field: pkts
   category: Mobile Security
+  display_name: Pkts
 - field_name: src
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.src
-  cim_field: src
-  asim_field: src
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Firewall
+  display_name: Src
 - field_name: dst
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.dst
-  cim_field: dst
-  asim_field: dst
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Firewall
+  display_name: Dst
 - field_name: gap
   field_type: string
   description: WatchGuard Firewall field
@@ -761,6 +866,7 @@ fields:
   cim_field: gap
   asim_field: gap
   category: Firewall
+  display_name: Gap
 - field_name: value1
   field_type: string
   description: WatchGuard Firewall field
@@ -768,6 +874,7 @@ fields:
   cim_field: value1
   asim_field: value1
   category: Firewall
+  display_name: Value1
 - field_name: value2
   field_type: string
   description: WatchGuard Firewall field
@@ -775,27 +882,31 @@ fields:
   cim_field: value2
   asim_field: value2
   category: Firewall
+  display_name: Value2
 - field_name: port
   field_type: port
   description: WatchGuard Firewall field
-  ecs_field: vendor.port
-  cim_field: port
-  asim_field: port
+  ecs_field: observer.ingress.interface.name
+  cim_field: switch_port
+  asim_field: SrcInterfaceName
   category: Firewall
+  display_name: Port
 - field_name: mac
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.mac
-  cim_field: mac
-  asim_field: mac
+  ecs_field: host.mac
+  cim_field: src_mac
+  asim_field: SrcMacAddr
   category: Firewall
+  display_name: Mac
 - field_name: interface
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.interface
+  ecs_field: observer.ingress.interface.name
   cim_field: interface
-  asim_field: interface
+  asim_field: DvcInterface
   category: Firewall
+  display_name: Interface
 - field_name: name
   field_type: string
   description: WatchGuard Firewall field
@@ -803,6 +914,7 @@ fields:
   cim_field: name
   asim_field: name
   category: Firewall
+  display_name: Name
 - field_name: update
   field_type: int
   description: WatchGuard Firewall field
@@ -810,6 +922,7 @@ fields:
   cim_field: update
   asim_field: update
   category: Firewall
+  display_name: Update
 - field_name: prev
   field_type: string
   description: WatchGuard Firewall field
@@ -817,6 +930,7 @@ fields:
   cim_field: prev
   asim_field: prev
   category: Firewall
+  display_name: Prev
 - field_name: new
   field_type: string
   description: WatchGuard Firewall field
@@ -824,13 +938,15 @@ fields:
   cim_field: new
   asim_field: new
   category: Firewall
+  display_name: New
 - field_name: capacity
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.capacity
+  ecs_field: host.disk.capacity
   cim_field: capacity
-  asim_field: capacity
+  asim_field: DvcDiskCapacity
   category: Firewall
+  display_name: Capacity
 - field_name: limit
   field_type: string
   description: WatchGuard Firewall field
@@ -838,6 +954,7 @@ fields:
   cim_field: limit
   asim_field: limit
   category: Firewall
+  display_name: Limit
 - field_name: inif
   field_type: string
   description: WatchGuard Firewall field
@@ -845,6 +962,7 @@ fields:
   cim_field: inif
   asim_field: inif
   category: Firewall
+  display_name: Inif
 - field_name: outif
   field_type: string
   description: WatchGuard Firewall field
@@ -852,6 +970,7 @@ fields:
   cim_field: outif
   asim_field: outif
   category: Firewall
+  display_name: Outif
 - field_name: ip_pkt_len
   field_type: ip
   description: WatchGuard Firewall field
@@ -859,6 +978,7 @@ fields:
   cim_field: ip_pkt_len
   asim_field: ip_pkt_len
   category: Firewall
+  display_name: Ip Pkt Len
 - field_name: iph_len
   field_type: int
   description: WatchGuard Firewall field
@@ -866,6 +986,7 @@ fields:
   cim_field: iph_len
   asim_field: iph_len
   category: Firewall
+  display_name: Iph Len
 - field_name: udp_info
   field_type: string
   description: WatchGuard Firewall field
@@ -873,6 +994,7 @@ fields:
   cim_field: udp_info
   asim_field: udp_info
   category: Firewall
+  display_name: Udp Info
 - field_name: route_type
   field_type: string
   description: WatchGuard Firewall field
@@ -880,6 +1002,7 @@ fields:
   cim_field: route_type
   asim_field: route_type
   category: Firewall
+  display_name: Route Type
 - field_name: cat_name
   field_type: string
   description: WatchGuard Firewall field
@@ -887,13 +1010,15 @@ fields:
   cim_field: cat_name
   asim_field: cat_name
   category: Firewall
+  display_name: Cat Name
 - field_name: appid
   field_type: int
   description: WatchGuard Firewall field
-  ecs_field: vendor.appid
-  cim_field: appid
-  asim_field: appid
+  ecs_field: network.application
+  cim_field: app_id
+  asim_field: DstAppId
   category: Firewall
+  display_name: Appid
 - field_name: cat_id
   field_type: int
   description: WatchGuard Firewall field
@@ -901,6 +1026,7 @@ fields:
   cim_field: cat_id
   asim_field: cat_id
   category: Firewall
+  display_name: Cat Id
 - field_name: vers
   field_type: string
   description: WatchGuard Firewall field
@@ -908,6 +1034,7 @@ fields:
   cim_field: vers
   asim_field: vers
   category: Firewall
+  display_name: Vers
 - field_name: app_beh_name
   field_type: string
   description: WatchGuard Firewall field
@@ -915,6 +1042,7 @@ fields:
   cim_field: app_beh_name
   asim_field: app_beh_name
   category: Firewall
+  display_name: App Beh Name
 - field_name: ctl_disp
   field_type: string
   description: WatchGuard Firewall field
@@ -922,6 +1050,7 @@ fields:
   cim_field: ctl_disp
   asim_field: ctl_disp
   category: Firewall
+  display_name: Ctl Disp
 - field_name: signature_name
   field_type: string
   description: WatchGuard Firewall field
@@ -929,6 +1058,7 @@ fields:
   cim_field: signature_name
   asim_field: signature_name
   category: Firewall
+  display_name: Signature Name
 - field_name: signature_cat
   field_type: string
   description: WatchGuard Firewall field
@@ -936,27 +1066,31 @@ fields:
   cim_field: signature_cat
   asim_field: signature_cat
   category: Firewall
+  display_name: Signature Cat
 - field_name: signature_id
   field_type: int
   description: WatchGuard Firewall field
-  ecs_field: vendor.signature_id
+  ecs_field: rule.id
   cim_field: signature_id
-  asim_field: signature_id
+  asim_field: RuleNumber
   category: Firewall
+  display_name: Signature Id
 - field_name: cat
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.cat
-  cim_field: cat
-  asim_field: cat
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
   category: Firewall
+  display_name: Cat
 - field_name: bytes
   field_type: int
   description: WatchGuard Firewall field
-  ecs_field: vendor.bytes
+  ecs_field: network.bytes
   cim_field: bytes
-  asim_field: bytes
+  asim_field: NetworkBytes
   category: Firewall
+  display_name: Bytes
 - field_name: icmp_info
   field_type: string
   description: WatchGuard Firewall field
@@ -964,34 +1098,39 @@ fields:
   cim_field: icmp_info
   asim_field: icmp_info
   category: Firewall
+  display_name: Icmp Info
 - field_name: virus
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.virus
-  cim_field: virus
-  asim_field: virus
+  ecs_field: threat.indicator.name
+  cim_field: virus_name
+  asim_field: ThreatName
   category: Firewall
+  display_name: Virus
 - field_name: dstname
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.dstname
-  cim_field: dstname
-  asim_field: dstname
+  ecs_field: url.domain
+  cim_field: url_host
+  asim_field: UrlHost
   category: Firewall
+  display_name: Dstname
 - field_name: arg
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: vendor.arg
-  cim_field: arg
-  asim_field: arg
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
   category: Firewall
+  display_name: Arg
 - field_name: time
   field_type: datetime
   description: WatchGuard Firewall field
-  ecs_field: vendor.time
-  cim_field: time
-  asim_field: time
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Firewall
+  display_name: Time
 - field_name: logical
   field_type: string
   description: WatchGuard Networking field
@@ -999,6 +1138,7 @@ fields:
   cim_field: logical
   asim_field: logical
   category: Networking
+  display_name: Logical
 - field_name: link
   field_type: string
   description: WatchGuard Networking field
@@ -1006,6 +1146,7 @@ fields:
   cim_field: link
   asim_field: link
   category: Networking
+  display_name: Link
 - field_name: mask
   field_type: string
   description: WatchGuard Networking field
@@ -1013,6 +1154,7 @@ fields:
   cim_field: mask
   asim_field: mask
   category: Networking
+  display_name: Mask
 - field_name: dev_name
   field_type: string
   description: WatchGuard Networking field
@@ -1020,13 +1162,15 @@ fields:
   cim_field: dev_name
   asim_field: dev_name
   category: Networking
+  display_name: Dev Name
 - field_name: operation
   field_type: string
   description: WatchGuard Networking field
-  ecs_field: vendor.operation
-  cim_field: operation
-  asim_field: operation
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Networking
+  display_name: Operation
 - field_name: role
   field_type: string
   description: WatchGuard Networking field
@@ -1034,6 +1178,7 @@ fields:
   cim_field: role
   asim_field: role
   category: Networking
+  display_name: Role
 - field_name: num
   field_type: int
   description: WatchGuard Networking field
@@ -1041,6 +1186,7 @@ fields:
   cim_field: num
   asim_field: num
   category: Networking
+  display_name: Num
 - field_name: if_name
   field_type: string
   description: WatchGuard Networking field
@@ -1048,6 +1194,7 @@ fields:
   cim_field: if_name
   asim_field: if_name
   category: Networking
+  display_name: If Name
 - field_name: response
   field_type: string
   description: WatchGuard Networking field
@@ -1055,6 +1202,7 @@ fields:
   cim_field: response
   asim_field: response
   category: Networking
+  display_name: Response
 - field_name: ret_code
   field_type: string
   description: WatchGuard Networking field
@@ -1062,13 +1210,15 @@ fields:
   cim_field: ret_code
   asim_field: ret_code
   category: Networking
+  display_name: Ret Code
 - field_name: domain
   field_type: string
   description: WatchGuard Networking field
-  ecs_field: vendor.domain
-  cim_field: domain
-  asim_field: domain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
   category: Networking
+  display_name: Domain
 - field_name: server_ip
   field_type: ip
   description: WatchGuard Networking field
@@ -1076,6 +1226,7 @@ fields:
   cim_field: server_ip
   asim_field: server_ip
   category: Networking
+  display_name: Server Ip
 - field_name: reply
   field_type: string
   description: WatchGuard Networking field
@@ -1083,13 +1234,15 @@ fields:
   cim_field: reply
   asim_field: reply
   category: Networking
+  display_name: Reply
 - field_name: server
   field_type: string
   description: WatchGuard Networking field
-  ecs_field: vendor.server
-  cim_field: server
-  asim_field: server
+  ecs_field: network.forwarded_ip
+  cim_field: dhcp_server
+  asim_field: DvcIpAddr
   category: Networking
+  display_name: Server
 - field_name: server_name
   field_type: string
   description: WatchGuard Networking field
@@ -1097,6 +1250,7 @@ fields:
   cim_field: server_name
   asim_field: server_name
   category: Networking
+  display_name: Server Name
 - field_name: system
   field_type: string
   description: WatchGuard Networking field
@@ -1104,6 +1258,7 @@ fields:
   cim_field: system
   asim_field: system
   category: Networking
+  display_name: System
 - field_name: size
   field_type: int
   description: WatchGuard Networking field
@@ -1111,6 +1266,7 @@ fields:
   cim_field: size
   asim_field: size
   category: Networking
+  display_name: Size
 - field_name: content
   field_type: string
   description: WatchGuard Networking field
@@ -1118,6 +1274,7 @@ fields:
   cim_field: content
   asim_field: content
   category: Networking
+  display_name: Content
 - field_name: nego_ip
   field_type: ip
   description: WatchGuard Networking field
@@ -1125,6 +1282,7 @@ fields:
   cim_field: nego_ip
   asim_field: nego_ip
   category: Networking
+  display_name: Nego Ip
 - field_name: static_ip
   field_type: ip
   description: WatchGuard Networking field
@@ -1132,6 +1290,7 @@ fields:
   cim_field: static_ip
   asim_field: static_ip
   category: Networking
+  display_name: Static Ip
 - field_name: physical_name
   field_type: string
   description: WatchGuard Networking field
@@ -1139,6 +1298,7 @@ fields:
   cim_field: physical_name
   asim_field: physical_name
   category: Networking
+  display_name: Physical Name
 - field_name: ifname
   field_type: string
   description: WatchGuard Networking field
@@ -1146,13 +1306,15 @@ fields:
   cim_field: ifname
   asim_field: ifname
   category: Networking
+  display_name: Ifname
 - field_name: session_id
   field_type: int
   description: WatchGuard Networking field
-  ecs_field: vendor.session_id
+  ecs_field: event.id
   cim_field: session_id
-  asim_field: session_id
+  asim_field: EventOriginalUid
   category: Networking
+  display_name: Session Id
 - field_name: ipaddr
   field_type: ip
   description: WatchGuard Networking field
@@ -1160,6 +1322,7 @@ fields:
   cim_field: ipaddr
   asim_field: ipaddr
   category: Networking
+  display_name: Ipaddr
 - field_name: peer_addr
   field_type: ip
   description: WatchGuard Networking field
@@ -1167,6 +1330,7 @@ fields:
   cim_field: peer_addr
   asim_field: peer_addr
   category: Networking
+  display_name: Peer Addr
 - field_name: pre_if
   field_type: string
   description: WatchGuard Networking field
@@ -1174,6 +1338,7 @@ fields:
   cim_field: pre_if
   asim_field: pre_if
   category: Networking
+  display_name: Pre If
 - field_name: new_if
   field_type: string
   description: WatchGuard Networking field
@@ -1181,6 +1346,7 @@ fields:
   cim_field: new_if
   asim_field: new_if
   category: Networking
+  display_name: New If
 - field_name: pre_ip
   field_type: ip
   description: WatchGuard Networking field
@@ -1188,6 +1354,7 @@ fields:
   cim_field: pre_ip
   asim_field: pre_ip
   category: Networking
+  display_name: Pre Ip
 - field_name: pre_mask
   field_type: string
   description: WatchGuard Networking field
@@ -1195,6 +1362,7 @@ fields:
   cim_field: pre_mask
   asim_field: pre_mask
   category: Networking
+  display_name: Pre Mask
 - field_name: new_mask
   field_type: string
   description: WatchGuard Networking field
@@ -1202,6 +1370,7 @@ fields:
   cim_field: new_mask
   asim_field: new_mask
   category: Networking
+  display_name: New Mask
 - field_name: pre_ipv6
   field_type: ip
   description: WatchGuard Networking field
@@ -1209,6 +1378,7 @@ fields:
   cim_field: pre_ipv6
   asim_field: pre_ipv6
   category: Networking
+  display_name: Pre Ipv6
 - field_name: new_ip
   field_type: ip
   description: WatchGuard Networking field
@@ -1216,6 +1386,7 @@ fields:
   cim_field: new_ip
   asim_field: new_ip
   category: Networking
+  display_name: New Ip
 - field_name: target
   field_type: string
   description: WatchGuard Networking field
@@ -1223,6 +1394,7 @@ fields:
   cim_field: target
   asim_field: target
   category: Networking
+  display_name: Target
 - field_name: scan_type
   field_type: string
   description: WatchGuard Networking field
@@ -1230,6 +1402,7 @@ fields:
   cim_field: scan_type
   asim_field: scan_type
   category: Networking
+  display_name: Scan Type
 - field_name: scan_stage
   field_type: string
   description: WatchGuard Networking field
@@ -1237,6 +1410,7 @@ fields:
   cim_field: scan_stage
   asim_field: scan_stage
   category: Networking
+  display_name: Scan Stage
 - field_name: etails
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1244,6 +1418,7 @@ fields:
   cim_field: etails
   asim_field: etails
   category: Proxy Policy
+  display_name: Etails
 - field_name: line
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1251,13 +1426,15 @@ fields:
   cim_field: line
   asim_field: line
   category: Proxy Policy
+  display_name: Line
 - field_name: rule_name
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: vendor.rule_name
-  cim_field: rule_name
-  asim_field: rule_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Proxy Policy
+  display_name: Rule Name
 - field_name: header
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1265,6 +1442,7 @@ fields:
   cim_field: header
   asim_field: header
   category: Proxy Policy
+  display_name: Header
 - field_name: act
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1272,6 +1450,7 @@ fields:
   cim_field: act
   asim_field: act
   category: Proxy Policy
+  display_name: Act
 - field_name: encoding
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1279,6 +1458,7 @@ fields:
   cim_field: encoding
   asim_field: encoding
   category: Proxy Policy
+  display_name: Encoding
 - field_name: scheme
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1286,6 +1466,7 @@ fields:
   cim_field: scheme
   asim_field: scheme
   category: Proxy Policy
+  display_name: Scheme
 - field_name: cats
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1293,6 +1474,7 @@ fields:
   cim_field: cats
   asim_field: cats
   category: Proxy Policy
+  display_name: Cats
 - field_name: details
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1300,13 +1482,15 @@ fields:
   cim_field: details
   asim_field: details
   category: Proxy Policy
+  display_name: Details
 - field_name: error
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: vendor.error
-  cim_field: error
-  asim_field: error
+  ecs_field: error.message
+  cim_field: error_msg
+  asim_field: EventMessage
   category: Proxy Policy
+  display_name: Error
 - field_name: app_beh_id
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1314,6 +1498,7 @@ fields:
   cim_field: app_beh_id
   asim_field: app_beh_id
   category: Proxy Policy
+  display_name: App Beh Id
 - field_name: dlp_sensor
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1321,20 +1506,23 @@ fields:
   cim_field: dlp_sensor
   asim_field: dlp_sensor
   category: Proxy Policy
+  display_name: Dlp Sensor
 - field_name: rule
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: vendor.rule
+  ecs_field: rule.name
   cim_field: rule
-  asim_field: rule
+  asim_field: RuleName
   category: Proxy Policy
+  display_name: Rule
 - field_name: uuid
   field_type: int
   description: WatchGuard Proxy Policy field
-  ecs_field: vendor.uuid
+  ecs_field: observer.id
   cim_field: uuid
-  asim_field: uuid
+  asim_field: DvcId
   category: Proxy Policy
+  display_name: Uuid
 - field_name: redirect_action
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1342,6 +1530,7 @@ fields:
   cim_field: redirect_action
   asim_field: redirect_action
   category: Proxy Policy
+  display_name: Redirect Action
 - field_name: task_uuid
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1349,6 +1538,7 @@ fields:
   cim_field: task_uuid
   asim_field: task_uuid
   category: Proxy Policy
+  display_name: Task Uuid
 - field_name: srv_port
   field_type: port
   description: WatchGuard Proxy Policy field
@@ -1356,6 +1546,7 @@ fields:
   cim_field: srv_port
   asim_field: srv_port
   category: Proxy Policy
+  display_name: Srv Port
 - field_name: ssl_offload
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1363,6 +1554,7 @@ fields:
   cim_field: ssl_offload
   asim_field: ssl_offload
   category: Proxy Policy
+  display_name: Ssl Offload
 - field_name: client_ssl
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1370,6 +1562,7 @@ fields:
   cim_field: client_ssl
   asim_field: client_ssl
   category: Proxy Policy
+  display_name: Client Ssl
 - field_name: ssl
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1377,6 +1570,7 @@ fields:
   cim_field: ssl
   asim_field: ssl
   category: Proxy Policy
+  display_name: Ssl
 - field_name: content_src
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1384,6 +1578,7 @@ fields:
   cim_field: content_src
   asim_field: content_src
   category: Proxy Policy
+  display_name: Content Src
 - field_name: srv_ip
   field_type: ip
   description: WatchGuard Proxy Policy field
@@ -1391,13 +1586,15 @@ fields:
   cim_field: srv_ip
   asim_field: srv_ip
   category: Proxy Policy
+  display_name: Srv Ip
 - field_name: hostname
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: vendor.hostname
-  cim_field: hostname
-  asim_field: hostname
+  ecs_field: source.domain
+  cim_field: src_hostname
+  asim_field: SrcHostname
   category: Proxy Policy
+  display_name: Hostname
 - field_name: keyword
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1405,6 +1602,7 @@ fields:
   cim_field: keyword
   asim_field: keyword
   category: Proxy Policy
+  display_name: Keyword
 - field_name: authtype
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1412,6 +1610,7 @@ fields:
   cim_field: authtype
   asim_field: authtype
   category: Proxy Policy
+  display_name: Authtype
 - field_name: address
   field_type: ip
   description: WatchGuard Proxy Policy field
@@ -1419,6 +1618,7 @@ fields:
   cim_field: address
   asim_field: address
   category: Proxy Policy
+  display_name: Address
 - field_name: recipients
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1426,6 +1626,7 @@ fields:
   cim_field: recipients
   asim_field: recipients
   category: Proxy Policy
+  display_name: Recipients
 - field_name: timeout
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1433,6 +1634,7 @@ fields:
   cim_field: timeout
   asim_field: timeout
   category: Proxy Policy
+  display_name: Timeout
 - field_name: filename
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1440,6 +1642,7 @@ fields:
   cim_field: filename
   asim_field: filename
   category: Proxy Policy
+  display_name: Filename
 - field_name: server_ssl
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1447,6 +1650,7 @@ fields:
   cim_field: server_ssl
   asim_field: server_ssl
   category: Proxy Policy
+  display_name: Server Ssl
 - field_name: tls_profile
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1454,6 +1658,7 @@ fields:
   cim_field: tls_profile
   asim_field: tls_profile
   category: Proxy Policy
+  display_name: Tls Profile
 - field_name: num_recipients
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1461,6 +1666,7 @@ fields:
   cim_field: num_recipients
   asim_field: num_recipients
   category: Proxy Policy
+  display_name: Num Recipients
 - field_name: response_size
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1468,6 +1674,7 @@ fields:
   cim_field: response_size
   asim_field: response_size
   category: Proxy Policy
+  display_name: Response Size
 - field_name: line_length
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1475,6 +1682,7 @@ fields:
   cim_field: line_length
   asim_field: line_length
   category: Proxy Policy
+  display_name: Line Length
 - field_name: headers_size
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1482,6 +1690,7 @@ fields:
   cim_field: headers_size
   asim_field: headers_size
   category: Proxy Policy
+  display_name: Headers Size
 - field_name: pad_error
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1489,6 +1698,7 @@ fields:
   cim_field: pad_error
   asim_field: pad_error
   category: Proxy Policy
+  display_name: Pad Error
 - field_name: length
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1496,13 +1706,15 @@ fields:
   cim_field: length
   asim_field: length
   category: Proxy Policy
+  display_name: Length
 - field_name: version
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: vendor.version
+  ecs_field: observer.version
   cim_field: version
-  asim_field: version
+  asim_field: DvcVersion
   category: Proxy Policy
+  display_name: Version
 - field_name: content_inspection
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1510,6 +1722,7 @@ fields:
   cim_field: content_inspection
   asim_field: content_inspection
   category: Proxy Policy
+  display_name: Content Inspection
 - field_name: wgrd_spam_id
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1517,6 +1730,7 @@ fields:
   cim_field: wgrd_spam_id
   asim_field: wgrd_spam_id
   category: Proxy Policy
+  display_name: Wgrd Spam Id
 - field_name: command
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1524,6 +1738,7 @@ fields:
   cim_field: command
   asim_field: command
   category: Proxy Policy
+  display_name: Command
 - field_name: ctl_src
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1531,6 +1746,7 @@ fields:
   cim_field: ctl_src
   asim_field: ctl_src
   category: Proxy Policy
+  display_name: Ctl Src
 - field_name: file
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1538,6 +1754,7 @@ fields:
   cim_field: file
   asim_field: file
   category: Proxy Policy
+  display_name: File
 - field_name: ctl_dst
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1545,6 +1762,7 @@ fields:
   cim_field: ctl_dst
   asim_field: ctl_dst
   category: Proxy Policy
+  display_name: Ctl Dst
 - field_name: sensor
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1552,6 +1770,7 @@ fields:
   cim_field: sensor
   asim_field: sensor
   category: Proxy Policy
+  display_name: Sensor
 - field_name: authenticated_user
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1559,6 +1778,7 @@ fields:
   cim_field: authenticated_user
   asim_field: authenticated_user
   category: Proxy Policy
+  display_name: Authenticated User
 - field_name: bounce_ip
   field_type: ip
   description: WatchGuard Proxy Policy field
@@ -1566,6 +1786,7 @@ fields:
   cim_field: bounce_ip
   asim_field: bounce_ip
   category: Proxy Policy
+  display_name: Bounce Ip
 - field_name: query_class
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1573,6 +1794,7 @@ fields:
   cim_field: query_class
   asim_field: query_class
   category: Proxy Policy
+  display_name: Query Class
 - field_name: query_opcode
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1580,6 +1802,7 @@ fields:
   cim_field: query_opcode
   asim_field: query_opcode
   category: Proxy Policy
+  display_name: Query Opcode
 - field_name: question
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1587,6 +1810,7 @@ fields:
   cim_field: question
   asim_field: question
   category: Proxy Policy
+  display_name: Question
 - field_name: app_cat_name
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1594,13 +1818,15 @@ fields:
   cim_field: app_cat_name
   asim_field: app_cat_name
   category: Proxy Policy
+  display_name: App Cat Name
 - field_name: from
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: vendor.from
-  cim_field: from
-  asim_field: from
+  ecs_field: observer.ingress.zone
+  cim_field: src_zone
+  asim_field: SrcZone
   category: Proxy Policy
+  display_name: From
 - field_name: tag
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1608,6 +1834,7 @@ fields:
   cim_field: tag
   asim_field: tag
   category: Proxy Policy
+  display_name: Tag
 - field_name: len
   field_type: int
   description: WatchGuard Proxy Policy field
@@ -1615,6 +1842,7 @@ fields:
   cim_field: len
   asim_field: len
   category: Proxy Policy
+  display_name: Len
 - field_name: mbx
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1622,6 +1850,7 @@ fields:
   cim_field: mbx
   asim_field: mbx
   category: Proxy Policy
+  display_name: Mbx
 - field_name: call_from
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1629,6 +1858,7 @@ fields:
   cim_field: call_from
   asim_field: call_from
   category: Proxy Policy
+  display_name: Call From
 - field_name: codec
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1636,6 +1866,7 @@ fields:
   cim_field: codec
   asim_field: codec
   category: Proxy Policy
+  display_name: Codec
 - field_name: call_to
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1643,6 +1874,7 @@ fields:
   cim_field: call_to
   asim_field: call_to
   category: Proxy Policy
+  display_name: Call To
 - field_name: sni
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1650,6 +1882,7 @@ fields:
   cim_field: sni
   asim_field: sni
   category: Proxy Policy
+  display_name: Sni
 - field_name: issuer
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1657,6 +1890,7 @@ fields:
   cim_field: issuer
   asim_field: issuer
   category: Proxy Policy
+  display_name: Issuer
 - field_name: cert_subject
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1664,6 +1898,7 @@ fields:
   cim_field: cert_subject
   asim_field: cert_subject
   category: Proxy Policy
+  display_name: Cert Subject
 - field_name: ipaddress
   field_type: ip
   description: WatchGuard Proxy Policy field
@@ -1671,6 +1906,7 @@ fields:
   cim_field: ipaddress
   asim_field: ipaddress
   category: Proxy Policy
+  display_name: Ipaddress
 - field_name: beh_name
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1678,6 +1914,7 @@ fields:
   cim_field: beh_name
   asim_field: beh_name
   category: Proxy Policy
+  display_name: Beh Name
 - field_name: data
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1685,6 +1922,7 @@ fields:
   cim_field: data
   asim_field: data
   category: Proxy Policy
+  display_name: Data
 - field_name: inspect_action
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1692,6 +1930,7 @@ fields:
   cim_field: inspect_action
   asim_field: inspect_action
   category: Proxy Policy
+  display_name: Inspect Action
 - field_name: exception_rule
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1699,6 +1938,7 @@ fields:
   cim_field: exception_rule
   asim_field: exception_rule
   category: Proxy Policy
+  display_name: Exception Rule
 - field_name: new_action
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1706,6 +1946,7 @@ fields:
   cim_field: new_action
   asim_field: new_action
   category: Proxy Policy
+  display_name: New Action
 - field_name: rotocol
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1713,6 +1954,7 @@ fields:
   cim_field: rotocol
   asim_field: rotocol
   category: Proxy Policy
+  display_name: Rotocol
 - field_name: geo_dst
   field_type: string
   description: WatchGuard Proxy Policy field
@@ -1720,6 +1962,7 @@ fields:
   cim_field: geo_dst
   asim_field: geo_dst
   category: Proxy Policy
+  display_name: Geo Dst
 - field_name: image_source
   field_type: string
   description: WatchGuard Management field
@@ -1727,20 +1970,23 @@ fields:
   cim_field: image_source
   asim_field: image_source
   category: Management
+  display_name: Image Source
 - field_name: result
   field_type: string
   description: WatchGuard Management field
-  ecs_field: vendor.result
+  ecs_field: event.outcome
   cim_field: result
-  asim_field: result
+  asim_field: EventResult
   category: Management
+  display_name: Result
 - field_name: device
   field_type: string
   description: WatchGuard Management field
-  ecs_field: vendor.device
-  cim_field: device
-  asim_field: device
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Management
+  display_name: Device
 - field_name: subsystem
   field_type: string
   description: WatchGuard Management field
@@ -1748,27 +1994,31 @@ fields:
   cim_field: subsystem
   asim_field: subsystem
   category: Management
+  display_name: Subsystem
 - field_name: object
   field_type: string
   description: WatchGuard Management field
-  ecs_field: vendor.object
+  ecs_field: file.name
   cim_field: object
-  asim_field: object
+  asim_field: TargetFileName
   category: Management
+  display_name: Object
 - field_name: user_type
   field_type: string
   description: WatchGuard Management field
-  ecs_field: vendor.user_type
+  ecs_field: user.roles
   cim_field: user_type
-  asim_field: user_type
+  asim_field: TargetUserType
   category: Management
+  display_name: User Type
 - field_name: auth_server
   field_type: string
   description: WatchGuard Management field
-  ecs_field: vendor.auth_server
+  ecs_field: destination.address
   cim_field: auth_server
-  asim_field: auth_server
+  asim_field: DstHostname
   category: Management
+  display_name: Auth Server
 - field_name: ip_addr
   field_type: ip
   description: WatchGuard Management field
@@ -1776,6 +2026,7 @@ fields:
   cim_field: ip_addr
   asim_field: ip_addr
   category: Management
+  display_name: Ip Addr
 - field_name: how
   field_type: string
   description: WatchGuard Management field
@@ -1783,6 +2034,7 @@ fields:
   cim_field: how
   asim_field: how
   category: Management
+  display_name: How
 - field_name: lockout_type
   field_type: string
   description: WatchGuard Management field
@@ -1790,6 +2042,7 @@ fields:
   cim_field: lockout_type
   asim_field: lockout_type
   category: Management
+  display_name: Lockout Type
 - field_name: failure_count
   field_type: int
   description: WatchGuard Management field
@@ -1797,13 +2050,15 @@ fields:
   cim_field: failure_count
   asim_field: failure_count
   category: Management
+  display_name: Failure Count
 - field_name: client_name
   field_type: string
   description: WatchGuard Management field
-  ecs_field: vendor.client_name
+  ecs_field: application.name
   cim_field: client_name
-  asim_field: client_name
+  asim_field: ApplicationName
   category: Management
+  display_name: Client Name
 - field_name: virtual_ip
   field_type: ip
   description: WatchGuard Management field
@@ -1811,6 +2066,7 @@ fields:
   cim_field: virtual_ip
   asim_field: virtual_ip
   category: Management
+  display_name: Virtual Ip
 - field_name: unit
   field_type: string
   description: WatchGuard Management field
@@ -1818,6 +2074,7 @@ fields:
   cim_field: unit
   asim_field: unit
   category: Management
+  display_name: Unit
 - field_name: count
   field_type: int
   description: WatchGuard Management field
@@ -1825,6 +2082,7 @@ fields:
   cim_field: count
   asim_field: count
   category: Management
+  display_name: Count
 - field_name: hour
   field_type: string
   description: WatchGuard Management field
@@ -1832,6 +2090,7 @@ fields:
   cim_field: hour
   asim_field: hour
   category: Management
+  display_name: Hour
 - field_name: second
   field_type: string
   description: WatchGuard Management field
@@ -1839,6 +2098,7 @@ fields:
   cim_field: second
   asim_field: second
   category: Management
+  display_name: Second
 - field_name: restore_type
   field_type: string
   description: WatchGuard Management field
@@ -1846,6 +2106,7 @@ fields:
   cim_field: restore_type
   asim_field: restore_type
   category: Management
+  display_name: Restore Type
 - field_name: value
   field_type: string
   description: WatchGuard FireCluster field
@@ -1853,6 +2114,7 @@ fields:
   cim_field: value
   asim_field: value
   category: FireCluster
+  display_name: Value
 - field_name: state
   field_type: string
   description: WatchGuard FireCluster field
@@ -1860,6 +2122,7 @@ fields:
   cim_field: state
   asim_field: state
   category: FireCluster
+  display_name: State
 - field_name: master
   field_type: string
   description: WatchGuard FireCluster field
@@ -1867,6 +2130,7 @@ fields:
   cim_field: master
   asim_field: master
   category: FireCluster
+  display_name: Master
 - field_name: tunnel
   field_type: string
   description: WatchGuard VPN field
@@ -1874,6 +2138,7 @@ fields:
   cim_field: tunnel
   asim_field: tunnel
   category: VPN
+  display_name: Tunnel
 - field_name: local
   field_type: string
   description: WatchGuard VPN field
@@ -1881,6 +2146,7 @@ fields:
   cim_field: local
   asim_field: local
   category: VPN
+  display_name: Local
 - field_name: remote
   field_type: string
   description: WatchGuard VPN field
@@ -1888,6 +2154,7 @@ fields:
   cim_field: remote
   asim_field: remote
   category: VPN
+  display_name: Remote
 - field_name: cert_type
   field_type: string
   description: WatchGuard VPN field
@@ -1895,6 +2162,7 @@ fields:
   cim_field: cert_type
   asim_field: cert_type
   category: VPN
+  display_name: Cert Type
 - field_name: ndpoint
   field_type: string
   description: WatchGuard VPN field
@@ -1902,6 +2170,7 @@ fields:
   cim_field: ndpoint
   asim_field: ndpoint
   category: VPN
+  display_name: Ndpoint
 - field_name: eason
   field_type: string
   description: WatchGuard VPN field
@@ -1909,6 +2178,7 @@ fields:
   cim_field: eason
   asim_field: eason
   category: VPN
+  display_name: Eason
 - field_name: local_addr
   field_type: ip
   description: WatchGuard VPN field
@@ -1916,6 +2186,7 @@ fields:
   cim_field: local_addr
   asim_field: local_addr
   category: VPN
+  display_name: Local Addr
 - field_name: exchange_type
   field_type: string
   description: WatchGuard VPN field
@@ -1923,6 +2194,7 @@ fields:
   cim_field: exchange_type
   asim_field: exchange_type
   category: VPN
+  display_name: Exchange Type
 - field_name: received
   field_type: string
   description: WatchGuard VPN field
@@ -1930,6 +2202,7 @@ fields:
   cim_field: received
   asim_field: received
   category: VPN
+  display_name: Received
 - field_name: expected
   field_type: string
   description: WatchGuard VPN field
@@ -1937,20 +2210,23 @@ fields:
   cim_field: expected
   asim_field: expected
   category: VPN
+  display_name: Expected
 - field_name: sport
   field_type: port
   description: WatchGuard VPN field
-  ecs_field: vendor.sport
-  cim_field: sport
-  asim_field: sport
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: VPN
+  display_name: Sport
 - field_name: dport
   field_type: port
   description: WatchGuard VPN field
-  ecs_field: vendor.dport
-  cim_field: dport
-  asim_field: dport
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: VPN
+  display_name: Dport
 - field_name: info_msg
   field_type: string
   description: WatchGuard VPN field
@@ -1958,13 +2234,15 @@ fields:
   cim_field: info_msg
   asim_field: info_msg
   category: VPN
+  display_name: Info Msg
 - field_name: gateway
   field_type: ip
   description: WatchGuard VPN field
-  ecs_field: vendor.gateway
+  ecs_field: network.forwarded_ip
   cim_field: gateway
-  asim_field: gateway
+  asim_field: DvcIpAddr
   category: VPN
+  display_name: Gateway
 - field_name: certificate_id
   field_type: int
   description: WatchGuard VPN field
@@ -1972,6 +2250,7 @@ fields:
   cim_field: certificate_id
   asim_field: certificate_id
   category: VPN
+  display_name: Certificate Id
 - field_name: received_if
   field_type: string
   description: WatchGuard VPN field
@@ -1979,6 +2258,7 @@ fields:
   cim_field: received_if
   asim_field: received_if
   category: VPN
+  display_name: Received If
 - field_name: received_ifindex
   field_type: string
   description: WatchGuard VPN field
@@ -1986,6 +2266,7 @@ fields:
   cim_field: received_ifindex
   asim_field: received_ifindex
   category: VPN
+  display_name: Received Ifindex
 - field_name: expected_if
   field_type: string
   description: WatchGuard VPN field
@@ -1993,6 +2274,7 @@ fields:
   cim_field: expected_if
   asim_field: expected_if
   category: VPN
+  display_name: Expected If
 - field_name: received_ip
   field_type: ip
   description: WatchGuard VPN field
@@ -2000,6 +2282,7 @@ fields:
   cim_field: received_ip
   asim_field: received_ip
   category: VPN
+  display_name: Received Ip
 - field_name: expected_ip
   field_type: ip
   description: WatchGuard VPN field
@@ -2007,6 +2290,7 @@ fields:
   cim_field: expected_ip
   asim_field: expected_ip
   category: VPN
+  display_name: Expected Ip
 - field_name: unnel
   field_type: string
   description: WatchGuard VPN field
@@ -2014,6 +2298,7 @@ fields:
   cim_field: unnel
   asim_field: unnel
   category: VPN
+  display_name: Unnel
 - field_name: received_proto
   field_type: string
   description: WatchGuard VPN field
@@ -2021,6 +2306,7 @@ fields:
   cim_field: received_proto
   asim_field: received_proto
   category: VPN
+  display_name: Received Proto
 - field_name: expected_proto
   field_type: string
   description: WatchGuard VPN field
@@ -2028,6 +2314,7 @@ fields:
   cim_field: expected_proto
   asim_field: expected_proto
   category: VPN
+  display_name: Expected Proto
 - field_name: ateway
   field_type: string
   description: WatchGuard VPN field
@@ -2035,6 +2322,7 @@ fields:
   cim_field: ateway
   asim_field: ateway
   category: VPN
+  display_name: Ateway
 - field_name: tr_local
   field_type: string
   description: WatchGuard VPN field
@@ -2042,13 +2330,15 @@ fields:
   cim_field: tr_local
   asim_field: tr_local
   category: VPN
+  display_name: Tr Local
 - field_name: user_name
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: vendor.user_name
+  ecs_field: user.name
   cim_field: user_name
-  asim_field: user_name
+  asim_field: TargetUsername
   category: VPN
+  display_name: User Name
 - field_name: group_name
   field_type: string
   description: WatchGuard VPN field
@@ -2056,6 +2346,7 @@ fields:
   cim_field: group_name
   asim_field: group_name
   category: VPN
+  display_name: Group Name
 - field_name: nego_mode
   field_type: string
   description: WatchGuard VPN field
@@ -2063,6 +2354,7 @@ fields:
   cim_field: nego_mode
   asim_field: nego_mode
   category: VPN
+  display_name: Nego Mode
 - field_name: nego_role
   field_type: string
   description: WatchGuard VPN field
@@ -2070,6 +2362,7 @@ fields:
   cim_field: nego_role
   asim_field: nego_role
   category: VPN
+  display_name: Nego Role
 - field_name: p1said
   field_type: int
   description: WatchGuard VPN field
@@ -2077,6 +2370,7 @@ fields:
   cim_field: p1said
   asim_field: p1said
   category: VPN
+  display_name: P1Said
 - field_name: req_or_resp
   field_type: string
   description: WatchGuard VPN field
@@ -2084,6 +2378,7 @@ fields:
   cim_field: req_or_resp
   asim_field: req_or_resp
   category: VPN
+  display_name: Req Or Resp
 - field_name: msg_info
   field_type: string
   description: WatchGuard VPN field
@@ -2091,6 +2386,7 @@ fields:
   cim_field: msg_info
   asim_field: msg_info
   category: VPN
+  display_name: Msg Info
 - field_name: selected_dh_group
   field_type: string
   description: WatchGuard VPN field
@@ -2098,6 +2394,7 @@ fields:
   cim_field: selected_dh_group
   asim_field: selected_dh_group
   category: VPN
+  display_name: Selected Dh Group
 - field_name: tunnel_name
   field_type: string
   description: WatchGuard VPN field
@@ -2105,6 +2402,7 @@ fields:
   cim_field: tunnel_name
   asim_field: tunnel_name
   category: VPN
+  display_name: Tunnel Name
 - field_name: sa_id
   field_type: int
   description: WatchGuard VPN field
@@ -2112,6 +2410,7 @@ fields:
   cim_field: sa_id
   asim_field: sa_id
   category: VPN
+  display_name: Sa Id
 - field_name: vpn_user_type
   field_type: string
   description: WatchGuard VPN field
@@ -2119,6 +2418,7 @@ fields:
   cim_field: vpn_user_type
   asim_field: vpn_user_type
   category: VPN
+  display_name: Vpn User Type
 - field_name: virtual_ipaddr
   field_type: ip
   description: WatchGuard VPN field
@@ -2126,6 +2426,7 @@ fields:
   cim_field: virtual_ipaddr
   asim_field: virtual_ipaddr
   category: VPN
+  display_name: Virtual Ipaddr
 - field_name: in_spi
   field_type: string
   description: WatchGuard VPN field
@@ -2133,6 +2434,7 @@ fields:
   cim_field: in_spi
   asim_field: in_spi
   category: VPN
+  display_name: In Spi
 - field_name: ver_number
   field_type: int
   description: WatchGuard Mobile Security field
@@ -2140,6 +2442,7 @@ fields:
   cim_field: ver_number
   asim_field: ver_number
   category: Mobile Security
+  display_name: Ver Number
 - field_name: local_time
   field_type: datetime
   description: WatchGuard Mobile Security field
@@ -2147,5 +2450,6 @@ fields:
   cim_field: local_time
   asim_field: local_time
   category: Mobile Security
+  display_name: Local Time
 notes: Extracted from WatchGuard Log Catalog - fields from key=value patterns and
   documentation

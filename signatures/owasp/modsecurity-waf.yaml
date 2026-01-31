@@ -7,7 +7,7 @@ source_document: ModSecurity 2 Data Formats
 source_url: https://github.com/owasp-modsecurity/ModSecurity/wiki/ModSecurity-2-Data-Formats
 extraction_date: '2026-01-02'
 source_file: modsecurity-signatures.json
-generated_at: '2026-01-29T05:59:00.555736'
+generated_at: '2026-01-31T04:25:54.499480'
 categories:
 - Header
 - Request
@@ -22,9 +22,9 @@ fields:
 - field_name: timestamp
   field_type: datetime
   description: Transaction timestamp (e.g., 10/May/2024:12:34:56 +0000)
-  ecs_field: vendor.timestamp
-  cim_field: timestamp
-  asim_field: timestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventTime
   category: Header
 - field_name: unique_id
   field_type: string
@@ -36,30 +36,30 @@ fields:
 - field_name: source_ip
   field_type: ip
   description: Client source IP address (IPv4 or IPv6)
-  ecs_field: vendor.source_ip
-  cim_field: source_ip
-  asim_field: source_ip
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Header
 - field_name: source_port
   field_type: integer
   description: Client source port number
-  ecs_field: vendor.source_port
-  cim_field: source_port
-  asim_field: source_port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Header
 - field_name: destination_ip
   field_type: ip
   description: Server destination IP address
-  ecs_field: vendor.destination_ip
-  cim_field: destination_ip
-  asim_field: destination_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Header
 - field_name: destination_port
   field_type: integer
   description: Server destination port number (usually 80 or 443)
-  ecs_field: vendor.destination_port
-  cim_field: destination_port
-  asim_field: destination_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Header
 - field_name: request_method
   field_type: string
@@ -92,9 +92,9 @@ fields:
 - field_name: Host
   field_type: string
   description: HTTP Host header value
-  ecs_field: vendor.Host
-  cim_field: Host
-  asim_field: Host
+  ecs_field: url.domain
+  cim_field: url_host
+  asim_field: UrlHost
   category: Request
 - field_name: User-Agent
   field_type: string
@@ -127,9 +127,9 @@ fields:
 - field_name: Referer
   field_type: string
   description: HTTP Referer header
-  ecs_field: vendor.Referer
-  cim_field: Referer
-  asim_field: Referer
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
+  asim_field: HttpReferrer
   category: Request
 - field_name: X-Forwarded-For
   field_type: string
@@ -190,9 +190,9 @@ fields:
 - field_name: Action
   field_type: string
   description: Action taken for intercepted transactions (phase number)
-  ecs_field: vendor.Action
-  cim_field: Action
-  asim_field: Action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Trailer
 - field_name: Apache-Error
   field_type: string
@@ -204,9 +204,9 @@ fields:
 - field_name: Message
   field_type: array
   description: ModSecurity warnings/errors in order of occurrence
-  ecs_field: vendor.Message
-  cim_field: Message
-  asim_field: Message
+  ecs_field: message
+  cim_field: msg
+  asim_field: EventMessage
   category: Trailer
 - field_name: Producer
   field_type: string
@@ -225,9 +225,9 @@ fields:
 - field_name: Server
   field_type: string
   description: Web server identification and modules
-  ecs_field: vendor.Server
-  cim_field: Server
-  asim_field: Server
+  ecs_field: network.forwarded_ip
+  cim_field: dhcp_server
+  asim_field: DvcIpAddr
   category: Trailer
 - field_name: WebApp-Info
   field_type: string
@@ -302,9 +302,9 @@ fields:
 - field_name: rule_id
   field_type: string
   description: Unique rule identifier (e.g., 942100)
-  ecs_field: vendor.rule_id
+  ecs_field: rule.id
   cim_field: rule_id
-  asim_field: rule_id
+  asim_field: RuleId
   category: Alert
 - field_name: rule_rev
   field_type: string

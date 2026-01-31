@@ -7,7 +7,7 @@ source_document: VPC Flow Logs Record Format
 source_url: https://cloud.google.com/vpc/docs/about-flow-logs-records
 extraction_date: '2026-01-02'
 source_file: gcp-vpc-flow-signatures.json
-generated_at: '2026-01-29T05:59:00.077135'
+generated_at: '2026-01-31T04:25:53.938600'
 categories:
 - Base
 - IpConnection
@@ -21,9 +21,9 @@ fields:
 - field_name: connection
   field_type: object
   description: 5-tuple describing the flow
-  ecs_field: vendor.connection
+  ecs_field: user.identity_provider
   cim_field: connection
-  asim_field: connection
+  asim_field: ActorIdProvider
   category: Base
 - field_name: reporter
   field_type: string
@@ -35,9 +35,9 @@ fields:
 - field_name: bytes_sent
   field_type: integer
   description: Number of user payload bytes sent from source to destination
-  ecs_field: vendor.bytes_sent
-  cim_field: bytes_sent
-  asim_field: bytes_sent
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Base
 - field_name: packets_sent
   field_type: integer
@@ -49,16 +49,16 @@ fields:
 - field_name: start_time
   field_type: datetime
   description: Timestamp (RFC 3339) of the first observed packet
-  ecs_field: vendor.start_time
+  ecs_field: event.start
   cim_field: start_time
-  asim_field: start_time
+  asim_field: EventStartTime
   category: Base
 - field_name: end_time
   field_type: datetime
   description: Timestamp (RFC 3339) of the last observed packet
-  ecs_field: vendor.end_time
+  ecs_field: event.end
   cim_field: end_time
-  asim_field: end_time
+  asim_field: EventEndTime
   category: Base
 - field_name: rtt_msec
   field_type: integer

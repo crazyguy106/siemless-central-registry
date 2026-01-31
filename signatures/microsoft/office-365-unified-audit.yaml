@@ -7,7 +7,7 @@ source_document: Office 365 Management Activity API Schema
 source_url: https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-schema
 extraction_date: '2026-01-02'
 source_file: o365-audit-signatures.json
-generated_at: '2026-01-29T05:59:00.627508'
+generated_at: '2026-01-31T04:25:54.577493'
 categories:
 - Common
 - AppAccessContext
@@ -29,9 +29,9 @@ fields:
 - field_name: Id
   field_type: guid
   description: Unique identifier of an audit record
-  ecs_field: vendor.Id
-  cim_field: Id
-  asim_field: Id
+  ecs_field: network.packet_id
+  cim_field: packet_id
+  asim_field: NetworkPacketId
   category: Common
 - field_name: RecordType
   field_type: integer
@@ -50,9 +50,9 @@ fields:
 - field_name: Operation
   field_type: string
   description: Name of the user or admin activity
-  ecs_field: vendor.Operation
-  cim_field: Operation
-  asim_field: Operation
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Common
 - field_name: OrganizationId
   field_type: guid
@@ -99,9 +99,9 @@ fields:
 - field_name: UserId
   field_type: string
   description: UPN of user who performed the action
-  ecs_field: vendor.UserId
-  cim_field: UserId
-  asim_field: UserId
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: TargetUserId
   category: Common
 - field_name: ClientIP
   field_type: ip
@@ -113,9 +113,9 @@ fields:
 - field_name: Scope
   field_type: string
   description: 'Event source: online (Microsoft 365) or onprem (on-premises)'
-  ecs_field: vendor.Scope
-  cim_field: Scope
-  asim_field: Scope
+  ecs_field: authorization.scope
+  cim_field: scope
+  asim_field: AuthorizationScope
   category: Common
 - field_name: AppAccessContext
   field_type: object
@@ -582,16 +582,16 @@ fields:
 - field_name: SessionId
   field_type: string
   description: Unique session identifier
-  ecs_field: vendor.SessionId
-  cim_field: SessionId
-  asim_field: SessionId
+  ecs_field: network.session_id
+  cim_field: session_id
+  asim_field: NetworkSessionId
   category: ExchangeMailbox
 - field_name: AppId
   field_type: string
   description: Application identifier
-  ecs_field: vendor.AppId
-  cim_field: AppId
-  asim_field: AppId
+  ecs_field: network.application
+  cim_field: app_id
+  asim_field: DstAppId
   category: ExchangeMailbox
 - field_name: ClientAppId
   field_type: string
@@ -792,16 +792,16 @@ fields:
 - field_name: Application
   field_type: string
   description: Application triggering login (e.g., Office 15)
-  ecs_field: vendor.Application
-  cim_field: Application
-  asim_field: Application
+  ecs_field: network.application
+  cim_field: app
+  asim_field: DstAppName
   category: AzureADLogon
 - field_name: Client
   field_type: string
   description: Client device, OS, and browser details
-  ecs_field: vendor.Client
-  cim_field: Client
-  asim_field: Client
+  ecs_field: source.mac
+  cim_field: dhcp_client
+  asim_field: SrcMacAddr
   category: AzureADLogon
 - field_name: LoginStatus
   field_type: integer
@@ -848,9 +848,9 @@ fields:
 - field_name: Actor
   field_type: array
   description: User or service principal performing action
-  ecs_field: vendor.Actor
-  cim_field: Actor
-  asim_field: Actor
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: AzureADSchema
 - field_name: ActorContextId
   field_type: guid

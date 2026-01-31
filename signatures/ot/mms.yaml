@@ -5,116 +5,131 @@ product_full_name: Manufacturing Message Specification (IEC 61850)
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-29'
+extraction_date: '2026-01-31'
 source_file: ot-mms-signatures.json
-generated_at: '2026-01-29T05:59:00.770802'
+generated_at: '2026-01-31T04:25:54.754053'
 field_count: 15
 fields:
 - field_name: source_ip
   field_type: ip
   description: Client IP address
-  ecs_field: vendor.source_ip
-  cim_field: source_ip
-  asim_field: source_ip
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: network
+  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: Server (IED) IP address
-  ecs_field: vendor.destination_ip
-  cim_field: destination_ip
-  asim_field: destination_ip
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: network
+  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Client port
-  ecs_field: vendor.source_port
-  cim_field: source_port
-  asim_field: source_port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: network
+  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Server port (typically 102)
-  ecs_field: vendor.destination_port
-  cim_field: destination_port
-  asim_field: destination_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: network
+  display_name: Destination Port
 - field_name: service_type
   field_type: string
   description: MMS service type (confirmed/unconfirmed)
-  ecs_field: vendor.service_type
-  cim_field: service_type
-  asim_field: service_type
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
   category: protocol
+  display_name: Service Type
 - field_name: service_name
   field_type: string
   description: MMS service name
-  ecs_field: vendor.service_name
-  cim_field: service_name
-  asim_field: service_name
+  ecs_field: event.action
+  cim_field: action
+  asim_field: DvcAction
   category: protocol
+  display_name: Service Name
 - field_name: invoke_id
   field_type: number
   description: Request/response correlation ID
-  ecs_field: vendor.invoke_id
-  cim_field: invoke_id
-  asim_field: invoke_id
+  ecs_field: event.sequence
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
   category: protocol
+  display_name: Invoke ID
 - field_name: domain_name
   field_type: string
   description: VMD (Virtual Manufacturing Device) domain name
-  ecs_field: vendor.domain_name
-  cim_field: domain_name
-  asim_field: domain_name
+  ecs_field: host.hostname
+  cim_field: dest_host
+  asim_field: DstHostname
   category: data
+  display_name: Domain Name
 - field_name: item_id
   field_type: string
   description: Named variable or data object reference
-  ecs_field: vendor.item_id
-  cim_field: item_id
-  asim_field: item_id
+  ecs_field: file.path
+  cim_field: object_path
+  asim_field: TargetFilePath
   category: data
+  display_name: Item ID
 - field_name: data_value
   field_type: string
   description: Read/written data value
-  ecs_field: vendor.data_value
-  cim_field: data_value
-  asim_field: data_value
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileHashMd5
   category: data
+  display_name: Data Value
 - field_name: logical_node
   field_type: string
   description: IEC 61850 Logical Node (XCBR, CSWI, MMXU, etc.)
-  ecs_field: vendor.logical_node
-  cim_field: logical_node
-  asim_field: logical_node
+  ecs_field: service.name
+  cim_field: service
+  asim_field: SrcAppName
   category: iec61850
+  display_name: Logical Node
 - field_name: data_object
   field_type: string
   description: IEC 61850 Data Object (Pos, Mod, Beh, etc.)
-  ecs_field: vendor.data_object
-  cim_field: data_object
-  asim_field: data_object
+  ecs_field: service.type
+  cim_field: service_type
+  asim_field: SrcAppType
   category: iec61850
+  display_name: Data Object
 - field_name: functional_constraint
   field_type: string
   description: IEC 61850 FC (ST, MX, CO, CF, etc.)
-  ecs_field: vendor.functional_constraint
-  cim_field: functional_constraint
-  asim_field: functional_constraint
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventType
   category: iec61850
+  display_name: Functional Constraint
 - field_name: report_id
   field_type: string
   description: Report Control Block reference
-  ecs_field: vendor.report_id
-  cim_field: report_id
-  asim_field: report_id
+  ecs_field: event.id
+  cim_field: session_id
+  asim_field: DvcScopeId
   category: reporting
+  display_name: Report ID
 - field_name: error_class
   field_type: string
   description: MMS error class
-  ecs_field: vendor.error_class
-  cim_field: error_class
-  asim_field: error_class
+  ecs_field: error.code
+  cim_field: error_code
+  asim_field: EventResultDetails
   category: error
+  display_name: Error Class
 signatures:
 - name: mms_read
   pattern: Read|GetNamedVariableListAttributes|confirmed-RequestPDU.*read
