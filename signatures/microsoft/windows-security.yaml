@@ -1,35 +1,79 @@
 version: '1.0'
 vendor: Microsoft
-product: Windows Security Events
-product_full_name: Microsoft Windows Security Event Log
+product: Windows Security
+product_full_name: Windows Security Events via Kiwi Syslog
 log_type: structured
-source_document: 'Appendix L: Events to Monitor'
-source_url: https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor
-extraction_date: '2026-01-02'
-source_file: windows-security-events-signatures.json
-generated_at: '2026-01-31T04:25:56.034922'
-categories:
-- HighCriticality
-- System
-- PolicyTrust
-- Logon
-- ObjectAccess
-- PrivilegeUse
-- Process
-- DataProtection
-- ServiceTask
-- AccountManagement
-- Groups
-- GroupManagement
-- Kerberos
-- FirewallSecurity
-- CertificateServices
-- Firewall
-- IPsec
-- WindowsFilteringPlatform
-- NetworkPolicyServer
-field_count: 0
-fields: []
-notes: 'Windows Security Events are logged in the Security channel of Windows Event
-  Log. Criticality levels: HIGH (immediate investigation), MEDIUM (review within 24
-  hours), LOW (routine monitoring).'
+source_document: Kiwi Syslog Server Documentation
+source_url: ''
+extraction_date: '2026-01-21'
+source_file: kiwi-syslog-windows-signatures.json
+generated_at: '2026-01-31T09:35:37.964264'
+field_count: 7
+fields:
+- field_name: event.provider
+  field_type: keyword
+  description: Windows event provider (e.g., Microsoft-Windows-Security-Auditing)
+  ecs_field: event.provider
+  cim_field: source
+  asim_field: EventProduct
+- field_name: event.code
+  field_type: keyword
+  description: Windows Event ID
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventId
+- field_name: event.outcome
+  field_type: keyword
+  description: Audit result (Success/Failure)
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: host.name
+  field_type: keyword
+  description: Source hostname
+  ecs_field: host.name
+  cim_field: host
+  asim_field: DvcHostname
+- field_name: user.name
+  field_type: keyword
+  description: Account name
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: source.ip
+  field_type: ip
+  description: Source IP address
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: user.domain
+  field_type: keyword
+  description: Account domain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: ActorUserDomain
+signatures:
+- name: kiwi_winsyslog_security
+  description: Windows Security Events forwarded via Kiwi Syslog (MSWinEventLog format)
+  regex_pattern: MSWinEventLog.*Security.*Microsoft-Windows-Security-Auditing
+  log_type: security
+  confidence: 0.98
+  priority: 2
+- name: kiwi_winsyslog_generic
+  description: Generic Windows Event Log forwarded via Kiwi Syslog
+  regex_pattern: MSWinEventLog.*Microsoft-Windows
+  log_type: system
+  confidence: 0.95
+  priority: 5
+- name: winsyslog_audit_success
+  description: Windows Audit Success events via syslog
+  regex_pattern: MSWinEventLog.*Audit Success
+  log_type: audit
+  confidence: 0.95
+  priority: 5
+- name: winsyslog_audit_failure
+  description: Windows Audit Failure events via syslog
+  regex_pattern: MSWinEventLog.*Audit Failure
+  log_type: audit
+  confidence: 0.95
+  priority: 5
