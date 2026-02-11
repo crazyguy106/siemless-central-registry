@@ -7,200 +7,226 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-02-11'
 source_file: juniper-srx-signatures.json
-generated_at: '2026-02-11T23:44:10.011039'
+generated_at: '2026-02-11T15:57:12.707288'
 field_count: 27
 fields:
 - field_name: source-address
   field_type: ip
   description: Source IP address of the session
-  category: network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
+  category: network
+  display_name: Source Address
 - field_name: source-port
   field_type: port
   description: Source port of the session
-  category: network
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
+  category: network
+  display_name: Source Port
 - field_name: destination-address
   field_type: ip
   description: Destination IP address of the session
-  category: network
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: network
+  display_name: Destination Address
 - field_name: destination-port
   field_type: port
   description: Destination port of the session
-  category: network
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
+  category: network
+  display_name: Destination Port
 - field_name: service-name
   field_type: string
   description: Name of the service associated with the session (e.g., junos-http,
     junos-ssh)
-  category: network
   ecs_field: network.application
   cim_field: app
   asim_field: NetworkApplicationProtocol
+  category: network
+  display_name: Service Name
 - field_name: protocol-id
   field_type: number
   description: IP protocol number (6=TCP, 17=UDP, 1=ICMP)
-  category: network
   ecs_field: network.iana_number
   cim_field: protocol
   asim_field: NetworkProtocol
+  category: network
+  display_name: Protocol ID
 - field_name: policy-name
   field_type: string
   description: Name of the security policy that permitted or denied the session
-  category: security
   ecs_field: rule.name
   cim_field: rule
   asim_field: NetworkRuleName
+  category: security
+  display_name: Policy Name
 - field_name: nat-source-address
   field_type: ip
   description: Translated source IP address after source NAT
-  category: network
   ecs_field: source.nat.ip
   cim_field: src_translated_ip
   asim_field: SrcNatIpAddr
+  category: network
+  display_name: NAT Source Address
 - field_name: nat-source-port
   field_type: port
   description: Translated source port after source NAT
-  category: network
   ecs_field: source.nat.port
   cim_field: src_translated_port
   asim_field: SrcNatPortNumber
+  category: network
+  display_name: NAT Source Port
 - field_name: nat-destination-address
   field_type: ip
   description: Translated destination IP address after destination NAT
-  category: network
   ecs_field: destination.nat.ip
   cim_field: dest_translated_ip
   asim_field: DstNatIpAddr
+  category: network
+  display_name: NAT Destination Address
 - field_name: nat-destination-port
   field_type: port
   description: Translated destination port after destination NAT
-  category: network
   ecs_field: destination.nat.port
   cim_field: dest_translated_port
   asim_field: DstNatPortNumber
+  category: network
+  display_name: NAT Destination Port
 - field_name: src-nat-rule-name
   field_type: string
   description: Name of the source NAT rule applied to the session
-  category: security
   ecs_field: rule.ruleset
   cim_field: src_nat_rule
   asim_field: SrcNatRuleName
+  category: security
+  display_name: Source NAT Rule Name
 - field_name: dst-nat-rule-name
   field_type: string
   description: Name of the destination NAT rule applied to the session
-  category: security
   ecs_field: rule.ruleset
   cim_field: dest_nat_rule
   asim_field: DstNatRuleName
+  category: security
+  display_name: Destination NAT Rule Name
 - field_name: session-id-32
   field_type: string
   description: 32-bit unique session identifier
+  ecs_field: vendor.session-id-32
+  cim_field: session_id
+  asim_field: NetworkSessionId
   category: session
-  ecs_field: juniper.srx.session-id-32
-  cim_field: juniper.srx.session-id-32
-  asim_field: juniper.srx.session-id-32
+  display_name: Session ID
 - field_name: reason
   field_type: string
   description: Reason the session was closed (e.g., TCP FIN, timeout, policy deny)
-  category: session
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
+  category: session
+  display_name: Close Reason
 - field_name: packets-from-client
   field_type: number
   description: Number of packets sent from client to server during session
-  category: stats
   ecs_field: source.packets
   cim_field: packets_in
   asim_field: SrcPackets
+  category: stats
+  display_name: Packets From Client
 - field_name: bytes-from-client
   field_type: number
   description: Number of bytes sent from client to server during session
-  category: stats
   ecs_field: source.bytes
   cim_field: bytes_in
   asim_field: SrcBytes
+  category: stats
+  display_name: Bytes From Client
 - field_name: packets-from-server
   field_type: number
   description: Number of packets sent from server to client during session
-  category: stats
   ecs_field: destination.packets
   cim_field: packets_out
   asim_field: DstPackets
+  category: stats
+  display_name: Packets From Server
 - field_name: bytes-from-server
   field_type: number
   description: Number of bytes sent from server to client during session
-  category: stats
   ecs_field: destination.bytes
   cim_field: bytes_out
   asim_field: DstBytes
+  category: stats
+  display_name: Bytes From Server
 - field_name: elapsed-time
   field_type: number
   description: Duration of the session in seconds
-  category: stats
   ecs_field: event.duration
   cim_field: duration
   asim_field: NetworkDuration
+  category: stats
+  display_name: Elapsed Time
 - field_name: icmp-type
   field_type: number
   description: ICMP message type (for ICMP sessions only)
+  ecs_field: vendor.icmp-type
+  cim_field: icmp_type
+  asim_field: IcmpType
   category: network
-  ecs_field: juniper.srx.icmp-type
-  cim_field: juniper.srx.icmp-type
-  asim_field: juniper.srx.icmp-type
+  display_name: ICMP Type
 - field_name: source-zone-name
   field_type: string
   description: Security zone of the source interface
-  category: security
   ecs_field: observer.ingress.zone
   cim_field: src_zone
   asim_field: SrcZone
+  category: security
+  display_name: Source Zone
 - field_name: destination-zone-name
   field_type: string
   description: Security zone of the destination interface
-  category: security
   ecs_field: observer.egress.zone
   cim_field: dest_zone
   asim_field: DstZone
+  category: security
+  display_name: Destination Zone
 - field_name: username
   field_type: string
   description: Username associated with the session (if authenticated)
-  category: identity
   ecs_field: user.name
   cim_field: user
   asim_field: SrcUsername
+  category: identity
+  display_name: Username
 - field_name: roles
   field_type: string
   description: Roles assigned to the authenticated user
-  category: identity
   ecs_field: user.roles
   cim_field: user_role
   asim_field: SrcUserType
+  category: identity
+  display_name: User Roles
 - field_name: application
   field_type: string
   description: Application identified by AppID/AppTrack
-  category: application
   ecs_field: network.application
   cim_field: app
   asim_field: DvcAction
+  category: application
+  display_name: Application
 - field_name: nested-application
   field_type: string
   description: Nested application within tunneled traffic
+  ecs_field: vendor.nested-application
+  cim_field: nested_app
+  asim_field: NetworkApplicationProtocol
   category: application
-  ecs_field: juniper.srx.nested-application
-  cim_field: juniper.srx.nested-application
-  asim_field: juniper.srx.nested-application
-mapped_field_count: 24
+  display_name: Nested Application
 signatures:
 - name: juniper_srx_generic
   description: Generic Juniper SRX Security Gateway detection - RT_FLOW messages

@@ -7,10 +7,237 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-02-11'
 source_file: misp-threatintel-signatures.json
-generated_at: '2026-02-11T23:44:10.137795'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-11T15:57:13.067241'
+field_count: 38
+fields:
+- field_name: misp.threat_indicator.id
+  field_type: keyword
+  description: Identifier of the threat indicator
+  ecs_field: threat.indicator.id
+  cim_field: indicator_id
+  asim_field: ThreatId
+- field_name: misp.threat_indicator.type
+  field_type: keyword
+  description: Type of the threat indicator
+  ecs_field: threat.indicator.type
+  cim_field: indicator_type
+  asim_field: ThreatField
+- field_name: misp.threat_indicator.description
+  field_type: text
+  description: Description of the threat indicator
+  ecs_field: threat.indicator.description
+  cim_field: description
+  asim_field: ThreatDescription
+- field_name: misp.threat_indicator.feed
+  field_type: text
+  description: Name of the threat feed
+  ecs_field: threat.feed.name
+  cim_field: feed_name
+  asim_field: ThreatFeedName
+- field_name: misp.threat_indicator.valid_from
+  field_type: date
+  description: The time from which this indicator should be considered valid
+  ecs_field: threat.indicator.first_seen
+  cim_field: start_time
+  asim_field: ThreatFirstSeen
+- field_name: misp.threat_indicator.valid_until
+  field_type: date
+  description: The time at which this indicator should no longer be considered valid
+  ecs_field: threat.indicator.last_seen
+  cim_field: end_time
+  asim_field: ThreatLastSeen
+- field_name: misp.threat_indicator.severity
+  field_type: keyword
+  description: Threat severity (high, medium, low)
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: ThreatRiskLevel
+- field_name: misp.threat_indicator.confidence
+  field_type: keyword
+  description: Confidence level (high, medium, low)
+  ecs_field: threat.indicator.confidence
+  cim_field: confidence
+  asim_field: ThreatConfidence
+- field_name: misp.threat_indicator.kill_chain_phases
+  field_type: keyword
+  description: Kill chain phases associated with this indicator
+  ecs_field: threat.indicator.marking.tlp
+  cim_field: kill_chain_phase
+  asim_field: ThreatCategory
+- field_name: misp.threat_indicator.mitre_tactic
+  field_type: keyword
+  description: MITRE ATT&CK tactic
+  ecs_field: threat.tactic.name
+  cim_field: mitre_tactic
+  asim_field: ThreatCategory
+- field_name: misp.threat_indicator.mitre_technique
+  field_type: keyword
+  description: MITRE ATT&CK technique
+  ecs_field: threat.technique.name
+  cim_field: mitre_technique
+  asim_field: ThreatName
+- field_name: misp.threat_indicator.attack_pattern
+  field_type: keyword
+  description: STIX pattern for the indicator
+  ecs_field: threat.indicator.pattern
+  cim_field: pattern
+  asim_field: ThreatOriginalConfidence
+- field_name: misp.threat_indicator.intrusion_set
+  field_type: keyword
+  description: Name of the intrusion set
+  ecs_field: threat.group.name
+  cim_field: intrusion_set
+  asim_field: ThreatName
+- field_name: misp.threat_indicator.campaign
+  field_type: keyword
+  description: Name of the attack campaign
+  ecs_field: threat.campaign.name
+  cim_field: campaign
+  asim_field: ThreatName
+- field_name: misp.threat_indicator.threat_actor
+  field_type: keyword
+  description: Name of the threat actor
+  ecs_field: threat.group.name
+  cim_field: threat_actor
+  asim_field: ThreatName
+- field_name: misp.threat_actor.id
+  field_type: keyword
+  description: Identifier of the threat actor
+  ecs_field: threat.group.id
+  cim_field: actor_id
+  asim_field: ThreatId
+- field_name: misp.threat_actor.name
+  field_type: keyword
+  description: Name of the threat actor
+  ecs_field: threat.group.name
+  cim_field: threat_actor
+  asim_field: ThreatName
+- field_name: misp.threat_actor.description
+  field_type: text
+  description: Description of the threat actor
+  ecs_field: threat.group.description
+  cim_field: description
+  asim_field: ThreatDescription
+- field_name: misp.threat_actor.aliases
+  field_type: text
+  description: Alternative names for the threat actor
+  ecs_field: threat.group.alias
+  cim_field: aliases
+  asim_field: ThreatName
+- field_name: misp.threat_actor.sophistication
+  field_type: text
+  description: Threat actor sophistication level
+  ecs_field: threat.group.sophistication
+  cim_field: sophistication
+  asim_field: ThreatRiskLevel
+- field_name: misp.threat_actor.primary_motivation
+  field_type: text
+  description: Primary motivation of the threat actor
+  ecs_field: threat.group.motivation
+  cim_field: motivation
+  asim_field: ThreatCategory
+- field_name: misp.malware.id
+  field_type: keyword
+  description: Identifier of the malware
+  ecs_field: threat.indicator.id
+  cim_field: malware_id
+  asim_field: ThreatId
+- field_name: misp.malware.name
+  field_type: keyword
+  description: Name of the malware
+  ecs_field: threat.indicator.name
+  cim_field: malware
+  asim_field: ThreatName
+- field_name: misp.malware.description
+  field_type: text
+  description: Description of the malware
+  ecs_field: threat.indicator.description
+  cim_field: description
+  asim_field: ThreatDescription
+- field_name: misp.malware.labels
+  field_type: keyword
+  description: Malware type labels (ransomware, trojan, etc.)
+  ecs_field: threat.indicator.type
+  cim_field: malware_type
+  asim_field: ThreatCategory
+- field_name: misp.campaign.id
+  field_type: keyword
+  description: Identifier of the campaign
+  ecs_field: threat.campaign.id
+  cim_field: campaign_id
+  asim_field: ThreatId
+- field_name: misp.campaign.name
+  field_type: keyword
+  description: Name of the campaign
+  ecs_field: threat.campaign.name
+  cim_field: campaign
+  asim_field: ThreatName
+- field_name: misp.campaign.description
+  field_type: text
+  description: Description of the campaign
+  ecs_field: threat.campaign.description
+  cim_field: description
+  asim_field: ThreatDescription
+- field_name: misp.campaign.first_seen
+  field_type: date
+  description: When the campaign was first seen
+  ecs_field: threat.campaign.first_seen
+  cim_field: start_time
+  asim_field: ThreatFirstSeen
+- field_name: misp.campaign.last_seen
+  field_type: date
+  description: When the campaign was last seen
+  ecs_field: threat.campaign.last_seen
+  cim_field: end_time
+  asim_field: ThreatLastSeen
+- field_name: misp.intrusion_set.id
+  field_type: keyword
+  description: Identifier of the intrusion set
+  ecs_field: threat.group.id
+  cim_field: intrusion_set_id
+  asim_field: ThreatId
+- field_name: misp.intrusion_set.name
+  field_type: keyword
+  description: Name of the intrusion set
+  ecs_field: threat.group.name
+  cim_field: intrusion_set
+  asim_field: ThreatName
+- field_name: misp.vulnerability.id
+  field_type: keyword
+  description: Identifier of the vulnerability
+  ecs_field: vulnerability.id
+  cim_field: cve
+  asim_field: ThreatId
+- field_name: misp.vulnerability.name
+  field_type: keyword
+  description: Name of the vulnerability
+  ecs_field: vulnerability.name
+  cim_field: vulnerability
+  asim_field: ThreatName
+- field_name: misp.vulnerability.description
+  field_type: text
+  description: Description of the vulnerability
+  ecs_field: vulnerability.description
+  cim_field: description
+  asim_field: ThreatDescription
+- field_name: misp.attack_pattern.id
+  field_type: keyword
+  description: Identifier of the attack pattern
+  ecs_field: threat.technique.id
+  cim_field: attack_pattern_id
+  asim_field: ThreatId
+- field_name: misp.attack_pattern.name
+  field_type: keyword
+  description: Name of the attack pattern
+  ecs_field: threat.technique.name
+  cim_field: attack_pattern
+  asim_field: ThreatName
+- field_name: misp.attack_pattern.kill_chain_phases
+  field_type: keyword
+  description: Kill chain phases for the attack pattern
+  ecs_field: threat.tactic.name
+  cim_field: kill_chain_phase
+  asim_field: ThreatCategory
 signatures:
 - name: misp_threat_indicator
   description: MISP threat indicator (IOC)

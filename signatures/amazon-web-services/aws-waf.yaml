@@ -7,7 +7,7 @@ source_document: AWS WAF Logging Fields
 source_url: https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html
 extraction_date: '2026-01-02'
 source_file: aws-waf-signatures.json
-generated_at: '2026-01-31T09:35:24.949826'
+generated_at: '2026-02-11T15:57:00.023367'
 categories:
 - TopLevel
 - CaptchaChallenge
@@ -34,21 +34,21 @@ fields:
 - field_name: captchaResponse
   field_type: object
   description: CAPTCHA action status for the request
-  ecs_field: vendor.captchaResponse
+  ecs_field: event.action
   cim_field: captchaResponse
   asim_field: captchaResponse
   category: TopLevel
 - field_name: captchaResponse.failureReason
   field_type: string
   description: CAPTCHA failure reason
-  ecs_field: vendor.captchaResponse.failureReason
+  ecs_field: event.reason
   cim_field: captchaResponse.failureReason
   asim_field: captchaResponse.failureReason
   category: CaptchaChallenge
 - field_name: captchaResponse.responseCode
   field_type: integer
   description: CAPTCHA response code
-  ecs_field: vendor.captchaResponse.responseCode
+  ecs_field: http.response.status_code
   cim_field: captchaResponse.responseCode
   asim_field: captchaResponse.responseCode
   category: CaptchaChallenge
@@ -69,21 +69,21 @@ fields:
 - field_name: challengeResponse
   field_type: object
   description: Challenge action status for the request
-  ecs_field: vendor.challengeResponse
+  ecs_field: event.action
   cim_field: challengeResponse
   asim_field: challengeResponse
   category: TopLevel
 - field_name: challengeResponse.failureReason
   field_type: string
   description: Challenge failure reason
-  ecs_field: vendor.challengeResponse.failureReason
+  ecs_field: event.reason
   cim_field: challengeResponse.failureReason
   asim_field: challengeResponse.failureReason
   category: CaptchaChallenge
 - field_name: challengeResponse.responseCode
   field_type: integer
   description: Challenge response code
-  ecs_field: vendor.challengeResponse.responseCode
+  ecs_field: http.response.status_code
   cim_field: challengeResponse.responseCode
   asim_field: challengeResponse.responseCode
   category: CaptchaChallenge
@@ -97,14 +97,14 @@ fields:
 - field_name: clientAsn
   field_type: string
   description: ASN associated with the client IP address
-  ecs_field: vendor.clientAsn
+  ecs_field: source.ip
   cim_field: clientAsn
   asim_field: clientAsn
   category: TopLevel
 - field_name: clientIp
   field_type: ip
   description: IP address of the client sending the request
-  ecs_field: vendor.clientIp
+  ecs_field: source.ip
   cim_field: clientIp
   asim_field: clientIp
   category: TopLevel
@@ -118,14 +118,14 @@ fields:
 - field_name: excludedRules
   field_type: array
   description: List of rules excluded with Count action
-  ecs_field: vendor.excludedRules
+  ecs_field: event.action
   cim_field: excludedRules
   asim_field: excludedRules
   category: TopLevel
 - field_name: excludedRules.exclusionType
   field_type: string
   description: Type indicating rule has action Count
-  ecs_field: vendor.excludedRules.exclusionType
+  ecs_field: event.action
   cim_field: excludedRules.exclusionType
   asim_field: excludedRules.exclusionType
   category: ExcludedRules
@@ -153,7 +153,7 @@ fields:
 - field_name: fragment
   field_type: string
   description: 'URL fragment after # symbol'
-  ecs_field: vendor.fragment
+  ecs_field: url.full
   cim_field: fragment
   asim_field: fragment
   category: TopLevel
@@ -167,7 +167,7 @@ fields:
 - field_name: httpMethod
   field_type: string
   description: HTTP method in the request
-  ecs_field: vendor.httpMethod
+  ecs_field: http.request.method
   cim_field: httpMethod
   asim_field: httpMethod
   category: TopLevel
@@ -203,7 +203,7 @@ fields:
 - field_name: ja3Fingerprint
   field_type: string
   description: 32-char MD5 hash from TLS Client Hello
-  ecs_field: vendor.ja3Fingerprint
+  ecs_field: tls.client.ja3
   cim_field: ja3Fingerprint
   asim_field: ja3Fingerprint
   category: TopLevel
@@ -231,7 +231,7 @@ fields:
 - field_name: nonTerminatingMatchingRules.action
   field_type: string
   description: 'Action: count, CAPTCHA, or challenge'
-  ecs_field: vendor.nonTerminatingMatchingRules.action
+  ecs_field: event.action
   cim_field: nonTerminatingMatchingRules.action
   asim_field: nonTerminatingMatchingRules.action
   category: NonTerminating
@@ -323,14 +323,14 @@ fields:
 - field_name: requestId
   field_type: string
   description: Request ID from underlying host service
-  ecs_field: vendor.requestId
+  ecs_field: event.id
   cim_field: requestId
   asim_field: requestId
   category: TopLevel
 - field_name: responseCodeSent
   field_type: string
   description: Response code sent with custom response
-  ecs_field: vendor.responseCodeSent
+  ecs_field: http.response.status_code
   cim_field: responseCodeSent
   asim_field: responseCodeSent
   category: TopLevel
@@ -358,7 +358,7 @@ fields:
 - field_name: terminatingRule.action
   field_type: string
   description: 'Action: allow, block, CAPTCHA, or challenge'
-  ecs_field: vendor.terminatingRule.action
+  ecs_field: event.action
   cim_field: terminatingRule.action
   asim_field: terminatingRule.action
   category: TerminatingRule
@@ -379,7 +379,7 @@ fields:
 - field_name: terminatingRuleId
   field_type: string
   description: ID of terminating rule (Default_Action if none)
-  ecs_field: vendor.terminatingRuleId
+  ecs_field: event.action
   cim_field: terminatingRuleId
   asim_field: terminatingRuleId
   category: TopLevel

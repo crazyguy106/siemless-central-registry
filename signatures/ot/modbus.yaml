@@ -7,122 +7,137 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-02-11'
 source_file: ot-modbus-signatures.json
-generated_at: '2026-02-11T23:44:10.230551'
+generated_at: '2026-02-11T15:57:13.356588'
 field_count: 16
 fields:
 - field_name: transaction_id
   field_type: number
   description: Unique identifier for request/response matching (Modbus TCP)
-  category: protocol
   ecs_field: event.sequence
   cim_field: transaction_id
   asim_field: EventOriginalUid
+  category: protocol
+  display_name: Transaction ID
 - field_name: unit_id
   field_type: number
   description: Slave device address (1-247)
-  category: device
   ecs_field: destination.address
   cim_field: dest_id
   asim_field: DstDvcId
+  category: device
+  display_name: Unit ID
 - field_name: function_code
   field_type: number
   description: Modbus function code (1-127)
-  category: protocol
   ecs_field: event.code
   cim_field: signature_id
   asim_field: EventOriginalType
+  category: protocol
+  display_name: Function Code
 - field_name: function_name
   field_type: string
   description: Human-readable function name (Read Coils, Write Register, etc.)
-  category: protocol
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
+  category: protocol
+  display_name: Function Name
 - field_name: register_address
   field_type: number
   description: Starting register/coil address (0-65535)
+  ecs_field: vendor.register_address
+  cim_field: object_path
+  asim_field: TargetFilePath
   category: data
-  ecs_field: ot.modbus.register_address
-  cim_field: ot.modbus.register_address
-  asim_field: ot.modbus.register_address
+  display_name: Register Address
 - field_name: register_count
   field_type: number
   description: Number of registers/coils to read/write
-  category: data
   ecs_field: file.size
   cim_field: bytes
   asim_field: SrcBytes
+  category: data
+  display_name: Register Count
 - field_name: register_value
   field_type: string
   description: Value read from or written to register
-  category: data
   ecs_field: file.hash.md5
   cim_field: file_hash
   asim_field: TargetFileHashMd5
+  category: data
+  display_name: Register Value
 - field_name: exception_code
   field_type: number
   description: Modbus exception code (1-11) for error responses
-  category: error
   ecs_field: error.code
   cim_field: error_code
   asim_field: EventResultDetails
+  category: error
+  display_name: Exception Code
 - field_name: exception_name
   field_type: string
   description: Human-readable exception name (Illegal Function, Illegal Address, etc.)
-  category: error
   ecs_field: error.message
   cim_field: error_message
   asim_field: EventMessage
+  category: error
+  display_name: Exception Name
 - field_name: source_ip
   field_type: ip
   description: Master/client IP address
-  category: network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
+  category: network
+  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: Slave/server IP address
-  category: network
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: network
+  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Client ephemeral port
-  category: network
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
+  category: network
+  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Server port (typically 502 for Modbus TCP)
-  category: network
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
+  category: network
+  display_name: Destination Port
 - field_name: protocol_id
   field_type: number
   description: Modbus protocol identifier (always 0 for standard Modbus)
-  category: protocol
   ecs_field: network.iana_number
   cim_field: protocol
   asim_field: NetworkProtocol
+  category: protocol
+  display_name: Protocol ID
 - field_name: length
   field_type: number
   description: Protocol data unit length in bytes
-  category: protocol
   ecs_field: network.bytes
   cim_field: bytes
   asim_field: NetworkBytes
+  category: protocol
+  display_name: PDU Length
 - field_name: direction
   field_type: string
   description: Request or Response
-  category: protocol
   ecs_field: network.direction
   cim_field: direction
   asim_field: NetworkDirection
-mapped_field_count: 15
+  category: protocol
+  display_name: Direction
 signatures:
 - name: modbus_generic
   description: Generic Modbus TCP/RTU protocol detection

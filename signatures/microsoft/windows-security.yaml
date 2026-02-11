@@ -7,10 +7,51 @@ source_document: Kiwi Syslog Server Documentation
 source_url: ''
 extraction_date: '2026-01-21'
 source_file: kiwi-syslog-windows-signatures.json
-generated_at: '2026-02-11T23:44:10.019148'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-11T15:57:12.731404'
+field_count: 7
+fields:
+- field_name: event.provider
+  field_type: keyword
+  description: Windows event provider (e.g., Microsoft-Windows-Security-Auditing)
+  ecs_field: event.provider
+  cim_field: source
+  asim_field: EventProduct
+- field_name: event.code
+  field_type: keyword
+  description: Windows Event ID
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventId
+- field_name: event.outcome
+  field_type: keyword
+  description: Audit result (Success/Failure)
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: host.name
+  field_type: keyword
+  description: Source hostname
+  ecs_field: host.name
+  cim_field: host
+  asim_field: DvcHostname
+- field_name: user.name
+  field_type: keyword
+  description: Account name
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: source.ip
+  field_type: ip
+  description: Source IP address
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: user.domain
+  field_type: keyword
+  description: Account domain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: ActorUserDomain
 signatures:
 - name: kiwi_winsyslog_security
   description: Windows Security Events forwarded via Kiwi Syslog (MSWinEventLog format)

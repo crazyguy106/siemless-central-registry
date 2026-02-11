@@ -7,7 +7,7 @@ source_document: GuardDuty Finding Format
 source_url: https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-format.html
 extraction_date: '2026-01-02'
 source_file: aws-guardduty-signatures.json
-generated_at: '2026-01-31T09:35:24.873234'
+generated_at: '2026-02-11T15:56:59.945241'
 categories:
 - Metadata
 - Classification
@@ -19,7 +19,7 @@ fields:
 - field_name: AccountId
   field_type: string
   description: AWS account ID where finding was generated
-  ecs_field: vendor.AccountId
+  ecs_field: user.id
   cim_field: AccountId
   asim_field: AccountId
   category: Metadata
@@ -40,7 +40,7 @@ fields:
 - field_name: CreatedAt
   field_type: datetime
   description: Time when the finding was first created
-  ecs_field: vendor.CreatedAt
+  ecs_field: event.created
   cim_field: CreatedAt
   asim_field: CreatedAt
   category: Metadata
@@ -54,7 +54,7 @@ fields:
 - field_name: Id
   field_type: string
   description: Unique identifier for the finding
-  ecs_field: network.packet_id
+  ecs_field: event.id
   cim_field: packet_id
   asim_field: NetworkPacketId
   category: Metadata
@@ -82,7 +82,7 @@ fields:
 - field_name: Region
   field_type: string
   description: AWS Region where the finding was generated
-  ecs_field: vendor.Region
+  ecs_field: cloud.region
   cim_field: Region
   asim_field: Region
   category: Metadata
@@ -96,14 +96,14 @@ fields:
 - field_name: RemoteIpDetails.Country.CountryCode
   field_type: string
   description: Country code
-  ecs_field: vendor.RemoteIpDetails.Country.CountryCode
+  ecs_field: source.geo.country_name
   cim_field: RemoteIpDetails.Country.CountryCode
   asim_field: RemoteIpDetails.Country.CountryCode
   category: Network
 - field_name: RemoteIpDetails.Country.CountryName
   field_type: string
   description: Country name
-  ecs_field: vendor.RemoteIpDetails.Country.CountryName
+  ecs_field: source.geo.country_name
   cim_field: RemoteIpDetails.Country.CountryName
   asim_field: RemoteIpDetails.Country.CountryName
   category: Network
@@ -152,7 +152,7 @@ fields:
 - field_name: RemoteIpDetails.Organization.Isp
   field_type: string
   description: Internet service provider
-  ecs_field: vendor.RemoteIpDetails.Organization.Isp
+  ecs_field: cloud.provider
   cim_field: RemoteIpDetails.Organization.Isp
   asim_field: RemoteIpDetails.Organization.Isp
   category: Network
@@ -166,14 +166,14 @@ fields:
 - field_name: RemotePortDetails.Port
   field_type: port
   description: Remote port number
-  ecs_field: vendor.RemotePortDetails.Port
+  ecs_field: destination.port
   cim_field: RemotePortDetails.Port
   asim_field: RemotePortDetails.Port
   category: Network
 - field_name: RemotePortDetails.PortName
   field_type: string
   description: Remote port name
-  ecs_field: vendor.RemotePortDetails.PortName
+  ecs_field: destination.port
   cim_field: RemotePortDetails.PortName
   asim_field: RemotePortDetails.PortName
   category: Network
@@ -243,7 +243,7 @@ fields:
 - field_name: Resource.InstanceDetails.InstanceId
   field_type: string
   description: EC2 instance ID
-  ecs_field: vendor.Resource.InstanceDetails.InstanceId
+  ecs_field: cloud.instance.id
   cim_field: Resource.InstanceDetails.InstanceId
   asim_field: Resource.InstanceDetails.InstanceId
   category: Resource
@@ -313,14 +313,14 @@ fields:
 - field_name: SchemaVersion
   field_type: string
   description: Schema version of the finding
-  ecs_field: vendor.SchemaVersion
+  ecs_field: event.module
   cim_field: SchemaVersion
   asim_field: SchemaVersion
   category: Metadata
 - field_name: Service.Action.ActionType
   field_type: string
   description: Type of action (AWS_API_CALL, NETWORK_CONNECTION, DNS_REQUEST, etc.)
-  ecs_field: vendor.Service.Action.ActionType
+  ecs_field: event.action
   cim_field: Service.Action.ActionType
   asim_field: Service.Action.ActionType
   category: Service
@@ -341,14 +341,14 @@ fields:
 - field_name: Service.Action.AwsApiCallAction.ErrorCode
   field_type: string
   description: AWS error code if the call failed
-  ecs_field: vendor.Service.Action.AwsApiCallAction.ErrorCode
+  ecs_field: error.code
   cim_field: Service.Action.AwsApiCallAction.ErrorCode
   asim_field: Service.Action.AwsApiCallAction.ErrorCode
   category: Service
 - field_name: Service.Action.AwsApiCallAction.RemoteIpDetails
   field_type: object
   description: Remote IP details of the caller
-  ecs_field: vendor.Service.Action.AwsApiCallAction.RemoteIpDetails
+  ecs_field: destination.ip
   cim_field: Service.Action.AwsApiCallAction.RemoteIpDetails
   asim_field: Service.Action.AwsApiCallAction.RemoteIpDetails
   category: Service
@@ -376,7 +376,7 @@ fields:
 - field_name: Service.Action.DnsRequestAction.Protocol
   field_type: string
   description: Protocol used for DNS request
-  ecs_field: vendor.Service.Action.DnsRequestAction.Protocol
+  ecs_field: network.transport
   cim_field: Service.Action.DnsRequestAction.Protocol
   asim_field: Service.Action.DnsRequestAction.Protocol
   category: Service
@@ -397,7 +397,7 @@ fields:
 - field_name: Service.Action.NetworkConnectionAction.ConnectionDirection
   field_type: string
   description: Direction of the network connection
-  ecs_field: vendor.Service.Action.NetworkConnectionAction.ConnectionDirection
+  ecs_field: network.direction
   cim_field: Service.Action.NetworkConnectionAction.ConnectionDirection
   asim_field: Service.Action.NetworkConnectionAction.ConnectionDirection
   category: Service
@@ -411,21 +411,21 @@ fields:
 - field_name: Service.Action.NetworkConnectionAction.Protocol
   field_type: string
   description: Network protocol used
-  ecs_field: vendor.Service.Action.NetworkConnectionAction.Protocol
+  ecs_field: network.transport
   cim_field: Service.Action.NetworkConnectionAction.Protocol
   asim_field: Service.Action.NetworkConnectionAction.Protocol
   category: Service
 - field_name: Service.Action.NetworkConnectionAction.RemoteIpDetails
   field_type: object
   description: Remote IP details
-  ecs_field: vendor.Service.Action.NetworkConnectionAction.RemoteIpDetails
+  ecs_field: destination.ip
   cim_field: Service.Action.NetworkConnectionAction.RemoteIpDetails
   asim_field: Service.Action.NetworkConnectionAction.RemoteIpDetails
   category: Service
 - field_name: Service.Action.NetworkConnectionAction.RemotePortDetails
   field_type: object
   description: Remote port details
-  ecs_field: vendor.Service.Action.NetworkConnectionAction.RemotePortDetails
+  ecs_field: destination.port
   cim_field: Service.Action.NetworkConnectionAction.RemotePortDetails
   asim_field: Service.Action.NetworkConnectionAction.RemotePortDetails
   category: Service

@@ -7,7 +7,7 @@ source_document: CloudTrail Event Reference
 source_url: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
 extraction_date: '2026-01-02'
 source_file: aws-cloudtrail-signatures.json
-generated_at: '2026-01-31T09:35:24.833844'
+generated_at: '2026-02-11T15:56:59.905561'
 categories:
 - Addendum
 - RequestResponse
@@ -37,7 +37,7 @@ fields:
 - field_name: addendum.reason
   field_type: string
   description: Reason for delayed delivery or update
-  ecs_field: vendor.addendum.reason
+  ecs_field: event.reason
   cim_field: addendum.reason
   asim_field: addendum.reason
   category: Addendum
@@ -58,7 +58,7 @@ fields:
 - field_name: apiVersion
   field_type: string
   description: API version associated with AwsApiCall events
-  ecs_field: vendor.apiVersion
+  ecs_field: event.module
   cim_field: apiVersion
   asim_field: apiVersion
   category: Core
@@ -143,7 +143,7 @@ fields:
 - field_name: eventVersion
   field_type: string
   description: Version of the log event format (e.g., 1.11)
-  ecs_field: event.version
+  ecs_field: vendor.eventVersion
   cim_field: event_version
   asim_field: EventVersion
   category: Core
@@ -164,7 +164,7 @@ fields:
 - field_name: recipientAccountId
   field_type: string
   description: Account ID that received the event (12 digits)
-  ecs_field: vendor.recipientAccountId
+  ecs_field: user.id
   cim_field: recipientAccountId
   asim_field: recipientAccountId
   category: Core
@@ -185,28 +185,28 @@ fields:
 - field_name: resources[].ARN
   field_type: string
   description: ARN of the resource accessed
-  ecs_field: cloud.resource.name
+  ecs_field: vendor.resources[].ARN
   cim_field: resource_arn
   asim_field: CloudResourceName
   category: Resources
 - field_name: resources[].accountId
   field_type: string
   description: Account ID owning the resource
-  ecs_field: vendor.resources[].accountId
+  ecs_field: user.id
   cim_field: resources[].accountId
   asim_field: resources[].accountId
   category: Resources
 - field_name: resources[].type
   field_type: string
   description: Resource type identifier
-  ecs_field: cloud.resource.type
+  ecs_field: cloud.instance.id
   cim_field: resource_type
   asim_field: CloudResourceType
   category: Resources
 - field_name: responseElements
   field_type: object
   description: Response elements for create/update/delete actions (JSON, max 100 KB)
-  ecs_field: vendor.responseElements
+  ecs_field: event.action
   cim_field: responseElements
   asim_field: responseElements
   category: RequestResponse
@@ -228,7 +228,7 @@ fields:
   field_type: string
   description: GUID shared identifier for events from same action sent to multiple
     accounts
-  ecs_field: vendor.sharedEventID
+  ecs_field: event.action
   cim_field: sharedEventID
   asim_field: sharedEventID
   category: Core
@@ -270,7 +270,7 @@ fields:
 - field_name: userIdentity.accessKeyId
   field_type: string
   description: Access key ID used to sign the request
-  ecs_field: user.credentials
+  ecs_field: vendor.userIdentity.accessKeyId
   cim_field: access_key_id
   asim_field: ActorCredentialId
   category: UserIdentity
@@ -298,7 +298,7 @@ fields:
 - field_name: userIdentity.identityProvider
   field_type: string
   description: Principal name of the external identity provider (for SAMLUser/WebIdentityUser)
-  ecs_field: vendor.userIdentity.identityProvider
+  ecs_field: user.id
   cim_field: userIdentity.identityProvider
   asim_field: userIdentity.identityProvider
   category: UserIdentity
@@ -319,7 +319,7 @@ fields:
 - field_name: userIdentity.inScopeOf.sourceAccount
   field_type: string
   description: Account ID of the source resource
-  ecs_field: vendor.userIdentity.inScopeOf.sourceAccount
+  ecs_field: user.id
   cim_field: userIdentity.inScopeOf.sourceAccount
   asim_field: userIdentity.inScopeOf.sourceAccount
   category: InScopeOf
@@ -347,7 +347,7 @@ fields:
 - field_name: userIdentity.onBehalfOf.userId
   field_type: string
   description: IAM Identity Center user ID
-  ecs_field: vendor.userIdentity.onBehalfOf.userId
+  ecs_field: user.id
   cim_field: userIdentity.onBehalfOf.userId
   asim_field: userIdentity.onBehalfOf.userId
   category: OnBehalfOf
@@ -375,7 +375,7 @@ fields:
 - field_name: userIdentity.sessionContext.attributes.mfaAuthenticated
   field_type: boolean
   description: Whether MFA was used for authentication
-  ecs_field: user.mfa_authenticated
+  ecs_field: vendor.userIdentity.sessionContext.attributes.mfaAuthenticated
   cim_field: mfa_authenticated
   asim_field: ActorMfaAuthenticated
   category: SessionContext
@@ -424,7 +424,7 @@ fields:
 - field_name: userIdentity.sessionContext.sourceIdentity
   field_type: string
   description: Original user identity when assuming a role
-  ecs_field: vendor.userIdentity.sessionContext.sourceIdentity
+  ecs_field: user.id
   cim_field: userIdentity.sessionContext.sourceIdentity
   asim_field: userIdentity.sessionContext.sourceIdentity
   category: SessionContext
@@ -433,7 +433,7 @@ fields:
   description: Type of identity (Root, IAMUser, AssumedRole, Role, FederatedUser,
     Directory, AWSAccount, AWSService, IdentityCenterUser, SAMLUser, WebIdentityUser,
     Unknown)
-  ecs_field: user.type
+  ecs_field: user.id
   cim_field: user_type
   asim_field: ActorUserType
   category: UserIdentity
@@ -447,7 +447,7 @@ fields:
 - field_name: vpcEndpointAccountId
   field_type: string
   description: Account ID of the VPC endpoint owner
-  ecs_field: vendor.vpcEndpointAccountId
+  ecs_field: user.id
   cim_field: vpcEndpointAccountId
   asim_field: vpcEndpointAccountId
   category: Core

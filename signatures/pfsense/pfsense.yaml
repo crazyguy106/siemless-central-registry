@@ -7,7 +7,7 @@ source_document: pfSense Raw Filter Log Format (BNF)
 source_url: https://docs.netgate.com/pfsense/en/latest/monitoring/logs/raw-filter-format.html
 extraction_date: '2026-01-01'
 source_file: pfsense-filterlog-signatures.json
-generated_at: '2026-02-11T23:44:10.327745'
+generated_at: '2026-02-11T15:57:13.643641'
 categories:
 - Base
 - IPv4
@@ -22,369 +22,420 @@ fields:
 - field_name: rule_number
   field_type: int
   description: Rule number in the PF Ruleset
-  category: Base
   ecs_field: rule.id
   cim_field: rule_number
   asim_field: RuleNumber
+  category: Base
+  display_name: Rule Number
 - field_name: sub_rule_number
   field_type: int
   description: Sub rule number in the PF Ruleset
-  category: Base
   ecs_field: rule.id
   cim_field: sub_rule_number
   asim_field: SubRuleNumber
+  category: Base
+  display_name: Sub Rule Number
 - field_name: anchor
   field_type: string
   description: Anchor name in which the rule exists
-  category: Base
   ecs_field: rule.ruleset
   cim_field: anchor
   asim_field: RuleAnchor
+  category: Base
+  display_name: Anchor
 - field_name: tracker
   field_type: int
   description: Unique rule tracking ID per rule
-  category: Base
   ecs_field: rule.uuid
   cim_field: tracker
   asim_field: RuleTracker
+  category: Base
+  display_name: Tracker
 - field_name: real_interface
   field_type: string
   description: Real interface for the log entry (e.g. em0)
-  category: Base
   ecs_field: observer.ingress.interface.name
   cim_field: real_interface
   asim_field: DvcInboundInterface
+  category: Base
+  display_name: Real Interface
 - field_name: reason
   field_type: string
   description: Reason for the log entry (typically "match")
-  category: Base
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
+  category: Base
+  display_name: Reason
 - field_name: action
   field_type: string
   description: 'Action taken: pass, block, or unkn'
-  category: Base
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
+  category: Base
+  display_name: Action
 - field_name: direction
   field_type: string
   description: 'Direction of traffic: in, out'
-  category: Base
   ecs_field: network.direction
   cim_field: direction
   asim_field: NetworkDirection
+  category: Base
+  display_name: Direction
 - field_name: ip_version
   field_type: int
   description: 'IP version: 4 or 6'
+  ecs_field: vendor.ip_version
+  cim_field: ip_version
+  asim_field: ip_version
   category: Base
-  ecs_field: netgate.pfsense.ip_version
-  cim_field: netgate.pfsense.ip_version
-  asim_field: netgate.pfsense.ip_version
+  display_name: Ip Version
 - field_name: tos
   field_type: hex
   description: Type of Service identification
+  ecs_field: vendor.tos
+  cim_field: tos
+  asim_field: NetworkTos
   category: IPv4
-  ecs_field: netgate.pfsense.tos
-  cim_field: netgate.pfsense.tos
-  asim_field: netgate.pfsense.tos
+  display_name: Tos
 - field_name: ecn
   field_type: string
   description: Explicit Congestion Notification
+  ecs_field: vendor.ecn
+  cim_field: ecn
+  asim_field: NetworkEcn
   category: IPv4
-  ecs_field: netgate.pfsense.ecn
-  cim_field: netgate.pfsense.ecn
-  asim_field: netgate.pfsense.ecn
+  display_name: Ecn
 - field_name: ttl
   field_type: int
   description: Time To Live of the packet
+  ecs_field: vendor.ttl
+  cim_field: ttl
+  asim_field: NetworkTtl
   category: IPv4
-  ecs_field: netgate.pfsense.ttl
-  cim_field: netgate.pfsense.ttl
-  asim_field: netgate.pfsense.ttl
+  display_name: Ttl
 - field_name: id
   field_type: int
   description: ID of the packet
-  category: IPv4
   ecs_field: event.id
   cim_field: packet_id
   asim_field: NetworkPacketId
+  category: IPv4
+  display_name: Id
 - field_name: offset
   field_type: int
   description: Fragment offset
+  ecs_field: vendor.offset
+  cim_field: fragment_offset
+  asim_field: FragmentOffset
   category: IPv4
-  ecs_field: netgate.pfsense.offset
-  cim_field: netgate.pfsense.offset
-  asim_field: netgate.pfsense.offset
+  display_name: Offset
 - field_name: flags
   field_type: string
   description: IP Flags (none or text)
+  ecs_field: vendor.flags
+  cim_field: ip_flags
+  asim_field: IpFlags
   category: IPv4
-  ecs_field: netgate.pfsense.flags
-  cim_field: netgate.pfsense.flags
-  asim_field: netgate.pfsense.flags
+  display_name: Flags
 - field_name: protocol_id
   field_type: int
   description: IP protocol ID (e.g. 6 for TCP, 17 for UDP)
-  category: IPv4
   ecs_field: network.iana_number
   cim_field: protocol_id
   asim_field: NetworkProtocolVersion
+  category: IPv4
+  display_name: Protocol Id
 - field_name: protocol_text
   field_type: string
   description: IP protocol text (tcp, udp, icmp, etc)
-  category: IPv4
   ecs_field: network.transport
   cim_field: protocol_text
   asim_field: NetworkProtocol
+  category: IPv4
+  display_name: Protocol Text
 - field_name: class
   field_type: hex
   description: ToS traffic class
+  ecs_field: vendor.class
+  cim_field: class
+  asim_field: class
   category: IPv6
-  ecs_field: netgate.pfsense.class
-  cim_field: netgate.pfsense.class
-  asim_field: netgate.pfsense.class
+  display_name: Class
 - field_name: flow_label
   field_type: string
   description: IPv6 Flow label
+  ecs_field: vendor.flow_label
+  cim_field: flow_label
+  asim_field: flow_label
   category: IPv6
-  ecs_field: netgate.pfsense.flow_label
-  cim_field: netgate.pfsense.flow_label
-  asim_field: netgate.pfsense.flow_label
+  display_name: Flow Label
 - field_name: hop_limit
   field_type: int
   description: Hop Limit (similar to IPv4 TTL)
+  ecs_field: vendor.hop_limit
+  cim_field: hop_limit
+  asim_field: hop_limit
   category: IPv6
-  ecs_field: netgate.pfsense.hop_limit
-  cim_field: netgate.pfsense.hop_limit
-  asim_field: netgate.pfsense.hop_limit
+  display_name: Hop Limit
 - field_name: length
   field_type: int
   description: Length of the packet in bytes
+  ecs_field: vendor.length
+  cim_field: length
+  asim_field: length
   category: IP Data
-  ecs_field: netgate.pfsense.length
-  cim_field: netgate.pfsense.length
-  asim_field: netgate.pfsense.length
+  display_name: Length
 - field_name: source_address
   field_type: ip
   description: Source IP address of the logged traffic
-  category: IP Data
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
+  category: IP Data
+  display_name: Source Address
 - field_name: destination_address
   field_type: ip
   description: Destination IP address of the logged traffic
-  category: IP Data
   ecs_field: destination.ip
-  cim_field: ''
-  asim_field: ''
+  cim_field: destination_address
+  asim_field: destination_address
+  category: IP Data
+  display_name: Destination Address
 - field_name: source_port
   field_type: port
   description: Source port number
-  category: TCP
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
+  category: TCP
+  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Destination port number
-  category: TCP
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
+  category: TCP
+  display_name: Destination Port
 - field_name: data_length
   field_type: int
   description: Data/payload length
+  ecs_field: vendor.data_length
+  cim_field: data_length
+  asim_field: data_length
   category: TCP
-  ecs_field: netgate.pfsense.data_length
-  cim_field: netgate.pfsense.data_length
-  asim_field: netgate.pfsense.data_length
+  display_name: Data Length
 - field_name: tcp_flags
   field_type: string
   description: 'TCP Flags: S(SYN), A(ACK), .(no flags), F(FIN), R(RST), P(PSH), U(URG),
     E(ECE), W(CWR)'
+  ecs_field: vendor.tcp_flags
+  cim_field: tcp_flags
+  asim_field: TcpFlags
   category: TCP
-  ecs_field: netgate.pfsense.tcp_flags
-  cim_field: netgate.pfsense.tcp_flags
-  asim_field: netgate.pfsense.tcp_flags
+  display_name: Tcp Flags
 - field_name: sequence_number
   field_type: int
   description: TCP Sequence ID
+  ecs_field: vendor.sequence_number
+  cim_field: sequence_number
+  asim_field: TcpSeqNum
   category: TCP
-  ecs_field: netgate.pfsense.sequence_number
-  cim_field: netgate.pfsense.sequence_number
-  asim_field: netgate.pfsense.sequence_number
+  display_name: Sequence Number
 - field_name: ack_number
   field_type: int
   description: TCP ACK number
+  ecs_field: vendor.ack_number
+  cim_field: ack_number
+  asim_field: ack_number
   category: TCP
-  ecs_field: netgate.pfsense.ack_number
-  cim_field: netgate.pfsense.ack_number
-  asim_field: netgate.pfsense.ack_number
+  display_name: Ack Number
 - field_name: tcp_window
   field_type: int
   description: TCP Window size
+  ecs_field: vendor.tcp_window
+  cim_field: tcp_window
+  asim_field: tcp_window
   category: TCP
-  ecs_field: netgate.pfsense.tcp_window
-  cim_field: netgate.pfsense.tcp_window
-  asim_field: netgate.pfsense.tcp_window
+  display_name: Tcp Window
 - field_name: urg
   field_type: string
   description: Urgent pointer data
+  ecs_field: vendor.urg
+  cim_field: urg
+  asim_field: urg
   category: TCP
-  ecs_field: netgate.pfsense.urg
-  cim_field: netgate.pfsense.urg
-  asim_field: netgate.pfsense.urg
+  display_name: Urg
 - field_name: tcp_options
   field_type: string
   description: TCP Options
+  ecs_field: vendor.tcp_options
+  cim_field: tcp_options
+  asim_field: tcp_options
   category: TCP
-  ecs_field: netgate.pfsense.tcp_options
-  cim_field: netgate.pfsense.tcp_options
-  asim_field: netgate.pfsense.tcp_options
+  display_name: Tcp Options
 - field_name: udp_source_port
   field_type: port
   description: UDP Source port number
-  category: UDP
   ecs_field: source.port
-  cim_field: ''
-  asim_field: ''
+  cim_field: udp_source_port
+  asim_field: udp_source_port
+  category: UDP
+  display_name: Udp Source Port
 - field_name: udp_destination_port
   field_type: port
   description: UDP Destination port number
-  category: UDP
   ecs_field: destination.port
-  cim_field: ''
-  asim_field: ''
+  cim_field: udp_destination_port
+  asim_field: udp_destination_port
+  category: UDP
+  display_name: Udp Destination Port
 - field_name: udp_data_length
   field_type: int
   description: UDP Data/payload length
+  ecs_field: vendor.udp_data_length
+  cim_field: udp_data_length
+  asim_field: udp_data_length
   category: UDP
-  ecs_field: netgate.pfsense.udp_data_length
-  cim_field: netgate.pfsense.udp_data_length
-  asim_field: netgate.pfsense.udp_data_length
+  display_name: Udp Data Length
 - field_name: icmp_type
   field_type: string
   description: 'ICMP type: request, reply, unreachproto, unreachport, unreach, timexceed,
     paramprob, redirect, maskreply, needfrag, tstamp, tstampreply'
-  category: ICMP
   ecs_field: network.type
   cim_field: icmp_type
   asim_field: IcmpType
+  category: ICMP
+  display_name: Icmp Type
 - field_name: icmp_id
   field_type: int
   description: ID of the echo request/reply
+  ecs_field: vendor.icmp_id
+  cim_field: icmp_id
+  asim_field: icmp_id
   category: ICMP
-  ecs_field: netgate.pfsense.icmp_id
-  cim_field: netgate.pfsense.icmp_id
-  asim_field: netgate.pfsense.icmp_id
+  display_name: Icmp Id
 - field_name: icmp_sequence
   field_type: int
   description: Sequence number of the echo request/reply
+  ecs_field: vendor.icmp_sequence
+  cim_field: icmp_sequence
+  asim_field: icmp_sequence
   category: ICMP
-  ecs_field: netgate.pfsense.icmp_sequence
-  cim_field: netgate.pfsense.icmp_sequence
-  asim_field: netgate.pfsense.icmp_sequence
+  display_name: Icmp Sequence
 - field_name: icmp_destination_ip
   field_type: ip
   description: Original destination address of the connection that caused this notification
-  category: ICMP
   ecs_field: event.reason
-  cim_field: ''
-  asim_field: ''
+  cim_field: icmp_destination_ip
+  asim_field: icmp_destination_ip
+  category: ICMP
+  display_name: Icmp Destination Ip
 - field_name: unreachable_protocol_id
   field_type: int
   description: Protocol ID number that was unreachable
-  category: ICMP
   ecs_field: network.transport
-  cim_field: ''
-  asim_field: ''
+  cim_field: unreachable_protocol_id
+  asim_field: unreachable_protocol_id
+  category: ICMP
+  display_name: Unreachable Protocol Id
 - field_name: unreachable_port_number
   field_type: int
   description: Port number that was unreachable
+  ecs_field: vendor.unreachable_port_number
+  cim_field: unreachable_port_number
+  asim_field: unreachable_port_number
   category: ICMP
-  ecs_field: netgate.pfsense.unreachable_port_number
-  cim_field: netgate.pfsense.unreachable_port_number
-  asim_field: netgate.pfsense.unreachable_port_number
+  display_name: Unreachable Port Number
 - field_name: icmp_description
   field_type: string
   description: Description from the ICMP packet
+  ecs_field: vendor.icmp_description
+  cim_field: icmp_description
+  asim_field: icmp_description
   category: ICMP
-  ecs_field: netgate.pfsense.icmp_description
-  cim_field: netgate.pfsense.icmp_description
-  asim_field: netgate.pfsense.icmp_description
+  display_name: Icmp Description
 - field_name: icmp_mtu
   field_type: int
   description: MTU to use for subsequent data to this destination
+  ecs_field: vendor.icmp_mtu
+  cim_field: icmp_mtu
+  asim_field: icmp_mtu
   category: ICMP
-  ecs_field: netgate.pfsense.icmp_mtu
-  cim_field: netgate.pfsense.icmp_mtu
-  asim_field: netgate.pfsense.icmp_mtu
+  display_name: Icmp Mtu
 - field_name: icmp_otime
   field_type: timestamp
   description: ICMP Originate Timestamp
+  ecs_field: vendor.icmp_otime
+  cim_field: icmp_otime
+  asim_field: icmp_otime
   category: ICMP
-  ecs_field: netgate.pfsense.icmp_otime
-  cim_field: netgate.pfsense.icmp_otime
-  asim_field: netgate.pfsense.icmp_otime
+  display_name: Icmp Otime
 - field_name: icmp_rtime
   field_type: timestamp
   description: ICMP Receive Timestamp
+  ecs_field: vendor.icmp_rtime
+  cim_field: icmp_rtime
+  asim_field: icmp_rtime
   category: ICMP
-  ecs_field: netgate.pfsense.icmp_rtime
-  cim_field: netgate.pfsense.icmp_rtime
-  asim_field: netgate.pfsense.icmp_rtime
+  display_name: Icmp Rtime
 - field_name: icmp_ttime
   field_type: timestamp
   description: ICMP Transmit Timestamp
+  ecs_field: vendor.icmp_ttime
+  cim_field: icmp_ttime
+  asim_field: icmp_ttime
   category: ICMP
-  ecs_field: netgate.pfsense.icmp_ttime
-  cim_field: netgate.pfsense.icmp_ttime
-  asim_field: netgate.pfsense.icmp_ttime
+  display_name: Icmp Ttime
 - field_name: carp_type
   field_type: string
   description: Type of CARP/VRRP
+  ecs_field: vendor.carp_type
+  cim_field: carp_type
+  asim_field: carp_type
   category: CARP
-  ecs_field: netgate.pfsense.carp_type
-  cim_field: netgate.pfsense.carp_type
-  asim_field: netgate.pfsense.carp_type
+  display_name: Carp Type
 - field_name: carp_ttl
   field_type: int
   description: CARP Time to Live
+  ecs_field: vendor.carp_ttl
+  cim_field: carp_ttl
+  asim_field: carp_ttl
   category: CARP
-  ecs_field: netgate.pfsense.carp_ttl
-  cim_field: netgate.pfsense.carp_ttl
-  asim_field: netgate.pfsense.carp_ttl
+  display_name: Carp Ttl
 - field_name: vhid
   field_type: int
   description: Virtual Host ID
+  ecs_field: vendor.vhid
+  cim_field: vhid
+  asim_field: vhid
   category: CARP
-  ecs_field: netgate.pfsense.vhid
-  cim_field: netgate.pfsense.vhid
-  asim_field: netgate.pfsense.vhid
+  display_name: Vhid
 - field_name: carp_version
   field_type: int
   description: CARP Version
+  ecs_field: vendor.carp_version
+  cim_field: carp_version
+  asim_field: carp_version
   category: CARP
-  ecs_field: netgate.pfsense.carp_version
-  cim_field: netgate.pfsense.carp_version
-  asim_field: netgate.pfsense.carp_version
+  display_name: Carp Version
 - field_name: advbase
   field_type: int
   description: Advertisement base timer interval (seconds)
+  ecs_field: vendor.advbase
+  cim_field: advbase
+  asim_field: advbase
   category: CARP
-  ecs_field: netgate.pfsense.advbase
-  cim_field: netgate.pfsense.advbase
-  asim_field: netgate.pfsense.advbase
+  display_name: Advbase
 - field_name: advskew
   field_type: int
   description: Advertisement skew (1/256 of a second)
+  ecs_field: vendor.advskew
+  cim_field: advskew
+  asim_field: advskew
   category: CARP
-  ecs_field: netgate.pfsense.advskew
-  cim_field: netgate.pfsense.advskew
-  asim_field: netgate.pfsense.advskew
-mapped_field_count: 20
+  display_name: Advskew
 notes: pfSense filterlog uses CSV format with position-based fields. Field order varies
   by IP version and protocol.

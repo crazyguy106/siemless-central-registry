@@ -7,10 +7,213 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-02-11'
 source_file: zoom-meeting-signatures.json
-generated_at: '2026-02-11T23:44:10.740333'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-11T15:57:14.967724'
+field_count: 34
+fields:
+- field_name: zoom.account_id
+  field_type: keyword
+  description: The Zoom account ID
+  ecs_field: organization.id
+  cim_field: vendor_account
+  asim_field: ActorScope
+- field_name: zoom.operator
+  field_type: keyword
+  description: The user who performed the operation
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: zoom.operator_id
+  field_type: keyword
+  description: The user ID who performed the operation
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
+- field_name: zoom.time_stamp
+  field_type: date
+  description: Timestamp of the event
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: TimeGenerated
+- field_name: zoom.meeting.id
+  field_type: keyword
+  description: Unique meeting ID
+  ecs_field: event.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: zoom.meeting.uuid
+  field_type: keyword
+  description: Meeting UUID
+  ecs_field: event.id
+  cim_field: uuid
+  asim_field: EventOriginalUid
+- field_name: zoom.meeting.host_id
+  field_type: keyword
+  description: Host user ID
+  ecs_field: user.id
+  cim_field: host_user_id
+  asim_field: ActorUserId
+- field_name: zoom.meeting.topic
+  field_type: keyword
+  description: Meeting topic
+  ecs_field: event.reason
+  cim_field: subject
+  asim_field: EventMessage
+- field_name: zoom.meeting.type
+  field_type: keyword
+  description: Meeting type (instant, scheduled, recurring)
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventSubType
+- field_name: zoom.meeting.start_time
+  field_type: date
+  description: Meeting start time
+  ecs_field: event.start
+  cim_field: start_time
+  asim_field: EventStartTime
+- field_name: zoom.meeting.end_time
+  field_type: date
+  description: Meeting end time
+  ecs_field: event.end
+  cim_field: end_time
+  asim_field: EventEndTime
+- field_name: zoom.meeting.duration
+  field_type: long
+  description: Meeting duration in minutes
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: zoom.meeting.timezone
+  field_type: keyword
+  description: Timezone of the meeting
+  ecs_field: event.timezone
+  cim_field: timezone
+  asim_field: EventTimezone
+- field_name: zoom.participant.id
+  field_type: keyword
+  description: Participant user ID
+  ecs_field: user.id
+  cim_field: participant_id
+  asim_field: TargetUserId
+- field_name: zoom.participant.user_name
+  field_type: keyword
+  description: Participant name
+  ecs_field: user.name
+  cim_field: participant
+  asim_field: TargetUsername
+- field_name: zoom.participant.email
+  field_type: keyword
+  description: Participant email address
+  ecs_field: user.email
+  cim_field: participant_email
+  asim_field: TargetUserEmail
+- field_name: zoom.participant.join_time
+  field_type: date
+  description: Time participant joined
+  ecs_field: event.start
+  cim_field: join_time
+  asim_field: EventStartTime
+- field_name: zoom.participant.leave_time
+  field_type: date
+  description: Time participant left
+  ecs_field: event.end
+  cim_field: leave_time
+  asim_field: EventEndTime
+- field_name: zoom.participant.sharing_details.link_source
+  field_type: keyword
+  description: Source of shared link
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
+- field_name: zoom.participant.sharing_details.content
+  field_type: keyword
+  description: Type of content shared
+  ecs_field: file.type
+  cim_field: content_type
+  asim_field: TargetFileType
+- field_name: zoom.recording.id
+  field_type: keyword
+  description: Recording ID
+  ecs_field: event.id
+  cim_field: recording_id
+  asim_field: TargetFileId
+- field_name: zoom.recording.file_type
+  field_type: keyword
+  description: Recording file type
+  ecs_field: file.type
+  cim_field: file_type
+  asim_field: TargetFileType
+- field_name: zoom.recording.file_size
+  field_type: long
+  description: Recording file size
+  ecs_field: file.size
+  cim_field: file_size
+  asim_field: TargetFileSize
+- field_name: zoom.recording.play_url
+  field_type: keyword
+  description: URL to play the recording
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
+- field_name: zoom.recording.download_url
+  field_type: keyword
+  description: URL to download the recording
+  ecs_field: url.full
+  cim_field: download_url
+  asim_field: Url
+- field_name: zoom.webinar.id
+  field_type: keyword
+  description: Webinar ID
+  ecs_field: event.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: zoom.webinar.uuid
+  field_type: keyword
+  description: Webinar UUID
+  ecs_field: event.id
+  cim_field: uuid
+  asim_field: EventOriginalUid
+- field_name: zoom.webinar.topic
+  field_type: keyword
+  description: Webinar topic
+  ecs_field: event.reason
+  cim_field: subject
+  asim_field: EventMessage
+- field_name: zoom.chat_message.id
+  field_type: keyword
+  description: Chat message ID
+  ecs_field: event.id
+  cim_field: message_id
+  asim_field: EventOriginalUid
+- field_name: zoom.chat_message.message
+  field_type: text
+  description: Chat message content
+  ecs_field: message
+  cim_field: message
+  asim_field: EventMessage
+- field_name: zoom.chat_message.sender
+  field_type: keyword
+  description: Chat message sender
+  ecs_field: user.name
+  cim_field: sender
+  asim_field: ActorUsername
+- field_name: zoom.phone.id
+  field_type: keyword
+  description: Phone call ID
+  ecs_field: event.id
+  cim_field: call_id
+  asim_field: EventOriginalUid
+- field_name: zoom.phone.caller.phone_number
+  field_type: keyword
+  description: Caller phone number
+  ecs_field: source.address
+  cim_field: src_phone
+  asim_field: SrcHostname
+- field_name: zoom.phone.callee.phone_number
+  field_type: keyword
+  description: Callee phone number
+  ecs_field: destination.address
+  cim_field: dest_phone
+  asim_field: DstHostname
 signatures:
 - name: zoom_webhook
   description: Zoom webhook event

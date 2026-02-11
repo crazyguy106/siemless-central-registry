@@ -7,7 +7,7 @@ source_document: VPC Flow Log Records
 source_url: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html
 extraction_date: '2026-01-02'
 source_file: aws-vpc-flow-signatures.json
-generated_at: '2026-01-31T09:35:24.925861'
+generated_at: '2026-02-11T15:56:59.998939'
 categories:
 - Core
 - Regional
@@ -22,7 +22,7 @@ fields:
 - field_name: account-id
   field_type: string
   description: AWS account ID of the source network interface owner
-  ecs_field: vendor.account-id
+  ecs_field: user.id
   cim_field: account-id
   asim_field: account-id
   category: Core
@@ -50,7 +50,7 @@ fields:
 - field_name: dstaddr
   field_type: ip
   description: Destination IP address
-  ecs_field: vendor.dstaddr
+  ecs_field: destination.ip
   cim_field: dstaddr
   asim_field: dstaddr
   category: Core
@@ -92,7 +92,7 @@ fields:
 - field_name: ecs-container-instance-id
   field_type: string
   description: ECS container instance ID
-  ecs_field: vendor.ecs-container-instance-id
+  ecs_field: cloud.instance.id
   cim_field: ecs-container-instance-id
   asim_field: ecs-container-instance-id
   category: ECS
@@ -135,28 +135,28 @@ fields:
   field_type: integer
   description: 'Encryption status: 0=not encrypted, 1=Nitro-encrypted, 2=application-encrypted,
     3=both'
-  ecs_field: vendor.encryption-status
+  ecs_field: event.outcome
   cim_field: encryption-status
   asim_field: encryption-status
   category: Encryption
 - field_name: end
   field_type: datetime
   description: Unix timestamp when last packet was received
-  ecs_field: vendor.end
+  ecs_field: event.end
   cim_field: end
   asim_field: end
   category: Core
 - field_name: flow-direction
   field_type: string
   description: 'Flow direction: ingress or egress'
-  ecs_field: vendor.flow-direction
+  ecs_field: network.direction
   cim_field: flow-direction
   asim_field: flow-direction
   category: Service
 - field_name: instance-id
   field_type: string
   description: EC2 instance ID
-  ecs_field: vendor.instance-id
+  ecs_field: cloud.instance.id
   cim_field: instance-id
   asim_field: instance-id
   category: Extended
@@ -170,7 +170,7 @@ fields:
 - field_name: log-status
   field_type: string
   description: 'Logging status: OK, NODATA, or SKIPDATA'
-  ecs_field: vendor.log-status
+  ecs_field: event.outcome
   cim_field: log-status
   asim_field: log-status
   category: Core
@@ -219,14 +219,14 @@ fields:
 - field_name: region
   field_type: string
   description: AWS Region containing the network interface
-  ecs_field: vendor.region
+  ecs_field: cloud.region
   cim_field: region
   asim_field: region
   category: Regional
 - field_name: reject-reason
   field_type: string
   description: 'Rejection reason: BPA (Block Public Access) or EC (Encryption Controls)'
-  ecs_field: vendor.reject-reason
+  ecs_field: event.reason
   cim_field: reject-reason
   asim_field: reject-reason
   category: Security
@@ -240,7 +240,7 @@ fields:
 - field_name: srcaddr
   field_type: ip
   description: Source IP address
-  ecs_field: vendor.srcaddr
+  ecs_field: source.ip
   cim_field: srcaddr
   asim_field: srcaddr
   category: Core
@@ -268,7 +268,7 @@ fields:
 - field_name: sublocation-type
   field_type: string
   description: 'Sublocation type: wavelength, outpost, or localzone'
-  ecs_field: vendor.sublocation-type
+  ecs_field: event.category
   cim_field: sublocation-type
   asim_field: sublocation-type
   category: Regional
