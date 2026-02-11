@@ -7,7 +7,7 @@ source_document: 'Squid Configuration Directive: logformat'
 source_url: http://www.squid-cache.org/Doc/config/logformat/
 extraction_date: '2026-01-02'
 source_file: squid-signatures.json
-generated_at: '2026-01-31T09:35:39.430064'
+generated_at: '2026-02-11T23:44:10.507095'
 categories:
 - Connection
 - Time
@@ -24,556 +24,557 @@ fields:
 - field_name: '%>a'
   field_type: ip
   description: Client source IP address
+  category: Connection
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Connection
 - field_name: '%>A'
   field_type: string
   description: Client FQDN (if resolved)
+  category: Connection
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Connection
 - field_name: '%>p'
   field_type: integer
   description: Client source port
+  category: Connection
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
-  category: Connection
 - field_name: '%<a'
   field_type: ip
   description: Server/peer IP address
+  category: Connection
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: Connection
 - field_name: '%<A'
   field_type: string
   description: Server FQDN (if resolved)
+  category: Connection
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: Connection
 - field_name: '%<p'
   field_type: integer
   description: Server/peer port number
+  category: Connection
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
-  category: Connection
 - field_name: '%la'
   field_type: ip
   description: Local IP address client connected to
+  category: Connection
   ecs_field: observer.ip
   cim_field: proxy_ip
   asim_field: DvcIpAddr
-  category: Connection
 - field_name: '%lp'
   field_type: integer
   description: Local port client connected to
-  ecs_field: observer.ingress.port
-  cim_field: proxy_port
-  asim_field: DvcPort
   category: Connection
+  ecs_field: squidcache.squidproxyaccesslogs.%lp
+  cim_field: squidcache.squidproxyaccesslogs.%lp
+  asim_field: squidcache.squidproxyaccesslogs.%lp
 - field_name: '%>eui'
   field_type: string
   description: Client EUI-48 MAC address (if available)
+  category: Connection
   ecs_field: source.mac
   cim_field: src_mac
   asim_field: SrcMacAddr
-  category: Connection
 - field_name: '%ts'
   field_type: integer
   description: Timestamp as Unix epoch seconds
+  category: Time
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Time
 - field_name: '%tu'
   field_type: integer
   description: Subsecond timestamp (milliseconds)
+  category: Time
   ecs_field: event.created
   cim_field: _time
   asim_field: EventTime
-  category: Time
 - field_name: '%tl'
   field_type: datetime
   description: Local time in Common Log Format
+  category: Time
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Time
 - field_name: '%tg'
   field_type: datetime
   description: GMT/UTC time in Common Log Format
+  category: Time
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Time
 - field_name: '%tr'
   field_type: integer
   description: Total response time in milliseconds
+  category: Time
   ecs_field: event.duration
   cim_field: duration
   asim_field: EventDuration
-  category: Time
 - field_name: '%dt'
   field_type: integer
   description: Total time spent making DNS lookups (ms)
+  category: Time
   ecs_field: event.duration
   cim_field: dns_time
   asim_field: EventDuration
-  category: Time
 - field_name: '%>tt'
   field_type: integer
   description: Request transmission time (ms)
-  ecs_field: vendor.%>tt
-  cim_field: '%>tt'
-  asim_field: '%>tt'
   category: Time
+  ecs_field: squidcache.squidproxyaccesslogs.%>tt
+  cim_field: squidcache.squidproxyaccesslogs.%>tt
+  asim_field: squidcache.squidproxyaccesslogs.%>tt
 - field_name: '%<tt'
   field_type: integer
   description: Response transmission time (ms)
-  ecs_field: vendor.%<tt
-  cim_field: '%<tt'
-  asim_field: '%<tt'
   category: Time
+  ecs_field: event.duration
+  cim_field: ''
+  asim_field: ''
 - field_name: '%rm'
   field_type: string
   description: HTTP request method (GET, POST, etc.)
+  category: HTTP
   ecs_field: http.request.method
   cim_field: http_method
   asim_field: HttpRequestMethod
-  category: HTTP
 - field_name: '%ru'
   field_type: string
   description: Request URL received (or computed)
+  category: HTTP
   ecs_field: url.original
   cim_field: url
   asim_field: Url
-  category: HTTP
 - field_name: '%rp'
   field_type: string
   description: Request URL path excluding hostname
+  category: HTTP
   ecs_field: url.path
   cim_field: uri_path
   asim_field: UrlPath
-  category: HTTP
 - field_name: '%rv'
   field_type: string
   description: HTTP request protocol version
+  category: HTTP
   ecs_field: http.version
   cim_field: http_version
   asim_field: HttpVersion
-  category: HTTP
 - field_name: '%>h'
   field_type: string
   description: Original request header (use %{Header}>h)
-  ecs_field: vendor.%>h
-  cim_field: '%>h'
-  asim_field: '%>h'
   category: HTTP
+  ecs_field: squidcache.squidproxyaccesslogs.%>h
+  cim_field: squidcache.squidproxyaccesslogs.%>h
+  asim_field: squidcache.squidproxyaccesslogs.%>h
 - field_name: '%{Referer}>h'
   field_type: string
   description: Referer request header
-  ecs_field: vendor.%{Referer}>h
-  cim_field: '%{Referer}>h'
-  asim_field: '%{Referer}>h'
   category: HTTP
+  ecs_field: squidcache.squidproxyaccesslogs.%{Referer}>h
+  cim_field: squidcache.squidproxyaccesslogs.%{Referer}>h
+  asim_field: squidcache.squidproxyaccesslogs.%{Referer}>h
 - field_name: '%{User-Agent}>h'
   field_type: string
   description: User-Agent request header
-  ecs_field: vendor.%{User-Agent}>h
-  cim_field: '%{User-Agent}>h'
-  asim_field: '%{User-Agent}>h'
   category: HTTP
+  ecs_field: user_agent.original
+  cim_field: ''
+  asim_field: ''
 - field_name: '%{Host}>h'
   field_type: string
   description: Host request header
-  ecs_field: vendor.%{Host}>h
-  cim_field: '%{Host}>h'
-  asim_field: '%{Host}>h'
   category: HTTP
+  ecs_field: squidcache.squidproxyaccesslogs.%{Host}>h
+  cim_field: squidcache.squidproxyaccesslogs.%{Host}>h
+  asim_field: squidcache.squidproxyaccesslogs.%{Host}>h
 - field_name: '%>Hs'
   field_type: integer
   description: HTTP status code sent to client
-  ecs_field: vendor.%>Hs
-  cim_field: '%>Hs'
-  asim_field: '%>Hs'
   category: HTTP
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: '%<Hs'
   field_type: integer
   description: HTTP status code received from server/peer
-  ecs_field: vendor.%<Hs
-  cim_field: '%<Hs'
-  asim_field: '%<Hs'
   category: HTTP
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: '%<h'
   field_type: string
   description: Response header (use %{Header}<h)
-  ecs_field: vendor.%<h
-  cim_field: '%<h'
-  asim_field: '%<h'
   category: HTTP
+  ecs_field: squidcache.squidproxyaccesslogs.%<h
+  cim_field: squidcache.squidproxyaccesslogs.%<h
+  asim_field: squidcache.squidproxyaccesslogs.%<h
 - field_name: '%mt'
   field_type: string
   description: MIME content type of the response
+  category: HTTP
   ecs_field: http.response.mime_type
   cim_field: http_content_type
   asim_field: HttpContentType
-  category: HTTP
 - field_name: '%Ss'
   field_type: string
   description: Squid request status (TCP_HIT, TCP_MISS, etc.)
-  ecs_field: vendor.%Ss
-  cim_field: '%Ss'
-  asim_field: '%Ss'
   category: Cache
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: '%Sh'
   field_type: string
   description: Squid hierarchy status (DIRECT, PARENT_HIT, etc.)
-  ecs_field: vendor.%Sh
-  cim_field: '%Sh'
-  asim_field: '%Sh'
   category: Cache
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: '%>st'
   field_type: integer
   description: Total size of request (headers + body)
+  category: Size
   ecs_field: http.request.bytes
   cim_field: bytes_in
   asim_field: SrcBytes
-  category: Size
 - field_name: '%<st'
   field_type: integer
   description: Total size of reply (headers + body)
+  category: Size
   ecs_field: http.response.bytes
   cim_field: bytes_out
   asim_field: DstBytes
-  category: Size
 - field_name: '%st'
   field_type: integer
   description: Total request+reply size
+  category: Size
   ecs_field: http.response.bytes
   cim_field: bytes_out
   asim_field: DstBytes
-  category: Size
 - field_name: '%>sh'
   field_type: integer
   description: Size of request headers
-  ecs_field: http.request.header.bytes
-  cim_field: request_header_bytes
-  asim_field: SrcBytes
   category: Size
+  ecs_field: squidcache.squidproxyaccesslogs.%>sh
+  cim_field: squidcache.squidproxyaccesslogs.%>sh
+  asim_field: squidcache.squidproxyaccesslogs.%>sh
 - field_name: '%<sh'
   field_type: integer
   description: Size of reply headers received
-  ecs_field: http.response.header.bytes
-  cim_field: response_header_bytes
-  asim_field: DstBytes
   category: Size
+  ecs_field: squidcache.squidproxyaccesslogs.%<sh
+  cim_field: squidcache.squidproxyaccesslogs.%<sh
+  asim_field: squidcache.squidproxyaccesslogs.%<sh
 - field_name: '%>sH'
   field_type: integer
   description: Size of request headers sent to server
-  ecs_field: http.request.header.bytes
-  cim_field: request_header_bytes
-  asim_field: SrcBytes
   category: Size
+  ecs_field: squidcache.squidproxyaccesslogs.%>sH
+  cim_field: squidcache.squidproxyaccesslogs.%>sH
+  asim_field: squidcache.squidproxyaccesslogs.%>sH
 - field_name: '%<sH'
   field_type: integer
   description: Size of reply headers sent to client
-  ecs_field: http.response.header.bytes
-  cim_field: response_header_bytes
-  asim_field: DstBytes
   category: Size
+  ecs_field: squidcache.squidproxyaccesslogs.%<sH
+  cim_field: squidcache.squidproxyaccesslogs.%<sH
+  asim_field: squidcache.squidproxyaccesslogs.%<sH
 - field_name: '%>sb'
   field_type: integer
   description: Size of request body
-  ecs_field: vendor.%>sb
-  cim_field: '%>sb'
-  asim_field: '%>sb'
   category: Size
+  ecs_field: squidcache.squidproxyaccesslogs.%>sb
+  cim_field: squidcache.squidproxyaccesslogs.%>sb
+  asim_field: squidcache.squidproxyaccesslogs.%>sb
 - field_name: '%<sb'
   field_type: integer
   description: Size of reply body
-  ecs_field: vendor.%<sb
-  cim_field: '%<sb'
-  asim_field: '%<sb'
   category: Size
+  ecs_field: squidcache.squidproxyaccesslogs.%<sb
+  cim_field: squidcache.squidproxyaccesslogs.%<sb
+  asim_field: squidcache.squidproxyaccesslogs.%<sb
 - field_name: '%un'
   field_type: string
   description: User name (from auth or ident)
+  category: Connection
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: Connection
 - field_name: '%[un'
   field_type: string
   description: User name (- if none)
-  ecs_field: vendor.%[un
-  cim_field: '%[un'
-  asim_field: '%[un'
   category: Connection
+  ecs_field: user.name
+  cim_field: ''
+  asim_field: ''
 - field_name: '%ul'
   field_type: string
   description: User login name (before auth)
+  category: Connection
   ecs_field: user.name
   cim_field: user
   asim_field: SrcUsername
-  category: Connection
 - field_name: '%ue'
   field_type: string
   description: User external ACL name
+  category: Connection
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: Connection
 - field_name: '%ui'
   field_type: string
   description: User ident (from RFC 1413)
+  category: Connection
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: Connection
 - field_name: '%credentials'
   field_type: string
   description: Client credentials or auth method
-  ecs_field: vendor.%credentials
-  cim_field: '%credentials'
-  asim_field: '%credentials'
   category: Connection
+  ecs_field: squidcache.squidproxyaccesslogs.%credentials
+  cim_field: squidcache.squidproxyaccesslogs.%credentials
+  asim_field: squidcache.squidproxyaccesslogs.%credentials
 - field_name: '%ssl::bump_mode'
   field_type: string
   description: SSL bump mode (client-first, server-first, peek, stare, etc.)
-  ecs_field: vendor.%ssl::bump_mode
-  cim_field: '%ssl::bump_mode'
-  asim_field: '%ssl::bump_mode'
   category: SSL
+  ecs_field: squidcache.squidproxyaccesslogs.%ssl::bump_mode
+  cim_field: squidcache.squidproxyaccesslogs.%ssl::bump_mode
+  asim_field: squidcache.squidproxyaccesslogs.%ssl::bump_mode
 - field_name: '%ssl::>sni'
   field_type: string
   description: TLS Server Name Indication from client
-  ecs_field: vendor.%ssl::>sni
-  cim_field: '%ssl::>sni'
-  asim_field: '%ssl::>sni'
   category: SSL
+  ecs_field: squidcache.squidproxyaccesslogs.%ssl::>sni
+  cim_field: squidcache.squidproxyaccesslogs.%ssl::>sni
+  asim_field: squidcache.squidproxyaccesslogs.%ssl::>sni
 - field_name: '%ssl::>cert_subject'
   field_type: string
   description: Client SSL certificate subject (if provided)
+  category: SSL
   ecs_field: tls.client.subject
   cim_field: ssl_client_subject
   asim_field: TlsClientSubject
-  category: SSL
 - field_name: '%ssl::>cert_issuer'
   field_type: string
   description: Client SSL certificate issuer
+  category: SSL
   ecs_field: tls.client.issuer
   cim_field: ssl_client_issuer
   asim_field: TlsClientIssuer
-  category: SSL
 - field_name: '%ssl::<cert_subject'
   field_type: string
   description: Server SSL certificate subject
+  category: SSL
   ecs_field: tls.server.subject
   cim_field: ssl_server_subject
   asim_field: TlsServerSubject
-  category: SSL
 - field_name: '%ssl::<cert_issuer'
   field_type: string
   description: Server SSL certificate issuer
+  category: SSL
   ecs_field: tls.server.issuer
   cim_field: ssl_server_issuer
   asim_field: TlsServerIssuer
-  category: SSL
 - field_name: '%ssl::<cert_errors'
   field_type: integer
   description: Count of server certificate errors
-  ecs_field: vendor.%ssl::<cert_errors
-  cim_field: '%ssl::<cert_errors'
-  asim_field: '%ssl::<cert_errors'
   category: SSL
+  ecs_field: squidcache.squidproxyaccesslogs.%ssl::<cert_errors
+  cim_field: squidcache.squidproxyaccesslogs.%ssl::<cert_errors
+  asim_field: squidcache.squidproxyaccesslogs.%ssl::<cert_errors
 - field_name: '%ssl::>negotiated_version'
   field_type: string
   description: Negotiated TLS version to client
-  ecs_field: vendor.%ssl::>negotiated_version
-  cim_field: '%ssl::>negotiated_version'
-  asim_field: '%ssl::>negotiated_version'
   category: SSL
+  ecs_field: tls.version
+  cim_field: ''
+  asim_field: ''
 - field_name: '%ssl::<negotiated_version'
   field_type: string
   description: Negotiated TLS version to server
-  ecs_field: vendor.%ssl::<negotiated_version
-  cim_field: '%ssl::<negotiated_version'
-  asim_field: '%ssl::<negotiated_version'
   category: SSL
+  ecs_field: tls.version
+  cim_field: ''
+  asim_field: ''
 - field_name: '%ssl::>negotiated_cipher'
   field_type: string
   description: Negotiated cipher suite to client
-  ecs_field: vendor.%ssl::>negotiated_cipher
-  cim_field: '%ssl::>negotiated_cipher'
-  asim_field: '%ssl::>negotiated_cipher'
   category: SSL
+  ecs_field: tls.cipher
+  cim_field: ''
+  asim_field: ''
 - field_name: '%ssl::<negotiated_cipher'
   field_type: string
   description: Negotiated cipher suite to server
-  ecs_field: vendor.%ssl::<negotiated_cipher
-  cim_field: '%ssl::<negotiated_cipher'
-  asim_field: '%ssl::<negotiated_cipher'
   category: SSL
+  ecs_field: tls.cipher
+  cim_field: ''
+  asim_field: ''
 - field_name: '%ssl::>received_hello_version'
   field_type: string
   description: TLS version from client hello
-  ecs_field: vendor.%ssl::>received_hello_version
-  cim_field: '%ssl::>received_hello_version'
-  asim_field: '%ssl::>received_hello_version'
   category: SSL
+  ecs_field: tls.version
+  cim_field: ''
+  asim_field: ''
 - field_name: '%ssl::<received_hello_version'
   field_type: string
   description: TLS version from server hello
-  ecs_field: vendor.%ssl::<received_hello_version
-  cim_field: '%ssl::<received_hello_version'
-  asim_field: '%ssl::<received_hello_version'
   category: SSL
+  ecs_field: tls.version
+  cim_field: ''
+  asim_field: ''
 - field_name: '%lc'
   field_type: string
   description: PROXY protocol client IP (if PROXY protocol used)
-  ecs_field: vendor.%lc
-  cim_field: '%lc'
-  asim_field: '%lc'
   category: Connection
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
 - field_name: '%lp'
   field_type: integer
   description: PROXY protocol client port
-  ecs_field: observer.ingress.port
+  category: Connection
+  ecs_field: source.port
   cim_field: proxy_port
   asim_field: DvcPort
-  category: Connection
 - field_name: '%icap::tt'
   field_type: integer
   description: Total ICAP processing time (ms)
-  ecs_field: vendor.%icap::tt
-  cim_field: '%icap::tt'
-  asim_field: '%icap::tt'
   category: ICAP
+  ecs_field: squidcache.squidproxyaccesslogs.%icap::tt
+  cim_field: squidcache.squidproxyaccesslogs.%icap::tt
+  asim_field: squidcache.squidproxyaccesslogs.%icap::tt
 - field_name: '%icap::>st'
   field_type: integer
   description: Bytes sent to ICAP server
-  ecs_field: vendor.%icap::>st
-  cim_field: '%icap::>st'
-  asim_field: '%icap::>st'
   category: ICAP
+  ecs_field: source.bytes
+  cim_field: ''
+  asim_field: ''
 - field_name: '%icap::<st'
   field_type: integer
   description: Bytes received from ICAP server
-  ecs_field: vendor.%icap::<st
-  cim_field: '%icap::<st'
-  asim_field: '%icap::<st'
   category: ICAP
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
 - field_name: '%icap::>h'
   field_type: string
   description: ICAP request header
-  ecs_field: vendor.%icap::>h
-  cim_field: '%icap::>h'
-  asim_field: '%icap::>h'
   category: ICAP
+  ecs_field: squidcache.squidproxyaccesslogs.%icap::>h
+  cim_field: squidcache.squidproxyaccesslogs.%icap::>h
+  asim_field: squidcache.squidproxyaccesslogs.%icap::>h
 - field_name: '%icap::<h'
   field_type: string
   description: ICAP response header
-  ecs_field: vendor.%icap::<h
-  cim_field: '%icap::<h'
-  asim_field: '%icap::<h'
   category: ICAP
+  ecs_field: squidcache.squidproxyaccesslogs.%icap::<h
+  cim_field: squidcache.squidproxyaccesslogs.%icap::<h
+  asim_field: squidcache.squidproxyaccesslogs.%icap::<h
 - field_name: '%icap::tr'
   field_type: integer
   description: ICAP transaction response time
-  ecs_field: vendor.%icap::tr
-  cim_field: '%icap::tr'
-  asim_field: '%icap::tr'
   category: ICAP
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: '%icap::to'
   field_type: string
   description: ICAP transaction outcome
-  ecs_field: vendor.%icap::to
-  cim_field: '%icap::to'
-  asim_field: '%icap::to'
   category: ICAP
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: '%icap::Hs'
   field_type: integer
   description: ICAP response status code
-  ecs_field: vendor.%icap::Hs
-  cim_field: '%icap::Hs'
-  asim_field: '%icap::Hs'
   category: ICAP
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: '%icap::ru'
   field_type: string
   description: ICAP server URI used
-  ecs_field: vendor.%icap::ru
-  cim_field: '%icap::ru'
-  asim_field: '%icap::ru'
   category: ICAP
+  ecs_field: squidcache.squidproxyaccesslogs.%icap::ru
+  cim_field: squidcache.squidproxyaccesslogs.%icap::ru
+  asim_field: squidcache.squidproxyaccesslogs.%icap::ru
 - field_name: '%adapt::sum_trs'
   field_type: string
   description: Adaptation transaction response summary
-  ecs_field: vendor.%adapt::sum_trs
-  cim_field: '%adapt::sum_trs'
-  asim_field: '%adapt::sum_trs'
   category: Adaptation
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: '%adapt::all_trs'
   field_type: string
   description: All adaptation transaction responses
-  ecs_field: vendor.%adapt::all_trs
-  cim_field: '%adapt::all_trs'
-  asim_field: '%adapt::all_trs'
   category: Adaptation
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: '%note'
   field_type: string
   description: Annotation/note set during request processing
-  ecs_field: vendor.%note
-  cim_field: '%note'
-  asim_field: '%note'
   category: Notes
+  ecs_field: squidcache.squidproxyaccesslogs.%note
+  cim_field: squidcache.squidproxyaccesslogs.%note
+  asim_field: squidcache.squidproxyaccesslogs.%note
 - field_name: '%{key}note'
   field_type: string
   description: Specific note value by key
-  ecs_field: vendor.%{key}note
-  cim_field: '%{key}note'
-  asim_field: '%{key}note'
   category: Notes
+  ecs_field: squidcache.squidproxyaccesslogs.%{key}note
+  cim_field: squidcache.squidproxyaccesslogs.%{key}note
+  asim_field: squidcache.squidproxyaccesslogs.%{key}note
 - field_name: '%master_xaction'
   field_type: string
   description: Master transaction ID for aggregation
-  ecs_field: vendor.%master_xaction
-  cim_field: '%master_xaction'
-  asim_field: '%master_xaction'
   category: Notes
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: '%err_code'
   field_type: string
   description: Squid error code
+  category: Notes
   ecs_field: error.code
   cim_field: error_code
   asim_field: ErrorCode
-  category: Notes
 - field_name: '%err_detail'
   field_type: string
   description: Squid error detail message
+  category: Notes
   ecs_field: error.message
   cim_field: error_detail
   asim_field: ErrorMessage
-  category: Notes
 - field_name: '%02x'
   field_type: string
   description: 'Format modifier: pad with zeros to 2 digits'
-  ecs_field: vendor.%02x
-  cim_field: '%02x'
-  asim_field: '%02x'
   category: Notes
+  ecs_field: squidcache.squidproxyaccesslogs.%02x
+  cim_field: squidcache.squidproxyaccesslogs.%02x
+  asim_field: squidcache.squidproxyaccesslogs.%02x
 - field_name: '%#x'
   field_type: string
   description: 'Format modifier: output in alternative format'
-  ecs_field: vendor.%#x
-  cim_field: '%#x'
-  asim_field: '%#x'
   category: Notes
+  ecs_field: squidcache.squidproxyaccesslogs.%#x
+  cim_field: squidcache.squidproxyaccesslogs.%#x
+  asim_field: squidcache.squidproxyaccesslogs.%#x
+mapped_field_count: 55
 notes: Access log format codes for Squid proxy. Supports custom log formats via logformat
   directive. All codes prefixed with %.
 log_formats:

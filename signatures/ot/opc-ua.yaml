@@ -5,139 +5,124 @@ product_full_name: OPC Unified Architecture
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-31'
+extraction_date: '2026-02-11'
 source_file: ot-opc_ua-signatures.json
-generated_at: '2026-01-31T09:35:38.594310'
+generated_at: '2026-02-11T23:44:10.236549'
 field_count: 16
 fields:
 - field_name: source_ip
   field_type: ip
   description: Client IP address
+  category: network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: network
-  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: Server IP address
+  category: network
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: network
-  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Client port
+  category: network
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
-  category: network
-  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Server port (typically 4840)
+  category: network
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
-  category: network
-  display_name: Destination Port
 - field_name: message_type
   field_type: string
   description: OPC UA message type (HEL, ACK, OPN, CLO, MSG, ERR)
+  category: protocol
   ecs_field: event.code
   cim_field: signature_id
   asim_field: EventOriginalType
-  category: protocol
-  display_name: Message Type
 - field_name: service_id
   field_type: number
   description: OPC UA service request/response ID
+  category: protocol
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
-  category: protocol
-  display_name: Service ID
 - field_name: service_name
   field_type: string
   description: Human-readable service name
+  category: protocol
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
-  category: protocol
-  display_name: Service Name
 - field_name: session_id
   field_type: string
   description: OPC UA session identifier
+  category: session
   ecs_field: event.id
   cim_field: session_id
   asim_field: DvcScopeId
-  category: session
-  display_name: Session ID
 - field_name: authentication_token
   field_type: string
   description: Session authentication token
+  category: session
   ecs_field: process.entity_id
   cim_field: process_id
   asim_field: TargetProcessId
-  category: session
-  display_name: Authentication Token
 - field_name: node_id
   field_type: string
   description: OPC UA node identifier
+  category: data
   ecs_field: file.path
   cim_field: object_path
   asim_field: TargetFilePath
-  category: data
-  display_name: Node ID
 - field_name: node_value
   field_type: string
   description: Value of the node
+  category: data
   ecs_field: file.hash.md5
   cim_field: file_hash
   asim_field: TargetFileHashMd5
-  category: data
-  display_name: Node Value
 - field_name: security_mode
   field_type: string
   description: Message security mode (None, Sign, SignAndEncrypt)
+  category: security
   ecs_field: tls.cipher
   cim_field: ssl_cipher
   asim_field: TlsCipher
-  category: security
-  display_name: Security Mode
 - field_name: security_policy
   field_type: string
   description: Security policy URI
+  category: security
   ecs_field: tls.version
   cim_field: ssl_version
   asim_field: TlsVersion
-  category: security
-  display_name: Security Policy
 - field_name: user_identity
   field_type: string
   description: Authenticated user identity
+  category: authentication
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: authentication
-  display_name: User Identity
 - field_name: status_code
   field_type: number
   description: OPC UA status code
+  category: result
   ecs_field: event.outcome
   cim_field: result
   asim_field: EventResult
-  category: result
-  display_name: Status Code
 - field_name: subscription_id
   field_type: number
   description: Subscription identifier for publish/subscribe
+  category: subscription
   ecs_field: event.sequence
   cim_field: transaction_id
   asim_field: EventOriginalUid
-  category: subscription
-  display_name: Subscription ID
+mapped_field_count: 16
 signatures:
 - name: opcua_hello
   pattern: message_type[=:]\s*HEL|OPC UA Hello

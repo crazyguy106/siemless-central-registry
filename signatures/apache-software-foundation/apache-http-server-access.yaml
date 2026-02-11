@@ -7,7 +7,7 @@ source_document: mod_log_config Module Documentation
 source_url: https://httpd.apache.org/docs/2.4/mod/mod_log_config.html
 extraction_date: '2026-01-02'
 source_file: apache-httpd-signatures.json
-generated_at: '2026-01-31T09:35:24.785650'
+generated_at: '2026-02-11T23:44:05.374103'
 categories:
 - Client
 - Request
@@ -21,304 +21,305 @@ fields:
 - field_name: '%h'
   field_type: ip
   description: Remote hostname (or IP if HostnameLookups is Off)
+  category: Client
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Client
 - field_name: '%{c}h'
   field_type: ip
   description: Hostname of underlying TCP connection (for keep-alive)
+  category: Client
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Client
 - field_name: '%a'
   field_type: ip
   description: Client IP address of the request
+  category: Client
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Client
 - field_name: '%{c}a'
   field_type: ip
   description: Underlying peer IP address of the connection
+  category: Client
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Client
 - field_name: '%l'
   field_type: string
   description: Remote logname from identd (usually '-')
+  category: Client
   ecs_field: user.name
   cim_field: user
   asim_field: SrcUsername
-  category: Client
 - field_name: '%u'
   field_type: string
   description: Remote user if authenticated via HTTP auth
+  category: Client
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: Client
 - field_name: '%r'
   field_type: string
   description: First line of request (method + URI + protocol)
-  ecs_field: http.request.line
+  category: Request
+  ecs_field: url.full
   cim_field: http_request
   asim_field: HttpRequest
-  category: Request
 - field_name: '%m'
   field_type: string
   description: The request method (GET, POST, etc.)
+  category: Request
   ecs_field: http.request.method
   cim_field: http_method
   asim_field: HttpRequestMethod
-  category: Request
 - field_name: '%U'
   field_type: string
   description: The URL path requested (without query string)
+  category: Request
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: Request
 - field_name: '%q'
   field_type: string
   description: The query string (prepended with ? if exists)
+  category: Request
   ecs_field: url.query
   cim_field: uri_query
   asim_field: UrlQuery
-  category: Request
 - field_name: '%H'
   field_type: string
   description: The request protocol (HTTP/1.0, HTTP/1.1, HTTP/2)
+  category: Request
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Request
 - field_name: '%f'
   field_type: string
   description: Filename served
+  category: Request
   ecs_field: file.path
   cim_field: file_path
   asim_field: TargetFilePath
-  category: Request
 - field_name: '%R'
   field_type: string
   description: Handler generating the response
-  ecs_field: http.request.line
-  cim_field: http_request
-  asim_field: HttpRequest
   category: Request
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%R
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%R
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%R
 - field_name: '%s'
   field_type: integer
   description: Status code of original request
+  category: Response
   ecs_field: http.response.status_code
   cim_field: status
   asim_field: HttpStatusCode
-  category: Response
 - field_name: '%>s'
   field_type: integer
   description: Final status code after redirects
+  category: Response
   ecs_field: http.response.status_code
   cim_field: status
   asim_field: HttpStatusCode
-  category: Response
 - field_name: '%b'
   field_type: integer
   description: Size of response in bytes (excluding headers, '-' if 0)
+  category: Response
   ecs_field: http.response.body.bytes
   cim_field: bytes_out
   asim_field: DstBytes
-  category: Response
 - field_name: '%B'
   field_type: integer
   description: Size of response in bytes (excluding headers, 0 if 0)
+  category: Response
   ecs_field: http.response.body.bytes
   cim_field: bytes_out
   asim_field: DstBytes
-  category: Response
 - field_name: '%O'
   field_type: integer
   description: Bytes sent including headers (requires mod_logio)
-  ecs_field: vendor.%O
-  cim_field: '%O'
-  asim_field: '%O'
   category: Response
+  ecs_field: source.bytes
+  cim_field: ''
+  asim_field: ''
 - field_name: '%I'
   field_type: integer
   description: Bytes received including headers (requires mod_logio)
-  ecs_field: vendor.%I
-  cim_field: '%I'
-  asim_field: '%I'
   category: Response
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
 - field_name: '%S'
   field_type: integer
   description: Bytes transferred (received + sent, requires mod_logio)
+  category: Response
   ecs_field: http.response.status_code
   cim_field: status
   asim_field: HttpStatusCode
-  category: Response
 - field_name: '%t'
   field_type: datetime
   description: Time request received in standard format [18/Sep/2011:19:18:28 -0400]
+  category: Timing
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Timing
 - field_name: '%{format}t'
   field_type: datetime
   description: Time in extended strftime format (supports sec, msec, usec)
-  ecs_field: vendor.%{format}t
-  cim_field: '%{format}t'
-  asim_field: '%{format}t'
   category: Timing
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{format}t
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{format}t
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{format}t
 - field_name: '%D'
   field_type: integer
   description: Time to serve request in microseconds
-  ecs_field: vendor.%D
-  cim_field: '%D'
-  asim_field: '%D'
   category: Timing
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%D
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%D
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%D
 - field_name: '%T'
   field_type: integer
   description: Time to serve request in seconds
+  category: Timing
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Timing
 - field_name: '%{UNIT}T'
   field_type: integer
   description: Time to serve request in specified unit (ms, us, or s)
-  ecs_field: vendor.%{UNIT}T
-  cim_field: '%{UNIT}T'
-  asim_field: '%{UNIT}T'
   category: Timing
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{UNIT}T
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{UNIT}T
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{UNIT}T
 - field_name: '%{VARNAME}i'
   field_type: string
   description: 'Contents of VARNAME: header in request (e.g., %{User-Agent}i)'
-  ecs_field: vendor.%{VARNAME}i
-  cim_field: '%{VARNAME}i'
-  asim_field: '%{VARNAME}i'
   category: Headers
+  ecs_field: user_agent.original
+  cim_field: ''
+  asim_field: ''
 - field_name: '%{VARNAME}o'
   field_type: string
   description: 'Contents of VARNAME: header in reply (e.g., %{Content-Type}o)'
-  ecs_field: vendor.%{VARNAME}o
-  cim_field: '%{VARNAME}o'
-  asim_field: '%{VARNAME}o'
   category: Headers
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}o
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}o
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}o
 - field_name: '%{VARNAME}C'
   field_type: string
   description: Contents of cookie VARNAME in request
-  ecs_field: vendor.%{VARNAME}C
-  cim_field: '%{VARNAME}C'
-  asim_field: '%{VARNAME}C'
   category: Headers
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}C
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}C
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}C
 - field_name: '%{VARNAME}e'
   field_type: string
   description: Contents of environment variable VARNAME
-  ecs_field: vendor.%{VARNAME}e
-  cim_field: '%{VARNAME}e'
-  asim_field: '%{VARNAME}e'
   category: Headers
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}e
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}e
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}e
 - field_name: '%{VARNAME}n'
   field_type: string
   description: Contents of note VARNAME from another module
-  ecs_field: vendor.%{VARNAME}n
-  cim_field: '%{VARNAME}n'
-  asim_field: '%{VARNAME}n'
   category: Headers
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}n
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}n
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}n
 - field_name: '%{VARNAME}^ti'
   field_type: string
   description: Contents of trailer line(s) VARNAME in request
-  ecs_field: vendor.%{VARNAME}^ti
-  cim_field: '%{VARNAME}^ti'
-  asim_field: '%{VARNAME}^ti'
   category: Headers
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}^ti
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}^ti
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}^ti
 - field_name: '%{VARNAME}^to'
   field_type: string
   description: Contents of trailer line(s) VARNAME in response
-  ecs_field: vendor.%{VARNAME}^to
-  cim_field: '%{VARNAME}^to'
-  asim_field: '%{VARNAME}^to'
   category: Headers
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}^to
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}^to
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{VARNAME}^to
 - field_name: '%v'
   field_type: string
   description: Canonical ServerName of server serving the request
+  category: Server
   ecs_field: destination.domain
   cim_field: dest
   asim_field: DstHostname
-  category: Server
 - field_name: '%V'
   field_type: string
   description: Server name per UseCanonicalName setting
+  category: Server
   ecs_field: destination.domain
   cim_field: dest
   asim_field: DstHostname
-  category: Server
 - field_name: '%p'
   field_type: integer
   description: Canonical port of the server serving the request
+  category: Server
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
-  category: Server
 - field_name: '%{format}p'
   field_type: integer
   description: Port (canonical, local, or remote)
-  ecs_field: vendor.%{format}p
-  cim_field: '%{format}p'
-  asim_field: '%{format}p'
   category: Server
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{format}p
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{format}p
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%{format}p
 - field_name: '%A'
   field_type: ip
   description: Local IP address
+  category: Server
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Server
 - field_name: '%P'
   field_type: integer
   description: Process ID of child that serviced the request
+  category: Server
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
-  category: Server
 - field_name: '%{format}P'
   field_type: string
   description: Process ID or thread ID (pid, tid, hextid)
-  ecs_field: vendor.%{format}P
-  cim_field: '%{format}P'
-  asim_field: '%{format}P'
   category: Server
+  ecs_field: process.pid
+  cim_field: ''
+  asim_field: ''
 - field_name: '%k'
   field_type: integer
   description: Number of keepalive requests handled on this connection
+  category: Connection
   ecs_field: http.request.id
   cim_field: request_id
   asim_field: EventOriginalUid
-  category: Connection
 - field_name: '%X'
   field_type: string
   description: 'Connection status: X=aborted, +=keep-alive, -=close'
-  ecs_field: vendor.%X
-  cim_field: '%X'
-  asim_field: '%X'
   category: Connection
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: '%L'
   field_type: string
   description: Request log ID from error log (for correlation)
+  category: Connection
   ecs_field: user.name
   cim_field: user
   asim_field: SrcUsername
-  category: Connection
 - field_name: '%%'
   field_type: string
   description: Literal percent sign
-  ecs_field: vendor.%%
-  cim_field: '%%'
-  asim_field: '%%'
   category: Special
+  ecs_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%%
+  cim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%%
+  asim_field: apachesoftwarefoundation.apachehttpserveraccesslogs.%%
+mapped_field_count: 31
 notes: Access log format directives for Apache HTTP Server. Supports Common Log Format
   (CLF) and Combined Log Format.
 log_formats:

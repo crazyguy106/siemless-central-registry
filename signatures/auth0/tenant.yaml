@@ -7,7 +7,7 @@ source_document: Log Event Type Codes
 source_url: https://auth0.com/docs/deploy-monitor/logs/log-event-type-codes
 extraction_date: '2026-01-02'
 source_file: auth0-signatures.json
-generated_at: '2026-01-31T09:35:24.812093'
+generated_at: '2026-02-11T23:44:05.385735'
 categories:
 - Core
 - Client
@@ -21,268 +21,462 @@ fields:
 - field_name: _id
   field_type: string
   description: Internal log entry ID
-  ecs_field: event.internal_id
-  cim_field: internal_id
-  asim_field: EventInternalId
   category: Core
+  ecs_field: auth0.tenantlogs._id
+  cim_field: auth0.tenantlogs._id
+  asim_field: auth0.tenantlogs._id
 - field_name: audience
   field_type: string
   description: API audience for the token request
+  category: Client
   ecs_field: url.domain
   cim_field: audience
   asim_field: UrlDomain
-  category: Client
 - field_name: client_id
   field_type: string
   description: Client ID of the application
-  ecs_field: application.id
-  cim_field: client_id
-  asim_field: ApplicationId
   category: Client
+  ecs_field: auth0.tenantlogs.client_id
+  cim_field: auth0.tenantlogs.client_id
+  asim_field: auth0.tenantlogs.client_id
 - field_name: client_name
   field_type: string
   description: Name of the application
-  ecs_field: application.name
-  cim_field: client_name
-  asim_field: ApplicationName
   category: Client
+  ecs_field: auth0.tenantlogs.client_name
+  cim_field: auth0.tenantlogs.client_name
+  asim_field: auth0.tenantlogs.client_name
 - field_name: connection
   field_type: string
   description: Name of the connection (e.g., Username-Password-Authentication)
-  ecs_field: user.identity_provider
+  category: Connection
+  ecs_field: user.name
   cim_field: connection
   asim_field: ActorIdProvider
-  category: Connection
 - field_name: connection_id
   field_type: string
   description: Unique identifier for the connection
-  ecs_field: user.identity_provider_id
+  category: Connection
+  ecs_field: event.id
   cim_field: connection_id
   asim_field: ActorIdProviderId
-  category: Connection
 - field_name: date
   field_type: datetime
   description: Timestamp when the event occurred (ISO 8601)
+  category: Core
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Core
 - field_name: description
   field_type: string
   description: Human-readable description of the event
+  category: Core
   ecs_field: message
   cim_field: event_description
   asim_field: EventMessage
-  category: Core
 - field_name: details.body
   field_type: object
   description: Request body details
+  category: Details
   ecs_field: http.request.body.content
   cim_field: request_body
   asim_field: HttpRequestBody
-  category: Details
 - field_name: details.completedAt
   field_type: datetime
   description: When the operation completed
-  ecs_field: vendor.details.completedAt
-  cim_field: details.completedAt
-  asim_field: details.completedAt
   category: Details
+  ecs_field: auth0.tenantlogs.details.completedAt
+  cim_field: auth0.tenantlogs.details.completedAt
+  asim_field: auth0.tenantlogs.details.completedAt
 - field_name: details.elapsedTime
   field_type: number
   description: Time taken in milliseconds
-  ecs_field: vendor.details.elapsedTime
-  cim_field: details.elapsedTime
-  asim_field: details.elapsedTime
   category: Details
+  ecs_field: auth0.tenantlogs.details.elapsedTime
+  cim_field: auth0.tenantlogs.details.elapsedTime
+  asim_field: auth0.tenantlogs.details.elapsedTime
 - field_name: details.error
   field_type: object
   description: Error information if authentication failed
+  category: Details
   ecs_field: error.type
   cim_field: error_info
   asim_field: ErrorType
-  category: Details
 - field_name: details.error.message
   field_type: string
   description: Error message
+  category: Details
   ecs_field: error.message
   cim_field: error_message
   asim_field: ErrorMessage
-  category: Details
 - field_name: details.error.type
   field_type: string
   description: Error type code
+  category: Details
   ecs_field: error.code
   cim_field: error_type
   asim_field: ErrorCode
-  category: Details
 - field_name: details.initiatedAt
   field_type: datetime
   description: When the operation was initiated
-  ecs_field: vendor.details.initiatedAt
-  cim_field: details.initiatedAt
-  asim_field: details.initiatedAt
   category: Details
+  ecs_field: auth0.tenantlogs.details.initiatedAt
+  cim_field: auth0.tenantlogs.details.initiatedAt
+  asim_field: auth0.tenantlogs.details.initiatedAt
 - field_name: details.prompts
   field_type: array
   description: MFA prompts presented
-  ecs_field: event.mfa_prompts
-  cim_field: mfa_prompts
-  asim_field: EventMfaPrompts
   category: Details
+  ecs_field: auth0.tenantlogs.details.prompts
+  cim_field: auth0.tenantlogs.details.prompts
+  asim_field: auth0.tenantlogs.details.prompts
 - field_name: details.request
   field_type: object
   description: Request information
-  ecs_field: event.request
-  cim_field: request_info
-  asim_field: EventRequest
   category: Details
+  ecs_field: auth0.tenantlogs.details.request
+  cim_field: auth0.tenantlogs.details.request
+  asim_field: auth0.tenantlogs.details.request
 - field_name: details.response
   field_type: object
   description: Response information
-  ecs_field: event.response
-  cim_field: response_info
-  asim_field: EventResponse
   category: Details
+  ecs_field: auth0.tenantlogs.details.response
+  cim_field: auth0.tenantlogs.details.response
+  asim_field: auth0.tenantlogs.details.response
 - field_name: details.session_id
   field_type: string
   description: Session identifier
-  ecs_field: event.session_id
-  cim_field: session_id
-  asim_field: EventSessionId
   category: Details
+  ecs_field: auth0.tenantlogs.details.session_id
+  cim_field: auth0.tenantlogs.details.session_id
+  asim_field: auth0.tenantlogs.details.session_id
 - field_name: hostname
   field_type: string
   description: Hostname associated with the IP
+  category: Network
   ecs_field: source.domain
   cim_field: src_hostname
   asim_field: SrcHostname
-  category: Network
 - field_name: ip
   field_type: ip
   description: IP address of the client
+  category: Network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Network
 - field_name: isMobile
   field_type: boolean
   description: Whether the request came from a mobile device
-  ecs_field: vendor.isMobile
-  cim_field: isMobile
-  asim_field: isMobile
   category: Network
+  ecs_field: auth0.tenantlogs.isMobile
+  cim_field: auth0.tenantlogs.isMobile
+  asim_field: auth0.tenantlogs.isMobile
 - field_name: location_info.city_name
   field_type: string
   description: City name
+  category: Location
   ecs_field: source.geo.city_name
   cim_field: city_name
   asim_field: SrcGeoCityName
-  category: Location
 - field_name: location_info.continent_code
   field_type: string
   description: Continent code (e.g., NA, EU)
+  category: Location
   ecs_field: source.geo.continent_code
   cim_field: continent_code
   asim_field: SrcGeoContinentCode
-  category: Location
 - field_name: location_info.country_code
   field_type: string
   description: Two-letter country code (e.g., US, GB)
+  category: Location
   ecs_field: source.geo.country_iso_code
   cim_field: country_code
   asim_field: SrcGeoCountryCode
-  category: Location
 - field_name: location_info.country_code3
   field_type: string
   description: Three-letter country code (e.g., USA, GBR)
-  ecs_field: source.geo.country_iso_code_3
+  category: Location
+  ecs_field: source.geo.country_name
   cim_field: country_code3
   asim_field: SrcGeoCountryCode3
-  category: Location
 - field_name: location_info.country_name
   field_type: string
   description: Full country name
+  category: Location
   ecs_field: source.geo.country_name
   cim_field: country_name
   asim_field: SrcGeoCountryName
-  category: Location
 - field_name: location_info.latitude
   field_type: number
   description: Geographic latitude
-  ecs_field: source.geo.location.lat
-  cim_field: latitude
-  asim_field: SrcGeoLatitude
   category: Location
+  ecs_field: auth0.tenantlogs.location_info.latitude
+  cim_field: auth0.tenantlogs.location_info.latitude
+  asim_field: auth0.tenantlogs.location_info.latitude
 - field_name: location_info.longitude
   field_type: number
   description: Geographic longitude
-  ecs_field: source.geo.location.lon
-  cim_field: longitude
-  asim_field: SrcGeoLongitude
   category: Location
+  ecs_field: auth0.tenantlogs.location_info.longitude
+  cim_field: auth0.tenantlogs.location_info.longitude
+  asim_field: auth0.tenantlogs.location_info.longitude
 - field_name: location_info.time_zone
   field_type: string
   description: Timezone of the location
+  category: Location
   ecs_field: event.timezone
   cim_field: time_zone
   asim_field: EventTimezone
-  category: Location
 - field_name: log_id
   field_type: string
   description: Unique identifier for the log entry
+  category: Core
   ecs_field: event.id
   cim_field: log_id
   asim_field: EventOriginalUid
-  category: Core
 - field_name: scope
   field_type: string
   description: Requested OAuth2 scopes
-  ecs_field: authorization.scope
-  cim_field: scope
-  asim_field: AuthorizationScope
   category: Client
+  ecs_field: auth0.tenantlogs.scope
+  cim_field: auth0.tenantlogs.scope
+  asim_field: auth0.tenantlogs.scope
 - field_name: strategy
   field_type: string
   description: Authentication strategy (e.g., auth0, google-oauth2, samlp)
-  ecs_field: authentication.method
-  cim_field: strategy
-  asim_field: AuthenticationMethod
   category: Connection
+  ecs_field: auth0.tenantlogs.strategy
+  cim_field: auth0.tenantlogs.strategy
+  asim_field: auth0.tenantlogs.strategy
 - field_name: strategy_type
   field_type: string
   description: Type of strategy (social, database, enterprise)
-  ecs_field: authentication.type
-  cim_field: strategy_type
-  asim_field: AuthenticationType
   category: Connection
+  ecs_field: auth0.tenantlogs.strategy_type
+  cim_field: auth0.tenantlogs.strategy_type
+  asim_field: auth0.tenantlogs.strategy_type
 - field_name: type
   field_type: string
   description: Event type code (e.g., s, f, ss, fs)
+  category: Core
   ecs_field: event.code
   cim_field: event_type
   asim_field: EventId
-  category: Core
 - field_name: user_agent
   field_type: string
   description: User agent string from the browser/client
+  category: User
   ecs_field: user_agent.original
   cim_field: http_user_agent
   asim_field: UserAgent
-  category: User
 - field_name: user_id
   field_type: string
   description: Auth0 user ID (e.g., auth0|xxx)
+  category: User
   ecs_field: user.id
   cim_field: user_id
   asim_field: TargetUserId
-  category: User
 - field_name: user_name
   field_type: string
   description: Username or email of the user
+  category: User
   ecs_field: user.name
   cim_field: user_name
   asim_field: TargetUsername
-  category: User
+mapped_field_count: 22
+event_types:
+- code: s
+  name: Success Login
+  description: Successful login event
+  category: Login
+- code: f
+  name: Failed Login
+  description: Generic login failure
+  category: Login
+- code: fp
+  name: Failed Login (Password)
+  description: Failed login due to incorrect password
+  category: Login
+- code: fu
+  name: Failed Login (Username)
+  description: Failed login due to invalid email/username
+  category: Login
+- code: flo
+  name: Failed Logout
+  description: Logout operation failed
+  category: Login
+- code: slo
+  name: Success Logout
+  description: User successfully logged out
+  category: Login
+- code: ss
+  name: Success Signup
+  description: Successful user registration
+  category: Signup
+- code: fs
+  name: Failed Signup
+  description: Registration failure
+  category: Signup
+- code: ssa
+  name: Success Silent Auth
+  description: Silent authentication succeeded
+  category: SilentAuth
+- code: fsa
+  name: Failed Silent Auth
+  description: Silent authentication error
+  category: SilentAuth
+- code: cls
+  name: Code/Link Sent
+  description: Passwordless login code/link has been sent
+  category: Passwordless
+- code: cs
+  name: Code Sent
+  description: Passwordless login code has been sent
+  category: Passwordless
+- code: mfar
+  name: MFA Required
+  description: User prompted for multi-factor authentication
+  category: MFA
+- code: gd_start_auth
+  name: Second Factor Started
+  description: MFA authentication initiated
+  category: MFA
+- code: gd_auth_succeed
+  name: MFA Auth Success
+  description: Multi-factor authentication success
+  category: MFA
+- code: gd_auth_failed
+  name: MFA Auth Failed
+  description: MFA authentication error
+  category: MFA
+- code: gd_tenant_update
+  name: Guardian Update
+  description: Guardian MFA settings updated
+  category: MFA
+- code: gd_enrollment_complete
+  name: MFA Enrollment Complete
+  description: User completed MFA enrollment
+  category: MFA
+- code: sv
+  name: Success Verification
+  description: Email verification success
+  category: Verification
+- code: svr
+  name: Success Verification Request
+  description: Email verification request sent
+  category: Verification
+- code: fv
+  name: Failed Verification
+  description: Email verification failed
+  category: Verification
+- code: scp
+  name: Success Change Password
+  description: Password change successful
+  category: Password
+- code: fcp
+  name: Failed Change Password
+  description: Password change failed
+  category: Password
+- code: sce
+  name: Success Change Email
+  description: Email change successful
+  category: Password
+- code: fce
+  name: Failed Change Email
+  description: Email change failed
+  category: Password
+- code: scpr
+  name: Success Change Password Request
+  description: Password reset email sent
+  category: Password
+- code: fcpr
+  name: Failed Change Password Request
+  description: Password reset request failed
+  category: Password
+- code: pwd_leak
+  name: Breached Password
+  description: Attempted login with a leaked password
+  category: Security
+- code: limit_mu
+  name: Blocked IP Address
+  description: IP blocked after multiple failed attempts
+  category: Security
+- code: limit_sul
+  name: Blocked Account
+  description: User temporarily prevented from logging in
+  category: Security
+- code: limit_wc
+  name: Blocked by Anomaly
+  description: Blocked due to anomaly detection
+  category: Security
+- code: api_limit
+  name: Rate Limit on APIs
+  description: Maximum number of requests has been reached
+  category: API
+- code: sapi
+  name: Success API Operation
+  description: API operation successful
+  category: API
+- code: fapi
+  name: Failed API Operation
+  description: API operation failed
+  category: API
+- code: seacft
+  name: Success Exchange Auth Code
+  description: Authorization code exchanged for tokens
+  category: Exchange
+- code: feacft
+  name: Failed Exchange Auth Code
+  description: Failed to exchange authorization code
+  category: Exchange
+- code: seccft
+  name: Success Exchange Client Credentials
+  description: Client credentials grant succeeded
+  category: Exchange
+- code: feccft
+  name: Failed Exchange Client Credentials
+  description: Client credentials grant failed
+  category: Exchange
+- code: sepft
+  name: Success Exchange Password
+  description: Password grant succeeded
+  category: Exchange
+- code: fepft
+  name: Failed Exchange Password
+  description: Password grant failed
+  category: Exchange
+- code: sertft
+  name: Success Exchange Refresh Token
+  description: Refresh token exchange succeeded
+  category: Exchange
+- code: fertft
+  name: Failed Exchange Refresh Token
+  description: Refresh token exchange failed
+  category: Exchange
+- code: sd
+  name: Success Delegation
+  description: Token delegation successful
+  category: Delegation
+- code: fd
+  name: Failed Delegation
+  description: Token delegation failed
+  category: Delegation
+- code: du
+  name: Deleted User
+  description: User deleted
+  category: UserManagement
+- code: ublkdu
+  name: Unblocked User
+  description: User unblocked
+  category: UserManagement
+- code: sdu
+  name: Success Device Update
+  description: Device credentials updated
+  category: Admin
+- code: fdu
+  name: Failed Device Update
+  description: Failed to update device credentials
+  category: Admin
 notes: Auth0 logs capture authentication, authorization, and user management events.
   Includes login/logout, MFA, password changes, API operations, and security events.

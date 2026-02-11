@@ -5,139 +5,124 @@ product_full_name: EX
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-01-31'
+extraction_date: '2026-02-11'
 source_file: juniper-ex-signatures.json
-generated_at: '2026-01-31T09:35:37.854271'
+generated_at: '2026-02-11T23:44:09.978547'
 field_count: 16
 fields:
 - field_name: interface
   field_type: string
   description: Switch interface name (e.g., ge-0/0/1)
+  category: network
   ecs_field: observer.ingress.interface.name
   cim_field: interface
   asim_field: DvcInboundInterface
-  category: network
-  display_name: Interface
 - field_name: vlan
   field_type: string
   description: VLAN name or ID
+  category: network
   ecs_field: network.vlan.id
   cim_field: vlan
   asim_field: NetworkVlanId
-  category: network
-  display_name: VLAN
 - field_name: mac-address
   field_type: string
   description: MAC address
+  category: network
   ecs_field: source.mac
   cim_field: src_mac
   asim_field: SrcMacAddr
-  category: network
-  display_name: MAC Address
 - field_name: state
   field_type: string
   description: Port or protocol state
+  category: network
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
-  category: network
-  display_name: State
 - field_name: username
   field_type: string
   description: Authenticated username (802.1X)
+  category: identity
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: identity
-  display_name: Username
 - field_name: reason
   field_type: string
   description: Event reason or failure cause
+  category: system
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
-  category: system
-  display_name: Reason
 - field_name: ifIndex
   field_type: number
   description: SNMP interface index
+  category: network
   ecs_field: observer.ingress.interface.id
   cim_field: interface_id
   asim_field: DvcInterfaceGuid
-  category: network
-  display_name: Interface Index
 - field_name: ifAdminStatus
   field_type: string
   description: Administrative status (up/down)
+  category: network
   ecs_field: event.action
   cim_field: admin_status
   asim_field: DvcOriginalAction
-  category: network
-  display_name: Admin Status
 - field_name: ifOperStatus
   field_type: string
   description: Operational status (up/down)
+  category: network
   ecs_field: event.outcome
   cim_field: oper_status
   asim_field: EventResult
-  category: network
-  display_name: Operational Status
 - field_name: ifName
   field_type: string
   description: Interface name from SNMP
+  category: network
   ecs_field: observer.ingress.interface.name
   cim_field: interface
   asim_field: DvcInboundInterface
-  category: network
-  display_name: Interface Name
 - field_name: radius-server
   field_type: ip
   description: RADIUS server IP address
+  category: authentication
   ecs_field: server.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: authentication
-  display_name: RADIUS Server
 - field_name: aggregate
   field_type: string
   description: Aggregate interface (ae0, ae1)
+  category: network
   ecs_field: network.name
   cim_field: channel
   asim_field: DvcInterface
-  category: network
-  display_name: Aggregate Interface
 - field_name: root-bridge
   field_type: string
   description: STP root bridge MAC
+  category: network
   ecs_field: observer.mac
   cim_field: dvc_mac
   asim_field: DvcMacAddr
-  category: network
-  display_name: Root Bridge
 - field_name: traffic-type
   field_type: string
   description: Storm control traffic type
+  category: network
   ecs_field: network.protocol
   cim_field: protocol
   asim_field: NetworkProtocol
-  category: network
-  display_name: Traffic Type
 - field_name: power
   field_type: string
   description: Power consumption in Watts
-  ecs_field: observer.power
-  cim_field: power
-  asim_field: DvcOriginalAction
   category: system
-  display_name: PoE Power
+  ecs_field: juniper.ex.power
+  cim_field: juniper.ex.power
+  asim_field: juniper.ex.power
 - field_name: system-name
   field_type: string
   description: LLDP neighbor system name
+  category: network
   ecs_field: destination.domain
   cim_field: dest_host
   asim_field: DstHostname
-  category: network
-  display_name: LLDP System Name
+mapped_field_count: 15
 signatures:
 - name: juniper_ex_dot1x_auth_success
   pattern: DOT1XD_AUTH_SUCCESS

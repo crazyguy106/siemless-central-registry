@@ -7,7 +7,7 @@ source_document: HTTP Request Log Fields
 source_url: https://developers.cloudflare.com/logs/reference/log-fields/zone/http_requests/
 extraction_date: '2026-01-02'
 source_file: cloudflare-http-signatures.json
-generated_at: '2026-01-31T09:35:29.957382'
+generated_at: '2026-02-11T23:44:07.155620'
 categories:
 - Bot
 - Cache
@@ -26,726 +26,727 @@ fields:
 - field_name: BotDetectionIDs
   field_type: array
   description: Correlates to Bot Management Heuristic detections
+  category: Bot
   ecs_field: threat.indicator.reference
   cim_field: bot_detection_ids
   asim_field: ThreatReference
-  category: Bot
 - field_name: BotDetectionTags
   field_type: array
   description: Tags corresponding to Bot Management Heuristic detections
+  category: Bot
   ecs_field: threat.indicator.type
   cim_field: bot_detection_tags
   asim_field: ThreatType
-  category: Bot
 - field_name: BotScore
   field_type: integer
   description: Cloudflare Bot Score (scores <30 = automated traffic)
+  category: Bot
   ecs_field: threat.indicator.confidence
   cim_field: bot_score
   asim_field: ThreatConfidence
-  category: Bot
 - field_name: BotScoreSrc
   field_type: string
   description: 'Detection engine: Heuristics, Machine Learning, Behavioral Analysis,
     etc.'
+  category: Bot
   ecs_field: threat.indicator.provider
   cim_field: bot_score_src
   asim_field: ThreatProvider
-  category: Bot
 - field_name: BotTags
   field_type: array
   description: Type of bot traffic classification
+  category: Bot
   ecs_field: threat.indicator.type
   cim_field: bot_tags
   asim_field: ThreatType
-  category: Bot
 - field_name: CacheCacheStatus
   field_type: string
   description: 'Cache status: miss, expired, updating, stale, hit, ignored, bypass,
     etc.'
+  category: Cache
   ecs_field: event.action
   cim_field: cache_status
   asim_field: EventType
-  category: Cache
 - field_name: CacheReserveUsed
   field_type: boolean
   description: Indicates if Cache Reserve served the request
+  category: Cache
   ecs_field: event.outcome
   cim_field: cache_reserve
   asim_field: EventOutcome
-  category: Cache
 - field_name: CacheResponseBytes
   field_type: integer
   description: Bytes returned by the cache
+  category: Cache
   ecs_field: http.response.bytes
   cim_field: cache_bytes
   asim_field: DstBytes
-  category: Cache
 - field_name: CacheResponseStatus
   field_type: integer
   description: HTTP status code from cache (deprecated)
-  ecs_field: vendor.CacheResponseStatus
-  cim_field: CacheResponseStatus
-  asim_field: CacheResponseStatus
   category: Cache
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: CacheTieredFill
   field_type: boolean
   description: Indicates if Tiered Cache served the request
+  category: Cache
   ecs_field: event.outcome
   cim_field: tiered_fill
   asim_field: EventOutcome
-  category: Cache
 - field_name: ClientASN
   field_type: integer
   description: Client Autonomous System Number
+  category: Client
   ecs_field: source.as.number
   cim_field: src_asn
   asim_field: SrcAsn
-  category: Client
 - field_name: ClientCity
   field_type: string
   description: Approximate city location of client
+  category: Client
   ecs_field: source.geo.city_name
   cim_field: src_city
   asim_field: SrcGeoCity
-  category: Client
 - field_name: ClientCountry
   field_type: string
   description: 2-letter ISO-3166 country code
+  category: Client
   ecs_field: source.geo.country_iso_code
   cim_field: src_country
   asim_field: SrcGeoCountry
-  category: Client
 - field_name: ClientDeviceType
   field_type: string
   description: Client device classification
-  ecs_field: user_agent.device.type
-  cim_field: device_type
-  asim_field: UserAgentDeviceType
   category: Client
+  ecs_field: cloudflare.httprequestlogs.ClientDeviceType
+  cim_field: cloudflare.httprequestlogs.ClientDeviceType
+  asim_field: cloudflare.httprequestlogs.ClientDeviceType
 - field_name: ClientIP
   field_type: ip
   description: Client IP address
+  category: Client
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Client
 - field_name: ClientIPClass
   field_type: string
   description: 'Classification: unknown, badHost, searchEngine, allowlist, etc.'
-  ecs_field: vendor.ClientIPClass
-  cim_field: ClientIPClass
-  asim_field: ClientIPClass
   category: Client
+  ecs_field: cloudflare.httprequestlogs.ClientIPClass
+  cim_field: cloudflare.httprequestlogs.ClientIPClass
+  asim_field: cloudflare.httprequestlogs.ClientIPClass
 - field_name: ClientLatitude
   field_type: string
   description: Approximate latitude of client
-  ecs_field: vendor.ClientLatitude
-  cim_field: ClientLatitude
-  asim_field: ClientLatitude
   category: Client
+  ecs_field: cloudflare.httprequestlogs.ClientLatitude
+  cim_field: cloudflare.httprequestlogs.ClientLatitude
+  asim_field: cloudflare.httprequestlogs.ClientLatitude
 - field_name: ClientLongitude
   field_type: string
   description: Approximate longitude of client
-  ecs_field: vendor.ClientLongitude
-  cim_field: ClientLongitude
-  asim_field: ClientLongitude
   category: Client
+  ecs_field: cloudflare.httprequestlogs.ClientLongitude
+  cim_field: cloudflare.httprequestlogs.ClientLongitude
+  asim_field: cloudflare.httprequestlogs.ClientLongitude
 - field_name: ClientMTLSAuthCertFingerprint
   field_type: string
   description: SHA256 fingerprint of mTLS certificate
-  ecs_field: vendor.ClientMTLSAuthCertFingerprint
-  cim_field: ClientMTLSAuthCertFingerprint
-  asim_field: ClientMTLSAuthCertFingerprint
   category: TLS
+  ecs_field: cloudflare.httprequestlogs.ClientMTLSAuthCertFingerprint
+  cim_field: cloudflare.httprequestlogs.ClientMTLSAuthCertFingerprint
+  asim_field: cloudflare.httprequestlogs.ClientMTLSAuthCertFingerprint
 - field_name: ClientMTLSAuthStatus
   field_type: string
   description: 'mTLS authentication status: ok, absent, untrusted, etc.'
-  ecs_field: vendor.ClientMTLSAuthStatus
-  cim_field: ClientMTLSAuthStatus
-  asim_field: ClientMTLSAuthStatus
   category: TLS
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: ClientRegionCode
   field_type: string
   description: ISO-3166-2 region code of client IP
-  ecs_field: vendor.ClientRegionCode
-  cim_field: ClientRegionCode
-  asim_field: ClientRegionCode
   category: Client
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
 - field_name: ClientRequestBytes
   field_type: integer
   description: Bytes in client request
+  category: Request
   ecs_field: http.request.bytes
   cim_field: bytes_in
   asim_field: SrcBytes
-  category: Request
 - field_name: ClientRequestHost
   field_type: string
   description: Host requested by client
+  category: Request
   ecs_field: url.domain
   cim_field: dest
   asim_field: DstHostname
-  category: Request
 - field_name: ClientRequestMethod
   field_type: string
   description: HTTP method of client request
+  category: Request
   ecs_field: http.request.method
   cim_field: http_method
   asim_field: HttpRequestMethod
-  category: Request
 - field_name: ClientRequestPath
   field_type: string
   description: URI path (without query string)
+  category: Request
   ecs_field: url.path
   cim_field: uri_path
   asim_field: UrlPath
-  category: Request
 - field_name: ClientRequestProtocol
   field_type: string
   description: HTTP protocol version
+  category: Request
   ecs_field: http.version
   cim_field: http_version
   asim_field: HttpVersion
-  category: Request
 - field_name: ClientRequestReferer
   field_type: string
   description: HTTP referrer header value
+  category: Request
   ecs_field: http.request.referrer
   cim_field: http_referrer
   asim_field: HttpReferrer
-  category: Request
 - field_name: ClientRequestScheme
   field_type: string
   description: URL scheme (e.g., http, https)
-  ecs_field: vendor.ClientRequestScheme
-  cim_field: ClientRequestScheme
-  asim_field: ClientRequestScheme
   category: Request
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
 - field_name: ClientRequestSource
   field_type: string
   description: Identifies external or internal Cloudflare service requests
-  ecs_field: vendor.ClientRequestSource
-  cim_field: ClientRequestSource
-  asim_field: ClientRequestSource
   category: Request
+  ecs_field: cloudflare.httprequestlogs.ClientRequestSource
+  cim_field: cloudflare.httprequestlogs.ClientRequestSource
+  asim_field: cloudflare.httprequestlogs.ClientRequestSource
 - field_name: ClientRequestURI
   field_type: string
   description: Full URI including path and query string
+  category: Request
   ecs_field: url.original
   cim_field: url
   asim_field: Url
-  category: Request
 - field_name: ClientRequestUserAgent
   field_type: string
   description: User agent from client
+  category: Request
   ecs_field: user_agent.original
   cim_field: http_user_agent
   asim_field: HttpUserAgent
-  category: Request
 - field_name: ClientSSLCipher
   field_type: string
   description: SSL cipher used by client
+  category: TLS
   ecs_field: tls.cipher
   cim_field: ssl_cipher
   asim_field: TlsCipher
-  category: TLS
 - field_name: ClientSSLProtocol
   field_type: string
   description: TLS protocol version or "none"
+  category: TLS
   ecs_field: tls.version
   cim_field: ssl_version
   asim_field: TlsVersion
-  category: TLS
 - field_name: ClientSrcPort
   field_type: port
   description: Client source port number
+  category: Client
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
-  category: Client
 - field_name: ClientTCPRTTMs
   field_type: integer
   description: Smoothed average TCP round-trip time in milliseconds
-  ecs_field: vendor.ClientTCPRTTMs
-  cim_field: ClientTCPRTTMs
-  asim_field: ClientTCPRTTMs
   category: Client
+  ecs_field: cloudflare.httprequestlogs.ClientTCPRTTMs
+  cim_field: cloudflare.httprequestlogs.ClientTCPRTTMs
+  asim_field: cloudflare.httprequestlogs.ClientTCPRTTMs
 - field_name: ClientXRequestedWith
   field_type: string
   description: X-Requested-With HTTP header value
-  ecs_field: vendor.ClientXRequestedWith
-  cim_field: ClientXRequestedWith
-  asim_field: ClientXRequestedWith
   category: Request
+  ecs_field: cloudflare.httprequestlogs.ClientXRequestedWith
+  cim_field: cloudflare.httprequestlogs.ClientXRequestedWith
+  asim_field: cloudflare.httprequestlogs.ClientXRequestedWith
 - field_name: ContentScanObjResults
   field_type: array
   description: Content scan results
-  ecs_field: vendor.ContentScanObjResults
-  cim_field: ContentScanObjResults
-  asim_field: ContentScanObjResults
   category: Content
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: ContentScanObjSizes
   field_type: array
   description: Content object sizes
-  ecs_field: vendor.ContentScanObjSizes
-  cim_field: ContentScanObjSizes
-  asim_field: ContentScanObjSizes
   category: Content
+  ecs_field: cloudflare.httprequestlogs.ContentScanObjSizes
+  cim_field: cloudflare.httprequestlogs.ContentScanObjSizes
+  asim_field: cloudflare.httprequestlogs.ContentScanObjSizes
 - field_name: ContentScanObjTypes
   field_type: array
   description: Content type classifications
-  ecs_field: vendor.ContentScanObjTypes
-  cim_field: ContentScanObjTypes
-  asim_field: ContentScanObjTypes
   category: Content
+  ecs_field: cloudflare.httprequestlogs.ContentScanObjTypes
+  cim_field: cloudflare.httprequestlogs.ContentScanObjTypes
+  asim_field: cloudflare.httprequestlogs.ContentScanObjTypes
 - field_name: Cookies
   field_type: object
   description: Key-value pairs for cookies
-  ecs_field: vendor.Cookies
-  cim_field: Cookies
-  asim_field: Cookies
   category: Request
+  ecs_field: cloudflare.httprequestlogs.Cookies
+  cim_field: cloudflare.httprequestlogs.Cookies
+  asim_field: cloudflare.httprequestlogs.Cookies
 - field_name: EdgeCFConnectingO2O
   field_type: boolean
   description: True if request looped through multiple zones
-  ecs_field: vendor.EdgeCFConnectingO2O
-  cim_field: EdgeCFConnectingO2O
-  asim_field: EdgeCFConnectingO2O
   category: Edge
+  ecs_field: cloudflare.httprequestlogs.EdgeCFConnectingO2O
+  cim_field: cloudflare.httprequestlogs.EdgeCFConnectingO2O
+  asim_field: cloudflare.httprequestlogs.EdgeCFConnectingO2O
 - field_name: EdgeColoCode
   field_type: string
   description: IATA airport code of receiving data center
+  category: Edge
   ecs_field: observer.geo.name
   cim_field: edge_colo
   asim_field: DvcGeoName
-  category: Edge
 - field_name: EdgeColoID
   field_type: integer
   description: Cloudflare edge data center identifier
+  category: Edge
   ecs_field: observer.geo.name
   cim_field: edge_colo_id
   asim_field: DvcGeoId
-  category: Edge
 - field_name: EdgeEndTimestamp
   field_type: datetime
   description: Timestamp when edge finished sending response
+  category: Edge
   ecs_field: event.end
   cim_field: end_time
   asim_field: EventEndTime
-  category: Edge
 - field_name: EdgePathingOp
   field_type: string
   description: Type of response issued
+  category: Edge
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
-  category: Edge
 - field_name: EdgePathingSrc
   field_type: string
   description: Security classification details
+  category: Edge
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
-  category: Edge
 - field_name: EdgePathingStatus
   field_type: string
   description: Data used for handling
+  category: Edge
   ecs_field: event.outcome
   cim_field: result
   asim_field: EventResult
-  category: Edge
 - field_name: EdgeRequestHost
   field_type: string
   description: Host header on edge-to-origin request
+  category: Edge
   ecs_field: url.domain
   cim_field: dest
   asim_field: DstHostname
-  category: Edge
 - field_name: EdgeResponseBodyBytes
   field_type: integer
   description: HTTP response body size returned to clients
-  ecs_field: vendor.EdgeResponseBodyBytes
-  cim_field: EdgeResponseBodyBytes
-  asim_field: EdgeResponseBodyBytes
   category: Edge
+  ecs_field: cloudflare.httprequestlogs.EdgeResponseBodyBytes
+  cim_field: cloudflare.httprequestlogs.EdgeResponseBodyBytes
+  asim_field: cloudflare.httprequestlogs.EdgeResponseBodyBytes
 - field_name: EdgeResponseBytes
   field_type: integer
   description: Total bytes returned by edge to client
+  category: Edge
   ecs_field: http.response.bytes
   cim_field: bytes_out
   asim_field: DstBytes
-  category: Edge
 - field_name: EdgeResponseCompressionRatio
   field_type: number
   description: Ratio between original and compressed response sizes
-  ecs_field: vendor.EdgeResponseCompressionRatio
-  cim_field: EdgeResponseCompressionRatio
-  asim_field: EdgeResponseCompressionRatio
   category: Edge
+  ecs_field: cloudflare.httprequestlogs.EdgeResponseCompressionRatio
+  cim_field: cloudflare.httprequestlogs.EdgeResponseCompressionRatio
+  asim_field: cloudflare.httprequestlogs.EdgeResponseCompressionRatio
 - field_name: EdgeResponseContentType
   field_type: string
   description: Content-Type header value
+  category: Edge
   ecs_field: http.response.mime_type
   cim_field: http_content_type
   asim_field: HttpContentType
-  category: Edge
 - field_name: EdgeResponseStatus
   field_type: integer
   description: HTTP status code returned to client
+  category: Edge
   ecs_field: http.response.status_code
   cim_field: status
   asim_field: HttpStatusCode
-  category: Edge
 - field_name: EdgeServerIP
   field_type: ip
   description: IP of edge server making origin request
+  category: Edge
   ecs_field: destination.ip
   cim_field: edge_ip
   asim_field: DstIpAddr
-  category: Edge
 - field_name: EdgeStartTimestamp
   field_type: datetime
   description: Timestamp when edge received client request
+  category: Edge
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Edge
 - field_name: EdgeTimeToFirstByteMs
   field_type: integer
   description: Time To First Byte from TCP connection to first response byte
-  ecs_field: vendor.EdgeTimeToFirstByteMs
-  cim_field: EdgeTimeToFirstByteMs
-  asim_field: EdgeTimeToFirstByteMs
   category: Edge
+  ecs_field: cloudflare.httprequestlogs.EdgeTimeToFirstByteMs
+  cim_field: cloudflare.httprequestlogs.EdgeTimeToFirstByteMs
+  asim_field: cloudflare.httprequestlogs.EdgeTimeToFirstByteMs
 - field_name: FraudAttack
   field_type: string
   description: Primary attack or use case detected by Fraud detections
-  ecs_field: vendor.FraudAttack
-  cim_field: FraudAttack
-  asim_field: FraudAttack
   category: Fraud
+  ecs_field: cloudflare.httprequestlogs.FraudAttack
+  cim_field: cloudflare.httprequestlogs.FraudAttack
+  asim_field: cloudflare.httprequestlogs.FraudAttack
 - field_name: FraudDetectionIDs
   field_type: array
   description: IDs correlating to Fraud detections
-  ecs_field: vendor.FraudDetectionIDs
-  cim_field: FraudDetectionIDs
-  asim_field: FraudDetectionIDs
   category: Fraud
+  ecs_field: cloudflare.httprequestlogs.FraudDetectionIDs
+  cim_field: cloudflare.httprequestlogs.FraudDetectionIDs
+  asim_field: cloudflare.httprequestlogs.FraudDetectionIDs
 - field_name: FraudDetectionTags
   field_type: array
   description: Tags correlating to Fraud detections
-  ecs_field: vendor.FraudDetectionTags
-  cim_field: FraudDetectionTags
-  asim_field: FraudDetectionTags
   category: Fraud
+  ecs_field: cloudflare.httprequestlogs.FraudDetectionTags
+  cim_field: cloudflare.httprequestlogs.FraudDetectionTags
+  asim_field: cloudflare.httprequestlogs.FraudDetectionTags
 - field_name: JA3Hash
   field_type: string
   description: MD5 hash of JA3 SSL/TLS client fingerprint
-  ecs_field: vendor.JA3Hash
-  cim_field: JA3Hash
-  asim_field: JA3Hash
   category: TLS
+  ecs_field: tls.client.ja3
+  cim_field: ''
+  asim_field: ''
 - field_name: JA4
   field_type: string
   description: JA4 fingerprint for SSL/TLS client profiling
-  ecs_field: vendor.JA4
-  cim_field: JA4
-  asim_field: JA4
   category: TLS
+  ecs_field: cloudflare.httprequestlogs.JA4
+  cim_field: cloudflare.httprequestlogs.JA4
+  asim_field: cloudflare.httprequestlogs.JA4
 - field_name: JA4Signals
   field_type: object
   description: Inter-request statistics for JA4 fingerprint
-  ecs_field: vendor.JA4Signals
-  cim_field: JA4Signals
-  asim_field: JA4Signals
   category: TLS
+  ecs_field: cloudflare.httprequestlogs.JA4Signals
+  cim_field: cloudflare.httprequestlogs.JA4Signals
+  asim_field: cloudflare.httprequestlogs.JA4Signals
 - field_name: JSDetectionPassed
   field_type: string
   description: 'Background JavaScript Detection result: passed, failed, or missing'
-  ecs_field: vendor.JSDetectionPassed
-  cim_field: JSDetectionPassed
-  asim_field: JSDetectionPassed
   category: Bot
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: LeakedCredentialCheckResult
   field_type: string
   description: 'Leaked credential check result: password_leaked, clean, etc.'
-  ecs_field: vendor.LeakedCredentialCheckResult
-  cim_field: LeakedCredentialCheckResult
-  asim_field: LeakedCredentialCheckResult
   category: Fraud
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: OriginDNSResponseTimeMs
   field_type: integer
   description: Time to receive DNS response for origin name
-  ecs_field: vendor.OriginDNSResponseTimeMs
-  cim_field: OriginDNSResponseTimeMs
-  asim_field: OriginDNSResponseTimeMs
   category: Origin
+  ecs_field: cloudflare.httprequestlogs.OriginDNSResponseTimeMs
+  cim_field: cloudflare.httprequestlogs.OriginDNSResponseTimeMs
+  asim_field: cloudflare.httprequestlogs.OriginDNSResponseTimeMs
 - field_name: OriginIP
   field_type: ip
   description: Origin server IP address
+  category: Origin
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: Origin
 - field_name: OriginRequestHeaderSendDurationMs
   field_type: integer
   description: Time to send request headers after connection
-  ecs_field: vendor.OriginRequestHeaderSendDurationMs
-  cim_field: OriginRequestHeaderSendDurationMs
-  asim_field: OriginRequestHeaderSendDurationMs
   category: Origin
+  ecs_field: cloudflare.httprequestlogs.OriginRequestHeaderSendDurationMs
+  cim_field: cloudflare.httprequestlogs.OriginRequestHeaderSendDurationMs
+  asim_field: cloudflare.httprequestlogs.OriginRequestHeaderSendDurationMs
 - field_name: OriginResponseBytes
   field_type: integer
   description: Bytes returned by origin server (deprecated)
+  category: Origin
   ecs_field: http.response.bytes
   cim_field: origin_bytes
   asim_field: DstBytes
-  category: Origin
 - field_name: OriginResponseDurationMs
   field_type: integer
   description: Upstream response time from first datacenter
-  ecs_field: vendor.OriginResponseDurationMs
-  cim_field: OriginResponseDurationMs
-  asim_field: OriginResponseDurationMs
   category: Origin
+  ecs_field: event.duration
+  cim_field: ''
+  asim_field: ''
 - field_name: OriginResponseHTTPExpires
   field_type: string
   description: Origin expires header value
-  ecs_field: vendor.OriginResponseHTTPExpires
-  cim_field: OriginResponseHTTPExpires
-  asim_field: OriginResponseHTTPExpires
   category: Origin
+  ecs_field: cloudflare.httprequestlogs.OriginResponseHTTPExpires
+  cim_field: cloudflare.httprequestlogs.OriginResponseHTTPExpires
+  asim_field: cloudflare.httprequestlogs.OriginResponseHTTPExpires
 - field_name: OriginResponseHTTPLastModified
   field_type: string
   description: Origin last-modified header value
-  ecs_field: vendor.OriginResponseHTTPLastModified
-  cim_field: OriginResponseHTTPLastModified
-  asim_field: OriginResponseHTTPLastModified
   category: Origin
+  ecs_field: cloudflare.httprequestlogs.OriginResponseHTTPLastModified
+  cim_field: cloudflare.httprequestlogs.OriginResponseHTTPLastModified
+  asim_field: cloudflare.httprequestlogs.OriginResponseHTTPLastModified
 - field_name: OriginResponseHeaderReceiveDurationMs
   field_type: integer
   description: Time for origin to return response headers
-  ecs_field: vendor.OriginResponseHeaderReceiveDurationMs
-  cim_field: OriginResponseHeaderReceiveDurationMs
-  asim_field: OriginResponseHeaderReceiveDurationMs
   category: Origin
+  ecs_field: cloudflare.httprequestlogs.OriginResponseHeaderReceiveDurationMs
+  cim_field: cloudflare.httprequestlogs.OriginResponseHeaderReceiveDurationMs
+  asim_field: cloudflare.httprequestlogs.OriginResponseHeaderReceiveDurationMs
 - field_name: OriginResponseStatus
   field_type: integer
   description: Status from upstream server (0 = no response)
+  category: Origin
   ecs_field: http.response.status_code
   cim_field: origin_status
   asim_field: HttpStatusCode
-  category: Origin
 - field_name: OriginResponseTime
   field_type: integer
   description: Nanoseconds for origin to return response (deprecated)
+  category: Origin
   ecs_field: event.duration
   cim_field: origin_duration
   asim_field: EventDuration
-  category: Origin
 - field_name: OriginSSLProtocol
   field_type: string
   description: TLS protocol used for origin connection
+  category: Origin
   ecs_field: tls.version
   cim_field: origin_ssl_version
   asim_field: TlsVersion
-  category: Origin
 - field_name: OriginTCPHandshakeDurationMs
   field_type: integer
   description: Time to complete TCP handshake with origin
-  ecs_field: vendor.OriginTCPHandshakeDurationMs
-  cim_field: OriginTCPHandshakeDurationMs
-  asim_field: OriginTCPHandshakeDurationMs
   category: Origin
+  ecs_field: cloudflare.httprequestlogs.OriginTCPHandshakeDurationMs
+  cim_field: cloudflare.httprequestlogs.OriginTCPHandshakeDurationMs
+  asim_field: cloudflare.httprequestlogs.OriginTCPHandshakeDurationMs
 - field_name: OriginTLSHandshakeDurationMs
   field_type: integer
   description: Time to complete TLS handshake with origin
-  ecs_field: vendor.OriginTLSHandshakeDurationMs
-  cim_field: OriginTLSHandshakeDurationMs
-  asim_field: OriginTLSHandshakeDurationMs
   category: Origin
+  ecs_field: cloudflare.httprequestlogs.OriginTLSHandshakeDurationMs
+  cim_field: cloudflare.httprequestlogs.OriginTLSHandshakeDurationMs
+  asim_field: cloudflare.httprequestlogs.OriginTLSHandshakeDurationMs
 - field_name: ParentRayID
   field_type: string
   description: Ray ID of parent request if made via Worker
+  category: Metadata
   ecs_field: event.reference
   cim_field: parent_transaction_id
   asim_field: EventReferenceUid
-  category: Metadata
 - field_name: RayID
   field_type: string
   description: Unique request identifier
+  category: Metadata
   ecs_field: event.id
   cim_field: transaction_id
   asim_field: EventOriginalUid
-  category: Metadata
 - field_name: RequestHeaders
   field_type: object
   description: Key-value pairs for request headers
-  ecs_field: vendor.RequestHeaders
-  cim_field: RequestHeaders
-  asim_field: RequestHeaders
   category: Request
+  ecs_field: cloudflare.httprequestlogs.RequestHeaders
+  cim_field: cloudflare.httprequestlogs.RequestHeaders
+  asim_field: cloudflare.httprequestlogs.RequestHeaders
 - field_name: ResponseHeaders
   field_type: object
   description: Key-value pairs for response headers
-  ecs_field: vendor.ResponseHeaders
-  cim_field: ResponseHeaders
-  asim_field: ResponseHeaders
   category: Metadata
+  ecs_field: cloudflare.httprequestlogs.ResponseHeaders
+  cim_field: cloudflare.httprequestlogs.ResponseHeaders
+  asim_field: cloudflare.httprequestlogs.ResponseHeaders
 - field_name: SecurityAction
   field_type: string
   description: Action of security rule triggering terminating action
-  ecs_field: vendor.SecurityAction
-  cim_field: SecurityAction
-  asim_field: SecurityAction
   category: Security
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: SecurityActions
   field_type: array
   description: 'Actions performed: allow, block, challenge, jschallenge, log, etc.'
-  ecs_field: vendor.SecurityActions
-  cim_field: SecurityActions
-  asim_field: SecurityActions
   category: Security
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: SecurityRuleDescription
   field_type: string
   description: Description of terminating security rule
-  ecs_field: vendor.SecurityRuleDescription
-  cim_field: SecurityRuleDescription
-  asim_field: SecurityRuleDescription
   category: Security
+  ecs_field: cloudflare.httprequestlogs.SecurityRuleDescription
+  cim_field: cloudflare.httprequestlogs.SecurityRuleDescription
+  asim_field: cloudflare.httprequestlogs.SecurityRuleDescription
 - field_name: SecurityRuleID
   field_type: string
   description: Rule ID of terminating security rule
-  ecs_field: vendor.SecurityRuleID
-  cim_field: SecurityRuleID
-  asim_field: SecurityRuleID
   category: Security
+  ecs_field: rule.id
+  cim_field: ''
+  asim_field: ''
 - field_name: SecurityRuleIDs
   field_type: array
   description: Array of matched security rule IDs
-  ecs_field: vendor.SecurityRuleIDs
-  cim_field: SecurityRuleIDs
-  asim_field: SecurityRuleIDs
   category: Security
+  ecs_field: rule.id
+  cim_field: ''
+  asim_field: ''
 - field_name: SecuritySources
   field_type: array
   description: 'Security products: waf, firewallRules, rateLimit, botManagement, etc.'
-  ecs_field: vendor.SecuritySources
-  cim_field: SecuritySources
-  asim_field: SecuritySources
   category: Security
+  ecs_field: cloudflare.httprequestlogs.SecuritySources
+  cim_field: cloudflare.httprequestlogs.SecuritySources
+  asim_field: cloudflare.httprequestlogs.SecuritySources
 - field_name: SmartRouteColoID
   field_type: integer
   description: Data center used for Argo Smart Routing
-  ecs_field: vendor.SmartRouteColoID
-  cim_field: SmartRouteColoID
-  asim_field: SmartRouteColoID
   category: Cache
+  ecs_field: cloudflare.httprequestlogs.SmartRouteColoID
+  cim_field: cloudflare.httprequestlogs.SmartRouteColoID
+  asim_field: cloudflare.httprequestlogs.SmartRouteColoID
 - field_name: UpperTierColoID
   field_type: integer
   description: Upper tier data center checked for cached copy
-  ecs_field: vendor.UpperTierColoID
-  cim_field: UpperTierColoID
-  asim_field: UpperTierColoID
   category: Cache
+  ecs_field: cloudflare.httprequestlogs.UpperTierColoID
+  cim_field: cloudflare.httprequestlogs.UpperTierColoID
+  asim_field: cloudflare.httprequestlogs.UpperTierColoID
 - field_name: VerifiedBotCategory
   field_type: string
   description: Category classification of verified bot
-  ecs_field: vendor.VerifiedBotCategory
-  cim_field: VerifiedBotCategory
-  asim_field: VerifiedBotCategory
   category: Bot
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
 - field_name: WAFAttackScore
   field_type: integer
   description: Overall request score from WAF detection
-  ecs_field: vendor.WAFAttackScore
-  cim_field: WAFAttackScore
-  asim_field: WAFAttackScore
   category: Security
+  ecs_field: cloudflare.httprequestlogs.WAFAttackScore
+  cim_field: cloudflare.httprequestlogs.WAFAttackScore
+  asim_field: cloudflare.httprequestlogs.WAFAttackScore
 - field_name: WAFFlags
   field_type: string
   description: 'Configuration flags: simulate or null (deprecated)'
-  ecs_field: vendor.WAFFlags
-  cim_field: WAFFlags
-  asim_field: WAFFlags
   category: Security
+  ecs_field: cloudflare.httprequestlogs.WAFFlags
+  cim_field: cloudflare.httprequestlogs.WAFFlags
+  asim_field: cloudflare.httprequestlogs.WAFFlags
 - field_name: WAFMatchedVar
   field_type: string
   description: Most recently matched variable name (deprecated)
-  ecs_field: threat.indicator.matched.content
-  cim_field: matched_var
-  asim_field: ThreatMatchedContent
   category: Security
+  ecs_field: cloudflare.httprequestlogs.WAFMatchedVar
+  cim_field: cloudflare.httprequestlogs.WAFMatchedVar
+  asim_field: cloudflare.httprequestlogs.WAFMatchedVar
 - field_name: WAFRCEAttackScore
   field_type: integer
   description: WAF score for RCE attacks
-  ecs_field: vendor.WAFRCEAttackScore
-  cim_field: WAFRCEAttackScore
-  asim_field: WAFRCEAttackScore
   category: Security
+  ecs_field: cloudflare.httprequestlogs.WAFRCEAttackScore
+  cim_field: cloudflare.httprequestlogs.WAFRCEAttackScore
+  asim_field: cloudflare.httprequestlogs.WAFRCEAttackScore
 - field_name: WAFSQLiAttackScore
   field_type: integer
   description: WAF score for SQL injection attacks
-  ecs_field: vendor.WAFSQLiAttackScore
-  cim_field: WAFSQLiAttackScore
-  asim_field: WAFSQLiAttackScore
   category: Security
+  ecs_field: cloudflare.httprequestlogs.WAFSQLiAttackScore
+  cim_field: cloudflare.httprequestlogs.WAFSQLiAttackScore
+  asim_field: cloudflare.httprequestlogs.WAFSQLiAttackScore
 - field_name: WAFXSSAttackScore
   field_type: integer
   description: WAF score for XSS attacks
-  ecs_field: vendor.WAFXSSAttackScore
-  cim_field: WAFXSSAttackScore
-  asim_field: WAFXSSAttackScore
   category: Security
+  ecs_field: cloudflare.httprequestlogs.WAFXSSAttackScore
+  cim_field: cloudflare.httprequestlogs.WAFXSSAttackScore
+  asim_field: cloudflare.httprequestlogs.WAFXSSAttackScore
 - field_name: WorkerCPUTime
   field_type: integer
   description: Microseconds spent executing a Worker
-  ecs_field: vendor.WorkerCPUTime
-  cim_field: WorkerCPUTime
-  asim_field: WorkerCPUTime
   category: Worker
+  ecs_field: cloudflare.httprequestlogs.WorkerCPUTime
+  cim_field: cloudflare.httprequestlogs.WorkerCPUTime
+  asim_field: cloudflare.httprequestlogs.WorkerCPUTime
 - field_name: WorkerScriptName
   field_type: string
   description: Name of Worker script making request
-  ecs_field: vendor.WorkerScriptName
-  cim_field: WorkerScriptName
-  asim_field: WorkerScriptName
   category: Worker
+  ecs_field: cloudflare.httprequestlogs.WorkerScriptName
+  cim_field: cloudflare.httprequestlogs.WorkerScriptName
+  asim_field: cloudflare.httprequestlogs.WorkerScriptName
 - field_name: WorkerStatus
   field_type: string
   description: Status returned from Worker daemon
-  ecs_field: vendor.WorkerStatus
-  cim_field: WorkerStatus
-  asim_field: WorkerStatus
   category: Worker
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: WorkerSubrequest
   field_type: boolean
   description: Whether request was a Worker subrequest
-  ecs_field: vendor.WorkerSubrequest
-  cim_field: WorkerSubrequest
-  asim_field: WorkerSubrequest
   category: Worker
+  ecs_field: cloudflare.httprequestlogs.WorkerSubrequest
+  cim_field: cloudflare.httprequestlogs.WorkerSubrequest
+  asim_field: cloudflare.httprequestlogs.WorkerSubrequest
 - field_name: WorkerSubrequestCount
   field_type: integer
   description: Number of subrequests issued by Worker
-  ecs_field: vendor.WorkerSubrequestCount
-  cim_field: WorkerSubrequestCount
-  asim_field: WorkerSubrequestCount
   category: Worker
+  ecs_field: cloudflare.httprequestlogs.WorkerSubrequestCount
+  cim_field: cloudflare.httprequestlogs.WorkerSubrequestCount
+  asim_field: cloudflare.httprequestlogs.WorkerSubrequestCount
 - field_name: WorkerWallTimeUs
   field_type: integer
   description: Elapsed microseconds from Worker invocation start
-  ecs_field: vendor.WorkerWallTimeUs
-  cim_field: WorkerWallTimeUs
-  asim_field: WorkerWallTimeUs
   category: Worker
+  ecs_field: event.duration
+  cim_field: ''
+  asim_field: ''
 - field_name: ZoneName
   field_type: string
   description: Human-readable zone name (e.g., cloudflare.com)
-  ecs_field: vendor.ZoneName
-  cim_field: ZoneName
-  asim_field: ZoneName
   category: Metadata
+  ecs_field: cloudflare.httprequestlogs.ZoneName
+  cim_field: cloudflare.httprequestlogs.ZoneName
+  asim_field: cloudflare.httprequestlogs.ZoneName
+mapped_field_count: 59
 notes: Cloudflare HTTP Request logs capture all HTTP requests proxied through Cloudflare.
   Includes client info, edge processing, origin communication, bot detection, WAF,
   and caching details.
