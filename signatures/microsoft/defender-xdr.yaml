@@ -7,7 +7,7 @@ source_document: Advanced Hunting Schema Tables Reference
 source_url: https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-schema-tables
 extraction_date: '2026-01-02'
 source_file: microsoft-defender-xdr-signatures.json
-generated_at: '2026-02-11T15:57:12.873060'
+generated_at: '2026-02-12T11:03:04.675477'
 categories:
 - AADSignInEventsBeta
 - DeviceRegistryEvents
@@ -43,17 +43,17 @@ fields:
 - field_name: ProcessCreationTime
   field_type: datetime
   description: Date and time the process was created
-  ecs_field: vendor.ProcessCreationTime
-  cim_field: ProcessCreationTime
+  ecs_field: process.start
+  cim_field: process_start_time
   asim_field: ProcessCreationTime
   category: DeviceProcessEvents
   display_name: ProcessCreationTime
 - field_name: DeviceId
   field_type: string
   description: Unique identifier for the device in the service
-  ecs_field: vendor.DeviceId
-  cim_field: DeviceId
-  asim_field: DeviceId
+  ecs_field: host.id
+  cim_field: device_id
+  asim_field: DvcId
   category: DeviceProcessEvents
   display_name: DeviceId
 - field_name: DeviceName
@@ -67,9 +67,9 @@ fields:
 - field_name: ActionType
   field_type: string
   description: Type of activity that triggered the event
-  ecs_field: vendor.ActionType
-  cim_field: ActionType
-  asim_field: ActionType
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: DeviceProcessEvents
   display_name: ActionType
 - field_name: FileName
@@ -83,9 +83,9 @@ fields:
 - field_name: FolderPath
   field_type: string
   description: Folder containing the file
-  ecs_field: vendor.FolderPath
-  cim_field: FolderPath
-  asim_field: FolderPath
+  ecs_field: file.directory
+  cim_field: file_path
+  asim_field: TargetFilePath
   category: DeviceProcessEvents
   display_name: FolderPath
 - field_name: SHA1
@@ -139,49 +139,49 @@ fields:
 - field_name: ProcessIntegrityLevel
   field_type: string
   description: Integrity level of the newly created process
-  ecs_field: vendor.ProcessIntegrityLevel
-  cim_field: ProcessIntegrityLevel
+  ecs_field: process.integrity_level
+  cim_field: process_integrity
   asim_field: ProcessIntegrityLevel
   category: DeviceProcessEvents
   display_name: ProcessIntegrityLevel
 - field_name: ProcessTokenElevation
   field_type: string
   description: Token elevation type applied to the process
-  ecs_field: vendor.ProcessTokenElevation
-  cim_field: ProcessTokenElevation
+  ecs_field: process.privilege_level
+  cim_field: process_elevation
   asim_field: ProcessTokenElevation
   category: DeviceProcessEvents
   display_name: ProcessTokenElevation
 - field_name: ProcessUniqueId
   field_type: string
   description: Unique identifier of the process
-  ecs_field: vendor.ProcessUniqueId
-  cim_field: ProcessUniqueId
-  asim_field: ProcessUniqueId
+  ecs_field: process.entity_id
+  cim_field: process_guid
+  asim_field: ProcessGuid
   category: DeviceProcessEvents
   display_name: ProcessUniqueId
 - field_name: ProcessVersionInfoCompanyName
   field_type: string
   description: Company name from version information
-  ecs_field: vendor.ProcessVersionInfoCompanyName
-  cim_field: ProcessVersionInfoCompanyName
-  asim_field: ProcessVersionInfoCompanyName
+  ecs_field: process.pe.company
+  cim_field: process_company
+  asim_field: ProcessCompany
   category: DeviceProcessEvents
   display_name: ProcessVersionInfoCompanyName
 - field_name: ProcessVersionInfoProductName
   field_type: string
   description: Product name from version information
-  ecs_field: vendor.ProcessVersionInfoProductName
-  cim_field: ProcessVersionInfoProductName
-  asim_field: ProcessVersionInfoProductName
+  ecs_field: process.pe.product
+  cim_field: process_product
+  asim_field: ProcessProduct
   category: DeviceProcessEvents
   display_name: ProcessVersionInfoProductName
 - field_name: ProcessVersionInfoProductVersion
   field_type: string
   description: Product version from version information
-  ecs_field: vendor.ProcessVersionInfoProductVersion
-  cim_field: ProcessVersionInfoProductVersion
-  asim_field: ProcessVersionInfoProductVersion
+  ecs_field: process.pe.file_version
+  cim_field: process_version
+  asim_field: ProcessVersion
   category: DeviceProcessEvents
   display_name: ProcessVersionInfoProductVersion
 - field_name: ProcessVersionInfoInternalFileName
@@ -203,9 +203,9 @@ fields:
 - field_name: ProcessVersionInfoFileDescription
   field_type: string
   description: Description from version information
-  ecs_field: vendor.ProcessVersionInfoFileDescription
-  cim_field: ProcessVersionInfoFileDescription
-  asim_field: ProcessVersionInfoFileDescription
+  ecs_field: process.pe.description
+  cim_field: process_desc
+  asim_field: ProcessDescription
   category: DeviceProcessEvents
   display_name: ProcessVersionInfoFileDescription
 - field_name: AccountDomain
@@ -227,9 +227,9 @@ fields:
 - field_name: AccountSid
   field_type: string
   description: Security Identifier (SID) of the account
-  ecs_field: vendor.AccountSid
-  cim_field: AccountSid
-  asim_field: AccountSid
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: TargetUserId
   category: DeviceProcessEvents
   display_name: AccountSid
 - field_name: AccountUpn
@@ -243,25 +243,25 @@ fields:
 - field_name: AccountObjectId
   field_type: string
   description: Microsoft Entra ID object ID
-  ecs_field: vendor.AccountObjectId
-  cim_field: AccountObjectId
-  asim_field: AccountObjectId
+  ecs_field: user.id
+  cim_field: user_object_id
+  asim_field: TargetUserId
   category: DeviceProcessEvents
   display_name: AccountObjectId
 - field_name: LogonId
   field_type: long
   description: Identifier for a logon session
-  ecs_field: vendor.LogonId
-  cim_field: LogonId
+  ecs_field: winlog.logon.id
+  cim_field: logon_id
   asim_field: LogonId
   category: DeviceProcessEvents
   display_name: LogonId
 - field_name: InitiatingProcessAccountDomain
   field_type: string
   description: Domain of the initiating process account
-  ecs_field: vendor.InitiatingProcessAccountDomain
-  cim_field: InitiatingProcessAccountDomain
-  asim_field: InitiatingProcessAccountDomain
+  ecs_field: process.parent.user.domain
+  cim_field: src_user_domain
+  asim_field: ActorUserDomain
   category: DeviceProcessEvents
   display_name: InitiatingProcessAccountDomain
 - field_name: InitiatingProcessAccountName
@@ -275,89 +275,89 @@ fields:
 - field_name: InitiatingProcessAccountSid
   field_type: string
   description: SID of the initiating process account
-  ecs_field: vendor.InitiatingProcessAccountSid
-  cim_field: InitiatingProcessAccountSid
-  asim_field: InitiatingProcessAccountSid
+  ecs_field: user.id
+  cim_field: src_user_id
+  asim_field: ActorUserId
   category: DeviceProcessEvents
   display_name: InitiatingProcessAccountSid
 - field_name: InitiatingProcessAccountUpn
   field_type: string
   description: UPN of the initiating process account
-  ecs_field: vendor.InitiatingProcessAccountUpn
-  cim_field: InitiatingProcessAccountUpn
-  asim_field: InitiatingProcessAccountUpn
+  ecs_field: user.email
+  cim_field: src_user_upn
+  asim_field: ActorUserUpn
   category: DeviceProcessEvents
   display_name: InitiatingProcessAccountUpn
 - field_name: InitiatingProcessAccountObjectId
   field_type: string
   description: Entra ID of initiating process account
-  ecs_field: vendor.InitiatingProcessAccountObjectId
-  cim_field: InitiatingProcessAccountObjectId
-  asim_field: InitiatingProcessAccountObjectId
+  ecs_field: user.id
+  cim_field: src_user_object_id
+  asim_field: ActorUserId
   category: DeviceProcessEvents
   display_name: InitiatingProcessAccountObjectId
 - field_name: InitiatingProcessLogonId
   field_type: long
   description: Logon session ID of initiating process
-  ecs_field: vendor.InitiatingProcessLogonId
-  cim_field: InitiatingProcessLogonId
-  asim_field: InitiatingProcessLogonId
+  ecs_field: winlog.logon.id
+  cim_field: src_logon_id
+  asim_field: ActorLogonId
   category: DeviceProcessEvents
   display_name: InitiatingProcessLogonId
 - field_name: InitiatingProcessIntegrityLevel
   field_type: string
   description: Integrity level of initiating process
-  ecs_field: vendor.InitiatingProcessIntegrityLevel
-  cim_field: InitiatingProcessIntegrityLevel
-  asim_field: InitiatingProcessIntegrityLevel
+  ecs_field: process.parent.integrity_level
+  cim_field: parent_integrity
+  asim_field: ParentProcessIntegrityLevel
   category: DeviceProcessEvents
   display_name: InitiatingProcessIntegrityLevel
 - field_name: InitiatingProcessTokenElevation
   field_type: string
   description: Token elevation of initiating process
-  ecs_field: vendor.InitiatingProcessTokenElevation
-  cim_field: InitiatingProcessTokenElevation
-  asim_field: InitiatingProcessTokenElevation
+  ecs_field: process.parent.privilege_level
+  cim_field: parent_elevation
+  asim_field: ParentProcessTokenElevation
   category: DeviceProcessEvents
   display_name: InitiatingProcessTokenElevation
 - field_name: InitiatingProcessSHA1
   field_type: string
   description: SHA-1 of the initiating process
-  ecs_field: vendor.InitiatingProcessSHA1
-  cim_field: InitiatingProcessSHA1
-  asim_field: InitiatingProcessSHA1
+  ecs_field: process.parent.hash.sha1
+  cim_field: parent_process_sha1
+  asim_field: ParentProcessSHA1
   category: DeviceProcessEvents
   display_name: InitiatingProcessSHA1
 - field_name: InitiatingProcessSHA256
   field_type: string
   description: SHA-256 of the initiating process
-  ecs_field: vendor.InitiatingProcessSHA256
-  cim_field: InitiatingProcessSHA256
-  asim_field: InitiatingProcessSHA256
+  ecs_field: process.parent.hash.sha256
+  cim_field: parent_process_sha256
+  asim_field: ParentProcessSHA256
   category: DeviceProcessEvents
   display_name: InitiatingProcessSHA256
 - field_name: InitiatingProcessMD5
   field_type: string
   description: MD5 hash of the initiating process
-  ecs_field: vendor.InitiatingProcessMD5
-  cim_field: InitiatingProcessMD5
-  asim_field: InitiatingProcessMD5
+  ecs_field: process.parent.hash.md5
+  cim_field: parent_process_md5
+  asim_field: ParentProcessMD5
   category: DeviceProcessEvents
   display_name: InitiatingProcessMD5
 - field_name: InitiatingProcessFileName
   field_type: string
   description: Name of the initiating process file
-  ecs_field: vendor.InitiatingProcessFileName
-  cim_field: InitiatingProcessFileName
-  asim_field: InitiatingProcessFileName
+  ecs_field: process.parent.name
+  cim_field: parent_process
+  asim_field: ParentProcessName
   category: DeviceProcessEvents
   display_name: InitiatingProcessFileName
 - field_name: InitiatingProcessFileSize
   field_type: long
   description: Size of the initiating process file
-  ecs_field: vendor.InitiatingProcessFileSize
-  cim_field: InitiatingProcessFileSize
-  asim_field: InitiatingProcessFileSize
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: DeviceProcessEvents
   display_name: InitiatingProcessFileSize
 - field_name: InitiatingProcessId
@@ -379,57 +379,57 @@ fields:
 - field_name: InitiatingProcessCreationTime
   field_type: datetime
   description: Creation time of initiating process
-  ecs_field: vendor.InitiatingProcessCreationTime
-  cim_field: InitiatingProcessCreationTime
-  asim_field: InitiatingProcessCreationTime
+  ecs_field: process.parent.start
+  cim_field: parent_process_start_time
+  asim_field: ParentProcessCreationTime
   category: DeviceProcessEvents
   display_name: InitiatingProcessCreationTime
 - field_name: InitiatingProcessFolderPath
   field_type: string
   description: Folder path of initiating process
-  ecs_field: vendor.InitiatingProcessFolderPath
-  cim_field: InitiatingProcessFolderPath
-  asim_field: InitiatingProcessFolderPath
+  ecs_field: process.parent.executable
+  cim_field: parent_process_path
+  asim_field: ParentProcessPath
   category: DeviceProcessEvents
   display_name: InitiatingProcessFolderPath
 - field_name: InitiatingProcessUniqueId
   field_type: string
   description: Unique identifier of initiating process
-  ecs_field: vendor.InitiatingProcessUniqueId
-  cim_field: InitiatingProcessUniqueId
-  asim_field: InitiatingProcessUniqueId
+  ecs_field: process.entity_id
+  cim_field: process_guid
+  asim_field: ProcessGuid
   category: DeviceProcessEvents
   display_name: InitiatingProcessUniqueId
 - field_name: InitiatingProcessSessionId
   field_type: long
   description: Windows session ID of initiating process
-  ecs_field: vendor.InitiatingProcessSessionId
-  cim_field: InitiatingProcessSessionId
-  asim_field: InitiatingProcessSessionId
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: DeviceProcessEvents
   display_name: InitiatingProcessSessionId
 - field_name: InitiatingProcessVersionInfoCompanyName
   field_type: string
   description: Company name of initiating process
-  ecs_field: vendor.InitiatingProcessVersionInfoCompanyName
-  cim_field: InitiatingProcessVersionInfoCompanyName
-  asim_field: InitiatingProcessVersionInfoCompanyName
+  ecs_field: process.parent.pe.company
+  cim_field: parent_company
+  asim_field: ParentProcessCompany
   category: DeviceProcessEvents
   display_name: InitiatingProcessVersionInfoCompanyName
 - field_name: InitiatingProcessVersionInfoProductName
   field_type: string
   description: Product name of initiating process
-  ecs_field: vendor.InitiatingProcessVersionInfoProductName
-  cim_field: InitiatingProcessVersionInfoProductName
-  asim_field: InitiatingProcessVersionInfoProductName
+  ecs_field: process.parent.pe.product
+  cim_field: parent_product
+  asim_field: ParentProcessProduct
   category: DeviceProcessEvents
   display_name: InitiatingProcessVersionInfoProductName
 - field_name: InitiatingProcessVersionInfoProductVersion
   field_type: string
   description: Product version of initiating process
-  ecs_field: vendor.InitiatingProcessVersionInfoProductVersion
-  cim_field: InitiatingProcessVersionInfoProductVersion
-  asim_field: InitiatingProcessVersionInfoProductVersion
+  ecs_field: microsoft.defenderxdr.initiatingprocessversioninfoproductversion
+  cim_field: microsoft.defenderxdr.initiatingprocessversioninfoproductversion
+  asim_field: microsoft.defenderxdr.initiatingprocessversioninfoproductversion
   category: DeviceProcessEvents
   display_name: InitiatingProcessVersionInfoProductVersion
 - field_name: InitiatingProcessVersionInfoInternalFileName
@@ -451,17 +451,17 @@ fields:
 - field_name: InitiatingProcessVersionInfoFileDescription
   field_type: string
   description: Description of initiating process
-  ecs_field: vendor.InitiatingProcessVersionInfoFileDescription
-  cim_field: InitiatingProcessVersionInfoFileDescription
-  asim_field: InitiatingProcessVersionInfoFileDescription
+  ecs_field: process.parent.pe.description
+  cim_field: parent_desc
+  asim_field: ParentProcessDescription
   category: DeviceProcessEvents
   display_name: InitiatingProcessVersionInfoFileDescription
 - field_name: InitiatingProcessSignerType
   field_type: string
   description: Type of file signer of initiating process
-  ecs_field: vendor.InitiatingProcessSignerType
-  cim_field: InitiatingProcessSignerType
-  asim_field: InitiatingProcessSignerType
+  ecs_field: file.code_signature.subject_name
+  cim_field: parent_signer
+  asim_field: ParentFilePublisher
   category: DeviceProcessEvents
   display_name: InitiatingProcessSignerType
 - field_name: InitiatingProcessSignatureStatus
@@ -483,25 +483,25 @@ fields:
 - field_name: InitiatingProcessParentFileName
   field_type: string
   description: Name of the parent process
-  ecs_field: vendor.InitiatingProcessParentFileName
-  cim_field: InitiatingProcessParentFileName
-  asim_field: InitiatingProcessParentFileName
+  ecs_field: process.parent.parent.name
+  cim_field: grandparent_process
+  asim_field: GrandparentProcessName
   category: DeviceProcessEvents
   display_name: InitiatingProcessParentFileName
 - field_name: InitiatingProcessParentCreationTime
   field_type: datetime
   description: Creation time of parent process
-  ecs_field: vendor.InitiatingProcessParentCreationTime
-  cim_field: InitiatingProcessParentCreationTime
-  asim_field: InitiatingProcessParentCreationTime
+  ecs_field: process.parent.parent.start
+  cim_field: grandparent_process_start
+  asim_field: GrandparentProcessCreationTime
   category: DeviceProcessEvents
   display_name: InitiatingProcessParentCreationTime
 - field_name: IsInitiatingProcessRemoteSession
   field_type: bool
   description: Whether initiating process was under RDP
-  ecs_field: vendor.IsInitiatingProcessRemoteSession
-  cim_field: IsInitiatingProcessRemoteSession
-  asim_field: IsInitiatingProcessRemoteSession
+  ecs_field: microsoft.defenderxdr.isinitiatingprocessremotesession
+  cim_field: microsoft.defenderxdr.isinitiatingprocessremotesession
+  asim_field: microsoft.defenderxdr.isinitiatingprocessremotesession
   category: DeviceProcessEvents
   display_name: IsInitiatingProcessRemoteSession
 - field_name: InitiatingProcessRemoteSessionDeviceName
@@ -523,17 +523,17 @@ fields:
 - field_name: CreatedProcessSessionId
   field_type: long
   description: Windows session ID of created process
-  ecs_field: vendor.CreatedProcessSessionId
-  cim_field: CreatedProcessSessionId
-  asim_field: CreatedProcessSessionId
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: DeviceProcessEvents
   display_name: CreatedProcessSessionId
 - field_name: IsProcessRemoteSession
   field_type: bool
   description: Whether created process was under RDP
-  ecs_field: vendor.IsProcessRemoteSession
-  cim_field: IsProcessRemoteSession
-  asim_field: IsProcessRemoteSession
+  ecs_field: microsoft.defenderxdr.isprocessremotesession
+  cim_field: microsoft.defenderxdr.isprocessremotesession
+  asim_field: microsoft.defenderxdr.isprocessremotesession
   category: DeviceProcessEvents
   display_name: IsProcessRemoteSession
 - field_name: ProcessRemoteSessionDeviceName
@@ -555,9 +555,9 @@ fields:
 - field_name: ReportId
   field_type: long
   description: Event identifier based on repeating counter
-  ecs_field: vendor.ReportId
-  cim_field: ReportId
-  asim_field: ReportId
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: DeviceProcessEvents
   display_name: ReportId
 - field_name: AppGuardContainerId
@@ -571,17 +571,17 @@ fields:
 - field_name: AdditionalFields
   field_type: string
   description: Additional event information in JSON
-  ecs_field: vendor.AdditionalFields
-  cim_field: AdditionalFields
-  asim_field: AdditionalFields
+  ecs_field: event.original
+  cim_field: additional_fields
+  asim_field: EventOriginalMessage
   category: DeviceProcessEvents
   display_name: AdditionalFields
 - field_name: RemoteIP
   field_type: ip
   description: IP address that was being connected to
-  ecs_field: vendor.RemoteIP
-  cim_field: RemoteIP
-  asim_field: RemoteIP
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: DeviceNetworkEvents
   display_name: RemoteIP
 - field_name: RemotePort
@@ -627,9 +627,9 @@ fields:
 - field_name: LocalIPType
   field_type: string
   description: Type of local IP address (Public/Private/etc)
-  ecs_field: vendor.LocalIPType
-  cim_field: LocalIPType
-  asim_field: LocalIPType
+  ecs_field: source.ip
+  cim_field: src_ip_type
+  asim_field: SrcIpType
   category: DeviceNetworkEvents
   display_name: LocalIPType
 - field_name: RemoteIPType
@@ -659,9 +659,9 @@ fields:
 - field_name: FileOriginIP
   field_type: ip
   description: IP address where file was downloaded from
-  ecs_field: destination.bytes
-  cim_field: FileOriginIP
-  asim_field: FileOriginIP
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: DeviceFileEvents
   display_name: FileOriginIP
 - field_name: PreviousFolderPath
@@ -691,9 +691,9 @@ fields:
 - field_name: RequestSourceIP
   field_type: ip
   description: Source IP of remote file access
-  ecs_field: vendor.RequestSourceIP
-  cim_field: RequestSourceIP
-  asim_field: RequestSourceIP
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: DeviceFileEvents
   display_name: RequestSourceIP
 - field_name: RequestSourcePort
@@ -707,64 +707,64 @@ fields:
 - field_name: RequestAccountName
   field_type: string
   description: Account used for remote access
-  ecs_field: vendor.RequestAccountName
-  cim_field: RequestAccountName
-  asim_field: RequestAccountName
+  ecs_field: microsoft.defenderxdr.requestaccountname
+  cim_field: microsoft.defenderxdr.requestaccountname
+  asim_field: microsoft.defenderxdr.requestaccountname
   category: DeviceFileEvents
   display_name: RequestAccountName
 - field_name: RequestAccountDomain
   field_type: string
   description: Domain of remote access account
-  ecs_field: vendor.RequestAccountDomain
-  cim_field: RequestAccountDomain
-  asim_field: RequestAccountDomain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: TargetUserDomain
   category: DeviceFileEvents
   display_name: RequestAccountDomain
 - field_name: RequestAccountSid
   field_type: string
   description: SID of remote access account
-  ecs_field: vendor.RequestAccountSid
-  cim_field: RequestAccountSid
-  asim_field: RequestAccountSid
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: TargetUserId
   category: DeviceFileEvents
   display_name: RequestAccountSid
 - field_name: ShareName
   field_type: string
   description: Name of shared folder containing the file
-  ecs_field: vendor.ShareName
-  cim_field: ShareName
-  asim_field: ShareName
+  ecs_field: microsoft.defenderxdr.sharename
+  cim_field: microsoft.defenderxdr.sharename
+  asim_field: microsoft.defenderxdr.sharename
   category: DeviceFileEvents
   display_name: ShareName
 - field_name: SensitivityLabel
   field_type: string
   description: Label for information protection
-  ecs_field: vendor.SensitivityLabel
-  cim_field: SensitivityLabel
-  asim_field: SensitivityLabel
+  ecs_field: microsoft.defenderxdr.sensitivitylabel
+  cim_field: microsoft.defenderxdr.sensitivitylabel
+  asim_field: microsoft.defenderxdr.sensitivitylabel
   category: DeviceFileEvents
   display_name: SensitivityLabel
 - field_name: SensitivitySubLabel
   field_type: string
   description: Sublabel for information protection
-  ecs_field: vendor.SensitivitySubLabel
-  cim_field: SensitivitySubLabel
-  asim_field: SensitivitySubLabel
+  ecs_field: microsoft.defenderxdr.sensitivitysublabel
+  cim_field: microsoft.defenderxdr.sensitivitysublabel
+  asim_field: microsoft.defenderxdr.sensitivitysublabel
   category: DeviceFileEvents
   display_name: SensitivitySubLabel
 - field_name: IsAzureInfoProtectionApplied
   field_type: boolean
   description: Whether file is encrypted by AIP
-  ecs_field: vendor.IsAzureInfoProtectionApplied
-  cim_field: IsAzureInfoProtectionApplied
-  asim_field: IsAzureInfoProtectionApplied
+  ecs_field: microsoft.defenderxdr.isazureinfoprotectionapplied
+  cim_field: microsoft.defenderxdr.isazureinfoprotectionapplied
+  asim_field: microsoft.defenderxdr.isazureinfoprotectionapplied
   category: DeviceFileEvents
   display_name: IsAzureInfoProtectionApplied
 - field_name: LogonType
   field_type: string
   description: Type of logon session (Interactive/RDP/Network/Batch/Service)
-  ecs_field: vendor.LogonType
-  cim_field: LogonType
+  ecs_field: winlog.logon.type
+  cim_field: logon_type
   asim_field: LogonType
   category: DeviceLogonEvents
   display_name: LogonType
@@ -779,17 +779,17 @@ fields:
 - field_name: IsLocalAdmin
   field_type: boolean
   description: Whether user is local administrator
-  ecs_field: vendor.IsLocalAdmin
-  cim_field: IsLocalAdmin
-  asim_field: IsLocalAdmin
+  ecs_field: microsoft.defenderxdr.islocaladmin
+  cim_field: microsoft.defenderxdr.islocaladmin
+  asim_field: microsoft.defenderxdr.islocaladmin
   category: DeviceLogonEvents
   display_name: IsLocalAdmin
 - field_name: RemoteDeviceName
   field_type: string
   description: Name of remote device performing logon
-  ecs_field: vendor.RemoteDeviceName
-  cim_field: RemoteDeviceName
-  asim_field: RemoteDeviceName
+  ecs_field: microsoft.defenderxdr.remotedevicename
+  cim_field: microsoft.defenderxdr.remotedevicename
+  asim_field: microsoft.defenderxdr.remotedevicename
   category: DeviceLogonEvents
   display_name: RemoteDeviceName
 - field_name: RegistryKey
@@ -803,8 +803,8 @@ fields:
 - field_name: RegistryValueType
   field_type: string
   description: Data type of the registry value (binary or string)
-  ecs_field: vendor.RegistryValueType
-  cim_field: RegistryValueType
+  ecs_field: registry.data.type
+  cim_field: registry_value_type
   asim_field: RegistryValueType
   category: DeviceRegistryEvents
   display_name: RegistryValueType
@@ -819,41 +819,41 @@ fields:
 - field_name: RegistryValueData
   field_type: string
   description: Data stored in the registry value
-  ecs_field: vendor.RegistryValueData
-  cim_field: RegistryValueData
+  ecs_field: registry.data.strings
+  cim_field: registry_value_data
   asim_field: RegistryValueData
   category: DeviceRegistryEvents
   display_name: RegistryValueData
 - field_name: PreviousRegistryKey
   field_type: string
   description: Original registry key before modification
-  ecs_field: vendor.PreviousRegistryKey
-  cim_field: PreviousRegistryKey
-  asim_field: PreviousRegistryKey
+  ecs_field: registry.key
+  cim_field: registry_key_prev
+  asim_field: RegistryPreviousKey
   category: DeviceRegistryEvents
   display_name: PreviousRegistryKey
 - field_name: PreviousRegistryValueName
   field_type: string
   description: Original registry value name before modification
-  ecs_field: vendor.PreviousRegistryValueName
-  cim_field: PreviousRegistryValueName
-  asim_field: PreviousRegistryValueName
+  ecs_field: registry.value
+  cim_field: registry_value_name_prev
+  asim_field: RegistryPreviousValueName
   category: DeviceRegistryEvents
   display_name: PreviousRegistryValueName
 - field_name: PreviousRegistryValueData
   field_type: string
   description: Original registry value data before modification
-  ecs_field: vendor.PreviousRegistryValueData
-  cim_field: PreviousRegistryValueData
-  asim_field: PreviousRegistryValueData
+  ecs_field: registry.data.strings
+  cim_field: registry_value_data_prev
+  asim_field: RegistryPreviousValueData
   category: DeviceRegistryEvents
   display_name: PreviousRegistryValueData
 - field_name: ImageLoadType
   field_type: string
   description: Type of image load
-  ecs_field: vendor.ImageLoadType
-  cim_field: ImageLoadType
-  asim_field: ImageLoadType
+  ecs_field: microsoft.defenderxdr.imageloadtype
+  cim_field: microsoft.defenderxdr.imageloadtype
+  asim_field: microsoft.defenderxdr.imageloadtype
   category: DeviceImageLoadEvents
   display_name: ImageLoadType
 - field_name: AlertId
@@ -891,65 +891,65 @@ fields:
 - field_name: ServiceSource
   field_type: string
   description: Product or service that provided the alert
-  ecs_field: vendor.ServiceSource
-  cim_field: ServiceSource
-  asim_field: ServiceSource
+  ecs_field: microsoft.defenderxdr.servicesource
+  cim_field: microsoft.defenderxdr.servicesource
+  asim_field: microsoft.defenderxdr.servicesource
   category: AlertInfo
   display_name: ServiceSource
 - field_name: DetectionSource
   field_type: string
   description: Detection technology or sensor
-  ecs_field: vendor.DetectionSource
-  cim_field: DetectionSource
-  asim_field: DetectionSource
+  ecs_field: microsoft.defenderxdr.detectionsource
+  cim_field: microsoft.defenderxdr.detectionsource
+  asim_field: microsoft.defenderxdr.detectionsource
   category: AlertInfo
   display_name: DetectionSource
 - field_name: AttackTechniques
   field_type: string
   description: MITRE ATT&CK techniques associated with the alert
-  ecs_field: vendor.AttackTechniques
-  cim_field: AttackTechniques
-  asim_field: AttackTechniques
+  ecs_field: microsoft.defenderxdr.attacktechniques
+  cim_field: microsoft.defenderxdr.attacktechniques
+  asim_field: microsoft.defenderxdr.attacktechniques
   category: AlertInfo
   display_name: AttackTechniques
 - field_name: Categories
   field_type: string
   description: Categories the information belongs to (JSON array)
-  ecs_field: vendor.Categories
-  cim_field: Categories
-  asim_field: Categories
+  ecs_field: microsoft.defenderxdr.categories
+  cim_field: microsoft.defenderxdr.categories
+  asim_field: microsoft.defenderxdr.categories
   category: AlertEvidence
   display_name: Categories
 - field_name: EvidenceRole
   field_type: string
   description: How the entity is involved (impacted or related)
-  ecs_field: vendor.EvidenceRole
-  cim_field: EvidenceRole
-  asim_field: EvidenceRole
+  ecs_field: microsoft.defenderxdr.evidencerole
+  cim_field: microsoft.defenderxdr.evidencerole
+  asim_field: microsoft.defenderxdr.evidencerole
   category: AlertEvidence
   display_name: EvidenceRole
 - field_name: EvidenceDirection
   field_type: string
   description: Whether entity is source or destination
-  ecs_field: vendor.EvidenceDirection
-  cim_field: EvidenceDirection
-  asim_field: EvidenceDirection
+  ecs_field: microsoft.defenderxdr.evidencedirection
+  cim_field: microsoft.defenderxdr.evidencedirection
+  asim_field: microsoft.defenderxdr.evidencedirection
   category: AlertEvidence
   display_name: EvidenceDirection
 - field_name: EntityType
   field_type: string
   description: Type of object (file, process, device, user)
-  ecs_field: vendor.EntityType
-  cim_field: EntityType
-  asim_field: EntityType
+  ecs_field: microsoft.defenderxdr.entitytype
+  cim_field: microsoft.defenderxdr.entitytype
+  asim_field: microsoft.defenderxdr.entitytype
   category: AlertEvidence
   display_name: EntityType
 - field_name: ThreatFamily
   field_type: string
   description: Malware family classification
-  ecs_field: vendor.ThreatFamily
-  cim_field: ThreatFamily
-  asim_field: ThreatFamily
+  ecs_field: threat.indicator.name
+  cim_field: signature
+  asim_field: ThreatName
   category: AlertEvidence
   display_name: ThreatFamily
 - field_name: NetworkMessageId
@@ -971,33 +971,33 @@ fields:
 - field_name: OAuthApplicationId
   field_type: string
   description: Unique identifier of third-party OAuth app
-  ecs_field: vendor.OAuthApplicationId
-  cim_field: OAuthApplicationId
-  asim_field: OAuthApplicationId
+  ecs_field: microsoft.defenderxdr.oauthapplicationid
+  cim_field: microsoft.defenderxdr.oauthapplicationid
+  asim_field: microsoft.defenderxdr.oauthapplicationid
   category: AlertEvidence
   display_name: OAuthApplicationId
 - field_name: CloudResource
   field_type: string
   description: Cloud resource name
-  ecs_field: vendor.CloudResource
-  cim_field: CloudResource
-  asim_field: CloudResource
+  ecs_field: cloud.instance.id
+  cim_field: resource_id
+  asim_field: CloudResourceId
   category: AlertEvidence
   display_name: CloudResource
 - field_name: CloudPlatform
   field_type: string
   description: Cloud platform (Azure, AWS, GCP)
-  ecs_field: vendor.CloudPlatform
-  cim_field: CloudPlatform
-  asim_field: CloudPlatform
+  ecs_field: cloud.provider
+  cim_field: cloud_provider
+  asim_field: CloudProvider
   category: AlertEvidence
   display_name: CloudPlatform
 - field_name: ResourceType
   field_type: string
   description: Type of cloud resource
-  ecs_field: vendor.ResourceType
-  cim_field: ResourceType
-  asim_field: ResourceType
+  ecs_field: microsoft.defenderxdr.resourcetype
+  cim_field: microsoft.defenderxdr.resourcetype
+  asim_field: microsoft.defenderxdr.resourcetype
   category: AlertEvidence
   display_name: ResourceType
 - field_name: ResourceID
@@ -1027,17 +1027,17 @@ fields:
 - field_name: DestinationDeviceName
   field_type: string
   description: Name of device running server application
-  ecs_field: vendor.DestinationDeviceName
-  cim_field: DestinationDeviceName
-  asim_field: DestinationDeviceName
+  ecs_field: microsoft.defenderxdr.destinationdevicename
+  cim_field: microsoft.defenderxdr.destinationdevicename
+  asim_field: microsoft.defenderxdr.destinationdevicename
   category: IdentityLogonEvents
   display_name: DestinationDeviceName
 - field_name: DestinationIPAddress
   field_type: ip
   description: IP address of destination device
-  ecs_field: vendor.DestinationIPAddress
-  cim_field: DestinationIPAddress
-  asim_field: DestinationIPAddress
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: IdentityLogonEvents
   display_name: DestinationIPAddress
 - field_name: DestinationPort
@@ -1051,25 +1051,25 @@ fields:
 - field_name: TargetAccountUpn
   field_type: string
   description: UPN of the target account
-  ecs_field: vendor.TargetAccountUpn
-  cim_field: TargetAccountUpn
-  asim_field: TargetAccountUpn
+  ecs_field: user.email
+  cim_field: user_email
+  asim_field: TargetUserUpn
   category: IdentityLogonEvents
   display_name: TargetAccountUpn
 - field_name: TargetAccountDisplayName
   field_type: string
   description: Display name of target account
-  ecs_field: vendor.TargetAccountDisplayName
-  cim_field: TargetAccountDisplayName
-  asim_field: TargetAccountDisplayName
+  ecs_field: microsoft.defenderxdr.targetaccountdisplayname
+  cim_field: microsoft.defenderxdr.targetaccountdisplayname
+  asim_field: microsoft.defenderxdr.targetaccountdisplayname
   category: IdentityLogonEvents
   display_name: TargetAccountDisplayName
 - field_name: TargetDeviceName
   field_type: string
   description: Name of target device
-  ecs_field: vendor.TargetDeviceName
-  cim_field: TargetDeviceName
-  asim_field: TargetDeviceName
+  ecs_field: microsoft.defenderxdr.targetdevicename
+  cim_field: microsoft.defenderxdr.targetdevicename
+  asim_field: microsoft.defenderxdr.targetdevicename
   category: IdentityLogonEvents
   display_name: TargetDeviceName
 - field_name: IPAddress
@@ -1107,9 +1107,9 @@ fields:
 - field_name: OSPlatform
   field_type: string
   description: Platform of the operating system
-  ecs_field: vendor.OSPlatform
-  cim_field: OSPlatform
-  asim_field: OSPlatform
+  ecs_field: microsoft.defenderxdr.osplatform
+  cim_field: microsoft.defenderxdr.osplatform
+  asim_field: microsoft.defenderxdr.osplatform
   category: IdentityLogonEvents
   display_name: OSPlatform
 - field_name: DeviceType
@@ -1123,9 +1123,9 @@ fields:
 - field_name: AccountDisplayName
   field_type: string
   description: Name displayed in address book for account
-  ecs_field: vendor.AccountDisplayName
-  cim_field: AccountDisplayName
-  asim_field: AccountDisplayName
+  ecs_field: microsoft.defenderxdr.accountdisplayname
+  cim_field: microsoft.defenderxdr.accountdisplayname
+  asim_field: microsoft.defenderxdr.accountdisplayname
   category: IdentityLogonEvents
   display_name: AccountDisplayName
 - field_name: Query
@@ -1147,17 +1147,17 @@ fields:
 - field_name: QueryTarget
   field_type: string
   description: Name of user, group, device, domain queried
-  ecs_field: vendor.QueryTarget
-  cim_field: QueryTarget
-  asim_field: QueryTarget
+  ecs_field: microsoft.defenderxdr.querytarget
+  cim_field: microsoft.defenderxdr.querytarget
+  asim_field: microsoft.defenderxdr.querytarget
   category: IdentityQueryEvents
   display_name: QueryTarget
 - field_name: InternetMessageId
   field_type: string
   description: Internet-facing email identifier
-  ecs_field: vendor.InternetMessageId
-  cim_field: InternetMessageId
-  asim_field: InternetMessageId
+  ecs_field: microsoft.defenderxdr.internetmessageid
+  cim_field: microsoft.defenderxdr.internetmessageid
+  asim_field: microsoft.defenderxdr.internetmessageid
   category: EmailEvents
   display_name: InternetMessageId
 - field_name: SenderMailFromAddress
@@ -1171,25 +1171,25 @@ fields:
 - field_name: SenderFromAddress
   field_type: string
   description: Sender address in FROM header (visible)
-  ecs_field: vendor.SenderFromAddress
-  cim_field: SenderFromAddress
-  asim_field: SenderFromAddress
+  ecs_field: microsoft.defenderxdr.senderfromaddress
+  cim_field: microsoft.defenderxdr.senderfromaddress
+  asim_field: microsoft.defenderxdr.senderfromaddress
   category: EmailEvents
   display_name: SenderFromAddress
 - field_name: SenderDisplayName
   field_type: string
   description: Display name of sender
-  ecs_field: vendor.SenderDisplayName
-  cim_field: SenderDisplayName
-  asim_field: SenderDisplayName
+  ecs_field: microsoft.defenderxdr.senderdisplayname
+  cim_field: microsoft.defenderxdr.senderdisplayname
+  asim_field: microsoft.defenderxdr.senderdisplayname
   category: EmailEvents
   display_name: SenderDisplayName
 - field_name: SenderObjectId
   field_type: string
   description: Entra ID of sender
-  ecs_field: vendor.SenderObjectId
-  cim_field: SenderObjectId
-  asim_field: SenderObjectId
+  ecs_field: microsoft.defenderxdr.senderobjectid
+  cim_field: microsoft.defenderxdr.senderobjectid
+  asim_field: microsoft.defenderxdr.senderobjectid
   category: EmailEvents
   display_name: SenderObjectId
 - field_name: SenderMailFromDomain
@@ -1203,25 +1203,25 @@ fields:
 - field_name: SenderFromDomain
   field_type: string
   description: Sender domain in FROM header
-  ecs_field: vendor.SenderFromDomain
-  cim_field: SenderFromDomain
-  asim_field: SenderFromDomain
+  ecs_field: microsoft.defenderxdr.senderfromdomain
+  cim_field: microsoft.defenderxdr.senderfromdomain
+  asim_field: microsoft.defenderxdr.senderfromdomain
   category: EmailEvents
   display_name: SenderFromDomain
 - field_name: SenderIPv4
   field_type: ip
   description: IPv4 address of sending mail server
-  ecs_field: vendor.SenderIPv4
-  cim_field: SenderIPv4
-  asim_field: SenderIPv4
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: EmailEvents
   display_name: SenderIPv4
 - field_name: SenderIPv6
   field_type: string
   description: IPv6 address of sending mail server
-  ecs_field: vendor.SenderIPv6
-  cim_field: SenderIPv6
-  asim_field: SenderIPv6
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: EmailEvents
   display_name: SenderIPv6
 - field_name: RecipientEmailAddress
@@ -1235,9 +1235,9 @@ fields:
 - field_name: RecipientObjectId
   field_type: string
   description: Entra ID of recipient
-  ecs_field: vendor.RecipientObjectId
-  cim_field: RecipientObjectId
-  asim_field: RecipientObjectId
+  ecs_field: microsoft.defenderxdr.recipientobjectid
+  cim_field: microsoft.defenderxdr.recipientobjectid
+  asim_field: microsoft.defenderxdr.recipientobjectid
   category: EmailEvents
   display_name: RecipientObjectId
 - field_name: Subject
@@ -1251,9 +1251,9 @@ fields:
 - field_name: EmailClusterId
   field_type: long
   description: Identifier for the email cluster
-  ecs_field: vendor.EmailClusterId
-  cim_field: EmailClusterId
-  asim_field: EmailClusterId
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: EmailEvents
   display_name: EmailClusterId
 - field_name: EmailDirection
@@ -1275,17 +1275,17 @@ fields:
 - field_name: DeliveryLocation
   field_type: string
   description: Where email was delivered
-  ecs_field: vendor.DeliveryLocation
-  cim_field: DeliveryLocation
-  asim_field: DeliveryLocation
+  ecs_field: microsoft.defenderxdr.deliverylocation
+  cim_field: microsoft.defenderxdr.deliverylocation
+  asim_field: microsoft.defenderxdr.deliverylocation
   category: EmailEvents
   display_name: DeliveryLocation
 - field_name: ThreatTypes
   field_type: string
   description: Verdict from email filtering stack
-  ecs_field: vendor.ThreatTypes
-  cim_field: ThreatTypes
-  asim_field: ThreatTypes
+  ecs_field: threat.indicator.type
+  cim_field: threat_type
+  asim_field: ThreatCategory
   category: EmailEvents
   display_name: ThreatTypes
 - field_name: ThreatNames
@@ -1299,25 +1299,25 @@ fields:
 - field_name: DetectionMethods
   field_type: string
   description: Methods used to detect threats
-  ecs_field: vendor.DetectionMethods
-  cim_field: DetectionMethods
-  asim_field: DetectionMethods
+  ecs_field: microsoft.defenderxdr.detectionmethods
+  cim_field: microsoft.defenderxdr.detectionmethods
+  asim_field: microsoft.defenderxdr.detectionmethods
   category: EmailEvents
   display_name: DetectionMethods
 - field_name: ConfidenceLevel
   field_type: string
   description: Confidence level of spam/phishing verdict
-  ecs_field: vendor.ConfidenceLevel
-  cim_field: ConfidenceLevel
-  asim_field: ConfidenceLevel
+  ecs_field: event.risk_score
+  cim_field: confidence
+  asim_field: ThreatConfidence
   category: EmailEvents
   display_name: ConfidenceLevel
 - field_name: BulkComplaintLevel
   field_type: int
   description: Bulk complaint level for spam likelihood
-  ecs_field: vendor.BulkComplaintLevel
-  cim_field: BulkComplaintLevel
-  asim_field: BulkComplaintLevel
+  ecs_field: microsoft.defenderxdr.bulkcomplaintlevel
+  cim_field: microsoft.defenderxdr.bulkcomplaintlevel
+  asim_field: microsoft.defenderxdr.bulkcomplaintlevel
   category: EmailEvents
   display_name: BulkComplaintLevel
 - field_name: EmailAction
@@ -1355,9 +1355,9 @@ fields:
 - field_name: AttachmentCount
   field_type: int
   description: Number of attachments
-  ecs_field: vendor.AttachmentCount
-  cim_field: AttachmentCount
-  asim_field: AttachmentCount
+  ecs_field: email.attachments.count
+  cim_field: attachment_count
+  asim_field: EmailAttachmentCount
   category: EmailEvents
   display_name: AttachmentCount
 - field_name: UrlCount
@@ -1371,17 +1371,17 @@ fields:
 - field_name: EmailLanguage
   field_type: string
   description: Detected language of email
-  ecs_field: vendor.EmailLanguage
-  cim_field: EmailLanguage
-  asim_field: EmailLanguage
+  ecs_field: microsoft.defenderxdr.emaillanguage
+  cim_field: microsoft.defenderxdr.emaillanguage
+  asim_field: microsoft.defenderxdr.emaillanguage
   category: EmailEvents
   display_name: EmailLanguage
 - field_name: Connectors
   field_type: string
   description: Custom mail flow instructions
-  ecs_field: vendor.Connectors
-  cim_field: Connectors
-  asim_field: Connectors
+  ecs_field: microsoft.defenderxdr.connectors
+  cim_field: microsoft.defenderxdr.connectors
+  asim_field: microsoft.defenderxdr.connectors
   category: EmailEvents
   display_name: Connectors
 - field_name: OrgLevelAction
@@ -1419,9 +1419,9 @@ fields:
 - field_name: LatestDeliveryLocation
   field_type: string
   description: Last known email location
-  ecs_field: vendor.LatestDeliveryLocation
-  cim_field: LatestDeliveryLocation
-  asim_field: LatestDeliveryLocation
+  ecs_field: microsoft.defenderxdr.latestdeliverylocation
+  cim_field: microsoft.defenderxdr.latestdeliverylocation
+  asim_field: microsoft.defenderxdr.latestdeliverylocation
   category: EmailEvents
   display_name: LatestDeliveryLocation
 - field_name: LatestDeliveryAction
@@ -1467,17 +1467,17 @@ fields:
 - field_name: ApplicationId
   field_type: int
   description: Unique identifier for the application
-  ecs_field: vendor.ApplicationId
-  cim_field: ApplicationId
-  asim_field: ApplicationId
+  ecs_field: network.application
+  cim_field: app_id
+  asim_field: DstAppId
   category: CloudAppEvents
   display_name: ApplicationId
 - field_name: AppInstanceId
   field_type: int
   description: Unique identifier for app instance
-  ecs_field: vendor.AppInstanceId
-  cim_field: AppInstanceId
-  asim_field: AppInstanceId
+  ecs_field: microsoft.defenderxdr.appinstanceid
+  cim_field: microsoft.defenderxdr.appinstanceid
+  asim_field: microsoft.defenderxdr.appinstanceid
   category: CloudAppEvents
   display_name: AppInstanceId
 - field_name: AccountId
@@ -1491,17 +1491,17 @@ fields:
 - field_name: IsAdminOperation
   field_type: bool
   description: Whether activity was by administrator
-  ecs_field: vendor.IsAdminOperation
-  cim_field: IsAdminOperation
-  asim_field: IsAdminOperation
+  ecs_field: microsoft.defenderxdr.isadminoperation
+  cim_field: microsoft.defenderxdr.isadminoperation
+  asim_field: microsoft.defenderxdr.isadminoperation
   category: CloudAppEvents
   display_name: IsAdminOperation
 - field_name: IsAnonymousProxy
   field_type: boolean
   description: Whether IP is a known anonymous proxy
-  ecs_field: vendor.IsAnonymousProxy
-  cim_field: IsAnonymousProxy
-  asim_field: IsAnonymousProxy
+  ecs_field: microsoft.defenderxdr.isanonymousproxy
+  cim_field: microsoft.defenderxdr.isanonymousproxy
+  asim_field: microsoft.defenderxdr.isanonymousproxy
   category: CloudAppEvents
   display_name: IsAnonymousProxy
 - field_name: CountryCode
@@ -1515,9 +1515,9 @@ fields:
 - field_name: City
   field_type: string
   description: City where client IP is geolocated
-  ecs_field: vendor.City
-  cim_field: City
-  asim_field: City
+  ecs_field: source.geo.city_name
+  cim_field: src_city
+  asim_field: SrcGeoCity
   category: CloudAppEvents
   display_name: City
 - field_name: UserAgent
@@ -1531,17 +1531,17 @@ fields:
 - field_name: ActivityType
   field_type: string
   description: Type of activity that triggered event
-  ecs_field: vendor.ActivityType
-  cim_field: ActivityType
-  asim_field: ActivityType
+  ecs_field: microsoft.defenderxdr.activitytype
+  cim_field: microsoft.defenderxdr.activitytype
+  asim_field: microsoft.defenderxdr.activitytype
   category: CloudAppEvents
   display_name: ActivityType
 - field_name: ActivityObjects
   field_type: dynamic
   description: List of objects involved in activity
-  ecs_field: vendor.ActivityObjects
-  cim_field: ActivityObjects
-  asim_field: ActivityObjects
+  ecs_field: microsoft.defenderxdr.activityobjects
+  cim_field: microsoft.defenderxdr.activityobjects
+  asim_field: microsoft.defenderxdr.activityobjects
   category: CloudAppEvents
   display_name: ActivityObjects
 - field_name: ObjectName
@@ -1555,57 +1555,57 @@ fields:
 - field_name: ObjectType
   field_type: string
   description: Type of object (file, folder, etc)
-  ecs_field: vendor.ObjectType
-  cim_field: ObjectType
-  asim_field: ObjectType
+  ecs_field: event.category
+  cim_field: object_type
+  asim_field: EventCategory
   category: CloudAppEvents
   display_name: ObjectType
 - field_name: ObjectId
   field_type: string
   description: Unique identifier of the object
-  ecs_field: vendor.ObjectId
-  cim_field: ObjectId
-  asim_field: ObjectId
+  ecs_field: event.id
+  cim_field: object_id
+  asim_field: EventOriginalUid
   category: CloudAppEvents
   display_name: ObjectId
 - field_name: AccountType
   field_type: string
   description: Type of user account
-  ecs_field: vendor.AccountType
-  cim_field: AccountType
-  asim_field: AccountType
+  ecs_field: user.roles
+  cim_field: user_type
+  asim_field: ActorUserType
   category: CloudAppEvents
   display_name: AccountType
 - field_name: IsExternalUser
   field_type: boolean
   description: Whether user is external
-  ecs_field: vendor.IsExternalUser
-  cim_field: IsExternalUser
-  asim_field: IsExternalUser
+  ecs_field: microsoft.defenderxdr.isexternaluser
+  cim_field: microsoft.defenderxdr.isexternaluser
+  asim_field: microsoft.defenderxdr.isexternaluser
   category: CloudAppEvents
   display_name: IsExternalUser
 - field_name: IsImpersonated
   field_type: boolean
   description: Whether activity was impersonated
-  ecs_field: vendor.IsImpersonated
-  cim_field: IsImpersonated
-  asim_field: IsImpersonated
+  ecs_field: microsoft.defenderxdr.isimpersonated
+  cim_field: microsoft.defenderxdr.isimpersonated
+  asim_field: microsoft.defenderxdr.isimpersonated
   category: CloudAppEvents
   display_name: IsImpersonated
 - field_name: IPTags
   field_type: dynamic
   description: Customer-defined IP tags
-  ecs_field: vendor.IPTags
-  cim_field: IPTags
-  asim_field: IPTags
+  ecs_field: microsoft.defenderxdr.iptags
+  cim_field: microsoft.defenderxdr.iptags
+  asim_field: microsoft.defenderxdr.iptags
   category: CloudAppEvents
   display_name: IPTags
 - field_name: IPCategory
   field_type: string
   description: Additional IP address information
-  ecs_field: vendor.IPCategory
-  cim_field: IPCategory
-  asim_field: IPCategory
+  ecs_field: microsoft.defenderxdr.ipcategory
+  cim_field: microsoft.defenderxdr.ipcategory
+  asim_field: microsoft.defenderxdr.ipcategory
   category: CloudAppEvents
   display_name: IPCategory
 - field_name: UserAgentTags
@@ -1619,121 +1619,121 @@ fields:
 - field_name: RawEventData
   field_type: dynamic
   description: Raw event information in JSON
-  ecs_field: vendor.RawEventData
-  cim_field: RawEventData
-  asim_field: RawEventData
+  ecs_field: microsoft.defenderxdr.raweventdata
+  cim_field: microsoft.defenderxdr.raweventdata
+  asim_field: microsoft.defenderxdr.raweventdata
   category: CloudAppEvents
   display_name: RawEventData
 - field_name: LastSeenForUser
   field_type: dynamic
   description: Days since attribute was last seen for user
-  ecs_field: vendor.LastSeenForUser
-  cim_field: LastSeenForUser
-  asim_field: LastSeenForUser
+  ecs_field: microsoft.defenderxdr.lastseenforuser
+  cim_field: microsoft.defenderxdr.lastseenforuser
+  asim_field: microsoft.defenderxdr.lastseenforuser
   category: CloudAppEvents
   display_name: LastSeenForUser
 - field_name: UncommonForUser
   field_type: dynamic
   description: Uncommon attributes for user
-  ecs_field: vendor.UncommonForUser
-  cim_field: UncommonForUser
-  asim_field: UncommonForUser
+  ecs_field: microsoft.defenderxdr.uncommonforuser
+  cim_field: microsoft.defenderxdr.uncommonforuser
+  asim_field: microsoft.defenderxdr.uncommonforuser
   category: CloudAppEvents
   display_name: UncommonForUser
 - field_name: AuditSource
   field_type: string
   description: Audit data source
-  ecs_field: vendor.AuditSource
-  cim_field: AuditSource
-  asim_field: AuditSource
+  ecs_field: microsoft.defenderxdr.auditsource
+  cim_field: microsoft.defenderxdr.auditsource
+  asim_field: microsoft.defenderxdr.auditsource
   category: CloudAppEvents
   display_name: AuditSource
 - field_name: SessionData
   field_type: dynamic
   description: Cloud Apps session ID
-  ecs_field: vendor.SessionData
-  cim_field: SessionData
-  asim_field: SessionData
+  ecs_field: microsoft.defenderxdr.sessiondata
+  cim_field: microsoft.defenderxdr.sessiondata
+  asim_field: microsoft.defenderxdr.sessiondata
   category: CloudAppEvents
   display_name: SessionData
 - field_name: OAuthAppId
   field_type: string
   description: OAuth 2.0 application identifier
-  ecs_field: vendor.OAuthAppId
-  cim_field: OAuthAppId
-  asim_field: OAuthAppId
+  ecs_field: microsoft.defenderxdr.oauthappid
+  cim_field: microsoft.defenderxdr.oauthappid
+  asim_field: microsoft.defenderxdr.oauthappid
   category: CloudAppEvents
   display_name: OAuthAppId
 - field_name: ClientVersion
   field_type: string
   description: Version of the endpoint agent
-  ecs_field: vendor.ClientVersion
-  cim_field: ClientVersion
-  asim_field: ClientVersion
+  ecs_field: microsoft.defenderxdr.clientversion
+  cim_field: microsoft.defenderxdr.clientversion
+  asim_field: microsoft.defenderxdr.clientversion
   category: DeviceInfo
   display_name: ClientVersion
 - field_name: PublicIP
   field_type: ip
   description: Public IP address used by the device
-  ecs_field: vendor.PublicIP
-  cim_field: PublicIP
-  asim_field: PublicIP
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: DeviceInfo
   display_name: PublicIP
 - field_name: OSBuild
   field_type: long
   description: Build version of the operating system
-  ecs_field: vendor.OSBuild
-  cim_field: OSBuild
-  asim_field: OSBuild
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: DeviceInfo
   display_name: OSBuild
 - field_name: IsAzureADJoined
   field_type: boolean
   description: Whether device is joined to Entra ID
-  ecs_field: vendor.IsAzureADJoined
-  cim_field: IsAzureADJoined
-  asim_field: IsAzureADJoined
+  ecs_field: microsoft.defenderxdr.isazureadjoined
+  cim_field: microsoft.defenderxdr.isazureadjoined
+  asim_field: microsoft.defenderxdr.isazureadjoined
   category: DeviceInfo
   display_name: IsAzureADJoined
 - field_name: JoinType
   field_type: string
   description: Entra ID join type
-  ecs_field: vendor.JoinType
-  cim_field: JoinType
-  asim_field: JoinType
+  ecs_field: microsoft.defenderxdr.jointype
+  cim_field: microsoft.defenderxdr.jointype
+  asim_field: microsoft.defenderxdr.jointype
   category: DeviceInfo
   display_name: JoinType
 - field_name: AadDeviceId
   field_type: string
   description: Unique device identifier in Entra ID
-  ecs_field: vendor.AadDeviceId
-  cim_field: AadDeviceId
-  asim_field: AadDeviceId
+  ecs_field: microsoft.defenderxdr.aaddeviceid
+  cim_field: microsoft.defenderxdr.aaddeviceid
+  asim_field: microsoft.defenderxdr.aaddeviceid
   category: DeviceInfo
   display_name: AadDeviceId
 - field_name: LoggedOnUsers
   field_type: string
   description: List of logged on users in JSON
-  ecs_field: vendor.LoggedOnUsers
-  cim_field: LoggedOnUsers
-  asim_field: LoggedOnUsers
+  ecs_field: microsoft.defenderxdr.loggedonusers
+  cim_field: microsoft.defenderxdr.loggedonusers
+  asim_field: microsoft.defenderxdr.loggedonusers
   category: DeviceInfo
   display_name: LoggedOnUsers
 - field_name: RegistryDeviceTag
   field_type: string
   description: Device tag added through registry
-  ecs_field: vendor.RegistryDeviceTag
-  cim_field: RegistryDeviceTag
-  asim_field: RegistryDeviceTag
+  ecs_field: microsoft.defenderxdr.registrydevicetag
+  cim_field: microsoft.defenderxdr.registrydevicetag
+  asim_field: microsoft.defenderxdr.registrydevicetag
   category: DeviceInfo
   display_name: RegistryDeviceTag
 - field_name: MachineGroup
   field_type: string
   description: Machine group for RBAC
-  ecs_field: vendor.MachineGroup
-  cim_field: MachineGroup
-  asim_field: MachineGroup
+  ecs_field: microsoft.defenderxdr.machinegroup
+  cim_field: microsoft.defenderxdr.machinegroup
+  asim_field: microsoft.defenderxdr.machinegroup
   category: DeviceInfo
   display_name: MachineGroup
 - field_name: OnboardingStatus
@@ -1747,25 +1747,25 @@ fields:
 - field_name: DeviceCategory
   field_type: string
   description: Broader classification (Endpoint/Network/IoT)
-  ecs_field: vendor.DeviceCategory
-  cim_field: DeviceCategory
-  asim_field: DeviceCategory
+  ecs_field: observer.type
+  cim_field: device_type
+  asim_field: DvcType
   category: DeviceInfo
   display_name: DeviceCategory
 - field_name: DeviceSubtype
   field_type: string
   description: Additional device type modifier
-  ecs_field: vendor.DeviceSubtype
-  cim_field: DeviceSubtype
-  asim_field: DeviceSubtype
+  ecs_field: microsoft.defenderxdr.devicesubtype
+  cim_field: microsoft.defenderxdr.devicesubtype
+  asim_field: microsoft.defenderxdr.devicesubtype
   category: DeviceInfo
   display_name: DeviceSubtype
 - field_name: Model
   field_type: string
   description: Model name or number
-  ecs_field: vendor.Model
-  cim_field: Model
-  asim_field: Model
+  ecs_field: microsoft.defenderxdr.model
+  cim_field: microsoft.defenderxdr.model
+  asim_field: microsoft.defenderxdr.model
   category: DeviceInfo
   display_name: Model
 - field_name: Vendor
@@ -1779,57 +1779,57 @@ fields:
 - field_name: OSDistribution
   field_type: string
   description: OS distribution (Ubuntu/RedHat/etc)
-  ecs_field: vendor.OSDistribution
-  cim_field: OSDistribution
-  asim_field: OSDistribution
+  ecs_field: microsoft.defenderxdr.osdistribution
+  cim_field: microsoft.defenderxdr.osdistribution
+  asim_field: microsoft.defenderxdr.osdistribution
   category: DeviceInfo
   display_name: OSDistribution
 - field_name: OSVersionInfo
   field_type: string
   description: Additional OS version information
-  ecs_field: vendor.OSVersionInfo
-  cim_field: OSVersionInfo
-  asim_field: OSVersionInfo
+  ecs_field: microsoft.defenderxdr.osversioninfo
+  cim_field: microsoft.defenderxdr.osversioninfo
+  asim_field: microsoft.defenderxdr.osversioninfo
   category: DeviceInfo
   display_name: OSVersionInfo
 - field_name: MergedDeviceIds
   field_type: string
   description: Previous device IDs assigned
-  ecs_field: vendor.MergedDeviceIds
-  cim_field: MergedDeviceIds
-  asim_field: MergedDeviceIds
+  ecs_field: microsoft.defenderxdr.mergeddeviceids
+  cim_field: microsoft.defenderxdr.mergeddeviceids
+  asim_field: microsoft.defenderxdr.mergeddeviceids
   category: DeviceInfo
   display_name: MergedDeviceIds
 - field_name: MergedToDeviceId
   field_type: string
   description: Most recent device ID assigned
-  ecs_field: vendor.MergedToDeviceId
-  cim_field: MergedToDeviceId
-  asim_field: MergedToDeviceId
+  ecs_field: microsoft.defenderxdr.mergedtodeviceid
+  cim_field: microsoft.defenderxdr.mergedtodeviceid
+  asim_field: microsoft.defenderxdr.mergedtodeviceid
   category: DeviceInfo
   display_name: MergedToDeviceId
 - field_name: IsInternetFacing
   field_type: boolean
   description: Whether device is internet-facing
-  ecs_field: vendor.IsInternetFacing
-  cim_field: IsInternetFacing
-  asim_field: IsInternetFacing
+  ecs_field: microsoft.defenderxdr.isinternetfacing
+  cim_field: microsoft.defenderxdr.isinternetfacing
+  asim_field: microsoft.defenderxdr.isinternetfacing
   category: DeviceInfo
   display_name: IsInternetFacing
 - field_name: SensorHealthState
   field_type: string
   description: Health of EDR sensor
-  ecs_field: vendor.SensorHealthState
-  cim_field: SensorHealthState
-  asim_field: SensorHealthState
+  ecs_field: microsoft.defenderxdr.sensorhealthstate
+  cim_field: microsoft.defenderxdr.sensorhealthstate
+  asim_field: microsoft.defenderxdr.sensorhealthstate
   category: DeviceInfo
   display_name: SensorHealthState
 - field_name: IsExcluded
   field_type: bool
   description: Whether device is excluded from vulnerability management
-  ecs_field: vendor.IsExcluded
-  cim_field: IsExcluded
-  asim_field: IsExcluded
+  ecs_field: microsoft.defenderxdr.isexcluded
+  cim_field: microsoft.defenderxdr.isexcluded
+  asim_field: microsoft.defenderxdr.isexcluded
   category: DeviceInfo
   display_name: IsExcluded
 - field_name: ExclusionReason
@@ -1843,49 +1843,49 @@ fields:
 - field_name: ExposureLevel
   field_type: string
   description: Device vulnerability level (Low/Medium/High)
-  ecs_field: vendor.ExposureLevel
-  cim_field: ExposureLevel
-  asim_field: ExposureLevel
+  ecs_field: microsoft.defenderxdr.exposurelevel
+  cim_field: microsoft.defenderxdr.exposurelevel
+  asim_field: microsoft.defenderxdr.exposurelevel
   category: DeviceInfo
   display_name: ExposureLevel
 - field_name: AssetValue
   field_type: string
   description: Device asset value (Low/Normal/High)
-  ecs_field: vendor.AssetValue
-  cim_field: AssetValue
-  asim_field: AssetValue
+  ecs_field: microsoft.defenderxdr.assetvalue
+  cim_field: microsoft.defenderxdr.assetvalue
+  asim_field: microsoft.defenderxdr.assetvalue
   category: DeviceInfo
   display_name: AssetValue
 - field_name: DeviceManualTags
   field_type: string
   description: Tags created manually via portal/API
-  ecs_field: vendor.DeviceManualTags
-  cim_field: DeviceManualTags
-  asim_field: DeviceManualTags
+  ecs_field: microsoft.defenderxdr.devicemanualtags
+  cim_field: microsoft.defenderxdr.devicemanualtags
+  asim_field: microsoft.defenderxdr.devicemanualtags
   category: DeviceInfo
   display_name: DeviceManualTags
 - field_name: DeviceDynamicTags
   field_type: string
   description: Tags added dynamically by rules
-  ecs_field: vendor.DeviceDynamicTags
-  cim_field: DeviceDynamicTags
-  asim_field: DeviceDynamicTags
+  ecs_field: microsoft.defenderxdr.devicedynamictags
+  cim_field: microsoft.defenderxdr.devicedynamictags
+  asim_field: microsoft.defenderxdr.devicedynamictags
   category: DeviceInfo
   display_name: DeviceDynamicTags
 - field_name: ConnectivityType
   field_type: string
   description: Type of cloud connectivity
-  ecs_field: vendor.ConnectivityType
-  cim_field: ConnectivityType
-  asim_field: ConnectivityType
+  ecs_field: microsoft.defenderxdr.connectivitytype
+  cim_field: microsoft.defenderxdr.connectivitytype
+  asim_field: microsoft.defenderxdr.connectivitytype
   category: DeviceInfo
   display_name: ConnectivityType
 - field_name: HostDeviceId
   field_type: string
   description: Device ID running WSL
-  ecs_field: vendor.HostDeviceId
-  cim_field: HostDeviceId
-  asim_field: HostDeviceId
+  ecs_field: microsoft.defenderxdr.hostdeviceid
+  cim_field: microsoft.defenderxdr.hostdeviceid
+  asim_field: microsoft.defenderxdr.hostdeviceid
   category: DeviceInfo
   display_name: HostDeviceId
 - field_name: AzureResourceId
@@ -1899,9 +1899,9 @@ fields:
 - field_name: AwsResourceName
   field_type: string
   description: AWS resource name
-  ecs_field: vendor.AwsResourceName
-  cim_field: AwsResourceName
-  asim_field: AwsResourceName
+  ecs_field: microsoft.defenderxdr.awsresourcename
+  cim_field: microsoft.defenderxdr.awsresourcename
+  asim_field: microsoft.defenderxdr.awsresourcename
   category: DeviceInfo
   display_name: AwsResourceName
 - field_name: GcpFullResourceName
@@ -1915,17 +1915,17 @@ fields:
 - field_name: HardwareUuid
   field_type: string
   description: Hardware UUID of device
-  ecs_field: vendor.HardwareUuid
-  cim_field: HardwareUuid
-  asim_field: HardwareUuid
+  ecs_field: microsoft.defenderxdr.hardwareuuid
+  cim_field: microsoft.defenderxdr.hardwareuuid
+  asim_field: microsoft.defenderxdr.hardwareuuid
   category: DeviceInfo
   display_name: HardwareUuid
 - field_name: CloudPlatforms
   field_type: string
   description: Cloud platforms (Azure/AWS/GCP/Arc)
-  ecs_field: vendor.CloudPlatforms
-  cim_field: CloudPlatforms
-  asim_field: CloudPlatforms
+  ecs_field: microsoft.defenderxdr.cloudplatforms
+  cim_field: microsoft.defenderxdr.cloudplatforms
+  asim_field: microsoft.defenderxdr.cloudplatforms
   category: DeviceInfo
   display_name: CloudPlatforms
 - field_name: AzureVmId
@@ -1947,17 +1947,17 @@ fields:
 - field_name: IsTransient
   field_type: boolean
   description: Whether device is short-lived/transient
-  ecs_field: vendor.IsTransient
-  cim_field: IsTransient
-  asim_field: IsTransient
+  ecs_field: microsoft.defenderxdr.istransient
+  cim_field: microsoft.defenderxdr.istransient
+  asim_field: microsoft.defenderxdr.istransient
   category: DeviceInfo
   display_name: IsTransient
 - field_name: OsBuildRevision
   field_type: string
   description: OS build revision number
-  ecs_field: vendor.OsBuildRevision
-  cim_field: OsBuildRevision
-  asim_field: OsBuildRevision
+  ecs_field: microsoft.defenderxdr.osbuildrevision
+  cim_field: microsoft.defenderxdr.osbuildrevision
+  asim_field: microsoft.defenderxdr.osbuildrevision
   category: DeviceInfo
   display_name: OsBuildRevision
 - field_name: MitigationStatus
@@ -1971,33 +1971,33 @@ fields:
 - field_name: Site
   field_type: string
   description: Physical location of device
-  ecs_field: vendor.Site
-  cim_field: Site
-  asim_field: Site
+  ecs_field: url.full
+  cim_field: site_url
+  asim_field: Url
   category: DeviceInfo
   display_name: Site
 - field_name: DiscoverySources
   field_type: string
   description: Products that reported the device
-  ecs_field: vendor.DiscoverySources
-  cim_field: DiscoverySources
-  asim_field: DiscoverySources
+  ecs_field: microsoft.defenderxdr.discoverysources
+  cim_field: microsoft.defenderxdr.discoverysources
+  asim_field: microsoft.defenderxdr.discoverysources
   category: DeviceInfo
   display_name: DiscoverySources
 - field_name: NetworkAdapterName
   field_type: string
   description: Name of the network adapter
-  ecs_field: vendor.NetworkAdapterName
-  cim_field: NetworkAdapterName
-  asim_field: NetworkAdapterName
+  ecs_field: microsoft.defenderxdr.networkadaptername
+  cim_field: microsoft.defenderxdr.networkadaptername
+  asim_field: microsoft.defenderxdr.networkadaptername
   category: DeviceNetworkInfo
   display_name: NetworkAdapterName
 - field_name: NetworkAdapterType
   field_type: string
   description: Type of network adapter
-  ecs_field: vendor.NetworkAdapterType
-  cim_field: NetworkAdapterType
-  asim_field: NetworkAdapterType
+  ecs_field: microsoft.defenderxdr.networkadaptertype
+  cim_field: microsoft.defenderxdr.networkadaptertype
+  asim_field: microsoft.defenderxdr.networkadaptertype
   category: DeviceNetworkInfo
   display_name: NetworkAdapterType
 - field_name: NetworkAdapterStatus
@@ -2011,25 +2011,25 @@ fields:
 - field_name: NetworkAdapterVendor
   field_type: string
   description: Vendor of the network adapter
-  ecs_field: vendor.NetworkAdapterVendor
-  cim_field: NetworkAdapterVendor
-  asim_field: NetworkAdapterVendor
+  ecs_field: microsoft.defenderxdr.networkadaptervendor
+  cim_field: microsoft.defenderxdr.networkadaptervendor
+  asim_field: microsoft.defenderxdr.networkadaptervendor
   category: DeviceNetworkInfo
   display_name: NetworkAdapterVendor
 - field_name: MacAddress
   field_type: string
   description: MAC address of the network adapter
-  ecs_field: vendor.MacAddress
-  cim_field: MacAddress
-  asim_field: MacAddress
+  ecs_field: microsoft.defenderxdr.macaddress
+  cim_field: microsoft.defenderxdr.macaddress
+  asim_field: microsoft.defenderxdr.macaddress
   category: DeviceNetworkInfo
   display_name: MacAddress
 - field_name: IPAddresses
   field_type: string
   description: JSON array of IP addresses assigned
-  ecs_field: vendor.IPAddresses
-  cim_field: IPAddresses
-  asim_field: IPAddresses
+  ecs_field: microsoft.defenderxdr.ipaddresses
+  cim_field: microsoft.defenderxdr.ipaddresses
+  asim_field: microsoft.defenderxdr.ipaddresses
   category: DeviceNetworkInfo
   display_name: IPAddresses
 - field_name: TunnelType
@@ -2043,97 +2043,97 @@ fields:
 - field_name: ConnectedNetworks
   field_type: string
   description: Networks the adapter is connected to
-  ecs_field: vendor.ConnectedNetworks
-  cim_field: ConnectedNetworks
-  asim_field: ConnectedNetworks
+  ecs_field: microsoft.defenderxdr.connectednetworks
+  cim_field: microsoft.defenderxdr.connectednetworks
+  asim_field: microsoft.defenderxdr.connectednetworks
   category: DeviceNetworkInfo
   display_name: ConnectedNetworks
 - field_name: DnsAddresses
   field_type: string
   description: DNS server addresses
-  ecs_field: vendor.DnsAddresses
-  cim_field: DnsAddresses
-  asim_field: DnsAddresses
+  ecs_field: microsoft.defenderxdr.dnsaddresses
+  cim_field: microsoft.defenderxdr.dnsaddresses
+  asim_field: microsoft.defenderxdr.dnsaddresses
   category: DeviceNetworkInfo
   display_name: DnsAddresses
 - field_name: DefaultGateways
   field_type: string
   description: Default gateway addresses
-  ecs_field: vendor.DefaultGateways
-  cim_field: DefaultGateways
-  asim_field: DefaultGateways
+  ecs_field: microsoft.defenderxdr.defaultgateways
+  cim_field: microsoft.defenderxdr.defaultgateways
+  asim_field: microsoft.defenderxdr.defaultgateways
   category: DeviceNetworkInfo
   display_name: DefaultGateways
 - field_name: IPv4Dhcp
   field_type: ip
   description: IPv4 address of DHCP server
-  ecs_field: vendor.IPv4Dhcp
-  cim_field: IPv4Dhcp
-  asim_field: IPv4Dhcp
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: DeviceNetworkInfo
   display_name: IPv4Dhcp
 - field_name: IPv6Dhcp
   field_type: string
   description: IPv6 address of DHCP server
-  ecs_field: vendor.IPv6Dhcp
-  cim_field: IPv6Dhcp
-  asim_field: IPv6Dhcp
+  ecs_field: microsoft.defenderxdr.ipv6dhcp
+  cim_field: microsoft.defenderxdr.ipv6dhcp
+  asim_field: microsoft.defenderxdr.ipv6dhcp
   category: DeviceNetworkInfo
   display_name: IPv6Dhcp
 - field_name: SoftwareVendor
   field_type: string
   description: Name of the software vendor
-  ecs_field: vendor.SoftwareVendor
-  cim_field: SoftwareVendor
-  asim_field: SoftwareVendor
+  ecs_field: microsoft.defenderxdr.softwarevendor
+  cim_field: microsoft.defenderxdr.softwarevendor
+  asim_field: microsoft.defenderxdr.softwarevendor
   category: DeviceTvmSoftwareInventory
   display_name: SoftwareVendor
 - field_name: SoftwareName
   field_type: string
   description: Name of the software product
-  ecs_field: vendor.SoftwareName
-  cim_field: SoftwareName
-  asim_field: SoftwareName
+  ecs_field: microsoft.defenderxdr.softwarename
+  cim_field: microsoft.defenderxdr.softwarename
+  asim_field: microsoft.defenderxdr.softwarename
   category: DeviceTvmSoftwareInventory
   display_name: SoftwareName
 - field_name: SoftwareVersion
   field_type: string
   description: Version number of the software product
-  ecs_field: vendor.SoftwareVersion
-  cim_field: SoftwareVersion
-  asim_field: SoftwareVersion
+  ecs_field: microsoft.defenderxdr.softwareversion
+  cim_field: microsoft.defenderxdr.softwareversion
+  asim_field: microsoft.defenderxdr.softwareversion
   category: DeviceTvmSoftwareInventory
   display_name: SoftwareVersion
 - field_name: EndOfSupportStatus
   field_type: string
   description: Lifecycle stage of software (EOS/EOL)
-  ecs_field: vendor.EndOfSupportStatus
-  cim_field: EndOfSupportStatus
-  asim_field: EndOfSupportStatus
+  ecs_field: microsoft.defenderxdr.endofsupportstatus
+  cim_field: microsoft.defenderxdr.endofsupportstatus
+  asim_field: microsoft.defenderxdr.endofsupportstatus
   category: DeviceTvmSoftwareInventory
   display_name: EndOfSupportStatus
 - field_name: EndOfSupportDate
   field_type: datetime
   description: End-of-support or end-of-life date
-  ecs_field: vendor.EndOfSupportDate
-  cim_field: EndOfSupportDate
-  asim_field: EndOfSupportDate
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: DeviceTvmSoftwareInventory
   display_name: EndOfSupportDate
 - field_name: ProductCodeCpe
   field_type: string
   description: Common Platform Enumeration (CPE) name
-  ecs_field: vendor.ProductCodeCpe
-  cim_field: ProductCodeCpe
-  asim_field: ProductCodeCpe
+  ecs_field: microsoft.defenderxdr.productcodecpe
+  cim_field: microsoft.defenderxdr.productcodecpe
+  asim_field: microsoft.defenderxdr.productcodecpe
   category: DeviceTvmSoftwareInventory
   display_name: ProductCodeCpe
 - field_name: CveId
   field_type: string
   description: CVE identifier for the vulnerability
-  ecs_field: vendor.CveId
-  cim_field: CveId
-  asim_field: CveId
+  ecs_field: microsoft.defenderxdr.cveid
+  cim_field: microsoft.defenderxdr.cveid
+  asim_field: microsoft.defenderxdr.cveid
   category: DeviceTvmSoftwareVulnerabilities
   display_name: CveId
 - field_name: VulnerabilitySeverityLevel
@@ -2147,41 +2147,41 @@ fields:
 - field_name: CvssScore
   field_type: real
   description: CVSS score of the vulnerability
-  ecs_field: vendor.CvssScore
-  cim_field: CvssScore
-  asim_field: CvssScore
+  ecs_field: microsoft.defenderxdr.cvssscore
+  cim_field: microsoft.defenderxdr.cvssscore
+  asim_field: microsoft.defenderxdr.cvssscore
   category: DeviceTvmSoftwareVulnerabilities
   display_name: CvssScore
 - field_name: IsExploitAvailable
   field_type: bool
   description: Whether exploit is publicly available
-  ecs_field: vendor.IsExploitAvailable
-  cim_field: IsExploitAvailable
-  asim_field: IsExploitAvailable
+  ecs_field: microsoft.defenderxdr.isexploitavailable
+  cim_field: microsoft.defenderxdr.isexploitavailable
+  asim_field: microsoft.defenderxdr.isexploitavailable
   category: DeviceTvmSoftwareVulnerabilities
   display_name: IsExploitAvailable
 - field_name: RecommendedSecurityUpdate
   field_type: string
   description: Name of recommended security update
-  ecs_field: vendor.RecommendedSecurityUpdate
-  cim_field: RecommendedSecurityUpdate
-  asim_field: RecommendedSecurityUpdate
+  ecs_field: microsoft.defenderxdr.recommendedsecurityupdate
+  cim_field: microsoft.defenderxdr.recommendedsecurityupdate
+  asim_field: microsoft.defenderxdr.recommendedsecurityupdate
   category: DeviceTvmSoftwareVulnerabilities
   display_name: RecommendedSecurityUpdate
 - field_name: RecommendedSecurityUpdateId
   field_type: string
   description: KB article or update identifier
-  ecs_field: vendor.RecommendedSecurityUpdateId
-  cim_field: RecommendedSecurityUpdateId
-  asim_field: RecommendedSecurityUpdateId
+  ecs_field: microsoft.defenderxdr.recommendedsecurityupdateid
+  cim_field: microsoft.defenderxdr.recommendedsecurityupdateid
+  asim_field: microsoft.defenderxdr.recommendedsecurityupdateid
   category: DeviceTvmSoftwareVulnerabilities
   display_name: RecommendedSecurityUpdateId
 - field_name: CveTags
   field_type: dynamic
   description: CVE tags (e.g., ZeroDay, NoSecurityUpdate)
-  ecs_field: vendor.CveTags
-  cim_field: CveTags
-  asim_field: CveTags
+  ecs_field: microsoft.defenderxdr.cvetags
+  cim_field: microsoft.defenderxdr.cvetags
+  asim_field: microsoft.defenderxdr.cvetags
   category: DeviceTvmSoftwareVulnerabilities
   display_name: CveTags
 - field_name: ErrorCode
@@ -2211,25 +2211,25 @@ fields:
 - field_name: IsGuestUser
   field_type: boolean
   description: Whether user is a guest
-  ecs_field: vendor.IsGuestUser
-  cim_field: IsGuestUser
-  asim_field: IsGuestUser
+  ecs_field: microsoft.defenderxdr.isguestuser
+  cim_field: microsoft.defenderxdr.isguestuser
+  asim_field: microsoft.defenderxdr.isguestuser
   category: AADSignInEventsBeta
   display_name: IsGuestUser
 - field_name: AlternateSignInName
   field_type: string
   description: On-premises UPN of user
-  ecs_field: vendor.AlternateSignInName
-  cim_field: AlternateSignInName
-  asim_field: AlternateSignInName
+  ecs_field: microsoft.defenderxdr.alternatesigninname
+  cim_field: microsoft.defenderxdr.alternatesigninname
+  asim_field: microsoft.defenderxdr.alternatesigninname
   category: AADSignInEventsBeta
   display_name: AlternateSignInName
 - field_name: LastPasswordChangeTimestamp
   field_type: datetime
   description: Last password change time
-  ecs_field: vendor.LastPasswordChangeTimestamp
-  cim_field: LastPasswordChangeTimestamp
-  asim_field: LastPasswordChangeTimestamp
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: AADSignInEventsBeta
   display_name: LastPasswordChangeTimestamp
 - field_name: ResourceDisplayName
@@ -2251,65 +2251,65 @@ fields:
 - field_name: ResourceTenantId
   field_type: string
   description: Unique identifier of resource tenant
-  ecs_field: vendor.ResourceTenantId
-  cim_field: ResourceTenantId
-  asim_field: ResourceTenantId
+  ecs_field: cloud.account.id
+  cim_field: resource_tenant_id
+  asim_field: CloudAccountId
   category: AADSignInEventsBeta
   display_name: ResourceTenantId
 - field_name: EntraIdDeviceId
   field_type: string
   description: Entra ID device identifier
-  ecs_field: vendor.EntraIdDeviceId
-  cim_field: EntraIdDeviceId
-  asim_field: EntraIdDeviceId
+  ecs_field: microsoft.defenderxdr.entraiddeviceid
+  cim_field: microsoft.defenderxdr.entraiddeviceid
+  asim_field: microsoft.defenderxdr.entraiddeviceid
   category: AADSignInEventsBeta
   display_name: EntraIdDeviceId
 - field_name: DeviceTrustType
   field_type: string
   description: Trust type (Workplace/AzureAd/ServerAd)
-  ecs_field: vendor.DeviceTrustType
-  cim_field: DeviceTrustType
-  asim_field: DeviceTrustType
+  ecs_field: microsoft.defenderxdr.devicetrusttype
+  cim_field: microsoft.defenderxdr.devicetrusttype
+  asim_field: microsoft.defenderxdr.devicetrusttype
   category: AADSignInEventsBeta
   display_name: DeviceTrustType
 - field_name: IsManaged
   field_type: int
   description: Whether device is managed (0/1)
-  ecs_field: vendor.IsManaged
-  cim_field: IsManaged
-  asim_field: IsManaged
+  ecs_field: microsoft.defenderxdr.ismanaged
+  cim_field: microsoft.defenderxdr.ismanaged
+  asim_field: microsoft.defenderxdr.ismanaged
   category: AADSignInEventsBeta
   display_name: IsManaged
 - field_name: IsCompliant
   field_type: int
   description: Whether device is compliant (0/1)
-  ecs_field: vendor.IsCompliant
-  cim_field: IsCompliant
-  asim_field: IsCompliant
+  ecs_field: microsoft.defenderxdr.iscompliant
+  cim_field: microsoft.defenderxdr.iscompliant
+  asim_field: microsoft.defenderxdr.iscompliant
   category: AADSignInEventsBeta
   display_name: IsCompliant
 - field_name: AuthenticationProcessingDetails
   field_type: string
   description: Authentication processor details
-  ecs_field: vendor.AuthenticationProcessingDetails
-  cim_field: AuthenticationProcessingDetails
-  asim_field: AuthenticationProcessingDetails
+  ecs_field: event.reason
+  cim_field: auth_details
+  asim_field: EventResultDetails
   category: AADSignInEventsBeta
   display_name: AuthenticationProcessingDetails
 - field_name: AuthenticationRequirement
   field_type: string
   description: Auth type (multiFactorAuthentication/singleFactorAuthentication)
-  ecs_field: vendor.AuthenticationRequirement
-  cim_field: AuthenticationRequirement
-  asim_field: AuthenticationRequirement
+  ecs_field: event.type
+  cim_field: auth_requirement
+  asim_field: EventType
   category: AADSignInEventsBeta
   display_name: AuthenticationRequirement
 - field_name: TokenIssuerType
   field_type: int
   description: Token issuer (0=Entra ID, 1=ADFS)
-  ecs_field: user.domain
-  cim_field: TokenIssuerType
-  asim_field: TokenIssuerType
+  ecs_field: event.type
+  cim_field: token_issuer_type
+  asim_field: EventType
   category: AADSignInEventsBeta
   display_name: TokenIssuerType
 - field_name: RiskLevelAggregated
@@ -2323,9 +2323,9 @@ fields:
 - field_name: RiskDetails
   field_type: int
   description: Details about risky state
-  ecs_field: vendor.RiskDetails
-  cim_field: RiskDetails
-  asim_field: RiskDetails
+  ecs_field: event.risk_score
+  cim_field: risk_details
+  asim_field: ThreatRiskLevel
   category: AADSignInEventsBeta
   display_name: RiskDetails
 - field_name: RiskState
@@ -2347,17 +2347,17 @@ fields:
 - field_name: Browser
   field_type: string
   description: Browser version details
-  ecs_field: vendor.Browser
-  cim_field: Browser
-  asim_field: Browser
+  ecs_field: user_agent.name
+  cim_field: browser
+  asim_field: HttpUserAgentName
   category: AADSignInEventsBeta
   display_name: Browser
 - field_name: ConditionalAccessPolicies
   field_type: string
   description: Conditional access policies applied
-  ecs_field: vendor.ConditionalAccessPolicies
-  cim_field: ConditionalAccessPolicies
-  asim_field: ConditionalAccessPolicies
+  ecs_field: microsoft.defenderxdr.conditionalaccesspolicies
+  cim_field: microsoft.defenderxdr.conditionalaccesspolicies
+  asim_field: microsoft.defenderxdr.conditionalaccesspolicies
   category: AADSignInEventsBeta
   display_name: ConditionalAccessPolicies
 - field_name: ConditionalAccessStatus
@@ -2371,9 +2371,9 @@ fields:
 - field_name: Country
   field_type: string
   description: Two-letter country code of IP geolocation
-  ecs_field: vendor.Country
-  cim_field: Country
-  asim_field: Country
+  ecs_field: source.geo.country_name
+  cim_field: src_country
+  asim_field: SrcGeoCountry
   category: AADSignInEventsBeta
   display_name: Country
 - field_name: State
@@ -2387,25 +2387,25 @@ fields:
 - field_name: Latitude
   field_type: string
   description: North-south coordinates of sign-in
-  ecs_field: vendor.Latitude
-  cim_field: Latitude
-  asim_field: Latitude
+  ecs_field: source.geo.location.lat
+  cim_field: latitude
+  asim_field: SrcGeoLatitude
   category: AADSignInEventsBeta
   display_name: Latitude
 - field_name: Longitude
   field_type: string
   description: East-west coordinates of sign-in
-  ecs_field: vendor.Longitude
-  cim_field: Longitude
-  asim_field: Longitude
+  ecs_field: source.geo.location.lon
+  cim_field: longitude
+  asim_field: SrcGeoLongitude
   category: AADSignInEventsBeta
   display_name: Longitude
 - field_name: NetworkLocationDetails
   field_type: string
   description: Network location details
-  ecs_field: vendor.NetworkLocationDetails
-  cim_field: NetworkLocationDetails
-  asim_field: NetworkLocationDetails
+  ecs_field: microsoft.defenderxdr.networklocationdetails
+  cim_field: microsoft.defenderxdr.networklocationdetails
+  asim_field: microsoft.defenderxdr.networklocationdetails
   category: AADSignInEventsBeta
   display_name: NetworkLocationDetails
 - field_name: RequestId
@@ -2419,17 +2419,17 @@ fields:
 - field_name: EndpointCall
   field_type: string
   description: Entra ID endpoint information
-  ecs_field: vendor.EndpointCall
-  cim_field: EndpointCall
-  asim_field: EndpointCall
+  ecs_field: microsoft.defenderxdr.endpointcall
+  cim_field: microsoft.defenderxdr.endpointcall
+  asim_field: microsoft.defenderxdr.endpointcall
   category: AADSignInEventsBeta
   display_name: EndpointCall
 - field_name: Workload
   field_type: string
   description: Application where click occurred (Email/Office/Teams)
-  ecs_field: vendor.Workload
-  cim_field: Workload
-  asim_field: Workload
+  ecs_field: event.provider
+  cim_field: source
+  asim_field: EventProduct
   category: UrlClickEvents
   display_name: Workload
 - field_name: IsClickedThrough
@@ -2451,33 +2451,33 @@ fields:
 - field_name: BehaviorId
   field_type: string
   description: Unique identifier for the behavior
-  ecs_field: vendor.BehaviorId
-  cim_field: BehaviorId
-  asim_field: BehaviorId
+  ecs_field: microsoft.defenderxdr.behaviorid
+  cim_field: microsoft.defenderxdr.behaviorid
+  asim_field: microsoft.defenderxdr.behaviorid
   category: BehaviorEntities
   display_name: BehaviorId
 - field_name: DataSources
   field_type: string
   description: Products that provided info for behavior
-  ecs_field: vendor.DataSources
-  cim_field: DataSources
-  asim_field: DataSources
+  ecs_field: microsoft.defenderxdr.datasources
+  cim_field: microsoft.defenderxdr.datasources
+  asim_field: microsoft.defenderxdr.datasources
   category: BehaviorEntities
   display_name: DataSources
 - field_name: EntityRole
   field_type: string
   description: Whether entity is impacted or related
-  ecs_field: vendor.EntityRole
-  cim_field: EntityRole
-  asim_field: EntityRole
+  ecs_field: microsoft.defenderxdr.entityrole
+  cim_field: microsoft.defenderxdr.entityrole
+  asim_field: microsoft.defenderxdr.entityrole
   category: BehaviorEntities
   display_name: EntityRole
 - field_name: DetailedEntityRole
   field_type: string
   description: Roles of the entity in the behavior
-  ecs_field: vendor.DetailedEntityRole
-  cim_field: DetailedEntityRole
-  asim_field: DetailedEntityRole
+  ecs_field: microsoft.defenderxdr.detailedentityrole
+  cim_field: microsoft.defenderxdr.detailedentityrole
+  asim_field: microsoft.defenderxdr.detailedentityrole
   category: BehaviorEntities
   display_name: DetailedEntityRole
 notes: Covers 23 tables including DeviceProcessEvents, DeviceNetworkEvents, DeviceFileEvents,

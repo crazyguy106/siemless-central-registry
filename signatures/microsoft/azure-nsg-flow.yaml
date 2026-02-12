@@ -7,7 +7,7 @@ source_document: NSG Flow Logs Overview
 source_url: https://learn.microsoft.com/en-us/azure/network-watcher/network-watcher-nsg-flow-logging-overview
 extraction_date: '2026-01-02'
 source_file: azure-nsg-flow-signatures.json
-generated_at: '2026-02-11T15:57:00.098666'
+generated_at: '2026-02-12T11:02:51.993470'
 categories:
 - LogRecord
 - FlowTupleV2
@@ -55,23 +55,23 @@ fields:
 - field_name: flowTuple.flowState
   field_type: string
   description: 'State: B (Begin), C (Continuing), E (End)'
-  ecs_field: vendor.flowTuple.flowState
-  cim_field: flowTuple.flowState
-  asim_field: flowTuple.flowState
+  ecs_field: microsoft.azurensgflowlogs.flowtuple_flowstate
+  cim_field: microsoft.azurensgflowlogs.flowtuple_flowstate
+  asim_field: microsoft.azurensgflowlogs.flowtuple_flowstate
   category: FlowTupleV2
 - field_name: flowTuple.packetsReceived
   field_type: integer
   description: TCP packets sent from destination to source
-  ecs_field: vendor.flowTuple.packetsReceived
-  cim_field: flowTuple.packetsReceived
-  asim_field: flowTuple.packetsReceived
+  ecs_field: destination.packets
+  cim_field: packets_in
+  asim_field: DstPackets
   category: FlowTupleV2
 - field_name: flowTuple.packetsSent
   field_type: integer
   description: TCP packets sent from source to destination
-  ecs_field: vendor.flowTuple.packetsSent
-  cim_field: flowTuple.packetsSent
-  asim_field: flowTuple.packetsSent
+  ecs_field: source.packets
+  cim_field: packets_out
+  asim_field: SrcPackets
   category: FlowTupleV2
 - field_name: flowTuple.protocol
   field_type: string
@@ -97,16 +97,16 @@ fields:
 - field_name: flowTuple.timestamp
   field_type: integer
   description: Time stamp in UNIX epoch format
-  ecs_field: vendor.flowTuple.timestamp
-  cim_field: flowTuple.timestamp
-  asim_field: flowTuple.timestamp
+  ecs_field: microsoft.azurensgflowlogs.flowtuple_timestamp
+  cim_field: microsoft.azurensgflowlogs.flowtuple_timestamp
+  asim_field: microsoft.azurensgflowlogs.flowtuple_timestamp
   category: FlowTupleV1
 - field_name: flowTuple.trafficDecision
   field_type: string
   description: 'Decision: A (allowed) or D (denied)'
-  ecs_field: vendor.flowTuple.trafficDecision
-  cim_field: flowTuple.trafficDecision
-  asim_field: flowTuple.trafficDecision
+  ecs_field: microsoft.azurensgflowlogs.flowtuple_trafficdecision
+  cim_field: microsoft.azurensgflowlogs.flowtuple_trafficdecision
+  asim_field: microsoft.azurensgflowlogs.flowtuple_trafficdecision
   category: FlowTupleV1
 - field_name: flowTuple.trafficFlow
   field_type: string
@@ -118,23 +118,23 @@ fields:
 - field_name: flows.flowTuples
   field_type: array
   description: Comma-separated flow tuple data
-  ecs_field: vendor.flows.flowTuples
-  cim_field: flows.flowTuples
-  asim_field: flows.flowTuples
+  ecs_field: microsoft.azurensgflowlogs.flows_flowtuples
+  cim_field: microsoft.azurensgflowlogs.flows_flowtuples
+  asim_field: microsoft.azurensgflowlogs.flows_flowtuples
   category: Flow
 - field_name: flows.flows
   field_type: array
   description: Collection of individual flow entries
-  ecs_field: vendor.flows.flows
-  cim_field: flows.flows
-  asim_field: flows.flows
+  ecs_field: microsoft.azurensgflowlogs.flows_flows
+  cim_field: microsoft.azurensgflowlogs.flows_flows
+  asim_field: microsoft.azurensgflowlogs.flows_flows
   category: Rule
 - field_name: flows.mac
   field_type: string
   description: MAC address of the NIC where flow was collected
-  ecs_field: vendor.flows.mac
-  cim_field: flows.mac
-  asim_field: flows.mac
+  ecs_field: microsoft.azurensgflowlogs.flows_mac
+  cim_field: microsoft.azurensgflowlogs.flows_mac
+  asim_field: microsoft.azurensgflowlogs.flows_mac
   category: Flow
 - field_name: flows.rule
   field_type: string
@@ -160,16 +160,16 @@ fields:
 - field_name: properties.Version
   field_type: integer
   description: Version number of flow log schema (1 or 2)
-  ecs_field: vendor.properties.Version
-  cim_field: properties.Version
-  asim_field: properties.Version
+  ecs_field: microsoft.azurensgflowlogs.properties_version
+  cim_field: microsoft.azurensgflowlogs.properties_version
+  asim_field: microsoft.azurensgflowlogs.properties_version
   category: Properties
 - field_name: properties.flows
   field_type: array
   description: Collection of flows for different rules
-  ecs_field: vendor.properties.flows
-  cim_field: properties.flows
-  asim_field: properties.flows
+  ecs_field: microsoft.azurensgflowlogs.properties_flows
+  cim_field: microsoft.azurensgflowlogs.properties_flows
+  asim_field: microsoft.azurensgflowlogs.properties_flows
   category: Properties
 - field_name: resourceId
   field_type: string
@@ -181,9 +181,9 @@ fields:
 - field_name: systemId
   field_type: string
   description: System ID (GUID) of the network security group
-  ecs_field: vendor.systemId
-  cim_field: systemId
-  asim_field: systemId
+  ecs_field: microsoft.azurensgflowlogs.systemid
+  cim_field: microsoft.azurensgflowlogs.systemid
+  asim_field: microsoft.azurensgflowlogs.systemid
   category: LogRecord
 - field_name: time
   field_type: datetime

@@ -7,7 +7,7 @@ source_document: Log Event Type Codes
 source_url: https://auth0.com/docs/deploy-monitor/logs/log-event-type-codes
 extraction_date: '2026-01-02'
 source_file: auth0-signatures.json
-generated_at: '2026-02-11T15:56:59.883659'
+generated_at: '2026-02-12T11:02:51.770245'
 categories:
 - Core
 - Client
@@ -21,7 +21,7 @@ fields:
 - field_name: _id
   field_type: string
   description: Internal log entry ID
-  ecs_field: vendor._id
+  ecs_field: auth0.tenantlogs._id
   cim_field: internal_id
   asim_field: EventInternalId
   category: Core
@@ -35,14 +35,14 @@ fields:
 - field_name: client_id
   field_type: string
   description: Client ID of the application
-  ecs_field: vendor.client_id
+  ecs_field: auth0.tenantlogs.client_id
   cim_field: client_id
   asim_field: ApplicationId
   category: Client
 - field_name: client_name
   field_type: string
   description: Name of the application
-  ecs_field: vendor.client_name
+  ecs_field: network.application
   cim_field: client_name
   asim_field: ApplicationName
   category: Client
@@ -84,16 +84,16 @@ fields:
 - field_name: details.completedAt
   field_type: datetime
   description: When the operation completed
-  ecs_field: vendor.details.completedAt
-  cim_field: details.completedAt
-  asim_field: details.completedAt
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Details
 - field_name: details.elapsedTime
   field_type: number
   description: Time taken in milliseconds
-  ecs_field: vendor.details.elapsedTime
-  cim_field: details.elapsedTime
-  asim_field: details.elapsedTime
+  ecs_field: auth0.tenantlogs.details_elapsedtime
+  cim_field: auth0.tenantlogs.details_elapsedtime
+  asim_field: auth0.tenantlogs.details_elapsedtime
   category: Details
 - field_name: details.error
   field_type: object
@@ -119,35 +119,35 @@ fields:
 - field_name: details.initiatedAt
   field_type: datetime
   description: When the operation was initiated
-  ecs_field: vendor.details.initiatedAt
-  cim_field: details.initiatedAt
-  asim_field: details.initiatedAt
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Details
 - field_name: details.prompts
   field_type: array
   description: MFA prompts presented
-  ecs_field: vendor.details.prompts
+  ecs_field: auth0.tenantlogs.details_prompts
   cim_field: mfa_prompts
   asim_field: EventMfaPrompts
   category: Details
 - field_name: details.request
   field_type: object
   description: Request information
-  ecs_field: vendor.details.request
+  ecs_field: auth0.tenantlogs.details_request
   cim_field: request_info
   asim_field: EventRequest
   category: Details
 - field_name: details.response
   field_type: object
   description: Response information
-  ecs_field: vendor.details.response
+  ecs_field: auth0.tenantlogs.details_response
   cim_field: response_info
   asim_field: EventResponse
   category: Details
 - field_name: details.session_id
   field_type: string
   description: Session identifier
-  ecs_field: vendor.details.session_id
+  ecs_field: auth0.tenantlogs.details_session_id
   cim_field: session_id
   asim_field: EventSessionId
   category: Details
@@ -168,9 +168,9 @@ fields:
 - field_name: isMobile
   field_type: boolean
   description: Whether the request came from a mobile device
-  ecs_field: vendor.isMobile
-  cim_field: isMobile
-  asim_field: isMobile
+  ecs_field: auth0.tenantlogs.ismobile
+  cim_field: auth0.tenantlogs.ismobile
+  asim_field: auth0.tenantlogs.ismobile
   category: Network
 - field_name: location_info.city_name
   field_type: string
@@ -210,14 +210,14 @@ fields:
 - field_name: location_info.latitude
   field_type: number
   description: Geographic latitude
-  ecs_field: vendor.location_info.latitude
+  ecs_field: auth0.tenantlogs.location_info_latitude
   cim_field: latitude
   asim_field: SrcGeoLatitude
   category: Location
 - field_name: location_info.longitude
   field_type: number
   description: Geographic longitude
-  ecs_field: vendor.location_info.longitude
+  ecs_field: auth0.tenantlogs.location_info_longitude
   cim_field: longitude
   asim_field: SrcGeoLongitude
   category: Location
@@ -238,21 +238,21 @@ fields:
 - field_name: scope
   field_type: string
   description: Requested OAuth2 scopes
-  ecs_field: vendor.scope
+  ecs_field: event.category
   cim_field: scope
   asim_field: AuthorizationScope
   category: Client
 - field_name: strategy
   field_type: string
   description: Authentication strategy (e.g., auth0, google-oauth2, samlp)
-  ecs_field: vendor.strategy
+  ecs_field: auth0.tenantlogs.strategy
   cim_field: strategy
   asim_field: AuthenticationMethod
   category: Connection
 - field_name: strategy_type
   field_type: string
   description: Type of strategy (social, database, enterprise)
-  ecs_field: vendor.strategy_type
+  ecs_field: auth0.tenantlogs.strategy_type
   cim_field: strategy_type
   asim_field: AuthenticationType
   category: Connection

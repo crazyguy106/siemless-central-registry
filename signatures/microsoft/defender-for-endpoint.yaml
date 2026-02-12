@@ -7,7 +7,7 @@ source_document: Defender for Endpoint API Field Mapping
 source_url: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/api-portal-mapping
 extraction_date: '2026-01-02'
 source_file: defender-endpoint-signatures.json
-generated_at: '2026-02-11T15:57:04.753325'
+generated_at: '2026-02-12T11:02:56.621576'
 categories:
 - Alert
 - DeviceEvidence
@@ -55,30 +55,30 @@ fields:
 - field_name: createdDateTime
   field_type: datetime
   description: Date and time when the alert was created
-  ecs_field: vendor.createdDateTime
-  cim_field: createdDateTime
-  asim_field: createdDateTime
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Alert
 - field_name: lastActivityDateTime
   field_type: datetime
   description: Date and time of last activity
-  ecs_field: vendor.lastActivityDateTime
-  cim_field: lastActivityDateTime
-  asim_field: lastActivityDateTime
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Alert
 - field_name: alertWebUrl
   field_type: url
   description: Link to alert in Defender portal
-  ecs_field: vendor.alertWebUrl
-  cim_field: alertWebUrl
-  asim_field: alertWebUrl
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
   category: Alert
 - field_name: incidentWebUrl
   field_type: url
   description: Link to related incident in Defender portal
-  ecs_field: vendor.incidentWebUrl
-  cim_field: incidentWebUrl
-  asim_field: incidentWebUrl
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
   category: Alert
 - field_name: actorDisplayName
   field_type: string
@@ -104,65 +104,65 @@ fields:
 - field_name: detectorId
   field_type: string
   description: Detector/IoA definition ID
-  ecs_field: vendor.detectorId
-  cim_field: detectorId
-  asim_field: detectorId
+  ecs_field: microsoft.defenderforendpoint.detectorid
+  cim_field: microsoft.defenderforendpoint.detectorid
+  asim_field: microsoft.defenderforendpoint.detectorid
   category: Alert
 - field_name: detectionSource
   field_type: string
   description: Source of detection (EDR, AV, SmartScreen, etc.)
-  ecs_field: vendor.detectionSource
-  cim_field: detectionSource
-  asim_field: detectionSource
+  ecs_field: microsoft.defenderforendpoint.detectionsource
+  cim_field: microsoft.defenderforendpoint.detectionsource
+  asim_field: microsoft.defenderforendpoint.detectionsource
   category: Alert
 - field_name: mitreTechniques
   field_type: array
   description: MITRE ATT&CK technique IDs
-  ecs_field: vendor.mitreTechniques
-  cim_field: mitreTechniques
-  asim_field: mitreTechniques
+  ecs_field: threat.technique.name
+  cim_field: mitre_technique
+  asim_field: ThreatCategory
   category: Alert
 - field_name: evidence.deviceEvidence.deviceDnsName
   field_type: string
   description: DNS name of the device
-  ecs_field: vendor.evidence.deviceEvidence.deviceDnsName
-  cim_field: evidence.deviceEvidence.deviceDnsName
-  asim_field: evidence.deviceEvidence.deviceDnsName
+  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_devicednsname
+  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_devicednsname
+  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_devicednsname
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.mdeDeviceId
   field_type: guid
   description: MDE device identifier
-  ecs_field: vendor.evidence.deviceEvidence.mdeDeviceId
-  cim_field: evidence.deviceEvidence.mdeDeviceId
-  asim_field: evidence.deviceEvidence.mdeDeviceId
+  ecs_field: event.id
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.rbacGroupName
   field_type: string
   description: RBAC machine group name
-  ecs_field: vendor.evidence.deviceEvidence.rbacGroupName
-  cim_field: evidence.deviceEvidence.rbacGroupName
-  asim_field: evidence.deviceEvidence.rbacGroupName
+  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_rbacgroupname
+  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_rbacgroupname
+  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_rbacgroupname
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.loggedOnUsers
   field_type: array
   description: Users logged on to the device
-  ecs_field: vendor.evidence.deviceEvidence.loggedOnUsers
-  cim_field: evidence.deviceEvidence.loggedOnUsers
-  asim_field: evidence.deviceEvidence.loggedOnUsers
+  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_loggedonusers
+  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_loggedonusers
+  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_loggedonusers
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.osPlatform
   field_type: string
   description: Operating system platform
-  ecs_field: vendor.evidence.deviceEvidence.osPlatform
-  cim_field: evidence.deviceEvidence.osPlatform
-  asim_field: evidence.deviceEvidence.osPlatform
+  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_osplatform
+  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_osplatform
+  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_osplatform
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.osVersion
   field_type: string
   description: Operating system version
-  ecs_field: vendor.evidence.deviceEvidence.osVersion
-  cim_field: evidence.deviceEvidence.osVersion
-  asim_field: evidence.deviceEvidence.osVersion
+  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_osversion
+  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_osversion
+  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_osversion
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.healthStatus
   field_type: string
@@ -174,16 +174,16 @@ fields:
 - field_name: evidence.deviceEvidence.riskScore
   field_type: string
   description: Device risk score
-  ecs_field: vendor.evidence.deviceEvidence.riskScore
-  cim_field: evidence.deviceEvidence.riskScore
-  asim_field: evidence.deviceEvidence.riskScore
+  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_riskscore
+  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_riskscore
+  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_riskscore
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.tags
   field_type: array
   description: Device tags
-  ecs_field: vendor.evidence.deviceEvidence.tags
-  cim_field: evidence.deviceEvidence.tags
-  asim_field: evidence.deviceEvidence.tags
+  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_tags
+  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_tags
+  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_tags
   category: DeviceEvidence
 - field_name: evidence.fileEvidence.fileDetails.fileName
   field_type: string
@@ -202,16 +202,16 @@ fields:
 - field_name: evidence.fileEvidence.fileDetails.sha1
   field_type: hash
   description: SHA1 hash of the file
-  ecs_field: vendor.evidence.fileEvidence.fileDetails.sha1
-  cim_field: evidence.fileEvidence.fileDetails.sha1
-  asim_field: evidence.fileEvidence.fileDetails.sha1
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
   category: FileEvidence
 - field_name: evidence.fileEvidence.fileDetails.sha256
   field_type: hash
   description: SHA256 hash of the file
-  ecs_field: vendor.evidence.fileEvidence.fileDetails.sha256
-  cim_field: evidence.fileEvidence.fileDetails.sha256
-  asim_field: evidence.fileEvidence.fileDetails.sha256
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
   category: FileEvidence
 - field_name: evidence.fileEvidence.fileDetails.fileSize
   field_type: integer
@@ -223,23 +223,23 @@ fields:
 - field_name: evidence.fileEvidence.fileDetails.filePublisher
   field_type: string
   description: File publisher/signer
-  ecs_field: vendor.evidence.fileEvidence.fileDetails.filePublisher
-  cim_field: evidence.fileEvidence.fileDetails.filePublisher
-  asim_field: evidence.fileEvidence.fileDetails.filePublisher
+  ecs_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_filepublisher
+  cim_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_filepublisher
+  asim_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_filepublisher
   category: FileEvidence
 - field_name: evidence.fileEvidence.fileDetails.issuer
   field_type: string
   description: Certificate issuer
-  ecs_field: vendor.evidence.fileEvidence.fileDetails.issuer
-  cim_field: evidence.fileEvidence.fileDetails.issuer
-  asim_field: evidence.fileEvidence.fileDetails.issuer
+  ecs_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_issuer
+  cim_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_issuer
+  asim_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_issuer
   category: FileEvidence
 - field_name: evidence.fileEvidence.fileDetails.signer
   field_type: string
   description: File signer
-  ecs_field: vendor.evidence.fileEvidence.fileDetails.signer
-  cim_field: evidence.fileEvidence.fileDetails.signer
-  asim_field: evidence.fileEvidence.fileDetails.signer
+  ecs_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_signer
+  cim_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_signer
+  asim_field: microsoft.defenderforendpoint.evidence_fileevidence_filedetails_signer
   category: FileEvidence
 - field_name: evidence.fileEvidence.detectionStatus
   field_type: string
@@ -279,9 +279,9 @@ fields:
 - field_name: evidence.processEvidence.processCreationTime
   field_type: datetime
   description: Process creation time
-  ecs_field: vendor.evidence.processEvidence.processCreationTime
-  cim_field: evidence.processEvidence.processCreationTime
-  asim_field: evidence.processEvidence.processCreationTime
+  ecs_field: process.start
+  cim_field: process_start_time
+  asim_field: ProcessCreationTime
   category: ProcessEvidence
 - field_name: evidence.processEvidence.imageFile.fileName
   field_type: string
@@ -300,16 +300,16 @@ fields:
 - field_name: evidence.processEvidence.imageFile.sha1
   field_type: hash
   description: Process image SHA1
-  ecs_field: vendor.evidence.processEvidence.imageFile.sha1
-  cim_field: evidence.processEvidence.imageFile.sha1
-  asim_field: evidence.processEvidence.imageFile.sha1
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
   category: ProcessEvidence
 - field_name: evidence.processEvidence.imageFile.sha256
   field_type: hash
   description: Process image SHA256
-  ecs_field: vendor.evidence.processEvidence.imageFile.sha256
-  cim_field: evidence.processEvidence.imageFile.sha256
-  asim_field: evidence.processEvidence.imageFile.sha256
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
   category: ProcessEvidence
 - field_name: evidence.processEvidence.detectionStatus
   field_type: string
@@ -370,9 +370,9 @@ fields:
 - field_name: evidence.ipEvidence.ipAddress
   field_type: ip
   description: IP address
-  ecs_field: vendor.evidence.ipEvidence.ipAddress
-  cim_field: evidence.ipEvidence.ipAddress
-  asim_field: evidence.ipEvidence.ipAddress
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: NetworkEvidence
 - field_name: evidence.urlEvidence.url
   field_type: url

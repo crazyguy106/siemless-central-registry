@@ -7,7 +7,7 @@ source_document: mod_log_config Module Documentation
 source_url: https://httpd.apache.org/docs/2.4/mod/mod_log_config.html
 extraction_date: '2026-01-02'
 source_file: apache-httpd-signatures.json
-generated_at: '2026-02-11T15:56:59.857103'
+generated_at: '2026-02-12T11:02:51.742130'
 categories:
 - Client
 - Request
@@ -105,7 +105,7 @@ fields:
 - field_name: '%R'
   field_type: string
   description: Handler generating the response
-  ecs_field: vendor.%R
+  ecs_field: apache.apachehttpserveraccesslogs._r
   cim_field: http_request
   asim_field: HttpRequest
   category: Request
@@ -168,16 +168,16 @@ fields:
 - field_name: '%{format}t'
   field_type: datetime
   description: Time in extended strftime format (supports sec, msec, usec)
-  ecs_field: vendor.%{format}t
-  cim_field: '%{format}t'
-  asim_field: '%{format}t'
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Timing
 - field_name: '%D'
   field_type: integer
   description: Time to serve request in microseconds
-  ecs_field: vendor.%D
-  cim_field: '%D'
-  asim_field: '%D'
+  ecs_field: apache.apachehttpserveraccesslogs._d
+  cim_field: apache.apachehttpserveraccesslogs._d
+  asim_field: apache.apachehttpserveraccesslogs._d
   category: Timing
 - field_name: '%T'
   field_type: integer
@@ -189,9 +189,9 @@ fields:
 - field_name: '%{UNIT}T'
   field_type: integer
   description: Time to serve request in specified unit (ms, us, or s)
-  ecs_field: vendor.%{UNIT}T
-  cim_field: '%{UNIT}T'
-  asim_field: '%{UNIT}T'
+  ecs_field: apache.apachehttpserveraccesslogs.__unit_t
+  cim_field: apache.apachehttpserveraccesslogs.__unit_t
+  asim_field: apache.apachehttpserveraccesslogs.__unit_t
   category: Timing
 - field_name: '%{VARNAME}i'
   field_type: string
@@ -203,44 +203,44 @@ fields:
 - field_name: '%{VARNAME}o'
   field_type: string
   description: 'Contents of VARNAME: header in reply (e.g., %{Content-Type}o)'
-  ecs_field: vendor.%{VARNAME}o
-  cim_field: '%{VARNAME}o'
-  asim_field: '%{VARNAME}o'
+  ecs_field: apache.apachehttpserveraccesslogs.__varname_o
+  cim_field: apache.apachehttpserveraccesslogs.__varname_o
+  asim_field: apache.apachehttpserveraccesslogs.__varname_o
   category: Headers
 - field_name: '%{VARNAME}C'
   field_type: string
   description: Contents of cookie VARNAME in request
-  ecs_field: vendor.%{VARNAME}C
-  cim_field: '%{VARNAME}C'
-  asim_field: '%{VARNAME}C'
+  ecs_field: apache.apachehttpserveraccesslogs.__varname_c
+  cim_field: apache.apachehttpserveraccesslogs.__varname_c
+  asim_field: apache.apachehttpserveraccesslogs.__varname_c
   category: Headers
 - field_name: '%{VARNAME}e'
   field_type: string
   description: Contents of environment variable VARNAME
-  ecs_field: vendor.%{VARNAME}e
-  cim_field: '%{VARNAME}e'
-  asim_field: '%{VARNAME}e'
+  ecs_field: apache.apachehttpserveraccesslogs.__varname_e
+  cim_field: apache.apachehttpserveraccesslogs.__varname_e
+  asim_field: apache.apachehttpserveraccesslogs.__varname_e
   category: Headers
 - field_name: '%{VARNAME}n'
   field_type: string
   description: Contents of note VARNAME from another module
-  ecs_field: vendor.%{VARNAME}n
-  cim_field: '%{VARNAME}n'
-  asim_field: '%{VARNAME}n'
+  ecs_field: apache.apachehttpserveraccesslogs.__varname_n
+  cim_field: apache.apachehttpserveraccesslogs.__varname_n
+  asim_field: apache.apachehttpserveraccesslogs.__varname_n
   category: Headers
 - field_name: '%{VARNAME}^ti'
   field_type: string
   description: Contents of trailer line(s) VARNAME in request
-  ecs_field: vendor.%{VARNAME}^ti
-  cim_field: '%{VARNAME}^ti'
-  asim_field: '%{VARNAME}^ti'
+  ecs_field: apache.apachehttpserveraccesslogs.__varname__ti
+  cim_field: apache.apachehttpserveraccesslogs.__varname__ti
+  asim_field: apache.apachehttpserveraccesslogs.__varname__ti
   category: Headers
 - field_name: '%{VARNAME}^to'
   field_type: string
   description: Contents of trailer line(s) VARNAME in response
-  ecs_field: vendor.%{VARNAME}^to
-  cim_field: '%{VARNAME}^to'
-  asim_field: '%{VARNAME}^to'
+  ecs_field: apache.apachehttpserveraccesslogs.__varname__to
+  cim_field: apache.apachehttpserveraccesslogs.__varname__to
+  asim_field: apache.apachehttpserveraccesslogs.__varname__to
   category: Headers
 - field_name: '%v'
   field_type: string
@@ -266,9 +266,9 @@ fields:
 - field_name: '%{format}p'
   field_type: integer
   description: Port (canonical, local, or remote)
-  ecs_field: vendor.%{format}p
-  cim_field: '%{format}p'
-  asim_field: '%{format}p'
+  ecs_field: apache.apachehttpserveraccesslogs.__format_p
+  cim_field: apache.apachehttpserveraccesslogs.__format_p
+  asim_field: apache.apachehttpserveraccesslogs.__format_p
   category: Server
 - field_name: '%A'
   field_type: ip
@@ -315,9 +315,9 @@ fields:
 - field_name: '%%'
   field_type: string
   description: Literal percent sign
-  ecs_field: vendor.%%
-  cim_field: '%%'
-  asim_field: '%%'
+  ecs_field: apache.apachehttpserveraccesslogs.__
+  cim_field: apache.apachehttpserveraccesslogs.__
+  asim_field: apache.apachehttpserveraccesslogs.__
   category: Special
 notes: Access log format directives for Apache HTTP Server. Supports Common Log Format
   (CLF) and Combined Log Format.

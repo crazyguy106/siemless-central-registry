@@ -7,7 +7,7 @@ source_document: Carbon Black Cloud Data Forwarder Schema Documentation
 source_url: https://developer.carbonblack.com/reference/carbon-black-cloud/
 extraction_date: '2026-01-01'
 source_file: carbonblack-cloud-signatures.json
-generated_at: '2026-02-11T15:57:00.191846'
+generated_at: '2026-02-12T11:02:52.088930'
 categories:
 - File/Module
 - Threat Intelligence
@@ -42,9 +42,9 @@ fields:
 - field_name: create_time
   field_type: datetime
   description: Timestamp when this audit log was created in ISO-8601 format
-  ecs_field: vendor.create_time
-  cim_field: create_time
-  asim_field: create_time
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Common
   display_name: Create Time
 - field_name: description
@@ -138,7 +138,7 @@ fields:
 - field_name: backend_update_timestamp
   field_type: datetime
   description: Timestamp when alert was updated
-  ecs_field: vendor.backend_update_timestamp
+  ecs_field: event.created
   cim_field: update_time
   asim_field: EventModified
   category: Common
@@ -178,9 +178,9 @@ fields:
 - field_name: is_updated
   field_type: boolean
   description: True if this is an updated copy of the alert
-  ecs_field: vendor.is_updated
-  cim_field: is_updated
-  asim_field: is_updated
+  ecs_field: vmwarecarbonblack.carbonblackcloud.is_updated
+  cim_field: vmwarecarbonblack.carbonblackcloud.is_updated
+  asim_field: vmwarecarbonblack.carbonblackcloud.is_updated
   category: Common
   display_name: Is Updated
 - field_name: type
@@ -266,9 +266,9 @@ fields:
 - field_name: childproc_guid
   field_type: string
   description: Unique process identifier for child process
-  ecs_field: process.entity_id
-  cim_field: child_guid
-  asim_field: TargetProcessGuid
+  ecs_field: process.child.entity_id
+  cim_field: child_process_guid
+  asim_field: ChildProcessGuid
   category: Process
   display_name: Childproc Guid
 - field_name: childproc_md5
@@ -330,7 +330,7 @@ fields:
 - field_name: device_location
   field_type: string
   description: Device location (ONSITE, OFFSITE, UNKNOWN)
-  ecs_field: vendor.device_location
+  ecs_field: host.geo.name
   cim_field: device_location
   asim_field: DvcLocation
   category: Device
@@ -626,7 +626,7 @@ fields:
 - field_name: product_id
   field_type: string
   description: USB product ID
-  ecs_field: vendor.product_id
+  ecs_field: vmwarecarbonblack.carbonblackcloud.product_id
   cim_field: product_id
   asim_field: DeviceProductId
   category: USB Device Control
@@ -650,7 +650,7 @@ fields:
 - field_name: vendor_id
   field_type: string
   description: USB vendor ID
-  ecs_field: vendor.vendor_id
+  ecs_field: vmwarecarbonblack.carbonblackcloud.vendor_id
   cim_field: vendor_id
   asim_field: DeviceVendorId
   category: USB Device Control
@@ -658,7 +658,7 @@ fields:
 - field_name: vendor_name
   field_type: string
   description: USB vendor name
-  ecs_field: vendor.vendor_name
+  ecs_field: vmwarecarbonblack.carbonblackcloud.vendor_name
   cim_field: vendor_name
   asim_field: DeviceVendorName
   category: USB Device Control
@@ -674,7 +674,7 @@ fields:
 - field_name: ioc_hit
   field_type: string
   description: IOC field value or query that matches
-  ecs_field: vendor.ioc_hit
+  ecs_field: vmwarecarbonblack.carbonblackcloud.ioc_hit
   cim_field: ioc_hit
   asim_field: ThreatIndicatorMatch
   category: Alert/Detection
@@ -834,15 +834,15 @@ fields:
 - field_name: user_update_timestamp
   field_type: datetime
   description: Last user update timestamp
-  ecs_field: vendor.user_update_timestamp
-  cim_field: user_update_timestamp
-  asim_field: user_update_timestamp
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Common
   display_name: User Update Timestamp
 - field_name: auth_cleartext_credentials_logon
   field_type: boolean
   description: True if logon used cleartext credentials
-  ecs_field: vendor.auth_cleartext_credentials_logon
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_cleartext_credentials_logon
   cim_field: cleartext_logon
   asim_field: UserRiskCleartext
   category: Authentication
@@ -858,7 +858,7 @@ fields:
 - field_name: auth_daemon_logon
   field_type: boolean
   description: True if logon is attributed to a service/daemon
-  ecs_field: vendor.auth_daemon_logon
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_daemon_logon
   cim_field: daemon_logon
   asim_field: LogonType
   category: Authentication
@@ -874,7 +874,7 @@ fields:
 - field_name: auth_elevated_token_logon
   field_type: boolean
   description: True if logon used elevated token
-  ecs_field: vendor.auth_elevated_token_logon
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_elevated_token_logon
   cim_field: elevated_logon
   asim_field: LogonElevated
   category: Authentication
@@ -890,7 +890,7 @@ fields:
 - field_name: auth_failed_logon_count
   field_type: int
   description: Number of failed logon attempts since last success
-  ecs_field: vendor.auth_failed_logon_count
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_failed_logon_count
   cim_field: failed_logons
   asim_field: UserFailedLogins
   category: Authentication
@@ -922,7 +922,7 @@ fields:
 - field_name: auth_impersonation_level
   field_type: string
   description: Impersonation level (NONE, ANONYMOUS, CLIENT, etc)
-  ecs_field: vendor.auth_impersonation_level
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_impersonation_level
   cim_field: impersonation_level
   asim_field: LogonImpersonation
   category: Authentication
@@ -930,7 +930,7 @@ fields:
 - field_name: auth_interactive_logon
   field_type: boolean
   description: True if logon was interactive
-  ecs_field: vendor.auth_interactive_logon
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_interactive_logon
   cim_field: interactive_logon
   asim_field: LogonType
   category: Authentication
@@ -938,7 +938,7 @@ fields:
 - field_name: auth_key_length
   field_type: int
   description: Length of key used for authentication channel
-  ecs_field: vendor.auth_key_length
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_key_length
   cim_field: auth_key_length
   asim_field: TlsKeyLength
   category: Authentication
@@ -946,7 +946,7 @@ fields:
 - field_name: auth_last_failed_logon_time
   field_type: datetime
   description: Time of last failed logon
-  ecs_field: vendor.auth_last_failed_logon_time
+  ecs_field: event.created
   cim_field: last_failed_logon
   asim_field: UserLastFailedLogin
   category: Authentication
@@ -954,7 +954,7 @@ fields:
 - field_name: auth_linked_logon_id
   field_type: string
   description: Linked LUID for UAC split token
-  ecs_field: vendor.auth_linked_logon_id
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_linked_logon_id
   cim_field: linked_logon_id
   asim_field: LogonId
   category: Authentication
@@ -962,7 +962,7 @@ fields:
 - field_name: auth_logon_id
   field_type: string
   description: Locally unique identifier of user
-  ecs_field: vendor.auth_logon_id
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_logon_id
   cim_field: logon_id
   asim_field: LogonId
   category: Authentication
@@ -978,7 +978,7 @@ fields:
 - field_name: auth_package
   field_type: string
   description: Authorization package used
-  ecs_field: vendor.auth_package
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_package
   cim_field: auth_package
   asim_field: LogonPackage
   category: Authentication
@@ -986,7 +986,7 @@ fields:
 - field_name: auth_package_version
   field_type: string
   description: Version of authorization package
-  ecs_field: vendor.auth_package_version
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_package_version
   cim_field: package_version
   asim_field: LogonPackageVersion
   category: Authentication
@@ -1026,7 +1026,7 @@ fields:
 - field_name: auth_remote_logon
   field_type: boolean
   description: True if logon was remote
-  ecs_field: vendor.auth_remote_logon
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_remote_logon
   cim_field: remote_logon
   asim_field: LogonType
   category: Authentication
@@ -1042,7 +1042,7 @@ fields:
 - field_name: auth_restricted_admin_logon
   field_type: boolean
   description: True if used Restricted Admin mode
-  ecs_field: vendor.auth_restricted_admin_logon
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_restricted_admin_logon
   cim_field: restricted_admin
   asim_field: LogonRestrictedAdmin
   category: Authentication
@@ -1082,7 +1082,7 @@ fields:
 - field_name: auth_virtual_account_logon
   field_type: boolean
   description: True if used virtual account
-  ecs_field: vendor.auth_virtual_account_logon
+  ecs_field: vmwarecarbonblack.carbonblackcloud.auth_virtual_account_logon
   cim_field: virtual_account
   asim_field: LogonVirtualAccount
   category: Authentication
@@ -1194,9 +1194,9 @@ fields:
 - field_name: process_integrity_level
   field_type: int
   description: Windows MIC level
-  ecs_field: vendor.process_integrity_level
-  cim_field: process_integrity_level
-  asim_field: process_integrity_level
+  ecs_field: process.integrity_level
+  cim_field: process_integrity
+  asim_field: ProcessIntegrityLevel
   category: Process
   display_name: Process Integrity Level
 - field_name: process_path
@@ -1210,17 +1210,17 @@ fields:
 - field_name: process_privileges
   field_type: string
   description: Windows privileges
-  ecs_field: vendor.process_privileges
+  ecs_field: process.thread.capabilities.effective
   cim_field: process_privileges
-  asim_field: process_privileges
+  asim_field: ProcessPrivileges
   category: Process
   display_name: Process Privileges
 - field_name: process_terminated
   field_type: boolean
   description: True if process terminated
-  ecs_field: vendor.process_terminated
+  ecs_field: event.action
   cim_field: process_terminated
-  asim_field: process_terminated
+  asim_field: EventType
   category: Process
   display_name: Process Terminated
 - field_name: process_user_id
@@ -1298,7 +1298,7 @@ fields:
 - field_name: container_image_hash
   field_type: string
   description: SHA-256 hash of container image
-  ecs_field: vendor.container_image_hash
+  ecs_field: container.image.hash.sha256
   cim_field: image_hash
   asim_field: ContainerImageHash
   category: Container
@@ -1330,7 +1330,7 @@ fields:
 - field_name: crossproc_api
   field_type: string
   description: OS API called
-  ecs_field: vendor.crossproc_api
+  ecs_field: vmwarecarbonblack.carbonblackcloud.crossproc_api
   cim_field: crossproc_api
   asim_field: ProcessApi
   category: Process
@@ -1410,7 +1410,7 @@ fields:
 - field_name: modload_count
   field_type: int
   description: Count of modload events
-  ecs_field: vendor.modload_count
+  ecs_field: event.count
   cim_field: modload_count
   asim_field: EventCount
   category: File/Module
@@ -1706,7 +1706,7 @@ fields:
 - field_name: netconn_proxy_ip
   field_type: ip
   description: Proxy IP address
-  ecs_field: vendor.netconn_proxy_ip
+  ecs_field: related.ip
   cim_field: proxy_ip
   asim_field: ProxyIpAddr
   category: Network
@@ -1714,7 +1714,7 @@ fields:
 - field_name: netconn_proxy_port
   field_type: port
   description: Proxy port
-  ecs_field: vendor.netconn_proxy_port
+  ecs_field: destination.port
   cim_field: proxy_port
   asim_field: ProxyPort
   category: Network
@@ -1722,7 +1722,7 @@ fields:
 - field_name: netconn_remote_device_id
   field_type: int
   description: Remote device CB ID
-  ecs_field: vendor.netconn_remote_device_id
+  ecs_field: vmwarecarbonblack.carbonblackcloud.netconn_remote_device_id
   cim_field: remote_device_id
   asim_field: DstHostId
   category: Network
@@ -1738,7 +1738,7 @@ fields:
 - field_name: netconn_request_headers
   field_type: string
   description: HTTP request headers
-  ecs_field: vendor.netconn_request_headers
+  ecs_field: vmwarecarbonblack.carbonblackcloud.netconn_request_headers
   cim_field: request_headers
   asim_field: HttpRequestHeaders
   category: Network
@@ -1762,7 +1762,7 @@ fields:
 - field_name: netconn_response_headers
   field_type: string
   description: HTTP response headers
-  ecs_field: vendor.netconn_response_headers
+  ecs_field: vmwarecarbonblack.carbonblackcloud.netconn_response_headers
   cim_field: response_headers
   asim_field: HttpResponseHeaders
   category: Network
@@ -1786,7 +1786,7 @@ fields:
 - field_name: fileless_scriptload_cmdline
   field_type: string
   description: Deobfuscated fileless script content
-  ecs_field: vendor.fileless_scriptload_cmdline
+  ecs_field: process.command_line
   cim_field: fileless_script
   asim_field: ScriptContent
   category: File/Module
@@ -1794,7 +1794,7 @@ fields:
 - field_name: fileless_scriptload_cmdline_length
   field_type: int
   description: Fileless script length
-  ecs_field: vendor.fileless_scriptload_cmdline_length
+  ecs_field: vmwarecarbonblack.carbonblackcloud.fileless_scriptload_cmdline_length
   cim_field: script_length
   asim_field: EventLength
   category: File/Module
@@ -1810,7 +1810,7 @@ fields:
 - field_name: scriptload_content
   field_type: string
   description: Deobfuscated script content
-  ecs_field: vendor.scriptload_content
+  ecs_field: vmwarecarbonblack.carbonblackcloud.scriptload_content
   cim_field: script_content
   asim_field: ScriptContent
   category: File/Module
@@ -1818,7 +1818,7 @@ fields:
 - field_name: scriptload_content_length
   field_type: int
   description: Script content length
-  ecs_field: vendor.scriptload_content_length
+  ecs_field: vmwarecarbonblack.carbonblackcloud.scriptload_content_length
   cim_field: script_content_length
   asim_field: EventLength
   category: File/Module
@@ -1826,7 +1826,7 @@ fields:
 - field_name: scriptload_count
   field_type: int
   description: Script load event count
-  ecs_field: vendor.scriptload_count
+  ecs_field: event.count
   cim_field: scriptload_count
   asim_field: EventCount
   category: File/Module
@@ -1922,7 +1922,7 @@ fields:
 - field_name: report_tags
   field_type: string
   description: Report tags
-  ecs_field: vendor.report_tags
+  ecs_field: vmwarecarbonblack.carbonblackcloud.report_tags
   cim_field: report_tags
   asim_field: RuleTags
   category: Alert/Detection

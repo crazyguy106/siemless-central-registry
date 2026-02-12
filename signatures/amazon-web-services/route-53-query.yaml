@@ -7,7 +7,7 @@ source_document: Route 53 Query Logging
 source_url: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html
 extraction_date: '2026-01-02'
 source_file: aws-route53-signatures.json
-generated_at: '2026-02-11T15:56:59.991178'
+generated_at: '2026-02-12T11:02:51.881499'
 categories:
 - Core
 - DNS
@@ -18,24 +18,24 @@ fields:
   field_type: string
   description: Version number of the query log format. Incremented when fields are
     added.
-  ecs_field: vendor.log_format_version
-  cim_field: log_format_version
-  asim_field: log_format_version
+  ecs_field: amazonwebservices.route53querylogs.log_format_version
+  cim_field: amazonwebservices.route53querylogs.log_format_version
+  asim_field: amazonwebservices.route53querylogs.log_format_version
   category: Core
 - field_name: query_timestamp
   field_type: datetime
   description: Date and time in ISO 8601 format (UTC) when Route 53 responded to the
     request
-  ecs_field: vendor.query_timestamp
-  cim_field: query_timestamp
-  asim_field: query_timestamp
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Core
 - field_name: hosted_zone_id
   field_type: string
   description: The ID of the hosted zone associated with the DNS queries in the log
-  ecs_field: vendor.hosted_zone_id
-  cim_field: hosted_zone_id
-  asim_field: hosted_zone_id
+  ecs_field: cloud.instance.id
+  cim_field: hosted_zone
+  asim_field: CloudResourceId
   category: Core
 - field_name: query_name
   field_type: string
@@ -70,17 +70,17 @@ fields:
   field_type: string
   description: Route 53 edge location that responded (3-letter airport code + number,
     e.g., DFW3)
-  ecs_field: vendor.route53_edge_location
-  cim_field: route53_edge_location
-  asim_field: route53_edge_location
+  ecs_field: amazonwebservices.route53querylogs.route53_edge_location
+  cim_field: amazonwebservices.route53querylogs.route53_edge_location
+  asim_field: amazonwebservices.route53querylogs.route53_edge_location
   category: Network
 - field_name: resolver_ip_address
   field_type: ip
   description: IP address of the DNS resolver that submitted the request to Route
     53
-  ecs_field: vendor.resolver_ip_address
-  cim_field: resolver_ip_address
-  asim_field: resolver_ip_address
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Network
 - field_name: edns_client_subnet
   field_type: string

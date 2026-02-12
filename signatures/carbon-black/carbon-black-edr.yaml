@@ -7,7 +7,7 @@ source_document: Event Forwarder Event Schema
 source_url: https://developer.carbonblack.com/reference/enterprise-response/connectors/event-forwarder/event-schema/
 extraction_date: '2026-01-02'
 source_file: carbonblack-edr-signatures.json
-generated_at: '2026-02-11T15:57:00.339512'
+generated_at: '2026-02-12T11:02:52.236356'
 categories:
 - ServerEvents
 - ProcessDocument
@@ -26,16 +26,16 @@ fields:
 - field_name: cb_version
   field_type: string
   description: Carbon Black server version
-  ecs_field: vendor.cb_version
-  cim_field: cb_version
-  asim_field: cb_version
+  ecs_field: vmwarecarbonblack.carbonblackedr.cb_version
+  cim_field: vmwarecarbonblack.carbonblackedr.cb_version
+  asim_field: vmwarecarbonblack.carbonblackedr.cb_version
   category: ServerEvents
 - field_name: event_timestamp
   field_type: datetime
   description: Timestamp when event was published
-  ecs_field: vendor.event_timestamp
-  cim_field: event_timestamp
-  asim_field: event_timestamp
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventStartTime
   category: ServerEvents
 - field_name: server_name
   field_type: string
@@ -47,30 +47,30 @@ fields:
 - field_name: watchlist_id
   field_type: integer
   description: Identifier of the watchlist that matched
-  ecs_field: vendor.watchlist_id
-  cim_field: watchlist_id
-  asim_field: watchlist_id
+  ecs_field: vmwarecarbonblack.carbonblackedr.watchlist_id
+  cim_field: vmwarecarbonblack.carbonblackedr.watchlist_id
+  asim_field: vmwarecarbonblack.carbonblackedr.watchlist_id
   category: ServerEvents
 - field_name: watchlist_name
   field_type: string
   description: Name of watchlist that matched
-  ecs_field: vendor.watchlist_name
-  cim_field: watchlist_name
-  asim_field: watchlist_name
+  ecs_field: vmwarecarbonblack.carbonblackedr.watchlist_name
+  cim_field: vmwarecarbonblack.carbonblackedr.watchlist_name
+  asim_field: vmwarecarbonblack.carbonblackedr.watchlist_name
   category: ServerEvents
 - field_name: feed_id
   field_type: integer
   description: Identifier of feed with matching report
-  ecs_field: vendor.feed_id
-  cim_field: feed_id
-  asim_field: feed_id
+  ecs_field: vmwarecarbonblack.carbonblackedr.feed_id
+  cim_field: vmwarecarbonblack.carbonblackedr.feed_id
+  asim_field: vmwarecarbonblack.carbonblackedr.feed_id
   category: ServerEvents
 - field_name: feed_name
   field_type: string
   description: Name of feed with matching report
-  ecs_field: vendor.feed_name
-  cim_field: feed_name
-  asim_field: feed_name
+  ecs_field: vmwarecarbonblack.carbonblackedr.feed_name
+  cim_field: vmwarecarbonblack.carbonblackedr.feed_name
+  asim_field: vmwarecarbonblack.carbonblackedr.feed_name
   category: ServerEvents
 - field_name: report_id
   field_type: string
@@ -89,23 +89,23 @@ fields:
 - field_name: ioc_value
   field_type: string
   description: The matching IOC value
-  ecs_field: vendor.ioc_value
-  cim_field: ioc_value
-  asim_field: ioc_value
+  ecs_field: vmwarecarbonblack.carbonblackedr.ioc_value
+  cim_field: vmwarecarbonblack.carbonblackedr.ioc_value
+  asim_field: vmwarecarbonblack.carbonblackedr.ioc_value
   category: ServerEvents
 - field_name: ioc_attr
   field_type: object
   description: Key-value pairs of additional IOC attributes
-  ecs_field: vendor.ioc_attr
-  cim_field: ioc_attr
-  asim_field: ioc_attr
+  ecs_field: vmwarecarbonblack.carbonblackedr.ioc_attr
+  cim_field: vmwarecarbonblack.carbonblackedr.ioc_attr
+  asim_field: vmwarecarbonblack.carbonblackedr.ioc_attr
   category: ServerEvents
 - field_name: docs
   field_type: array
   description: List of matching process or binary documents
-  ecs_field: vendor.docs
-  cim_field: docs
-  asim_field: docs
+  ecs_field: vmwarecarbonblack.carbonblackedr.docs
+  cim_field: vmwarecarbonblack.carbonblackedr.docs
+  asim_field: vmwarecarbonblack.carbonblackedr.docs
   category: ServerEvents
 - field_name: process_name
   field_type: string
@@ -159,9 +159,9 @@ fields:
 - field_name: sensor_id
   field_type: integer
   description: Endpoint identifier
-  ecs_field: vendor.sensor_id
-  cim_field: sensor_id
-  asim_field: sensor_id
+  ecs_field: agent.id
+  cim_field: agent_id
+  asim_field: DvcId
   category: ProcessDocument
 - field_name: group
   field_type: string
@@ -173,16 +173,16 @@ fields:
 - field_name: host_type
   field_type: string
   description: 'Type of computer: server, workstation, domain controller'
-  ecs_field: vendor.host_type
-  cim_field: host_type
-  asim_field: host_type
+  ecs_field: host.type
+  cim_field: machine_type
+  asim_field: DvcType
   category: ProcessDocument
 - field_name: os_type
   field_type: string
   description: Operating system type (Windows, Linux, Osx)
-  ecs_field: vendor.os_type
-  cim_field: os_type
-  asim_field: os_type
+  ecs_field: host.os.type
+  cim_field: os
+  asim_field: DvcOs
   category: ProcessDocument
 - field_name: unique_id
   field_type: string
@@ -229,9 +229,9 @@ fields:
 - field_name: last_update
   field_type: datetime
   description: Last activity in endpoint local time
-  ecs_field: vendor.last_update
-  cim_field: last_update
-  asim_field: last_update
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: ProcessDocument
 - field_name: segment_id
   field_type: integer
@@ -243,37 +243,37 @@ fields:
 - field_name: childproc_count
   field_type: integer
   description: Total count of child processes created
-  ecs_field: vendor.childproc_count
-  cim_field: childproc_count
-  asim_field: childproc_count
+  ecs_field: event.count
+  cim_field: child_proc_count
+  asim_field: EventCount
   category: ProcessDocument
 - field_name: filemod_count
   field_type: integer
   description: Total count of file modifications made
-  ecs_field: vendor.filemod_count
-  cim_field: filemod_count
-  asim_field: filemod_count
+  ecs_field: event.count
+  cim_field: file_mod_count
+  asim_field: EventCount
   category: ProcessDocument
 - field_name: regmod_count
   field_type: integer
   description: Total count of registry modifications made
-  ecs_field: vendor.regmod_count
-  cim_field: regmod_count
-  asim_field: regmod_count
+  ecs_field: event.count
+  cim_field: reg_mod_count
+  asim_field: EventCount
   category: ProcessDocument
 - field_name: modload_count
   field_type: integer
   description: Total count of module loads
-  ecs_field: vendor.modload_count
+  ecs_field: event.count
   cim_field: modload_count
   asim_field: EventCount
   category: ProcessDocument
 - field_name: netconn_count
   field_type: integer
   description: Total count of network connections
-  ecs_field: vendor.netconn_count
-  cim_field: netconn_count
-  asim_field: netconn_count
+  ecs_field: event.count
+  cim_field: net_conn_count
+  asim_field: EventCount
   category: ProcessDocument
 - field_name: md5
   field_type: hash
@@ -292,44 +292,44 @@ fields:
 - field_name: orig_mod_len
   field_type: integer
   description: Size in bytes at observation time
-  ecs_field: vendor.orig_mod_len
-  cim_field: orig_mod_len
-  asim_field: orig_mod_len
+  ecs_field: vmwarecarbonblack.carbonblackedr.orig_mod_len
+  cim_field: vmwarecarbonblack.carbonblackedr.orig_mod_len
+  asim_field: vmwarecarbonblack.carbonblackedr.orig_mod_len
   category: BinaryDocument
 - field_name: copied_mod_len
   field_type: integer
   description: Number of bytes copied to server
-  ecs_field: vendor.copied_mod_len
-  cim_field: copied_mod_len
-  asim_field: copied_mod_len
+  ecs_field: vmwarecarbonblack.carbonblackedr.copied_mod_len
+  cim_field: vmwarecarbonblack.carbonblackedr.copied_mod_len
+  asim_field: vmwarecarbonblack.carbonblackedr.copied_mod_len
   category: BinaryDocument
 - field_name: is_executable_image
   field_type: boolean
   description: True if standalone executable vs library
-  ecs_field: vendor.is_executable_image
-  cim_field: is_executable_image
-  asim_field: is_executable_image
+  ecs_field: file.type
+  cim_field: is_executable
+  asim_field: FileType
   category: BinaryDocument
 - field_name: is_64bit
   field_type: boolean
   description: True if x64 architecture
-  ecs_field: vendor.is_64bit
-  cim_field: is_64bit
-  asim_field: is_64bit
+  ecs_field: vmwarecarbonblack.carbonblackedr.is_64bit
+  cim_field: vmwarecarbonblack.carbonblackedr.is_64bit
+  asim_field: vmwarecarbonblack.carbonblackedr.is_64bit
   category: BinaryDocument
 - field_name: digsig_issuer
   field_type: string
   description: If signed, the issuer
-  ecs_field: vendor.digsig_issuer
-  cim_field: digsig_issuer
-  asim_field: digsig_issuer
+  ecs_field: file.code_signature.subject_name
+  cim_field: signer
+  asim_field: FilePublisher
   category: BinaryDocument
 - field_name: digsig_publisher
   field_type: string
   description: If signed, the publisher
-  ecs_field: vendor.digsig_publisher
-  cim_field: digsig_publisher
-  asim_field: digsig_publisher
+  ecs_field: vmwarecarbonblack.carbonblackedr.digsig_publisher
+  cim_field: vmwarecarbonblack.carbonblackedr.digsig_publisher
+  asim_field: vmwarecarbonblack.carbonblackedr.digsig_publisher
   category: BinaryDocument
 - field_name: digsig_result
   field_type: string
@@ -341,30 +341,30 @@ fields:
 - field_name: digsig_sign_time
   field_type: datetime
   description: If signed, the sign time
-  ecs_field: vendor.digsig_sign_time
-  cim_field: digsig_sign_time
-  asim_field: digsig_sign_time
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: BinaryDocument
 - field_name: digsig_subject
   field_type: string
   description: If signed, the subject
-  ecs_field: vendor.digsig_subject
-  cim_field: digsig_subject
-  asim_field: digsig_subject
+  ecs_field: file.code_signature.subject_name
+  cim_field: signer_subject
+  asim_field: FilePublisher
   category: BinaryDocument
 - field_name: server_added_timestamp
   field_type: datetime
   description: Time first seen by server
-  ecs_field: vendor.server_added_timestamp
-  cim_field: server_added_timestamp
-  asim_field: server_added_timestamp
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: BinaryDocument
 - field_name: file_version
   field_type: string
   description: File Version (Windows Only)
-  ecs_field: vendor.file_version
-  cim_field: file_version
-  asim_field: file_version
+  ecs_field: vmwarecarbonblack.carbonblackedr.file_version
+  cim_field: vmwarecarbonblack.carbonblackedr.file_version
+  asim_field: vmwarecarbonblack.carbonblackedr.file_version
   category: BinaryDocument
 - field_name: product_name
   field_type: string
@@ -376,16 +376,16 @@ fields:
 - field_name: company_name
   field_type: string
   description: Company Name (Windows Only)
-  ecs_field: vendor.company_name
-  cim_field: company_name
-  asim_field: company_name
+  ecs_field: vmwarecarbonblack.carbonblackedr.company_name
+  cim_field: vmwarecarbonblack.carbonblackedr.company_name
+  asim_field: vmwarecarbonblack.carbonblackedr.company_name
   category: BinaryDocument
 - field_name: internal_name
   field_type: string
   description: Internal Name (Windows Only)
-  ecs_field: vendor.internal_name
-  cim_field: internal_name
-  asim_field: internal_name
+  ecs_field: vmwarecarbonblack.carbonblackedr.internal_name
+  cim_field: vmwarecarbonblack.carbonblackedr.internal_name
+  asim_field: vmwarecarbonblack.carbonblackedr.internal_name
   category: BinaryDocument
 - field_name: original_filename
   field_type: string
@@ -397,16 +397,16 @@ fields:
 - field_name: file_desc
   field_type: string
   description: File Description (Windows only)
-  ecs_field: vendor.file_desc
-  cim_field: file_desc
-  asim_field: file_desc
+  ecs_field: vmwarecarbonblack.carbonblackedr.file_desc
+  cim_field: vmwarecarbonblack.carbonblackedr.file_desc
+  asim_field: vmwarecarbonblack.carbonblackedr.file_desc
   category: BinaryDocument
 - field_name: legal_copyright
   field_type: string
   description: Legal copyright string (Windows only)
-  ecs_field: vendor.legal_copyright
-  cim_field: legal_copyright
-  asim_field: legal_copyright
+  ecs_field: vmwarecarbonblack.carbonblackedr.legal_copyright
+  cim_field: vmwarecarbonblack.carbonblackedr.legal_copyright
+  asim_field: vmwarecarbonblack.carbonblackedr.legal_copyright
   category: BinaryDocument
 - field_name: command_line
   field_type: string
@@ -439,9 +439,9 @@ fields:
 - field_name: cb_server
   field_type: string
   description: Distinguishes multiple EDR servers
-  ecs_field: vendor.cb_server
-  cim_field: cb_server
-  asim_field: cb_server
+  ecs_field: vmwarecarbonblack.carbonblackedr.cb_server
+  cim_field: vmwarecarbonblack.carbonblackedr.cb_server
+  asim_field: vmwarecarbonblack.carbonblackedr.cb_server
   category: ProcessStart
 - field_name: event_type
   field_type: string
@@ -467,9 +467,9 @@ fields:
 - field_name: parent_create_time
   field_type: integer
   description: Parent process creation time (seconds since epoch)
-  ecs_field: vendor.parent_create_time
-  cim_field: parent_create_time
-  asim_field: parent_create_time
+  ecs_field: vmwarecarbonblack.carbonblackedr.parent_create_time
+  cim_field: vmwarecarbonblack.carbonblackedr.parent_create_time
+  asim_field: vmwarecarbonblack.carbonblackedr.parent_create_time
   category: ProcessStart
 - field_name: parent_path
   field_type: string
@@ -488,9 +488,9 @@ fields:
 - field_name: expect_followon_w_md5
   field_type: boolean
   description: If md5 will arrive in separate event
-  ecs_field: vendor.expect_followon_w_md5
-  cim_field: expect_followon_w_md5
-  asim_field: expect_followon_w_md5
+  ecs_field: vmwarecarbonblack.carbonblackedr.expect_followon_w_md5
+  cim_field: vmwarecarbonblack.carbonblackedr.expect_followon_w_md5
+  asim_field: vmwarecarbonblack.carbonblackedr.expect_followon_w_md5
   category: ProcessStart
 - field_name: logon_type
   field_type: integer
@@ -502,23 +502,23 @@ fields:
 - field_name: link_process
   field_type: url
   description: Deep link to EDR UI for process
-  ecs_field: vendor.link_process
-  cim_field: link_process
-  asim_field: link_process
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
   category: ProcessStart
 - field_name: link_parent
   field_type: url
   description: Deep link to EDR UI for parent
-  ecs_field: vendor.link_parent
-  cim_field: link_parent
-  asim_field: link_parent
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
   category: ProcessStart
 - field_name: link_sensor
   field_type: url
   description: Deep link to EDR UI for sensor
-  ecs_field: vendor.link_sensor
-  cim_field: link_sensor
-  asim_field: link_sensor
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
   category: ProcessStart
 - field_name: child_process_guid
   field_type: string
@@ -537,9 +537,9 @@ fields:
 - field_name: link_child
   field_type: url
   description: Deep link to EDR UI for child process
-  ecs_field: vendor.link_child
-  cim_field: link_child
-  asim_field: link_child
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
   category: ChildProcess
 - field_name: action
   field_type: string
@@ -622,9 +622,9 @@ fields:
 - field_name: port
   field_type: port
   description: Remote port (backward compatibility)
-  ecs_field: observer.ingress.interface.name
-  cim_field: switch_port
-  asim_field: SrcInterfaceName
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: NetworkConnection
 - field_name: protocol
   field_type: integer
@@ -636,37 +636,37 @@ fields:
 - field_name: proxy
   field_type: boolean
   description: Whether web proxy was used
-  ecs_field: vendor.proxy
-  cim_field: proxy
-  asim_field: proxy
+  ecs_field: vmwarecarbonblack.carbonblackedr.proxy
+  cim_field: vmwarecarbonblack.carbonblackedr.proxy
+  asim_field: vmwarecarbonblack.carbonblackedr.proxy
   category: NetworkConnection
 - field_name: proxy_ip
   field_type: ip
   description: IP of web proxy
-  ecs_field: vendor.proxy_ip
-  cim_field: proxy_ip
-  asim_field: proxy_ip
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: NetworkConnection
 - field_name: proxy_port
   field_type: port
   description: Port of web proxy
-  ecs_field: vendor.proxy_port
-  cim_field: proxy_port
-  asim_field: proxy_port
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: NetworkConnection
 - field_name: proxy_domain
   field_type: string
   description: Domain of web proxy
-  ecs_field: vendor.proxy_domain
+  ecs_field: destination.domain
   cim_field: proxy_domain
-  asim_field: proxy_domain
+  asim_field: DstDomain
   category: NetworkConnection
 - field_name: cross_process_type
   field_type: string
   description: 'Type: open_process or open_thread'
-  ecs_field: vendor.cross_process_type
-  cim_field: cross_process_type
-  asim_field: cross_process_type
+  ecs_field: vmwarecarbonblack.carbonblackedr.cross_process_type
+  cim_field: vmwarecarbonblack.carbonblackedr.cross_process_type
+  asim_field: vmwarecarbonblack.carbonblackedr.cross_process_type
   category: CrossProcess
 - field_name: is_target
   field_type: boolean
@@ -678,23 +678,23 @@ fields:
 - field_name: requested_access
   field_type: integer
   description: Windows bitfield of requested access
-  ecs_field: vendor.requested_access
-  cim_field: requested_access
-  asim_field: requested_access
+  ecs_field: vmwarecarbonblack.carbonblackedr.requested_access
+  cim_field: vmwarecarbonblack.carbonblackedr.requested_access
+  asim_field: vmwarecarbonblack.carbonblackedr.requested_access
   category: CrossProcess
 - field_name: target_create_time
   field_type: integer
   description: Target process creation time (64-bit Windows FILETIME)
-  ecs_field: vendor.target_create_time
-  cim_field: target_create_time
-  asim_field: target_create_time
+  ecs_field: vmwarecarbonblack.carbonblackedr.target_create_time
+  cim_field: vmwarecarbonblack.carbonblackedr.target_create_time
+  asim_field: vmwarecarbonblack.carbonblackedr.target_create_time
   category: CrossProcess
 - field_name: target_md5
   field_type: hash
   description: MD5 of target executable
-  ecs_field: vendor.target_md5
-  cim_field: target_md5
-  asim_field: target_md5
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
   category: CrossProcess
 - field_name: target_path
   field_type: string
@@ -720,16 +720,16 @@ fields:
 - field_name: link_target
   field_type: url
   description: Deep link for target process
-  ecs_field: vendor.link_target
-  cim_field: link_target
-  asim_field: link_target
+  ecs_field: url.full
+  cim_field: url
+  asim_field: Url
   category: CrossProcess
 - field_name: tamper_type
   field_type: string
   description: Type of tamper activity detected
-  ecs_field: vendor.tamper_type
-  cim_field: tamper_type
-  asim_field: tamper_type
+  ecs_field: vmwarecarbonblack.carbonblackedr.tamper_type
+  cim_field: vmwarecarbonblack.carbonblackedr.tamper_type
+  asim_field: vmwarecarbonblack.carbonblackedr.tamper_type
   category: Security
 - field_name: blocked
   field_type: boolean
@@ -769,9 +769,9 @@ fields:
 - field_name: mitigation
   field_type: string
   description: Type of EMET mitigation performed
-  ecs_field: vendor.mitigation
-  cim_field: mitigation
-  asim_field: mitigation
+  ecs_field: vmwarecarbonblack.carbonblackedr.mitigation
+  cim_field: vmwarecarbonblack.carbonblackedr.mitigation
+  asim_field: vmwarecarbonblack.carbonblackedr.mitigation
   category: Security
 - field_name: log_id
   field_type: integer
@@ -790,9 +790,9 @@ fields:
 - field_name: emet_timestamp
   field_type: integer
   description: EMET event timestamp (64-bit Windows FILETIME)
-  ecs_field: vendor.emet_timestamp
-  cim_field: emet_timestamp
-  asim_field: emet_timestamp
+  ecs_field: vmwarecarbonblack.carbonblackedr.emet_timestamp
+  cim_field: vmwarecarbonblack.carbonblackedr.emet_timestamp
+  asim_field: vmwarecarbonblack.carbonblackedr.emet_timestamp
   category: Security
 - field_name: size
   field_type: integer
@@ -804,9 +804,9 @@ fields:
 - field_name: compressed_size
   field_type: integer
   description: Size of zip archive on server
-  ecs_field: vendor.compressed_size
-  cim_field: compressed_size
-  asim_field: compressed_size
+  ecs_field: vmwarecarbonblack.carbonblackedr.compressed_size
+  cim_field: vmwarecarbonblack.carbonblackedr.compressed_size
+  asim_field: vmwarecarbonblack.carbonblackedr.compressed_size
   category: BinaryDocument
 - field_name: file_path
   field_type: string
@@ -818,15 +818,15 @@ fields:
 - field_name: scores
   field_type: object
   description: Dictionary of Alliance feed scores
-  ecs_field: vendor.scores
-  cim_field: scores
-  asim_field: scores
+  ecs_field: vmwarecarbonblack.carbonblackedr.scores
+  cim_field: vmwarecarbonblack.carbonblackedr.scores
+  asim_field: vmwarecarbonblack.carbonblackedr.scores
   category: BinaryDocument
 - field_name: watchlists
   field_type: object
   description: Already-matched watchlists
-  ecs_field: vendor.watchlists
-  cim_field: watchlists
-  asim_field: watchlists
+  ecs_field: vmwarecarbonblack.carbonblackedr.watchlists
+  cim_field: vmwarecarbonblack.carbonblackedr.watchlists
+  asim_field: vmwarecarbonblack.carbonblackedr.watchlists
   category: BinaryDocument
 notes: On-premises EDR solution. Event forwarder streams events for SIEM integration.

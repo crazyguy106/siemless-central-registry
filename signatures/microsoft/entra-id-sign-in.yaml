@@ -7,7 +7,7 @@ source_document: SignInLogs Table Reference
 source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/signinlogs
 extraction_date: '2026-01-02'
 source_file: azure-signin-signatures.json
-generated_at: '2026-02-11T15:57:00.140340'
+generated_at: '2026-02-12T11:02:52.035857'
 categories:
 - Identity
 - Metadata
@@ -25,9 +25,9 @@ fields:
 - field_name: AADTenantId
   field_type: string
   description: Azure AD Tenant ID
-  ecs_field: vendor.AADTenantId
-  cim_field: AADTenantId
-  asim_field: AADTenantId
+  ecs_field: cloud.account.id
+  cim_field: tenant_id
+  asim_field: CloudAccountId
   category: Identity
 - field_name: AlternateSignInName
   field_type: string
@@ -53,44 +53,44 @@ fields:
 - field_name: AppOwnerTenantId
   field_type: string
   description: The tenant identifier of the application owner in Azure AD
-  ecs_field: vendor.AppOwnerTenantId
-  cim_field: AppOwnerTenantId
-  asim_field: AppOwnerTenantId
+  ecs_field: cloud.account.id
+  cim_field: app_tenant_id
+  asim_field: CloudAccountId
   category: Application
 - field_name: AppliedConditionalAccessPolicies
   field_type: string
   description: Applied conditional access policies
-  ecs_field: vendor.AppliedConditionalAccessPolicies
-  cim_field: AppliedConditionalAccessPolicies
-  asim_field: AppliedConditionalAccessPolicies
+  ecs_field: microsoft.entraidsigninlogs.appliedconditionalaccesspolicies
+  cim_field: microsoft.entraidsigninlogs.appliedconditionalaccesspolicies
+  asim_field: microsoft.entraidsigninlogs.appliedconditionalaccesspolicies
   category: ConditionalAccess
 - field_name: AppliedEventListeners
   field_type: object
   description: Detailed information about listeners triggered by sign-in events
-  ecs_field: vendor.AppliedEventListeners
-  cim_field: AppliedEventListeners
-  asim_field: AppliedEventListeners
+  ecs_field: microsoft.entraidsigninlogs.appliedeventlisteners
+  cim_field: microsoft.entraidsigninlogs.appliedeventlisteners
+  asim_field: microsoft.entraidsigninlogs.appliedeventlisteners
   category: ConditionalAccess
 - field_name: AuthenticationAppDeviceDetails
   field_type: string
   description: Details of the app and device state used during authentication
-  ecs_field: vendor.AuthenticationAppDeviceDetails
-  cim_field: AuthenticationAppDeviceDetails
-  asim_field: AuthenticationAppDeviceDetails
+  ecs_field: microsoft.entraidsigninlogs.authenticationappdevicedetails
+  cim_field: microsoft.entraidsigninlogs.authenticationappdevicedetails
+  asim_field: microsoft.entraidsigninlogs.authenticationappdevicedetails
   category: Authentication
 - field_name: AuthenticationAppPolicyEvaluationDetails
   field_type: string
   description: Details of policies applied during sign-in step
-  ecs_field: vendor.AuthenticationAppPolicyEvaluationDetails
-  cim_field: AuthenticationAppPolicyEvaluationDetails
-  asim_field: AuthenticationAppPolicyEvaluationDetails
+  ecs_field: microsoft.entraidsigninlogs.authenticationapppolicyevaluationdetails
+  cim_field: microsoft.entraidsigninlogs.authenticationapppolicyevaluationdetails
+  asim_field: microsoft.entraidsigninlogs.authenticationapppolicyevaluationdetails
   category: Authentication
 - field_name: AuthenticationContextClassReferences
   field_type: string
   description: Collection of conditional access authentication contexts
-  ecs_field: vendor.AuthenticationContextClassReferences
-  cim_field: AuthenticationContextClassReferences
-  asim_field: AuthenticationContextClassReferences
+  ecs_field: microsoft.entraidsigninlogs.authenticationcontextclassreferences
+  cim_field: microsoft.entraidsigninlogs.authenticationcontextclassreferences
+  asim_field: microsoft.entraidsigninlogs.authenticationcontextclassreferences
   category: Authentication
 - field_name: AuthenticationDetails
   field_type: string
@@ -102,16 +102,16 @@ fields:
 - field_name: AuthenticationMethodsUsed
   field_type: string
   description: Authentication methods used (SMS, Authenticator App, Password, etc.)
-  ecs_field: vendor.AuthenticationMethodsUsed
-  cim_field: AuthenticationMethodsUsed
-  asim_field: AuthenticationMethodsUsed
+  ecs_field: microsoft.entraidsigninlogs.authenticationmethodsused
+  cim_field: microsoft.entraidsigninlogs.authenticationmethodsused
+  asim_field: microsoft.entraidsigninlogs.authenticationmethodsused
   category: Authentication
 - field_name: AuthenticationProcessingDetails
   field_type: string
   description: Additional details such as agent name or server/farm name
-  ecs_field: vendor.AuthenticationProcessingDetails
-  cim_field: AuthenticationProcessingDetails
-  asim_field: AuthenticationProcessingDetails
+  ecs_field: event.reason
+  cim_field: auth_details
+  asim_field: EventResultDetails
   category: Authentication
 - field_name: AuthenticationProtocol
   field_type: string
@@ -124,23 +124,23 @@ fields:
 - field_name: AuthenticationRequirement
   field_type: string
   description: The highest level of authentication needed for sign-in
-  ecs_field: vendor.AuthenticationRequirement
-  cim_field: AuthenticationRequirement
-  asim_field: AuthenticationRequirement
+  ecs_field: event.type
+  cim_field: auth_requirement
+  asim_field: EventType
   category: Authentication
 - field_name: AuthenticationRequirementPolicies
   field_type: string
   description: Sources of authentication requirement
-  ecs_field: vendor.AuthenticationRequirementPolicies
-  cim_field: AuthenticationRequirementPolicies
-  asim_field: AuthenticationRequirementPolicies
+  ecs_field: microsoft.entraidsigninlogs.authenticationrequirementpolicies
+  cim_field: microsoft.entraidsigninlogs.authenticationrequirementpolicies
+  asim_field: microsoft.entraidsigninlogs.authenticationrequirementpolicies
   category: Authentication
 - field_name: AutonomousSystemNumber
   field_type: string
   description: The Autonomous System Number (ASN) of the network
-  ecs_field: vendor.AutonomousSystemNumber
-  cim_field: AutonomousSystemNumber
-  asim_field: AutonomousSystemNumber
+  ecs_field: microsoft.entraidsigninlogs.autonomoussystemnumber
+  cim_field: microsoft.entraidsigninlogs.autonomoussystemnumber
+  asim_field: microsoft.entraidsigninlogs.autonomoussystemnumber
   category: Network
 - field_name: Category
   field_type: string
@@ -159,16 +159,16 @@ fields:
 - field_name: ClientCredentialType
   field_type: string
   description: Type of client credential used
-  ecs_field: vendor.ClientCredentialType
-  cim_field: ClientCredentialType
-  asim_field: ClientCredentialType
+  ecs_field: microsoft.entraidsigninlogs.clientcredentialtype
+  cim_field: microsoft.entraidsigninlogs.clientcredentialtype
+  asim_field: microsoft.entraidsigninlogs.clientcredentialtype
   category: Device
 - field_name: ConditionalAccessPolicies
   field_type: object
   description: List of conditional access policies triggered
-  ecs_field: vendor.ConditionalAccessPolicies
-  cim_field: ConditionalAccessPolicies
-  asim_field: ConditionalAccessPolicies
+  ecs_field: microsoft.entraidsigninlogs.conditionalaccesspolicies
+  cim_field: microsoft.entraidsigninlogs.conditionalaccesspolicies
+  asim_field: microsoft.entraidsigninlogs.conditionalaccesspolicies
   category: ConditionalAccess
 - field_name: ConditionalAccessStatus
   field_type: string
@@ -187,23 +187,23 @@ fields:
 - field_name: CreatedDateTime
   field_type: datetime
   description: Date and time the sign-in was initiated (UTC)
-  ecs_field: vendor.CreatedDateTime
-  cim_field: CreatedDateTime
-  asim_field: CreatedDateTime
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Metadata
 - field_name: CrossTenantAccessType
   field_type: string
   description: Type of cross-tenant access used by the actor
-  ecs_field: vendor.CrossTenantAccessType
-  cim_field: CrossTenantAccessType
-  asim_field: CrossTenantAccessType
+  ecs_field: event.type
+  cim_field: cross_tenant_type
+  asim_field: EventType
   category: CrossTenant
 - field_name: DeviceDetail
   field_type: object
   description: Device information (deviceId, OS, browser) from where sign-in occurred
-  ecs_field: vendor.DeviceDetail
-  cim_field: DeviceDetail
-  asim_field: DeviceDetail
+  ecs_field: microsoft.entraidsigninlogs.devicedetail
+  cim_field: microsoft.entraidsigninlogs.devicedetail
+  asim_field: microsoft.entraidsigninlogs.devicedetail
   category: Device
 - field_name: DurationMs
   field_type: number
@@ -215,37 +215,37 @@ fields:
 - field_name: FederatedCredentialId
   field_type: string
   description: Federated Credential ID
-  ecs_field: vendor.FederatedCredentialId
-  cim_field: FederatedCredentialId
-  asim_field: FederatedCredentialId
+  ecs_field: microsoft.entraidsigninlogs.federatedcredentialid
+  cim_field: microsoft.entraidsigninlogs.federatedcredentialid
+  asim_field: microsoft.entraidsigninlogs.federatedcredentialid
   category: Token
 - field_name: FlaggedForReview
   field_type: boolean
   description: Whether the failed sign-in was flagged for tenant admin review
-  ecs_field: vendor.FlaggedForReview
-  cim_field: FlaggedForReview
-  asim_field: FlaggedForReview
+  ecs_field: microsoft.entraidsigninlogs.flaggedforreview
+  cim_field: microsoft.entraidsigninlogs.flaggedforreview
+  asim_field: microsoft.entraidsigninlogs.flaggedforreview
   category: Session
 - field_name: GlobalSecureAccessIpAddress
   field_type: ip
   description: Global secure IP address from which user signed in
-  ecs_field: vendor.GlobalSecureAccessIpAddress
-  cim_field: GlobalSecureAccessIpAddress
-  asim_field: GlobalSecureAccessIpAddress
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Network
 - field_name: HomeTenantId
   field_type: string
   description: Tenant identifier of the user initiating the sign-in
-  ecs_field: vendor.HomeTenantId
-  cim_field: HomeTenantId
-  asim_field: HomeTenantId
+  ecs_field: cloud.account.id
+  cim_field: home_tenant_id
+  asim_field: CloudAccountId
   category: Identity
 - field_name: HomeTenantName
   field_type: string
   description: Tenant name of the external tenant who homes the entity
-  ecs_field: vendor.HomeTenantName
-  cim_field: HomeTenantName
-  asim_field: HomeTenantName
+  ecs_field: microsoft.entraidsigninlogs.hometenantname
+  cim_field: microsoft.entraidsigninlogs.hometenantname
+  asim_field: microsoft.entraidsigninlogs.hometenantname
   category: Identity
 - field_name: IPAddress
   field_type: ip
@@ -257,9 +257,9 @@ fields:
 - field_name: IPAddressFromResourceProvider
   field_type: ip
   description: IP address used to reach a resource provider
-  ecs_field: cloud.instance.id
-  cim_field: IPAddressFromResourceProvider
-  asim_field: IPAddressFromResourceProvider
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Network
 - field_name: Id
   field_type: string
@@ -278,37 +278,37 @@ fields:
 - field_name: IncomingTokenType
   field_type: string
   description: Type of token utilized to sign in
-  ecs_field: vendor.IncomingTokenType
-  cim_field: IncomingTokenType
-  asim_field: IncomingTokenType
+  ecs_field: microsoft.entraidsigninlogs.incomingtokentype
+  cim_field: microsoft.entraidsigninlogs.incomingtokentype
+  asim_field: microsoft.entraidsigninlogs.incomingtokentype
   category: Token
 - field_name: IsInteractive
   field_type: boolean
   description: Whether sign-in is interactive or non-interactive
-  ecs_field: vendor.IsInteractive
-  cim_field: IsInteractive
-  asim_field: IsInteractive
+  ecs_field: microsoft.entraidsigninlogs.isinteractive
+  cim_field: microsoft.entraidsigninlogs.isinteractive
+  asim_field: microsoft.entraidsigninlogs.isinteractive
   category: Session
 - field_name: IsRisky
   field_type: boolean
   description: Whether the sign-in is risky
-  ecs_field: vendor.IsRisky
-  cim_field: IsRisky
-  asim_field: IsRisky
+  ecs_field: event.risk_score
+  cim_field: is_risky
+  asim_field: ThreatRiskLevel
   category: Risk
 - field_name: IsTenantRestricted
   field_type: boolean
   description: Whether sign-in is under a tenant restrictions policy
-  ecs_field: vendor.IsTenantRestricted
-  cim_field: IsTenantRestricted
-  asim_field: IsTenantRestricted
+  ecs_field: microsoft.entraidsigninlogs.istenantrestricted
+  cim_field: microsoft.entraidsigninlogs.istenantrestricted
+  asim_field: microsoft.entraidsigninlogs.istenantrestricted
   category: Session
 - field_name: IsThroughGlobalSecureAccess
   field_type: boolean
   description: Whether user came through Global Secure Access service
-  ecs_field: vendor.IsThroughGlobalSecureAccess
-  cim_field: IsThroughGlobalSecureAccess
-  asim_field: IsThroughGlobalSecureAccess
+  ecs_field: microsoft.entraidsigninlogs.isthroughglobalsecureaccess
+  cim_field: microsoft.entraidsigninlogs.isthroughglobalsecureaccess
+  asim_field: microsoft.entraidsigninlogs.isthroughglobalsecureaccess
   category: Session
 - field_name: Level
   field_type: string
@@ -334,16 +334,16 @@ fields:
 - field_name: MfaDetail
   field_type: object
   description: MFA details (deprecated)
-  ecs_field: vendor.MfaDetail
-  cim_field: MfaDetail
-  asim_field: MfaDetail
+  ecs_field: microsoft.entraidsigninlogs.mfadetail
+  cim_field: microsoft.entraidsigninlogs.mfadetail
+  asim_field: microsoft.entraidsigninlogs.mfadetail
   category: Authentication
 - field_name: NetworkLocationDetails
   field_type: string
   description: Network location details including network type and names
-  ecs_field: vendor.NetworkLocationDetails
-  cim_field: NetworkLocationDetails
-  asim_field: NetworkLocationDetails
+  ecs_field: microsoft.entraidsigninlogs.networklocationdetails
+  cim_field: microsoft.entraidsigninlogs.networklocationdetails
+  asim_field: microsoft.entraidsigninlogs.networklocationdetails
   category: Network
 - field_name: OperationName
   field_type: string
@@ -355,30 +355,30 @@ fields:
 - field_name: OperationVersion
   field_type: string
   description: Operation version
-  ecs_field: vendor.OperationVersion
-  cim_field: OperationVersion
-  asim_field: OperationVersion
+  ecs_field: microsoft.entraidsigninlogs.operationversion
+  cim_field: microsoft.entraidsigninlogs.operationversion
+  asim_field: microsoft.entraidsigninlogs.operationversion
   category: Metadata
 - field_name: OriginalRequestId
   field_type: string
   description: Request identifier of the first request in the authentication sequence
-  ecs_field: vendor.OriginalRequestId
-  cim_field: OriginalRequestId
-  asim_field: OriginalRequestId
+  ecs_field: microsoft.entraidsigninlogs.originalrequestid
+  cim_field: microsoft.entraidsigninlogs.originalrequestid
+  asim_field: microsoft.entraidsigninlogs.originalrequestid
   category: Metadata
 - field_name: OriginalTransferMethod
   field_type: string
   description: Transfer method used throughout subsequent requests
-  ecs_field: vendor.OriginalTransferMethod
-  cim_field: OriginalTransferMethod
-  asim_field: OriginalTransferMethod
+  ecs_field: microsoft.entraidsigninlogs.originaltransfermethod
+  cim_field: microsoft.entraidsigninlogs.originaltransfermethod
+  asim_field: microsoft.entraidsigninlogs.originaltransfermethod
   category: CrossTenant
 - field_name: ProcessingTimeInMilliseconds
   field_type: string
   description: Processing time in milliseconds
-  ecs_field: vendor.ProcessingTimeInMilliseconds
-  cim_field: ProcessingTimeInMilliseconds
-  asim_field: ProcessingTimeInMilliseconds
+  ecs_field: microsoft.entraidsigninlogs.processingtimeinmilliseconds
+  cim_field: microsoft.entraidsigninlogs.processingtimeinmilliseconds
+  asim_field: microsoft.entraidsigninlogs.processingtimeinmilliseconds
   category: Metadata
 - field_name: Resource
   field_type: string
@@ -404,30 +404,30 @@ fields:
 - field_name: ResourceIdentity
   field_type: string
   description: The resource signed into
-  ecs_field: vendor.ResourceIdentity
-  cim_field: ResourceIdentity
-  asim_field: ResourceIdentity
+  ecs_field: microsoft.entraidsigninlogs.resourceidentity
+  cim_field: microsoft.entraidsigninlogs.resourceidentity
+  asim_field: microsoft.entraidsigninlogs.resourceidentity
   category: Application
 - field_name: ResourceOwnerTenantId
   field_type: string
   description: Tenant identifier of the resource owner
-  ecs_field: vendor.ResourceOwnerTenantId
-  cim_field: ResourceOwnerTenantId
-  asim_field: ResourceOwnerTenantId
+  ecs_field: microsoft.entraidsigninlogs.resourceownertenantid
+  cim_field: microsoft.entraidsigninlogs.resourceownertenantid
+  asim_field: microsoft.entraidsigninlogs.resourceownertenantid
   category: Identity
 - field_name: ResourceServicePrincipalId
   field_type: string
   description: Identifier of the service principal representing the target resource
-  ecs_field: vendor.ResourceServicePrincipalId
-  cim_field: ResourceServicePrincipalId
-  asim_field: ResourceServicePrincipalId
+  ecs_field: microsoft.entraidsigninlogs.resourceserviceprincipalid
+  cim_field: microsoft.entraidsigninlogs.resourceserviceprincipalid
+  asim_field: microsoft.entraidsigninlogs.resourceserviceprincipalid
   category: Application
 - field_name: ResourceTenantId
   field_type: string
   description: Tenant identifier of the resource
-  ecs_field: vendor.ResourceTenantId
-  cim_field: ResourceTenantId
-  asim_field: ResourceTenantId
+  ecs_field: cloud.account.id
+  cim_field: resource_tenant_id
+  asim_field: CloudAccountId
   category: Identity
 - field_name: ResultDescription
   field_type: string
@@ -502,9 +502,9 @@ fields:
 - field_name: ServicePrincipalId
   field_type: string
   description: Application identifier used for sign-in
-  ecs_field: vendor.ServicePrincipalId
-  cim_field: ServicePrincipalId
-  asim_field: ServicePrincipalId
+  ecs_field: microsoft.entraidsigninlogs.serviceprincipalid
+  cim_field: microsoft.entraidsigninlogs.serviceprincipalid
+  asim_field: microsoft.entraidsigninlogs.serviceprincipalid
   category: Application
 - field_name: ServicePrincipalName
   field_type: string
@@ -523,30 +523,30 @@ fields:
 - field_name: SessionLifetimePolicies
   field_type: string
   description: Conditional access session management policies applied
-  ecs_field: vendor.SessionLifetimePolicies
-  cim_field: SessionLifetimePolicies
-  asim_field: SessionLifetimePolicies
+  ecs_field: microsoft.entraidsigninlogs.sessionlifetimepolicies
+  cim_field: microsoft.entraidsigninlogs.sessionlifetimepolicies
+  asim_field: microsoft.entraidsigninlogs.sessionlifetimepolicies
   category: Session
 - field_name: SignInIdentifier
   field_type: string
   description: The identification provided to sign in
-  ecs_field: vendor.SignInIdentifier
-  cim_field: SignInIdentifier
-  asim_field: SignInIdentifier
+  ecs_field: microsoft.entraidsigninlogs.signinidentifier
+  cim_field: microsoft.entraidsigninlogs.signinidentifier
+  asim_field: microsoft.entraidsigninlogs.signinidentifier
   category: Metadata
 - field_name: SignInIdentifierType
   field_type: string
   description: Type of sign-in identifier
-  ecs_field: vendor.SignInIdentifierType
-  cim_field: SignInIdentifierType
-  asim_field: SignInIdentifierType
+  ecs_field: microsoft.entraidsigninlogs.signinidentifiertype
+  cim_field: microsoft.entraidsigninlogs.signinidentifiertype
+  asim_field: microsoft.entraidsigninlogs.signinidentifiertype
   category: Metadata
 - field_name: SourceSystem
   field_type: string
   description: Type of agent that collected the event
-  ecs_field: vendor.SourceSystem
-  cim_field: SourceSystem
-  asim_field: SourceSystem
+  ecs_field: microsoft.entraidsigninlogs.sourcesystem
+  cim_field: microsoft.entraidsigninlogs.sourcesystem
+  asim_field: microsoft.entraidsigninlogs.sourcesystem
   category: Metadata
 - field_name: Status
   field_type: object
@@ -558,30 +558,30 @@ fields:
 - field_name: TimeGenerated
   field_type: datetime
   description: Timestamp when the log record was generated
-  ecs_field: vendor.TimeGenerated
-  cim_field: TimeGenerated
-  asim_field: TimeGenerated
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
   category: Metadata
 - field_name: TokenIssuerName
   field_type: string
   description: Name of the identity provider (e.g., sts.microsoft.com)
-  ecs_field: vendor.TokenIssuerName
-  cim_field: TokenIssuerName
-  asim_field: TokenIssuerName
+  ecs_field: tls.server.issuer
+  cim_field: token_issuer
+  asim_field: TlsServerIssuer
   category: Token
 - field_name: TokenIssuerType
   field_type: string
   description: Type of identity provider (AzureAD, ADFederationServices, etc.)
-  ecs_field: user.domain
-  cim_field: TokenIssuerType
-  asim_field: TokenIssuerType
+  ecs_field: event.type
+  cim_field: token_issuer_type
+  asim_field: EventType
   category: Token
 - field_name: TokenProtectionStatusDetails
   field_type: object
   description: Whether sign-in token was bound to the device
-  ecs_field: vendor.TokenProtectionStatusDetails
-  cim_field: TokenProtectionStatusDetails
-  asim_field: TokenProtectionStatusDetails
+  ecs_field: microsoft.entraidsigninlogs.tokenprotectionstatusdetails
+  cim_field: microsoft.entraidsigninlogs.tokenprotectionstatusdetails
+  asim_field: microsoft.entraidsigninlogs.tokenprotectionstatusdetails
   category: Token
 - field_name: Type
   field_type: string
@@ -593,9 +593,9 @@ fields:
 - field_name: UniqueTokenIdentifier
   field_type: string
   description: Unique base64 encoded request identifier for tracking tokens
-  ecs_field: vendor.UniqueTokenIdentifier
-  cim_field: UniqueTokenIdentifier
-  asim_field: UniqueTokenIdentifier
+  ecs_field: microsoft.entraidsigninlogs.uniquetokenidentifier
+  cim_field: microsoft.entraidsigninlogs.uniquetokenidentifier
+  asim_field: microsoft.entraidsigninlogs.uniquetokenidentifier
   category: Token
 - field_name: UserAgent
   field_type: string
@@ -607,9 +607,9 @@ fields:
 - field_name: UserDisplayName
   field_type: string
   description: Display name of the user
-  ecs_field: vendor.UserDisplayName
-  cim_field: UserDisplayName
-  asim_field: UserDisplayName
+  ecs_field: user.full_name
+  cim_field: user_name
+  asim_field: ActorUsername
   category: Identity
 - field_name: UserId
   field_type: string
@@ -621,9 +621,9 @@ fields:
 - field_name: UserPrincipalName
   field_type: string
   description: UPN of the user
-  ecs_field: vendor.UserPrincipalName
-  cim_field: UserPrincipalName
-  asim_field: UserPrincipalName
+  ecs_field: user.email
+  cim_field: user_email
+  asim_field: TargetUserUpn
   category: Identity
 - field_name: UserType
   field_type: string
