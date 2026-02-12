@@ -7,209 +7,185 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-02-12'
 source_file: cisco-ios-signatures.json
-generated_at: '2026-02-12T11:02:56.489690'
+generated_at: '2026-02-12T18:54:28.726155'
 field_count: 25
 fields:
 - field_name: sequence_number
   field_type: number
   description: Sequential message counter
+  category: system
   ecs_field: event.sequence
   cim_field: sequence_number
   asim_field: EventOriginalUid
-  category: system
-  display_name: Sequence Number
 - field_name: timestamp
   field_type: datetime
   description: Event timestamp
+  category: system
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventStartTime
-  category: system
-  display_name: Timestamp
 - field_name: facility
   field_type: string
   description: Source module that generated the message (e.g., SYS, LINK, OSPF)
+  category: system
   ecs_field: log.syslog.facility.name
   cim_field: facility
   asim_field: EventProduct
-  category: system
-  display_name: Facility
 - field_name: severity
   field_type: number
   description: Severity level 0-7 (0=emergencies, 7=debugging)
+  category: system
   ecs_field: log.syslog.severity.code
   cim_field: severity_id
   asim_field: EventSeverity
-  category: system
-  display_name: Severity Level
 - field_name: mnemonic
   field_type: string
   description: Short code identifying the specific message type
+  category: system
   ecs_field: event.code
   cim_field: signature_id
   asim_field: EventOriginalType
-  category: system
-  display_name: Mnemonic
 - field_name: message
   field_type: string
   description: Descriptive text explaining the event
+  category: system
   ecs_field: message
   cim_field: message
-  asim_field: EventMessage
-  category: system
-  display_name: Message Text
+  asim_field: message
 - field_name: hostname
   field_type: string
   description: Device hostname
+  category: system
   ecs_field: host.name
   cim_field: dvc
   asim_field: DvcHostname
-  category: system
-  display_name: Hostname
 - field_name: interface
   field_type: string
   description: Network interface name (e.g., GigabitEthernet0/1)
+  category: network
   ecs_field: observer.ingress.interface.name
   cim_field: interface
   asim_field: DvcInboundInterface
-  category: network
-  display_name: Interface
 - field_name: state
   field_type: string
   description: Interface or protocol state (up/down)
+  category: network
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
-  category: network
-  display_name: State
 - field_name: source_ip
   field_type: ip
   description: Source IP address
+  category: network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: network
-  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: Destination IP address
+  category: network
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: network
-  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Source port number
+  category: network
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
-  category: network
-  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Destination port number
+  category: network
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
-  category: network
-  display_name: Destination Port
 - field_name: protocol
   field_type: string
   description: Network protocol (TCP, UDP, ICMP)
+  category: network
   ecs_field: network.transport
   cim_field: transport
   asim_field: NetworkProtocol
-  category: network
-  display_name: Protocol
 - field_name: username
   field_type: string
   description: User account name
+  category: authentication
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: authentication
-  display_name: Username
 - field_name: source_address
   field_type: ip
   description: Login source IP address
+  category: authentication
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: authentication
-  display_name: Source Address
 - field_name: vty
   field_type: string
   description: Virtual terminal line number
+  category: authentication
   ecs_field: source.domain
   cim_field: src_host
   asim_field: SrcHostname
-  category: authentication
-  display_name: VTY Line
 - field_name: neighbor_ip
   field_type: ip
   description: Routing protocol neighbor IP address
+  category: routing
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: routing
-  display_name: Neighbor IP
 - field_name: neighbor_as
   field_type: number
   description: BGP neighbor autonomous system number
+  category: routing
   ecs_field: destination.as.number
   cim_field: dest_as
   asim_field: DstOriginalRiskLevel
-  category: routing
-  display_name: Neighbor AS
 - field_name: area
   field_type: string
   description: OSPF area ID
+  category: routing
   ecs_field: network.name
   cim_field: channel
   asim_field: NetworkProtocol
-  category: routing
-  display_name: OSPF Area
 - field_name: vlan
   field_type: number
   description: VLAN ID
+  category: switching
   ecs_field: network.vlan.id
   cim_field: vlan
   asim_field: NetworkVlanId
-  category: switching
-  display_name: VLAN
 - field_name: mac_address
   field_type: string
   description: Hardware MAC address
+  category: switching
   ecs_field: source.mac
   cim_field: src_mac
   asim_field: SrcMacAddr
-  category: switching
-  display_name: MAC Address
 - field_name: acl_name
   field_type: string
   description: Access control list name
+  category: security
   ecs_field: rule.name
   cim_field: rule
   asim_field: RuleName
-  category: security
-  display_name: ACL Name
 - field_name: action
   field_type: string
   description: Action taken (permit/deny)
+  category: security
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
-  category: security
-  display_name: Action
 - field_name: reason
   field_type: string
   description: Event reason or failure cause
+  category: system
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
-  category: system
-  display_name: Reason
+mapped_field_count: 24
 signatures:
 - name: cisco_ios_config_change
   pattern: '%SYS-5-CONFIG_I'

@@ -7,137 +7,122 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-02-12'
 source_file: ot-dnp3-signatures.json
-generated_at: '2026-02-12T11:03:05.092767'
+generated_at: '2026-02-12T18:54:31.477335'
 field_count: 16
 fields:
 - field_name: source_address
   field_type: number
   description: DNP3 source station address (0-65519)
+  category: device
   ecs_field: source.address
   cim_field: src_id
   asim_field: SrcDvcId
-  category: device
-  display_name: Source Address
 - field_name: destination_address
   field_type: number
   description: DNP3 destination station address (0-65519)
+  category: device
   ecs_field: destination.address
   cim_field: dest_id
   asim_field: DstDvcId
-  category: device
-  display_name: Destination Address
 - field_name: function_code
   field_type: number
   description: DNP3 function code (0-255)
+  category: protocol
   ecs_field: event.code
   cim_field: signature_id
   asim_field: EventOriginalType
-  category: protocol
-  display_name: Function Code
 - field_name: function_name
   field_type: string
   description: Human-readable function name
+  category: protocol
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
-  category: protocol
-  display_name: Function Name
 - field_name: object_group
   field_type: number
   description: DNP3 object group (data type category)
+  category: data
   ecs_field: file.type
   cim_field: object_category
   asim_field: TargetFileType
-  category: data
-  display_name: Object Group
 - field_name: object_variation
   field_type: number
   description: DNP3 object variation (data format)
+  category: data
   ecs_field: file.extension
   cim_field: object_type
   asim_field: TargetFileName
-  category: data
-  display_name: Object Variation
 - field_name: point_index
   field_type: number
   description: Data point index within object group
+  category: data
   ecs_field: ot.dnp3.point_index
   cim_field: object_path
   asim_field: TargetFilePath
-  category: data
-  display_name: Point Index
 - field_name: point_value
   field_type: string
   description: Data point value
+  category: data
   ecs_field: file.hash.md5
   cim_field: file_hash
   asim_field: TargetFileHashMd5
-  category: data
-  display_name: Point Value
 - field_name: control_code
   field_type: number
   description: Control relay output block code
+  category: control
   ecs_field: event.outcome
   cim_field: result
   asim_field: EventResult
-  category: control
-  display_name: Control Code
 - field_name: internal_indications
   field_type: string
   description: IIN bits indicating device status
+  category: status
   ecs_field: host.os.type
   cim_field: os
   asim_field: DvcOs
-  category: status
-  display_name: Internal Indications
 - field_name: source_ip
   field_type: ip
   description: Master station IP address (DNP3 over IP)
+  category: network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: network
-  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: Outstation IP address (DNP3 over IP)
+  category: network
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: network
-  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Client port
+  category: network
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
-  category: network
-  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Server port (IANA-registered 20000, but configurable per deployment)
+  category: network
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
-  category: network
-  display_name: Destination Port
 - field_name: sequence_number
   field_type: number
   description: Application layer sequence number
+  category: protocol
   ecs_field: event.sequence
   cim_field: sequence_number
   asim_field: EventOriginalUid
-  category: protocol
-  display_name: Sequence Number
 - field_name: unsolicited
   field_type: string
   description: Whether response is unsolicited (event-driven)
+  category: protocol
   ecs_field: network.direction
   cim_field: direction
   asim_field: NetworkDirection
-  category: protocol
-  display_name: Unsolicited Response
+mapped_field_count: 16
 signatures:
 - name: dnp3_generic
   description: Generic DNP3 (Distributed Network Protocol 3) detection

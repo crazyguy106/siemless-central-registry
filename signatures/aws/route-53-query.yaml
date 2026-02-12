@@ -7,7 +7,7 @@ source_document: Route 53 Query Logging
 source_url: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html
 extraction_date: '2026-01-02'
 source_file: aws-route53-signatures.json
-generated_at: '2026-02-11T23:44:05.461355'
+generated_at: '2026-02-12T18:54:27.224792'
 categories:
 - Core
 - DNS
@@ -27,16 +27,16 @@ fields:
   description: Date and time in ISO 8601 format (UTC) when Route 53 responded to the
     request
   category: Core
-  ecs_field: amazonwebservices.route53querylogs.query_timestamp
-  cim_field: amazonwebservices.route53querylogs.query_timestamp
-  asim_field: amazonwebservices.route53querylogs.query_timestamp
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
 - field_name: hosted_zone_id
   field_type: string
   description: The ID of the hosted zone associated with the DNS queries in the log
   category: Core
-  ecs_field: amazonwebservices.route53querylogs.hosted_zone_id
-  cim_field: amazonwebservices.route53querylogs.hosted_zone_id
-  asim_field: amazonwebservices.route53querylogs.hosted_zone_id
+  ecs_field: cloud.instance.id
+  cim_field: hosted_zone
+  asim_field: CloudResourceId
 - field_name: query_name
   field_type: string
   description: The domain or subdomain specified in the DNS request
@@ -79,9 +79,9 @@ fields:
   description: IP address of the DNS resolver that submitted the request to Route
     53
   category: Network
-  ecs_field: amazonwebservices.route53querylogs.resolver_ip_address
-  cim_field: amazonwebservices.route53querylogs.resolver_ip_address
-  asim_field: amazonwebservices.route53querylogs.resolver_ip_address
+  ecs_field: related.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
 - field_name: edns_client_subnet
   field_type: string
   description: Partial client IP from EDNS Client Subnet extension (e.g., 192.168.222.0/24)
@@ -90,6 +90,6 @@ fields:
   ecs_field: source.ip
   cim_field: ''
   asim_field: ''
-mapped_field_count: 5
+mapped_field_count: 10
 notes: DNS query logs for Route 53 hosted zones. Logs queries to public hosted zones
   from recursive DNS resolvers.

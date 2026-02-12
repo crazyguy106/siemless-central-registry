@@ -7,7 +7,7 @@ source_document: AWS WAF Logging Fields
 source_url: https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html
 extraction_date: '2026-01-02'
 source_file: aws-waf-signatures.json
-generated_at: '2026-02-11T23:44:05.476096'
+generated_at: '2026-02-12T18:54:27.236361'
 categories:
 - TopLevel
 - CaptchaChallenge
@@ -56,16 +56,16 @@ fields:
   field_type: integer
   description: CAPTCHA solve timestamp
   category: CaptchaChallenge
-  ecs_field: amazonwebservices.awswaf.captchaResponse.solveTimestamp
-  cim_field: amazonwebservices.awswaf.captchaResponse.solveTimestamp
-  asim_field: amazonwebservices.awswaf.captchaResponse.solveTimestamp
+  ecs_field: amazonwebservices.awswaf.captcharesponse_solvetimestamp
+  cim_field: amazonwebservices.awswaf.captcharesponse_solvetimestamp
+  asim_field: amazonwebservices.awswaf.captcharesponse_solvetimestamp
 - field_name: cfDistributionTenantId
   field_type: string
   description: CloudFront distribution tenant identifier
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.cfDistributionTenantId
-  cim_field: amazonwebservices.awswaf.cfDistributionTenantId
-  asim_field: amazonwebservices.awswaf.cfDistributionTenantId
+  ecs_field: amazonwebservices.awswaf.cfdistributiontenantid
+  cim_field: amazonwebservices.awswaf.cfdistributiontenantid
+  asim_field: amazonwebservices.awswaf.cfdistributiontenantid
 - field_name: challengeResponse
   field_type: object
   description: Challenge action status for the request
@@ -91,9 +91,9 @@ fields:
   field_type: integer
   description: Challenge solve timestamp
   category: CaptchaChallenge
-  ecs_field: amazonwebservices.awswaf.challengeResponse.solveTimestamp
-  cim_field: amazonwebservices.awswaf.challengeResponse.solveTimestamp
-  asim_field: amazonwebservices.awswaf.challengeResponse.solveTimestamp
+  ecs_field: amazonwebservices.awswaf.challengeresponse_solvetimestamp
+  cim_field: amazonwebservices.awswaf.challengeresponse_solvetimestamp
+  asim_field: amazonwebservices.awswaf.challengeresponse_solvetimestamp
 - field_name: clientAsn
   field_type: string
   description: ASN associated with the client IP address
@@ -112,9 +112,9 @@ fields:
   field_type: string
   description: Source country of the request
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.country
-  cim_field: amazonwebservices.awswaf.country
-  asim_field: amazonwebservices.awswaf.country
+  ecs_field: source.geo.country_name
+  cim_field: src_country
+  asim_field: SrcGeoCountry
 - field_name: excludedRules
   field_type: array
   description: List of rules excluded with Count action
@@ -133,23 +133,23 @@ fields:
   field_type: string
   description: ID of excluded rule within rule group
   category: ExcludedRules
-  ecs_field: amazonwebservices.awswaf.excludedRules.ruleId
-  cim_field: amazonwebservices.awswaf.excludedRules.ruleId
-  asim_field: amazonwebservices.awswaf.excludedRules.ruleId
+  ecs_field: amazonwebservices.awswaf.excludedrules_ruleid
+  cim_field: amazonwebservices.awswaf.excludedrules_ruleid
+  asim_field: amazonwebservices.awswaf.excludedrules_ruleid
 - field_name: formatVersion
   field_type: string
   description: Format version for the log
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.formatVersion
-  cim_field: amazonwebservices.awswaf.formatVersion
-  asim_field: amazonwebservices.awswaf.formatVersion
+  ecs_field: amazonwebservices.awswaf.formatversion
+  cim_field: amazonwebservices.awswaf.formatversion
+  asim_field: amazonwebservices.awswaf.formatversion
 - field_name: forwardedAsn
   field_type: string
   description: ASN of the forwarding entity
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.forwardedAsn
-  cim_field: amazonwebservices.awswaf.forwardedAsn
-  asim_field: amazonwebservices.awswaf.forwardedAsn
+  ecs_field: amazonwebservices.awswaf.forwardedasn
+  cim_field: amazonwebservices.awswaf.forwardedasn
+  asim_field: amazonwebservices.awswaf.forwardedasn
 - field_name: fragment
   field_type: string
   description: 'URL fragment after # symbol'
@@ -175,31 +175,31 @@ fields:
   field_type: object
   description: Metadata about the request
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.httpRequest
-  cim_field: amazonwebservices.awswaf.httpRequest
-  asim_field: amazonwebservices.awswaf.httpRequest
+  ecs_field: http.request.body.content
+  cim_field: http_request
+  asim_field: HttpRequestBody
 - field_name: httpSourceId
   field_type: string
   description: ID of associated resource (CloudFront/ALB/API Gateway/etc.)
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.httpSourceId
-  cim_field: amazonwebservices.awswaf.httpSourceId
-  asim_field: amazonwebservices.awswaf.httpSourceId
+  ecs_field: observer.id
+  cim_field: http_source_id
+  asim_field: DvcId
 - field_name: httpSourceName
   field_type: string
   description: 'Source of request: CF, APIGW, ALB, APPSYNC, COGNITOIDP, APPRUNNER,
     VERIFIED_ACCESS'
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.httpSourceName
-  cim_field: amazonwebservices.awswaf.httpSourceName
-  asim_field: amazonwebservices.awswaf.httpSourceName
+  ecs_field: observer.name
+  cim_field: http_source
+  asim_field: DvcHostname
 - field_name: httpVersion
   field_type: string
   description: HTTP version
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.httpVersion
-  cim_field: amazonwebservices.awswaf.httpVersion
-  asim_field: amazonwebservices.awswaf.httpVersion
+  ecs_field: http.version
+  cim_field: http_version
+  asim_field: HttpVersion
 - field_name: ja3Fingerprint
   field_type: string
   description: 32-char MD5 hash from TLS Client Hello
@@ -211,23 +211,23 @@ fields:
   field_type: string
   description: 36-char hash from TLS Client Hello
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.ja4Fingerprint
-  cim_field: amazonwebservices.awswaf.ja4Fingerprint
-  asim_field: amazonwebservices.awswaf.ja4Fingerprint
+  ecs_field: amazonwebservices.awswaf.ja4fingerprint
+  cim_field: amazonwebservices.awswaf.ja4fingerprint
+  asim_field: amazonwebservices.awswaf.ja4fingerprint
 - field_name: labels
   field_type: array
   description: Labels applied by matching rules (first 100)
   category: TopLevel
-  ecs_field: labels
-  cim_field: labels
-  asim_field: labels
+  ecs_field: tags
+  cim_field: tag
+  asim_field: EventTag
 - field_name: nonTerminatingMatchingRules
   field_type: array
   description: List of non-terminating rules that matched
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.nonTerminatingMatchingRules
-  cim_field: amazonwebservices.awswaf.nonTerminatingMatchingRules
-  asim_field: amazonwebservices.awswaf.nonTerminatingMatchingRules
+  ecs_field: amazonwebservices.awswaf.nonterminatingmatchingrules
+  cim_field: amazonwebservices.awswaf.nonterminatingmatchingrules
+  asim_field: amazonwebservices.awswaf.nonterminatingmatchingrules
 - field_name: nonTerminatingMatchingRules.action
   field_type: string
   description: 'Action: count, CAPTCHA, or challenge'
@@ -239,87 +239,87 @@ fields:
   field_type: string
   description: ID of matching non-terminating rule
   category: NonTerminating
-  ecs_field: amazonwebservices.awswaf.nonTerminatingMatchingRules.ruleId
-  cim_field: amazonwebservices.awswaf.nonTerminatingMatchingRules.ruleId
-  asim_field: amazonwebservices.awswaf.nonTerminatingMatchingRules.ruleId
+  ecs_field: amazonwebservices.awswaf.nonterminatingmatchingrules_ruleid
+  cim_field: amazonwebservices.awswaf.nonterminatingmatchingrules_ruleid
+  asim_field: amazonwebservices.awswaf.nonterminatingmatchingrules_ruleid
 - field_name: nonTerminatingMatchingRules.ruleMatchDetails
   field_type: array
   description: Match details for SQLi/XSS
   category: NonTerminating
-  ecs_field: amazonwebservices.awswaf.nonTerminatingMatchingRules.ruleMatchDetails
-  cim_field: amazonwebservices.awswaf.nonTerminatingMatchingRules.ruleMatchDetails
-  asim_field: amazonwebservices.awswaf.nonTerminatingMatchingRules.ruleMatchDetails
+  ecs_field: amazonwebservices.awswaf.nonterminatingmatchingrules_rulematchdetails
+  cim_field: amazonwebservices.awswaf.nonterminatingmatchingrules_rulematchdetails
+  asim_field: amazonwebservices.awswaf.nonterminatingmatchingrules_rulematchdetails
 - field_name: oversizeFields
   field_type: array
   description: 'Fields over inspection limit: REQUEST_BODY, REQUEST_JSON_BODY, REQUEST_HEADERS,
     REQUEST_COOKIES'
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.oversizeFields
-  cim_field: amazonwebservices.awswaf.oversizeFields
-  asim_field: amazonwebservices.awswaf.oversizeFields
+  ecs_field: amazonwebservices.awswaf.oversizefields
+  cim_field: amazonwebservices.awswaf.oversizefields
+  asim_field: amazonwebservices.awswaf.oversizefields
 - field_name: rateBasedRuleList
   field_type: array
   description: List of rate-based rules that acted
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist
 - field_name: rateBasedRuleList.customValues
   field_type: array
   description: Custom aggregation values
   category: RateBased
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList.customValues
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList.customValues
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList.customValues
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist_customvalues
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist_customvalues
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist_customvalues
 - field_name: rateBasedRuleList.evaluationWindowSec
   field_type: integer
   description: Time window for request counts in seconds
   category: RateBased
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList.evaluationWindowSec
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList.evaluationWindowSec
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList.evaluationWindowSec
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist_evaluationwindowsec
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist_evaluationwindowsec
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist_evaluationwindowsec
 - field_name: rateBasedRuleList.limitKey
   field_type: string
   description: 'Aggregation type: IP, FORWARDED_IP, CUSTOMKEYS, CONSTANT'
   category: RateBased
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList.limitKey
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList.limitKey
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList.limitKey
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist_limitkey
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist_limitkey
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist_limitkey
 - field_name: rateBasedRuleList.limitValue
   field_type: string
   description: Value for single IP rate limiting
   category: RateBased
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList.limitValue
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList.limitValue
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList.limitValue
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist_limitvalue
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist_limitvalue
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist_limitvalue
 - field_name: rateBasedRuleList.maxRateAllowed
   field_type: integer
   description: Max requests allowed in time window
   category: RateBased
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList.maxRateAllowed
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList.maxRateAllowed
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList.maxRateAllowed
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist_maxrateallowed
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist_maxrateallowed
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist_maxrateallowed
 - field_name: rateBasedRuleList.rateBasedRuleId
   field_type: string
   description: ID of rate-based rule
   category: RateBased
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList.rateBasedRuleId
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList.rateBasedRuleId
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList.rateBasedRuleId
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist_ratebasedruleid
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist_ratebasedruleid
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist_ratebasedruleid
 - field_name: rateBasedRuleList.rateBasedRuleName
   field_type: string
   description: Name of rate-based rule
   category: RateBased
-  ecs_field: amazonwebservices.awswaf.rateBasedRuleList.rateBasedRuleName
-  cim_field: amazonwebservices.awswaf.rateBasedRuleList.rateBasedRuleName
-  asim_field: amazonwebservices.awswaf.rateBasedRuleList.rateBasedRuleName
+  ecs_field: amazonwebservices.awswaf.ratebasedrulelist_ratebasedrulename
+  cim_field: amazonwebservices.awswaf.ratebasedrulelist_ratebasedrulename
+  asim_field: amazonwebservices.awswaf.ratebasedrulelist_ratebasedrulename
 - field_name: requestHeadersInserted
   field_type: array
   description: Headers inserted for custom request handling
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.requestHeadersInserted
-  cim_field: amazonwebservices.awswaf.requestHeadersInserted
-  asim_field: amazonwebservices.awswaf.requestHeadersInserted
+  ecs_field: amazonwebservices.awswaf.requestheadersinserted
+  cim_field: amazonwebservices.awswaf.requestheadersinserted
+  asim_field: amazonwebservices.awswaf.requestheadersinserted
 - field_name: requestId
   field_type: string
   description: Request ID from underlying host service
@@ -338,23 +338,23 @@ fields:
   field_type: string
   description: ID of the rule group
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.ruleGroupId
-  cim_field: amazonwebservices.awswaf.ruleGroupId
-  asim_field: amazonwebservices.awswaf.ruleGroupId
+  ecs_field: amazonwebservices.awswaf.rulegroupid
+  cim_field: amazonwebservices.awswaf.rulegroupid
+  asim_field: amazonwebservices.awswaf.rulegroupid
 - field_name: ruleGroupList
   field_type: array
   description: List of rule groups that acted on the request
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.ruleGroupList
-  cim_field: amazonwebservices.awswaf.ruleGroupList
-  asim_field: amazonwebservices.awswaf.ruleGroupList
+  ecs_field: amazonwebservices.awswaf.rulegrouplist
+  cim_field: amazonwebservices.awswaf.rulegrouplist
+  asim_field: amazonwebservices.awswaf.rulegrouplist
 - field_name: terminatingRule
   field_type: object
   description: The rule that terminated the request
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.terminatingRule
-  cim_field: amazonwebservices.awswaf.terminatingRule
-  asim_field: amazonwebservices.awswaf.terminatingRule
+  ecs_field: amazonwebservices.awswaf.terminatingrule
+  cim_field: amazonwebservices.awswaf.terminatingrule
+  asim_field: amazonwebservices.awswaf.terminatingrule
 - field_name: terminatingRule.action
   field_type: string
   description: 'Action: allow, block, CAPTCHA, or challenge'
@@ -366,16 +366,16 @@ fields:
   field_type: string
   description: ID of matching rule
   category: TerminatingRule
-  ecs_field: amazonwebservices.awswaf.terminatingRule.ruleId
-  cim_field: amazonwebservices.awswaf.terminatingRule.ruleId
-  asim_field: amazonwebservices.awswaf.terminatingRule.ruleId
+  ecs_field: amazonwebservices.awswaf.terminatingrule_ruleid
+  cim_field: amazonwebservices.awswaf.terminatingrule_ruleid
+  asim_field: amazonwebservices.awswaf.terminatingrule_ruleid
 - field_name: terminatingRule.ruleMatchDetails
   field_type: array
   description: Match details for SQLi/XSS
   category: TerminatingRule
-  ecs_field: amazonwebservices.awswaf.terminatingRule.ruleMatchDetails
-  cim_field: amazonwebservices.awswaf.terminatingRule.ruleMatchDetails
-  asim_field: amazonwebservices.awswaf.terminatingRule.ruleMatchDetails
+  ecs_field: amazonwebservices.awswaf.terminatingrule_rulematchdetails
+  cim_field: amazonwebservices.awswaf.terminatingrule_rulematchdetails
+  asim_field: amazonwebservices.awswaf.terminatingrule_rulematchdetails
 - field_name: terminatingRuleId
   field_type: string
   description: ID of terminating rule (Default_Action if none)
@@ -387,16 +387,16 @@ fields:
   field_type: array
   description: Details for SQL injection/XSS matches
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.terminatingRuleMatchDetails
-  cim_field: amazonwebservices.awswaf.terminatingRuleMatchDetails
-  asim_field: amazonwebservices.awswaf.terminatingRuleMatchDetails
+  ecs_field: amazonwebservices.awswaf.terminatingrulematchdetails
+  cim_field: amazonwebservices.awswaf.terminatingrulematchdetails
+  asim_field: amazonwebservices.awswaf.terminatingrulematchdetails
 - field_name: terminatingRuleType
   field_type: string
   description: 'Type: RATE_BASED, REGULAR, GROUP, MANAGED_RULE_GROUP'
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.terminatingRuleType
-  cim_field: amazonwebservices.awswaf.terminatingRuleType
-  asim_field: amazonwebservices.awswaf.terminatingRuleType
+  ecs_field: amazonwebservices.awswaf.terminatingruletype
+  cim_field: amazonwebservices.awswaf.terminatingruletype
+  asim_field: amazonwebservices.awswaf.terminatingruletype
 - field_name: timestamp
   field_type: integer
   description: Timestamp in milliseconds
@@ -415,10 +415,10 @@ fields:
   field_type: string
   description: GUID of the web ACL
   category: TopLevel
-  ecs_field: amazonwebservices.awswaf.webaclId
-  cim_field: amazonwebservices.awswaf.webaclId
-  asim_field: amazonwebservices.awswaf.webaclId
-mapped_field_count: 21
+  ecs_field: amazonwebservices.awswaf.webaclid
+  cim_field: amazonwebservices.awswaf.webaclid
+  asim_field: amazonwebservices.awswaf.webaclid
+mapped_field_count: 57
 notes: AWS WAF logs capture detailed information about web requests inspected by WAF.
   Supports CloudFront, API Gateway, ALB, AppSync, Cognito, App Runner, and Verified
   Access.

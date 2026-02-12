@@ -8,7 +8,7 @@ source_document: Configure Logging in IIS
 source_url: https://learn.microsoft.com/en-us/iis/manage/provisioning-and-managing-iis/configure-logging-in-iis
 extraction_date: '2026-01-02'
 source_file: iis-signatures.json
-generated_at: '2026-02-12T11:03:04.406450'
+generated_at: '2026-02-12T18:54:31.265472'
 categories:
 - Client
 - Server
@@ -20,157 +20,163 @@ fields:
 - field_name: date
   field_type: date
   description: The date on which the request occurred
+  category: Timing
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Timing
 - field_name: time
   field_type: time
   description: The time in Coordinated Universal Time (UTC) at which the request occurred
+  category: Timing
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: Timing
 - field_name: time-taken
   field_type: integer
   description: The length of time that the action took in milliseconds
-  ecs_field: event.action
-  cim_field: time-taken
-  asim_field: time-taken
   category: Timing
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: c-ip
   field_type: ip
   description: The IP address of the client that made the request
+  category: Client
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Client
 - field_name: cs-username
   field_type: string
   description: The name of the authenticated user who accessed your server (hyphen
     for anonymous)
+  category: Client
   ecs_field: microsoft.iisw3caccesslogs.cs_username
   cim_field: microsoft.iisw3caccesslogs.cs_username
   asim_field: microsoft.iisw3caccesslogs.cs_username
-  category: Client
 - field_name: cs(User-Agent)
   field_type: string
   description: The browser type that the client used
+  category: Client
   ecs_field: microsoft.iisw3caccesslogs.cs_user_agent_
   cim_field: microsoft.iisw3caccesslogs.cs_user_agent_
   asim_field: microsoft.iisw3caccesslogs.cs_user_agent_
-  category: Client
 - field_name: cs(Cookie)
   field_type: string
   description: The content of the cookie sent or received, if any
+  category: Client
   ecs_field: microsoft.iisw3caccesslogs.cs_cookie_
   cim_field: microsoft.iisw3caccesslogs.cs_cookie_
   asim_field: microsoft.iisw3caccesslogs.cs_cookie_
-  category: Client
 - field_name: cs(Referer)
   field_type: string
   description: The site that the user last visited (provided a link to current site)
-  ecs_field: user.id
-  cim_field: cs(Referer)
-  asim_field: cs(Referer)
   category: Client
+  ecs_field: user.id
+  cim_field: ''
+  asim_field: ''
 - field_name: s-sitename
   field_type: string
   description: The site instance number that fulfilled the request
+  category: Server
   ecs_field: microsoft.iisw3caccesslogs.s_sitename
   cim_field: microsoft.iisw3caccesslogs.s_sitename
   asim_field: microsoft.iisw3caccesslogs.s_sitename
-  category: Server
 - field_name: s-computername
   field_type: string
   description: The name of the server on which the log file entry was generated
+  category: Server
   ecs_field: microsoft.iisw3caccesslogs.s_computername
   cim_field: microsoft.iisw3caccesslogs.s_computername
   asim_field: microsoft.iisw3caccesslogs.s_computername
-  category: Server
 - field_name: s-ip
   field_type: ip
   description: The IP address of the server on which the log file entry was generated
+  category: Server
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Server
 - field_name: s-port
   field_type: integer
   description: The server port number that is configured for the service
-  ecs_field: destination.port
-  cim_field: s-port
-  asim_field: s-port
   category: Server
+  ecs_field: destination.port
+  cim_field: ''
+  asim_field: ''
 - field_name: cs-method
   field_type: string
   description: The requested action (GET, POST, etc.)
-  ecs_field: event.action
-  cim_field: cs-method
-  asim_field: cs-method
   category: Request
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: cs-uri-stem
   field_type: string
   description: The Universal Resource Identifier, or target, of the action
-  ecs_field: event.action
-  cim_field: cs-uri-stem
-  asim_field: cs-uri-stem
   category: Request
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
 - field_name: cs-uri-query
   field_type: string
   description: The query, if any, that the client was trying to perform
+  category: Request
   ecs_field: microsoft.iisw3caccesslogs.cs_uri_query
   cim_field: microsoft.iisw3caccesslogs.cs_uri_query
   asim_field: microsoft.iisw3caccesslogs.cs_uri_query
-  category: Request
 - field_name: cs-version
   field_type: string
   description: The protocol version that the client used
-  ecs_field: network.transport
-  cim_field: cs-version
-  asim_field: cs-version
   category: Request
+  ecs_field: network.transport
+  cim_field: ''
+  asim_field: ''
 - field_name: cs-host
   field_type: string
   description: The host name, if any
+  category: Request
   ecs_field: microsoft.iisw3caccesslogs.cs_host
   cim_field: microsoft.iisw3caccesslogs.cs_host
   asim_field: microsoft.iisw3caccesslogs.cs_host
-  category: Request
 - field_name: cs-bytes
   field_type: integer
   description: The number of bytes that the server received
-  ecs_field: destination.bytes
-  cim_field: cs-bytes
-  asim_field: cs-bytes
   category: Request
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
 - field_name: sc-status
   field_type: integer
   description: The HTTP or FTP status code
-  ecs_field: http.response.status_code
-  cim_field: sc-status
-  asim_field: sc-status
   category: Response
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: sc-substatus
   field_type: integer
   description: The HTTP or FTP substatus code
-  ecs_field: http.response.status_code
-  cim_field: sc-substatus
-  asim_field: sc-substatus
   category: Response
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: sc-win32-status
   field_type: integer
   description: The Windows status code
-  ecs_field: http.response.status_code
-  cim_field: sc-win32-status
-  asim_field: sc-win32-status
   category: Response
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: sc-bytes
   field_type: integer
   description: The number of bytes that the server sent
-  ecs_field: source.bytes
-  cim_field: sc-bytes
-  asim_field: sc-bytes
   category: Response
+  ecs_field: source.bytes
+  cim_field: ''
+  asim_field: ''
+mapped_field_count: 22
 notes: W3C Extended Log Format fields for IIS. All fields are optional and individually
   selectable. Time is recorded in UTC.
+log_format_notes:
+- W3C format is customizable - select which fields to log via IIS Manager
+- UTC timestamps - Time is recorded in Coordinated Universal Time (UTC)
+- Field separator is space
+- All fields are optional and can be individually selected

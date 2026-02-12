@@ -7,7 +7,7 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-01-02'
 source_file: zscaler-zia-signatures.json
-generated_at: '2026-02-12T11:03:06.786240'
+generated_at: '2026-02-12T18:54:31.946226'
 categories:
 - HTTP
 - Activity
@@ -51,2068 +51,2364 @@ fields:
 - field_name: action
   field_type: string
   description: Action taken (Allowed, Blocked)
+  category: HTTP
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
-  category: HTTP
+  format: '%s{action}'
 - field_name: activity_result
   field_type: string
   description: Activity result (Success, Failure)
-  ecs_field: event.outcome
-  cim_field: activity_result
-  asim_field: activity_result
   category: Activity
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
+  format: '%s{activity_result}'
 - field_name: activity_type
   field_type: string
   description: Activity type (Login, Download, Upload, Share)
-  ecs_field: source.bytes
-  cim_field: activity_type
-  asim_field: activity_type
   category: Activity
+  ecs_field: source.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%s{activity_type}'
 - field_name: activitytype
   field_type: string
   description: Activity type (Print, Copy, etc.)
+  category: File
   ecs_field: zscaler.zscalerinternetaccesszia.activitytype
   cim_field: zscaler.zscalerinternetaccesszia.activitytype
   asim_field: zscaler.zscalerinternetaccesszia.activitytype
-  category: File
+  format: '%s{activitytype}'
 - field_name: adminid
   field_type: string
   description: Administrator ID/email
+  category: Audit
   ecs_field: user.name
   cim_field: admin_user
   asim_field: ActorUsername
-  category: Audit
+  format: '%s{adminid}'
 - field_name: aggregate
   field_type: string
   description: Aggregate session info
+  category: IPS
   ecs_field: zscaler.zscalerinternetaccesszia.aggregate
   cim_field: zscaler.zscalerinternetaccesszia.aggregate
   asim_field: zscaler.zscalerinternetaccesszia.aggregate
-  category: IPS
+  format: '%s{aggregate}'
 - field_name: ai_app
   field_type: string
   description: GenAI application name
-  ecs_field: process.name
-  cim_field: ai_app
-  asim_field: ai_app
   category: GenAI
+  ecs_field: process.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{ai_app}'
 - field_name: algo
   field_type: string
   description: Encryption algorithm
-  ecs_field: tls.cipher
-  cim_field: algo
-  asim_field: algo
   category: IKE
+  ecs_field: tls.cipher
+  cim_field: ''
+  asim_field: ''
+  format: '%s{algo}'
 - field_name: alpnprotocol
   field_type: string
   description: ALPN SSL/TLS protocol
-  ecs_field: network.transport
-  cim_field: alpnprotocol
-  asim_field: alpnprotocol
   category: Forwarding
+  ecs_field: network.transport
+  cim_field: ''
+  asim_field: ''
+  format: '%s{alpnprotocol}'
 - field_name: appcategory
   field_type: string
   description: Cloud Application Category
-  ecs_field: event.category
-  cim_field: appcategory
-  asim_field: appcategory
   category: CloudApp
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{appcategory}'
 - field_name: appclass
   field_type: string
   description: Cloud Application Class (Consumer, IT/ISP, etc.)
+  category: CloudApp
   ecs_field: zscaler.zscalerinternetaccesszia.appclass
   cim_field: zscaler.zscalerinternetaccesszia.appclass
   asim_field: zscaler.zscalerinternetaccesszia.appclass
-  category: CloudApp
+  format: '%s{appclass}'
 - field_name: appname
   field_type: string
   description: Cloud Application Name
-  ecs_field: network.application
-  cim_field: appname
-  asim_field: appname
   category: CloudApp
+  ecs_field: network.application
+  cim_field: ''
+  asim_field: ''
+  format: '%s{appname}'
 - field_name: appriskscore
   field_type: integer
   description: Cloud Application Risk Score (0-10)
+  category: CloudApp
   ecs_field: event.risk_score
   cim_field: app_risk
   asim_field: ThreatRiskLevel
-  category: CloudApp
+  format: '%d{appriskscore}'
 - field_name: apprulelabel
   field_type: string
   description: Cloud App Control policy rule label
+  category: CloudApp
   ecs_field: zscaler.zscalerinternetaccesszia.apprulelabel
   cim_field: zscaler.zscalerinternetaccesszia.apprulelabel
   asim_field: zscaler.zscalerinternetaccesszia.apprulelabel
-  category: CloudApp
+  format: '%s{apprulelabel}'
 - field_name: attachment_count
   field_type: integer
   description: Number of attachments
+  category: Email
   ecs_field: email.attachments.count
   cim_field: attachment_count
   asim_field: EmailAttachmentCount
-  category: Email
+  format: '%d{attachment_count}'
 - field_name: attachmentcount
   field_type: integer
   description: Number of attachments
+  category: Email
   ecs_field: email.attachments.count
   cim_field: attachment_count
   asim_field: EmailAttachmentCount
-  category: Email
+  format: '%d{attachmentcount}'
 - field_name: attachmentname
   field_type: string
   description: Attachment file name
-  ecs_field: email.attachments.file.name
-  cim_field: attachmentname
-  asim_field: attachmentname
   category: Email
+  ecs_field: email.attachments.file.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{attachmentname}'
 - field_name: attachmentsize
   field_type: integer
   description: Attachment size
+  category: Email
   ecs_field: email.attachments.file.size
   cim_field: file_size
   asim_field: EmailAttachmentSize
-  category: Email
+  format: '%d{attachmentsize}'
 - field_name: auditlogtype
   field_type: string
   description: Audit log type
-  ecs_field: event.category
-  cim_field: auditlogtype
-  asim_field: auditlogtype
   category: Audit
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{auditlogtype}'
 - field_name: authentication
   field_type: string
   description: Authentication method
+  category: IKE
   ecs_field: event.type
   cim_field: auth_method
   asim_field: LogonType
-  category: IKE
+  format: '%s{authentication}'
 - field_name: authtype
   field_type: string
   description: Authentication type (PSK, Certificate)
+  category: IKE
   ecs_field: event.type
   cim_field: auth_type
   asim_field: LogonType
-  category: IKE
+  format: '%s{authtype}'
 - field_name: avgduration
   field_type: integer
   description: Average session duration (ms)
-  ecs_field: event.duration
-  cim_field: avgduration
-  asim_field: avgduration
   category: Session
+  ecs_field: event.duration
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{avgduration}'
 - field_name: b64referer
   field_type: string
   description: Referer (base64 encoded)
+  category: URL
   ecs_field: zscaler.zscalerinternetaccesszia.b64referer
   cim_field: zscaler.zscalerinternetaccesszia.b64referer
   asim_field: zscaler.zscalerinternetaccesszia.b64referer
-  category: URL
+  format: '%s{b64referer}'
 - field_name: baession
   field_type: string
   description: Browser isolation session
+  category: HTTP
   ecs_field: zscaler.zscalerinternetaccesszia.baession
   cim_field: zscaler.zscalerinternetaccesszia.baession
   asim_field: zscaler.zscalerinternetaccesszia.baession
-  category: HTTP
+  format: '%s{baession}'
 - field_name: branch
   field_type: string
   description: Branch name
+  category: Repository
   ecs_field: zscaler.zscalerinternetaccesszia.branch
   cim_field: zscaler.zscalerinternetaccesszia.branch
   asim_field: zscaler.zscalerinternetaccesszia.branch
-  category: Repository
+  format: '%s{branch}'
 - field_name: browser
   field_type: string
   description: Browser used
+  category: Activity
   ecs_field: user_agent.name
   cim_field: browser
   asim_field: HttpUserAgentName
-  category: Activity
+  format: '%s{browser}'
 - field_name: bwthrottle
   field_type: string
   description: Bandwidth throttle status (Yes/No)
-  ecs_field: event.outcome
-  cim_field: bwthrottle
-  asim_field: bwthrottle
   category: Bandwidth
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
+  format: '%s{bwthrottle}'
 - field_name: category
   field_type: string
   description: Category (Policies, Administration, etc.)
+  category: Audit
   ecs_field: event.category
   cim_field: category
   asim_field: EventCategory
-  category: Audit
+  format: '%s{category}'
 - field_name: cdip
   field_type: ip
   description: Client destination IP
-  ecs_field: source.ip
-  cim_field: cdip
-  asim_field: cdip
   category: Client
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{cdip}'
 - field_name: cdport
   field_type: port
   description: Client destination port
-  ecs_field: source.port
-  cim_field: cdport
-  asim_field: cdport
   category: Network
+  ecs_field: source.port
+  cim_field: ''
+  asim_field: ''
+  format: '%d{cdport}'
 - field_name: cintip
   field_type: ip
   description: Client internal IP
-  ecs_field: source.ip
-  cim_field: cintip
-  asim_field: cintip
   category: Network
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{cintip}'
 - field_name: cip
   field_type: ip
   description: Client IP address (alternative)
-  ecs_field: source.ip
-  cim_field: cip
-  asim_field: cip
   category: Network
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{cip}'
 - field_name: clientip
   field_type: ip
   description: Client IP address
-  ecs_field: source.ip
-  cim_field: clientip
-  asim_field: clientip
   category: Network
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{clientip}'
 - field_name: clientpublicIP
   field_type: ip
   description: Client public IP
-  ecs_field: source.ip
-  cim_field: clientpublicIP
-  asim_field: clientpublicIP
   category: Network
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{clientpublicIP}'
 - field_name: clientpublicip
   field_type: ip
   description: Client public IP
-  ecs_field: source.ip
-  cim_field: clientpublicip
-  asim_field: clientpublicip
   category: Client
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{clientpublicip}'
 - field_name: cloud_app
   field_type: string
   description: Cloud application name
-  ecs_field: process.name
-  cim_field: cloud_app
-  asim_field: cloud_app
   category: Common
+  ecs_field: process.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{cloud_app}'
 - field_name: cloudname
   field_type: string
   description: Cloud name
+  category: DateTime
   ecs_field: cloud.provider
   cim_field: cloud_name
   asim_field: CloudProvider
-  category: DateTime
+  format: '%s{cloudname}'
 - field_name: clt_inbytes
   field_type: integer
   description: Client inbound bytes
-  ecs_field: destination.bytes
-  cim_field: clt_inbytes
-  asim_field: clt_inbytes
   category: Client
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{clt_inbytes}'
 - field_name: clt_outbytes
   field_type: integer
   description: Client outbound bytes
-  ecs_field: source.bytes
-  cim_field: clt_outbytes
-  asim_field: clt_outbytes
   category: Client
+  ecs_field: source.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{clt_outbytes}'
 - field_name: cltsslfailreason
   field_type: string
   description: Client SSL failure reason
-  ecs_field: event.reason
-  cim_field: cltsslfailreason
-  asim_field: cltsslfailreason
   category: Network
+  ecs_field: event.reason
+  cim_field: ''
+  asim_field: ''
+  format: '%s{cltsslfailreason}'
 - field_name: collaboration_type
   field_type: string
   description: Collaboration type (View, Edit, Comment)
+  category: Collaboration
   ecs_field: zscaler.zscalerinternetaccesszia.collaboration_type
   cim_field: zscaler.zscalerinternetaccesszia.collaboration_type
   asim_field: zscaler.zscalerinternetaccesszia.collaboration_type
-  category: Collaboration
+  format: '%s{collaboration_type}'
 - field_name: collaborator
   field_type: string
   description: Collaborator email/name
+  category: Collaboration
   ecs_field: zscaler.zscalerinternetaccesszia.collaborator
   cim_field: zscaler.zscalerinternetaccesszia.collaborator
   asim_field: zscaler.zscalerinternetaccesszia.collaborator
-  category: Collaboration
+  format: '%s{collaborator}'
 - field_name: commit_id
   field_type: string
   description: Commit identifier
+  category: Repository
   ecs_field: zscaler.zscalerinternetaccesszia.commit_id
   cim_field: zscaler.zscalerinternetaccesszia.commit_id
   asim_field: zscaler.zscalerinternetaccesszia.commit_id
-  category: Repository
+  format: '%s{commit_id}'
 - field_name: commit_message
   field_type: string
   description: Commit message
+  category: Repository
   ecs_field: zscaler.zscalerinternetaccesszia.commit_message
   cim_field: zscaler.zscalerinternetaccesszia.commit_message
   asim_field: zscaler.zscalerinternetaccesszia.commit_message
-  category: Repository
+  format: '%s{commit_message}'
 - field_name: company
   field_type: string
   description: Company name
+  category: Common
   ecs_field: zscaler.zscalerinternetaccesszia.company
   cim_field: zscaler.zscalerinternetaccesszia.company
   asim_field: zscaler.zscalerinternetaccesszia.company
-  category: Common
+  format: '%s{company}'
 - field_name: confirmaction
   field_type: string
   description: Confirmation action
-  ecs_field: event.action
-  cim_field: confirmaction
-  asim_field: confirmaction
   category: File
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
+  format: '%s{confirmaction}'
 - field_name: confirmjustification
   field_type: string
   description: Justification for action
-  ecs_field: event.action
-  cim_field: confirmjustification
-  asim_field: confirmjustification
   category: File
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
+  format: '%s{confirmjustification}'
 - field_name: contenttype
   field_type: string
   description: Content Type of response
+  category: Bandwidth
   ecs_field: http.response.mime_type
   cim_field: content_type
   asim_field: HttpContentType
-  category: Bandwidth
+  format: '%s{contenttype}'
 - field_name: cpubip
   field_type: ip
   description: Client public IP (obfuscated)
-  ecs_field: source.ip
-  cim_field: cpubip
-  asim_field: cpubip
   category: Network
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{cpubip}'
 - field_name: csip
   field_type: ip
   description: Client source IP
-  ecs_field: source.ip
-  cim_field: csip
-  asim_field: csip
   category: Client
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{csip}'
 - field_name: csport
   field_type: port
   description: Client source port
-  ecs_field: source.port
-  cim_field: csport
-  asim_field: csport
   category: Network
+  ecs_field: source.port
+  cim_field: ''
+  asim_field: ''
+  format: '%d{csport}'
 - field_name: data_exposure_risk
   field_type: string
   description: Data exposure risk level
-  ecs_field: event.severity
-  cim_field: data_exposure_risk
-  asim_field: data_exposure_risk
   category: GenAI
+  ecs_field: event.severity
+  cim_field: ''
+  asim_field: ''
+  format: '%s{data_exposure_risk}'
 - field_name: datacenter
   field_type: string
   description: Data Center Name
+  category: DataCenter
   ecs_field: zscaler.zscalerinternetaccesszia.datacenter
   cim_field: zscaler.zscalerinternetaccesszia.datacenter
   asim_field: zscaler.zscalerinternetaccesszia.datacenter
-  category: DataCenter
+  format: '%s{datacenter}'
 - field_name: datacentercity
   field_type: string
   description: Data Center city
+  category: DataCenter
   ecs_field: zscaler.zscalerinternetaccesszia.datacentercity
   cim_field: zscaler.zscalerinternetaccesszia.datacentercity
   asim_field: zscaler.zscalerinternetaccesszia.datacentercity
-  category: DataCenter
+  format: '%s{datacentercity}'
 - field_name: datacentercountry
   field_type: string
   description: Data Center country
-  ecs_field: source.geo.country_name
-  cim_field: datacentercountry
-  asim_field: datacentercountry
   category: DataCenter
+  ecs_field: source.geo.country_name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{datacentercountry}'
 - field_name: datetime
   field_type: datetime
   description: Timestamp in HTTP format
-  ecs_field: '@timestamp'
-  cim_field: datetime
-  asim_field: datetime
   category: DateTime
+  ecs_field: '@timestamp'
+  cim_field: ''
+  asim_field: ''
+  format: '%s{datetime}'
 - field_name: day
   field_type: integer
   description: Day of month
+  category: DateTime
   ecs_field: zscaler.zscalerinternetaccesszia.day
   cim_field: zscaler.zscalerinternetaccesszia.day
   asim_field: zscaler.zscalerinternetaccesszia.day
-  category: DateTime
+  format: '%02d{day}'
 - field_name: department
   field_type: string
   description: Department name (obfuscated if enabled)
+  category: User
   ecs_field: user.group.name
   cim_field: department
   asim_field: TargetUserGroup
-  category: User
+  format: '%s{department}'
 - field_name: device_type
   field_type: string
   description: Device type
-  ecs_field: observer.type
-  cim_field: device_type
-  asim_field: device_type
   category: Activity
+  ecs_field: observer.type
+  cim_field: ''
+  asim_field: ''
+  format: '%s{device_type}'
 - field_name: deviceappversion
   field_type: string
   description: Device application version
+  category: IPS
   ecs_field: zscaler.zscalerinternetaccesszia.deviceappversion
   cim_field: zscaler.zscalerinternetaccesszia.deviceappversion
   asim_field: zscaler.zscalerinternetaccesszia.deviceappversion
-  category: IPS
+  format: '%s{deviceappversion}'
 - field_name: devicehostname
   field_type: string
   description: Device hostname
-  ecs_field: observer.hostname
-  cim_field: devicehostname
-  asim_field: devicehostname
   category: Device
+  ecs_field: observer.hostname
+  cim_field: ''
+  asim_field: ''
+  format: '%s{devicehostname}'
 - field_name: devicemodel
   field_type: string
   description: Device model
+  category: Device
   ecs_field: observer.type
   cim_field: device_model
   asim_field: DvcType
-  category: Device
+  format: '%s{devicemodel}'
 - field_name: devicename
   field_type: string
   description: Device name
-  ecs_field: observer.hostname
-  cim_field: devicename
-  asim_field: devicename
   category: Device
+  ecs_field: observer.hostname
+  cim_field: ''
+  asim_field: ''
+  format: '%s{devicename}'
 - field_name: deviceostype
   field_type: string
   description: Device OS type
+  category: Device
   ecs_field: host.os.type
   cim_field: os_type
   asim_field: DvcOs
-  category: Device
+  format: '%s{deviceostype}'
 - field_name: deviceosversion
   field_type: string
   description: Device OS version
+  category: Device
   ecs_field: host.os.version
   cim_field: os_version
   asim_field: DvcOsVersion
-  category: Device
+  format: '%s{deviceosversion}'
 - field_name: deviceowner
   field_type: string
   description: Device owner
+  category: Device
   ecs_field: user.name
   cim_field: device_owner
   asim_field: TargetUsername
-  category: Device
+  format: '%s{deviceowner}'
 - field_name: devicetype
   field_type: string
   description: Device type
-  ecs_field: observer.type
-  cim_field: devicetype
-  asim_field: devicetype
   category: Device
+  ecs_field: observer.type
+  cim_field: ''
+  asim_field: ''
+  format: '%s{devicetype}'
 - field_name: dhgroup
   field_type: string
   description: Diffie-Hellman group
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.dhgroup
   cim_field: zscaler.zscalerinternetaccesszia.dhgroup
   asim_field: zscaler.zscalerinternetaccesszia.dhgroup
-  category: IKE
+  format: '%s{dhgroup}'
 - field_name: dlp_dictionary
   field_type: string
   description: DLP dictionary matched
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.dlp_dictionary
   cim_field: zscaler.zscalerinternetaccesszia.dlp_dictionary
   asim_field: zscaler.zscalerinternetaccesszia.dlp_dictionary
-  category: DLP
+  format: '%s{dlp_dictionary}'
 - field_name: dlp_engine
   field_type: string
   description: DLP engine name
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.dlp_engine
   cim_field: zscaler.zscalerinternetaccesszia.dlp_engine
   asim_field: zscaler.zscalerinternetaccesszia.dlp_engine
-  category: DLP
+  format: '%s{dlp_engine}'
 - field_name: dlp_identifier
   field_type: string
   description: DLP rule identifier
-  ecs_field: rule.id
-  cim_field: dlp_identifier
-  asim_field: dlp_identifier
   category: DLP
+  ecs_field: rule.id
+  cim_field: ''
+  asim_field: ''
+  format: '%s{dlp_identifier}'
 - field_name: dlpdictcount
   field_type: string
   description: DLP dictionary match count (pipe delimited)
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.dlpdictcount
   cim_field: zscaler.zscalerinternetaccesszia.dlpdictcount
   asim_field: zscaler.zscalerinternetaccesszia.dlpdictcount
-  category: DLP
+  format: '%s{dlpdictcount}'
 - field_name: dlpdictnames
   field_type: string
   description: DLP dictionary names (pipe delimited)
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.dlpdictnames
   cim_field: zscaler.zscalerinternetaccesszia.dlpdictnames
   asim_field: zscaler.zscalerinternetaccesszia.dlpdictnames
-  category: DLP
+  format: '%s{dlpdictnames}'
 - field_name: dlpenginenames
   field_type: string
   description: DLP engine names (pipe delimited)
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.dlpenginenames
   cim_field: zscaler.zscalerinternetaccesszia.dlpenginenames
   asim_field: zscaler.zscalerinternetaccesszia.dlpenginenames
-  category: DLP
+  format: '%s{dlpenginenames}'
 - field_name: dlpidentifier
   field_type: string
   description: Unique transaction ID for DLP
-  ecs_field: event.action
-  cim_field: dlpidentifier
-  asim_field: dlpidentifier
   category: DLP
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
+  format: '%llu{dlpidentifier}'
 - field_name: dlpmd5
   field_type: string
   description: MD5 hash (hex-encoded, 32 chars)
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.dlpmd5
   cim_field: zscaler.zscalerinternetaccesszia.dlpmd5
   asim_field: zscaler.zscalerinternetaccesszia.dlpmd5
-  category: DLP
+  format: '%s{dlpmd5}'
 - field_name: dlprulename
   field_type: string
   description: DLP policy rule name triggered
-  ecs_field: rule.name
-  cim_field: dlprulename
-  asim_field: dlprulename
   category: DLP
+  ecs_field: rule.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{dlprulename}'
 - field_name: dns_gateway_rule
   field_type: string
   description: DNS gateway rule matched
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.dns_gateway_rule
   cim_field: zscaler.zscalerinternetaccesszia.dns_gateway_rule
   asim_field: zscaler.zscalerinternetaccesszia.dns_gateway_rule
-  category: Transaction
+  format: '%s{dns_gateway_rule}'
 - field_name: dns_gateway_server
   field_type: string
   description: DNS gateway server
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.dns_gateway_server
   cim_field: zscaler.zscalerinternetaccesszia.dns_gateway_server
   asim_field: zscaler.zscalerinternetaccesszia.dns_gateway_server
-  category: Transaction
+  format: '%s{dns_gateway_server}'
 - field_name: dns_gateway_status
   field_type: string
   description: DNS gateway status
-  ecs_field: event.outcome
-  cim_field: dns_gateway_status
-  asim_field: dns_gateway_status
   category: Transaction
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
+  format: '%s{dns_gateway_status}'
 - field_name: dns_req
   field_type: string
   description: DNS request domain
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.dns_req
   cim_field: zscaler.zscalerinternetaccesszia.dns_req
   asim_field: zscaler.zscalerinternetaccesszia.dns_req
-  category: Transaction
+  format: '%s{dns_req}'
 - field_name: dns_reqtype
   field_type: string
   description: DNS request type (A, AAAA, CNAME, etc.)
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.dns_reqtype
   cim_field: zscaler.zscalerinternetaccesszia.dns_reqtype
   asim_field: zscaler.zscalerinternetaccesszia.dns_reqtype
-  category: Transaction
+  format: '%s{dns_reqtype}'
 - field_name: dns_resp
   field_type: string
   description: DNS response IP/data
+  category: Transaction
   ecs_field: event.duration
   cim_field: dns_response_time
   asim_field: EventDuration
-  category: Transaction
+  format: '%s{dns_resp}'
 - field_name: dns_resptype
   field_type: string
   description: DNS response type
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.dns_resptype
   cim_field: zscaler.zscalerinternetaccesszia.dns_resptype
   asim_field: zscaler.zscalerinternetaccesszia.dns_resptype
-  category: Transaction
+  format: '%s{dns_resptype}'
 - field_name: dnscat
   field_type: string
   description: DNS category
-  ecs_field: event.category
-  cim_field: dnscat
-  asim_field: dnscat
   category: Transaction
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{dnscat}'
 - field_name: dnsrulelabel
   field_type: string
   description: DNS rule label
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.dnsrulelabel
   cim_field: zscaler.zscalerinternetaccesszia.dnsrulelabel
   asim_field: zscaler.zscalerinternetaccesszia.dnsrulelabel
-  category: Transaction
+  format: '%s{dnsrulelabel}'
 - field_name: dohused
   field_type: string
   description: DNS over HTTPS used (Yes/No)
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.dohused
   cim_field: zscaler.zscalerinternetaccesszia.dohused
   asim_field: zscaler.zscalerinternetaccesszia.dohused
-  category: Transaction
+  format: '%s{dohused}'
 - field_name: dpdreason
   field_type: string
   description: Dead Peer Detection reason
-  ecs_field: event.reason
-  cim_field: dpdreason
-  asim_field: dpdreason
   category: Event
+  ecs_field: event.reason
+  cim_field: ''
+  asim_field: ''
+  format: '%s{dpdreason}'
 - field_name: dpdrxtime
   field_type: datetime
   description: DPD receive time
+  category: Sample
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
-  category: Sample
+  format: '%s{dpdrxtime}'
 - field_name: dpdtxtime
   field_type: datetime
   description: DPD transmit time
+  category: Sample
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
-  category: Sample
+  format: '%s{dpdtxtime}'
 - field_name: dstip
   field_type: ip
   description: Destination IP
+  category: IKE
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
-  category: IKE
+  format: '%s{dstip}'
 - field_name: dstport
   field_type: port
   description: Destination port
+  category: IKE
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
-  category: IKE
+  format: '%d{dstport}'
 - field_name: dstsubnet
   field_type: string
   description: Destination subnet
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.dstsubnet
   cim_field: zscaler.zscalerinternetaccesszia.dstsubnet
   asim_field: zscaler.zscalerinternetaccesszia.dstsubnet
-  category: IKE
+  format: '%s{dstsubnet}'
 - field_name: dsttype
   field_type: string
   description: Destination type
+  category: File
   ecs_field: zscaler.zscalerinternetaccesszia.dsttype
   cim_field: zscaler.zscalerinternetaccesszia.dsttype
   asim_field: zscaler.zscalerinternetaccesszia.dsttype
-  category: File
+  format: '%s{dsttype}'
 - field_name: durationms
   field_type: integer
   description: Session duration in milliseconds
-  ecs_field: event.duration
-  cim_field: durationms
-  asim_field: durationms
   category: Session
+  ecs_field: event.duration
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{durationms}'
 - field_name: edns_req
   field_type: string
   description: DNS request (hex-encoded)
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.edns_req
   cim_field: zscaler.zscalerinternetaccesszia.edns_req
   asim_field: zscaler.zscalerinternetaccesszia.edns_req
-  category: Transaction
+  format: '%s{edns_req}'
 - field_name: edns_resp
   field_type: string
   description: DNS response (hex-encoded)
-  ecs_field: http.response.status_code
-  cim_field: edns_resp
-  asim_field: edns_resp
   category: Transaction
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
+  format: '%s{edns_resp}'
 - field_name: eedone
   field_type: string
   description: Cloud Edge name (obfuscated)
+  category: DataCenter
   ecs_field: zscaler.zscalerinternetaccesszia.eedone
   cim_field: zscaler.zscalerinternetaccesszia.eedone
   asim_field: zscaler.zscalerinternetaccesszia.eedone
-  category: DataCenter
+  format: '%s{eedone}'
 - field_name: ehostname
   field_type: string
   description: Hostname (hex-encoded)
-  ecs_field: observer.hostname
-  cim_field: ehostname
-  asim_field: ehostname
   category: URL
+  ecs_field: observer.hostname
+  cim_field: ''
+  asim_field: ''
+  format: '%s{ehostname}'
 - field_name: eip
   field_type: ip
   description: External IP (obfuscated)
+  category: Network
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Network
+  format: '%s{eip}'
 - field_name: email_bcc
   field_type: email
   description: Email BCC recipients
-  ecs_field: email.to.address
-  cim_field: email_bcc
-  asim_field: email_bcc
   category: Email
+  ecs_field: email.to.address
+  cim_field: ''
+  asim_field: ''
+  format: '%s{email_bcc}'
 - field_name: email_cc
   field_type: email
   description: Email CC recipients
-  ecs_field: email.to.address
-  cim_field: email_cc
-  asim_field: email_cc
   category: Email
+  ecs_field: email.to.address
+  cim_field: ''
+  asim_field: ''
+  format: '%s{email_cc}'
 - field_name: email_direction
   field_type: string
   description: Email direction (Inbound, Outbound, Internal)
-  ecs_field: network.direction
-  cim_field: email_direction
-  asim_field: email_direction
   category: Email
+  ecs_field: network.direction
+  cim_field: ''
+  asim_field: ''
+  format: '%s{email_direction}'
 - field_name: email_from
   field_type: email
   description: Email sender
-  ecs_field: email.from.address
-  cim_field: email_from
-  asim_field: email_from
   category: Email
+  ecs_field: email.from.address
+  cim_field: ''
+  asim_field: ''
+  format: '%s{email_from}'
 - field_name: email_message_id
   field_type: string
   description: Email message ID
+  category: Email
   ecs_field: email.message_id
   cim_field: message_id
   asim_field: EmailMessageId
-  category: Email
+  format: '%s{email_message_id}'
 - field_name: email_subject
   field_type: string
   description: Email subject
+  category: Email
   ecs_field: email.subject
   cim_field: email_subject
   asim_field: EmailSubject
-  category: Email
+  format: '%s{email_subject}'
 - field_name: email_to
   field_type: email
   description: Email recipient(s)
-  ecs_field: email.to.address
-  cim_field: email_to
-  asim_field: email_to
   category: Email
+  ecs_field: email.to.address
+  cim_field: ''
+  asim_field: ''
+  format: '%s{email_to}'
 - field_name: encapsulation
   field_type: string
   description: Encapsulation mode (Tunnel, Transport)
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.encapsulation
   cim_field: zscaler.zscalerinternetaccesszia.encapsulation
   asim_field: zscaler.zscalerinternetaccesszia.encapsulation
-  category: IKE
+  format: '%s{encapsulation}'
 - field_name: epochtime
   field_type: integer
   description: UNIX epoch timestamp
+  category: DateTime
   ecs_field: zscaler.zscalerinternetaccesszia.epochtime
   cim_field: zscaler.zscalerinternetaccesszia.epochtime
   asim_field: zscaler.zscalerinternetaccesszia.epochtime
-  category: DateTime
+  format: '%d{epochtime}'
 - field_name: ereferer
   field_type: string
   description: Referer (hex-encoded)
+  category: URL
   ecs_field: zscaler.zscalerinternetaccesszia.ereferer
   cim_field: zscaler.zscalerinternetaccesszia.ereferer
   asim_field: zscaler.zscalerinternetaccesszia.ereferer
-  category: URL
+  format: '%s{ereferer}'
 - field_name: errorcode
   field_type: string
   description: Error code if failed
-  ecs_field: error.code
-  cim_field: errorcode
-  asim_field: errorcode
   category: Audit
+  ecs_field: error.code
+  cim_field: ''
+  asim_field: ''
+  format: '%s{errorcode}'
 - field_name: eurl
   field_type: string
   description: URL (hex-encoded)
-  ecs_field: url.full
-  cim_field: eurl
-  asim_field: eurl
   category: URL
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{eurl}'
 - field_name: eurlcat
   field_type: string
   description: URL category (hex-encoded)
-  ecs_field: url.full
-  cim_field: eurlcat
-  asim_field: eurlcat
   category: URL
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{eurlcat}'
 - field_name: eurlclass
   field_type: string
   description: URL class (hex-encoded)
-  ecs_field: url.full
-  cim_field: eurlclass
-  asim_field: eurlclass
   category: URL
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{eurlclass}'
 - field_name: eurlsupercat
   field_type: string
   description: URL super category (hex-encoded)
-  ecs_field: url.full
-  cim_field: eurlsupercat
-  asim_field: eurlsupercat
   category: URL
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{eurlsupercat}'
 - field_name: event
   field_type: string
   description: Event type (IKE Phase 1)
-  ecs_field: event.category
-  cim_field: event
-  asim_field: event
   category: IKE
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{event}'
 - field_name: eventreason
   field_type: string
   description: Event reason
-  ecs_field: event.reason
-  cim_field: eventreason
-  asim_field: eventreason
   category: IKE
+  ecs_field: event.reason
+  cim_field: ''
+  asim_field: ''
+  format: '%s{eventreason}'
 - field_name: external_user
   field_type: boolean
   description: External user flag
+  category: Collaboration
   ecs_field: zscaler.zscalerinternetaccesszia.external_user
   cim_field: zscaler.zscalerinternetaccesszia.external_user
   asim_field: zscaler.zscalerinternetaccesszia.external_user
-  category: Collaboration
+  format: '%s{external_user}'
 - field_name: externalsslpolicyreason
   field_type: string
   description: External SSL policy reason
-  ecs_field: event.reason
-  cim_field: externalsslpolicyreason
-  asim_field: externalsslpolicyreason
   category: Network
+  ecs_field: event.reason
+  cim_field: ''
+  asim_field: ''
+  format: '%s{externalsslpolicyreason}'
 - field_name: file_category
   field_type: string
   description: File category
-  ecs_field: event.category
-  cim_field: file_category
-  asim_field: file_category
   category: File
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{file_category}'
 - field_name: file_id
   field_type: string
   description: File identifier
+  category: File
   ecs_field: file.inode
   cim_field: file_id
   asim_field: TargetFileId
-  category: File
+  format: '%s{file_id}'
 - field_name: file_md5
   field_type: string
   description: File MD5 hash
+  category: File
   ecs_field: file.hash.md5
   cim_field: file_hash
   asim_field: TargetFileMD5
-  category: File
+  format: '%s{file_md5}'
 - field_name: file_name
   field_type: string
   description: File name
+  category: File
   ecs_field: file.name
   cim_field: file_name
   asim_field: TargetFileName
-  category: File
+  format: '%s{file_name}'
 - field_name: file_owner
   field_type: string
   description: File owner
+  category: File
   ecs_field: file.owner
   cim_field: file_owner
   asim_field: FileOwner
-  category: File
+  format: '%s{file_owner}'
 - field_name: file_sha256
   field_type: string
   description: File SHA256 hash
+  category: File
   ecs_field: file.hash.sha256
   cim_field: file_hash
   asim_field: TargetFileSHA256
-  category: File
+  format: '%s{file_sha256}'
 - field_name: file_sharing
   field_type: string
   description: Sharing status (Public, Private, External)
-  ecs_field: event.outcome
-  cim_field: file_sharing
-  asim_field: file_sharing
   category: File
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
+  format: '%s{file_sharing}'
 - field_name: file_size
   field_type: integer
   description: File size in bytes
+  category: File
   ecs_field: file.size
   cim_field: file_size
   asim_field: TargetFileSize
-  category: File
+  format: '%d{file_size}'
 - field_name: file_source
   field_type: string
   description: File source
+  category: File
   ecs_field: zscaler.zscalerinternetaccesszia.file_source
   cim_field: zscaler.zscalerinternetaccesszia.file_source
   asim_field: zscaler.zscalerinternetaccesszia.file_source
-  category: File
+  format: '%s{file_source}'
 - field_name: file_type
   field_type: string
   description: File type
+  category: File
   ecs_field: file.type
   cim_field: file_type
   asim_field: TargetFileType
-  category: File
+  format: '%s{file_type}'
 - field_name: fileclass
   field_type: string
   description: Downloaded file class (e.g., Archive/Video)
-  ecs_field: destination.bytes
-  cim_field: fileclass
-  asim_field: fileclass
   category: FileType
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%s{fileclass}'
 - field_name: filename
   field_type: string
   description: File name
-  ecs_field: file.name
-  cim_field: filename
-  asim_field: filename
   category: File
+  ecs_field: file.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{filename}'
 - field_name: filesha256
   field_type: string
   description: SHA256 hash of file
+  category: File
   ecs_field: file.hash.sha256
   cim_field: file_hash
   asim_field: TargetFileSHA256
-  category: File
+  format: '%s{filesha256}'
 - field_name: filesize
   field_type: integer
   description: File size in bytes
-  ecs_field: file.size
-  cim_field: filesize
-  asim_field: filesize
   category: File
+  ecs_field: file.size
+  cim_field: ''
+  asim_field: ''
+  format: '%d{filesize}'
 - field_name: filesubtype
   field_type: string
   description: Downloaded file subtype
-  ecs_field: destination.bytes
-  cim_field: filesubtype
-  asim_field: filesubtype
   category: FileType
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%s{filesubtype}'
 - field_name: filetype
   field_type: string
   description: Downloaded file type
-  ecs_field: file.extension
-  cim_field: filetype
-  asim_field: filetype
   category: FileType
+  ecs_field: file.extension
+  cim_field: ''
+  asim_field: ''
+  format: '%s{filetype}'
 - field_name: filetypecategory
   field_type: string
   description: File type category
-  ecs_field: event.category
-  cim_field: filetypecategory
-  asim_field: filetypecategory
   category: File
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{filetypecategory}'
 - field_name: flow_type
   field_type: string
   description: Flow type (FIN/TIMEOUT, etc.)
+  category: Session
   ecs_field: network.type
   cim_field: flow_type
   asim_field: NetworkType
-  category: Session
+  format: '%s{flow_type}'
 - field_name: geo_location
   field_type: string
   description: Geographic location
-  ecs_field: source.geo.country_name
-  cim_field: geo_location
-  asim_field: geo_location
   category: Activity
+  ecs_field: source.geo.country_name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{geo_location}'
 - field_name: hostname
   field_type: string
   description: Hostname from URL
+  category: HTTP
   ecs_field: source.domain
   cim_field: src_hostname
   asim_field: SrcHostname
-  category: HTTP
+  format: '%s{hostname}'
 - field_name: hour
   field_type: integer
   description: Hours
+  category: DateTime
   ecs_field: zscaler.zscalerinternetaccesszia.hour
   cim_field: zscaler.zscalerinternetaccesszia.hour
   asim_field: zscaler.zscalerinternetaccesszia.hour
-  category: DateTime
+  format: '%02d{hour}'
 - field_name: ikeversion
   field_type: integer
   description: IKE version (1 or 2)
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.ikeversion
   cim_field: zscaler.zscalerinternetaccesszia.ikeversion
   asim_field: zscaler.zscalerinternetaccesszia.ikeversion
-  category: IKE
+  format: '%d{ikeversion}'
 - field_name: inbytes
   field_type: integer
   description: Inbound bytes
-  ecs_field: destination.bytes
-  cim_field: inbytes
-  asim_field: inbytes
   category: Transaction
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{inbytes}'
 - field_name: interface
   field_type: string
   description: Interface used (UI, API, Partner API)
+  category: Audit
   ecs_field: observer.ingress.interface.name
   cim_field: interface
   asim_field: DvcInterface
-  category: Audit
+  format: '%s{interface}'
 - field_name: internalsslpolicyreason
   field_type: string
   description: Internal SSL policy reason
-  ecs_field: event.reason
-  cim_field: internalsslpolicyreason
-  asim_field: internalsslpolicyreason
   category: Network
+  ecs_field: event.reason
+  cim_field: ''
+  asim_field: ''
+  format: '%s{internalsslpolicyreason}'
 - field_name: ipprotocol
   field_type: integer
   description: IP Protocol (TCP=6, UDP=17)
-  ecs_field: network.transport
-  cim_field: ipprotocol
-  asim_field: ipprotocol
   category: Session
+  ecs_field: network.transport
+  cim_field: ''
+  asim_field: ''
+  format: '%d{ipprotocol}'
 - field_name: ipsrulelabel
   field_type: string
   description: IPS rule label
+  category: Session
   ecs_field: zscaler.zscalerinternetaccesszia.ipsrulelabel
   cim_field: zscaler.zscalerinternetaccesszia.ipsrulelabel
   asim_field: zscaler.zscalerinternetaccesszia.ipsrulelabel
-  category: Session
+  format: '%s{ipsrulelabel}'
 - field_name: is_anomaly
   field_type: boolean
   description: Anomaly detection flag
+  category: Activity
   ecs_field: zscaler.zscalerinternetaccesszia.is_anomaly
   cim_field: zscaler.zscalerinternetaccesszia.is_anomaly
   asim_field: zscaler.zscalerinternetaccesszia.is_anomaly
-  category: Activity
+  format: '%s{is_anomaly}'
 - field_name: keyprotectiontype
   field_type: string
   description: Key protection type
+  category: Misc
   ecs_field: zscaler.zscalerinternetaccesszia.keyprotectiontype
   cim_field: zscaler.zscalerinternetaccesszia.keyprotectiontype
   asim_field: zscaler.zscalerinternetaccesszia.keyprotectiontype
-  category: Misc
+  format: '%s{keyprotectiontype}'
 - field_name: lifebytes
   field_type: integer
   description: SA lifetime in bytes
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.lifebytes
   cim_field: zscaler.zscalerinternetaccesszia.lifebytes
   asim_field: zscaler.zscalerinternetaccesszia.lifebytes
-  category: IKE
+  format: '%lu{lifebytes}'
 - field_name: lifetime
   field_type: integer
   description: SA lifetime in seconds
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.lifetime
   cim_field: zscaler.zscalerinternetaccesszia.lifetime
   asim_field: zscaler.zscalerinternetaccesszia.lifetime
-  category: IKE
+  format: '%d{lifetime}'
 - field_name: location
   field_type: string
   description: User location/gateway location
+  category: User
   ecs_field: source.geo.name
   cim_field: location
   asim_field: SrcGeoName
-  category: User
+  format: '%s{location}'
 - field_name: locationname
   field_type: string
   description: Location name
+  category: Event
   ecs_field: zscaler.zscalerinternetaccesszia.locationname
   cim_field: zscaler.zscalerinternetaccesszia.locationname
   asim_field: zscaler.zscalerinternetaccesszia.locationname
-  category: Event
+  format: '%s{locationname}'
 - field_name: login
   field_type: string
   description: User login name/email (obfuscated if enabled)
-  ecs_field: user.name
-  cim_field: login
-  asim_field: login
   category: User
+  ecs_field: user.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{login}'
 - field_name: logtype
   field_type: string
   description: Log type
-  ecs_field: event.category
-  cim_field: logtype
-  asim_field: logtype
   category: Common
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{logtype}'
 - field_name: mailglobalid
   field_type: string
   description: Global mail identifier
+  category: Email
   ecs_field: zscaler.zscalerinternetaccesszia.mailglobalid
   cim_field: zscaler.zscalerinternetaccesszia.mailglobalid
   asim_field: zscaler.zscalerinternetaccesszia.mailglobalid
-  category: Email
+  format: '%s{mailglobalid}'
 - field_name: mailsize
   field_type: integer
   description: Email size in bytes
+  category: Email
   ecs_field: zscaler.zscalerinternetaccesszia.mailsize
   cim_field: zscaler.zscalerinternetaccesszia.mailsize
   asim_field: zscaler.zscalerinternetaccesszia.mailsize
-  category: Email
+  format: '%d{mailsize}'
 - field_name: mailsource
   field_type: string
   description: Mail source (Inbound, Outbound)
+  category: Email
   ecs_field: zscaler.zscalerinternetaccesszia.mailsource
   cim_field: zscaler.zscalerinternetaccesszia.mailsource
   asim_field: zscaler.zscalerinternetaccesszia.mailsource
-  category: Email
+  format: '%s{mailsource}'
 - field_name: malwarecat
   field_type: string
   description: Malware category
-  ecs_field: event.category
-  cim_field: malwarecat
-  asim_field: malwarecat
   category: Sandbox
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{malwarecat}'
 - field_name: malwareclass
   field_type: string
   description: Malware class
+  category: Sandbox
   ecs_field: threat.indicator.type
   cim_field: threat_category
   asim_field: ThreatCategory
-  category: Sandbox
+  format: '%s{malwareclass}'
 - field_name: match_count
   field_type: integer
   description: Number of matches
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.match_count
   cim_field: zscaler.zscalerinternetaccesszia.match_count
   asim_field: zscaler.zscalerinternetaccesszia.match_count
-  category: DLP
+  format: '%d{match_count}'
 - field_name: matchedfiles
   field_type: integer
   description: Number of files matched
+  category: Scan
   ecs_field: zscaler.zscalerinternetaccesszia.matchedfiles
   cim_field: zscaler.zscalerinternetaccesszia.matchedfiles
   asim_field: zscaler.zscalerinternetaccesszia.matchedfiles
-  category: Scan
+  format: '%d{matchedfiles}'
 - field_name: md5hash
   field_type: string
   description: MD5 hash of file
-  ecs_field: file.hash.md5
-  cim_field: md5hash
-  asim_field: md5hash
   category: Threat
+  ecs_field: file.hash.md5
+  cim_field: ''
+  asim_field: ''
+  format: '%s{md5hash}'
 - field_name: minu
   field_type: integer
   description: Minutes
+  category: DateTime
   ecs_field: zscaler.zscalerinternetaccesszia.minu
   cim_field: zscaler.zscalerinternetaccesszia.minu
   asim_field: zscaler.zscalerinternetaccesszia.minu
-  category: DateTime
+  format: '%02d{minu}'
 - field_name: mobappcat
   field_type: string
   description: Mobile application category
-  ecs_field: event.category
-  cim_field: mobappcat
-  asim_field: mobappcat
   category: Mobile
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{mobappcat}'
 - field_name: mobappname
   field_type: string
   description: Mobile application name
-  ecs_field: process.name
-  cim_field: mobappname
-  asim_field: mobappname
   category: Mobile
+  ecs_field: process.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{mobappname}'
 - field_name: mobdevtype
   field_type: string
   description: Mobile device type
+  category: Mobile
   ecs_field: zscaler.zscalerinternetaccesszia.mobdevtype
   cim_field: zscaler.zscalerinternetaccesszia.mobdevtype
   asim_field: zscaler.zscalerinternetaccesszia.mobdevtype
-  category: Mobile
+  format: '%s{mobdevtype}'
 - field_name: mon
   field_type: integer
   description: Month
+  category: DateTime
   ecs_field: zscaler.zscalerinternetaccesszia.mon
   cim_field: zscaler.zscalerinternetaccesszia.mon
   asim_field: zscaler.zscalerinternetaccesszia.mon
-  category: DateTime
+  format: '%02d{mon}'
 - field_name: natrulelabel
   field_type: string
   description: NAT rule label
+  category: Transaction
   ecs_field: zscaler.zscalerinternetaccesszia.natrulelabel
   cim_field: zscaler.zscalerinternetaccesszia.natrulelabel
   asim_field: zscaler.zscalerinternetaccesszia.natrulelabel
-  category: Transaction
+  format: '%s{natrulelabel}'
 - field_name: newdstip
   field_type: ip
   description: New destination IP (for REKEY)
+  category: Event
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Event
+  format: '%s{newdstip}'
 - field_name: newsrcip
   field_type: ip
   description: New source IP (for REKEY)
+  category: Event
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Event
+  format: '%s{newsrcip}'
 - field_name: numsessions
   field_type: integer
   description: Number of sessions
+  category: Session
   ecs_field: zscaler.zscalerinternetaccesszia.numsessions
   cim_field: zscaler.zscalerinternetaccesszia.numsessions
   asim_field: zscaler.zscalerinternetaccesszia.numsessions
-  category: Session
+  format: '%lu{numsessions}'
 - field_name: nwapp
   field_type: string
   description: Network application matched
+  category: Policy
   ecs_field: zscaler.zscalerinternetaccesszia.nwapp
   cim_field: zscaler.zscalerinternetaccesszia.nwapp
   asim_field: zscaler.zscalerinternetaccesszia.nwapp
-  category: Policy
+  format: '%s{nwapp}'
 - field_name: nwsvc
   field_type: string
   description: Network service matched
+  category: Policy
   ecs_field: zscaler.zscalerinternetaccesszia.nwsvc
   cim_field: zscaler.zscalerinternetaccesszia.nwsvc
   asim_field: zscaler.zscalerinternetaccesszia.nwsvc
-  category: Policy
+  format: '%s{nwsvc}'
 - field_name: object_id
   field_type: string
   description: Object identifier
+  category: Common
   ecs_field: zscaler.zscalerinternetaccesszia.object_id
   cim_field: zscaler.zscalerinternetaccesszia.object_id
   asim_field: zscaler.zscalerinternetaccesszia.object_id
-  category: Common
+  format: '%s{object_id}'
 - field_name: object_name
   field_type: string
   description: Object name
-  ecs_field: file.name
-  cim_field: object_name
-  asim_field: object_name
   category: Common
+  ecs_field: file.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{object_name}'
 - field_name: object_type
   field_type: string
   description: Object type
+  category: Common
   ecs_field: zscaler.zscalerinternetaccesszia.object_type
   cim_field: zscaler.zscalerinternetaccesszia.object_type
   asim_field: zscaler.zscalerinternetaccesszia.object_type
-  category: Common
+  format: '%s{object_type}'
 - field_name: ocertchainvalpass
   field_type: string
   description: Cert chain validation pass (obfuscated)
+  category: SSLServer
   ecs_field: zscaler.zscalerinternetaccesszia.ocertchainvalpass
   cim_field: zscaler.zscalerinternetaccesszia.ocertchainvalpass
   asim_field: zscaler.zscalerinternetaccesszia.ocertchainvalpass
-  category: SSLServer
+  format: '%s{ocertchainvalpass}'
 - field_name: oclientcipher
   field_type: string
   description: Client SSL cipher (obfuscated)
-  ecs_field: source.ip
-  cim_field: oclientcipher
-  asim_field: oclientcipher
   category: SSLClient
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{oclientcipher}'
 - field_name: oclientcipherreuse
   field_type: string
   description: Client cipher reuse (obfuscated)
-  ecs_field: source.ip
-  cim_field: oclientcipherreuse
-  asim_field: oclientcipherreuse
   category: SSLClient
+  ecs_field: source.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{oclientcipherreuse}'
 - field_name: oclienttlsversion
   field_type: string
   description: Client TLS version (obfuscated)
-  ecs_field: tls.version
-  cim_field: oclienttlsversion
-  asim_field: oclienttlsversion
   category: SSLClient
+  ecs_field: tls.version
+  cim_field: ''
+  asim_field: ''
+  format: '%s{oclienttlsversion}'
 - field_name: odevicehostname
   field_type: string
   description: Device hostname (obfuscated)
-  ecs_field: observer.hostname
-  cim_field: odevicehostname
-  asim_field: odevicehostname
   category: Device
+  ecs_field: observer.hostname
+  cim_field: ''
+  asim_field: ''
+  format: '%s{odevicehostname}'
 - field_name: odevicename
   field_type: string
   description: Device name (obfuscated)
-  ecs_field: observer.hostname
-  cim_field: odevicename
-  asim_field: odevicename
   category: Device
+  ecs_field: observer.hostname
+  cim_field: ''
+  asim_field: ''
+  format: '%s{odevicename}'
 - field_name: odeviceowner
   field_type: string
   description: Device owner (obfuscated)
+  category: Device
   ecs_field: zscaler.zscalerinternetaccesszia.odeviceowner
   cim_field: zscaler.zscalerinternetaccesszia.odeviceowner
   asim_field: zscaler.zscalerinternetaccesszia.odeviceowner
-  category: Device
+  format: '%s{odeviceowner}'
 - field_name: olddstip
   field_type: ip
   description: Old destination IP (for REKEY)
+  category: Event
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Event
+  format: '%s{olddstip}'
 - field_name: oldsrcip
   field_type: ip
   description: Old source IP (for REKEY)
+  category: Event
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Event
+  format: '%s{oldsrcip}'
 - field_name: os
   field_type: string
   description: Operating system
+  category: Activity
   ecs_field: zscaler.zscalerinternetaccesszia.os
   cim_field: zscaler.zscalerinternetaccesszia.os
   asim_field: zscaler.zscalerinternetaccesszia.os
-  category: Activity
+  format: '%s{os}'
 - field_name: oservercipher
   field_type: string
   description: Server SSL cipher (obfuscated)
-  ecs_field: destination.ip
-  cim_field: oservercipher
-  asim_field: oservercipher
   category: SSLServer
+  ecs_field: destination.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{oservercipher}'
 - field_name: oservercipherreuse
   field_type: string
   description: Server cipher reuse (obfuscated)
-  ecs_field: destination.ip
-  cim_field: oservercipherreuse
-  asim_field: oservercipherreuse
   category: SSLServer
+  ecs_field: destination.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{oservercipherreuse}'
 - field_name: oservertlsversion
   field_type: string
   description: Server TLS version (obfuscated)
-  ecs_field: tls.version
-  cim_field: oservertlsversion
-  asim_field: oservertlsversion
   category: SSLServer
+  ecs_field: tls.version
+  cim_field: ''
+  asim_field: ''
+  format: '%s{oservertlsversion}'
 - field_name: outbytes
   field_type: integer
   description: Outbound bytes
-  ecs_field: source.bytes
-  cim_field: outbytes
-  asim_field: outbytes
   category: Transaction
+  ecs_field: source.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{outbytes}'
 - field_name: pagerisk
   field_type: integer
   description: Page risk score
+  category: Misc
   ecs_field: zscaler.zscalerinternetaccesszia.pagerisk
   cim_field: zscaler.zscalerinternetaccesszia.pagerisk
   asim_field: zscaler.zscalerinternetaccesszia.pagerisk
-  category: Misc
+  format: '%d{pagerisk}'
 - field_name: permission_level
   field_type: string
   description: Permission level
+  category: Collaboration
   ecs_field: zscaler.zscalerinternetaccesszia.permission_level
   cim_field: zscaler.zscalerinternetaccesszia.permission_level
   asim_field: zscaler.zscalerinternetaccesszia.permission_level
-  category: Collaboration
+  format: '%s{permission_level}'
 - field_name: pfs
   field_type: string
   description: Perfect Forward Secrecy (Yes/No)
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.pfs
   cim_field: zscaler.zscalerinternetaccesszia.pfs
   asim_field: zscaler.zscalerinternetaccesszia.pfs
-  category: IKE
+  format: '%s{pfs}'
 - field_name: pii_detected
   field_type: boolean
   description: PII detected flag
+  category: GenAI
   ecs_field: zscaler.zscalerinternetaccesszia.pii_detected
   cim_field: zscaler.zscalerinternetaccesszia.pii_detected
   asim_field: zscaler.zscalerinternetaccesszia.pii_detected
-  category: GenAI
+  format: '%s{pii_detected}'
 - field_name: policy
   field_type: string
   description: Policy name
+  category: Common
   ecs_field: rule.ruleset
   cim_field: policy
   asim_field: RulesetName
-  category: Common
+  format: '%s{policy}'
 - field_name: policyproposal
   field_type: string
   description: Policy proposal
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.policyproposal
   cim_field: zscaler.zscalerinternetaccesszia.policyproposal
   asim_field: zscaler.zscalerinternetaccesszia.policyproposal
-  category: IKE
+  format: '%s{policyproposal}'
 - field_name: postaction
   field_type: string
   description: State after action
-  ecs_field: event.action
-  cim_field: postaction
-  asim_field: postaction
   category: Audit
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
+  format: '%s{postaction}'
 - field_name: preaction
   field_type: string
   description: State before action
-  ecs_field: event.action
-  cim_field: preaction
-  asim_field: preaction
   category: Audit
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
+  format: '%s{preaction}'
 - field_name: prompt
   field_type: string
   description: AI prompt (may be redacted)
+  category: GenAI
   ecs_field: zscaler.zscalerinternetaccesszia.prompt
   cim_field: zscaler.zscalerinternetaccesszia.prompt
   asim_field: zscaler.zscalerinternetaccesszia.prompt
-  category: GenAI
+  format: '%s{prompt}'
 - field_name: proto
   field_type: string
   description: Protocol (HTTP/HTTPS)
+  category: Network
   ecs_field: network.iana_number
   cim_field: protocol_number
   asim_field: NetworkProtocolVersion
-  category: Network
+  format: '%s{proto}'
 - field_name: protocol
   field_type: string
   description: Protocol (ESP, AH)
+  category: IKE
   ecs_field: network.transport
   cim_field: transport
   asim_field: NetworkProtocol
-  category: IKE
+  format: '%s{protocol}'
 - field_name: reason
   field_type: string
   description: SSL Inspection status/reason
+  category: User
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
-  category: User
+  format: '%s{reason}'
 - field_name: recipient
   field_type: email
   description: Email recipient(s)
+  category: Email
   ecs_field: email.to.address
   cim_field: dest_email
   asim_field: DstUserEmail
-  category: Email
+  format: '%s{recipient}'
 - field_name: recordid
   field_type: string
   description: Unique record identifier
-  ecs_field: event.id
-  cim_field: recordid
-  asim_field: recordid
   category: Misc
+  ecs_field: event.id
+  cim_field: ''
+  asim_field: ''
+  format: '%s{recordid}'
 - field_name: refererURL
   field_type: string
   description: Referer URL
-  ecs_field: url.full
-  cim_field: refererURL
-  asim_field: refererURL
   category: HTTP
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{refererURL}'
 - field_name: repo_name
   field_type: string
   description: Repository name
+  category: Repository
   ecs_field: zscaler.zscalerinternetaccesszia.repo_name
   cim_field: zscaler.zscalerinternetaccesszia.repo_name
   asim_field: zscaler.zscalerinternetaccesszia.repo_name
-  category: Repository
+  format: '%s{repo_name}'
 - field_name: repo_owner
   field_type: string
   description: Repository owner
+  category: Repository
   ecs_field: zscaler.zscalerinternetaccesszia.repo_owner
   cim_field: zscaler.zscalerinternetaccesszia.repo_owner
   asim_field: zscaler.zscalerinternetaccesszia.repo_owner
-  category: Repository
+  format: '%s{repo_owner}'
 - field_name: repo_visibility
   field_type: string
   description: Repository visibility (Public, Private)
+  category: Repository
   ecs_field: zscaler.zscalerinternetaccesszia.repo_visibility
   cim_field: zscaler.zscalerinternetaccesszia.repo_visibility
   asim_field: zscaler.zscalerinternetaccesszia.repo_visibility
-  category: Repository
+  format: '%s{repo_visibility}'
 - field_name: reqaction
   field_type: string
   description: Request action
-  ecs_field: event.action
-  cim_field: reqaction
-  asim_field: reqaction
   category: Transaction
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
+  format: '%s{reqaction}'
 - field_name: reqheadersize
   field_type: integer
   description: Request header size in bytes
+  category: HTTP
   ecs_field: zscaler.zscalerinternetaccesszia.reqheadersize
   cim_field: zscaler.zscalerinternetaccesszia.reqheadersize
   asim_field: zscaler.zscalerinternetaccesszia.reqheadersize
-  category: HTTP
+  format: '%d{reqheadersize}'
 - field_name: reqrulelabel
   field_type: string
   description: Request rule label
+  category: Action
   ecs_field: zscaler.zscalerinternetaccesszia.reqrulelabel
   cim_field: zscaler.zscalerinternetaccesszia.reqrulelabel
   asim_field: zscaler.zscalerinternetaccesszia.reqrulelabel
-  category: Action
+  format: '%s{reqrulelabel}'
 - field_name: reqsize
   field_type: integer
   description: Request size in bytes
+  category: Bandwidth
   ecs_field: zscaler.zscalerinternetaccesszia.reqsize
   cim_field: zscaler.zscalerinternetaccesszia.reqsize
   asim_field: zscaler.zscalerinternetaccesszia.reqsize
-  category: Bandwidth
+  format: '%d{reqsize}'
 - field_name: requestmethod
   field_type: string
   description: HTTP method (GET, POST, etc.)
-  ecs_field: http.request.method
-  cim_field: requestmethod
-  asim_field: requestmethod
   category: HTTP
+  ecs_field: http.request.method
+  cim_field: ''
+  asim_field: ''
+  format: '%s{requestmethod}'
 - field_name: requestsize
   field_type: integer
   description: Request size in bytes
+  category: Bandwidth
   ecs_field: http.request.bytes
   cim_field: bytes_out
   asim_field: HttpRequestBytes
-  category: Bandwidth
+  format: '%d{requestsize}'
 - field_name: resaction
   field_type: string
   description: Response action
-  ecs_field: event.action
-  cim_field: resaction
-  asim_field: resaction
   category: Transaction
+  ecs_field: event.action
+  cim_field: ''
+  asim_field: ''
+  format: '%s{resaction}'
 - field_name: rescat
   field_type: string
   description: Response category
-  ecs_field: event.category
-  cim_field: rescat
-  asim_field: rescat
   category: Transaction
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{rescat}'
 - field_name: resource
   field_type: string
   description: Resource modified
+  category: Audit
   ecs_field: url.original
   cim_field: url
   asim_field: Url
-  category: Audit
+  format: '%s{resource}'
 - field_name: respheadersize
   field_type: integer
   description: Response header size in bytes
+  category: HTTP
   ecs_field: zscaler.zscalerinternetaccesszia.respheadersize
   cim_field: zscaler.zscalerinternetaccesszia.respheadersize
   asim_field: zscaler.zscalerinternetaccesszia.respheadersize
-  category: HTTP
+  format: '%d{respheadersize}'
 - field_name: response_snippet
   field_type: string
   description: AI response snippet
+  category: GenAI
   ecs_field: zscaler.zscalerinternetaccesszia.response_snippet
   cim_field: zscaler.zscalerinternetaccesszia.response_snippet
   asim_field: zscaler.zscalerinternetaccesszia.response_snippet
-  category: GenAI
+  format: '%s{response_snippet}'
 - field_name: responsesize
   field_type: integer
   description: Response size in bytes
+  category: Bandwidth
   ecs_field: http.response.bytes
   cim_field: bytes_in
   asim_field: HttpResponseBytes
-  category: Bandwidth
+  format: '%d{responsesize}'
 - field_name: respsize
   field_type: integer
   description: Response size in bytes
+  category: Bandwidth
   ecs_field: zscaler.zscalerinternetaccesszia.respsize
   cim_field: zscaler.zscalerinternetaccesszia.respsize
   asim_field: zscaler.zscalerinternetaccesszia.respsize
-  category: Bandwidth
+  format: '%d{respsize}'
 - field_name: resrulelabel
   field_type: string
   description: Response rule label
+  category: Action
   ecs_field: zscaler.zscalerinternetaccesszia.resrulelabel
   cim_field: zscaler.zscalerinternetaccesszia.resrulelabel
   asim_field: zscaler.zscalerinternetaccesszia.resrulelabel
-  category: Action
+  format: '%s{resrulelabel}'
 - field_name: result
   field_type: string
   description: Result (SUCCESS, FAILURE)
+  category: Audit
   ecs_field: event.outcome
   cim_field: result
   asim_field: EventResult
-  category: Audit
+  format: '%s{result}'
 - field_name: risk_score
   field_type: integer
   description: Risk score
+  category: Activity
   ecs_field: event.risk_score
   cim_field: risk_score
   asim_field: ThreatRiskLevel
-  category: Activity
+  format: '%d{risk_score}'
 - field_name: rule
   field_type: string
   description: Rule matched
+  category: Action
   ecs_field: rule.name
   cim_field: rule
   asim_field: RuleName
-  category: Action
+  format: '%s{rule}'
 - field_name: rulelabel
   field_type: string
   description: Rule label name
-  ecs_field: rule.name
-  cim_field: rulelabel
-  asim_field: rulelabel
   category: HTTP
+  ecs_field: rule.name
+  cim_field: ''
+  asim_field: ''
+  format: '%s{rulelabel}'
 - field_name: ruletype
   field_type: string
   description: Rule type (SSL/non-SSL, etc.)
+  category: HTTP
   ecs_field: rule.category
   cim_field: policy_type
   asim_field: RuleType
-  category: HTTP
+  format: '%s{ruletype}'
 - field_name: rxbps
   field_type: integer
   description: Receive bits per second
+  category: Sample
   ecs_field: zscaler.zscalerinternetaccesszia.rxbps
   cim_field: zscaler.zscalerinternetaccesszia.rxbps
   asim_field: zscaler.zscalerinternetaccesszia.rxbps
-  category: Sample
+  format: '%lu{rxbps}'
 - field_name: rxbytes
   field_type: integer
   description: Received bytes
+  category: Sample
   ecs_field: zscaler.zscalerinternetaccesszia.rxbytes
   cim_field: zscaler.zscalerinternetaccesszia.rxbytes
   asim_field: zscaler.zscalerinternetaccesszia.rxbytes
-  category: Sample
+  format: '%lu{rxbytes}'
 - field_name: rxpkts
   field_type: integer
   description: Received packets
+  category: Sample
   ecs_field: zscaler.zscalerinternetaccesszia.rxpkts
   cim_field: zscaler.zscalerinternetaccesszia.rxpkts
   asim_field: zscaler.zscalerinternetaccesszia.rxpkts
-  category: Sample
+  format: '%lu{rxpkts}'
 - field_name: samplingtime
   field_type: datetime
   description: Sampling timestamp
+  category: Sample
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
-  category: Sample
+  format: '%s{samplingtime}'
 - field_name: scannedfiles
   field_type: integer
   description: Number of files scanned
+  category: Scan
   ecs_field: zscaler.zscalerinternetaccesszia.scannedfiles
   cim_field: zscaler.zscalerinternetaccesszia.scannedfiles
   asim_field: zscaler.zscalerinternetaccesszia.scannedfiles
-  category: Scan
+  format: '%d{scannedfiles}'
 - field_name: scantime
   field_type: datetime
   description: Scan timestamp
+  category: Scan
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
-  category: Scan
+  format: '%s{scantime}'
 - field_name: scantype
   field_type: string
   description: Scan type (Scheduled, On-demand)
+  category: Scan
   ecs_field: zscaler.zscalerinternetaccesszia.scantype
   cim_field: zscaler.zscalerinternetaccesszia.scantype
   asim_field: zscaler.zscalerinternetaccesszia.scantype
-  category: Scan
+  format: '%s{scantype}'
 - field_name: sdip
   field_type: ip
   description: Server destination IP
-  ecs_field: destination.ip
-  cim_field: sdip
-  asim_field: sdip
   category: Server
+  ecs_field: destination.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{sdip}'
 - field_name: sdport
   field_type: port
   description: Server destination port
-  ecs_field: destination.port
-  cim_field: sdport
-  asim_field: sdport
   category: Server
+  ecs_field: destination.port
+  cim_field: ''
+  asim_field: ''
+  format: '%d{sdport}'
 - field_name: sec
   field_type: integer
   description: Seconds
+  category: DateTime
   ecs_field: zscaler.zscalerinternetaccesszia.sec
   cim_field: zscaler.zscalerinternetaccesszia.sec
   asim_field: zscaler.zscalerinternetaccesszia.sec
-  category: DateTime
+  format: '%02d{sec}'
 - field_name: secret_type
   field_type: string
   description: Secret type detected (API key, password, etc.)
+  category: Repository
   ecs_field: zscaler.zscalerinternetaccesszia.secret_type
   cim_field: zscaler.zscalerinternetaccesszia.secret_type
   asim_field: zscaler.zscalerinternetaccesszia.secret_type
-  category: Repository
+  format: '%s{secret_type}'
 - field_name: sender
   field_type: email
   description: Email sender address
+  category: Email
   ecs_field: email.from.address
   cim_field: src_email
   asim_field: SrcUserEmail
-  category: Email
+  format: '%s{sender}'
 - field_name: serverip
   field_type: ip
   description: Server IP address
-  ecs_field: destination.ip
-  cim_field: serverip
-  asim_field: serverip
   category: Network
+  ecs_field: destination.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{serverip}'
 - field_name: severity
   field_type: string
   description: Severity level
+  category: DLP
   ecs_field: log.level
   cim_field: log_level
   asim_field: EventSeverity
-  category: DLP
+  format: '%s{severity}'
 - field_name: sha256
   field_type: string
   description: SHA256 hash of file
-  ecs_field: process.hash.sha256
-  cim_field: sha256
-  asim_field: sha256
   category: Threat
+  ecs_field: process.hash.sha256
+  cim_field: ''
+  asim_field: ''
+  format: '%s{sha256}'
 - field_name: share_link
   field_type: string
   description: Sharing link
+  category: Collaboration
   ecs_field: zscaler.zscalerinternetaccesszia.share_link
   cim_field: zscaler.zscalerinternetaccesszia.share_link
   asim_field: zscaler.zscalerinternetaccesszia.share_link
-  category: Collaboration
+  format: '%s{share_link}'
 - field_name: sip
   field_type: ip
   description: Server IP
-  ecs_field: destination.ip
-  cim_field: sip
-  asim_field: sip
   category: Network
+  ecs_field: destination.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{sip}'
 - field_name: source_ip
   field_type: ip
   description: Source IP address
+  category: Activity
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Activity
+  format: '%s{source_ip}'
 - field_name: sourcepath
   field_type: string
   description: Source file path
-  ecs_field: file.path
-  cim_field: sourcepath
-  asim_field: sourcepath
   category: File
+  ecs_field: file.path
+  cim_field: ''
+  asim_field: ''
+  format: '%s{sourcepath}'
 - field_name: spi
   field_type: string
   description: Security Parameter Index
+  category: IKE
   ecs_field: event.id
   cim_field: spi
   asim_field: NetworkSessionId
-  category: IKE
+  format: '%s{spi}'
 - field_name: spi_in
   field_type: string
   description: Inbound SPI
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.spi_in
   cim_field: zscaler.zscalerinternetaccesszia.spi_in
   asim_field: zscaler.zscalerinternetaccesszia.spi_in
-  category: IKE
+  format: '%s{spi_in}'
 - field_name: spi_out
   field_type: string
   description: Outbound SPI
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.spi_out
   cim_field: zscaler.zscalerinternetaccesszia.spi_out
   asim_field: zscaler.zscalerinternetaccesszia.spi_out
-  category: IKE
+  format: '%s{spi_out}'
 - field_name: srcip
   field_type: ip
   description: Source IP
+  category: IKE
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: IKE
+  format: '%s{srcip}'
 - field_name: srcport
   field_type: port
   description: Source port
+  category: IKE
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
-  category: IKE
+  format: '%d{srcport}'
 - field_name: srcsubnet
   field_type: string
   description: Source subnet
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.srcsubnet
   cim_field: zscaler.zscalerinternetaccesszia.srcsubnet
   asim_field: zscaler.zscalerinternetaccesszia.srcsubnet
-  category: IKE
+  format: '%s{srcsubnet}'
 - field_name: srv_dip
   field_type: ip
   description: Server destination IP
-  ecs_field: destination.ip
-  cim_field: srv_dip
-  asim_field: srv_dip
   category: Transaction
+  ecs_field: destination.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{srv_dip}'
 - field_name: srv_dport
   field_type: port
   description: Server destination port
-  ecs_field: destination.port
-  cim_field: srv_dport
-  asim_field: srv_dport
   category: Transaction
+  ecs_field: destination.port
+  cim_field: ''
+  asim_field: ''
+  format: '%d{srv_dport}'
 - field_name: srv_inbytes
   field_type: integer
   description: Server inbound bytes
-  ecs_field: destination.bytes
-  cim_field: srv_inbytes
-  asim_field: srv_inbytes
   category: Server
+  ecs_field: destination.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{srv_inbytes}'
 - field_name: srv_outbytes
   field_type: integer
   description: Server outbound bytes
-  ecs_field: source.bytes
-  cim_field: srv_outbytes
-  asim_field: srv_outbytes
   category: Server
+  ecs_field: source.bytes
+  cim_field: ''
+  asim_field: ''
+  format: '%lu{srv_outbytes}'
 - field_name: srvsslslfailreason
   field_type: string
   description: Server SSL failure reason
-  ecs_field: event.reason
-  cim_field: srvsslslfailreason
-  asim_field: srvsslslfailreason
   category: Network
+  ecs_field: event.reason
+  cim_field: ''
+  asim_field: ''
+  format: '%s{srvsslslfailreason}'
 - field_name: ssip
   field_type: ip
   description: Server source IP
-  ecs_field: destination.ip
-  cim_field: ssip
-  asim_field: ssip
   category: Server
+  ecs_field: destination.ip
+  cim_field: ''
+  asim_field: ''
+  format: '%s{ssip}'
 - field_name: ssport
   field_type: port
   description: Server source port
-  ecs_field: source.port
-  cim_field: ssport
-  asim_field: ssport
   category: Server
+  ecs_field: source.port
+  cim_field: ''
+  asim_field: ''
+  format: '%d{ssport}'
 - field_name: stateful
   field_type: string
   description: Stateful session (Yes/No)
+  category: Session
   ecs_field: zscaler.zscalerinternetaccesszia.stateful
   cim_field: zscaler.zscalerinternetaccesszia.stateful
   asim_field: zscaler.zscalerinternetaccesszia.stateful
-  category: Session
+  format: '%s{stateful}'
 - field_name: status
   field_type: string
   description: Transaction result
+  category: HTTP
   ecs_field: event.outcome
   cim_field: status
   asim_field: EventResult
-  category: HTTP
+  format: '%s{status}'
 - field_name: subcategory
   field_type: string
   description: Subcategory
-  ecs_field: event.category
-  cim_field: subcategory
-  asim_field: subcategory
   category: Audit
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{subcategory}'
 - field_name: subject
   field_type: string
   description: Email subject
+  category: Email
   ecs_field: email.subject
   cim_field: email_subject
   asim_field: EmailSubject
-  category: Email
+  format: '%s{subject}'
 - field_name: tenant
   field_type: string
   description: Tenant name
+  category: Common
   ecs_field: cloud.account.id
   cim_field: account_id
   asim_field: CloudAccountId
-  category: Common
+  format: '%s{tenant}'
 - field_name: threatcat
   field_type: string
   description: Threat category
-  ecs_field: event.category
-  cim_field: threatcat
-  asim_field: threatcat
   category: Threat
+  ecs_field: event.category
+  cim_field: ''
+  asim_field: ''
+  format: '%s{threatcat}'
 - field_name: threatclass
   field_type: string
   description: Threat class
+  category: Threat
   ecs_field: threat.indicator.type
   cim_field: threat_category
   asim_field: ThreatCategory
-  category: Threat
+  format: '%s{threatclass}'
 - field_name: threatname
   field_type: string
   description: Name of detected threat
-  ecs_field: threat.indicator.description
-  cim_field: threatname
-  asim_field: threatname
   category: Threat
+  ecs_field: threat.indicator.description
+  cim_field: ''
+  asim_field: ''
+  format: '%s{threatname}'
 - field_name: threatseverity
   field_type: string
   description: Threat severity level
-  ecs_field: event.severity
-  cim_field: threatseverity
-  asim_field: threatseverity
   category: Threat
+  ecs_field: event.severity
+  cim_field: ''
+  asim_field: ''
+  format: '%s{threatseverity}'
 - field_name: throttlereqsize
   field_type: integer
   description: Throttle request size
+  category: HTTP
   ecs_field: zscaler.zscalerinternetaccesszia.throttlereqsize
   cim_field: zscaler.zscalerinternetaccesszia.throttlereqsize
   asim_field: zscaler.zscalerinternetaccesszia.throttlereqsize
-  category: HTTP
+  format: '%d{throttlereqsize}'
 - field_name: throttlerespsize
   field_type: integer
   description: Throttle response size
+  category: HTTP
   ecs_field: zscaler.zscalerinternetaccesszia.throttlerespsize
   cim_field: zscaler.zscalerinternetaccesszia.throttlerespsize
   asim_field: zscaler.zscalerinternetaccesszia.throttlerespsize
-  category: HTTP
+  format: '%d{throttlerespsize}'
 - field_name: time
   field_type: datetime
   description: Epoch time
+  category: DateTime
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
-  category: DateTime
+  format: '%s{time}'
 - field_name: timezone
   field_type: string
   description: Timezone (e.g., GMT)
-  ecs_field: event.timezone
-  cim_field: timezone
-  asim_field: timezone
   category: DateTime
+  ecs_field: event.timezone
+  cim_field: ''
+  asim_field: ''
+  format: '%s{timezone}'
 - field_name: token_count
   field_type: integer
   description: Token count
+  category: GenAI
   ecs_field: zscaler.zscalerinternetaccesszia.token_count
   cim_field: zscaler.zscalerinternetaccesszia.token_count
   asim_field: zscaler.zscalerinternetaccesszia.token_count
-  category: GenAI
+  format: '%d{token_count}'
 - field_name: traession
   field_type: string
   description: ZPA session data
+  category: Forwarding
   ecs_field: zscaler.zscalerinternetaccesszia.traession
   cim_field: zscaler.zscalerinternetaccesszia.traession
   asim_field: zscaler.zscalerinternetaccesszia.traession
-  category: Forwarding
+  format: '%s{traession}'
 - field_name: triggeredrulelabel
   field_type: string
   description: Triggered rule label
+  category: DLP
   ecs_field: zscaler.zscalerinternetaccesszia.triggeredrulelabel
   cim_field: zscaler.zscalerinternetaccesszia.triggeredrulelabel
   asim_field: zscaler.zscalerinternetaccesszia.triggeredrulelabel
-  category: DLP
+  format: '%s{triggeredrulelabel}'
 - field_name: tsip
   field_type: ip
   description: Translated source IP
+  category: Transaction
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Transaction
+  format: '%s{tsip}'
 - field_name: tunnelstatus
   field_type: string
   description: Tunnel status (UP, DOWN, REKEY)
-  ecs_field: event.outcome
-  cim_field: tunnelstatus
-  asim_field: tunnelstatus
   category: Event
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
+  format: '%s{tunnelstatus}'
 - field_name: tunneltype
   field_type: string
   description: Tunnel type (IPSEC, GRE)
+  category: IKE
   ecs_field: network.type
   cim_field: tunnel_type
   asim_field: NetworkType
-  category: IKE
+  format: '%s{tunneltype}'
 - field_name: tunsip
   field_type: ip
   description: Tunnel source IP
+  category: Transaction
   ecs_field: related.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Transaction
+  format: '%s{tunsip}'
 - field_name: tunsport
   field_type: port
   description: Tunnel source port
-  ecs_field: source.port
-  cim_field: tunsport
-  asim_field: tunsport
   category: Transaction
+  ecs_field: source.port
+  cim_field: ''
+  asim_field: ''
+  format: '%d{tunsport}'
 - field_name: tuntype
   field_type: string
   description: Tunnel type
+  category: Session
   ecs_field: zscaler.zscalerinternetaccesszia.tuntype
   cim_field: zscaler.zscalerinternetaccesszia.tuntype
   asim_field: zscaler.zscalerinternetaccesszia.tuntype
-  category: Session
+  format: '%s{tuntype}'
 - field_name: txbps
   field_type: integer
   description: Transmit bits per second
+  category: Sample
   ecs_field: zscaler.zscalerinternetaccesszia.txbps
   cim_field: zscaler.zscalerinternetaccesszia.txbps
   asim_field: zscaler.zscalerinternetaccesszia.txbps
-  category: Sample
+  format: '%lu{txbps}'
 - field_name: txbytes
   field_type: integer
   description: Transmitted bytes
+  category: Sample
   ecs_field: zscaler.zscalerinternetaccesszia.txbytes
   cim_field: zscaler.zscalerinternetaccesszia.txbytes
   asim_field: zscaler.zscalerinternetaccesszia.txbytes
-  category: Sample
+  format: '%lu{txbytes}'
 - field_name: txpkts
   field_type: integer
   description: Transmitted packets
+  category: Sample
   ecs_field: zscaler.zscalerinternetaccesszia.txpkts
   cim_field: zscaler.zscalerinternetaccesszia.txpkts
   asim_field: zscaler.zscalerinternetaccesszia.txpkts
-  category: Sample
+  format: '%lu{txpkts}'
 - field_name: unscannabletype
   field_type: string
   description: Unscannable content type
+  category: Misc
   ecs_field: zscaler.zscalerinternetaccesszia.unscannabletype
   cim_field: zscaler.zscalerinternetaccesszia.unscannabletype
   asim_field: zscaler.zscalerinternetaccesszia.unscannabletype
-  category: Misc
+  format: '%s{unscannabletype}'
 - field_name: url
   field_type: string
   description: Full URL (obfuscated if enabled)
+  category: HTTP
   ecs_field: url.original
   cim_field: url
   asim_field: Url
-  category: HTTP
+  format: '%s{url}'
 - field_name: urlcategory
   field_type: string
   description: URL category
-  ecs_field: url.full
-  cim_field: urlcategory
-  asim_field: urlcategory
   category: HTTP
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{urlcategory}'
 - field_name: urlclass
   field_type: string
   description: URL class (bandwidth/security)
-  ecs_field: url.full
-  cim_field: urlclass
-  asim_field: urlclass
   category: HTTP
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{urlclass}'
 - field_name: urlsupercategory
   field_type: string
   description: URL super category
-  ecs_field: url.full
-  cim_field: urlsupercategory
-  asim_field: urlsupercategory
   category: HTTP
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
+  format: '%s{urlsupercategory}'
 - field_name: user
   field_type: string
   description: User email/identifier
+  category: Common
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
-  category: Common
+  format: '%s{user}'
 - field_name: useragent
   field_type: string
   description: User Agent string
-  ecs_field: user_agent.original
-  cim_field: useragent
-  asim_field: useragent
   category: HTTP
+  ecs_field: user_agent.original
+  cim_field: ''
+  asim_field: ''
+  format: '%s{useragent}'
 - field_name: vpncredentialname
   field_type: string
   description: VPN credential name
+  category: IKE
   ecs_field: zscaler.zscalerinternetaccesszia.vpncredentialname
   cim_field: zscaler.zscalerinternetaccesszia.vpncredentialname
   asim_field: zscaler.zscalerinternetaccesszia.vpncredentialname
-  category: IKE
+  format: '%s{vpncredentialname}'
 - field_name: year
   field_type: integer
   description: Year
+  category: DateTime
   ecs_field: zscaler.zscalerinternetaccesszia.year
   cim_field: zscaler.zscalerinternetaccesszia.year
   asim_field: zscaler.zscalerinternetaccesszia.year
-  category: DateTime
+  format: '%04d{year}'
 - field_name: zaboression
   field_type: string
   description: ZAPP abort session
+  category: Forwarding
   ecs_field: zscaler.zscalerinternetaccesszia.zaboression
   cim_field: zscaler.zscalerinternetaccesszia.zaboression
   asim_field: zscaler.zscalerinternetaccesszia.zaboression
-  category: Forwarding
+  format: '%s{zaboression}'
 - field_name: ztunnelversion
   field_type: string
   description: ZTunnel version
+  category: Forwarding
   ecs_field: zscaler.zscalerinternetaccesszia.ztunnelversion
   cim_field: zscaler.zscalerinternetaccesszia.ztunnelversion
   asim_field: zscaler.zscalerinternetaccesszia.ztunnelversion
-  category: Forwarding
+  format: '%s{ztunnelversion}'
+mapped_field_count: 295
 signatures:
 - name: zscaler_zia_generic_json
   description: Zscaler ZIA JSON log - identified by Zscaler-specific fields

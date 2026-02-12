@@ -7,7 +7,7 @@ source_document: API Server Audit Configuration Reference
 source_url: https://kubernetes.io/docs/reference/config-api/apiserver-audit.v1/
 extraction_date: '2026-01-02'
 source_file: kubernetes-audit-signatures.json
-generated_at: '2026-02-12T11:03:04.536345'
+generated_at: '2026-02-12T18:54:31.310477'
 categories:
 - Core
 - Request
@@ -21,242 +21,243 @@ fields:
 - field_name: apiVersion
   field_type: string
   description: API version (audit.k8s.io/v1)
-  ecs_field: event.module
-  cim_field: apiVersion
-  asim_field: apiVersion
   category: Core
+  ecs_field: event.module
+  cim_field: ''
+  asim_field: ''
 - field_name: kind
   field_type: string
   description: Resource kind (Event)
+  category: Core
   ecs_field: event.category
   cim_field: category
   asim_field: EventCategory
-  category: Core
 - field_name: level
   field_type: enum
   description: Audit level at which event was generated (None, Metadata, Request,
     RequestResponse)
+  category: Core
   ecs_field: log.level
   cim_field: severity
   asim_field: EventSeverity
-  category: Core
 - field_name: auditID
   field_type: string
   description: Unique audit ID generated for each request
+  category: Core
   ecs_field: kubernetes.apiserverauditlogs.auditid
   cim_field: kubernetes.apiserverauditlogs.auditid
   asim_field: kubernetes.apiserverauditlogs.auditid
-  category: Core
 - field_name: stage
   field_type: enum
   description: Stage of request handling when event was generated
+  category: Core
   ecs_field: event.category
   cim_field: stage
   asim_field: EventCategory
-  category: Core
 - field_name: requestURI
   field_type: string
   description: The request URI as sent by the client to the server
-  ecs_field: url.full
-  cim_field: requestURI
-  asim_field: requestURI
   category: Request
+  ecs_field: url.full
+  cim_field: ''
+  asim_field: ''
 - field_name: verb
   field_type: string
   description: Kubernetes verb associated with the request (get, list, create, update,
     delete, etc.)
+  category: Request
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
-  category: Request
 - field_name: requestObject
   field_type: object
   description: API object from the request in JSON format
+  category: Request
   ecs_field: kubernetes.apiserverauditlogs.requestobject
   cim_field: kubernetes.apiserverauditlogs.requestobject
   asim_field: kubernetes.apiserverauditlogs.requestobject
-  category: Request
 - field_name: sourceIPs
   field_type: array
   description: Source IPs from where the request originated and intermediate proxies
+  category: Request
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
-  category: Request
 - field_name: userAgent
   field_type: string
   description: User agent string reported by the client
+  category: Request
   ecs_field: user_agent.original
   cim_field: http_user_agent
   asim_field: UserAgent
-  category: Request
 - field_name: user.username
   field_type: string
   description: The name that uniquely identifies this user
+  category: User
   ecs_field: kubernetes.apiserverauditlogs.user_username
   cim_field: kubernetes.apiserverauditlogs.user_username
   asim_field: kubernetes.apiserverauditlogs.user_username
-  category: User
 - field_name: user.uid
   field_type: string
   description: A unique value that identifies this user across time
+  category: User
   ecs_field: kubernetes.apiserverauditlogs.user_uid
   cim_field: kubernetes.apiserverauditlogs.user_uid
   asim_field: kubernetes.apiserverauditlogs.user_uid
-  category: User
 - field_name: user.groups
   field_type: array
   description: The names of groups this user is a part of
+  category: User
   ecs_field: kubernetes.apiserverauditlogs.user_groups
   cim_field: kubernetes.apiserverauditlogs.user_groups
   asim_field: kubernetes.apiserverauditlogs.user_groups
-  category: User
 - field_name: user.extra
   field_type: object
   description: Any additional information provided by the authenticator
+  category: User
   ecs_field: kubernetes.apiserverauditlogs.user_extra
   cim_field: kubernetes.apiserverauditlogs.user_extra
   asim_field: kubernetes.apiserverauditlogs.user_extra
-  category: User
 - field_name: impersonatedUser.username
   field_type: string
   description: Username of the impersonated user
-  ecs_field: user.name
-  cim_field: impersonatedUser.username
-  asim_field: impersonatedUser.username
   category: User
+  ecs_field: user.name
+  cim_field: ''
+  asim_field: ''
 - field_name: impersonatedUser.uid
   field_type: string
   description: UID of the impersonated user
+  category: User
   ecs_field: kubernetes.apiserverauditlogs.impersonateduser_uid
   cim_field: kubernetes.apiserverauditlogs.impersonateduser_uid
   asim_field: kubernetes.apiserverauditlogs.impersonateduser_uid
-  category: User
 - field_name: impersonatedUser.groups
   field_type: array
   description: Groups of the impersonated user
+  category: User
   ecs_field: kubernetes.apiserverauditlogs.impersonateduser_groups
   cim_field: kubernetes.apiserverauditlogs.impersonateduser_groups
   asim_field: kubernetes.apiserverauditlogs.impersonateduser_groups
-  category: User
 - field_name: objectRef.resource
   field_type: string
   description: Resource kind (pods, deployments, services, etc.)
+  category: Object
   ecs_field: event.category
   cim_field: resource
   asim_field: EventCategory
-  category: Object
 - field_name: objectRef.namespace
   field_type: string
   description: Namespace of the object
+  category: Object
   ecs_field: cloud.project.name
   cim_field: namespace
   asim_field: CloudProjectName
-  category: Object
 - field_name: objectRef.name
   field_type: string
   description: Name of the object
+  category: Object
   ecs_field: event.action
   cim_field: object_name
   asim_field: EventType
-  category: Object
 - field_name: objectRef.uid
   field_type: string
   description: Unique identifier of the object
+  category: Object
   ecs_field: kubernetes.apiserverauditlogs.objectref_uid
   cim_field: kubernetes.apiserverauditlogs.objectref_uid
   asim_field: kubernetes.apiserverauditlogs.objectref_uid
-  category: Object
 - field_name: objectRef.apiGroup
   field_type: string
   description: Name of the API group (empty string = core API group)
+  category: Object
   ecs_field: event.provider
   cim_field: api_group
   asim_field: EventProduct
-  category: Object
 - field_name: objectRef.apiVersion
   field_type: string
   description: Version of the API group
+  category: Object
   ecs_field: event.provider
   cim_field: api_version
   asim_field: EventProduct
-  category: Object
 - field_name: objectRef.resourceVersion
   field_type: string
   description: Resource version of the object
+  category: Object
   ecs_field: kubernetes.apiserverauditlogs.objectref_resourceversion
   cim_field: kubernetes.apiserverauditlogs.objectref_resourceversion
   asim_field: kubernetes.apiserverauditlogs.objectref_resourceversion
-  category: Object
 - field_name: objectRef.subresource
   field_type: string
   description: Subresource name (status, scale, etc.)
-  ecs_field: event.outcome
-  cim_field: objectRef.subresource
-  asim_field: objectRef.subresource
   category: Object
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: responseStatus.code
   field_type: integer
   description: HTTP status code of the response
-  ecs_field: http.response.status_code
-  cim_field: responseStatus.code
-  asim_field: responseStatus.code
   category: Response
+  ecs_field: http.response.status_code
+  cim_field: ''
+  asim_field: ''
 - field_name: responseStatus.status
   field_type: string
   description: Status of the operation (Success, Failure)
-  ecs_field: event.outcome
-  cim_field: responseStatus.status
-  asim_field: responseStatus.status
   category: Response
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: responseStatus.message
   field_type: string
   description: Human-readable description of the status
-  ecs_field: event.outcome
-  cim_field: responseStatus.message
-  asim_field: responseStatus.message
   category: Response
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: responseStatus.reason
   field_type: string
   description: Machine-readable reason for the status
-  ecs_field: event.outcome
-  cim_field: responseStatus.reason
-  asim_field: responseStatus.reason
   category: Response
+  ecs_field: event.outcome
+  cim_field: ''
+  asim_field: ''
 - field_name: responseObject
   field_type: object
   description: API object returned in the response in JSON format
+  category: Response
   ecs_field: kubernetes.apiserverauditlogs.responseobject
   cim_field: kubernetes.apiserverauditlogs.responseobject
   asim_field: kubernetes.apiserverauditlogs.responseobject
-  category: Response
 - field_name: requestReceivedTimestamp
   field_type: datetime
   description: Time the request reached the API server (MicroTime)
+  category: Timing
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
-  category: Timing
 - field_name: stageTimestamp
   field_type: datetime
   description: Time the request reached current audit stage (MicroTime)
+  category: Timing
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
-  category: Timing
 - field_name: annotations
   field_type: object
   description: Unstructured key-value map set by plugins in the request serving chain
+  category: Metadata
   ecs_field: kubernetes.apiserverauditlogs.annotations
   cim_field: kubernetes.apiserverauditlogs.annotations
   asim_field: kubernetes.apiserverauditlogs.annotations
-  category: Metadata
 - field_name: authenticationMetadata.impersonationConstraint
   field_type: string
   description: The verb associated with constrained impersonation mode
+  category: Metadata
   ecs_field: kubernetes.apiserverauditlogs.authenticationmetadata_impersonationconstraint
   cim_field: kubernetes.apiserverauditlogs.authenticationmetadata_impersonationconstraint
   asim_field: kubernetes.apiserverauditlogs.authenticationmetadata_impersonationconstraint
-  category: Metadata
+mapped_field_count: 34
 notes: Audit events generated by the Kubernetes API server for cluster activity monitoring.
   Supports multiple audit levels and stages.
