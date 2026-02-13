@@ -7,7 +7,7 @@ source_document: Defender for Endpoint API Field Mapping
 source_url: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/api-portal-mapping
 extraction_date: '2026-01-02'
 source_file: defender-endpoint-signatures.json
-generated_at: '2026-02-13T08:53:47.066865'
+generated_at: '2026-02-13T09:25:16.698244'
 categories:
 - Alert
 - DeviceEvidence
@@ -104,16 +104,16 @@ fields:
 - field_name: detectorId
   field_type: string
   description: Detector/IoA definition ID
-  ecs_field: microsoft.defenderforendpoint.detectorid
-  cim_field: microsoft.defenderforendpoint.detectorid
-  asim_field: microsoft.defenderforendpoint.detectorid
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: Alert
 - field_name: detectionSource
   field_type: string
   description: Source of detection (EDR, AV, SmartScreen, etc.)
-  ecs_field: microsoft.defenderforendpoint.detectionsource
-  cim_field: microsoft.defenderforendpoint.detectionsource
-  asim_field: microsoft.defenderforendpoint.detectionsource
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: EventProduct
   category: Alert
 - field_name: mitreTechniques
   field_type: array
@@ -125,9 +125,9 @@ fields:
 - field_name: evidence.deviceEvidence.deviceDnsName
   field_type: string
   description: DNS name of the device
-  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_devicednsname
-  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_devicednsname
-  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_devicednsname
+  ecs_field: host.hostname
+  cim_field: dvc_name
+  asim_field: DvcHostname
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.mdeDeviceId
   field_type: guid
@@ -146,9 +146,9 @@ fields:
 - field_name: evidence.deviceEvidence.loggedOnUsers
   field_type: array
   description: Users logged on to the device
-  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_loggedonusers
-  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_loggedonusers
-  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_loggedonusers
+  ecs_field: related.user
+  cim_field: user
+  asim_field: ActorUsername
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.osPlatform
   field_type: string
@@ -174,9 +174,9 @@ fields:
 - field_name: evidence.deviceEvidence.riskScore
   field_type: string
   description: Device risk score
-  ecs_field: microsoft.defenderforendpoint.evidence_deviceevidence_riskscore
-  cim_field: microsoft.defenderforendpoint.evidence_deviceevidence_riskscore
-  asim_field: microsoft.defenderforendpoint.evidence_deviceevidence_riskscore
+  ecs_field: event.risk_score
+  cim_field: severity
+  asim_field: EventSeverity
   category: DeviceEvidence
 - field_name: evidence.deviceEvidence.tags
   field_type: array
@@ -272,9 +272,9 @@ fields:
 - field_name: evidence.processEvidence.parentProcessId
   field_type: integer
   description: Parent process ID
-  ecs_field: process.pid
-  cim_field: evidence.processEvidence.parentProcessId
-  asim_field: evidence.processEvidence.parentProcessId
+  ecs_field: process.parent.pid
+  cim_field: parent_process_id
+  asim_field: ParentProcessId
   category: ProcessEvidence
 - field_name: evidence.processEvidence.processCreationTime
   field_type: datetime
@@ -300,16 +300,16 @@ fields:
 - field_name: evidence.processEvidence.imageFile.sha1
   field_type: hash
   description: Process image SHA1
-  ecs_field: file.hash.sha256
+  ecs_field: process.hash.sha1
   cim_field: file_hash
-  asim_field: TargetFileSHA256
+  asim_field: FileHash
   category: ProcessEvidence
 - field_name: evidence.processEvidence.imageFile.sha256
   field_type: hash
   description: Process image SHA256
-  ecs_field: file.hash.sha256
+  ecs_field: process.hash.sha256
   cim_field: file_hash
-  asim_field: TargetFileSHA256
+  asim_field: FileSHA256
   category: ProcessEvidence
 - field_name: evidence.processEvidence.detectionStatus
   field_type: string

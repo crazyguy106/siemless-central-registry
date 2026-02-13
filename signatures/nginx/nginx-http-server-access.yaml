@@ -7,7 +7,7 @@ source_document: Nginx Core Module and Log Module Documentation
 source_url: https://nginx.org/en/docs/http/ngx_http_log_module.html
 extraction_date: '2026-01-02'
 source_file: nginx-signatures.json
-generated_at: '2026-02-13T08:53:55.405222'
+generated_at: '2026-02-13T09:25:25.142968'
 categories:
 - Client
 - Request
@@ -100,8 +100,8 @@ fields:
 - field_name: $arg_name
   field_type: string
   description: Argument 'name' in the request line
-  ecs_field: nginx.nginxhttpserveraccesslogs._arg_name
-  cim_field: nginx.nginxhttpserveraccesslogs._arg_name
+  ecs_field: url.query
+  cim_field: query
   asim_field: nginx.nginxhttpserveraccesslogs._arg_name
   category: Request
 - field_name: $is_args
@@ -128,14 +128,14 @@ fields:
 - field_name: $request_completion
   field_type: string
   description: '''OK'' if request has completed, empty otherwise'
-  ecs_field: nginx.nginxhttpserveraccesslogs._request_completion
-  cim_field: nginx.nginxhttpserveraccesslogs._request_completion
-  asim_field: nginx.nginxhttpserveraccesslogs._request_completion
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   category: Request
 - field_name: $request_id
   field_type: string
   description: Unique request identifier (16 random bytes in hex)
-  ecs_field: nginx.nginxhttpserveraccesslogs._request_id
+  ecs_field: event.id
   cim_field: nginx.nginxhttpserveraccesslogs._request_id
   asim_field: nginx.nginxhttpserveraccesslogs._request_id
   category: Request
@@ -177,7 +177,7 @@ fields:
 - field_name: $sent_http_name
   field_type: string
   description: Arbitrary response header field
-  ecs_field: nginx.nginxhttpserveraccesslogs._sent_http_name
+  ecs_field: http.response.headers
   cim_field: nginx.nginxhttpserveraccesslogs._sent_http_name
   asim_field: nginx.nginxhttpserveraccesslogs._sent_http_name
   category: Response
@@ -205,8 +205,8 @@ fields:
 - field_name: $connection_time
   field_type: float
   description: Connection time in seconds with milliseconds
-  ecs_field: nginx.nginxhttpserveraccesslogs._connection_time
-  cim_field: nginx.nginxhttpserveraccesslogs._connection_time
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: nginx.nginxhttpserveraccesslogs._connection_time
   category: Connection
 - field_name: $pipe
@@ -268,7 +268,7 @@ fields:
 - field_name: $http_cookie
   field_type: string
   description: HTTP Cookie header
-  ecs_field: nginx.nginxhttpserveraccesslogs._http_cookie
+  ecs_field: http.request.header.cookie
   cim_field: cookie
   asim_field: HttpCookie
   category: Headers
@@ -282,7 +282,7 @@ fields:
 - field_name: $cookie_name
   field_type: string
   description: The 'name' cookie value
-  ecs_field: nginx.nginxhttpserveraccesslogs._cookie_name
+  ecs_field: http.request.header.cookie
   cim_field: nginx.nginxhttpserveraccesslogs._cookie_name
   asim_field: nginx.nginxhttpserveraccesslogs._cookie_name
   category: Headers
@@ -352,14 +352,14 @@ fields:
 - field_name: $https
   field_type: string
   description: '''on'' if SSL mode, empty otherwise'
-  ecs_field: nginx.nginxhttpserveraccesslogs._https
-  cim_field: nginx.nginxhttpserveraccesslogs._https
+  ecs_field: network.transport
+  cim_field: transport
   asim_field: nginx.nginxhttpserveraccesslogs._https
   category: Server
 - field_name: $nginx_version
   field_type: string
   description: Nginx version
-  ecs_field: nginx.nginxhttpserveraccesslogs._nginx_version
+  ecs_field: observer.version
   cim_field: nginx.nginxhttpserveraccesslogs._nginx_version
   asim_field: nginx.nginxhttpserveraccesslogs._nginx_version
   category: Server
@@ -373,16 +373,16 @@ fields:
 - field_name: $document_root
   field_type: string
   description: Root or alias directive's value for current request
-  ecs_field: nginx.nginxhttpserveraccesslogs._document_root
-  cim_field: nginx.nginxhttpserveraccesslogs._document_root
-  asim_field: nginx.nginxhttpserveraccesslogs._document_root
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFileName
   category: Server
 - field_name: $realpath_root
   field_type: string
   description: Absolute pathname with symbolic links resolved
-  ecs_field: nginx.nginxhttpserveraccesslogs._realpath_root
-  cim_field: nginx.nginxhttpserveraccesslogs._realpath_root
-  asim_field: nginx.nginxhttpserveraccesslogs._realpath_root
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFileName
   category: Server
 - field_name: $proxy_protocol_addr
   field_type: ip

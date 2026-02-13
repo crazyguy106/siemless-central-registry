@@ -7,7 +7,7 @@ source_document: Event syslog message formats
 source_url: https://help.deepsecurity.trendmicro.com/20_0/on-premise/event-syslog-message-formats.html
 extraction_date: '2026-01-02'
 source_file: trendmicro-deepsecurity-signatures.json
-generated_at: '2026-02-13T08:53:56.651150'
+generated_at: '2026-02-13T09:25:26.411997'
 categories:
 - CEF Header
 - Container
@@ -77,8 +77,8 @@ fields:
 - field_name: TrendMicroDsCluster
   field_type: string
   description: Kubernetes cluster name
-  ecs_field: trendmicro.deepsecurity.trendmicrodscluster
-  cim_field: trendmicro.deepsecurity.trendmicrodscluster
+  ecs_field: orchestrator.cluster.name
+  cim_field: cluster_name
   asim_field: trendmicro.deepsecurity.trendmicrodscluster
   category: Container
 - field_name: TrendMicroDsContainerId
@@ -98,35 +98,35 @@ fields:
 - field_name: TrendMicroDsDetectionConfidence
   field_type: integer
   description: Threat probability percentage
-  ecs_field: trendmicro.deepsecurity.trendmicrodsdetectionconfidence
+  ecs_field: threat.indicator.confidence
   cim_field: trendmicro.deepsecurity.trendmicrodsdetectionconfidence
-  asim_field: trendmicro.deepsecurity.trendmicrodsdetectionconfidence
+  asim_field: ThreatConfidence
   category: Anti-Malware
 - field_name: TrendMicroDsFileMD5
   field_type: string
   description: MD5 hash value of file
   ecs_field: file.hash.md5
-  cim_field: file_hash_md5
-  asim_field: FileHashMd5
+  cim_field: file_hash
+  asim_field: FileMD5
   category: Anti-Malware
 - field_name: TrendMicroDsFileSHA1
   field_type: string
   description: SHA1 hash value of file
-  ecs_field: trendmicro.deepsecurity.trendmicrodsfilesha1
-  cim_field: trendmicro.deepsecurity.trendmicrodsfilesha1
-  asim_field: trendmicro.deepsecurity.trendmicrodsfilesha1
+  ecs_field: file.hash.sha1
+  cim_field: file_hash
+  asim_field: FileHash
   category: Anti-Malware
 - field_name: TrendMicroDsFileSHA256
   field_type: string
   description: SHA256 hash value of file
   ecs_field: file.hash.sha256
-  cim_field: file_hash_sha256
-  asim_field: FileHashSha256
+  cim_field: file_hash
+  asim_field: FileSHA256
   category: Anti-Malware
 - field_name: TrendMicroDsFrameType
   field_type: string
   description: Ethernet frame type (IP, ARP, RevARP, NetBEUI)
-  ecs_field: trendmicro.deepsecurity.trendmicrodsframetype
+  ecs_field: network.type
   cim_field: trendmicro.deepsecurity.trendmicrodsframetype
   asim_field: trendmicro.deepsecurity.trendmicrodsframetype
   category: Firewall
@@ -189,9 +189,9 @@ fields:
 - field_name: TrendMicroDsRelevantDetectionNames
   field_type: string
   description: Probable threat type (semicolon-separated)
-  ecs_field: trendmicro.deepsecurity.trendmicrodsrelevantdetectionnames
-  cim_field: trendmicro.deepsecurity.trendmicrodsrelevantdetectionnames
-  asim_field: trendmicro.deepsecurity.trendmicrodsrelevantdetectionnames
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
   category: Anti-Malware
 - field_name: TrendMicroDsSslCertificateCN
   field_type: string
@@ -224,21 +224,21 @@ fields:
 - field_name: TrendMicroDsTags
   field_type: string
   description: Event tags
-  ecs_field: trendmicro.deepsecurity.trendmicrodstags
-  cim_field: trendmicro.deepsecurity.trendmicrodstags
+  ecs_field: tags
+  cim_field: tag
   asim_field: trendmicro.deepsecurity.trendmicrodstags
   category: Universal
 - field_name: TrendMicroDsTenant
   field_type: string
   description: Tenant name
-  ecs_field: trendmicro.deepsecurity.trendmicrodstenant
+  ecs_field: cloud.account.name
   cim_field: trendmicro.deepsecurity.trendmicrodstenant
   asim_field: trendmicro.deepsecurity.trendmicrodstenant
   category: Universal
 - field_name: TrendMicroDsTenantId
   field_type: integer
   description: Tenant ID number
-  ecs_field: trendmicro.deepsecurity.trendmicrodstenantid
+  ecs_field: cloud.account.id
   cim_field: trendmicro.deepsecurity.trendmicrodstenantid
   asim_field: trendmicro.deepsecurity.trendmicrodstenantid
   category: Universal
@@ -246,8 +246,8 @@ fields:
   field_type: string
   description: Action taken (Delete, Quarantine, Clean, Pass, Deny Access, Terminate)
   ecs_field: event.action
-  cim_field: act
-  asim_field: act
+  cim_field: action
+  asim_field: DvcAction
   category: Anti-Malware
 - field_name: aggregationType
   field_type: integer
@@ -261,7 +261,7 @@ fields:
   description: Event category
   ecs_field: event.category
   cim_field: category
-  asim_field: EventCategory
+  asim_field: EventType
   category: Universal
 - field_name: cn1
   field_type: integer
@@ -526,8 +526,8 @@ fields:
   field_type: string
   description: Malware file location
   ecs_field: file.path
-  cim_field: filePath
-  asim_field: filePath
+  cim_field: file_path
+  asim_field: FileDirectory
   category: Anti-Malware
 - field_name: fname
   field_type: string

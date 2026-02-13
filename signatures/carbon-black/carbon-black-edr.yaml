@@ -7,7 +7,7 @@ source_document: Event Forwarder Event Schema
 source_url: https://developer.carbonblack.com/reference/enterprise-response/connectors/event-forwarder/event-schema/
 extraction_date: '2026-01-02'
 source_file: carbonblack-edr-signatures.json
-generated_at: '2026-02-13T08:53:42.671751'
+generated_at: '2026-02-13T09:25:12.213188'
 categories:
 - ServerEvents
 - ProcessDocument
@@ -26,7 +26,7 @@ fields:
 - field_name: cb_version
   field_type: string
   description: Carbon Black server version
-  ecs_field: vmwarecarbonblack.carbonblackedr.cb_version
+  ecs_field: observer.version
   cim_field: vmwarecarbonblack.carbonblackedr.cb_version
   asim_field: vmwarecarbonblack.carbonblackedr.cb_version
   category: ServerEvents
@@ -47,28 +47,28 @@ fields:
 - field_name: watchlist_id
   field_type: integer
   description: Identifier of the watchlist that matched
-  ecs_field: vmwarecarbonblack.carbonblackedr.watchlist_id
-  cim_field: vmwarecarbonblack.carbonblackedr.watchlist_id
-  asim_field: vmwarecarbonblack.carbonblackedr.watchlist_id
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: ServerEvents
 - field_name: watchlist_name
   field_type: string
   description: Name of watchlist that matched
-  ecs_field: vmwarecarbonblack.carbonblackedr.watchlist_name
-  cim_field: vmwarecarbonblack.carbonblackedr.watchlist_name
-  asim_field: vmwarecarbonblack.carbonblackedr.watchlist_name
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
   category: ServerEvents
 - field_name: feed_id
   field_type: integer
   description: Identifier of feed with matching report
-  ecs_field: vmwarecarbonblack.carbonblackedr.feed_id
+  ecs_field: threat.feed.name
   cim_field: vmwarecarbonblack.carbonblackedr.feed_id
   asim_field: vmwarecarbonblack.carbonblackedr.feed_id
   category: ServerEvents
 - field_name: feed_name
   field_type: string
   description: Name of feed with matching report
-  ecs_field: vmwarecarbonblack.carbonblackedr.feed_name
+  ecs_field: threat.feed.name
   cim_field: vmwarecarbonblack.carbonblackedr.feed_name
   asim_field: vmwarecarbonblack.carbonblackedr.feed_name
   category: ServerEvents
@@ -76,20 +76,20 @@ fields:
   field_type: string
   description: Identifier of report with matching IOC
   ecs_field: rule.id
-  cim_field: report_id
-  asim_field: RuleId
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: ServerEvents
 - field_name: ioc_type
   field_type: string
   description: 'IOC type: md5, dns, ipv4, query'
-  ecs_field: dns.question.name
+  ecs_field: threat.indicator.type
   cim_field: ioc_type
   asim_field: ioc_type
   category: ServerEvents
 - field_name: ioc_value
   field_type: string
   description: The matching IOC value
-  ecs_field: vmwarecarbonblack.carbonblackedr.ioc_value
+  ecs_field: threat.indicator.ip
   cim_field: vmwarecarbonblack.carbonblackedr.ioc_value
   asim_field: vmwarecarbonblack.carbonblackedr.ioc_value
   category: ServerEvents
@@ -118,8 +118,8 @@ fields:
   field_type: hash
   description: MD5 of executable file backing process
   ecs_field: process.hash.md5
-  cim_field: process_md5
-  asim_field: TargetProcessHashMd5
+  cim_field: file_hash
+  asim_field: FileMD5
   category: ProcessDocument
 - field_name: process_pid
   field_type: integer
@@ -152,23 +152,23 @@ fields:
 - field_name: hostname
   field_type: string
   description: Hostname of computer where process executed
-  ecs_field: source.domain
-  cim_field: src_hostname
-  asim_field: SrcHostname
+  ecs_field: host.hostname
+  cim_field: dvc_name
+  asim_field: DvcHostname
   category: ProcessDocument
 - field_name: sensor_id
   field_type: integer
   description: Endpoint identifier
-  ecs_field: agent.id
-  cim_field: agent_id
+  ecs_field: observer.serial_number
+  cim_field: dvc_id
   asim_field: DvcId
   category: ProcessDocument
 - field_name: group
   field_type: string
   description: Sensor group at time of process execution
-  ecs_field: user.group.name
-  cim_field: user_group
-  asim_field: TargetUserGroup
+  ecs_field: observer.name
+  cim_field: dvc_name
+  asim_field: DvcHostname
   category: ProcessDocument
 - field_name: host_type
   field_type: string
@@ -202,14 +202,14 @@ fields:
   field_type: hash
   description: MD5 of parent process
   ecs_field: process.parent.hash.md5
-  cim_field: parent_md5
-  asim_field: ParentProcessHashMd5
+  cim_field: file_hash
+  asim_field: FileMD5
   category: ProcessDocument
 - field_name: parent_pid
   field_type: integer
   description: PID of parent process
   ecs_field: process.parent.pid
-  cim_field: parent_pid
+  cim_field: parent_process_id
   asim_field: ParentProcessId
   category: ProcessDocument
 - field_name: parent_unique_id
@@ -467,7 +467,7 @@ fields:
 - field_name: parent_create_time
   field_type: integer
   description: Parent process creation time (seconds since epoch)
-  ecs_field: vmwarecarbonblack.carbonblackedr.parent_create_time
+  ecs_field: process.parent.start
   cim_field: vmwarecarbonblack.carbonblackedr.parent_create_time
   asim_field: vmwarecarbonblack.carbonblackedr.parent_create_time
   category: ProcessStart
@@ -475,8 +475,8 @@ fields:
   field_type: string
   description: File path of parent executable
   ecs_field: process.parent.executable
-  cim_field: parent_path
-  asim_field: ParentProcessPath
+  cim_field: parent_process
+  asim_field: ParentProcessName
   category: ProcessStart
 - field_name: parent_process_guid
   field_type: string

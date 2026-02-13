@@ -7,7 +7,7 @@ source_document: 'Squid Configuration Directive: logformat'
 source_url: http://www.squid-cache.org/Doc/config/logformat/
 extraction_date: '2026-01-02'
 source_file: squid-signatures.json
-generated_at: '2026-02-13T08:53:56.477742'
+generated_at: '2026-02-13T09:25:26.238563'
 categories:
 - Connection
 - Time
@@ -73,9 +73,9 @@ fields:
 - field_name: '%lp'
   field_type: integer
   description: Local port client connected to
-  ecs_field: squid.squidproxyaccesslogs._lp
-  cim_field: proxy_port
-  asim_field: DvcPort
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Connection
 - field_name: '%>eui'
   field_type: string
@@ -129,8 +129,8 @@ fields:
 - field_name: '%>tt'
   field_type: integer
   description: Request transmission time (ms)
-  ecs_field: squid.squidproxyaccesslogs.__tt
-  cim_field: squid.squidproxyaccesslogs.__tt
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: squid.squidproxyaccesslogs.__tt
   category: Time
 - field_name: '%<tt'
@@ -171,15 +171,15 @@ fields:
 - field_name: '%>h'
   field_type: string
   description: Original request header (use %{Header}>h)
-  ecs_field: squid.squidproxyaccesslogs.__h
+  ecs_field: http.request.headers
   cim_field: squid.squidproxyaccesslogs.__h
   asim_field: squid.squidproxyaccesslogs.__h
   category: HTTP
 - field_name: '%{Referer}>h'
   field_type: string
   description: Referer request header
-  ecs_field: squid.squidproxyaccesslogs.__referer__h
-  cim_field: squid.squidproxyaccesslogs.__referer__h
+  ecs_field: http.request.referrer
+  cim_field: http_referrer
   asim_field: squid.squidproxyaccesslogs.__referer__h
   category: HTTP
 - field_name: '%{User-Agent}>h'
@@ -192,7 +192,7 @@ fields:
 - field_name: '%{Host}>h'
   field_type: string
   description: Host request header
-  ecs_field: squid.squidproxyaccesslogs.__host__h
+  ecs_field: url.domain
   cim_field: squid.squidproxyaccesslogs.__host__h
   asim_field: squid.squidproxyaccesslogs.__host__h
   category: HTTP
@@ -213,7 +213,7 @@ fields:
 - field_name: '%<h'
   field_type: string
   description: Response header (use %{Header}<h)
-  ecs_field: squid.squidproxyaccesslogs.__h
+  ecs_field: http.response.headers
   cim_field: squid.squidproxyaccesslogs.__h
   asim_field: squid.squidproxyaccesslogs.__h
   category: HTTP
@@ -262,43 +262,43 @@ fields:
 - field_name: '%>sh'
   field_type: integer
   description: Size of request headers
-  ecs_field: squid.squidproxyaccesslogs.__sh
-  cim_field: request_header_bytes
+  ecs_field: http.request.body.bytes
+  cim_field: bytes_in
   asim_field: SrcBytes
   category: Size
 - field_name: '%<sh'
   field_type: integer
   description: Size of reply headers received
-  ecs_field: squid.squidproxyaccesslogs.__sh
-  cim_field: response_header_bytes
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_out
   asim_field: DstBytes
   category: Size
 - field_name: '%>sH'
   field_type: integer
   description: Size of request headers sent to server
-  ecs_field: squid.squidproxyaccesslogs.__sh
-  cim_field: request_header_bytes
+  ecs_field: http.request.body.bytes
+  cim_field: bytes_in
   asim_field: SrcBytes
   category: Size
 - field_name: '%<sH'
   field_type: integer
   description: Size of reply headers sent to client
-  ecs_field: squid.squidproxyaccesslogs.__sh
-  cim_field: response_header_bytes
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_out
   asim_field: DstBytes
   category: Size
 - field_name: '%>sb'
   field_type: integer
   description: Size of request body
-  ecs_field: squid.squidproxyaccesslogs.__sb
-  cim_field: squid.squidproxyaccesslogs.__sb
+  ecs_field: http.request.body.bytes
+  cim_field: bytes_in
   asim_field: squid.squidproxyaccesslogs.__sb
   category: Size
 - field_name: '%<sb'
   field_type: integer
   description: Size of reply body
-  ecs_field: squid.squidproxyaccesslogs.__sb
-  cim_field: squid.squidproxyaccesslogs.__sb
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_out
   asim_field: squid.squidproxyaccesslogs.__sb
   category: Size
 - field_name: '%un'
@@ -339,9 +339,9 @@ fields:
 - field_name: '%credentials'
   field_type: string
   description: Client credentials or auth method
-  ecs_field: squid.squidproxyaccesslogs._credentials
-  cim_field: squid.squidproxyaccesslogs._credentials
-  asim_field: squid.squidproxyaccesslogs._credentials
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: Connection
 - field_name: '%ssl::bump_mode'
   field_type: string
@@ -353,7 +353,7 @@ fields:
 - field_name: '%ssl::>sni'
   field_type: string
   description: TLS Server Name Indication from client
-  ecs_field: squid.squidproxyaccesslogs._ssl___sni
+  ecs_field: tls.client.server_name
   cim_field: squid.squidproxyaccesslogs._ssl___sni
   asim_field: squid.squidproxyaccesslogs._ssl___sni
   category: SSL
@@ -451,8 +451,8 @@ fields:
 - field_name: '%icap::tt'
   field_type: integer
   description: Total ICAP processing time (ms)
-  ecs_field: squid.squidproxyaccesslogs._icap__tt
-  cim_field: squid.squidproxyaccesslogs._icap__tt
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: squid.squidproxyaccesslogs._icap__tt
   category: ICAP
 - field_name: '%icap::>st'
@@ -507,9 +507,9 @@ fields:
 - field_name: '%icap::ru'
   field_type: string
   description: ICAP server URI used
-  ecs_field: squid.squidproxyaccesslogs._icap__ru
-  cim_field: squid.squidproxyaccesslogs._icap__ru
-  asim_field: squid.squidproxyaccesslogs._icap__ru
+  ecs_field: url.full
+  cim_field: url
+  asim_field: UrlOriginal
   category: ICAP
 - field_name: '%adapt::sum_trs'
   field_type: string

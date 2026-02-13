@@ -7,7 +7,7 @@ source_document: API Server Audit Configuration Reference
 source_url: https://kubernetes.io/docs/reference/config-api/apiserver-audit.v1/
 extraction_date: '2026-01-02'
 source_file: kubernetes-audit-signatures.json
-generated_at: '2026-02-13T08:53:55.003368'
+generated_at: '2026-02-13T09:25:24.734963'
 categories:
 - Core
 - Request
@@ -43,7 +43,7 @@ fields:
 - field_name: auditID
   field_type: string
   description: Unique audit ID generated for each request
-  ecs_field: kubernetes.apiserverauditlogs.auditid
+  ecs_field: event.id
   cim_field: kubernetes.apiserverauditlogs.auditid
   asim_field: kubernetes.apiserverauditlogs.auditid
   category: Core
@@ -93,21 +93,21 @@ fields:
 - field_name: user.username
   field_type: string
   description: The name that uniquely identifies this user
-  ecs_field: kubernetes.apiserverauditlogs.user_username
-  cim_field: kubernetes.apiserverauditlogs.user_username
-  asim_field: kubernetes.apiserverauditlogs.user_username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: User
 - field_name: user.uid
   field_type: string
   description: A unique value that identifies this user across time
-  ecs_field: kubernetes.apiserverauditlogs.user_uid
+  ecs_field: user.id
   cim_field: kubernetes.apiserverauditlogs.user_uid
   asim_field: kubernetes.apiserverauditlogs.user_uid
   category: User
 - field_name: user.groups
   field_type: array
   description: The names of groups this user is a part of
-  ecs_field: kubernetes.apiserverauditlogs.user_groups
+  ecs_field: user.group.name
   cim_field: kubernetes.apiserverauditlogs.user_groups
   asim_field: kubernetes.apiserverauditlogs.user_groups
   category: User
@@ -128,14 +128,14 @@ fields:
 - field_name: impersonatedUser.uid
   field_type: string
   description: UID of the impersonated user
-  ecs_field: kubernetes.apiserverauditlogs.impersonateduser_uid
+  ecs_field: user.id
   cim_field: kubernetes.apiserverauditlogs.impersonateduser_uid
   asim_field: kubernetes.apiserverauditlogs.impersonateduser_uid
   category: User
 - field_name: impersonatedUser.groups
   field_type: array
   description: Groups of the impersonated user
-  ecs_field: kubernetes.apiserverauditlogs.impersonateduser_groups
+  ecs_field: user.group.name
   cim_field: kubernetes.apiserverauditlogs.impersonateduser_groups
   asim_field: kubernetes.apiserverauditlogs.impersonateduser_groups
   category: User

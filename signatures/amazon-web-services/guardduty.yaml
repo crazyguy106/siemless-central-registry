@@ -7,7 +7,7 @@ source_document: GuardDuty Finding Format
 source_url: https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-format.html
 extraction_date: '2026-01-02'
 source_file: aws-guardduty-signatures.json
-generated_at: '2026-02-13T08:53:42.261507'
+generated_at: '2026-02-13T09:25:11.813944'
 categories:
 - Metadata
 - Classification
@@ -26,8 +26,8 @@ fields:
 - field_name: Arn
   field_type: string
   description: ARN of the finding
-  ecs_field: amazonwebservices.guardduty.arn
-  cim_field: amazonwebservices.guardduty.arn
+  ecs_field: event.provider
+  cim_field: signature_id
   asim_field: amazonwebservices.guardduty.arn
   category: Metadata
 - field_name: Confidence
@@ -68,15 +68,15 @@ fields:
 - field_name: LocalPortDetails.PortName
   field_type: string
   description: Local port name
-  ecs_field: amazonwebservices.guardduty.localportdetails_portname
-  cim_field: amazonwebservices.guardduty.localportdetails_portname
-  asim_field: amazonwebservices.guardduty.localportdetails_portname
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: Network
 - field_name: Partition
   field_type: string
   description: AWS partition where finding was generated
-  ecs_field: amazonwebservices.guardduty.partition
-  cim_field: amazonwebservices.guardduty.partition
+  ecs_field: cloud.provider
+  cim_field: vendor_product
   asim_field: amazonwebservices.guardduty.partition
   category: Metadata
 - field_name: Region
@@ -89,7 +89,7 @@ fields:
 - field_name: RemoteIpDetails.City.CityName
   field_type: string
   description: City name
-  ecs_field: amazonwebservices.guardduty.remoteipdetails_city_cityname
+  ecs_field: source.geo.city_name
   cim_field: amazonwebservices.guardduty.remoteipdetails_city_cityname
   asim_field: amazonwebservices.guardduty.remoteipdetails_city_cityname
   category: Network
@@ -110,14 +110,14 @@ fields:
 - field_name: RemoteIpDetails.GeoLocation.Lat
   field_type: number
   description: Latitude
-  ecs_field: amazonwebservices.guardduty.remoteipdetails_geolocation_lat
+  ecs_field: source.geo.location.lat
   cim_field: amazonwebservices.guardduty.remoteipdetails_geolocation_lat
   asim_field: amazonwebservices.guardduty.remoteipdetails_geolocation_lat
   category: Network
 - field_name: RemoteIpDetails.GeoLocation.Lon
   field_type: number
   description: Longitude
-  ecs_field: amazonwebservices.guardduty.remoteipdetails_geolocation_lon
+  ecs_field: source.geo.location.lon
   cim_field: amazonwebservices.guardduty.remoteipdetails_geolocation_lon
   asim_field: amazonwebservices.guardduty.remoteipdetails_geolocation_lon
   category: Network
@@ -138,14 +138,14 @@ fields:
 - field_name: RemoteIpDetails.Organization.Asn
   field_type: string
   description: Autonomous system number
-  ecs_field: amazonwebservices.guardduty.remoteipdetails_organization_asn
+  ecs_field: source.as.number
   cim_field: amazonwebservices.guardduty.remoteipdetails_organization_asn
   asim_field: amazonwebservices.guardduty.remoteipdetails_organization_asn
   category: Network
 - field_name: RemoteIpDetails.Organization.AsnOrg
   field_type: string
   description: Organization associated with ASN
-  ecs_field: amazonwebservices.guardduty.remoteipdetails_organization_asnorg
+  ecs_field: source.as.organization.name
   cim_field: amazonwebservices.guardduty.remoteipdetails_organization_asnorg
   asim_field: amazonwebservices.guardduty.remoteipdetails_organization_asnorg
   category: Network
@@ -159,7 +159,7 @@ fields:
 - field_name: RemoteIpDetails.Organization.Org
   field_type: string
   description: Organization name
-  ecs_field: amazonwebservices.guardduty.remoteipdetails_organization_org
+  ecs_field: source.as.organization.name
   cim_field: amazonwebservices.guardduty.remoteipdetails_organization_org
   asim_field: amazonwebservices.guardduty.remoteipdetails_organization_org
   category: Network
@@ -180,23 +180,23 @@ fields:
 - field_name: Resource.AccessKeyDetails.AccessKeyId
   field_type: string
   description: AWS access key ID
-  ecs_field: amazonwebservices.guardduty.resource_accesskeydetails_accesskeyid
-  cim_field: amazonwebservices.guardduty.resource_accesskeydetails_accesskeyid
-  asim_field: amazonwebservices.guardduty.resource_accesskeydetails_accesskeyid
+  ecs_field: user.id
+  cim_field: account_id
+  asim_field: CloudAccountId
   category: Resource
 - field_name: Resource.AccessKeyDetails.PrincipalId
   field_type: string
   description: Principal ID of the access key owner
-  ecs_field: amazonwebservices.guardduty.resource_accesskeydetails_principalid
-  cim_field: amazonwebservices.guardduty.resource_accesskeydetails_principalid
-  asim_field: amazonwebservices.guardduty.resource_accesskeydetails_principalid
+  ecs_field: user.id
+  cim_field: user
+  asim_field: ActorUsername
   category: Resource
 - field_name: Resource.AccessKeyDetails.UserName
   field_type: string
   description: Name of the user
-  ecs_field: amazonwebservices.guardduty.resource_accesskeydetails_username
-  cim_field: amazonwebservices.guardduty.resource_accesskeydetails_username
-  asim_field: amazonwebservices.guardduty.resource_accesskeydetails_username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: Resource
 - field_name: Resource.AccessKeyDetails.UserType
   field_type: string
@@ -215,28 +215,28 @@ fields:
 - field_name: Resource.EcsClusterDetails
   field_type: object
   description: ECS cluster details
-  ecs_field: amazonwebservices.guardduty.resource_ecsclusterdetails
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.guardduty.resource_ecsclusterdetails
   asim_field: amazonwebservices.guardduty.resource_ecsclusterdetails
   category: Resource
 - field_name: Resource.EksClusterDetails
   field_type: object
   description: EKS cluster details
-  ecs_field: amazonwebservices.guardduty.resource_eksclusterdetails
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.guardduty.resource_eksclusterdetails
   asim_field: amazonwebservices.guardduty.resource_eksclusterdetails
   category: Resource
 - field_name: Resource.InstanceDetails.IamInstanceProfile.Arn
   field_type: string
   description: ARN of IAM instance profile
-  ecs_field: amazonwebservices.guardduty.resource_instancedetails_iaminstanceprofile_arn
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.guardduty.resource_instancedetails_iaminstanceprofile_arn
   asim_field: amazonwebservices.guardduty.resource_instancedetails_iaminstanceprofile_arn
   category: Resource
 - field_name: Resource.InstanceDetails.ImageId
   field_type: string
   description: AMI ID used to launch the instance
-  ecs_field: amazonwebservices.guardduty.resource_instancedetails_imageid
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.guardduty.resource_instancedetails_imageid
   asim_field: amazonwebservices.guardduty.resource_instancedetails_imageid
   category: Resource
@@ -250,7 +250,7 @@ fields:
 - field_name: Resource.InstanceDetails.InstanceType
   field_type: string
   description: EC2 instance type
-  ecs_field: amazonwebservices.guardduty.resource_instancedetails_instancetype
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.guardduty.resource_instancedetails_instancetype
   asim_field: amazonwebservices.guardduty.resource_instancedetails_instancetype
   category: Resource
@@ -264,7 +264,7 @@ fields:
 - field_name: Resource.InstanceDetails.NetworkInterfaces
   field_type: array
   description: Network interfaces attached to instance
-  ecs_field: amazonwebservices.guardduty.resource_instancedetails_networkinterfaces
+  ecs_field: observer.name
   cim_field: amazonwebservices.guardduty.resource_instancedetails_networkinterfaces
   asim_field: amazonwebservices.guardduty.resource_instancedetails_networkinterfaces
   category: Resource
@@ -285,28 +285,28 @@ fields:
 - field_name: Resource.LambdaDetails
   field_type: object
   description: Lambda function details
-  ecs_field: amazonwebservices.guardduty.resource_lambdadetails
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.guardduty.resource_lambdadetails
   asim_field: amazonwebservices.guardduty.resource_lambdadetails
   category: Resource
 - field_name: Resource.RdsDbInstanceDetails
   field_type: object
   description: RDS database instance details
-  ecs_field: amazonwebservices.guardduty.resource_rdsdbinstancedetails
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.guardduty.resource_rdsdbinstancedetails
   asim_field: amazonwebservices.guardduty.resource_rdsdbinstancedetails
   category: Resource
 - field_name: Resource.ResourceType
   field_type: string
   description: Type of AWS resource (Instance, AccessKey, S3Bucket, etc.)
-  ecs_field: amazonwebservices.guardduty.resource_resourcetype
-  cim_field: amazonwebservices.guardduty.resource_resourcetype
+  ecs_field: observer.name
+  cim_field: category
   asim_field: amazonwebservices.guardduty.resource_resourcetype
   category: Resource
 - field_name: Resource.S3BucketDetails
   field_type: array
   description: S3 bucket details
-  ecs_field: amazonwebservices.guardduty.resource_s3bucketdetails
+  ecs_field: file.path
   cim_field: amazonwebservices.guardduty.resource_s3bucketdetails
   asim_field: amazonwebservices.guardduty.resource_s3bucketdetails
   category: Resource
@@ -327,14 +327,14 @@ fields:
 - field_name: Service.Action.AwsApiCallAction.Api
   field_type: string
   description: AWS API that was invoked
-  ecs_field: amazonwebservices.guardduty.service_action_awsapicallaction_api
-  cim_field: amazonwebservices.guardduty.service_action_awsapicallaction_api
-  asim_field: amazonwebservices.guardduty.service_action_awsapicallaction_api
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Service
 - field_name: Service.Action.AwsApiCallAction.CallerType
   field_type: string
   description: Type of caller (Root, IAMUser, Role, etc.)
-  ecs_field: amazonwebservices.guardduty.service_action_awsapicallaction_callertype
+  ecs_field: user.name
   cim_field: amazonwebservices.guardduty.service_action_awsapicallaction_callertype
   asim_field: amazonwebservices.guardduty.service_action_awsapicallaction_callertype
   category: Service
@@ -355,21 +355,21 @@ fields:
 - field_name: Service.Action.AwsApiCallAction.ServiceName
   field_type: string
   description: AWS service that made the request
-  ecs_field: amazonwebservices.guardduty.service_action_awsapicallaction_servicename
-  cim_field: amazonwebservices.guardduty.service_action_awsapicallaction_servicename
+  ecs_field: event.provider
+  cim_field: vendor_product
   asim_field: amazonwebservices.guardduty.service_action_awsapicallaction_servicename
   category: Service
 - field_name: Service.Action.DnsRequestAction.Blocked
   field_type: boolean
   description: Whether the DNS request was blocked
-  ecs_field: amazonwebservices.guardduty.service_action_dnsrequestaction_blocked
-  cim_field: amazonwebservices.guardduty.service_action_dnsrequestaction_blocked
-  asim_field: amazonwebservices.guardduty.service_action_dnsrequestaction_blocked
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   category: Service
 - field_name: Service.Action.DnsRequestAction.Domain
   field_type: string
   description: Domain that was requested
-  ecs_field: amazonwebservices.guardduty.service_action_dnsrequestaction_domain
+  ecs_field: dns.question.name
   cim_field: amazonwebservices.guardduty.service_action_dnsrequestaction_domain
   asim_field: amazonwebservices.guardduty.service_action_dnsrequestaction_domain
   category: Service
@@ -383,16 +383,16 @@ fields:
 - field_name: Service.Action.KubernetesApiCallAction
   field_type: object
   description: Kubernetes API call details
-  ecs_field: amazonwebservices.guardduty.service_action_kubernetesapicallaction
+  ecs_field: event.action
   cim_field: amazonwebservices.guardduty.service_action_kubernetesapicallaction
   asim_field: amazonwebservices.guardduty.service_action_kubernetesapicallaction
   category: Service
 - field_name: Service.Action.NetworkConnectionAction.Blocked
   field_type: boolean
   description: Whether the connection was blocked
-  ecs_field: amazonwebservices.guardduty.service_action_networkconnectionaction_blocked
-  cim_field: amazonwebservices.guardduty.service_action_networkconnectionaction_blocked
-  asim_field: amazonwebservices.guardduty.service_action_networkconnectionaction_blocked
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   category: Service
 - field_name: Service.Action.NetworkConnectionAction.ConnectionDirection
   field_type: string
@@ -404,9 +404,9 @@ fields:
 - field_name: Service.Action.NetworkConnectionAction.LocalPortDetails
   field_type: object
   description: Local port details
-  ecs_field: amazonwebservices.guardduty.service_action_networkconnectionaction_localportdetails
-  cim_field: amazonwebservices.guardduty.service_action_networkconnectionaction_localportdetails
-  asim_field: amazonwebservices.guardduty.service_action_networkconnectionaction_localportdetails
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Service
 - field_name: Service.Action.NetworkConnectionAction.Protocol
   field_type: string
@@ -432,23 +432,23 @@ fields:
 - field_name: Service.Action.PortProbeAction.Blocked
   field_type: boolean
   description: Whether the port probe was blocked
-  ecs_field: amazonwebservices.guardduty.service_action_portprobeaction_blocked
-  cim_field: amazonwebservices.guardduty.service_action_portprobeaction_blocked
-  asim_field: amazonwebservices.guardduty.service_action_portprobeaction_blocked
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   category: Service
 - field_name: Service.Action.PortProbeAction.PortProbeDetails
   field_type: array
   description: Details about probed ports
-  ecs_field: amazonwebservices.guardduty.service_action_portprobeaction_portprobedetails
-  cim_field: amazonwebservices.guardduty.service_action_portprobeaction_portprobedetails
-  asim_field: amazonwebservices.guardduty.service_action_portprobeaction_portprobedetails
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Service
 - field_name: Service.Action.RdsLoginAttemptAction
   field_type: object
   description: RDS login attempt details
-  ecs_field: amazonwebservices.guardduty.service_action_rdsloginattemptaction
-  cim_field: amazonwebservices.guardduty.service_action_rdsloginattemptaction
-  asim_field: amazonwebservices.guardduty.service_action_rdsloginattemptaction
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Service
 - field_name: Service.Archived
   field_type: boolean
@@ -467,9 +467,9 @@ fields:
 - field_name: Service.DetectorId
   field_type: string
   description: GuardDuty detector ID
-  ecs_field: amazonwebservices.guardduty.service_detectorid
-  cim_field: amazonwebservices.guardduty.service_detectorid
-  asim_field: amazonwebservices.guardduty.service_detectorid
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Service
 - field_name: Service.EventFirstSeen
   field_type: datetime
@@ -488,21 +488,21 @@ fields:
 - field_name: Service.ResourceRole
   field_type: string
   description: Role of the resource (TARGET or ACTOR)
-  ecs_field: amazonwebservices.guardduty.service_resourcerole
+  ecs_field: network.direction
   cim_field: amazonwebservices.guardduty.service_resourcerole
   asim_field: amazonwebservices.guardduty.service_resourcerole
   category: Service
 - field_name: Service.ServiceName
   field_type: string
   description: Service that generated the finding
-  ecs_field: amazonwebservices.guardduty.service_servicename
-  cim_field: amazonwebservices.guardduty.service_servicename
+  ecs_field: event.provider
+  cim_field: vendor_product
   asim_field: amazonwebservices.guardduty.service_servicename
   category: Service
 - field_name: Service.UserFeedback
   field_type: string
   description: User feedback on the finding
-  ecs_field: amazonwebservices.guardduty.service_userfeedback
+  ecs_field: event.reason
   cim_field: amazonwebservices.guardduty.service_userfeedback
   asim_field: amazonwebservices.guardduty.service_userfeedback
   category: Service

@@ -7,7 +7,7 @@ source_document: Azure Activity Log Event Schema
 source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log-schema
 extraction_date: '2026-01-02'
 source_file: azure-activity-signatures.json
-generated_at: '2026-02-13T08:53:42.382023'
+generated_at: '2026-02-13T09:25:11.926336'
 categories:
 - Administrative
 - HttpRequest
@@ -29,9 +29,9 @@ fields:
 - field_name: caller
   field_type: string
   description: Email/UPN/SPN of the user/application performing operation
-  ecs_field: microsoft.azureactivitylog.caller
-  cim_field: microsoft.azureactivitylog.caller
-  asim_field: microsoft.azureactivitylog.caller
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: Administrative
 - field_name: category
   field_type: string
@@ -71,7 +71,7 @@ fields:
 - field_name: eventDataId
   field_type: string
   description: Unique event identifier
-  ecs_field: microsoft.azureactivitylog.eventdataid
+  ecs_field: event.code
   cim_field: microsoft.azureactivitylog.eventdataid
   asim_field: microsoft.azureactivitylog.eventdataid
   category: Administrative
@@ -148,9 +148,9 @@ fields:
 - field_name: properties.ActionTaken
   field_type: string
   description: Detected, Blocked, etc.
-  ecs_field: microsoft.azureactivitylog.properties_actiontaken
-  cim_field: microsoft.azureactivitylog.properties_actiontaken
-  asim_field: microsoft.azureactivitylog.properties_actiontaken
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Security
 - field_name: properties.Aggregation
   field_type: string
@@ -218,7 +218,7 @@ fields:
 - field_name: properties.RuleDescription
   field_type: string
   description: Alert rule description
-  ecs_field: microsoft.azureactivitylog.properties_ruledescription
+  ecs_field: event.reason
   cim_field: microsoft.azureactivitylog.properties_ruledescription
   asim_field: microsoft.azureactivitylog.properties_ruledescription
   category: Alert
@@ -239,9 +239,9 @@ fields:
 - field_name: properties.Severity
   field_type: string
   description: High, Medium, Low
-  ecs_field: microsoft.azureactivitylog.properties_severity
-  cim_field: microsoft.azureactivitylog.properties_severity
-  asim_field: microsoft.azureactivitylog.properties_severity
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Security
 - field_name: properties.Threshold
   field_type: string
@@ -288,44 +288,44 @@ fields:
 - field_name: properties.communication
   field_type: string
   description: Detailed incident description
-  ecs_field: microsoft.azureactivitylog.properties_communication
+  ecs_field: event.reason
   cim_field: microsoft.azureactivitylog.properties_communication
   asim_field: microsoft.azureactivitylog.properties_communication
   category: ServiceHealth
 - field_name: properties.domainName
   field_type: string
   description: Domain of affected system
-  ecs_field: microsoft.azureactivitylog.properties_domainname
+  ecs_field: user.domain
   cim_field: microsoft.azureactivitylog.properties_domainname
   asim_field: microsoft.azureactivitylog.properties_domainname
   category: Security
 - field_name: properties.healthEventCategory
   field_type: string
   description: Planned or Unplanned
-  ecs_field: microsoft.azureactivitylog.properties_healtheventcategory
-  cim_field: microsoft.azureactivitylog.properties_healtheventcategory
+  ecs_field: event.category
+  cim_field: category
   asim_field: microsoft.azureactivitylog.properties_healtheventcategory
   category: ResourceHealth
 - field_name: properties.healthEventCause
   field_type: string
   description: PlatformInitiated or UserInitiated
-  ecs_field: microsoft.azureactivitylog.properties_healtheventcause
+  ecs_field: event.reason
   cim_field: microsoft.azureactivitylog.properties_healtheventcause
   asim_field: microsoft.azureactivitylog.properties_healtheventcause
   category: ResourceHealth
 - field_name: properties.healthEventType
   field_type: string
   description: Downtime, etc.
-  ecs_field: microsoft.azureactivitylog.properties_healtheventtype
+  ecs_field: event.action
   cim_field: microsoft.azureactivitylog.properties_healtheventtype
-  asim_field: microsoft.azureactivitylog.properties_healtheventtype
+  asim_field: EventType
   category: ResourceHealth
 - field_name: properties.healthStatus
   field_type: string
   description: Available, Unavailable, Degraded, Unknown
-  ecs_field: microsoft.azureactivitylog.properties_healthstatus
-  cim_field: microsoft.azureactivitylog.properties_healthstatus
-  asim_field: microsoft.azureactivitylog.properties_healthstatus
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: ResourceHealth
 - field_name: properties.impactStartTime
   field_type: datetime
@@ -386,7 +386,7 @@ fields:
 - field_name: properties.region
   field_type: string
   description: Affected region
-  ecs_field: microsoft.azureactivitylog.properties_region
+  ecs_field: cloud.region
   cim_field: microsoft.azureactivitylog.properties_region
   asim_field: microsoft.azureactivitylog.properties_region
   category: ServiceHealth
@@ -400,21 +400,21 @@ fields:
 - field_name: properties.service
   field_type: string
   description: Service name
-  ecs_field: microsoft.azureactivitylog.properties_service
-  cim_field: microsoft.azureactivitylog.properties_service
+  ecs_field: event.provider
+  cim_field: vendor_product
   asim_field: microsoft.azureactivitylog.properties_service
   category: ServiceHealth
 - field_name: properties.stage
   field_type: string
   description: Active, Resolved, etc.
-  ecs_field: microsoft.azureactivitylog.properties_stage
-  cim_field: microsoft.azureactivitylog.properties_stage
-  asim_field: microsoft.azureactivitylog.properties_stage
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: ServiceHealth
 - field_name: properties.title
   field_type: string
   description: Infrastructure/service affected
-  ecs_field: microsoft.azureactivitylog.properties_title
+  ecs_field: event.reason
   cim_field: microsoft.azureactivitylog.properties_title
   asim_field: microsoft.azureactivitylog.properties_title
   category: ServiceHealth
@@ -435,7 +435,7 @@ fields:
 - field_name: resourceGroupName
   field_type: string
   description: Resource group name
-  ecs_field: microsoft.azureactivitylog.resourcegroupname
+  ecs_field: cloud.project.name
   cim_field: microsoft.azureactivitylog.resourcegroupname
   asim_field: microsoft.azureactivitylog.resourcegroupname
   category: Administrative
@@ -449,8 +449,8 @@ fields:
 - field_name: resourceProviderName
   field_type: object
   description: Provider name (e.g., Microsoft.Network)
-  ecs_field: microsoft.azureactivitylog.resourceprovidername
-  cim_field: microsoft.azureactivitylog.resourceprovidername
+  ecs_field: event.provider
+  cim_field: vendor_product
   asim_field: microsoft.azureactivitylog.resourceprovidername
   category: Administrative
 - field_name: resourceType

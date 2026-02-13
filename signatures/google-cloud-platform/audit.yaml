@@ -7,7 +7,7 @@ source_document: Understanding Audit Logs
 source_url: https://docs.cloud.google.com/logging/docs/audit/understanding-audit-logs
 extraction_date: '2026-01-02'
 source_file: gcp-audit-signatures.json
-generated_at: '2026-02-13T08:53:54.772697'
+generated_at: '2026-02-13T09:25:24.505426'
 categories:
 - LogEntry
 - Operation
@@ -46,7 +46,7 @@ fields:
 - field_name: operation.id
   field_type: string
   description: Unique operation identifier
-  ecs_field: googlecloudplatform.auditlogs.operation_id
+  ecs_field: event.id
   cim_field: googlecloudplatform.auditlogs.operation_id
   asim_field: googlecloudplatform.auditlogs.operation_id
   category: Operation
@@ -60,8 +60,8 @@ fields:
 - field_name: operation.producer
   field_type: string
   description: Service producing the operation
-  ecs_field: googlecloudplatform.auditlogs.operation_producer
-  cim_field: googlecloudplatform.auditlogs.operation_producer
+  ecs_field: event.provider
+  cim_field: vendor_product
   asim_field: googlecloudplatform.auditlogs.operation_producer
   category: Operation
 - field_name: protoPayload.authenticationInfo.principalEmail
@@ -81,23 +81,23 @@ fields:
 - field_name: protoPayload.authenticationInfo.serviceAccountDelegationInfo
   field_type: object
   description: Service account delegation chain information
-  ecs_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_serviceaccountdelegationinfo
+  ecs_field: user.name
   cim_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_serviceaccountdelegationinfo
   asim_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_serviceaccountdelegationinfo
   category: AuthenticationInfo
 - field_name: protoPayload.authenticationInfo.serviceAccountKeyName
   field_type: string
   description: Name of the service account key used
-  ecs_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_serviceaccountkeyname
-  cim_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_serviceaccountkeyname
-  asim_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_serviceaccountkeyname
+  ecs_field: user.id
+  cim_field: user
+  asim_field: ActorUsername
   category: AuthenticationInfo
 - field_name: protoPayload.authenticationInfo.thirdPartyPrincipal
   field_type: object
   description: Third-party identity information
-  ecs_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_thirdpartyprincipal
-  cim_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_thirdpartyprincipal
-  asim_field: googlecloudplatform.auditlogs.protopayload_authenticationinfo_thirdpartyprincipal
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: AuthenticationInfo
 - field_name: protoPayload.authorizationInfo[].granted
   field_type: boolean
@@ -109,14 +109,14 @@ fields:
 - field_name: protoPayload.authorizationInfo[].permission
   field_type: string
   description: Permission being checked (e.g., compute.instances.create)
-  ecs_field: googlecloudplatform.auditlogs.protopayload_authorizationinfo___permission
-  cim_field: permission
-  asim_field: EventPermission
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: AuthorizationInfo
 - field_name: protoPayload.authorizationInfo[].resource
   field_type: string
   description: Resource being accessed
-  ecs_field: googlecloudplatform.auditlogs.protopayload_authorizationinfo___resource
+  ecs_field: cloud.instance.id
   cim_field: googlecloudplatform.auditlogs.protopayload_authorizationinfo___resource
   asim_field: googlecloudplatform.auditlogs.protopayload_authorizationinfo___resource
   category: AuthorizationInfo
@@ -151,14 +151,14 @@ fields:
 - field_name: protoPayload.policyViolationInfo.orgPolicyViolationInfo
   field_type: object
   description: Organization policy constraint violations
-  ecs_field: googlecloudplatform.auditlogs.protopayload_policyviolationinfo_orgpolicyviolationinfo
+  ecs_field: event.reason
   cim_field: googlecloudplatform.auditlogs.protopayload_policyviolationinfo_orgpolicyviolationinfo
   asim_field: googlecloudplatform.auditlogs.protopayload_policyviolationinfo_orgpolicyviolationinfo
   category: PolicyViolation
 - field_name: protoPayload.policyViolationInfo.orgPolicyViolationInfo.violationInfo[]
   field_type: object
   description: Details of each policy violation
-  ecs_field: googlecloudplatform.auditlogs.protopayload_policyviolationinfo_orgpolicyviolationinfo_violationinfo__
+  ecs_field: event.reason
   cim_field: googlecloudplatform.auditlogs.protopayload_policyviolationinfo_orgpolicyviolationinfo_violationinfo__
   asim_field: googlecloudplatform.auditlogs.protopayload_policyviolationinfo_orgpolicyviolationinfo_violationinfo__
   category: PolicyViolation
@@ -179,9 +179,9 @@ fields:
 - field_name: protoPayload.requestMetadata.callerNetwork
   field_type: string
   description: Network from which the request originated
-  ecs_field: googlecloudplatform.auditlogs.protopayload_requestmetadata_callernetwork
-  cim_field: googlecloudplatform.auditlogs.protopayload_requestmetadata_callernetwork
-  asim_field: googlecloudplatform.auditlogs.protopayload_requestmetadata_callernetwork
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: RequestMetadata
 - field_name: protoPayload.requestMetadata.callerSuppliedUserAgent
   field_type: string
@@ -214,14 +214,14 @@ fields:
 - field_name: protoPayload.resourceLocation.originalLocations[]
   field_type: string
   description: Original locations before modification
-  ecs_field: googlecloudplatform.auditlogs.protopayload_resourcelocation_originallocations__
-  cim_field: googlecloudplatform.auditlogs.protopayload_resourcelocation_originallocations__
-  asim_field: googlecloudplatform.auditlogs.protopayload_resourcelocation_originallocations__
+  ecs_field: cloud.region
+  cim_field: region
+  asim_field: CloudRegion
   category: ResourceLocation
 - field_name: protoPayload.resourceName
   field_type: string
   description: Target resource or collection URI
-  ecs_field: googlecloudplatform.auditlogs.protopayload_resourcename
+  ecs_field: cloud.instance.id
   cim_field: resource_name
   asim_field: CloudResourceName
   category: AuditLog
@@ -263,9 +263,9 @@ fields:
 - field_name: protoPayload.status.details
   field_type: object
   description: Additional error details
-  ecs_field: googlecloudplatform.auditlogs.protopayload_status_details
-  cim_field: googlecloudplatform.auditlogs.protopayload_status_details
-  asim_field: googlecloudplatform.auditlogs.protopayload_status_details
+  ecs_field: error.message
+  cim_field: status
+  asim_field: EventResult
   category: Status
 - field_name: protoPayload.status.message
   field_type: string
@@ -298,8 +298,8 @@ fields:
 - field_name: resource.type
   field_type: string
   description: Resource type (e.g., gce_instance, gcs_bucket, bigquery_resource)
-  ecs_field: googlecloudplatform.auditlogs.resource_type
-  cim_field: resource_type
+  ecs_field: observer.name
+  cim_field: category
   asim_field: CloudResourceType
   category: LogEntry
 - field_name: severity

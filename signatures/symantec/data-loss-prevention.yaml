@@ -7,7 +7,7 @@ source_document: System Event Codes and Messages
 source_url: https://techdocs.broadcom.com/us/en/symantec-security-software/information-security/data-loss-prevention/25-1/managing-the-enforce-server/managing-system-events-and-messages/system-event-codes-and-messages.html
 extraction_date: '2026-01-02'
 source_file: symantec-dlp-signatures.json
-generated_at: '2026-02-13T08:53:56.547711'
+generated_at: '2026-02-13T09:25:26.309278'
 categories:
 - Syslog
 - CEF
@@ -90,7 +90,7 @@ fields:
 - field_name: CEF_Version
   field_type: string
   description: CEF format version
-  ecs_field: symantec.datalossprevention.cef_version
+  ecs_field: agent.version
   cim_field: symantec.datalossprevention.cef_version
   asim_field: symantec.datalossprevention.cef_version
   category: CEF
@@ -146,7 +146,7 @@ fields:
 - field_name: event_summary
   field_type: string
   description: Short event description
-  ecs_field: symantec.datalossprevention.event_summary
+  ecs_field: event.reason
   cim_field: symantec.datalossprevention.event_summary
   asim_field: symantec.datalossprevention.event_summary
   category: Event
@@ -174,23 +174,23 @@ fields:
 - field_name: server_type
   field_type: string
   description: Server type (Enforce/Detection/Endpoint)
-  ecs_field: symantec.datalossprevention.server_type
+  ecs_field: observer.type
   cim_field: symantec.datalossprevention.server_type
   asim_field: symantec.datalossprevention.server_type
   category: Server
 - field_name: server_version
   field_type: string
   description: Server software version
-  ecs_field: symantec.datalossprevention.server_version
+  ecs_field: observer.version
   cim_field: symantec.datalossprevention.server_version
   asim_field: symantec.datalossprevention.server_version
   category: Server
 - field_name: component
   field_type: string
   description: DLP component name
-  ecs_field: symantec.datalossprevention.component
-  cim_field: symantec.datalossprevention.component
-  asim_field: symantec.datalossprevention.component
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Server
 - field_name: process_name
   field_type: string
@@ -216,7 +216,7 @@ fields:
 - field_name: policy_version
   field_type: number
   description: Policy version number
-  ecs_field: symantec.datalossprevention.policy_version
+  ecs_field: rule.version
   cim_field: symantec.datalossprevention.policy_version
   asim_field: symantec.datalossprevention.policy_version
   category: Policy
@@ -244,7 +244,7 @@ fields:
 - field_name: incident_count
   field_type: number
   description: Number of incidents
-  ecs_field: symantec.datalossprevention.incident_count
+  ecs_field: event.count
   cim_field: symantec.datalossprevention.incident_count
   asim_field: symantec.datalossprevention.incident_count
   category: Incident
@@ -300,9 +300,9 @@ fields:
 - field_name: data_source
   field_type: string
   description: Data source name or type
-  ecs_field: symantec.datalossprevention.data_source
-  cim_field: symantec.datalossprevention.data_source
-  asim_field: symantec.datalossprevention.data_source
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFileName
   category: DataSource
 - field_name: data_source_id
   field_type: string
@@ -328,35 +328,35 @@ fields:
 - field_name: profile_id
   field_type: string
   description: Profile identifier
-  ecs_field: symantec.datalossprevention.profile_id
-  cim_field: symantec.datalossprevention.profile_id
-  asim_field: symantec.datalossprevention.profile_id
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleName
   category: Profile
 - field_name: profile_version
   field_type: number
   description: Profile version
-  ecs_field: symantec.datalossprevention.profile_version
+  ecs_field: rule.version
   cim_field: symantec.datalossprevention.profile_version
   asim_field: symantec.datalossprevention.profile_version
   category: Profile
 - field_name: profile_type
   field_type: string
   description: Profile type (EDM/IDM/VML)
-  ecs_field: symantec.datalossprevention.profile_type
-  cim_field: symantec.datalossprevention.profile_type
-  asim_field: symantec.datalossprevention.profile_type
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: RuleName
   category: Profile
 - field_name: channel
   field_type: string
   description: DLP channel (SMTP/ICAP/Endpoint)
-  ecs_field: symantec.datalossprevention.channel
+  ecs_field: network.application
   cim_field: channel
   asim_field: NetworkChannel
   category: Channel
 - field_name: channel_name
   field_type: string
   description: Monitor channel name
-  ecs_field: symantec.datalossprevention.channel_name
+  ecs_field: network.application
   cim_field: symantec.datalossprevention.channel_name
   asim_field: symantec.datalossprevention.channel_name
   category: Channel
@@ -412,16 +412,16 @@ fields:
 - field_name: folder_path
   field_type: string
   description: Folder path
-  ecs_field: symantec.datalossprevention.folder_path
-  cim_field: symantec.datalossprevention.folder_path
-  asim_field: symantec.datalossprevention.folder_path
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFileName
   category: File
 - field_name: target_name
   field_type: string
   description: Discover target name
-  ecs_field: symantec.datalossprevention.target_name
-  cim_field: symantec.datalossprevention.target_name
-  asim_field: symantec.datalossprevention.target_name
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: TargetFileName
   category: Scan
 - field_name: target_id
   field_type: string
@@ -496,14 +496,14 @@ fields:
 - field_name: os_platform
   field_type: string
   description: Operating system platform
-  ecs_field: symantec.datalossprevention.os_platform
+  ecs_field: host.os.name
   cim_field: symantec.datalossprevention.os_platform
   asim_field: symantec.datalossprevention.os_platform
   category: Agent
 - field_name: certificate_name
   field_type: string
   description: Certificate name
-  ecs_field: symantec.datalossprevention.certificate_name
+  ecs_field: tls.server.subject
   cim_field: symantec.datalossprevention.certificate_name
   asim_field: symantec.datalossprevention.certificate_name
   category: Certificate
@@ -587,28 +587,28 @@ fields:
 - field_name: timeout_seconds
   field_type: number
   description: Timeout in seconds
-  ecs_field: symantec.datalossprevention.timeout_seconds
+  ecs_field: event.duration
   cim_field: symantec.datalossprevention.timeout_seconds
   asim_field: symantec.datalossprevention.timeout_seconds
   category: Metrics
 - field_name: cloud_service
   field_type: string
   description: Cloud service name
-  ecs_field: symantec.datalossprevention.cloud_service
+  ecs_field: cloud.provider
   cim_field: symantec.datalossprevention.cloud_service
   asim_field: symantec.datalossprevention.cloud_service
   category: Cloud
 - field_name: cloud_detector
   field_type: string
   description: Cloud detector name
-  ecs_field: symantec.datalossprevention.cloud_detector
-  cim_field: symantec.datalossprevention.cloud_detector
-  asim_field: symantec.datalossprevention.cloud_detector
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Cloud
 - field_name: oauth_app_id
   field_type: string
   description: OAuth application ID
-  ecs_field: symantec.datalossprevention.oauth_app_id
+  ecs_field: user.id
   cim_field: symantec.datalossprevention.oauth_app_id
   asim_field: symantec.datalossprevention.oauth_app_id
   category: Cloud

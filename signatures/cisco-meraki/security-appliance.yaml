@@ -7,7 +7,7 @@ source_document: Meraki Syslog Event Types and Log Samples
 source_url: https://documentation.meraki.com/General_Administration/Monitoring_and_Reporting/Syslog_Event_Types_and_Log_Samples
 extraction_date: '2026-01-01'
 source_file: meraki-signatures.json
-generated_at: '2026-02-13T08:53:55.097783'
+generated_at: '2026-02-13T09:25:24.830650'
 categories:
 - MX Security Appliance
 - MR Access Points
@@ -241,7 +241,7 @@ fields:
 - field_name: subnet
   field_type: string
   description: Subnet mask
-  ecs_field: ciscomeraki.securityappliance.subnet
+  ecs_field: network.network
   cim_field: subnet
   asim_field: DstNetworkCidr
   category: Common
@@ -249,7 +249,7 @@ fields:
 - field_name: dns
   field_type: string
   description: DNS servers
-  ecs_field: ciscomeraki.securityappliance.dns
+  ecs_field: dns.question.name
   cim_field: dns_server
   asim_field: DnsResolver
   category: Common
@@ -489,7 +489,7 @@ fields:
 - field_name: packet
   field_type: string
   description: Packet type (deauth, etc)
-  ecs_field: ciscomeraki.securityappliance.packet
+  ecs_field: network.type
   cim_field: ciscomeraki.securityappliance.packet
   asim_field: ciscomeraki.securityappliance.packet
   category: Common
@@ -585,9 +585,9 @@ fields:
 - field_name: retval
   field_type: string
   description: Meraki MX Security Appliance field
-  ecs_field: ciscomeraki.securityappliance.retval
-  cim_field: ciscomeraki.securityappliance.retval
-  asim_field: ciscomeraki.securityappliance.retval
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: MX Security Appliance
   display_name: Retval
 - field_name: spi
@@ -601,7 +601,7 @@ fields:
 - field_name: auth_neg_dur
   field_type: string
   description: Meraki MR Access Points field
-  ecs_field: ciscomeraki.securityappliance.auth_neg_dur
+  ecs_field: event.duration
   cim_field: ciscomeraki.securityappliance.auth_neg_dur
   asim_field: ciscomeraki.securityappliance.auth_neg_dur
   category: MR Access Points
@@ -617,7 +617,7 @@ fields:
 - field_name: dns_req_rtt
   field_type: string
   description: Meraki MR Access Points field
-  ecs_field: ciscomeraki.securityappliance.dns_req_rtt
+  ecs_field: event.duration
   cim_field: ciscomeraki.securityappliance.dns_req_rtt
   asim_field: ciscomeraki.securityappliance.dns_req_rtt
   category: MR Access Points
@@ -625,9 +625,9 @@ fields:
 - field_name: auth_neg_failed
   field_type: string
   description: Meraki MR Access Points field
-  ecs_field: ciscomeraki.securityappliance.auth_neg_failed
-  cim_field: ciscomeraki.securityappliance.auth_neg_failed
-  asim_field: ciscomeraki.securityappliance.auth_neg_failed
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: MR Access Points
   display_name: Auth Neg Failed
 notes: Extracted from Meraki syslog documentation - fields from key=value patterns

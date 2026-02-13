@@ -7,7 +7,7 @@ source_document: Sysmon Documentation
 source_url: https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
 extraction_date: '2026-01-02'
 source_file: sysmon-signatures.json
-generated_at: '2026-02-13T08:53:56.595295'
+generated_at: '2026-02-13T09:25:26.356200'
 categories:
 - Common
 - Process
@@ -74,7 +74,7 @@ fields:
 - field_name: CurrentDirectory
   field_type: string
   description: Current working directory of the process
-  ecs_field: microsoft.sysmon.currentdirectory
+  ecs_field: process.working_directory
   cim_field: microsoft.sysmon.currentdirectory
   asim_field: microsoft.sysmon.currentdirectory
   category: Process
@@ -116,9 +116,9 @@ fields:
 - field_name: ParentUser
   field_type: string
   description: User account of parent process
-  ecs_field: microsoft.sysmon.parentuser
-  cim_field: microsoft.sysmon.parentuser
-  asim_field: microsoft.sysmon.parentuser
+  ecs_field: process.parent.user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: Process
 - field_name: LogonGuid
   field_type: guid
@@ -130,7 +130,7 @@ fields:
 - field_name: LogonId
   field_type: string
   description: Logon session ID (hex)
-  ecs_field: winlog.logon.id
+  ecs_field: user.id
   cim_field: logon_id
   asim_field: LogonId
   category: Process
@@ -158,7 +158,7 @@ fields:
 - field_name: FileVersion
   field_type: string
   description: File version from PE header
-  ecs_field: microsoft.sysmon.fileversion
+  ecs_field: file.pe.version
   cim_field: microsoft.sysmon.fileversion
   asim_field: microsoft.sysmon.fileversion
   category: Process
@@ -179,7 +179,7 @@ fields:
 - field_name: Company
   field_type: string
   description: Company name from PE header
-  ecs_field: microsoft.sysmon.company
+  ecs_field: file.pe.company
   cim_field: microsoft.sysmon.company
   asim_field: microsoft.sysmon.company
   category: Process
@@ -193,7 +193,7 @@ fields:
 - field_name: Initiated
   field_type: boolean
   description: True if process initiated the connection
-  ecs_field: microsoft.sysmon.initiated
+  ecs_field: network.direction
   cim_field: microsoft.sysmon.initiated
   asim_field: microsoft.sysmon.initiated
   category: Network
@@ -235,7 +235,7 @@ fields:
 - field_name: DestinationIsIpv6
   field_type: boolean
   description: True if destination is IPv6
-  ecs_field: microsoft.sysmon.destinationisipv6
+  ecs_field: network.type
   cim_field: microsoft.sysmon.destinationisipv6
   asim_field: microsoft.sysmon.destinationisipv6
   category: Network
@@ -340,7 +340,7 @@ fields:
 - field_name: NewName
   field_type: string
   description: New name for renamed registry key/value
-  ecs_field: microsoft.sysmon.newname
+  ecs_field: registry.value
   cim_field: microsoft.sysmon.newname
   asim_field: microsoft.sysmon.newname
   category: Registry
@@ -389,9 +389,9 @@ fields:
 - field_name: SourceImage
   field_type: string
   description: Path to source process image
-  ecs_field: microsoft.sysmon.sourceimage
-  cim_field: microsoft.sysmon.sourceimage
-  asim_field: microsoft.sysmon.sourceimage
+  ecs_field: process.executable
+  cim_field: process
+  asim_field: ProcessName
   category: Process
 - field_name: TargetProcessGuid
   field_type: guid
@@ -410,14 +410,14 @@ fields:
 - field_name: TargetImage
   field_type: string
   description: Path to target process image
-  ecs_field: microsoft.sysmon.targetimage
+  ecs_field: process.target.executable
   cim_field: microsoft.sysmon.targetimage
   asim_field: microsoft.sysmon.targetimage
   category: Process
 - field_name: NewThreadId
   field_type: integer
   description: ID of the newly created thread
-  ecs_field: microsoft.sysmon.newthreadid
+  ecs_field: process.thread.id
   cim_field: microsoft.sysmon.newthreadid
   asim_field: microsoft.sysmon.newthreadid
   category: Process
@@ -445,7 +445,7 @@ fields:
 - field_name: SourceThreadId
   field_type: integer
   description: Thread ID in source process
-  ecs_field: microsoft.sysmon.sourcethreadid
+  ecs_field: process.thread.id
   cim_field: microsoft.sysmon.sourcethreadid
   asim_field: microsoft.sysmon.sourcethreadid
   category: Process
@@ -473,9 +473,9 @@ fields:
 - field_name: PipeName
   field_type: string
   description: Name of the pipe (\\*\pipe\name)
-  ecs_field: microsoft.sysmon.pipename
-  cim_field: microsoft.sysmon.pipename
-  asim_field: microsoft.sysmon.pipename
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: TargetFileName
   category: Pipe
 - field_name: Operation
   field_type: string
@@ -613,7 +613,7 @@ fields:
 - field_name: ConfigurationFileHash
   field_type: string
   description: Hash of configuration file
-  ecs_field: microsoft.sysmon.configurationfilehash
+  ecs_field: file.hash.sha256
   cim_field: microsoft.sysmon.configurationfilehash
   asim_field: microsoft.sysmon.configurationfilehash
   category: Service

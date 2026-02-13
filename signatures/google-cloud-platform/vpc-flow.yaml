@@ -7,7 +7,7 @@ source_document: VPC Flow Logs Record Format
 source_url: https://cloud.google.com/vpc/docs/about-flow-logs-records
 extraction_date: '2026-01-02'
 source_file: gcp-vpc-flow-signatures.json
-generated_at: '2026-02-13T08:53:54.802367'
+generated_at: '2026-02-13T09:25:24.533917'
 categories:
 - Base
 - IpConnection
@@ -28,9 +28,9 @@ fields:
 - field_name: reporter
   field_type: string
   description: 'Indicates which side reported: SRC, DEST, SRC_GATEWAY, or DEST_GATEWAY'
-  ecs_field: googlecloudplatform.vpcflowlogs.reporter
-  cim_field: googlecloudplatform.vpcflowlogs.reporter
-  asim_field: googlecloudplatform.vpcflowlogs.reporter
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Base
 - field_name: bytes_sent
   field_type: integer
@@ -63,14 +63,14 @@ fields:
 - field_name: rtt_msec
   field_type: integer
   description: Round-trip time in milliseconds for TCP traffic
-  ecs_field: googlecloudplatform.vpcflowlogs.rtt_msec
+  ecs_field: event.duration
   cim_field: googlecloudplatform.vpcflowlogs.rtt_msec
   asim_field: googlecloudplatform.vpcflowlogs.rtt_msec
   category: Base
 - field_name: round_trip_time
   field_type: object
   description: RTT with sub-millisecond precision for TCP and Falcon traffic
-  ecs_field: googlecloudplatform.vpcflowlogs.round_trip_time
+  ecs_field: event.duration
   cim_field: googlecloudplatform.vpcflowlogs.round_trip_time
   asim_field: googlecloudplatform.vpcflowlogs.round_trip_time
   category: Base
@@ -112,70 +112,70 @@ fields:
 - field_name: src_instance
   field_type: object
   description: VM resource metadata when source is a VM
-  ecs_field: googlecloudplatform.vpcflowlogs.src_instance
+  ecs_field: cloud.instance.id
   cim_field: googlecloudplatform.vpcflowlogs.src_instance
   asim_field: googlecloudplatform.vpcflowlogs.src_instance
   category: SourceDestMetadata
 - field_name: dest_instance
   field_type: object
   description: VM resource metadata when destination is a VM
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_instance
+  ecs_field: cloud.instance.id
   cim_field: googlecloudplatform.vpcflowlogs.dest_instance
   asim_field: googlecloudplatform.vpcflowlogs.dest_instance
   category: SourceDestMetadata
 - field_name: src_vpc
   field_type: object
   description: VPC network details of source
-  ecs_field: googlecloudplatform.vpcflowlogs.src_vpc
+  ecs_field: network.name
   cim_field: googlecloudplatform.vpcflowlogs.src_vpc
   asim_field: googlecloudplatform.vpcflowlogs.src_vpc
   category: SourceDestMetadata
 - field_name: dest_vpc
   field_type: object
   description: VPC network details of destination
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_vpc
+  ecs_field: network.name
   cim_field: googlecloudplatform.vpcflowlogs.dest_vpc
   asim_field: googlecloudplatform.vpcflowlogs.dest_vpc
   category: SourceDestMetadata
 - field_name: src_gke_details
   field_type: object
   description: GKE endpoint details when source is Kubernetes
-  ecs_field: googlecloudplatform.vpcflowlogs.src_gke_details
+  ecs_field: cloud.instance.id
   cim_field: googlecloudplatform.vpcflowlogs.src_gke_details
   asim_field: googlecloudplatform.vpcflowlogs.src_gke_details
   category: SourceDestMetadata
 - field_name: dest_gke_details
   field_type: object
   description: GKE endpoint details when destination is Kubernetes
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_gke_details
+  ecs_field: cloud.instance.id
   cim_field: googlecloudplatform.vpcflowlogs.dest_gke_details
   asim_field: googlecloudplatform.vpcflowlogs.dest_gke_details
   category: SourceDestMetadata
 - field_name: src_google_service
   field_type: object
   description: Metadata for Google APIs and VPC-hosted services (source)
-  ecs_field: googlecloudplatform.vpcflowlogs.src_google_service
+  ecs_field: source.service.name
   cim_field: googlecloudplatform.vpcflowlogs.src_google_service
   asim_field: googlecloudplatform.vpcflowlogs.src_google_service
   category: SourceDestMetadata
 - field_name: dest_google_service
   field_type: object
   description: Metadata for Google APIs and VPC-hosted services (destination)
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_google_service
+  ecs_field: destination.service.name
   cim_field: googlecloudplatform.vpcflowlogs.dest_google_service
   asim_field: googlecloudplatform.vpcflowlogs.dest_google_service
   category: SourceDestMetadata
 - field_name: src_serverless_details
   field_type: object
   description: Cloud Run and serverless resource metadata (source)
-  ecs_field: googlecloudplatform.vpcflowlogs.src_serverless_details
+  ecs_field: cloud.instance.id
   cim_field: googlecloudplatform.vpcflowlogs.src_serverless_details
   asim_field: googlecloudplatform.vpcflowlogs.src_serverless_details
   category: SourceDestMetadata
 - field_name: dest_serverless_details
   field_type: object
   description: Cloud Run and serverless resource metadata (destination)
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_serverless_details
+  ecs_field: cloud.instance.id
   cim_field: googlecloudplatform.vpcflowlogs.dest_serverless_details
   asim_field: googlecloudplatform.vpcflowlogs.dest_serverless_details
   category: SourceDestMetadata
@@ -196,21 +196,21 @@ fields:
 - field_name: src_location.asn
   field_type: integer
   description: Autonomous system number (ASN) of external source network
-  ecs_field: googlecloudplatform.vpcflowlogs.src_location_asn
+  ecs_field: source.as.number
   cim_field: googlecloudplatform.vpcflowlogs.src_location_asn
   asim_field: googlecloudplatform.vpcflowlogs.src_location_asn
   category: Geographic
 - field_name: src_location.city
   field_type: string
   description: City identifier for source
-  ecs_field: googlecloudplatform.vpcflowlogs.src_location_city
+  ecs_field: source.geo.city_name
   cim_field: googlecloudplatform.vpcflowlogs.src_location_city
   asim_field: googlecloudplatform.vpcflowlogs.src_location_city
   category: Geographic
 - field_name: src_location.continent
   field_type: string
   description: Continent identifier for source
-  ecs_field: googlecloudplatform.vpcflowlogs.src_location_continent
+  ecs_field: source.geo.continent_name
   cim_field: googlecloudplatform.vpcflowlogs.src_location_continent
   asim_field: googlecloudplatform.vpcflowlogs.src_location_continent
   category: Geographic
@@ -224,28 +224,28 @@ fields:
 - field_name: src_location.region
   field_type: string
   description: Regional identifier for source
-  ecs_field: googlecloudplatform.vpcflowlogs.src_location_region
-  cim_field: googlecloudplatform.vpcflowlogs.src_location_region
+  ecs_field: source.geo.region_name
+  cim_field: src_zone
   asim_field: googlecloudplatform.vpcflowlogs.src_location_region
   category: Geographic
 - field_name: dest_location.asn
   field_type: integer
   description: Autonomous system number (ASN) of external destination network
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_location_asn
+  ecs_field: destination.as.number
   cim_field: googlecloudplatform.vpcflowlogs.dest_location_asn
   asim_field: googlecloudplatform.vpcflowlogs.dest_location_asn
   category: Geographic
 - field_name: dest_location.city
   field_type: string
   description: City identifier for destination
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_location_city
+  ecs_field: destination.geo.city_name
   cim_field: googlecloudplatform.vpcflowlogs.dest_location_city
   asim_field: googlecloudplatform.vpcflowlogs.dest_location_city
   category: Geographic
 - field_name: dest_location.continent
   field_type: string
   description: Continent identifier for destination
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_location_continent
+  ecs_field: destination.geo.continent_name
   cim_field: googlecloudplatform.vpcflowlogs.dest_location_continent
   asim_field: googlecloudplatform.vpcflowlogs.dest_location_continent
   category: Geographic
@@ -259,21 +259,21 @@ fields:
 - field_name: dest_location.region
   field_type: string
   description: Regional identifier for destination
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_location_region
-  cim_field: googlecloudplatform.vpcflowlogs.dest_location_region
+  ecs_field: destination.geo.region_name
+  cim_field: dest_zone
   asim_field: googlecloudplatform.vpcflowlogs.dest_location_region
   category: Geographic
 - field_name: src_gateway
   field_type: object
   description: Details for on-premises source via Cloud Interconnect or VPN
-  ecs_field: googlecloudplatform.vpcflowlogs.src_gateway
+  ecs_field: observer.name
   cim_field: googlecloudplatform.vpcflowlogs.src_gateway
   asim_field: googlecloudplatform.vpcflowlogs.src_gateway
   category: Gateway
 - field_name: dest_gateway
   field_type: object
   description: Details for on-premises destination via Cloud Interconnect or VPN
-  ecs_field: googlecloudplatform.vpcflowlogs.dest_gateway
+  ecs_field: observer.name
   cim_field: googlecloudplatform.vpcflowlogs.dest_gateway
   asim_field: googlecloudplatform.vpcflowlogs.dest_gateway
   category: Gateway
@@ -294,7 +294,7 @@ fields:
 - field_name: network_service
   field_type: object
   description: DSCP header values when present
-  ecs_field: googlecloudplatform.vpcflowlogs.network_service
+  ecs_field: network.application
   cim_field: googlecloudplatform.vpcflowlogs.network_service
   asim_field: googlecloudplatform.vpcflowlogs.network_service
   category: Advanced
@@ -308,8 +308,8 @@ fields:
 - field_name: rdma_traffic_type
   field_type: string
   description: 'Type of RDMA traffic: GPUDirect-TCPXO, Falcon, or RoCE'
-  ecs_field: googlecloudplatform.vpcflowlogs.rdma_traffic_type
-  cim_field: googlecloudplatform.vpcflowlogs.rdma_traffic_type
+  ecs_field: network.transport
+  cim_field: transport
   asim_field: googlecloudplatform.vpcflowlogs.rdma_traffic_type
   category: Advanced
 notes: Captures network flow information for VPC networks. Supports TCP, UDP, ICMP,

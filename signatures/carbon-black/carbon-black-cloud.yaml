@@ -7,7 +7,7 @@ source_document: Carbon Black Cloud Data Forwarder Schema Documentation
 source_url: https://developer.carbonblack.com/reference/carbon-black-cloud/
 extraction_date: '2026-01-01'
 source_file: carbonblack-cloud-signatures.json
-generated_at: '2026-02-13T08:53:42.520124'
+generated_at: '2026-02-13T09:25:12.063798'
 categories:
 - File/Module
 - Threat Intelligence
@@ -307,7 +307,7 @@ fields:
   field_type: ip
   description: External IP address of endpoint
   ecs_field: host.ip
-  cim_field: device_external_ip
+  cim_field: dvc_ip
   asim_field: DvcIpAddr
   category: Device
   display_name: Device External Ip
@@ -323,7 +323,7 @@ fields:
   field_type: ip
   description: Internal IP address of endpoint
   ecs_field: host.ip
-  cim_field: device_internal_ip
+  cim_field: dvc_ip
   asim_field: DvcIpAddr
   category: Device
   display_name: Device Internal Ip
@@ -347,7 +347,7 @@ fields:
   field_type: string
   description: Device OS (WINDOWS, MAC, LINUX, OTHER)
   ecs_field: host.os.name
-  cim_field: device_os
+  cim_field: os
   asim_field: DvcOs
   category: Device
   display_name: Device Os
@@ -378,9 +378,9 @@ fields:
 - field_name: device_target_value
   field_type: string
   description: Target value (LOW, MEDIUM, HIGH, MISSION_CRITICAL)
-  ecs_field: host.risk.calculated_level
-  cim_field: target_value
-  asim_field: DvcRiskLevel
+  ecs_field: event.risk_score
+  cim_field: severity
+  asim_field: EventSeverity
   category: Device
   display_name: Device Target Value
 - field_name: device_username
@@ -395,7 +395,7 @@ fields:
   field_type: ip
   description: Local IP address of network connection
   ecs_field: source.ip
-  cim_field: local_ip
+  cim_field: src_ip
   asim_field: SrcIpAddr
   category: Network
   display_name: Netconn Local Ip
@@ -419,7 +419,7 @@ fields:
   field_type: port
   description: Local TCP/UDP port
   ecs_field: source.port
-  cim_field: local_port
+  cim_field: src_port
   asim_field: SrcPortNumber
   category: Network
   display_name: Netconn Local Port
@@ -435,15 +435,15 @@ fields:
   field_type: string
   description: Remote domain name (FQDN)
   ecs_field: destination.domain
-  cim_field: remote_domain
-  asim_field: DstDomain
+  cim_field: dest_dns
+  asim_field: DstHostname
   category: Network
   display_name: Netconn Remote Domain
 - field_name: netconn_remote_ip
   field_type: ip
   description: Remote IP address
   ecs_field: destination.ip
-  cim_field: remote_ip
+  cim_field: dest_ip
   asim_field: DstIpAddr
   category: Network
   display_name: Netconn Remote Ip
@@ -467,7 +467,7 @@ fields:
   field_type: port
   description: Remote TCP/UDP port
   ecs_field: destination.port
-  cim_field: remote_port
+  cim_field: dest_port
   asim_field: DstPortNumber
   category: Network
   display_name: Netconn Remote Port
@@ -658,9 +658,9 @@ fields:
 - field_name: vendor_name
   field_type: string
   description: USB vendor name
-  ecs_field: vmwarecarbonblack.carbonblackcloud.vendor_name
-  cim_field: vendor_name
-  asim_field: DeviceVendorName
+  ecs_field: device.manufacturer
+  cim_field: vendor_product
+  asim_field: EventVendor
   category: USB Device Control
   display_name: Vendor Name
 - field_name: ioc_field
@@ -674,9 +674,9 @@ fields:
 - field_name: ioc_hit
   field_type: string
   description: IOC field value or query that matches
-  ecs_field: vmwarecarbonblack.carbonblackcloud.ioc_hit
+  ecs_field: threat.indicator.description
   cim_field: ioc_hit
-  asim_field: ThreatIndicatorMatch
+  asim_field: ThreatName
   category: Alert/Detection
   display_name: Ioc Hit
 - field_name: ioc_id
@@ -699,8 +699,8 @@ fields:
   field_type: string
   description: Watchlist report ID
   ecs_field: rule.id
-  cim_field: report_id
-  asim_field: RuleId
+  cim_field: signature_id
+  asim_field: RuleNumber
   category: Alert/Detection
   display_name: Report Id
 - field_name: report_link
@@ -715,7 +715,7 @@ fields:
   field_type: string
   description: Watchlist report name
   ecs_field: rule.name
-  cim_field: report_name
+  cim_field: signature
   asim_field: RuleName
   category: Alert/Detection
   display_name: Report Name

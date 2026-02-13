@@ -7,7 +7,7 @@ source_document: Incidents REST API Reference
 source_url: https://learn.microsoft.com/en-us/rest/api/securityinsights/incidents/get
 extraction_date: '2026-01-02'
 source_file: azure-sentinel-signatures.json
-generated_at: '2026-02-13T08:53:42.440211'
+generated_at: '2026-02-13T09:25:11.983201'
 categories:
 - Core
 - Properties
@@ -49,14 +49,14 @@ fields:
 - field_name: properties.title
   field_type: string
   description: The title of the incident
-  ecs_field: microsoft.azuresentinel.properties_title
+  ecs_field: rule.name
   cim_field: microsoft.azuresentinel.properties_title
   asim_field: microsoft.azuresentinel.properties_title
   category: Properties
 - field_name: properties.description
   field_type: string
   description: The description of the incident
-  ecs_field: microsoft.azuresentinel.properties_description
+  ecs_field: event.reason
   cim_field: microsoft.azuresentinel.properties_description
   asim_field: microsoft.azuresentinel.properties_description
   category: Properties
@@ -99,7 +99,7 @@ fields:
 - field_name: properties.incidentNumber
   field_type: integer
   description: A sequential number identifying the incident
-  ecs_field: microsoft.azuresentinel.properties_incidentnumber
+  ecs_field: event.code
   cim_field: microsoft.azuresentinel.properties_incidentnumber
   asim_field: microsoft.azuresentinel.properties_incidentnumber
   category: Properties
@@ -113,15 +113,15 @@ fields:
 - field_name: properties.providerIncidentId
   field_type: string
   description: The incident ID assigned by the incident provider
-  ecs_field: microsoft.azuresentinel.properties_providerincidentid
+  ecs_field: event.id
   cim_field: microsoft.azuresentinel.properties_providerincidentid
   asim_field: microsoft.azuresentinel.properties_providerincidentid
   category: Properties
 - field_name: properties.providerName
   field_type: string
   description: The name of the source provider that generated the incident
-  ecs_field: microsoft.azuresentinel.properties_providername
-  cim_field: microsoft.azuresentinel.properties_providername
+  ecs_field: event.provider
+  cim_field: vendor_product
   asim_field: microsoft.azuresentinel.properties_providername
   category: Properties
 - field_name: properties.createdTimeUtc
@@ -198,7 +198,7 @@ fields:
 - field_name: properties.additionalData.tactics
   field_type: array
   description: The MITRE ATT&CK tactics associated with incident
-  ecs_field: microsoft.azuresentinel.properties_additionaldata_tactics
+  ecs_field: threat.tactic.name
   cim_field: microsoft.azuresentinel.properties_additionaldata_tactics
   asim_field: microsoft.azuresentinel.properties_additionaldata_tactics
   category: AdditionalData
@@ -268,9 +268,9 @@ fields:
 - field_name: systemData.createdBy
   field_type: string
   description: The identity that created the resource
-  ecs_field: microsoft.azuresentinel.systemdata_createdby
-  cim_field: microsoft.azuresentinel.systemdata_createdby
-  asim_field: microsoft.azuresentinel.systemdata_createdby
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: SystemData
 - field_name: systemData.createdByType
   field_type: enum
@@ -290,9 +290,9 @@ fields:
 - field_name: systemData.lastModifiedBy
   field_type: string
   description: The identity that last modified the resource
-  ecs_field: microsoft.azuresentinel.systemdata_lastmodifiedby
-  cim_field: microsoft.azuresentinel.systemdata_lastmodifiedby
-  asim_field: microsoft.azuresentinel.systemdata_lastmodifiedby
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: SystemData
 - field_name: systemData.lastModifiedByType
   field_type: enum

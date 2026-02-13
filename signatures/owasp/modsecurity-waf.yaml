@@ -7,7 +7,7 @@ source_document: ModSecurity 2 Data Formats
 source_url: https://github.com/owasp-modsecurity/ModSecurity/wiki/ModSecurity-2-Data-Formats
 extraction_date: '2026-01-02'
 source_file: modsecurity-signatures.json
-generated_at: '2026-02-13T08:53:55.360599'
+generated_at: '2026-02-13T09:25:25.098546'
 categories:
 - Header
 - Request
@@ -85,7 +85,7 @@ fields:
 - field_name: request_headers
   field_type: object
   description: All HTTP request headers as key-value pairs
-  ecs_field: owasp.modsecuritywaf.request_headers
+  ecs_field: http.request.headers
   cim_field: owasp.modsecuritywaf.request_headers
   asim_field: owasp.modsecuritywaf.request_headers
   category: Request
@@ -106,21 +106,21 @@ fields:
 - field_name: Content-Type
   field_type: string
   description: Request Content-Type header
-  ecs_field: owasp.modsecuritywaf.content_type
+  ecs_field: http.request.mime_type
   cim_field: owasp.modsecuritywaf.content_type
   asim_field: owasp.modsecuritywaf.content_type
   category: Request
 - field_name: Content-Length
   field_type: integer
   description: Request body length in bytes
-  ecs_field: owasp.modsecuritywaf.content_length
-  cim_field: owasp.modsecuritywaf.content_length
+  ecs_field: http.request.body.bytes
+  cim_field: bytes_in
   asim_field: owasp.modsecuritywaf.content_length
   category: Request
 - field_name: Cookie
   field_type: string
   description: HTTP Cookie header (may be sanitized)
-  ecs_field: owasp.modsecuritywaf.cookie
+  ecs_field: http.request.header.cookie
   cim_field: owasp.modsecuritywaf.cookie
   asim_field: owasp.modsecuritywaf.cookie
   category: Request
@@ -141,15 +141,15 @@ fields:
 - field_name: request_body
   field_type: string
   description: Request body content (after dechunking/decompression)
-  ecs_field: owasp.modsecuritywaf.request_body
+  ecs_field: http.request.body.content
   cim_field: owasp.modsecuritywaf.request_body
   asim_field: owasp.modsecuritywaf.request_body
   category: Request
 - field_name: request_body_length
   field_type: integer
   description: Actual request body size in bytes
-  ecs_field: owasp.modsecuritywaf.request_body_length
-  cim_field: owasp.modsecuritywaf.request_body_length
+  ecs_field: http.request.body.bytes
+  cim_field: bytes_in
   asim_field: owasp.modsecuritywaf.request_body_length
   category: Request
 - field_name: response_protocol
@@ -169,22 +169,22 @@ fields:
 - field_name: response_headers
   field_type: object
   description: All HTTP response headers as key-value pairs
-  ecs_field: owasp.modsecuritywaf.response_headers
+  ecs_field: http.response.headers
   cim_field: owasp.modsecuritywaf.response_headers
   asim_field: owasp.modsecuritywaf.response_headers
   category: Response
 - field_name: response_body
   field_type: string
   description: Response body before compression (Part E)
-  ecs_field: owasp.modsecuritywaf.response_body
+  ecs_field: http.response.body.content
   cim_field: owasp.modsecuritywaf.response_body
   asim_field: owasp.modsecuritywaf.response_body
   category: Response
 - field_name: response_body_length
   field_type: integer
   description: Response body size in bytes
-  ecs_field: owasp.modsecuritywaf.response_body_length
-  cim_field: owasp.modsecuritywaf.response_body_length
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_out
   asim_field: owasp.modsecuritywaf.response_body_length
   category: Response
 - field_name: Action
@@ -211,7 +211,7 @@ fields:
 - field_name: Producer
   field_type: string
   description: ModSecurity version and component signatures
-  ecs_field: owasp.modsecuritywaf.producer
+  ecs_field: observer.version
   cim_field: owasp.modsecuritywaf.producer
   asim_field: owasp.modsecuritywaf.producer
   category: Trailer
@@ -239,8 +239,8 @@ fields:
 - field_name: Stopwatch
   field_type: string
   description: Performance metrics in microseconds
-  ecs_field: owasp.modsecuritywaf.stopwatch
-  cim_field: owasp.modsecuritywaf.stopwatch
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: owasp.modsecuritywaf.stopwatch
   category: Performance
 - field_name: stopwatch_timestamp
@@ -309,16 +309,16 @@ fields:
 - field_name: rule_rev
   field_type: string
   description: Rule revision number
-  ecs_field: owasp.modsecuritywaf.rule_rev
+  ecs_field: rule.version
   cim_field: owasp.modsecuritywaf.rule_rev
   asim_field: owasp.modsecuritywaf.rule_rev
   category: Alert
 - field_name: rule_msg
   field_type: string
   description: Human-readable rule description/message
-  ecs_field: owasp.modsecuritywaf.rule_msg
-  cim_field: owasp.modsecuritywaf.rule_msg
-  asim_field: owasp.modsecuritywaf.rule_msg
+  ecs_field: rule.description
+  cim_field: signature
+  asim_field: RuleName
   category: Alert
 - field_name: rule_severity
   field_type: string
@@ -331,7 +331,7 @@ fields:
 - field_name: rule_file
   field_type: string
   description: Path to rule file containing the matched rule
-  ecs_field: owasp.modsecuritywaf.rule_file
+  ecs_field: rule.reference
   cim_field: owasp.modsecuritywaf.rule_file
   asim_field: owasp.modsecuritywaf.rule_file
   category: Alert
@@ -359,8 +359,8 @@ fields:
 - field_name: rule_tags
   field_type: array
   description: Rule tags (OWASP_CRS, attack-sqli, CAPEC-66, etc.)
-  ecs_field: owasp.modsecuritywaf.rule_tags
-  cim_field: owasp.modsecuritywaf.rule_tags
+  ecs_field: rule.category
+  cim_field: category
   asim_field: owasp.modsecuritywaf.rule_tags
   category: Alert
 - field_name: rule_maturity
@@ -380,7 +380,7 @@ fields:
 - field_name: rule_ver
   field_type: string
   description: Rule version (e.g., OWASP_CRS/4.0.0)
-  ecs_field: owasp.modsecuritywaf.rule_ver
+  ecs_field: rule.version
   cim_field: owasp.modsecuritywaf.rule_ver
   asim_field: owasp.modsecuritywaf.rule_ver
   category: Alert
@@ -408,22 +408,22 @@ fields:
 - field_name: tx.anomaly_score
   field_type: integer
   description: Cumulative anomaly score from all matched rules
-  ecs_field: owasp.modsecuritywaf.tx_anomaly_score
-  cim_field: owasp.modsecuritywaf.tx_anomaly_score
+  ecs_field: event.severity
+  cim_field: severity
   asim_field: owasp.modsecuritywaf.tx_anomaly_score
   category: Rules
 - field_name: tx.inbound_anomaly_score
   field_type: integer
   description: Inbound (request) anomaly score
-  ecs_field: owasp.modsecuritywaf.tx_inbound_anomaly_score
-  cim_field: owasp.modsecuritywaf.tx_inbound_anomaly_score
+  ecs_field: event.severity
+  cim_field: severity
   asim_field: owasp.modsecuritywaf.tx_inbound_anomaly_score
   category: Rules
 - field_name: tx.outbound_anomaly_score
   field_type: integer
   description: Outbound (response) anomaly score
-  ecs_field: owasp.modsecuritywaf.tx_outbound_anomaly_score
-  cim_field: owasp.modsecuritywaf.tx_outbound_anomaly_score
+  ecs_field: event.severity
+  cim_field: severity
   asim_field: owasp.modsecuritywaf.tx_outbound_anomaly_score
   category: Rules
 notes: ModSecurity is an open source, cross platform WAF engine for Apache, Nginx,

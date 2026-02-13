@@ -7,7 +7,7 @@ source_document: CloudTrail Event Reference
 source_url: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
 extraction_date: '2026-01-02'
 source_file: aws-cloudtrail-signatures.json
-generated_at: '2026-02-13T08:53:42.219646'
+generated_at: '2026-02-13T09:25:11.773420'
 categories:
 - Addendum
 - RequestResponse
@@ -23,14 +23,14 @@ fields:
 - field_name: addendum.originalEventID
   field_type: string
   description: Original event ID for reference
-  ecs_field: amazonwebservices.cloudtrail.addendum_originaleventid
+  ecs_field: event.id
   cim_field: amazonwebservices.cloudtrail.addendum_originaleventid
   asim_field: amazonwebservices.cloudtrail.addendum_originaleventid
   category: Addendum
 - field_name: addendum.originalRequestID
   field_type: string
   description: Original request ID for reference
-  ecs_field: amazonwebservices.cloudtrail.addendum_originalrequestid
+  ecs_field: event.id
   cim_field: amazonwebservices.cloudtrail.addendum_originalrequestid
   asim_field: amazonwebservices.cloudtrail.addendum_originalrequestid
   category: Addendum
@@ -51,7 +51,7 @@ fields:
 - field_name: additionalEventData
   field_type: object
   description: Additional event data not in request/response (JSON, max 28 KB)
-  ecs_field: amazonwebservices.cloudtrail.additionaleventdata
+  ecs_field: event.reason
   cim_field: amazonwebservices.cloudtrail.additionaleventdata
   asim_field: amazonwebservices.cloudtrail.additionaleventdata
   category: RequestResponse
@@ -72,9 +72,9 @@ fields:
 - field_name: edgeDeviceDetails
   field_type: object
   description: Information about edge device targets (S3 Outposts) (JSON, max 28 KB)
-  ecs_field: amazonwebservices.cloudtrail.edgedevicedetails
-  cim_field: amazonwebservices.cloudtrail.edgedevicedetails
-  asim_field: amazonwebservices.cloudtrail.edgedevicedetails
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: RequestResponse
 - field_name: errorCode
   field_type: string
@@ -150,14 +150,14 @@ fields:
 - field_name: managementEvent
   field_type: boolean
   description: Whether the event is a management event
-  ecs_field: amazonwebservices.cloudtrail.managementevent
-  cim_field: amazonwebservices.cloudtrail.managementevent
+  ecs_field: event.category
+  cim_field: category
   asim_field: amazonwebservices.cloudtrail.managementevent
   category: Core
 - field_name: readOnly
   field_type: boolean
   description: Whether operation is read-only (true/false)
-  ecs_field: amazonwebservices.cloudtrail.readonly
+  ecs_field: event.action
   cim_field: amazonwebservices.cloudtrail.readonly
   asim_field: amazonwebservices.cloudtrail.readonly
   category: Core
@@ -185,7 +185,7 @@ fields:
 - field_name: resources[].ARN
   field_type: string
   description: ARN of the resource accessed
-  ecs_field: amazonwebservices.cloudtrail.resources___arn
+  ecs_field: cloud.instance.id
   cim_field: resource_arn
   asim_field: CloudResourceName
   category: Resources
@@ -213,7 +213,7 @@ fields:
 - field_name: serviceEventDetails
   field_type: object
   description: Details about service-generated events (JSON, max 100 KB)
-  ecs_field: amazonwebservices.cloudtrail.serviceeventdetails
+  ecs_field: event.reason
   cim_field: amazonwebservices.cloudtrail.serviceeventdetails
   asim_field: amazonwebservices.cloudtrail.serviceeventdetails
   category: RequestResponse
@@ -249,7 +249,7 @@ fields:
 - field_name: tlsDetails.clientProvidedHostHeader
   field_type: string
   description: Client-provided FQDN
-  ecs_field: amazonwebservices.cloudtrail.tlsdetails_clientprovidedhostheader
+  ecs_field: url.domain
   cim_field: amazonwebservices.cloudtrail.tlsdetails_clientprovidedhostheader
   asim_field: amazonwebservices.cloudtrail.tlsdetails_clientprovidedhostheader
   category: TLS
@@ -291,9 +291,9 @@ fields:
 - field_name: userIdentity.credentialId
   field_type: string
   description: Credential ID for bearer token requests (IAM Identity Center)
-  ecs_field: amazonwebservices.cloudtrail.useridentity_credentialid
-  cim_field: amazonwebservices.cloudtrail.useridentity_credentialid
-  asim_field: amazonwebservices.cloudtrail.useridentity_credentialid
+  ecs_field: user.id
+  cim_field: user
+  asim_field: ActorUsername
   category: UserIdentity
 - field_name: userIdentity.identityProvider
   field_type: string
@@ -305,14 +305,14 @@ fields:
 - field_name: userIdentity.inScopeOf.credentialsIssuedTo
   field_type: string
   description: Identity to which credentials were issued
-  ecs_field: amazonwebservices.cloudtrail.useridentity_inscopeof_credentialsissuedto
-  cim_field: amazonwebservices.cloudtrail.useridentity_inscopeof_credentialsissuedto
-  asim_field: amazonwebservices.cloudtrail.useridentity_inscopeof_credentialsissuedto
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: InScopeOf
 - field_name: userIdentity.inScopeOf.issuerType
   field_type: string
   description: Type of issuer
-  ecs_field: amazonwebservices.cloudtrail.useridentity_inscopeof_issuertype
+  ecs_field: user.name
   cim_field: amazonwebservices.cloudtrail.useridentity_inscopeof_issuertype
   asim_field: amazonwebservices.cloudtrail.useridentity_inscopeof_issuertype
   category: InScopeOf
@@ -326,7 +326,7 @@ fields:
 - field_name: userIdentity.inScopeOf.sourceArn
   field_type: string
   description: ARN of the source AWS resource
-  ecs_field: amazonwebservices.cloudtrail.useridentity_inscopeof_sourcearn
+  ecs_field: cloud.instance.id
   cim_field: amazonwebservices.cloudtrail.useridentity_inscopeof_sourcearn
   asim_field: amazonwebservices.cloudtrail.useridentity_inscopeof_sourcearn
   category: InScopeOf
@@ -340,7 +340,7 @@ fields:
 - field_name: userIdentity.onBehalfOf.identityStoreArn
   field_type: string
   description: ARN of the identity store
-  ecs_field: amazonwebservices.cloudtrail.useridentity_onbehalfof_identitystorearn
+  ecs_field: user.domain
   cim_field: amazonwebservices.cloudtrail.useridentity_onbehalfof_identitystorearn
   asim_field: amazonwebservices.cloudtrail.useridentity_onbehalfof_identitystorearn
   category: OnBehalfOf
@@ -361,7 +361,7 @@ fields:
 - field_name: userIdentity.sessionContext.assumedRoot
   field_type: boolean
   description: True when management account calls STS AssumedRoot
-  ecs_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_assumedroot
+  ecs_field: user.name
   cim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_assumedroot
   asim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_assumedroot
   category: SessionContext
@@ -389,37 +389,37 @@ fields:
 - field_name: userIdentity.sessionContext.sessionIssuer.accountId
   field_type: string
   description: Account owning the entity used to get credentials
-  ecs_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_accountid
-  cim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_accountid
-  asim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_accountid
+  ecs_field: cloud.account.id
+  cim_field: account_id
+  asim_field: CloudAccountId
   category: SessionContext
 - field_name: userIdentity.sessionContext.sessionIssuer.arn
   field_type: string
   description: ARN of source used to get temporary credentials
-  ecs_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_arn
-  cim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_arn
-  asim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_arn
+  ecs_field: user.id
+  cim_field: user
+  asim_field: ActorUsername
   category: SessionContext
 - field_name: userIdentity.sessionContext.sessionIssuer.principalId
   field_type: string
   description: Internal ID of entity used to get credentials
-  ecs_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_principalid
-  cim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_principalid
-  asim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_principalid
+  ecs_field: user.id
+  cim_field: user
+  asim_field: ActorUsername
   category: SessionContext
 - field_name: userIdentity.sessionContext.sessionIssuer.type
   field_type: string
   description: Source of temporary credentials (Root, IAMUser, Role)
-  ecs_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_type
+  ecs_field: user.name
   cim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_type
   asim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_type
   category: SessionContext
 - field_name: userIdentity.sessionContext.sessionIssuer.userName
   field_type: string
   description: Friendly name of user or role that issued the session
-  ecs_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_username
-  cim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_username
-  asim_field: amazonwebservices.cloudtrail.useridentity_sessioncontext_sessionissuer_username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: SessionContext
 - field_name: userIdentity.sessionContext.sourceIdentity
   field_type: string

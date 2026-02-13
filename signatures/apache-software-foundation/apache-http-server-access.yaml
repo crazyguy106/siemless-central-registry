@@ -7,7 +7,7 @@ source_document: mod_log_config Module Documentation
 source_url: https://httpd.apache.org/docs/2.4/mod/mod_log_config.html
 extraction_date: '2026-01-02'
 source_file: apache-httpd-signatures.json
-generated_at: '2026-02-13T08:53:42.168975'
+generated_at: '2026-02-13T09:25:11.723543'
 categories:
 - Client
 - Request
@@ -105,9 +105,9 @@ fields:
 - field_name: '%R'
   field_type: string
   description: Handler generating the response
-  ecs_field: apache.apachehttpserveraccesslogs._r
-  cim_field: http_request
-  asim_field: HttpRequest
+  ecs_field: process.name
+  cim_field: process
+  asim_field: ProcessName
   category: Request
 - field_name: '%s'
   field_type: integer
@@ -175,8 +175,8 @@ fields:
 - field_name: '%D'
   field_type: integer
   description: Time to serve request in microseconds
-  ecs_field: apache.apachehttpserveraccesslogs._d
-  cim_field: apache.apachehttpserveraccesslogs._d
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: apache.apachehttpserveraccesslogs._d
   category: Timing
 - field_name: '%T'
@@ -189,8 +189,8 @@ fields:
 - field_name: '%{UNIT}T'
   field_type: integer
   description: Time to serve request in specified unit (ms, us, or s)
-  ecs_field: apache.apachehttpserveraccesslogs.__unit_t
-  cim_field: apache.apachehttpserveraccesslogs.__unit_t
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: apache.apachehttpserveraccesslogs.__unit_t
   category: Timing
 - field_name: '%{VARNAME}i'
@@ -203,21 +203,21 @@ fields:
 - field_name: '%{VARNAME}o'
   field_type: string
   description: 'Contents of VARNAME: header in reply (e.g., %{Content-Type}o)'
-  ecs_field: apache.apachehttpserveraccesslogs.__varname_o
+  ecs_field: http.response.headers
   cim_field: apache.apachehttpserveraccesslogs.__varname_o
   asim_field: apache.apachehttpserveraccesslogs.__varname_o
   category: Headers
 - field_name: '%{VARNAME}C'
   field_type: string
   description: Contents of cookie VARNAME in request
-  ecs_field: apache.apachehttpserveraccesslogs.__varname_c
+  ecs_field: http.request.header.cookie
   cim_field: apache.apachehttpserveraccesslogs.__varname_c
   asim_field: apache.apachehttpserveraccesslogs.__varname_c
   category: Headers
 - field_name: '%{VARNAME}e'
   field_type: string
   description: Contents of environment variable VARNAME
-  ecs_field: apache.apachehttpserveraccesslogs.__varname_e
+  ecs_field: process.env_vars
   cim_field: apache.apachehttpserveraccesslogs.__varname_e
   asim_field: apache.apachehttpserveraccesslogs.__varname_e
   category: Headers
@@ -231,14 +231,14 @@ fields:
 - field_name: '%{VARNAME}^ti'
   field_type: string
   description: Contents of trailer line(s) VARNAME in request
-  ecs_field: apache.apachehttpserveraccesslogs.__varname__ti
+  ecs_field: http.request.headers
   cim_field: apache.apachehttpserveraccesslogs.__varname__ti
   asim_field: apache.apachehttpserveraccesslogs.__varname__ti
   category: Headers
 - field_name: '%{VARNAME}^to'
   field_type: string
   description: Contents of trailer line(s) VARNAME in response
-  ecs_field: apache.apachehttpserveraccesslogs.__varname__to
+  ecs_field: http.response.headers
   cim_field: apache.apachehttpserveraccesslogs.__varname__to
   asim_field: apache.apachehttpserveraccesslogs.__varname__to
   category: Headers
@@ -266,9 +266,9 @@ fields:
 - field_name: '%{format}p'
   field_type: integer
   description: Port (canonical, local, or remote)
-  ecs_field: apache.apachehttpserveraccesslogs.__format_p
-  cim_field: apache.apachehttpserveraccesslogs.__format_p
-  asim_field: apache.apachehttpserveraccesslogs.__format_p
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: Server
 - field_name: '%A'
   field_type: ip

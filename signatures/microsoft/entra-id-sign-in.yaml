@@ -7,7 +7,7 @@ source_document: SignInLogs Table Reference
 source_url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/signinlogs
 extraction_date: '2026-01-02'
 source_file: azure-signin-signatures.json
-generated_at: '2026-02-13T08:53:42.466577'
+generated_at: '2026-02-13T09:25:12.009310'
 categories:
 - Identity
 - Metadata
@@ -138,9 +138,9 @@ fields:
 - field_name: AutonomousSystemNumber
   field_type: string
   description: The Autonomous System Number (ASN) of the network
-  ecs_field: microsoft.entraidsigninlogs.autonomoussystemnumber
-  cim_field: microsoft.entraidsigninlogs.autonomoussystemnumber
-  asim_field: microsoft.entraidsigninlogs.autonomoussystemnumber
+  ecs_field: source.as.number
+  cim_field: src_as_number
+  asim_field: SrcAsNumber
   category: Network
 - field_name: Category
   field_type: string
@@ -222,7 +222,7 @@ fields:
 - field_name: FlaggedForReview
   field_type: boolean
   description: Whether the failed sign-in was flagged for tenant admin review
-  ecs_field: microsoft.entraidsigninlogs.flaggedforreview
+  ecs_field: event.risk_score
   cim_field: microsoft.entraidsigninlogs.flaggedforreview
   asim_field: microsoft.entraidsigninlogs.flaggedforreview
   category: Session
@@ -243,7 +243,7 @@ fields:
 - field_name: HomeTenantName
   field_type: string
   description: Tenant name of the external tenant who homes the entity
-  ecs_field: microsoft.entraidsigninlogs.hometenantname
+  ecs_field: cloud.account.name
   cim_field: microsoft.entraidsigninlogs.hometenantname
   asim_field: microsoft.entraidsigninlogs.hometenantname
   category: Identity
@@ -455,7 +455,7 @@ fields:
   description: Reason behind risky state
   ecs_field: event.reason
   cim_field: RiskDetail
-  asim_field: RiskDetail
+  asim_field: EventOriginalResultDetails
   category: Risk
 - field_name: RiskEventTypes
   field_type: string

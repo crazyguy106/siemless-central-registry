@@ -7,7 +7,7 @@ source_document: pfSense Raw Filter Log Format (BNF)
 source_url: https://docs.netgate.com/pfsense/en/latest/monitoring/logs/raw-filter-format.html
 extraction_date: '2026-01-01'
 source_file: pfsense-filterlog-signatures.json
-generated_at: '2026-02-13T08:53:55.901737'
+generated_at: '2026-02-13T09:25:25.645564'
 categories:
 - Base
 - IPv4
@@ -86,7 +86,7 @@ fields:
 - field_name: ip_version
   field_type: int
   description: 'IP version: 4 or 6'
-  ecs_field: netgate.pfsense.ip_version
+  ecs_field: network.type
   cim_field: netgate.pfsense.ip_version
   asim_field: netgate.pfsense.ip_version
   category: Base
@@ -174,7 +174,7 @@ fields:
 - field_name: hop_limit
   field_type: int
   description: Hop Limit (similar to IPv4 TTL)
-  ecs_field: netgate.pfsense.hop_limit
+  ecs_field: network.iana_number
   cim_field: netgate.pfsense.hop_limit
   asim_field: netgate.pfsense.hop_limit
   category: IPv6
@@ -222,7 +222,7 @@ fields:
 - field_name: data_length
   field_type: int
   description: Data/payload length
-  ecs_field: netgate.pfsense.data_length
+  ecs_field: network.bytes
   cim_field: netgate.pfsense.data_length
   asim_field: netgate.pfsense.data_length
   category: TCP
@@ -231,8 +231,8 @@ fields:
   field_type: string
   description: 'TCP Flags: S(SYN), A(ACK), .(no flags), F(FIN), R(RST), P(PSH), U(URG),
     E(ECE), W(CWR)'
-  ecs_field: netgate.pfsense.tcp_flags
-  cim_field: tcp_flags
+  ecs_field: network.transport
+  cim_field: transport
   asim_field: TcpFlags
   category: TCP
   display_name: Tcp Flags
@@ -295,7 +295,7 @@ fields:
 - field_name: udp_data_length
   field_type: int
   description: UDP Data/payload length
-  ecs_field: netgate.pfsense.udp_data_length
+  ecs_field: network.bytes
   cim_field: netgate.pfsense.udp_data_length
   asim_field: netgate.pfsense.udp_data_length
   category: UDP
@@ -344,15 +344,15 @@ fields:
 - field_name: unreachable_port_number
   field_type: int
   description: Port number that was unreachable
-  ecs_field: netgate.pfsense.unreachable_port_number
-  cim_field: netgate.pfsense.unreachable_port_number
-  asim_field: netgate.pfsense.unreachable_port_number
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   category: ICMP
   display_name: Unreachable Port Number
 - field_name: icmp_description
   field_type: string
   description: Description from the ICMP packet
-  ecs_field: netgate.pfsense.icmp_description
+  ecs_field: event.reason
   cim_field: netgate.pfsense.icmp_description
   asim_field: netgate.pfsense.icmp_description
   category: ICMP

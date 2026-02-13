@@ -7,7 +7,7 @@ source_document: JSON File Logging Driver Documentation
 source_url: https://docs.docker.com/config/containers/logging/json-file/
 extraction_date: '2026-01-02'
 source_file: docker-signatures.json
-generated_at: '2026-02-13T08:53:47.100924'
+generated_at: '2026-02-13T09:25:16.731934'
 categories:
 - LogEntry
 - Stream
@@ -20,14 +20,14 @@ fields:
 - field_name: log
   field_type: string
   description: The actual log message content, typically ending with newline character
-  ecs_field: docker.dockercontainerlogs.log
+  ecs_field: message
   cim_field: docker.dockercontainerlogs.log
   asim_field: docker.dockercontainerlogs.log
   category: LogEntry
 - field_name: stream
   field_type: enum
   description: 'Origin designation: stdout or stderr'
-  ecs_field: docker.dockercontainerlogs.stream
+  ecs_field: log.logger
   cim_field: docker.dockercontainerlogs.stream
   asim_field: docker.dockercontainerlogs.stream
   category: Stream
@@ -56,7 +56,7 @@ fields:
 - field_name: image_id
   field_type: string
   description: Image ID used to create container
-  ecs_field: docker.dockercontainerlogs.image_id
+  ecs_field: container.image.id
   cim_field: docker.dockercontainerlogs.image_id
   asim_field: docker.dockercontainerlogs.image_id
   category: Container
@@ -99,7 +99,7 @@ fields:
   field_type: object
   description: Container labels and environment variables (when logging with labels/env
     options)
-  ecs_field: docker.dockercontainerlogs.attrs
+  ecs_field: container.labels
   cim_field: docker.dockercontainerlogs.attrs
   asim_field: docker.dockercontainerlogs.attrs
   category: Labels

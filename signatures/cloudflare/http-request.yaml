@@ -7,7 +7,7 @@ source_document: HTTP Request Log Fields
 source_url: https://developers.cloudflare.com/logs/reference/log-fields/zone/http_requests/
 extraction_date: '2026-01-02'
 source_file: cloudflare-http-signatures.json
-generated_at: '2026-02-13T08:53:46.958942'
+generated_at: '2026-02-13T09:25:16.589047'
 categories:
 - Bot
 - Cache
@@ -266,7 +266,7 @@ fields:
 - field_name: ClientTCPRTTMs
   field_type: integer
   description: Smoothed average TCP round-trip time in milliseconds
-  ecs_field: cloudflare.httprequestlogs.clienttcprttms
+  ecs_field: event.duration
   cim_field: cloudflare.httprequestlogs.clienttcprttms
   asim_field: cloudflare.httprequestlogs.clienttcprttms
   category: Client
@@ -364,7 +364,7 @@ fields:
 - field_name: EdgeResponseBodyBytes
   field_type: integer
   description: HTTP response body size returned to clients
-  ecs_field: cloudflare.httprequestlogs.edgeresponsebodybytes
+  ecs_field: http.response.body.bytes
   cim_field: cloudflare.httprequestlogs.edgeresponsebodybytes
   asim_field: cloudflare.httprequestlogs.edgeresponsebodybytes
   category: Edge
@@ -413,21 +413,21 @@ fields:
 - field_name: EdgeTimeToFirstByteMs
   field_type: integer
   description: Time To First Byte from TCP connection to first response byte
-  ecs_field: cloudflare.httprequestlogs.edgetimetofirstbytems
+  ecs_field: event.duration
   cim_field: cloudflare.httprequestlogs.edgetimetofirstbytems
   asim_field: cloudflare.httprequestlogs.edgetimetofirstbytems
   category: Edge
 - field_name: FraudAttack
   field_type: string
   description: Primary attack or use case detected by Fraud detections
-  ecs_field: cloudflare.httprequestlogs.fraudattack
+  ecs_field: threat.tactic.name
   cim_field: cloudflare.httprequestlogs.fraudattack
   asim_field: cloudflare.httprequestlogs.fraudattack
   category: Fraud
 - field_name: FraudDetectionIDs
   field_type: array
   description: IDs correlating to Fraud detections
-  ecs_field: cloudflare.httprequestlogs.frauddetectionids
+  ecs_field: threat.indicator.id
   cim_field: cloudflare.httprequestlogs.frauddetectionids
   asim_field: cloudflare.httprequestlogs.frauddetectionids
   category: Fraud
@@ -490,7 +490,7 @@ fields:
 - field_name: OriginRequestHeaderSendDurationMs
   field_type: integer
   description: Time to send request headers after connection
-  ecs_field: cloudflare.httprequestlogs.originrequestheadersenddurationms
+  ecs_field: event.duration
   cim_field: cloudflare.httprequestlogs.originrequestheadersenddurationms
   asim_field: cloudflare.httprequestlogs.originrequestheadersenddurationms
   category: Origin
@@ -525,7 +525,7 @@ fields:
 - field_name: OriginResponseHeaderReceiveDurationMs
   field_type: integer
   description: Time for origin to return response headers
-  ecs_field: cloudflare.httprequestlogs.originresponseheaderreceivedurationms
+  ecs_field: event.duration
   cim_field: cloudflare.httprequestlogs.originresponseheaderreceivedurationms
   asim_field: cloudflare.httprequestlogs.originresponseheaderreceivedurationms
   category: Origin
@@ -553,7 +553,7 @@ fields:
 - field_name: OriginTCPHandshakeDurationMs
   field_type: integer
   description: Time to complete TCP handshake with origin
-  ecs_field: cloudflare.httprequestlogs.origintcphandshakedurationms
+  ecs_field: event.duration
   cim_field: cloudflare.httprequestlogs.origintcphandshakedurationms
   asim_field: cloudflare.httprequestlogs.origintcphandshakedurationms
   category: Origin
@@ -609,7 +609,7 @@ fields:
 - field_name: SecurityRuleDescription
   field_type: string
   description: Description of terminating security rule
-  ecs_field: cloudflare.httprequestlogs.securityruledescription
+  ecs_field: rule.name
   cim_field: cloudflare.httprequestlogs.securityruledescription
   asim_field: cloudflare.httprequestlogs.securityruledescription
   category: Security
@@ -630,8 +630,8 @@ fields:
 - field_name: SecuritySources
   field_type: array
   description: 'Security products: waf, firewallRules, rateLimit, botManagement, etc.'
-  ecs_field: cloudflare.httprequestlogs.securitysources
-  cim_field: cloudflare.httprequestlogs.securitysources
+  ecs_field: event.provider
+  cim_field: vendor_product
   asim_field: cloudflare.httprequestlogs.securitysources
   category: Security
 - field_name: SmartRouteColoID
@@ -700,14 +700,14 @@ fields:
 - field_name: WorkerCPUTime
   field_type: integer
   description: Microseconds spent executing a Worker
-  ecs_field: cloudflare.httprequestlogs.workercputime
+  ecs_field: event.duration
   cim_field: cloudflare.httprequestlogs.workercputime
   asim_field: cloudflare.httprequestlogs.workercputime
   category: Worker
 - field_name: WorkerScriptName
   field_type: string
   description: Name of Worker script making request
-  ecs_field: cloudflare.httprequestlogs.workerscriptname
+  ecs_field: file.name
   cim_field: cloudflare.httprequestlogs.workerscriptname
   asim_field: cloudflare.httprequestlogs.workerscriptname
   category: Worker
@@ -742,9 +742,9 @@ fields:
 - field_name: ZoneName
   field_type: string
   description: Human-readable zone name (e.g., cloudflare.com)
-  ecs_field: cloudflare.httprequestlogs.zonename
-  cim_field: cloudflare.httprequestlogs.zonename
-  asim_field: cloudflare.httprequestlogs.zonename
+  ecs_field: url.domain
+  cim_field: url
+  asim_field: UrlOriginal
   category: Metadata
 notes: Cloudflare HTTP Request logs capture all HTTP requests proxied through Cloudflare.
   Includes client info, edge processing, origin communication, bot detection, WAF,

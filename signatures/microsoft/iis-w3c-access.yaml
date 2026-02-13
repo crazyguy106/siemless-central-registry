@@ -8,7 +8,7 @@ source_document: Configure Logging in IIS
 source_url: https://learn.microsoft.com/en-us/iis/manage/provisioning-and-managing-iis/configure-logging-in-iis
 extraction_date: '2026-01-02'
 source_file: iis-signatures.json
-generated_at: '2026-02-13T08:53:54.872667'
+generated_at: '2026-02-13T09:25:24.603195'
 categories:
 - Client
 - Server
@@ -49,21 +49,21 @@ fields:
   field_type: string
   description: The name of the authenticated user who accessed your server (hyphen
     for anonymous)
-  ecs_field: microsoft.iisw3caccesslogs.cs_username
-  cim_field: microsoft.iisw3caccesslogs.cs_username
-  asim_field: microsoft.iisw3caccesslogs.cs_username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: Client
 - field_name: cs(User-Agent)
   field_type: string
   description: The browser type that the client used
-  ecs_field: microsoft.iisw3caccesslogs.cs_user_agent_
-  cim_field: microsoft.iisw3caccesslogs.cs_user_agent_
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
   asim_field: microsoft.iisw3caccesslogs.cs_user_agent_
   category: Client
 - field_name: cs(Cookie)
   field_type: string
   description: The content of the cookie sent or received, if any
-  ecs_field: microsoft.iisw3caccesslogs.cs_cookie_
+  ecs_field: http.request.header.cookie
   cim_field: microsoft.iisw3caccesslogs.cs_cookie_
   asim_field: microsoft.iisw3caccesslogs.cs_cookie_
   category: Client
@@ -84,9 +84,9 @@ fields:
 - field_name: s-computername
   field_type: string
   description: The name of the server on which the log file entry was generated
-  ecs_field: microsoft.iisw3caccesslogs.s_computername
-  cim_field: microsoft.iisw3caccesslogs.s_computername
-  asim_field: microsoft.iisw3caccesslogs.s_computername
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Server
 - field_name: s-ip
   field_type: ip
@@ -119,8 +119,8 @@ fields:
 - field_name: cs-uri-query
   field_type: string
   description: The query, if any, that the client was trying to perform
-  ecs_field: microsoft.iisw3caccesslogs.cs_uri_query
-  cim_field: microsoft.iisw3caccesslogs.cs_uri_query
+  ecs_field: url.query
+  cim_field: query
   asim_field: microsoft.iisw3caccesslogs.cs_uri_query
   category: Request
 - field_name: cs-version
@@ -133,7 +133,7 @@ fields:
 - field_name: cs-host
   field_type: string
   description: The host name, if any
-  ecs_field: microsoft.iisw3caccesslogs.cs_host
+  ecs_field: url.domain
   cim_field: microsoft.iisw3caccesslogs.cs_host
   asim_field: microsoft.iisw3caccesslogs.cs_host
   category: Request
