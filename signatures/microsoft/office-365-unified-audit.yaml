@@ -7,7 +7,7 @@ source_document: Office 365 Management Activity API Schema
 source_url: https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-schema
 extraction_date: '2026-01-02'
 source_file: o365-audit-signatures.json
-generated_at: '2026-02-13T07:34:33.881696'
+generated_at: '2026-02-13T08:53:55.442121'
 categories:
 - Common
 - AppAccessContext
@@ -127,15 +127,15 @@ fields:
 - field_name: AppAccessContext.AADSessionId
   field_type: string
   description: Microsoft Entra SessionId of Entra sign-in
-  ecs_field: microsoft.office365unifiedauditlog.appaccesscontext_aadsessionid
+  ecs_field: event.id
   cim_field: microsoft.office365unifiedauditlog.appaccesscontext_aadsessionid
   asim_field: microsoft.office365unifiedauditlog.appaccesscontext_aadsessionid
   category: AppAccessContext
 - field_name: AppAccessContext.APIId
   field_type: string
   description: ID for API pathway used to access resource
-  ecs_field: microsoft.office365unifiedauditlog.appaccesscontext_apiid
-  cim_field: microsoft.office365unifiedauditlog.appaccesscontext_apiid
+  ecs_field: network.application
+  cim_field: app
   asim_field: microsoft.office365unifiedauditlog.appaccesscontext_apiid
   category: AppAccessContext
 - field_name: AppAccessContext.ClientAppId
@@ -162,7 +162,7 @@ fields:
 - field_name: AppAccessContext.UniqueTokenId
   field_type: string
   description: Unique, per-token identifier (case-sensitive)
-  ecs_field: microsoft.office365unifiedauditlog.appaccesscontext_uniquetokenid
+  ecs_field: event.id
   cim_field: microsoft.office365unifiedauditlog.appaccesscontext_uniquetokenid
   asim_field: microsoft.office365unifiedauditlog.appaccesscontext_uniquetokenid
   category: AppAccessContext
@@ -246,8 +246,8 @@ fields:
 - field_name: ApplicationDisplayName
   field_type: string
   description: Display name of application performing operation
-  ecs_field: microsoft.office365unifiedauditlog.applicationdisplayname
-  cim_field: microsoft.office365unifiedauditlog.applicationdisplayname
+  ecs_field: process.name
+  cim_field: app
   asim_field: microsoft.office365unifiedauditlog.applicationdisplayname
   category: SharePointBase
 - field_name: IsWorkflow
@@ -281,7 +281,7 @@ fields:
 - field_name: SourceFileExtension
   field_type: string
   description: File extension (blank if folder)
-  ecs_field: microsoft.office365unifiedauditlog.sourcefileextension
+  ecs_field: file.extension
   cim_field: microsoft.office365unifiedauditlog.sourcefileextension
   asim_field: microsoft.office365unifiedauditlog.sourcefileextension
   category: SharePointFileOperations
@@ -295,44 +295,44 @@ fields:
 - field_name: DestinationFileName
   field_type: string
   description: Name of file copied or moved
-  ecs_field: microsoft.office365unifiedauditlog.destinationfilename
-  cim_field: microsoft.office365unifiedauditlog.destinationfilename
-  asim_field: microsoft.office365unifiedauditlog.destinationfilename
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: SharePointFileOperations
 - field_name: DestinationFileExtension
   field_type: string
   description: Extension of file copied or moved
-  ecs_field: microsoft.office365unifiedauditlog.destinationfileextension
+  ecs_field: file.extension
   cim_field: microsoft.office365unifiedauditlog.destinationfileextension
   asim_field: microsoft.office365unifiedauditlog.destinationfileextension
   category: SharePointFileOperations
 - field_name: UserSharedWith
   field_type: string
   description: User resource was shared with
-  ecs_field: microsoft.office365unifiedauditlog.usersharedwith
+  ecs_field: destination.user.name
   cim_field: microsoft.office365unifiedauditlog.usersharedwith
-  asim_field: microsoft.office365unifiedauditlog.usersharedwith
+  asim_field: DstUsername
   category: SharePointFileOperations
 - field_name: SharingType
   field_type: string
   description: Type of sharing permissions assigned
-  ecs_field: microsoft.office365unifiedauditlog.sharingtype
-  cim_field: microsoft.office365unifiedauditlog.sharingtype
-  asim_field: microsoft.office365unifiedauditlog.sharingtype
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: SharePointFileOperations
 - field_name: SourceLabel
   field_type: string
   description: Original label before change
-  ecs_field: microsoft.office365unifiedauditlog.sourcelabel
-  cim_field: microsoft.office365unifiedauditlog.sourcelabel
-  asim_field: microsoft.office365unifiedauditlog.sourcelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: SharePointFileOperations
 - field_name: DestinationLabel
   field_type: string
   description: Final label after change
-  ecs_field: microsoft.office365unifiedauditlog.destinationlabel
-  cim_field: microsoft.office365unifiedauditlog.destinationlabel
-  asim_field: microsoft.office365unifiedauditlog.destinationlabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: SharePointFileOperations
 - field_name: SensitivityLabelOwnerEmail
   field_type: email
@@ -344,23 +344,23 @@ fields:
 - field_name: SensitivityLabelId
   field_type: string
   description: Current sensitivity label ID
-  ecs_field: microsoft.office365unifiedauditlog.sensitivitylabelid
-  cim_field: microsoft.office365unifiedauditlog.sensitivitylabelid
+  ecs_field: rule.id
+  cim_field: signature
   asim_field: microsoft.office365unifiedauditlog.sensitivitylabelid
   category: SharePointFileOperations
 - field_name: ListTitle
   field_type: string
   description: Title of SharePoint list
-  ecs_field: microsoft.office365unifiedauditlog.listtitle
-  cim_field: microsoft.office365unifiedauditlog.listtitle
-  asim_field: microsoft.office365unifiedauditlog.listtitle
+  ecs_field: file.path
+  cim_field: file_name
+  asim_field: FileName
   category: SharePointListOperations
 - field_name: ListName
   field_type: string
   description: Name of SharePoint list
-  ecs_field: microsoft.office365unifiedauditlog.listname
-  cim_field: microsoft.office365unifiedauditlog.listname
-  asim_field: microsoft.office365unifiedauditlog.listname
+  ecs_field: file.path
+  cim_field: file_name
+  asim_field: FileName
   category: SharePointListOperations
 - field_name: ListUrl
   field_type: url
@@ -400,9 +400,9 @@ fields:
 - field_name: TargetUserOrGroupName
   field_type: string
   description: UPN or name of target user/group
-  ecs_field: microsoft.office365unifiedauditlog.targetuserorgroupname
-  cim_field: microsoft.office365unifiedauditlog.targetuserorgroupname
-  asim_field: microsoft.office365unifiedauditlog.targetuserorgroupname
+  ecs_field: destination.user.name
+  cim_field: user
+  asim_field: DstUsername
   category: SharePointSharing
 - field_name: TargetUserOrGroupType
   field_type: string
@@ -421,7 +421,7 @@ fields:
 - field_name: UniqueSharingId
   field_type: string
   description: Unique sharing ID
-  ecs_field: microsoft.office365unifiedauditlog.uniquesharingid
+  ecs_field: event.id
   cim_field: microsoft.office365unifiedauditlog.uniquesharingid
   asim_field: microsoft.office365unifiedauditlog.uniquesharingid
   category: SharePointSharing
@@ -456,14 +456,14 @@ fields:
 - field_name: OriginatingServer
   field_type: string
   description: Server from which cmdlet was executed
-  ecs_field: microsoft.office365unifiedauditlog.originatingserver
-  cim_field: microsoft.office365unifiedauditlog.originatingserver
-  asim_field: microsoft.office365unifiedauditlog.originatingserver
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: ExchangeAdmin
 - field_name: OrganizationName
   field_type: string
   description: Tenant name
-  ecs_field: microsoft.office365unifiedauditlog.organizationname
+  ecs_field: cloud.account.id
   cim_field: microsoft.office365unifiedauditlog.organizationname
   asim_field: microsoft.office365unifiedauditlog.organizationname
   category: ExchangeAdmin
@@ -477,22 +477,22 @@ fields:
 - field_name: TokenObjectId
   field_type: string
   description: OID claim of Microsoft Entra tokens
-  ecs_field: microsoft.office365unifiedauditlog.tokenobjectid
+  ecs_field: user.id
   cim_field: microsoft.office365unifiedauditlog.tokenobjectid
   asim_field: microsoft.office365unifiedauditlog.tokenobjectid
   category: ExchangeAdmin
 - field_name: TokenTenantId
   field_type: string
   description: TID claim of Microsoft Entra tokens
-  ecs_field: microsoft.office365unifiedauditlog.tokentenantid
+  ecs_field: cloud.account.id
   cim_field: microsoft.office365unifiedauditlog.tokentenantid
   asim_field: microsoft.office365unifiedauditlog.tokentenantid
   category: ExchangeAdmin
 - field_name: LogonType
   field_type: integer
   description: Type of user accessing mailbox (0=Owner, 1=Admin, 2=Delegated, 3=Transport)
-  ecs_field: winlog.logon.type
-  cim_field: logon_type
+  ecs_field: event.category
+  cim_field: category
   asim_field: LogonType
   category: ExchangeMailbox
 - field_name: InternalLogonType
@@ -512,14 +512,14 @@ fields:
 - field_name: MailboxOwnerUPN
   field_type: string
   description: Email address of mailbox owner
-  ecs_field: microsoft.office365unifiedauditlog.mailboxownerupn
-  cim_field: microsoft.office365unifiedauditlog.mailboxownerupn
-  asim_field: microsoft.office365unifiedauditlog.mailboxownerupn
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: ExchangeMailbox
 - field_name: MailboxOwnerSid
   field_type: string
   description: SID of mailbox owner
-  ecs_field: microsoft.office365unifiedauditlog.mailboxownersid
+  ecs_field: user.id
   cim_field: microsoft.office365unifiedauditlog.mailboxownersid
   asim_field: microsoft.office365unifiedauditlog.mailboxownersid
   category: ExchangeMailbox
@@ -547,7 +547,7 @@ fields:
 - field_name: ClientInfoString
   field_type: string
   description: Email client info (browser, Outlook version, mobile)
-  ecs_field: microsoft.office365unifiedauditlog.clientinfostring
+  ecs_field: user_agent.original
   cim_field: microsoft.office365unifiedauditlog.clientinfostring
   asim_field: microsoft.office365unifiedauditlog.clientinfostring
   category: ExchangeMailbox
@@ -561,21 +561,21 @@ fields:
 - field_name: ClientMachineName
   field_type: string
   description: Machine name hosting Outlook client
-  ecs_field: microsoft.office365unifiedauditlog.clientmachinename
-  cim_field: microsoft.office365unifiedauditlog.clientmachinename
-  asim_field: microsoft.office365unifiedauditlog.clientmachinename
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: ExchangeMailbox
 - field_name: ClientProcessName
   field_type: string
   description: Email client name
-  ecs_field: microsoft.office365unifiedauditlog.clientprocessname
-  cim_field: microsoft.office365unifiedauditlog.clientprocessname
+  ecs_field: process.name
+  cim_field: app
   asim_field: microsoft.office365unifiedauditlog.clientprocessname
   category: ExchangeMailbox
 - field_name: ClientVersion
   field_type: string
   description: Email client version
-  ecs_field: microsoft.office365unifiedauditlog.clientversion
+  ecs_field: process.version
   cim_field: microsoft.office365unifiedauditlog.clientversion
   asim_field: microsoft.office365unifiedauditlog.clientversion
   category: ExchangeMailbox
@@ -617,7 +617,7 @@ fields:
 - field_name: ClientRequestId
   field_type: string
   description: Client request identifier
-  ecs_field: microsoft.office365unifiedauditlog.clientrequestid
+  ecs_field: event.id
   cim_field: microsoft.office365unifiedauditlog.clientrequestid
   asim_field: microsoft.office365unifiedauditlog.clientrequestid
   category: ExchangeMailbox
@@ -638,14 +638,14 @@ fields:
 - field_name: ActorInfoString
   field_type: string
   description: Cloud instance name (Public, GCC, GCC-H)
-  ecs_field: microsoft.office365unifiedauditlog.actorinfostring
+  ecs_field: cloud.region
   cim_field: microsoft.office365unifiedauditlog.actorinfostring
   asim_field: microsoft.office365unifiedauditlog.actorinfostring
   category: ExchangeMailbox
 - field_name: CloudInstanceName
   field_type: string
   description: Cloud instance name
-  ecs_field: microsoft.office365unifiedauditlog.cloudinstancename
+  ecs_field: cloud.region
   cim_field: microsoft.office365unifiedauditlog.cloudinstancename
   asim_field: microsoft.office365unifiedauditlog.cloudinstancename
   category: ExchangeMailbox
@@ -666,23 +666,23 @@ fields:
 - field_name: Item.Id
   field_type: string
   description: Store ID
-  ecs_field: microsoft.office365unifiedauditlog.item_id
-  cim_field: microsoft.office365unifiedauditlog.item_id
-  asim_field: microsoft.office365unifiedauditlog.item_id
+  ecs_field: file.path
+  cim_field: file_name
+  asim_field: FileName
   category: ExchangeItem
 - field_name: Item.Subject
   field_type: string
   description: Message subject line
-  ecs_field: microsoft.office365unifiedauditlog.item_subject
+  ecs_field: email.subject
   cim_field: microsoft.office365unifiedauditlog.item_subject
   asim_field: microsoft.office365unifiedauditlog.item_subject
   category: ExchangeItem
 - field_name: Item.ParentFolder
   field_type: object
   description: Folder containing item
-  ecs_field: microsoft.office365unifiedauditlog.item_parentfolder
-  cim_field: microsoft.office365unifiedauditlog.item_parentfolder
-  asim_field: microsoft.office365unifiedauditlog.item_parentfolder
+  ecs_field: file.path
+  cim_field: file_name
+  asim_field: FileName
   category: ExchangeItem
 - field_name: Item.Attachments
   field_type: string
@@ -694,23 +694,23 @@ fields:
 - field_name: Item.ImmutableId
   field_type: string
   description: Permanent item identifier
-  ecs_field: microsoft.office365unifiedauditlog.item_immutableid
-  cim_field: microsoft.office365unifiedauditlog.item_immutableid
-  asim_field: microsoft.office365unifiedauditlog.item_immutableid
+  ecs_field: file.path
+  cim_field: file_name
+  asim_field: FileName
   category: ExchangeItem
 - field_name: Item.InternetMessageId
   field_type: string
   description: Internet message ID
-  ecs_field: microsoft.office365unifiedauditlog.item_internetmessageid
+  ecs_field: email.message_id
   cim_field: microsoft.office365unifiedauditlog.item_internetmessageid
   asim_field: microsoft.office365unifiedauditlog.item_internetmessageid
   category: ExchangeItem
 - field_name: Item.ComplianceLabel
   field_type: string
   description: Compliance label
-  ecs_field: microsoft.office365unifiedauditlog.item_compliancelabel
-  cim_field: microsoft.office365unifiedauditlog.item_compliancelabel
-  asim_field: microsoft.office365unifiedauditlog.item_compliancelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: ExchangeItem
 - field_name: Item.IsRecord
   field_type: boolean
@@ -729,35 +729,35 @@ fields:
 - field_name: Item.Sensitivity
   field_type: string
   description: Sensitivity level
-  ecs_field: microsoft.office365unifiedauditlog.item_sensitivity
-  cim_field: microsoft.office365unifiedauditlog.item_sensitivity
+  ecs_field: rule.category
+  cim_field: category
   asim_field: microsoft.office365unifiedauditlog.item_sensitivity
   category: ExchangeItem
 - field_name: Folder.Id
   field_type: string
   description: Store ID of folder
-  ecs_field: microsoft.office365unifiedauditlog.folder_id
-  cim_field: microsoft.office365unifiedauditlog.folder_id
-  asim_field: microsoft.office365unifiedauditlog.folder_id
+  ecs_field: file.path
+  cim_field: file_name
+  asim_field: FileName
   category: ExchangeFolder
 - field_name: Folder.Path
   field_type: string
   description: Mailbox folder name
-  ecs_field: microsoft.office365unifiedauditlog.folder_path
-  cim_field: microsoft.office365unifiedauditlog.folder_path
-  asim_field: microsoft.office365unifiedauditlog.folder_path
+  ecs_field: file.path
+  cim_field: file_name
+  asim_field: FileName
   category: ExchangeFolder
 - field_name: Folder.Name
   field_type: string
   description: Folder name
-  ecs_field: microsoft.office365unifiedauditlog.folder_name
-  cim_field: microsoft.office365unifiedauditlog.folder_name
-  asim_field: microsoft.office365unifiedauditlog.folder_name
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: ExchangeFolder
 - field_name: Folder.MemberSid
   field_type: string
   description: Member security identifier
-  ecs_field: microsoft.office365unifiedauditlog.folder_membersid
+  ecs_field: user.id
   cim_field: microsoft.office365unifiedauditlog.folder_membersid
   asim_field: microsoft.office365unifiedauditlog.folder_membersid
   category: ExchangeFolder
@@ -771,16 +771,16 @@ fields:
 - field_name: Folder.MemberUpn
   field_type: string
   description: Member UPN
-  ecs_field: microsoft.office365unifiedauditlog.folder_memberupn
-  cim_field: microsoft.office365unifiedauditlog.folder_memberupn
-  asim_field: microsoft.office365unifiedauditlog.folder_memberupn
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: ExchangeFolder
 - field_name: AzureActiveDirectoryEventType
   field_type: integer
   description: Type of Microsoft Entra event
-  ecs_field: microsoft.office365unifiedauditlog.azureactivedirectoryeventtype
-  cim_field: microsoft.office365unifiedauditlog.azureactivedirectoryeventtype
-  asim_field: microsoft.office365unifiedauditlog.azureactivedirectoryeventtype
+  ecs_field: event.code
+  cim_field: status
+  asim_field: EventResult
   category: AzureADBase
 - field_name: ExtendedProperties
   field_type: array
@@ -820,7 +820,7 @@ fields:
 - field_name: STSApplicationId
   field_type: string
   description: GUID of application requesting login
-  ecs_field: microsoft.office365unifiedauditlog.stsapplicationid
+  ecs_field: user.id
   cim_field: microsoft.office365unifiedauditlog.stsapplicationid
   asim_field: microsoft.office365unifiedauditlog.stsapplicationid
   category: AzureADSTSLogon
@@ -841,8 +841,8 @@ fields:
 - field_name: LogonError
   field_type: string
   description: User-readable description of login failure
-  ecs_field: microsoft.office365unifiedauditlog.logonerror
-  cim_field: microsoft.office365unifiedauditlog.logonerror
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: microsoft.office365unifiedauditlog.logonerror
   category: AzureADSTSLogon
 - field_name: Actor
@@ -918,9 +918,9 @@ fields:
 - field_name: DLPOperationName
   field_type: string
   description: 'DLP operation: DlpRuleMatch, DlpRuleUndo, or DlpInfo'
-  ecs_field: microsoft.office365unifiedauditlog.dlpoperationname
-  cim_field: microsoft.office365unifiedauditlog.dlpoperationname
-  asim_field: microsoft.office365unifiedauditlog.dlpoperationname
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: DLP
 - field_name: IsOverride
   field_type: boolean
@@ -932,9 +932,9 @@ fields:
 - field_name: IsFalsePositive
   field_type: boolean
   description: False positive designation
-  ecs_field: microsoft.office365unifiedauditlog.isfalsepositive
-  cim_field: microsoft.office365unifiedauditlog.isfalsepositive
-  asim_field: microsoft.office365unifiedauditlog.isfalsepositive
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: DLP
 notes: Unified audit logging across Exchange, SharePoint, OneDrive, Azure AD, Teams,
   and 100+ M365 workloads.

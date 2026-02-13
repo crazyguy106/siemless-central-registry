@@ -7,7 +7,7 @@ source_document: PAN-OS Administrator Guide v11.0
 source_url: https://docs.paloaltonetworks.com/pan-os/11-0/pan-os-admin/monitoring/use-syslog-for-monitoring/syslog-field-descriptions
 extraction_date: '2026-01-01'
 source_file: paloalto-panos-signatures.json
-generated_at: '2026-02-13T07:34:34.130188'
+generated_at: '2026-02-13T08:53:55.686893'
 categories:
 - Traffic
 - Threat
@@ -563,7 +563,7 @@ fields:
   field_type: string
   description: Name of the dynamic user group that contains the user who  initiated
     the session.
-  ecs_field: paloalto.panos.dynusergroup_name
+  ecs_field: user.group.name
   cim_field: paloalto.panos.dynusergroup_name
   asim_field: paloalto.panos.dynusergroup_name
   category: Traffic
@@ -602,7 +602,7 @@ fields:
   field_type: string
   description: The model of the device that Device-ID identifies as the  source of
     the traffic.
-  ecs_field: paloalto.panos.src_model
+  ecs_field: host.os.name
   cim_field: paloalto.panos.src_model
   asim_field: paloalto.panos.src_model
   category: Traffic
@@ -611,7 +611,7 @@ fields:
   field_type: string
   description: The vendor of the device that Device-ID identifies as the  source of
     the traffic.
-  ecs_field: paloalto.panos.src_vendor
+  ecs_field: host.os.name
   cim_field: paloalto.panos.src_vendor
   asim_field: paloalto.panos.src_vendor
   category: Traffic
@@ -620,7 +620,7 @@ fields:
   field_type: string
   description: The operating system type for the device that Device-ID  identifies
     as the source of the traffic.
-  ecs_field: paloalto.panos.src_osfamily
+  ecs_field: host.os.name
   cim_field: paloalto.panos.src_osfamily
   asim_field: paloalto.panos.src_osfamily
   category: Traffic
@@ -629,7 +629,7 @@ fields:
   field_type: string
   description: The version of the operating system for the device that  Device-ID
     identifies as the source of the traffic.
-  ecs_field: paloalto.panos.src_osversion
+  ecs_field: host.os.name
   cim_field: paloalto.panos.src_osversion
   asim_field: paloalto.panos.src_osversion
   category: Traffic
@@ -674,7 +674,7 @@ fields:
   field_type: string
   description: The model of the device that Device-ID identifies as the  destination
     for the traffic.
-  ecs_field: paloalto.panos.dst_model
+  ecs_field: host.os.name
   cim_field: paloalto.panos.dst_model
   asim_field: paloalto.panos.dst_model
   category: Traffic
@@ -683,7 +683,7 @@ fields:
   field_type: string
   description: The vendor of the device that Device-ID identifies as the  destination
     for the traffic.  Destination Device OS
-  ecs_field: paloalto.panos.dst_vendor
+  ecs_field: host.os.name
   cim_field: paloalto.panos.dst_vendor
   asim_field: paloalto.panos.dst_vendor
   category: Traffic
@@ -692,7 +692,7 @@ fields:
   field_type: string
   description: The operating system type for the device that Device-ID  identifies
     as the destination for the traffic.  Destination Device OS
-  ecs_field: paloalto.panos.dst_osfamily
+  ecs_field: host.os.name
   cim_field: paloalto.panos.dst_osfamily
   asim_field: paloalto.panos.dst_osfamily
   category: Traffic
@@ -701,7 +701,7 @@ fields:
   field_type: string
   description: The version of the operating system for the device that  Device-ID
     identifies as the destination for the traffic.
-  ecs_field: paloalto.panos.dst_osversion
+  ecs_field: host.os.name
   cim_field: paloalto.panos.dst_osversion
   asim_field: paloalto.panos.dst_osversion
   category: Traffic
@@ -736,7 +736,7 @@ fields:
 - field_name: pod_namespace
   field_type: string
   description: The namespace of the application POD being secured.
-  ecs_field: paloalto.panos.pod_namespace
+  ecs_field: cloud.region
   cim_field: paloalto.panos.pod_namespace
   asim_field: paloalto.panos.pod_namespace
   category: Traffic
@@ -744,9 +744,9 @@ fields:
 - field_name: pod_name
   field_type: string
   description: The application POD being secured.
-  ecs_field: orchestrator.resource.name
-  cim_field: pod_name
-  asim_field: pod_name
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Traffic
   display_name: POD Name
 - field_name: src_edl
@@ -770,7 +770,7 @@ fields:
 - field_name: hostid
   field_type: int
   description: Unique ID GlobalProtect assigns to identify the host.
-  ecs_field: paloalto.panos.hostid
+  ecs_field: host.id
   cim_field: paloalto.panos.hostid
   asim_field: paloalto.panos.hostid
   category: Traffic
@@ -787,26 +787,26 @@ fields:
   field_type: string
   description: Original session source dynamic address group.  Destination Dynamic
     Address
-  ecs_field: paloalto.panos.src_dag
-  cim_field: paloalto.panos.src_dag
-  asim_field: paloalto.panos.src_dag
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Traffic
   display_name: Group
 - field_name: dst_dag
   field_type: string
   description: Original destination source dynamic address group.
-  ecs_field: paloalto.panos.dst_dag
-  cim_field: paloalto.panos.dst_dag
-  asim_field: paloalto.panos.dst_dag
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Traffic
   display_name: Group
 - field_name: session_owner
   field_type: string
   description: The original high availability (HA) peer session owner in an HA  cluster
     from which the session table data was synchronized  upon HA failover.
-  ecs_field: paloalto.panos.session_owner
-  cim_field: paloalto.panos.session_owner
-  asim_field: paloalto.panos.session_owner
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Traffic
   display_name: Session Owner
 - field_name: high_res_timestamp
@@ -877,24 +877,24 @@ fields:
 - field_name: characteristic_of_app
   field_type: string
   description: Comma-separated list of applicable characteristic of the  application
-  ecs_field: paloalto.panos.characteristic_of_app
-  cim_field: paloalto.panos.characteristic_of_app
+  ecs_field: network.application
+  cim_field: app
   asim_field: paloalto.panos.characteristic_of_app
   category: Traffic
   display_name: Application Characteristic
 - field_name: container_of_app
   field_type: string
   description: The parent application for an application.
-  ecs_field: paloalto.panos.container_of_app
-  cim_field: paloalto.panos.container_of_app
+  ecs_field: network.application
+  cim_field: app
   asim_field: paloalto.panos.container_of_app
   category: Traffic
   display_name: Application Container
 - field_name: tunneled_app
   field_type: string
   description: Name of the tunneled application.
-  ecs_field: paloalto.panos.tunneled_app
-  cim_field: paloalto.panos.tunneled_app
+  ecs_field: network.application
+  cim_field: app
   asim_field: paloalto.panos.tunneled_app
   category: Traffic
   display_name: Tunneled Application
@@ -936,9 +936,9 @@ fields:
 - field_name: cluster_name
   field_type: string
   description: Name of the CN-Series firewall cluster.
-  ecs_field: orchestrator.cluster.name
-  cim_field: cluster_name
-  asim_field: cluster_name
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Traffic
   display_name: Cluster Name
 - field_name: misc
@@ -1145,7 +1145,7 @@ fields:
 - field_name: contentver
   field_type: string
   description: Applications and Threats version on your firewall when the log was  generated.
-  ecs_field: paloalto.panos.contentver
+  ecs_field: observer.version
   cim_field: paloalto.panos.contentver
   asim_field: paloalto.panos.contentver
   category: Threat
@@ -1231,7 +1231,7 @@ fields:
   field_type: string
   description: The operating system installed on the users machine or device (or on  the
     client system).
-  ecs_field: paloalto.panos.os
+  ecs_field: host.os.name
   cim_field: paloalto.panos.os
   asim_field: paloalto.panos.os
   category: HIP Match
@@ -1239,25 +1239,25 @@ fields:
 - field_name: matchname
   field_type: string
   description: Name of the HIP object or profile.
-  ecs_field: paloalto.panos.matchname
-  cim_field: paloalto.panos.matchname
-  asim_field: paloalto.panos.matchname
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: HIP Match
   display_name: HIP
 - field_name: matchtype
   field_type: string
   description: Whether the hip field represents a HIP object or a HIP profile.
-  ecs_field: paloalto.panos.matchtype
-  cim_field: paloalto.panos.matchtype
+  ecs_field: rule.category
+  cim_field: category
   asim_field: paloalto.panos.matchtype
   category: HIP Match
   display_name: HIP Type
 - field_name: vsys_id
   field_type: int
   description: A unique identifier for a virtual system on a Palo Alto Networks firewall.
-  ecs_field: paloalto.panos.vsys_id
-  cim_field: paloalto.panos.vsys_id
-  asim_field: paloalto.panos.vsys_id
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: HIP Match
   display_name: Virtual System ID
 - field_name: srcipv6
@@ -1329,7 +1329,7 @@ fields:
 - field_name: srcregion
   field_type: string
   description: The region for the user who initiated the session.
-  ecs_field: paloalto.panos.srcregion
+  ecs_field: source.geo.region_name
   cim_field: paloalto.panos.srcregion
   asim_field: paloalto.panos.srcregion
   category: GlobalProtect
@@ -1385,7 +1385,7 @@ fields:
 - field_name: client_os_ver
   field_type: string
   description: The client devices OS version.
-  ecs_field: paloalto.panos.client_os_ver
+  ecs_field: host.os.name
   cim_field: paloalto.panos.client_os_ver
   asim_field: paloalto.panos.client_os_ver
   category: GlobalProtect
@@ -1401,8 +1401,8 @@ fields:
 - field_name: opaque
   field_type: string
   description: Additional information for any event that has occurred.
-  ecs_field: paloalto.panos.opaque
-  cim_field: paloalto.panos.opaque
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: paloalto.panos.opaque
   category: GlobalProtect
   display_name: Description
@@ -1436,9 +1436,9 @@ fields:
   field_type: string
   description: A string showing the how the GlobalProtect app connects to Gateway,  (for
     example, on-demand or user-logon.
-  ecs_field: paloalto.panos.connect_method
-  cim_field: paloalto.panos.connect_method
-  asim_field: paloalto.panos.connect_method
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: GlobalProtect
   display_name: Connect Method
 - field_name: error_code
@@ -1534,9 +1534,9 @@ fields:
 - field_name: datasourcename
   field_type: string
   description: The name of the source from which mapping information is collected.
-  ecs_field: paloalto.panos.datasourcename
-  cim_field: paloalto.panos.datasourcename
-  asim_field: paloalto.panos.datasourcename
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: IP-Tag
   display_name: Data Source Name
 - field_name: datasource_type
@@ -1661,7 +1661,7 @@ fields:
 - field_name: config_ver
   field_type: string
   description: The software version.
-  ecs_field: paloalto.panos.config_ver
+  ecs_field: observer.version
   cim_field: paloalto.panos.config_ver
   asim_field: paloalto.panos.config_ver
   category: Decryption
@@ -1754,9 +1754,9 @@ fields:
 - field_name: chain_status
   field_type: string
   description: 'Whether the chain is trusted. Values are:   Uninspected   Untrusted   Trusted   Incomplete'
-  ecs_field: paloalto.panos.chain_status
-  cim_field: paloalto.panos.chain_status
-  asim_field: paloalto.panos.chain_status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Decryption
   display_name: Chain Status
 - field_name: proxy_type
@@ -1764,8 +1764,8 @@ fields:
   description: The Decryption proxy type, such as Forward for Forward Proxy,  Inbound
     for Inbound Inspection, No Decrypt for undecrypted traffic,  GlobalProtect, etc.  Certificate
     Serial
-  ecs_field: paloalto.panos.proxy_type
-  cim_field: paloalto.panos.proxy_type
+  ecs_field: network.application
+  cim_field: app
   asim_field: paloalto.panos.proxy_type
   category: Decryption
   display_name: Proxy Type
@@ -1780,7 +1780,7 @@ fields:
 - field_name: fingerprint
   field_type: string
   description: A hash of the certificate in x509 binary format.
-  ecs_field: paloalto.panos.fingerprint
+  ecs_field: file.hash.sha1
   cim_field: paloalto.panos.fingerprint
   asim_field: paloalto.panos.fingerprint
   category: Decryption
@@ -1974,9 +1974,9 @@ fields:
 - field_name: tunnel_insp_rule
   field_type: string
   description: Name of the tunnel inspection rule matching the cleartext tunnel  traffic.
-  ecs_field: paloalto.panos.tunnel_insp_rule
-  cim_field: paloalto.panos.tunnel_insp_rule
-  asim_field: paloalto.panos.tunnel_insp_rule
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Tunnel Inspection
   display_name: Inspection Rule
 - field_name: remote_user_ip
@@ -1999,7 +1999,7 @@ fields:
 - field_name: pdu_session_id
   field_type: int
   description: Session ID for the collection of L4 segments inside a tunnel.  Application
-  ecs_field: paloalto.panos.pdu_session_id
+  ecs_field: event.id
   cim_field: paloalto.panos.pdu_session_id
   asim_field: paloalto.panos.pdu_session_id
   category: Tunnel Inspection
@@ -2018,9 +2018,9 @@ fields:
   description: Defines the event triggered per SCTP chunk or packet when  SCTP protection
     profile is applied to the SCTP traffic. It is also  triggered by start or end
     of a SCTP association.
-  ecs_field: paloalto.panos.sctp_event_type
-  cim_field: paloalto.panos.sctp_event_type
-  asim_field: paloalto.panos.sctp_event_type
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: SCTP
   display_name: SCTP Event Type
 - field_name: verif_tag_1
@@ -2054,8 +2054,8 @@ fields:
   field_type: int
   description: The diameter application in the data chunk which triggered  the event.
     Diameter Application ID is assigned by Internet  Assigned Numbers Authority (IANA).
-  ecs_field: paloalto.panos.diam_app_id
-  cim_field: paloalto.panos.diam_app_id
+  ecs_field: network.application
+  cim_field: app
   asim_field: paloalto.panos.diam_app_id
   category: SCTP
   display_name: Diameter App ID
@@ -2063,9 +2063,9 @@ fields:
   field_type: string
   description: The diameter command code in the data chunk which  triggered the event.
     Diameter Command Code is assigned by  Internet Assigned Numbers Authority (IANA)
-  ecs_field: paloalto.panos.diam_cmd_code
-  cim_field: paloalto.panos.diam_cmd_code
-  asim_field: paloalto.panos.diam_cmd_code
+  ecs_field: event.code
+  cim_field: status
+  asim_field: EventResult
   category: SCTP
   display_name: Diameter Command Code
 - field_name: diam_avp_code
@@ -2129,9 +2129,9 @@ fields:
 - field_name: sctp_filter
   field_type: string
   description: Name of the filter that the SCTP chunk matched.
-  ecs_field: paloalto.panos.sctp_filter
-  cim_field: paloalto.panos.sctp_filter
-  asim_field: paloalto.panos.sctp_filter
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: SCTP
   display_name: SCTP Filter
 - field_name: normalize_user
@@ -2164,7 +2164,7 @@ fields:
   field_type: int
   description: Unique ID given across primary authentication and additional (multi  factor)
     authentication.
-  ecs_field: paloalto.panos.authid
+  ecs_field: user.id
   cim_field: paloalto.panos.authid
   asim_field: paloalto.panos.authid
   category: Authentication
@@ -2180,9 +2180,9 @@ fields:
 - field_name: serverprofile
   field_type: string
   description: Authentication server used for authentication.
-  ecs_field: paloalto.panos.serverprofile
-  cim_field: paloalto.panos.serverprofile
-  asim_field: paloalto.panos.serverprofile
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Authentication
   display_name: Server Profile
 - field_name: desc
@@ -2281,9 +2281,9 @@ fields:
   field_type: int
   description: The device group the firewall belongs to if managed by a Panorama  management
     server.
-  ecs_field: paloalto.panos.dg_id
-  cim_field: paloalto.panos.dg_id
-  asim_field: paloalto.panos.dg_id
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Config
   display_name: Device Group
 - field_name: comment
@@ -2316,8 +2316,8 @@ fields:
 - field_name: object_id
   field_type: int
   description: Name of the object associated with the system event.
-  ecs_field: paloalto.panos.object_id
-  cim_field: paloalto.panos.object_id
+  ecs_field: rule.id
+  cim_field: signature
   asim_field: paloalto.panos.object_id
   category: Correlated Events
   display_name: Object ID
@@ -2373,9 +2373,9 @@ fields:
 - field_name: msg_type
   field_type: string
   description: Indicates the GTP message type.
-  ecs_field: paloalto.panos.msg_type
-  cim_field: paloalto.panos.msg_type
-  asim_field: paloalto.panos.msg_type
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: GTP
   display_name: GTP Message Type
 - field_name: end_ip_adr
@@ -2407,9 +2407,9 @@ fields:
 - field_name: gtp_interface
   field_type: string
   description: 3GPP interface from which a GTP message is received.
-  ecs_field: paloalto.panos.gtp_interface
-  cim_field: paloalto.panos.gtp_interface
-  asim_field: paloalto.panos.gtp_interface
+  ecs_field: observer.ingress.interface
+  cim_field: src_zone
+  asim_field: SrcZone
   category: GTP
   display_name: GTP Interface
 - field_name: cause_code
@@ -2591,8 +2591,8 @@ fields:
     to filter the report output,  click Load Template and select from the four Decryption
     templates:  The Query column shows the filter query that each template represents.
     Load the desired q'
-  ecs_field: paloalto.panos.information
-  cim_field: paloalto.panos.information
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: paloalto.panos.information
   category: Audit
   display_name: Select and add the columns
@@ -2619,8 +2619,8 @@ fields:
     Gramm-Leach-Bliley Act.   Built-In Support for Azure Information Protection and
     Titus Data ClassificationPredefined  file properties allow you to filter content
     based on Azure Information P
-  ecs_field: paloalto.panos.regulated
-  cim_field: paloalto.panos.regulated
+  ecs_field: rule.category
+  cim_field: category
   asim_field: paloalto.panos.regulated
   category: Audit
   display_name: Predefined data filtering patterns also identify specific

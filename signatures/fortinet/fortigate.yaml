@@ -7,7 +7,7 @@ source_document: FortiOS 7.4.8 Log Reference
 source_url: ''
 extraction_date: '2025-12-29'
 source_file: fortinet-fortigate-signatures.json
-generated_at: '2026-02-13T07:34:25.630096'
+generated_at: '2026-02-13T08:53:47.154084'
 categories:
 - activexfilter
 - analytics
@@ -113,7 +113,7 @@ fields:
 - field_name: user
   field_type: string
   description: User
-  ecs_field: user.name
+  ecs_field: source.user.name
   cim_field: user
   asim_field: TargetUsername
   display_name: User
@@ -127,7 +127,7 @@ fields:
 - field_name: unauthuser
   field_type: string
   description: Unauthenticated user
-  ecs_field: user.name
+  ecs_field: source.user.name
   cim_field: unauth_user
   asim_field: TargetUsername
   display_name: Unauthenticated user
@@ -218,7 +218,7 @@ fields:
 - field_name: ref
   field_type: string
   description: Reference
-  ecs_field: fortinet.fortigate.ref
+  ecs_field: event.reference
   cim_field: fortinet.fortigate.ref
   asim_field: fortinet.fortigate.ref
   display_name: Reference
@@ -232,7 +232,7 @@ fields:
 - field_name: policytype
   field_type: string
   description: Policy type
-  ecs_field: rule.category
+  ecs_field: rule.ruleset
   cim_field: policy_type
   asim_field: RuleType
   display_name: Policy type
@@ -267,7 +267,7 @@ fields:
 - field_name: group
   field_type: string
   description: User Group Name
-  ecs_field: user.group.name
+  ecs_field: source.user.group.name
   cim_field: user_group
   asim_field: TargetUserGroup
   display_name: User Group Name
@@ -281,7 +281,7 @@ fields:
 - field_name: eventtype
   field_type: string
   description: Event Type
-  ecs_field: event.type
+  ecs_field: event.action
   cim_field: event_type
   asim_field: EventType
   display_name: Event Type
@@ -428,7 +428,7 @@ fields:
 - field_name: app
   field_type: string
   description: Application name
-  ecs_field: network.protocol
+  ecs_field: network.application
   cim_field: app
   asim_field: DstAppName
   display_name: Application name
@@ -470,7 +470,7 @@ fields:
 - field_name: hostname
   field_type: string
   description: The host name of a URL
-  ecs_field: source.domain
+  ecs_field: url.domain
   cim_field: src_hostname
   asim_field: SrcHostname
   display_name: The host name of a URL
@@ -533,7 +533,7 @@ fields:
 - field_name: sender
   field_type: string
   description: Email address from the SMTP envelope
-  ecs_field: email.from.address
+  ecs_field: tls.server.issuer
   cim_field: src_email
   asim_field: SrcUserEmail
   display_name: Email address from the SMTP envelope
@@ -554,7 +554,7 @@ fields:
 - field_name: profile
   field_type: string
   description: DLP profile name
-  ecs_field: file.name
+  ecs_field: rule.ruleset
   cim_field: profile
   asim_field: profile
   display_name: DLP profile name
@@ -582,9 +582,9 @@ fields:
 - field_name: infectedfilelevel
   field_type: int
   description: Infected File Level (Critical,Warning etc)
-  ecs_field: fortinet.fortigate.infectedfilelevel
-  cim_field: fortinet.fortigate.infectedfilelevel
-  asim_field: fortinet.fortigate.infectedfilelevel
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   display_name: Infected File Level (Critical,Warning etc)
 - field_name: from
   field_type: string
@@ -617,7 +617,7 @@ fields:
 - field_name: eventid
   field_type: int
   description: The serial number of the dlparchive file in the same epoch
-  ecs_field: event.code
+  ecs_field: event.id
   cim_field: eventid
   asim_field: eventid
   display_name: The serial number of the dlparchive file in the same epoch
@@ -659,7 +659,7 @@ fields:
 - field_name: xid
   field_type: int
   description: Transaction ID
-  ecs_field: event.action
+  ecs_field: dns.id
   cim_field: xid
   asim_field: xid
   display_name: Transaction ID
@@ -673,9 +673,9 @@ fields:
 - field_name: qtypeval
   field_type: int
   description: Query Type Value
-  ecs_field: fortinet.fortigate.qtypeval
-  cim_field: fortinet.fortigate.qtypeval
-  asim_field: fortinet.fortigate.qtypeval
+  ecs_field: dns.question.type
+  cim_field: query
+  asim_field: DnsQueryType
   display_name: Query Type Value
 - field_name: qtype
   field_type: string
@@ -715,7 +715,7 @@ fields:
 - field_name: logdesc
   field_type: string
   description: Log Description
-  ecs_field: event.reason
+  ecs_field: rule.description
   cim_field: log_desc
   asim_field: EventResultDetails
   display_name: Log Description
@@ -750,7 +750,7 @@ fields:
 - field_name: file
   field_type: string
   description: Report file full path
-  ecs_field: file.path
+  ecs_field: file.name
   cim_field: file
   asim_field: file
   display_name: Report file full path
@@ -862,23 +862,23 @@ fields:
 - field_name: saddr
   field_type: string
   description: Source Address IP
-  ecs_field: source.ip
+  ecs_field: source.address
   cim_field: saddr
   asim_field: saddr
   display_name: Source Address IP
 - field_name: portend
   field_type: int
   description: Port Number to End
-  ecs_field: fortinet.fortigate.portend
-  cim_field: fortinet.fortigate.portend
-  asim_field: fortinet.fortigate.portend
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
   display_name: Port Number to End
 - field_name: portbegin
   field_type: int
   description: Port Number to Begin
-  ecs_field: fortinet.fortigate.portbegin
-  cim_field: fortinet.fortigate.portbegin
-  asim_field: fortinet.fortigate.portbegin
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   display_name: Port Number to Begin
 - field_name: duration
   field_type: int
@@ -890,7 +890,7 @@ fields:
 - field_name: sn
   field_type: string
   description: Serial Number
-  ecs_field: observer.serial_number
+  ecs_field: tls.server.x509.serial_number
   cim_field: serial_number
   asim_field: DvcSerialNumber
   display_name: Serial Number
@@ -1142,9 +1142,9 @@ fields:
 - field_name: module
   field_type: string
   description: Configuration Module Name
-  ecs_field: fortinet.fortigate.module
-  cim_field: fortinet.fortigate.module
-  asim_field: fortinet.fortigate.module
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
   display_name: Configuration Module Name
 - field_name: field
   field_type: string
@@ -1184,7 +1184,7 @@ fields:
 - field_name: daddr
   field_type: string
   description: Destination address
-  ecs_field: destination.ip
+  ecs_field: destination.address
   cim_field: daddr
   asim_field: daddr
   display_name: Destination address
@@ -1212,9 +1212,9 @@ fields:
 - field_name: alarmid
   field_type: int
   description: Alarm ID
-  ecs_field: fortinet.fortigate.alarmid
-  cim_field: fortinet.fortigate.alarmid
-  asim_field: fortinet.fortigate.alarmid
+  ecs_field: event.code
+  cim_field: signature
+  asim_field: EventId
   display_name: Alarm ID
 - field_name: acktime
   field_type: string
@@ -1289,16 +1289,16 @@ fields:
 - field_name: xauthuser
   field_type: string
   description: IPsec VPN Xauth user name
-  ecs_field: user.name
+  ecs_field: source.user.name
   cim_field: xauthuser
   asim_field: xauthuser
   display_name: IPsec VPN Xauth user name
 - field_name: cookies
   field_type: string
   description: Cookie
-  ecs_field: fortinet.fortigate.cookies
-  cim_field: fortinet.fortigate.cookies
-  asim_field: fortinet.fortigate.cookies
+  ecs_field: http.request.cookies
+  cim_field: url
+  asim_field: UrlOriginal
   display_name: Cookie
 - field_name: outintf
   field_type: string
@@ -1310,7 +1310,7 @@ fields:
 - field_name: locport
   field_type: int
   description: Local Port
-  ecs_field: fortinet.fortigate.locport
+  ecs_field: source.port
   cim_field: fortinet.fortigate.locport
   asim_field: fortinet.fortigate.locport
   display_name: Local Port
@@ -1513,9 +1513,9 @@ fields:
 - field_name: acct_stat
   field_type: string
   description: Accounting state (RADIUS)
-  ecs_field: fortinet.fortigate.acct_stat
-  cim_field: fortinet.fortigate.acct_stat
-  asim_field: fortinet.fortigate.acct_stat
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   display_name: Accounting state (RADIUS)
 - field_name: rsso_key
   field_type: string
@@ -1534,7 +1534,7 @@ fields:
 - field_name: dst_host
   field_type: string
   description: Destination Host
-  ecs_field: destination.domain
+  ecs_field: destination.address
   cim_field: dest
   asim_field: DstHostname
   display_name: Destination Host
@@ -1597,9 +1597,9 @@ fields:
 - field_name: adgroup
   field_type: string
   description: AD Group Name of FSSO user
-  ecs_field: fortinet.fortigate.adgroup
-  cim_field: fortinet.fortigate.adgroup
-  asim_field: fortinet.fortigate.adgroup
+  ecs_field: user.group.name
+  cim_field: user
+  asim_field: SrcUsername
   display_name: AD Group Name of FSSO user
 - field_name: initiator
   field_type: string
@@ -1639,9 +1639,9 @@ fields:
 - field_name: stamac
   field_type: string
   description: The MAC address of wifi station
-  ecs_field: fortinet.fortigate.stamac
-  cim_field: fortinet.fortigate.stamac
-  asim_field: fortinet.fortigate.stamac
+  ecs_field: source.mac
+  cim_field: src_mac
+  asim_field: SrcMacAddr
   display_name: The MAC address of wifi station
 - field_name: radioidclosest
   field_type: int
@@ -1702,9 +1702,9 @@ fields:
 - field_name: age
   field_type: int
   description: Time in seconds - time passed since last seen
-  ecs_field: fortinet.fortigate.age
-  cim_field: fortinet.fortigate.age
-  asim_field: fortinet.fortigate.age
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: Duration
   display_name: Time in seconds - time passed since last seen
 - field_name: live
   field_type: int
@@ -1947,9 +1947,9 @@ fields:
 - field_name: banned_src
   field_type: string
   description: NAC quarantine Banned Source IP
-  ecs_field: fortinet.fortigate.banned_src
-  cim_field: fortinet.fortigate.banned_src
-  asim_field: fortinet.fortigate.banned_src
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   display_name: NAC quarantine Banned Source IP
 - field_name: chassisid
   field_type: int
@@ -2073,9 +2073,9 @@ fields:
 - field_name: srcname
   field_type: string
   description: Source name
-  ecs_field: fortinet.fortigate.srcname
-  cim_field: fortinet.fortigate.srcname
-  asim_field: fortinet.fortigate.srcname
+  ecs_field: source.domain
+  cim_field: src
+  asim_field: SrcHostname
   display_name: Source name
 - field_name: ip
   field_type: ip
@@ -2087,9 +2087,9 @@ fields:
 - field_name: vip
   field_type: string
   description: Virtual IP
-  ecs_field: fortinet.fortigate.vip
-  cim_field: fortinet.fortigate.vip
-  asim_field: fortinet.fortigate.vip
+  ecs_field: destination.nat.ip
+  cim_field: dest_ip
+  asim_field: DstNatIpAddr
   display_name: Virtual IP
 - field_name: trigger
   field_type: string
@@ -2136,7 +2136,7 @@ fields:
 - field_name: error
   field_type: string
   description: Error Reason for Log Upload to Forticloud
-  ecs_field: error.message
+  ecs_field: event.message
   cim_field: error_msg
   asim_field: EventMessage
   display_name: Error Reason for Log Upload to Forticloud
@@ -2206,9 +2206,9 @@ fields:
 - field_name: dtlexp
   field_type: string
   description: Detailed Explanation
-  ecs_field: fortinet.fortigate.dtlexp
-  cim_field: fortinet.fortigate.dtlexp
-  asim_field: fortinet.fortigate.dtlexp
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   display_name: Detailed Explanation
 - field_name: deny_cause
   field_type: string
@@ -2311,9 +2311,9 @@ fields:
 - field_name: clear_session
   field_type: string
   description: '- Session was removed /closed'
-  ecs_field: fortinet.fortigate.clear_session
-  cim_field: fortinet.fortigate.clear_session
-  asim_field: fortinet.fortigate.clear_session
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   display_name: '- Session was removed /closed'
 - field_name: icmptype
   field_type: string
@@ -2346,9 +2346,9 @@ fields:
 - field_name: blocked
   field_type: string
   description: '- channel is blocked'
-  ecs_field: fortinet.fortigate.blocked
-  cim_field: fortinet.fortigate.blocked
-  asim_field: fortinet.fortigate.blocked
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   display_name: '- channel is blocked'
 - field_name: wanout
   field_type: int
@@ -2360,9 +2360,9 @@ fields:
 - field_name: wanoptapptype
   field_type: string
   description: WAN Optimization Application type
-  ecs_field: fortinet.fortigate.wanoptapptype
-  cim_field: fortinet.fortigate.wanoptapptype
-  asim_field: fortinet.fortigate.wanoptapptype
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplicationProtocol
   display_name: WAN Optimization Application type
 - field_name: wanin
   field_type: int
@@ -2409,7 +2409,7 @@ fields:
 - field_name: transport
   field_type: int
   description: NAT Source Protocol Port
-  ecs_field: network.transport
+  ecs_field: source.nat.port
   cim_field: transport
   asim_field: transport
   display_name: NAT Source Protocol Port
@@ -2423,7 +2423,7 @@ fields:
 - field_name: tranport
   field_type: int
   description: NAT Destination Port
-  ecs_field: destination.port
+  ecs_field: destination.nat.port
   cim_field: tranport
   asim_field: tranport
   display_name: NAT Destination Port
@@ -2451,9 +2451,9 @@ fields:
 - field_name: srcuuid
   field_type: string
   description: UUID of the Source Address Object
-  ecs_field: fortinet.fortigate.srcuuid
-  cim_field: fortinet.fortigate.srcuuid
-  asim_field: fortinet.fortigate.srcuuid
+  ecs_field: rule.uuid
+  cim_field: rule
+  asim_field: RuleId
   display_name: UUID of the Source Address Object
 - field_name: srcssid
   field_type: string
@@ -2472,9 +2472,9 @@ fields:
 - field_name: srcinetsvc
   field_type: string
   description: Internet service name for the source
-  ecs_field: fortinet.fortigate.srcinetsvc
-  cim_field: fortinet.fortigate.srcinetsvc
-  asim_field: fortinet.fortigate.srcinetsvc
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplicationProtocol
   display_name: Internet service name for the source
 - field_name: shapingpolicyid
   field_type: int
@@ -2535,9 +2535,9 @@ fields:
 - field_name: sentdelta
   field_type: int
   description: Delta Sent Bytes
-  ecs_field: fortinet.fortigate.sentdelta
-  cim_field: fortinet.fortigate.sentdelta
-  asim_field: fortinet.fortigate.sentdelta
+  ecs_field: source.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   display_name: Delta Sent Bytes
 - field_name: rcvdpkt
   field_type: int
@@ -2549,14 +2549,14 @@ fields:
 - field_name: rcvddelta
   field_type: int
   description: Delta Received Bytes
-  ecs_field: fortinet.fortigate.rcvddelta
-  cim_field: fortinet.fortigate.rcvddelta
-  asim_field: fortinet.fortigate.rcvddelta
+  ecs_field: destination.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   display_name: Delta Received Bytes
 - field_name: poluuid
   field_type: string
   description: UUID of the Firewall Policy
-  ecs_field: fortinet.fortigate.poluuid
+  ecs_field: rule.uuid
   cim_field: fortinet.fortigate.poluuid
   asim_field: fortinet.fortigate.poluuid
   display_name: UUID of the Firewall Policy
@@ -2577,9 +2577,9 @@ fields:
 - field_name: network
   field_type: string
   description: interfaces
-  ecs_field: fortinet.fortigate.network
-  cim_field: fortinet.fortigate.network
-  asim_field: fortinet.fortigate.network
+  ecs_field: observer.ingress.interface
+  cim_field: src_interface
+  asim_field: SrcInterfaceName
   display_name: interfaces
 - field_name: masterdstmac
   field_type: string
@@ -2605,9 +2605,9 @@ fields:
 - field_name: dstuuid
   field_type: string
   description: UUID of the Destination Address Object
-  ecs_field: fortinet.fortigate.dstuuid
-  cim_field: fortinet.fortigate.dstuuid
-  asim_field: fortinet.fortigate.dstuuid
+  ecs_field: rule.uuid
+  cim_field: rule
+  asim_field: RuleId
   display_name: UUID of the Destination Address Object
 - field_name: dstssid
   field_type: string
@@ -2633,7 +2633,7 @@ fields:
 - field_name: dstname
   field_type: string
   description: Destination name
-  ecs_field: url.domain
+  ecs_field: destination.address
   cim_field: url_host
   asim_field: UrlHost
   display_name: Destination name
@@ -2647,9 +2647,9 @@ fields:
 - field_name: dstinetsvc
   field_type: string
   description: Internet service name for the destination
-  ecs_field: fortinet.fortigate.dstinetsvc
-  cim_field: fortinet.fortigate.dstinetsvc
-  asim_field: fortinet.fortigate.dstinetsvc
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplicationProtocol
   display_name: Internet service name for the destination
 - field_name: dstdevtype
   field_type: string
@@ -2668,16 +2668,16 @@ fields:
 - field_name: comment
   field_type: string
   description: Customized policy comment
-  ecs_field: message
+  ecs_field: rule.description
   cim_field: comment
   asim_field: comment
   display_name: Customized policy comment
 - field_name: centralnatid
   field_type: int
   description: central-snat-map id
-  ecs_field: fortinet.fortigate.centralnatid
-  cim_field: fortinet.fortigate.centralnatid
-  asim_field: fortinet.fortigate.centralnatid
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleName
   display_name: central-snat-map id
 - field_name: apsn
   field_type: string
@@ -2780,9 +2780,9 @@ fields:
 - field_name: that
   field_type: string
   description: provided the hash signature
-  ecs_field: fortinet.fortigate.that
-  cim_field: fortinet.fortigate.that
-  asim_field: fortinet.fortigate.that
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: FileHash
   display_name: provided the hash signature
 - field_name: signature
   field_type: string
@@ -2836,9 +2836,9 @@ fields:
 - field_name: filefilter
   field_type: string
   description: The filter used to identify the affected file
-  ecs_field: fortinet.fortigate.filefilter
-  cim_field: fortinet.fortigate.filefilter
-  asim_field: fortinet.fortigate.filefilter
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   display_name: The filter used to identify the affected file
 - field_name: call_id
   field_type: string
@@ -2892,16 +2892,16 @@ fields:
 - field_name: request_name
   field_type: string
   description: 'Name of request. Ex: request_name="INVITE" or "NOTIFY"'
-  ecs_field: fortinet.fortigate.request_name
-  cim_field: fortinet.fortigate.request_name
-  asim_field: fortinet.fortigate.request_name
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   display_name: 'Name of request. Ex: request_name="INVITE" or "NOTIFY"'
 - field_name: message_type
   field_type: string
   description: 'Message Type. Ex: message_type="request"'
-  ecs_field: fortinet.fortigate.message_type
-  cim_field: fortinet.fortigate.message_type
-  asim_field: fortinet.fortigate.message_type
+  ecs_field: event.type
+  cim_field: event_type
+  asim_field: EventType
   display_name: 'Message Type. Ex: message_type="request"'
 - field_name: column
   field_type: int
@@ -2962,9 +2962,9 @@ fields:
 - field_name: keyword
   field_type: string
   description: Keyword used for search
-  ecs_field: fortinet.fortigate.keyword
-  cim_field: fortinet.fortigate.keyword
-  asim_field: fortinet.fortigate.keyword
+  ecs_field: url.query
+  cim_field: query
+  asim_field: UrlOriginal
   display_name: Keyword used for search
 - field_name: contenttype
   field_type: string
@@ -3032,7 +3032,7 @@ fields:
 - field_name: catdesc
   field_type: string
   description: Web category description
-  ecs_field: event.category
+  ecs_field: rule.category
   cim_field: catdesc
   asim_field: catdesc
   display_name: Web category description

@@ -7,7 +7,7 @@ source_document: Advanced Hunting Schema Tables Reference
 source_url: https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-schema-tables
 extraction_date: '2026-01-02'
 source_file: microsoft-defender-xdr-signatures.json
-generated_at: '2026-02-13T07:34:33.580934'
+generated_at: '2026-02-13T08:53:55.143282'
 categories:
 - AADSignInEventsBeta
 - DeviceRegistryEvents
@@ -251,7 +251,7 @@ fields:
 - field_name: LogonId
   field_type: long
   description: Identifier for a logon session
-  ecs_field: winlog.logon.id
+  ecs_field: event.id
   cim_field: logon_id
   asim_field: LogonId
   category: DeviceProcessEvents
@@ -299,7 +299,7 @@ fields:
 - field_name: InitiatingProcessLogonId
   field_type: long
   description: Logon session ID of initiating process
-  ecs_field: winlog.logon.id
+  ecs_field: process.parent.session_id
   cim_field: src_logon_id
   asim_field: ActorLogonId
   category: DeviceProcessEvents
@@ -427,7 +427,7 @@ fields:
 - field_name: InitiatingProcessVersionInfoProductVersion
   field_type: string
   description: Product version of initiating process
-  ecs_field: microsoft.defenderxdr.initiatingprocessversioninfoproductversion
+  ecs_field: process.parent.executable.version
   cim_field: microsoft.defenderxdr.initiatingprocessversioninfoproductversion
   asim_field: microsoft.defenderxdr.initiatingprocessversioninfoproductversion
   category: DeviceProcessEvents
@@ -707,9 +707,9 @@ fields:
 - field_name: RequestAccountName
   field_type: string
   description: Account used for remote access
-  ecs_field: microsoft.defenderxdr.requestaccountname
-  cim_field: microsoft.defenderxdr.requestaccountname
-  asim_field: microsoft.defenderxdr.requestaccountname
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: DeviceFileEvents
   display_name: RequestAccountName
 - field_name: RequestAccountDomain
@@ -731,15 +731,15 @@ fields:
 - field_name: ShareName
   field_type: string
   description: Name of shared folder containing the file
-  ecs_field: microsoft.defenderxdr.sharename
-  cim_field: microsoft.defenderxdr.sharename
-  asim_field: microsoft.defenderxdr.sharename
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFilePath
   category: DeviceFileEvents
   display_name: ShareName
 - field_name: SensitivityLabel
   field_type: string
   description: Label for information protection
-  ecs_field: microsoft.defenderxdr.sensitivitylabel
+  ecs_field: file.labels
   cim_field: microsoft.defenderxdr.sensitivitylabel
   asim_field: microsoft.defenderxdr.sensitivitylabel
   category: DeviceFileEvents
@@ -747,7 +747,7 @@ fields:
 - field_name: SensitivitySubLabel
   field_type: string
   description: Sublabel for information protection
-  ecs_field: microsoft.defenderxdr.sensitivitysublabel
+  ecs_field: file.labels
   cim_field: microsoft.defenderxdr.sensitivitysublabel
   asim_field: microsoft.defenderxdr.sensitivitysublabel
   category: DeviceFileEvents
@@ -763,9 +763,9 @@ fields:
 - field_name: LogonType
   field_type: string
   description: Type of logon session (Interactive/RDP/Network/Batch/Service)
-  ecs_field: winlog.logon.type
+  ecs_field: event.action
   cim_field: logon_type
-  asim_field: LogonType
+  asim_field: EventType
   category: DeviceLogonEvents
   display_name: LogonType
 - field_name: FailureReason
@@ -779,7 +779,7 @@ fields:
 - field_name: IsLocalAdmin
   field_type: boolean
   description: Whether user is local administrator
-  ecs_field: microsoft.defenderxdr.islocaladmin
+  ecs_field: user.roles
   cim_field: microsoft.defenderxdr.islocaladmin
   asim_field: microsoft.defenderxdr.islocaladmin
   category: DeviceLogonEvents
@@ -787,9 +787,9 @@ fields:
 - field_name: RemoteDeviceName
   field_type: string
   description: Name of remote device performing logon
-  ecs_field: microsoft.defenderxdr.remotedevicename
-  cim_field: microsoft.defenderxdr.remotedevicename
-  asim_field: microsoft.defenderxdr.remotedevicename
+  ecs_field: source.address
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: DeviceLogonEvents
   display_name: RemoteDeviceName
 - field_name: RegistryKey
@@ -851,7 +851,7 @@ fields:
 - field_name: ImageLoadType
   field_type: string
   description: Type of image load
-  ecs_field: microsoft.defenderxdr.imageloadtype
+  ecs_field: file.type
   cim_field: microsoft.defenderxdr.imageloadtype
   asim_field: microsoft.defenderxdr.imageloadtype
   category: DeviceImageLoadEvents
@@ -891,7 +891,7 @@ fields:
 - field_name: ServiceSource
   field_type: string
   description: Product or service that provided the alert
-  ecs_field: microsoft.defenderxdr.servicesource
+  ecs_field: observer.product
   cim_field: microsoft.defenderxdr.servicesource
   asim_field: microsoft.defenderxdr.servicesource
   category: AlertInfo
@@ -899,7 +899,7 @@ fields:
 - field_name: DetectionSource
   field_type: string
   description: Detection technology or sensor
-  ecs_field: microsoft.defenderxdr.detectionsource
+  ecs_field: observer.name
   cim_field: microsoft.defenderxdr.detectionsource
   asim_field: microsoft.defenderxdr.detectionsource
   category: AlertInfo
@@ -907,7 +907,7 @@ fields:
 - field_name: AttackTechniques
   field_type: string
   description: MITRE ATT&CK techniques associated with the alert
-  ecs_field: microsoft.defenderxdr.attacktechniques
+  ecs_field: threat.technique.id
   cim_field: microsoft.defenderxdr.attacktechniques
   asim_field: microsoft.defenderxdr.attacktechniques
   category: AlertInfo
@@ -915,8 +915,8 @@ fields:
 - field_name: Categories
   field_type: string
   description: Categories the information belongs to (JSON array)
-  ecs_field: microsoft.defenderxdr.categories
-  cim_field: microsoft.defenderxdr.categories
+  ecs_field: event.category
+  cim_field: category
   asim_field: microsoft.defenderxdr.categories
   category: AlertEvidence
   display_name: Categories
@@ -931,7 +931,7 @@ fields:
 - field_name: EvidenceDirection
   field_type: string
   description: Whether entity is source or destination
-  ecs_field: microsoft.defenderxdr.evidencedirection
+  ecs_field: network.direction
   cim_field: microsoft.defenderxdr.evidencedirection
   asim_field: microsoft.defenderxdr.evidencedirection
   category: AlertEvidence
@@ -939,7 +939,7 @@ fields:
 - field_name: EntityType
   field_type: string
   description: Type of object (file, process, device, user)
-  ecs_field: microsoft.defenderxdr.entitytype
+  ecs_field: event.kind
   cim_field: microsoft.defenderxdr.entitytype
   asim_field: microsoft.defenderxdr.entitytype
   category: AlertEvidence
@@ -971,7 +971,7 @@ fields:
 - field_name: OAuthApplicationId
   field_type: string
   description: Unique identifier of third-party OAuth app
-  ecs_field: microsoft.defenderxdr.oauthapplicationid
+  ecs_field: cloud.project.id
   cim_field: microsoft.defenderxdr.oauthapplicationid
   asim_field: microsoft.defenderxdr.oauthapplicationid
   category: AlertEvidence
@@ -995,7 +995,7 @@ fields:
 - field_name: ResourceType
   field_type: string
   description: Type of cloud resource
-  ecs_field: microsoft.defenderxdr.resourcetype
+  ecs_field: cloud.service.name
   cim_field: microsoft.defenderxdr.resourcetype
   asim_field: microsoft.defenderxdr.resourcetype
   category: AlertEvidence
@@ -1027,9 +1027,9 @@ fields:
 - field_name: DestinationDeviceName
   field_type: string
   description: Name of device running server application
-  ecs_field: microsoft.defenderxdr.destinationdevicename
-  cim_field: microsoft.defenderxdr.destinationdevicename
-  asim_field: microsoft.defenderxdr.destinationdevicename
+  ecs_field: destination.address
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: IdentityLogonEvents
   display_name: DestinationDeviceName
 - field_name: DestinationIPAddress
@@ -1059,17 +1059,17 @@ fields:
 - field_name: TargetAccountDisplayName
   field_type: string
   description: Display name of target account
-  ecs_field: microsoft.defenderxdr.targetaccountdisplayname
-  cim_field: microsoft.defenderxdr.targetaccountdisplayname
-  asim_field: microsoft.defenderxdr.targetaccountdisplayname
+  ecs_field: user.target.full_name
+  cim_field: user
+  asim_field: ActorUsername
   category: IdentityLogonEvents
   display_name: TargetAccountDisplayName
 - field_name: TargetDeviceName
   field_type: string
   description: Name of target device
-  ecs_field: microsoft.defenderxdr.targetdevicename
-  cim_field: microsoft.defenderxdr.targetdevicename
-  asim_field: microsoft.defenderxdr.targetdevicename
+  ecs_field: host.name
+  cim_field: dest
+  asim_field: TargetDeviceName
   category: IdentityLogonEvents
   display_name: TargetDeviceName
 - field_name: IPAddress
@@ -1107,7 +1107,7 @@ fields:
 - field_name: OSPlatform
   field_type: string
   description: Platform of the operating system
-  ecs_field: microsoft.defenderxdr.osplatform
+  ecs_field: host.os.platform
   cim_field: microsoft.defenderxdr.osplatform
   asim_field: microsoft.defenderxdr.osplatform
   category: IdentityLogonEvents
@@ -1123,9 +1123,9 @@ fields:
 - field_name: AccountDisplayName
   field_type: string
   description: Name displayed in address book for account
-  ecs_field: microsoft.defenderxdr.accountdisplayname
-  cim_field: microsoft.defenderxdr.accountdisplayname
-  asim_field: microsoft.defenderxdr.accountdisplayname
+  ecs_field: user.full_name
+  cim_field: user
+  asim_field: ActorUsername
   category: IdentityLogonEvents
   display_name: AccountDisplayName
 - field_name: Query
@@ -1147,7 +1147,7 @@ fields:
 - field_name: QueryTarget
   field_type: string
   description: Name of user, group, device, domain queried
-  ecs_field: microsoft.defenderxdr.querytarget
+  ecs_field: dns.question.name
   cim_field: microsoft.defenderxdr.querytarget
   asim_field: microsoft.defenderxdr.querytarget
   category: IdentityQueryEvents
@@ -1155,7 +1155,7 @@ fields:
 - field_name: InternetMessageId
   field_type: string
   description: Internet-facing email identifier
-  ecs_field: microsoft.defenderxdr.internetmessageid
+  ecs_field: email.message_id
   cim_field: microsoft.defenderxdr.internetmessageid
   asim_field: microsoft.defenderxdr.internetmessageid
   category: EmailEvents
@@ -1171,15 +1171,15 @@ fields:
 - field_name: SenderFromAddress
   field_type: string
   description: Sender address in FROM header (visible)
-  ecs_field: microsoft.defenderxdr.senderfromaddress
-  cim_field: microsoft.defenderxdr.senderfromaddress
+  ecs_field: email.from.address
+  cim_field: src_user
   asim_field: microsoft.defenderxdr.senderfromaddress
   category: EmailEvents
   display_name: SenderFromAddress
 - field_name: SenderDisplayName
   field_type: string
   description: Display name of sender
-  ecs_field: microsoft.defenderxdr.senderdisplayname
+  ecs_field: email.from.address
   cim_field: microsoft.defenderxdr.senderdisplayname
   asim_field: microsoft.defenderxdr.senderdisplayname
   category: EmailEvents
@@ -1187,7 +1187,7 @@ fields:
 - field_name: SenderObjectId
   field_type: string
   description: Entra ID of sender
-  ecs_field: microsoft.defenderxdr.senderobjectid
+  ecs_field: user.id
   cim_field: microsoft.defenderxdr.senderobjectid
   asim_field: microsoft.defenderxdr.senderobjectid
   category: EmailEvents
@@ -1203,7 +1203,7 @@ fields:
 - field_name: SenderFromDomain
   field_type: string
   description: Sender domain in FROM header
-  ecs_field: microsoft.defenderxdr.senderfromdomain
+  ecs_field: email.from.address.domain
   cim_field: microsoft.defenderxdr.senderfromdomain
   asim_field: microsoft.defenderxdr.senderfromdomain
   category: EmailEvents
@@ -1235,7 +1235,7 @@ fields:
 - field_name: RecipientObjectId
   field_type: string
   description: Entra ID of recipient
-  ecs_field: microsoft.defenderxdr.recipientobjectid
+  ecs_field: user.target.id
   cim_field: microsoft.defenderxdr.recipientobjectid
   asim_field: microsoft.defenderxdr.recipientobjectid
   category: EmailEvents
@@ -1275,7 +1275,7 @@ fields:
 - field_name: DeliveryLocation
   field_type: string
   description: Where email was delivered
-  ecs_field: microsoft.defenderxdr.deliverylocation
+  ecs_field: email.delivery_location
   cim_field: microsoft.defenderxdr.deliverylocation
   asim_field: microsoft.defenderxdr.deliverylocation
   category: EmailEvents
@@ -1299,9 +1299,9 @@ fields:
 - field_name: DetectionMethods
   field_type: string
   description: Methods used to detect threats
-  ecs_field: microsoft.defenderxdr.detectionmethods
-  cim_field: microsoft.defenderxdr.detectionmethods
-  asim_field: microsoft.defenderxdr.detectionmethods
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
   category: EmailEvents
   display_name: DetectionMethods
 - field_name: ConfidenceLevel
@@ -1419,7 +1419,7 @@ fields:
 - field_name: LatestDeliveryLocation
   field_type: string
   description: Last known email location
-  ecs_field: microsoft.defenderxdr.latestdeliverylocation
+  ecs_field: email.delivery_location
   cim_field: microsoft.defenderxdr.latestdeliverylocation
   asim_field: microsoft.defenderxdr.latestdeliverylocation
   category: EmailEvents
@@ -1475,7 +1475,7 @@ fields:
 - field_name: AppInstanceId
   field_type: int
   description: Unique identifier for app instance
-  ecs_field: microsoft.defenderxdr.appinstanceid
+  ecs_field: cloud.instance.id
   cim_field: microsoft.defenderxdr.appinstanceid
   asim_field: microsoft.defenderxdr.appinstanceid
   category: CloudAppEvents
@@ -1491,7 +1491,7 @@ fields:
 - field_name: IsAdminOperation
   field_type: bool
   description: Whether activity was by administrator
-  ecs_field: microsoft.defenderxdr.isadminoperation
+  ecs_field: event.category
   cim_field: microsoft.defenderxdr.isadminoperation
   asim_field: microsoft.defenderxdr.isadminoperation
   category: CloudAppEvents
@@ -1499,7 +1499,7 @@ fields:
 - field_name: IsAnonymousProxy
   field_type: boolean
   description: Whether IP is a known anonymous proxy
-  ecs_field: microsoft.defenderxdr.isanonymousproxy
+  ecs_field: source.ip
   cim_field: microsoft.defenderxdr.isanonymousproxy
   asim_field: microsoft.defenderxdr.isanonymousproxy
   category: CloudAppEvents
@@ -1531,9 +1531,9 @@ fields:
 - field_name: ActivityType
   field_type: string
   description: Type of activity that triggered event
-  ecs_field: microsoft.defenderxdr.activitytype
-  cim_field: microsoft.defenderxdr.activitytype
-  asim_field: microsoft.defenderxdr.activitytype
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: CloudAppEvents
   display_name: ActivityType
 - field_name: ActivityObjects
@@ -1579,7 +1579,7 @@ fields:
 - field_name: IsExternalUser
   field_type: boolean
   description: Whether user is external
-  ecs_field: microsoft.defenderxdr.isexternaluser
+  ecs_field: user.type
   cim_field: microsoft.defenderxdr.isexternaluser
   asim_field: microsoft.defenderxdr.isexternaluser
   category: CloudAppEvents
@@ -1595,7 +1595,7 @@ fields:
 - field_name: IPTags
   field_type: dynamic
   description: Customer-defined IP tags
-  ecs_field: microsoft.defenderxdr.iptags
+  ecs_field: tags
   cim_field: microsoft.defenderxdr.iptags
   asim_field: microsoft.defenderxdr.iptags
   category: CloudAppEvents
@@ -1619,8 +1619,8 @@ fields:
 - field_name: RawEventData
   field_type: dynamic
   description: Raw event information in JSON
-  ecs_field: microsoft.defenderxdr.raweventdata
-  cim_field: microsoft.defenderxdr.raweventdata
+  ecs_field: event.original
+  cim_field: _raw
   asim_field: microsoft.defenderxdr.raweventdata
   category: CloudAppEvents
   display_name: RawEventData
@@ -1643,7 +1643,7 @@ fields:
 - field_name: AuditSource
   field_type: string
   description: Audit data source
-  ecs_field: microsoft.defenderxdr.auditsource
+  ecs_field: observer.name
   cim_field: microsoft.defenderxdr.auditsource
   asim_field: microsoft.defenderxdr.auditsource
   category: CloudAppEvents
@@ -1651,7 +1651,7 @@ fields:
 - field_name: SessionData
   field_type: dynamic
   description: Cloud Apps session ID
-  ecs_field: microsoft.defenderxdr.sessiondata
+  ecs_field: event.session_id
   cim_field: microsoft.defenderxdr.sessiondata
   asim_field: microsoft.defenderxdr.sessiondata
   category: CloudAppEvents
@@ -1659,7 +1659,7 @@ fields:
 - field_name: OAuthAppId
   field_type: string
   description: OAuth 2.0 application identifier
-  ecs_field: microsoft.defenderxdr.oauthappid
+  ecs_field: cloud.project.id
   cim_field: microsoft.defenderxdr.oauthappid
   asim_field: microsoft.defenderxdr.oauthappid
   category: CloudAppEvents
@@ -1667,7 +1667,7 @@ fields:
 - field_name: ClientVersion
   field_type: string
   description: Version of the endpoint agent
-  ecs_field: microsoft.defenderxdr.clientversion
+  ecs_field: agent.version
   cim_field: microsoft.defenderxdr.clientversion
   asim_field: microsoft.defenderxdr.clientversion
   category: DeviceInfo
@@ -1707,7 +1707,7 @@ fields:
 - field_name: AadDeviceId
   field_type: string
   description: Unique device identifier in Entra ID
-  ecs_field: microsoft.defenderxdr.aaddeviceid
+  ecs_field: host.id
   cim_field: microsoft.defenderxdr.aaddeviceid
   asim_field: microsoft.defenderxdr.aaddeviceid
   category: DeviceInfo
@@ -1715,15 +1715,15 @@ fields:
 - field_name: LoggedOnUsers
   field_type: string
   description: List of logged on users in JSON
-  ecs_field: microsoft.defenderxdr.loggedonusers
-  cim_field: microsoft.defenderxdr.loggedonusers
-  asim_field: microsoft.defenderxdr.loggedonusers
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: DeviceInfo
   display_name: LoggedOnUsers
 - field_name: RegistryDeviceTag
   field_type: string
   description: Device tag added through registry
-  ecs_field: microsoft.defenderxdr.registrydevicetag
+  ecs_field: tags
   cim_field: microsoft.defenderxdr.registrydevicetag
   asim_field: microsoft.defenderxdr.registrydevicetag
   category: DeviceInfo
@@ -1731,7 +1731,7 @@ fields:
 - field_name: MachineGroup
   field_type: string
   description: Machine group for RBAC
-  ecs_field: microsoft.defenderxdr.machinegroup
+  ecs_field: host.group
   cim_field: microsoft.defenderxdr.machinegroup
   asim_field: microsoft.defenderxdr.machinegroup
   category: DeviceInfo
@@ -1755,7 +1755,7 @@ fields:
 - field_name: DeviceSubtype
   field_type: string
   description: Additional device type modifier
-  ecs_field: microsoft.defenderxdr.devicesubtype
+  ecs_field: host.type
   cim_field: microsoft.defenderxdr.devicesubtype
   asim_field: microsoft.defenderxdr.devicesubtype
   category: DeviceInfo
@@ -1763,7 +1763,7 @@ fields:
 - field_name: Model
   field_type: string
   description: Model name or number
-  ecs_field: microsoft.defenderxdr.model
+  ecs_field: host.model
   cim_field: microsoft.defenderxdr.model
   asim_field: microsoft.defenderxdr.model
   category: DeviceInfo
@@ -1779,7 +1779,7 @@ fields:
 - field_name: OSDistribution
   field_type: string
   description: OS distribution (Ubuntu/RedHat/etc)
-  ecs_field: microsoft.defenderxdr.osdistribution
+  ecs_field: host.os.name
   cim_field: microsoft.defenderxdr.osdistribution
   asim_field: microsoft.defenderxdr.osdistribution
   category: DeviceInfo
@@ -1787,7 +1787,7 @@ fields:
 - field_name: OSVersionInfo
   field_type: string
   description: Additional OS version information
-  ecs_field: microsoft.defenderxdr.osversioninfo
+  ecs_field: host.os.version
   cim_field: microsoft.defenderxdr.osversioninfo
   asim_field: microsoft.defenderxdr.osversioninfo
   category: DeviceInfo
@@ -1819,7 +1819,7 @@ fields:
 - field_name: SensorHealthState
   field_type: string
   description: Health of EDR sensor
-  ecs_field: microsoft.defenderxdr.sensorhealthstate
+  ecs_field: agent.health.state
   cim_field: microsoft.defenderxdr.sensorhealthstate
   asim_field: microsoft.defenderxdr.sensorhealthstate
   category: DeviceInfo
@@ -1843,8 +1843,8 @@ fields:
 - field_name: ExposureLevel
   field_type: string
   description: Device vulnerability level (Low/Medium/High)
-  ecs_field: microsoft.defenderxdr.exposurelevel
-  cim_field: microsoft.defenderxdr.exposurelevel
+  ecs_field: vulnerability.severity
+  cim_field: severity
   asim_field: microsoft.defenderxdr.exposurelevel
   category: DeviceInfo
   display_name: ExposureLevel
@@ -1859,7 +1859,7 @@ fields:
 - field_name: DeviceManualTags
   field_type: string
   description: Tags created manually via portal/API
-  ecs_field: microsoft.defenderxdr.devicemanualtags
+  ecs_field: tags
   cim_field: microsoft.defenderxdr.devicemanualtags
   asim_field: microsoft.defenderxdr.devicemanualtags
   category: DeviceInfo
@@ -1867,7 +1867,7 @@ fields:
 - field_name: DeviceDynamicTags
   field_type: string
   description: Tags added dynamically by rules
-  ecs_field: microsoft.defenderxdr.devicedynamictags
+  ecs_field: tags
   cim_field: microsoft.defenderxdr.devicedynamictags
   asim_field: microsoft.defenderxdr.devicedynamictags
   category: DeviceInfo
@@ -1875,7 +1875,7 @@ fields:
 - field_name: ConnectivityType
   field_type: string
   description: Type of cloud connectivity
-  ecs_field: microsoft.defenderxdr.connectivitytype
+  ecs_field: network.type
   cim_field: microsoft.defenderxdr.connectivitytype
   asim_field: microsoft.defenderxdr.connectivitytype
   category: DeviceInfo
@@ -1883,7 +1883,7 @@ fields:
 - field_name: HostDeviceId
   field_type: string
   description: Device ID running WSL
-  ecs_field: microsoft.defenderxdr.hostdeviceid
+  ecs_field: host.id
   cim_field: microsoft.defenderxdr.hostdeviceid
   asim_field: microsoft.defenderxdr.hostdeviceid
   category: DeviceInfo
@@ -1899,7 +1899,7 @@ fields:
 - field_name: AwsResourceName
   field_type: string
   description: AWS resource name
-  ecs_field: microsoft.defenderxdr.awsresourcename
+  ecs_field: cloud.instance.name
   cim_field: microsoft.defenderxdr.awsresourcename
   asim_field: microsoft.defenderxdr.awsresourcename
   category: DeviceInfo
@@ -1915,7 +1915,7 @@ fields:
 - field_name: HardwareUuid
   field_type: string
   description: Hardware UUID of device
-  ecs_field: microsoft.defenderxdr.hardwareuuid
+  ecs_field: host.id
   cim_field: microsoft.defenderxdr.hardwareuuid
   asim_field: microsoft.defenderxdr.hardwareuuid
   category: DeviceInfo
@@ -1923,7 +1923,7 @@ fields:
 - field_name: CloudPlatforms
   field_type: string
   description: Cloud platforms (Azure/AWS/GCP/Arc)
-  ecs_field: microsoft.defenderxdr.cloudplatforms
+  ecs_field: cloud.provider
   cim_field: microsoft.defenderxdr.cloudplatforms
   asim_field: microsoft.defenderxdr.cloudplatforms
   category: DeviceInfo
@@ -1955,7 +1955,7 @@ fields:
 - field_name: OsBuildRevision
   field_type: string
   description: OS build revision number
-  ecs_field: microsoft.defenderxdr.osbuildrevision
+  ecs_field: host.os.version
   cim_field: microsoft.defenderxdr.osbuildrevision
   asim_field: microsoft.defenderxdr.osbuildrevision
   category: DeviceInfo
@@ -1979,7 +1979,7 @@ fields:
 - field_name: DiscoverySources
   field_type: string
   description: Products that reported the device
-  ecs_field: microsoft.defenderxdr.discoverysources
+  ecs_field: observer.name
   cim_field: microsoft.defenderxdr.discoverysources
   asim_field: microsoft.defenderxdr.discoverysources
   category: DeviceInfo
@@ -1987,7 +1987,7 @@ fields:
 - field_name: NetworkAdapterName
   field_type: string
   description: Name of the network adapter
-  ecs_field: microsoft.defenderxdr.networkadaptername
+  ecs_field: host.network.interface.name
   cim_field: microsoft.defenderxdr.networkadaptername
   asim_field: microsoft.defenderxdr.networkadaptername
   category: DeviceNetworkInfo
@@ -2019,7 +2019,7 @@ fields:
 - field_name: MacAddress
   field_type: string
   description: MAC address of the network adapter
-  ecs_field: microsoft.defenderxdr.macaddress
+  ecs_field: host.mac
   cim_field: microsoft.defenderxdr.macaddress
   asim_field: microsoft.defenderxdr.macaddress
   category: DeviceNetworkInfo
@@ -2027,9 +2027,9 @@ fields:
 - field_name: IPAddresses
   field_type: string
   description: JSON array of IP addresses assigned
-  ecs_field: microsoft.defenderxdr.ipaddresses
-  cim_field: microsoft.defenderxdr.ipaddresses
-  asim_field: microsoft.defenderxdr.ipaddresses
+  ecs_field: host.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: DeviceNetworkInfo
   display_name: IPAddresses
 - field_name: TunnelType
@@ -2043,7 +2043,7 @@ fields:
 - field_name: ConnectedNetworks
   field_type: string
   description: Networks the adapter is connected to
-  ecs_field: microsoft.defenderxdr.connectednetworks
+  ecs_field: network.name
   cim_field: microsoft.defenderxdr.connectednetworks
   asim_field: microsoft.defenderxdr.connectednetworks
   category: DeviceNetworkInfo
@@ -2051,7 +2051,7 @@ fields:
 - field_name: DnsAddresses
   field_type: string
   description: DNS server addresses
-  ecs_field: microsoft.defenderxdr.dnsaddresses
+  ecs_field: dns.server_ip
   cim_field: microsoft.defenderxdr.dnsaddresses
   asim_field: microsoft.defenderxdr.dnsaddresses
   category: DeviceNetworkInfo
@@ -2059,7 +2059,7 @@ fields:
 - field_name: DefaultGateways
   field_type: string
   description: Default gateway addresses
-  ecs_field: microsoft.defenderxdr.defaultgateways
+  ecs_field: network.gateway
   cim_field: microsoft.defenderxdr.defaultgateways
   asim_field: microsoft.defenderxdr.defaultgateways
   category: DeviceNetworkInfo
@@ -2123,7 +2123,7 @@ fields:
 - field_name: ProductCodeCpe
   field_type: string
   description: Common Platform Enumeration (CPE) name
-  ecs_field: microsoft.defenderxdr.productcodecpe
+  ecs_field: vulnerability.package.name
   cim_field: microsoft.defenderxdr.productcodecpe
   asim_field: microsoft.defenderxdr.productcodecpe
   category: DeviceTvmSoftwareInventory
@@ -2131,7 +2131,7 @@ fields:
 - field_name: CveId
   field_type: string
   description: CVE identifier for the vulnerability
-  ecs_field: microsoft.defenderxdr.cveid
+  ecs_field: vulnerability.id
   cim_field: microsoft.defenderxdr.cveid
   asim_field: microsoft.defenderxdr.cveid
   category: DeviceTvmSoftwareVulnerabilities
@@ -2147,7 +2147,7 @@ fields:
 - field_name: CvssScore
   field_type: real
   description: CVSS score of the vulnerability
-  ecs_field: microsoft.defenderxdr.cvssscore
+  ecs_field: vulnerability.score.base
   cim_field: microsoft.defenderxdr.cvssscore
   asim_field: microsoft.defenderxdr.cvssscore
   category: DeviceTvmSoftwareVulnerabilities
@@ -2179,7 +2179,7 @@ fields:
 - field_name: CveTags
   field_type: dynamic
   description: CVE tags (e.g., ZeroDay, NoSecurityUpdate)
-  ecs_field: microsoft.defenderxdr.cvetags
+  ecs_field: tags
   cim_field: microsoft.defenderxdr.cvetags
   asim_field: microsoft.defenderxdr.cvetags
   category: DeviceTvmSoftwareVulnerabilities
@@ -2211,7 +2211,7 @@ fields:
 - field_name: IsGuestUser
   field_type: boolean
   description: Whether user is a guest
-  ecs_field: microsoft.defenderxdr.isguestuser
+  ecs_field: user.type
   cim_field: microsoft.defenderxdr.isguestuser
   asim_field: microsoft.defenderxdr.isguestuser
   category: AADSignInEventsBeta
@@ -2219,9 +2219,9 @@ fields:
 - field_name: AlternateSignInName
   field_type: string
   description: On-premises UPN of user
-  ecs_field: microsoft.defenderxdr.alternatesigninname
-  cim_field: microsoft.defenderxdr.alternatesigninname
-  asim_field: microsoft.defenderxdr.alternatesigninname
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: AADSignInEventsBeta
   display_name: AlternateSignInName
 - field_name: LastPasswordChangeTimestamp
@@ -2259,7 +2259,7 @@ fields:
 - field_name: EntraIdDeviceId
   field_type: string
   description: Entra ID device identifier
-  ecs_field: microsoft.defenderxdr.entraiddeviceid
+  ecs_field: host.id
   cim_field: microsoft.defenderxdr.entraiddeviceid
   asim_field: microsoft.defenderxdr.entraiddeviceid
   category: AADSignInEventsBeta
@@ -2403,7 +2403,7 @@ fields:
 - field_name: NetworkLocationDetails
   field_type: string
   description: Network location details
-  ecs_field: microsoft.defenderxdr.networklocationdetails
+  ecs_field: host.geo.name
   cim_field: microsoft.defenderxdr.networklocationdetails
   asim_field: microsoft.defenderxdr.networklocationdetails
   category: AADSignInEventsBeta
@@ -2419,7 +2419,7 @@ fields:
 - field_name: EndpointCall
   field_type: string
   description: Entra ID endpoint information
-  ecs_field: microsoft.defenderxdr.endpointcall
+  ecs_field: url.full
   cim_field: microsoft.defenderxdr.endpointcall
   asim_field: microsoft.defenderxdr.endpointcall
   category: AADSignInEventsBeta
@@ -2451,7 +2451,7 @@ fields:
 - field_name: BehaviorId
   field_type: string
   description: Unique identifier for the behavior
-  ecs_field: microsoft.defenderxdr.behaviorid
+  ecs_field: event.id
   cim_field: microsoft.defenderxdr.behaviorid
   asim_field: microsoft.defenderxdr.behaviorid
   category: BehaviorEntities
@@ -2459,7 +2459,7 @@ fields:
 - field_name: DataSources
   field_type: string
   description: Products that provided info for behavior
-  ecs_field: microsoft.defenderxdr.datasources
+  ecs_field: observer.product
   cim_field: microsoft.defenderxdr.datasources
   asim_field: microsoft.defenderxdr.datasources
   category: BehaviorEntities

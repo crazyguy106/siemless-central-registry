@@ -7,7 +7,7 @@ source_document: Description of Fields in Check Point Logs (sk144192)
 source_url: https://support.checkpoint.com/results/sk/sk144192
 extraction_date: '2026-01-02'
 source_file: checkpoint-signatures.json
-generated_at: '2026-02-13T07:34:21.211253'
+generated_at: '2026-02-13T08:53:42.739650'
 categories:
 - Advanced Log Information
 - Anti-Bot
@@ -107,7 +107,7 @@ fields:
 - field_name: service
   field_type: string
   description: Connection destination service/port
-  ecs_field: network.protocol
+  ecs_field: destination.port
   cim_field: service
   asim_field: NetworkApplicationProtocol
   category: Common
@@ -147,7 +147,7 @@ fields:
 - field_name: rule_uid
   field_type: string
   description: Unique rule identifier
-  ecs_field: rule.id
+  ecs_field: rule.uuid
   cim_field: rule_id
   asim_field: RuleNumber
   category: Common
@@ -163,7 +163,7 @@ fields:
 - field_name: origin
   field_type: string
   description: Security Gateway that reported the event
-  ecs_field: observer.ip
+  ecs_field: observer.name
   cim_field: dvc_ip
   asim_field: DvcIpAddr
   category: Common
@@ -243,7 +243,7 @@ fields:
 - field_name: src_user_name
   field_type: string
   description: Username connected to source IP
-  ecs_field: user.name
+  ecs_field: source.user.name
   cim_field: src_user_name
   asim_field: src_user_name
   category: Identity Awareness
@@ -251,7 +251,7 @@ fields:
 - field_name: dst_user_name
   field_type: string
   description: Username connected to destination IP
-  ecs_field: user.name
+  ecs_field: destination.user.name
   cim_field: dst_user_name
   asim_field: dst_user_name
   category: Identity Awareness
@@ -339,7 +339,7 @@ fields:
 - field_name: severity
   field_type: string
   description: Threat severity level
-  ecs_field: log.level
+  ecs_field: event.severity
   cim_field: log_level
   asim_field: EventSeverity
   category: Threat Prevention
@@ -363,7 +363,7 @@ fields:
 - field_name: malware_action
   field_type: string
   description: Malware activity description
-  ecs_field: event.action
+  ecs_field: rule.description
   cim_field: malware_action
   asim_field: EventType
   category: Threat Prevention
@@ -451,7 +451,7 @@ fields:
 - field_name: app_risk
   field_type: integer
   description: Application risk level (0-5)
-  ecs_field: event.severity
+  ecs_field: event.risk_score
   cim_field: app_risk
   asim_field: app_risk
   category: Application Control
@@ -499,9 +499,9 @@ fields:
 - field_name: https_inspection_action
   field_type: string
   description: Inspect/Bypass/Error
-  ecs_field: checkpoint.securitygateway.https_inspection_action
-  cim_field: checkpoint.securitygateway.https_inspection_action
-  asim_field: checkpoint.securitygateway.https_inspection_action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: HTTPS Inspection
   display_name: HTTPS Inspection Action
 - field_name: email_subject
@@ -515,7 +515,7 @@ fields:
 - field_name: from
   field_type: string
   description: Email sender address
-  ecs_field: observer.ingress.zone
+  ecs_field: source.user.email
   cim_field: src_zone
   asim_field: SrcZone
   category: Email Security
@@ -523,7 +523,7 @@ fields:
 - field_name: to
   field_type: string
   description: Email recipient address
-  ecs_field: observer.egress.zone
+  ecs_field: destination.user.email
   cim_field: dest_zone
   asim_field: DstZone
   category: Email Security
@@ -684,7 +684,7 @@ fields:
 - field_name: layer_name
   field_type: string
   description: Layer name (match table, Threat Prevention match table)
-  ecs_field: rule.ruleset
+  ecs_field: network.name
   cim_field: policy
   asim_field: RulesetName
   category: Common
@@ -724,7 +724,7 @@ fields:
 - field_name: matched_category
   field_type: string
   description: Name of the matched category (match table)
-  ecs_field: event.category
+  ecs_field: rule.category
   cim_field: matched_category
   asim_field: matched_category
   category: Common
@@ -748,17 +748,17 @@ fields:
 - field_name: policy_mgmt
   field_type: string
   description: Name of the Management Server that manages this Security Gateway
-  ecs_field: checkpoint.securitygateway.policy_mgmt
-  cim_field: checkpoint.securitygateway.policy_mgmt
-  asim_field: checkpoint.securitygateway.policy_mgmt
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Common
   display_name: Policy Management
 - field_name: product_family
   field_type: integer
   description: The product family the blade/product belongs to
-  ecs_field: checkpoint.securitygateway.product_family
-  cim_field: checkpoint.securitygateway.product_family
-  asim_field: checkpoint.securitygateway.product_family
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Common
   display_name: Product Family
 - field_name: protection_type
@@ -788,7 +788,7 @@ fields:
 - field_name: reason
   field_type: string
   description: Information on the error occurred
-  ecs_field: event.reason
+  ecs_field: message
   cim_field: reason
   asim_field: EventResultDetails
   category: Common
@@ -821,7 +821,7 @@ fields:
   field_type: integer
   description: Number added to order logs with the same Linux timestamp and origin
     (Security Gateway that generated these logs)
-  ecs_field: checkpoint.securitygateway.sequencenum
+  ecs_field: event.sequence
   cim_field: checkpoint.securitygateway.sequencenum
   asim_field: checkpoint.securitygateway.sequencenum
   category: Common
@@ -829,7 +829,7 @@ fields:
 - field_name: service_id
   field_type: string
   description: Service found for the connection (by the destination port)
-  ecs_field: service.id
+  ecs_field: network.application
   cim_field: service_id
   asim_field: service_id
   category: Common
@@ -837,9 +837,9 @@ fields:
 - field_name: source_os
   field_type: string
   description: OS of the computer that generated the attack
-  ecs_field: checkpoint.securitygateway.source_os
-  cim_field: checkpoint.securitygateway.source_os
-  asim_field: checkpoint.securitygateway.source_os
+  ecs_field: host.os.name
+  cim_field: src_os
+  asim_field: SrcOs
   category: Common
   display_name: Source OS
 - field_name: src_country
@@ -861,9 +861,9 @@ fields:
 - field_name: ticket_id
   field_type: string
   description: Unique ID per file
-  ecs_field: checkpoint.securitygateway.ticket_id
-  cim_field: checkpoint.securitygateway.ticket_id
-  asim_field: checkpoint.securitygateway.ticket_id
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventId
   category: Common
   display_name: Ticket ID
 - field_name: tls_server_host_name
@@ -878,7 +878,7 @@ fields:
 - field_name: type
   field_type: string
   description: Log type
-  ecs_field: event.code
+  ecs_field: observer.type
   cim_field: event_type
   asim_field: EventId
   category: Common
@@ -934,25 +934,25 @@ fields:
 - field_name: sub_policy_name
   field_type: string
   description: Layer name
-  ecs_field: checkpoint.securitygateway.sub_policy_name
-  cim_field: checkpoint.securitygateway.sub_policy_name
-  asim_field: checkpoint.securitygateway.sub_policy_name
+  ecs_field: rule.ruleset
+  cim_field: policy
+  asim_field: RuleName
   category: Firewall
   display_name: Sub Policy Name
 - field_name: sub_policy_uid
   field_type: string
   description: Layer UID
-  ecs_field: checkpoint.securitygateway.sub_policy_uid
-  cim_field: checkpoint.securitygateway.sub_policy_uid
-  asim_field: checkpoint.securitygateway.sub_policy_uid
+  ecs_field: rule.uuid
+  cim_field: policy_id
+  asim_field: RuleNumber
   category: Firewall
   display_name: Sub Policy Uid
 - field_name: fw_message
   field_type: string
   description: Used for various firewall errors
-  ecs_field: checkpoint.securitygateway.fw_message
-  cim_field: checkpoint.securitygateway.fw_message
-  asim_field: checkpoint.securitygateway.fw_message
+  ecs_field: error.message
+  cim_field: msg
+  asim_field: EventResultDetails
   category: Firewall
   display_name: Firewall Message
 - field_name: message
@@ -974,9 +974,9 @@ fields:
 - field_name: fw_subproduct
   field_type: string
   description: Can be VPN or non-VPN
-  ecs_field: checkpoint.securitygateway.fw_subproduct
-  cim_field: checkpoint.securitygateway.fw_subproduct
-  asim_field: checkpoint.securitygateway.fw_subproduct
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Firewall
   display_name: Subproduct
 - field_name: sctp_error
@@ -1014,9 +1014,9 @@ fields:
 - field_name: tcp_flags
   field_type: string
   description: TCP packet flags (SYN, ACK, etc.,)
-  ecs_field: checkpoint.securitygateway.tcp_flags
+  ecs_field: network.transport
   cim_field: tcp_flags
-  asim_field: TcpFlags
+  asim_field: NetworkProtocol
   category: Firewall
   display_name: TCP Flags
 - field_name: connectivity_level
@@ -1110,7 +1110,7 @@ fields:
 - field_name: client_outbound_packets
   field_type: integer
   description: Number of packets, sent from the client
-  ecs_field: destination.packets
+  ecs_field: source.packets
   cim_field: packets_out
   asim_field: DstPackets
   category: Firewall
@@ -1126,7 +1126,7 @@ fields:
 - field_name: server_outbound_packets
   field_type: integer
   description: Number of packets, sent from the server
-  ecs_field: source.packets
+  ecs_field: destination.packets
   cim_field: server_packets_out
   asim_field: SrcPackets
   category: Firewall
@@ -1150,15 +1150,15 @@ fields:
 - field_name: server_inbound_bytes
   field_type: integer
   description: Number of packets received by the server
-  ecs_field: checkpoint.securitygateway.server_inbound_bytes
-  cim_field: checkpoint.securitygateway.server_inbound_bytes
-  asim_field: checkpoint.securitygateway.server_inbound_bytes
+  ecs_field: destination.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
   category: Firewall
   display_name: Server Inbound Bytes
 - field_name: server_outbound_bytes
   field_type: integer
   description: Number of packets sent from the server
-  ecs_field: checkpoint.securitygateway.server_outbound_bytes
+  ecs_field: destination.bytes
   cim_field: checkpoint.securitygateway.server_outbound_bytes
   asim_field: checkpoint.securitygateway.server_outbound_bytes
   category: Firewall
@@ -1167,7 +1167,7 @@ fields:
   field_type: string
   description: Gateway interface, where the connection is received from in case of
     an outbound connection
-  ecs_field: checkpoint.securitygateway.client_inbound_interface
+  ecs_field: observer.ingress.interface.name
   cim_field: checkpoint.securitygateway.client_inbound_interface
   asim_field: checkpoint.securitygateway.client_inbound_interface
   category: Firewall
@@ -1176,7 +1176,7 @@ fields:
   field_type: string
   description: Gateway interface, where the connection is sent from, in case of an
     inbound connection
-  ecs_field: checkpoint.securitygateway.client_outbound_interface
+  ecs_field: observer.egress.interface.name
   cim_field: checkpoint.securitygateway.client_outbound_interface
   asim_field: checkpoint.securitygateway.client_outbound_interface
   category: Firewall
@@ -1185,26 +1185,26 @@ fields:
   field_type: string
   description: Gateway interface, where the connection is received from, in case of
     an inbound connection
-  ecs_field: checkpoint.securitygateway.server_inbound_interface
-  cim_field: checkpoint.securitygateway.server_inbound_interface
-  asim_field: checkpoint.securitygateway.server_inbound_interface
+  ecs_field: observer.ingress.interface
+  cim_field: src_interface
+  asim_field: SrcInterfaceName
   category: Firewall
   display_name: Server Inbound Interface
 - field_name: server_outbound_interface
   field_type: string
   description: Gateway interface, where the connection is sent from, in case of an
     outbound connection
-  ecs_field: checkpoint.securitygateway.server_outbound_interface
-  cim_field: checkpoint.securitygateway.server_outbound_interface
-  asim_field: checkpoint.securitygateway.server_outbound_interface
+  ecs_field: observer.egress.interface
+  cim_field: dest_interface
+  asim_field: DstInterfaceName
   category: Firewall
   display_name: Server Outbound Interface
 - field_name: icmp
   field_type: string
   description: ICMP message, will be added to the connection log
-  ecs_field: checkpoint.securitygateway.icmp
-  cim_field: checkpoint.securitygateway.icmp
-  asim_field: checkpoint.securitygateway.icmp
+  ecs_field: network.protocol
+  cim_field: protocol
+  asim_field: NetworkProtocol
   category: Firewall
   display_name: ICMP
 - field_name: capture_uuid
@@ -1219,9 +1219,9 @@ fields:
 - field_name: packet_length
   field_type: string
   description: Length of the packet
-  ecs_field: checkpoint.securitygateway.packet_length
-  cim_field: checkpoint.securitygateway.packet_length
-  asim_field: checkpoint.securitygateway.packet_length
+  ecs_field: network.bytes
+  cim_field: bytes
+  asim_field: NetworkBytes
   category: Firewall
   display_name: Packet Length
 - field_name: expected_length
@@ -1235,9 +1235,9 @@ fields:
 - field_name: diameter_app_name
   field_type: string
   description: The name defined/pre-configured for the diameter application
-  ecs_field: checkpoint.securitygateway.diameter_app_name
-  cim_field: checkpoint.securitygateway.diameter_app_name
-  asim_field: checkpoint.securitygateway.diameter_app_name
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplication
   category: Firewall
   display_name: Diameter App Name
 - field_name: diameter_cmd_code
@@ -1267,9 +1267,9 @@ fields:
 - field_name: cp_message
   field_type: string
   description: Used to log a general message
-  ecs_field: checkpoint.securitygateway.cp_message
-  cim_field: checkpoint.securitygateway.cp_message
-  asim_field: checkpoint.securitygateway.cp_message
+  ecs_field: event.original
+  cim_field: msg
+  asim_field: EventResultDetails
   category: Firewall
   display_name: Cp Message
 - field_name: log_delay
@@ -1291,9 +1291,9 @@ fields:
 - field_name: active_conn_elapsed
   field_type: integer
   description: Total time of the connection
-  ecs_field: checkpoint.securitygateway.active_conn_elapsed
-  cim_field: checkpoint.securitygateway.active_conn_elapsed
-  asim_field: checkpoint.securitygateway.active_conn_elapsed
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: Firewall
   display_name: Active Connection Elapsed
 - field_name: during_sec
@@ -1355,25 +1355,25 @@ fields:
 - field_name: scan_result
   field_type: string
   description: '"Infected", or description of a failure'
-  ecs_field: checkpoint.securitygateway.scan_result
-  cim_field: checkpoint.securitygateway.scan_result
-  asim_field: checkpoint.securitygateway.scan_result
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Anti-Virus
   display_name: Scan Result
 - field_name: triggered_by
   field_type: string
   description: Engine or Software Blade that triggered the log
-  ecs_field: checkpoint.securitygateway.triggered_by
-  cim_field: checkpoint.securitygateway.triggered_by
-  asim_field: checkpoint.securitygateway.triggered_by
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Anti-Virus
   display_name: Triggered By
 - field_name: original_queue_id
   field_type: string
   description: Original Postfix email queue ID
-  ecs_field: checkpoint.securitygateway.original_queue_id
-  cim_field: checkpoint.securitygateway.original_queue_id
-  asim_field: checkpoint.securitygateway.original_queue_id
+  ecs_field: email.local_id
+  cim_field: internal_message_id
+  asim_field: EmailMessageId
   category: Anti-Virus
   display_name: Original Queue ID
 - field_name: risk
@@ -1403,49 +1403,49 @@ fields:
 - field_name: observable_comment
   field_type: string
   description: IoC observable signature description
-  ecs_field: checkpoint.securitygateway.observable_comment
-  cim_field: checkpoint.securitygateway.observable_comment
-  asim_field: checkpoint.securitygateway.observable_comment
+  ecs_field: threat.indicator.description
+  cim_field: signature
+  asim_field: ThreatName
   category: Anti-Virus
   display_name: Observable Comment
 - field_name: indicator_name
   field_type: string
   description: IoC indicator name
-  ecs_field: checkpoint.securitygateway.indicator_name
-  cim_field: checkpoint.securitygateway.indicator_name
-  asim_field: checkpoint.securitygateway.indicator_name
+  ecs_field: threat.indicator.name
+  cim_field: signature
+  asim_field: ThreatName
   category: Anti-Virus
   display_name: Indicator Name
 - field_name: indicator_description
   field_type: string
   description: IoC indicator description
-  ecs_field: checkpoint.securitygateway.indicator_description
-  cim_field: checkpoint.securitygateway.indicator_description
-  asim_field: checkpoint.securitygateway.indicator_description
+  ecs_field: threat.indicator.description
+  cim_field: signature
+  asim_field: ThreatName
   category: Anti-Virus
   display_name: Indicator Description
 - field_name: indicator_reference
   field_type: string
   description: IoC indicator reference
-  ecs_field: checkpoint.securitygateway.indicator_reference
-  cim_field: checkpoint.securitygateway.indicator_reference
-  asim_field: checkpoint.securitygateway.indicator_reference
+  ecs_field: threat.indicator.reference
+  cim_field: url
+  asim_field: ThreatId
   category: Anti-Virus
   display_name: Indicator Reference
 - field_name: indicator_uuid
   field_type: string
   description: IoC indicator UUID
-  ecs_field: checkpoint.securitygateway.indicator_uuid
-  cim_field: checkpoint.securitygateway.indicator_uuid
-  asim_field: checkpoint.securitygateway.indicator_uuid
+  ecs_field: threat.indicator.id
+  cim_field: signature_id
+  asim_field: ThreatId
   category: Anti-Virus
   display_name: Indicator Uuid
 - field_name: app_desc
   field_type: string
   description: Application description (match table)
-  ecs_field: checkpoint.securitygateway.app_desc
-  cim_field: checkpoint.securitygateway.app_desc
-  asim_field: checkpoint.securitygateway.app_desc
+  ecs_field: rule.description
+  cim_field: app
+  asim_field: NetworkApplication
   category: Application Control & URL Filtering
   display_name: Application Description
 - field_name: app_id
@@ -1459,15 +1459,15 @@ fields:
 - field_name: app_properties
   field_type: string
   description: Application categories (match table)
-  ecs_field: checkpoint.securitygateway.app_properties
-  cim_field: checkpoint.securitygateway.app_properties
-  asim_field: checkpoint.securitygateway.app_properties
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: NetworkApplication
   category: Application Control & URL Filtering
   display_name: Additional Categories
 - field_name: app_rule_id
   field_type: string
   description: Rule number
-  ecs_field: checkpoint.securitygateway.app_rule_id
+  ecs_field: rule.id
   cim_field: checkpoint.securitygateway.app_rule_id
   asim_field: checkpoint.securitygateway.app_rule_id
   category: Application Control & URL Filtering
@@ -1491,7 +1491,7 @@ fields:
 - field_name: categories
   field_type: string
   description: Matched categories
-  ecs_field: checkpoint.securitygateway.categories
+  ecs_field: rule.category
   cim_field: checkpoint.securitygateway.categories
   asim_field: checkpoint.securitygateway.categories
   category: Application Control & URL Filtering
@@ -1524,7 +1524,7 @@ fields:
 - field_name: usercheck_incident_uid
   field_type: string
   description: UserCheck incident ID
-  ecs_field: user.id
+  ecs_field: destination.user.id
   cim_field: usercheck_incident_uid
   asim_field: usercheck_incident_uid
   category: Application Control & URL Filtering
@@ -1564,25 +1564,25 @@ fields:
 - field_name: dropped_outgoing
   field_type: integer
   description: Number of outgoing dropped packets
-  ecs_field: checkpoint.securitygateway.dropped_outgoing
-  cim_field: checkpoint.securitygateway.dropped_outgoing
-  asim_field: checkpoint.securitygateway.dropped_outgoing
+  ecs_field: destination.packets
+  cim_field: packets_out
+  asim_field: DstPackets
   category: Application Control & URL Filtering
   display_name: Dropped Outgoing
 - field_name: dropped_incoming
   field_type: integer
   description: Number of incoming dropped packets
-  ecs_field: checkpoint.securitygateway.dropped_incoming
-  cim_field: checkpoint.securitygateway.dropped_incoming
-  asim_field: checkpoint.securitygateway.dropped_incoming
+  ecs_field: source.packets
+  cim_field: packets_in
+  asim_field: SrcPackets
   category: Application Control & URL Filtering
   display_name: Dropped Incoming
 - field_name: dropped_total
   field_type: integer
   description: Number of dropped packets (both incoming and outgoing)
-  ecs_field: checkpoint.securitygateway.dropped_total
-  cim_field: checkpoint.securitygateway.dropped_total
-  asim_field: checkpoint.securitygateway.dropped_total
+  ecs_field: network.packets
+  cim_field: packets
+  asim_field: NetworkPackets
   category: Application Control & URL Filtering
   display_name: Dropped Total
 - field_name: suppressed_logs
@@ -1597,17 +1597,17 @@ fields:
 - field_name: match_id
   field_type: integer
   description: Mapping of matched rule to its matched application (match table)
-  ecs_field: checkpoint.securitygateway.match_id
-  cim_field: checkpoint.securitygateway.match_id
-  asim_field: checkpoint.securitygateway.match_id
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleNumber
   category: Application Control & URL Filtering
   display_name: Match Id
 - field_name: client_type_os
   field_type: string
   description: Client OS detected in the HTTP request
-  ecs_field: checkpoint.securitygateway.client_type_os
-  cim_field: checkpoint.securitygateway.client_type_os
-  asim_field: checkpoint.securitygateway.client_type_os
+  ecs_field: host.os.name
+  cim_field: src_os
+  asim_field: SrcOs
   category: Application Control & URL Filtering
   display_name: Client Type Os
 - field_name: referrer
@@ -1653,9 +1653,9 @@ fields:
 - field_name: referrer_self_uid
   field_type: string
   description: UUID of the current log
-  ecs_field: checkpoint.securitygateway.referrer_self_uid
-  cim_field: checkpoint.securitygateway.referrer_self_uid
-  asim_field: checkpoint.securitygateway.referrer_self_uid
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventId
   category: Application Control & URL Filtering
   display_name: Referrer Self Uid
 - field_name: referrer_parent_uid
@@ -1725,9 +1725,9 @@ fields:
 - field_name: matched_application
   field_type: string
   description: Name of the matched application
-  ecs_field: checkpoint.securitygateway.matched_application
-  cim_field: checkpoint.securitygateway.matched_application
-  asim_field: checkpoint.securitygateway.matched_application
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplication
   category: Application Control & URL Filtering
   display_name: Matched Application
 - field_name: cluster_info
@@ -1773,17 +1773,17 @@ fields:
 - field_name: data_type_name
   field_type: string
   description: Data type in rulebase that was matched
-  ecs_field: checkpoint.securitygateway.data_type_name
-  cim_field: checkpoint.securitygateway.data_type_name
-  asim_field: checkpoint.securitygateway.data_type_name
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: ThreatCategory
   category: Content Awareness
   display_name: Data Type
 - field_name: specific_data_type_name
   field_type: string
   description: Compound/Group scenario, data type that was matched
-  ecs_field: checkpoint.securitygateway.specific_data_type_name
-  cim_field: checkpoint.securitygateway.specific_data_type_name
-  asim_field: checkpoint.securitygateway.specific_data_type_name
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: ThreatCategory
   category: Content Awareness
   display_name: Specific Data Type Name
 - field_name: word_list
@@ -1813,9 +1813,9 @@ fields:
 - field_name: dlp_recipients
   field_type: string
   description: Mail recipients
-  ecs_field: checkpoint.securitygateway.dlp_recipients
-  cim_field: checkpoint.securitygateway.dlp_recipients
-  asim_field: checkpoint.securitygateway.dlp_recipients
+  ecs_field: email.to.address
+  cim_field: recipient
+  asim_field: EmailTo
   category: Data Loss Prevention (DLP)
   display_name: DLP Recipients
 - field_name: dlp_subject
@@ -1837,23 +1837,23 @@ fields:
 - field_name: dlp_template_score
   field_type: string
   description: Template data type match score
-  ecs_field: checkpoint.securitygateway.dlp_template_score
-  cim_field: checkpoint.securitygateway.dlp_template_score
-  asim_field: checkpoint.securitygateway.dlp_template_score
+  ecs_field: event.risk_score
+  cim_field: risk_score
+  asim_field: EventSeverity
   category: Data Loss Prevention (DLP)
   display_name: DLP Template Score
 - field_name: message_size
   field_type: integer
   description: Mail/post size
-  ecs_field: checkpoint.securitygateway.message_size
-  cim_field: checkpoint.securitygateway.message_size
-  asim_field: checkpoint.securitygateway.message_size
+  ecs_field: file.size
+  cim_field: file_size
+  asim_field: FileSize
   category: Data Loss Prevention (DLP)
   display_name: Message Size
 - field_name: dlp_rule_uid
   field_type: string
   description: Unique ID of the matched rule
-  ecs_field: checkpoint.securitygateway.dlp_rule_uid
+  ecs_field: rule.uuid
   cim_field: checkpoint.securitygateway.dlp_rule_uid
   asim_field: checkpoint.securitygateway.dlp_rule_uid
   category: Data Loss Prevention (DLP)
@@ -1861,9 +1861,9 @@ fields:
 - field_name: dlp_incident_uid
   field_type: string
   description: Unique incident ID
-  ecs_field: checkpoint.securitygateway.dlp_incident_uid
-  cim_field: checkpoint.securitygateway.dlp_incident_uid
-  asim_field: checkpoint.securitygateway.dlp_incident_uid
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventId
   category: Data Loss Prevention (DLP)
   display_name: DLP Incident UID
 - field_name: dlp_related_incident_uid
@@ -1885,9 +1885,9 @@ fields:
 - field_name: dlp_data_type_uid
   field_type: string
   description: Unique ID of the matched data type
-  ecs_field: checkpoint.securitygateway.dlp_data_type_uid
-  cim_field: checkpoint.securitygateway.dlp_data_type_uid
-  asim_field: checkpoint.securitygateway.dlp_data_type_uid
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleNumber
   category: Data Loss Prevention (DLP)
   display_name: Data Type UID
 - field_name: dlp_file_name
@@ -1909,9 +1909,9 @@ fields:
 - field_name: dlp_relevant_data_types
   field_type: string
   description: 'In case of Compound/Group: the inner data types that were matched'
-  ecs_field: checkpoint.securitygateway.dlp_relevant_data_types
-  cim_field: checkpoint.securitygateway.dlp_relevant_data_types
-  asim_field: checkpoint.securitygateway.dlp_relevant_data_types
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: ThreatCategory
   category: Data Loss Prevention (DLP)
   display_name: Dlp Relevant Data Types
 - field_name: dlp_action_reason
@@ -1950,9 +1950,9 @@ fields:
 - field_name: incident_extension
   field_type: string
   description: Format of original data
-  ecs_field: checkpoint.securitygateway.incident_extension
-  cim_field: checkpoint.securitygateway.incident_extension
-  asim_field: checkpoint.securitygateway.incident_extension
+  ecs_field: file.extension
+  cim_field: file_name
+  asim_field: FileName
   category: Data Loss Prevention (DLP)
   display_name: Incident Extension
 - field_name: matched_file
@@ -1982,9 +1982,9 @@ fields:
 - field_name: dlp_addtional_action
   field_type: string
   description: Watermark or None
-  ecs_field: checkpoint.securitygateway.dlp_addtional_action
-  cim_field: checkpoint.securitygateway.dlp_addtional_action
-  asim_field: checkpoint.securitygateway.dlp_addtional_action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Data Loss Prevention (DLP)
   display_name: DLP Additional Action
 - field_name: dlp_watermark_profile
@@ -2006,9 +2006,9 @@ fields:
 - field_name: dlp_repository_root_path
   field_type: string
   description: Repository path
-  ecs_field: checkpoint.securitygateway.dlp_repository_root_path
-  cim_field: checkpoint.securitygateway.dlp_repository_root_path
-  asim_field: checkpoint.securitygateway.dlp_repository_root_path
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: FilePath
   category: Data Loss Prevention (DLP)
   display_name: DLP Repository Root path
 - field_name: scan_id
@@ -2031,9 +2031,9 @@ fields:
 - field_name: dlp_repository_total_size
   field_type: integer
   description: Repository size
-  ecs_field: checkpoint.securitygateway.dlp_repository_total_size
-  cim_field: checkpoint.securitygateway.dlp_repository_total_size
-  asim_field: checkpoint.securitygateway.dlp_repository_total_size
+  ecs_field: file.size
+  cim_field: file_size
+  asim_field: FileSize
   category: Data Loss Prevention (DLP)
   display_name: Repository size (MB)
 - field_name: dlp_repository_files_number
@@ -2183,33 +2183,33 @@ fields:
 - field_name: https_inspection_rule_id
   field_type: string
   description: ID of the matched rule
-  ecs_field: checkpoint.securitygateway.https_inspection_rule_id
-  cim_field: checkpoint.securitygateway.https_inspection_rule_id
-  asim_field: checkpoint.securitygateway.https_inspection_rule_id
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleNumber
   category: HTTPS Inspection - R82 and higher
   display_name: HTTPS Inspection Rule ID
 - field_name: https_inspection_rule_name
   field_type: string
   description: Name of the matched rule
-  ecs_field: checkpoint.securitygateway.https_inspection_rule_name
-  cim_field: checkpoint.securitygateway.https_inspection_rule_name
-  asim_field: checkpoint.securitygateway.https_inspection_rule_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: HTTPS Inspection - R82 and higher
   display_name: HTTPS Inspection Rule Name
 - field_name: bypass_reason
   field_type: string
   description: Explains the bypass decision
-  ecs_field: checkpoint.securitygateway.bypass_reason
-  cim_field: checkpoint.securitygateway.bypass_reason
-  asim_field: checkpoint.securitygateway.bypass_reason
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: HTTPS Inspection - R82 and higher
   display_name: Action Reason
 - field_name: reject_reason
   field_type: string
   description: Explains the reject decision
-  ecs_field: checkpoint.securitygateway.reject_reason
-  cim_field: checkpoint.securitygateway.reject_reason
-  asim_field: checkpoint.securitygateway.reject_reason
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: HTTPS Inspection - R82 and higher
   display_name: Action Reason
 - field_name: details
@@ -2239,17 +2239,17 @@ fields:
 - field_name: failure_type
   field_type: string
   description: Failure in the HTTPS connection
-  ecs_field: checkpoint.securitygateway.failure_type
-  cim_field: checkpoint.securitygateway.failure_type
-  asim_field: checkpoint.securitygateway.failure_type
+  ecs_field: error.code
+  cim_field: status
+  asim_field: EventResultDetails
   category: HTTPS Inspection - R82 and higher
   display_name: Failure Type
 - field_name: tls_alert_received
   field_type: string
   description: TLS Alert that the Security Gateway received from the HTTPS server
-  ecs_field: checkpoint.securitygateway.tls_alert_received
-  cim_field: checkpoint.securitygateway.tls_alert_received
-  asim_field: checkpoint.securitygateway.tls_alert_received
+  ecs_field: error.message
+  cim_field: msg
+  asim_field: EventResultDetails
   category: HTTPS Inspection - R82 and higher
   display_name: TLS Alert Received
 - field_name: https_validation
@@ -2323,25 +2323,25 @@ fields:
 - field_name: icap_server_name
   field_type: string
   description: Server name
-  ecs_field: checkpoint.securitygateway.icap_server_name
-  cim_field: checkpoint.securitygateway.icap_server_name
-  asim_field: checkpoint.securitygateway.icap_server_name
+  ecs_field: host.name
+  cim_field: dest
+  asim_field: DstHostname
   category: ICAP Client
   display_name: Icap Server Name
 - field_name: internal_error
   field_type: string
   description: Internal error, for troubleshooting
-  ecs_field: checkpoint.securitygateway.internal_error
-  cim_field: checkpoint.securitygateway.internal_error
-  asim_field: checkpoint.securitygateway.internal_error
+  ecs_field: error.message
+  cim_field: msg
+  asim_field: EventResultDetails
   category: ICAP Client
   display_name: Internal Error
 - field_name: icap_more_info
   field_type: string
   description: Free text for verdict
-  ecs_field: checkpoint.securitygateway.icap_more_info
-  cim_field: checkpoint.securitygateway.icap_more_info
-  asim_field: checkpoint.securitygateway.icap_more_info
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: ICAP Client
   display_name: Icap More Info
 - field_name: reply_status
@@ -2355,9 +2355,9 @@ fields:
 - field_name: icap_server_service
   field_type: string
   description: Service name, as given in the ICAP URI
-  ecs_field: checkpoint.securitygateway.icap_server_service
-  cim_field: checkpoint.securitygateway.icap_server_service
-  asim_field: checkpoint.securitygateway.icap_server_service
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplication
   category: ICAP Client
   display_name: Icap Server Service
 - field_name: mirror_and_decrypt_type
@@ -2427,9 +2427,9 @@ fields:
 - field_name: identity_type
   field_type: string
   description: Identity type (user, machine)
-  ecs_field: checkpoint.securitygateway.identity_type
-  cim_field: checkpoint.securitygateway.identity_type
-  asim_field: checkpoint.securitygateway.identity_type
+  ecs_field: user.type
+  cim_field: user_type
+  asim_field: SrcUserType
   category: Identity Awareness
   display_name: Identity Type
 - field_name: query
@@ -2459,9 +2459,9 @@ fields:
 - field_name: inspection_item
   field_type: string
   description: Blade element performed inspection
-  ecs_field: checkpoint.securitygateway.inspection_item
-  cim_field: checkpoint.securitygateway.inspection_item
-  asim_field: checkpoint.securitygateway.inspection_item
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: IPS
   display_name: Inspection Item
 - field_name: performance_impact
@@ -2483,31 +2483,31 @@ fields:
 - field_name: inspection_profile
   field_type: string
   description: Profile which the activated protection belongs to
-  ecs_field: checkpoint.securitygateway.inspection_profile
-  cim_field: checkpoint.securitygateway.inspection_profile
-  asim_field: checkpoint.securitygateway.inspection_profile
+  ecs_field: rule.ruleset
+  cim_field: policy
+  asim_field: RuleName
   category: IPS
   display_name: Inspection Profile
 - field_name: inspection_information
   field_type: string
   description: Attack or violation description
-  ecs_field: checkpoint.securitygateway.inspection_information
-  cim_field: checkpoint.securitygateway.inspection_information
-  asim_field: checkpoint.securitygateway.inspection_information
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: IPS
   display_name: Inspection Information
 - field_name: summary
   field_type: string
   description: Summary message for non-compliant DNS traffic drops or detects
-  ecs_field: checkpoint.securitygateway.summary
-  cim_field: checkpoint.securitygateway.summary
-  asim_field: checkpoint.securitygateway.summary
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: IPS
   display_name: Summary
 - field_name: tid
   field_type: integer
   description: DNS Transaction ID
-  ecs_field: event.action
+  ecs_field: dns.id
   cim_field: tid
   asim_field: tid
   category: IPS
@@ -2523,17 +2523,17 @@ fields:
 - field_name: question_rdata
   field_type: string
   description: List of question records domains
-  ecs_field: checkpoint.securitygateway.question_rdata
-  cim_field: checkpoint.securitygateway.question_rdata
-  asim_field: checkpoint.securitygateway.question_rdata
+  ecs_field: dns.question.name
+  cim_field: query
+  asim_field: DnsQuery
   category: IPS
   display_name: Question Rdata
 - field_name: answer_rdata
   field_type: string
   description: List of answer resource records to the questioned domains
-  ecs_field: checkpoint.securitygateway.answer_rdata
-  cim_field: checkpoint.securitygateway.answer_rdata
-  asim_field: checkpoint.securitygateway.answer_rdata
+  ecs_field: dns.answers.data
+  cim_field: answer
+  asim_field: DnsResponseName
   category: IPS
   display_name: Answer Rdata
 - field_name: authority_rdata
@@ -2555,9 +2555,9 @@ fields:
 - field_name: files_names
   field_type: string
   description: List of files requested by FTP
-  ecs_field: checkpoint.securitygateway.files_names
-  cim_field: checkpoint.securitygateway.files_names
-  asim_field: checkpoint.securitygateway.files_names
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: IPS
   display_name: Files Names
 - field_name: ftp_user
@@ -2571,33 +2571,33 @@ fields:
 - field_name: mime_from
   field_type: string
   description: Sender's address
-  ecs_field: checkpoint.securitygateway.mime_from
-  cim_field: checkpoint.securitygateway.mime_from
-  asim_field: checkpoint.securitygateway.mime_from
+  ecs_field: email.from.address
+  cim_field: src_user
+  asim_field: EmailFrom
   category: IPS
   display_name: Mime From
 - field_name: mime_to
   field_type: string
   description: List of receiver address
-  ecs_field: checkpoint.securitygateway.mime_to
-  cim_field: checkpoint.securitygateway.mime_to
-  asim_field: checkpoint.securitygateway.mime_to
+  ecs_field: email.to.address
+  cim_field: recipient
+  asim_field: EmailTo
   category: IPS
   display_name: Mime To
 - field_name: cc
   field_type: string
   description: List of CC addresses
-  ecs_field: checkpoint.securitygateway.cc
-  cim_field: checkpoint.securitygateway.cc
-  asim_field: checkpoint.securitygateway.cc
+  ecs_field: email.cc.address
+  cim_field: recipient
+  asim_field: EmailCc
   category: IPS
   display_name: Cc
 - field_name: bcc
   field_type: string
   description: List of BCC addresses
-  ecs_field: checkpoint.securitygateway.bcc
-  cim_field: checkpoint.securitygateway.bcc
-  asim_field: checkpoint.securitygateway.bcc
+  ecs_field: email.bcc.address
+  cim_field: recipient
+  asim_field: EmailBcc
   category: IPS
   display_name: Bcc
 - field_name: content_type
@@ -2611,7 +2611,7 @@ fields:
 - field_name: subject
   field_type: string
   description: Mail subject
-  ecs_field: email.subject
+  ecs_field: message
   cim_field: email_subject
   asim_field: EmailSubject
   category: IPS
@@ -2645,26 +2645,26 @@ fields:
   field_type: string
   description: '"Via" header is added by proxies for tracking purposes to avoid sending
     requests in loop'
-  ecs_field: checkpoint.securitygateway.via
-  cim_field: checkpoint.securitygateway.via
-  asim_field: checkpoint.securitygateway.via
+  ecs_field: http.request.headers.via
+  cim_field: http_via
+  asim_field: HttpVia
   category: IPS
   display_name: Via
 - field_name: http_server
   field_type: string
   description: Server HTTP header value, contains information about the software used
     by the origin server, which handles the request
-  ecs_field: checkpoint.securitygateway.http_server
-  cim_field: checkpoint.securitygateway.http_server
-  asim_field: checkpoint.securitygateway.http_server
+  ecs_field: http.response.headers.server
+  cim_field: http_server
+  asim_field: HttpServer
   category: IPS
   display_name: Http Server
 - field_name: content_length
   field_type: string
   description: Indicates the size of the entity-body of the HTTP header
-  ecs_field: checkpoint.securitygateway.content_length
-  cim_field: checkpoint.securitygateway.content_length
-  asim_field: checkpoint.securitygateway.content_length
+  ecs_field: http.response.body.bytes
+  cim_field: bytes_out
+  asim_field: HttpResponseBodyBytes
   category: IPS
   display_name: Content Length
 - field_name: method
@@ -2678,9 +2678,9 @@ fields:
 - field_name: authorization
   field_type: string
   description: Authorization HTTP header value
-  ecs_field: checkpoint.securitygateway.authorization
-  cim_field: checkpoint.securitygateway.authorization
-  asim_field: checkpoint.securitygateway.authorization
+  ecs_field: http.request.headers.authorization
+  cim_field: http_authorization
+  asim_field: HttpAuthorization
   category: IPS
   display_name: Authorization
 - field_name: http_host
@@ -2694,7 +2694,7 @@ fields:
 - field_name: industry_reference
   field_type: string
   description: CVE registry entry
-  ecs_field: checkpoint.securitygateway.industry_reference
+  ecs_field: vulnerability.id
   cim_field: checkpoint.securitygateway.industry_reference
   asim_field: checkpoint.securitygateway.industry_reference
   category: IPS
@@ -2726,7 +2726,7 @@ fields:
 - field_name: email_queue_id
   field_type: string
   description: Postfix email queue ID
-  ecs_field: email.message_id
+  ecs_field: email.local_id
   cim_field: queue_id
   asim_field: EmailMessageId
   category: Mail Transfer Agent (MTA)
@@ -2750,9 +2750,9 @@ fields:
 - field_name: email_headers
   field_type: string
   description: String containing all the email headers
-  ecs_field: checkpoint.securitygateway.email_headers
-  cim_field: checkpoint.securitygateway.email_headers
-  asim_field: checkpoint.securitygateway.email_headers
+  ecs_field: email.headers
+  cim_field: email_headers
+  asim_field: EmailHeaders
   category: Mail Transfer Agent (MTA)
   display_name: Email Headers
 - field_name: arrival_time
@@ -2766,9 +2766,9 @@ fields:
 - field_name: email_status
   field_type: string
   description: Describes the email's state
-  ecs_field: checkpoint.securitygateway.email_status
-  cim_field: checkpoint.securitygateway.email_status
-  asim_field: checkpoint.securitygateway.email_status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Mail Transfer Agent (MTA)
   display_name: Email Status
 - field_name: status_update
@@ -2798,7 +2798,7 @@ fields:
 - field_name: delivery_time
   field_type: datetime
   description: Timestamp of when email was delivered (MTA finished handling the email
-  ecs_field: event.created
+  ecs_field: email.delivery_timestamp
   cim_field: _time
   asim_field: EventStartTime
   category: Mail Transfer Agent (MTA)
@@ -2814,17 +2814,17 @@ fields:
 - field_name: attachments_num
   field_type: integer
   description: Number of attachments in the mail
-  ecs_field: checkpoint.securitygateway.attachments_num
-  cim_field: checkpoint.securitygateway.attachments_num
-  asim_field: checkpoint.securitygateway.attachments_num
+  ecs_field: email.attachments.count
+  cim_field: attachment_count
+  asim_field: EmailAttachmentCount
   category: Mail Transfer Agent (MTA)
   display_name: Attachments Number
 - field_name: email_content
   field_type: string
   description: Mail contents
-  ecs_field: checkpoint.securitygateway.email_content
-  cim_field: checkpoint.securitygateway.email_content
-  asim_field: checkpoint.securitygateway.email_content
+  ecs_field: email.body.content
+  cim_field: body
+  asim_field: EmailBody
   category: Mail Transfer Agent (MTA)
   display_name: Email Content
 - field_name: user_group
@@ -2838,17 +2838,17 @@ fields:
 - field_name: cvpn_resource
   field_type: string
   description: Mobile Access application
-  ecs_field: checkpoint.securitygateway.cvpn_resource
-  cim_field: checkpoint.securitygateway.cvpn_resource
-  asim_field: checkpoint.securitygateway.cvpn_resource
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplication
   category: Mobile Access
   display_name: Application
 - field_name: cvpn_category
   field_type: string
   description: Mobile Access application type
-  ecs_field: checkpoint.securitygateway.cvpn_category
-  cim_field: checkpoint.securitygateway.cvpn_category
-  asim_field: checkpoint.securitygateway.cvpn_category
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: NetworkApplication
   category: Mobile Access
   display_name: Mobile Access Category
 - field_name: reject_id
@@ -2912,9 +2912,9 @@ fields:
   field_type: integer
   description: When matching 2 automatic rules, the second rule match is shown. Otherwise,
     this field has the value 0.
-  ecs_field: checkpoint.securitygateway.nat_addtnl_rulenum
-  cim_field: checkpoint.securitygateway.nat_addtnl_rulenum
-  asim_field: checkpoint.securitygateway.nat_addtnl_rulenum
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleNumber
   category: NAT
   display_name: NAT Additional Rule Number
 - field_name: message_info
@@ -2984,33 +2984,33 @@ fields:
 - field_name: drop_reason
   field_type: string
   description: Aggregated logs of dropped packets
-  ecs_field: checkpoint.securitygateway.drop_reason
-  cim_field: checkpoint.securitygateway.drop_reason
-  asim_field: checkpoint.securitygateway.drop_reason
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: SecureXL
   display_name: Drop Reason
 - field_name: packet_amount
   field_type: integer
   description: Number of packets dropped
-  ecs_field: checkpoint.securitygateway.packet_amount
-  cim_field: checkpoint.securitygateway.packet_amount
-  asim_field: checkpoint.securitygateway.packet_amount
+  ecs_field: network.packets
+  cim_field: packets
+  asim_field: NetworkPackets
   category: SecureXL
   display_name: Packet Amount
 - field_name: monitor_reason
   field_type: string
   description: Aggregated logs of monitored packets
-  ecs_field: checkpoint.securitygateway.monitor_reason
-  cim_field: checkpoint.securitygateway.monitor_reason
-  asim_field: checkpoint.securitygateway.monitor_reason
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: SecureXL
   display_name: Monitor Reason
 - field_name: drops_amount
   field_type: integer
   description: Amount of multicast packets dropped
-  ecs_field: checkpoint.securitygateway.drops_amount
-  cim_field: checkpoint.securitygateway.drops_amount
-  asim_field: checkpoint.securitygateway.drops_amount
+  ecs_field: network.packets
+  cim_field: packets
+  asim_field: NetworkPackets
   category: SecureXL
   display_name: Drops Amount
 - field_name: securexl_message
@@ -3048,41 +3048,41 @@ fields:
 - field_name: detected_on
   field_type: string
   description: System and applications version, on which the file was emulated
-  ecs_field: checkpoint.securitygateway.detected_on
-  cim_field: checkpoint.securitygateway.detected_on
-  asim_field: checkpoint.securitygateway.detected_on
+  ecs_field: observer.version
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Threat Emulation
   display_name: Vulnerable Operating Systems
 - field_name: dropped_file_name
   field_type: string
   description: List of names dropped from the original file
-  ecs_field: checkpoint.securitygateway.dropped_file_name
-  cim_field: checkpoint.securitygateway.dropped_file_name
-  asim_field: checkpoint.securitygateway.dropped_file_name
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: Threat Emulation
   display_name: Dropped File Name
 - field_name: dropped_file_type
   field_type: string
   description: List of file types dropped from the original file
-  ecs_field: checkpoint.securitygateway.dropped_file_type
-  cim_field: checkpoint.securitygateway.dropped_file_type
-  asim_field: checkpoint.securitygateway.dropped_file_type
+  ecs_field: file.type
+  cim_field: file_type
+  asim_field: FileType
   category: Threat Emulation
   display_name: Dropped File Type
 - field_name: dropped_file_hash
   field_type: string
   description: List of file hashes dropped from the original file
-  ecs_field: checkpoint.securitygateway.dropped_file_hash
-  cim_field: checkpoint.securitygateway.dropped_file_hash
-  asim_field: checkpoint.securitygateway.dropped_file_hash
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: FileHash
   category: Threat Emulation
   display_name: Dropped File Hash
 - field_name: dropped_file_verdict
   field_type: string
   description: List of file verdicts dropped from the original file
-  ecs_field: checkpoint.securitygateway.dropped_file_verdict
-  cim_field: checkpoint.securitygateway.dropped_file_verdict
-  asim_field: checkpoint.securitygateway.dropped_file_verdict
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Threat Emulation
   display_name: Dropped File Verdict
 - field_name: emulated_on
@@ -3096,41 +3096,41 @@ fields:
 - field_name: extracted_file_type
   field_type: string
   description: Types of extracted files in case of an archive
-  ecs_field: checkpoint.securitygateway.extracted_file_type
-  cim_field: checkpoint.securitygateway.extracted_file_type
-  asim_field: checkpoint.securitygateway.extracted_file_type
+  ecs_field: file.type
+  cim_field: file_type
+  asim_field: FileType
   category: Threat Emulation
   display_name: Extracted File Type
 - field_name: extracted_file_names
   field_type: string
   description: Names of extracted files in case of an archive
-  ecs_field: checkpoint.securitygateway.extracted_file_names
-  cim_field: checkpoint.securitygateway.extracted_file_names
-  asim_field: checkpoint.securitygateway.extracted_file_names
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: Threat Emulation
   display_name: Extracted File Names
 - field_name: extracted_file_hash
   field_type: string
   description: Archive hash in case of extracted files
-  ecs_field: checkpoint.securitygateway.extracted_file_hash
-  cim_field: checkpoint.securitygateway.extracted_file_hash
-  asim_field: checkpoint.securitygateway.extracted_file_hash
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: FileHash
   category: Threat Emulation
   display_name: Extracted File Hash
 - field_name: extracted_file_verdict
   field_type: string
   description: Verdict of extracted files in case of an archive
-  ecs_field: checkpoint.securitygateway.extracted_file_verdict
-  cim_field: checkpoint.securitygateway.extracted_file_verdict
-  asim_field: checkpoint.securitygateway.extracted_file_verdict
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Threat Emulation
   display_name: Extracted File Verdict
 - field_name: extracted_file_uid
   field_type: string
   description: UID of extracted files in case of an archive
-  ecs_field: checkpoint.securitygateway.extracted_file_uid
-  cim_field: checkpoint.securitygateway.extracted_file_uid
-  asim_field: checkpoint.securitygateway.extracted_file_uid
+  ecs_field: file.id
+  cim_field: file_id
+  asim_field: FileId
   category: Threat Emulation
   display_name: Extracted File Uid
 - field_name: mitre_discovery
@@ -3163,33 +3163,33 @@ fields:
 - field_name: parent_file_hash
   field_type: string
   description: Archive's hash in case of extracted files
-  ecs_field: checkpoint.securitygateway.parent_file_hash
-  cim_field: checkpoint.securitygateway.parent_file_hash
-  asim_field: checkpoint.securitygateway.parent_file_hash
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: FileHash
   category: Threat Emulation
   display_name: Parent File Hash
 - field_name: parent_file_name
   field_type: string
   description: Archive's name in case of extracted files
-  ecs_field: checkpoint.securitygateway.parent_file_name
-  cim_field: checkpoint.securitygateway.parent_file_name
-  asim_field: checkpoint.securitygateway.parent_file_name
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: Threat Emulation
   display_name: Parent File Name
 - field_name: parent_file_uid
   field_type: string
   description: Archive's UID in case of extracted files
-  ecs_field: checkpoint.securitygateway.parent_file_uid
-  cim_field: checkpoint.securitygateway.parent_file_uid
-  asim_field: checkpoint.securitygateway.parent_file_uid
+  ecs_field: file.id
+  cim_field: file_id
+  asim_field: FileId
   category: Threat Emulation
   display_name: Parent File Uid
 - field_name: similiar_iocs
   field_type: string
   description: Other IoCs, similar to the ones found, related to the malicious file
-  ecs_field: checkpoint.securitygateway.similiar_iocs
-  cim_field: checkpoint.securitygateway.similiar_iocs
-  asim_field: checkpoint.securitygateway.similiar_iocs
+  ecs_field: threat.indicator.name
+  cim_field: signature
+  asim_field: ThreatName
   category: Threat Emulation
   display_name: Similar IoCs
 - field_name: similar_hashes
@@ -3219,9 +3219,9 @@ fields:
 - field_name: te_verdict_determined_by
   field_type: string
   description: Emulators determined file verdict
-  ecs_field: checkpoint.securitygateway.te_verdict_determined_by
-  cim_field: checkpoint.securitygateway.te_verdict_determined_by
-  asim_field: checkpoint.securitygateway.te_verdict_determined_by
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Threat Emulation
   display_name: Determined By
 - field_name: packet_capture_unique_id
@@ -3235,9 +3235,9 @@ fields:
 - field_name: total_attachments
   field_type: integer
   description: The number of attachments in an email
-  ecs_field: checkpoint.securitygateway.total_attachments
-  cim_field: checkpoint.securitygateway.total_attachments
-  asim_field: checkpoint.securitygateway.total_attachments
+  ecs_field: email.attachments.count
+  cim_field: attachment_count
+  asim_field: EmailAttachmentCount
   category: Threat Emulation
   display_name: Total Attachments
 - field_name: total_logs
@@ -3331,17 +3331,17 @@ fields:
 - field_name: source_object
   field_type: string
   description: Matched object name on source column
-  ecs_field: checkpoint.securitygateway.source_object
-  cim_field: checkpoint.securitygateway.source_object
-  asim_field: checkpoint.securitygateway.source_object
+  ecs_field: source.user.name
+  cim_field: src_user
+  asim_field: SrcUsername
   category: Unified Policy
   display_name: Source Object
 - field_name: destination_object
   field_type: string
   description: Matched object name on destination column
-  ecs_field: checkpoint.securitygateway.destination_object
-  cim_field: checkpoint.securitygateway.destination_object
-  asim_field: checkpoint.securitygateway.destination_object
+  ecs_field: destination.user.name
+  cim_field: dest_user
+  asim_field: DstUsername
   category: Unified Policy
   display_name: Destination Object
 - field_name: hit
@@ -3355,25 +3355,25 @@ fields:
 - field_name: rulebase_id
   field_type: integer
   description: Layer number
-  ecs_field: checkpoint.securitygateway.rulebase_id
-  cim_field: checkpoint.securitygateway.rulebase_id
-  asim_field: checkpoint.securitygateway.rulebase_id
+  ecs_field: rule.ruleset
+  cim_field: policy
+  asim_field: RuleName
   category: Unified Policy
   display_name: Rulebase Id
 - field_name: first_hit_time
   field_type: integer
   description: First hit time in current interval
-  ecs_field: checkpoint.securitygateway.first_hit_time
-  cim_field: checkpoint.securitygateway.first_hit_time
-  asim_field: checkpoint.securitygateway.first_hit_time
+  ecs_field: event.start
+  cim_field: _time
+  asim_field: EventStartTime
   category: Unified Policy
   display_name: First Hit Time
 - field_name: last_hit_time
   field_type: integer
   description: Last hit time in current interval
-  ecs_field: checkpoint.securitygateway.last_hit_time
-  cim_field: checkpoint.securitygateway.last_hit_time
-  asim_field: checkpoint.securitygateway.last_hit_time
+  ecs_field: event.end
+  cim_field: _time
+  asim_field: EventEndTime
   category: Unified Policy
   display_name: Last Update Time
 - field_name: rematch_info
@@ -3422,49 +3422,49 @@ fields:
   field_type: string
   description: Alert level of matched rule for connection logs (Unified Policy alert
     - HLL table)
-  ecs_field: checkpoint.securitygateway.alert
-  cim_field: checkpoint.securitygateway.alert
-  asim_field: checkpoint.securitygateway.alert
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Unified Policy
   display_name: Alert
 - field_name: parent_rule
   field_type: integer
   description: Parent rule number, in case of inline layer (match table)
-  ecs_field: checkpoint.securitygateway.parent_rule
-  cim_field: checkpoint.securitygateway.parent_rule
-  asim_field: checkpoint.securitygateway.parent_rule
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleNumber
   category: Unified Policy
   display_name: Parent Rule
 - field_name: match_fk
   field_type: integer
   description: Rule number
-  ecs_field: checkpoint.securitygateway.match_fk
-  cim_field: checkpoint.securitygateway.match_fk
-  asim_field: checkpoint.securitygateway.match_fk
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleNumber
   category: Unified Policy
   display_name: Match Fk
 - field_name: media_type
   field_type: string
   description: Media used (audio, video, etc.)
-  ecs_field: checkpoint.securitygateway.media_type
-  cim_field: checkpoint.securitygateway.media_type
-  asim_field: checkpoint.securitygateway.media_type
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkApplication
   category: VoIP
   display_name: Media Type
 - field_name: sip_reason
   field_type: string
   description: Explains why 'source_ip' is not allowed to redirect (handover)
-  ecs_field: checkpoint.securitygateway.sip_reason
-  cim_field: checkpoint.securitygateway.sip_reason
-  asim_field: checkpoint.securitygateway.sip_reason
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: VoIP
   display_name: SIP Reason
 - field_name: voip_method
   field_type: string
   description: Registration request
-  ecs_field: checkpoint.securitygateway.voip_method
-  cim_field: checkpoint.securitygateway.voip_method
-  asim_field: checkpoint.securitygateway.voip_method
+  ecs_field: http.request.method
+  cim_field: http_method
+  asim_field: HttpRequestMethod
   category: VoIP
   display_name: Request
 - field_name: voip_reg_user_type
@@ -3486,9 +3486,9 @@ fields:
 - field_name: voip_reg_int
   field_type: integer
   description: Registration port
-  ecs_field: checkpoint.securitygateway.voip_reg_int
-  cim_field: checkpoint.securitygateway.voip_reg_int
-  asim_field: checkpoint.securitygateway.voip_reg_int
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: VoIP
   display_name: Registration Port
 - field_name: voip_reg_ipp
@@ -3502,9 +3502,9 @@ fields:
 - field_name: voip_reg_period
   field_type: integer
   description: Registration period
-  ecs_field: checkpoint.securitygateway.voip_reg_period
-  cim_field: checkpoint.securitygateway.voip_reg_period
-  asim_field: checkpoint.securitygateway.voip_reg_period
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: VoIP
   display_name: Registration Period
 - field_name: voip_log_type
@@ -3518,9 +3518,9 @@ fields:
 - field_name: src_phone_number
   field_type: string
   description: Source IP -Phone
-  ecs_field: checkpoint.securitygateway.src_phone_number
-  cim_field: checkpoint.securitygateway.src_phone_number
-  asim_field: checkpoint.securitygateway.src_phone_number
+  ecs_field: source.user.id
+  cim_field: src_user
+  asim_field: SrcUsername
   category: VoIP
   display_name: Source IP-phone
 - field_name: voip_from_user_type
@@ -3534,9 +3534,9 @@ fields:
 - field_name: dst_phone_number
   field_type: string
   description: Destination IP-Phone
-  ecs_field: checkpoint.securitygateway.dst_phone_number
-  cim_field: checkpoint.securitygateway.dst_phone_number
-  asim_field: checkpoint.securitygateway.dst_phone_number
+  ecs_field: destination.user.id
+  cim_field: dest_user
+  asim_field: DstUsername
   category: VoIP
   display_name: Destination Phone Number
 - field_name: voip_to_user_type
@@ -3558,17 +3558,17 @@ fields:
 - field_name: voip_call_state
   field_type: string
   description: Call state
-  ecs_field: checkpoint.securitygateway.voip_call_state
-  cim_field: checkpoint.securitygateway.voip_call_state
-  asim_field: checkpoint.securitygateway.voip_call_state
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: VoIP
   display_name: VoIP Call State
 - field_name: voip_call_term_time
   field_type: string
   description: Call termination time stamp
-  ecs_field: checkpoint.securitygateway.voip_call_term_time
-  cim_field: checkpoint.securitygateway.voip_call_term_time
-  asim_field: checkpoint.securitygateway.voip_call_term_time
+  ecs_field: event.end
+  cim_field: _time
+  asim_field: EventEndTime
   category: VoIP
   display_name: Call termination time stamp
 - field_name: voip_duration
@@ -3582,9 +3582,9 @@ fields:
 - field_name: voip_media_port
   field_type: string
   description: Media port
-  ecs_field: checkpoint.securitygateway.voip_media_port
-  cim_field: checkpoint.securitygateway.voip_media_port
-  asim_field: checkpoint.securitygateway.voip_media_port
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
   category: VoIP
   display_name: Media Port
 - field_name: voip_media_ipp
@@ -3614,9 +3614,9 @@ fields:
 - field_name: voip_attach_sz
   field_type: integer
   description: Attachment size
-  ecs_field: checkpoint.securitygateway.voip_attach_sz
-  cim_field: checkpoint.securitygateway.voip_attach_sz
-  asim_field: checkpoint.securitygateway.voip_attach_sz
+  ecs_field: file.size
+  cim_field: file_size
+  asim_field: FileSize
   category: VoIP
   display_name: VoIP Attachment Size
 - field_name: voip_attach_action_info
@@ -3646,9 +3646,9 @@ fields:
 - field_name: voip_reason_info
   field_type: string
   description: Information
-  ecs_field: checkpoint.securitygateway.voip_reason_info
-  cim_field: checkpoint.securitygateway.voip_reason_info
-  asim_field: checkpoint.securitygateway.voip_reason_info
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: VoIP
   display_name: VoIP Reject Reason Information
 - field_name: voip_config
@@ -3711,9 +3711,9 @@ fields:
 - field_name: machine
   field_type: string
   description: L2TP machine which triggered the log and the log refers to it
-  ecs_field: checkpoint.securitygateway.machine
-  cim_field: checkpoint.securitygateway.machine
-  asim_field: checkpoint.securitygateway.machine
+  ecs_field: host.name
+  cim_field: dest
+  asim_field: DvcHostname
   category: VPN
   display_name: Machine
 - field_name: vpn_feature_name
@@ -3791,9 +3791,9 @@ fields:
 - field_name: encryption_failure
   field_type: string
   description: Check Point VPN field
-  ecs_field: checkpoint.securitygateway.encryption_failure
-  cim_field: checkpoint.securitygateway.encryption_failure
-  asim_field: checkpoint.securitygateway.encryption_failure
+  ecs_field: error.message
+  cim_field: msg
+  asim_field: EventResultDetails
   category: VPN
   display_name: Encryption Failure
 - field_name: ike_ids
@@ -3887,9 +3887,9 @@ fields:
 - field_name: spyware_type
   field_type: string
   description: Spyware type
-  ecs_field: checkpoint.securitygateway.spyware_type
-  cim_field: checkpoint.securitygateway.spyware_type
-  asim_field: checkpoint.securitygateway.spyware_type
+  ecs_field: threat.tactic.name
+  cim_field: category
+  asim_field: ThreatCategory
   category: VPN
   display_name: Malware Type
 - field_name: anti_virus_type
@@ -3911,25 +3911,25 @@ fields:
 - field_name: esod_scan_status
   field_type: string
   description: Scan failed
-  ecs_field: checkpoint.securitygateway.esod_scan_status
-  cim_field: checkpoint.securitygateway.esod_scan_status
-  asim_field: checkpoint.securitygateway.esod_scan_status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: VPN
   display_name: ESOD Scan Status
 - field_name: esod_access_status
   field_type: string
   description: Access denied
-  ecs_field: checkpoint.securitygateway.esod_access_status
-  cim_field: checkpoint.securitygateway.esod_access_status
-  asim_field: checkpoint.securitygateway.esod_access_status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: VPN
   display_name: ESOD access status
 - field_name: client_type
   field_type: string
   description: Endpoint Connect
-  ecs_field: checkpoint.securitygateway.client_type
-  cim_field: checkpoint.securitygateway.client_type
-  asim_field: checkpoint.securitygateway.client_type
+  ecs_field: user_agent.original
+  cim_field: http_user_agent
+  asim_field: HttpUserAgent
   category: VPN
   display_name: Client Type
 - field_name: cir
@@ -3951,9 +3951,9 @@ fields:
 - field_name: rtt
   field_type: integer
   description: Shows the Round Trip Time (RTT, milliseconds)
-  ecs_field: checkpoint.securitygateway.rtt
-  cim_field: checkpoint.securitygateway.rtt
-  asim_field: checkpoint.securitygateway.rtt
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
   category: VPN
   display_name: RTT, ms
 - field_name: wire_byte_ps_in
@@ -3991,17 +3991,17 @@ fields:
 - field_name: precise_error
   field_type: string
   description: HTTP parser error
-  ecs_field: checkpoint.securitygateway.precise_error
-  cim_field: checkpoint.securitygateway.precise_error
-  asim_field: checkpoint.securitygateway.precise_error
+  ecs_field: error.message
+  cim_field: msg
+  asim_field: EventResultDetails
   category: Web Security
   display_name: Precise Error
 - field_name: event_uuid
   field_type: string
   description: Internal unique event ID
-  ecs_field: checkpoint.securitygateway.event_uuid
-  cim_field: checkpoint.securitygateway.event_uuid
-  asim_field: checkpoint.securitygateway.event_uuid
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventId
   category: Common
   display_name: event_uuid
 - field_name: user_name
@@ -4032,9 +4032,9 @@ fields:
 - field_name: local_time
   field_type: string
   description: Local time on the endpoint computer
-  ecs_field: checkpoint.securitygateway.local_time
-  cim_field: checkpoint.securitygateway.local_time
-  asim_field: checkpoint.securitygateway.local_time
+  ecs_field: event.start
+  cim_field: _time
+  asim_field: EventStartTime
   category: Common
   display_name: local_time
 - field_name: client_name
@@ -4049,9 +4049,9 @@ fields:
 - field_name: client_version
   field_type: string
   description: Build version of Harmony Endpoint client installed on the computer
-  ecs_field: checkpoint.securitygateway.client_version
-  cim_field: checkpoint.securitygateway.client_version
-  asim_field: checkpoint.securitygateway.client_version
+  ecs_field: host.os.version
+  cim_field: src_os
+  asim_field: SrcOs
   category: Common
   display_name: Client Version
 - field_name: installed_products
@@ -4073,7 +4073,7 @@ fields:
 - field_name: os_version
   field_type: string
   description: Build version of the OS installed on the source endpoint computer
-  ecs_field: observer.version
+  ecs_field: host.os.version
   cim_field: os_version
   asim_field: os_version
   category: Common
@@ -4081,17 +4081,17 @@ fields:
 - field_name: tenant_id
   field_type: string
   description: For EPMaaS - unique id of the tenant
-  ecs_field: checkpoint.securitygateway.tenant_id
-  cim_field: checkpoint.securitygateway.tenant_id
-  asim_field: checkpoint.securitygateway.tenant_id
+  ecs_field: cloud.account.id
+  cim_field: account_id
+  asim_field: CloudAccountId
   category: Common
   display_name: Tenant Id
 - field_name: virtual_groups
   field_type: string
   description: Displays which virtual groups the client belongs to
-  ecs_field: checkpoint.securitygateway.virtual_groups
-  cim_field: checkpoint.securitygateway.virtual_groups
-  asim_field: checkpoint.securitygateway.virtual_groups
+  ecs_field: user.group.name
+  cim_field: user_group
+  asim_field: SrcUserGroup
   category: Common
   display_name: Virtual Groups
 - field_name: auth_type
@@ -4105,9 +4105,9 @@ fields:
 - field_name: action_comment
   field_type: string
   description: Additional commented on policy installation
-  ecs_field: checkpoint.securitygateway.action_comment
-  cim_field: checkpoint.securitygateway.action_comment
-  asim_field: checkpoint.securitygateway.action_comment
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: Core (Infrastructure)
   display_name: action_comment
 - field_name: policy_date
@@ -4129,9 +4129,9 @@ fields:
 - field_name: policy_guid
   field_type: string
   description: Internal ID of policy on server
-  ecs_field: checkpoint.securitygateway.policy_guid
-  cim_field: checkpoint.securitygateway.policy_guid
-  asim_field: checkpoint.securitygateway.policy_guid
+  ecs_field: rule.uuid
+  cim_field: policy_id
+  asim_field: RuleNumber
   category: Core (Infrastructure)
   display_name: policy_guid
 - field_name: policy_version
@@ -4330,17 +4330,17 @@ fields:
 - field_name: source_path
   field_type: string
   description: Source path
-  ecs_field: checkpoint.securitygateway.source_path
-  cim_field: checkpoint.securitygateway.source_path
-  asim_field: checkpoint.securitygateway.source_path
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: FilePath
   category: MEPP
   display_name: source_path
 - field_name: destination_path
   field_type: string
   description: Destination path
-  ecs_field: checkpoint.securitygateway.destination_path
-  cim_field: checkpoint.securitygateway.destination_path
-  asim_field: checkpoint.securitygateway.destination_path
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: FilePath
   category: MEPP
   display_name: destination_path
 - field_name: is_target_encrypted_storage
@@ -4363,34 +4363,34 @@ fields:
   field_type: string
   description: File Operation - can be Read/Write/Delete/Create/Move/Copy/Burn CD/Offline
     access
-  ecs_field: checkpoint.securitygateway.file_operation
-  cim_field: checkpoint.securitygateway.file_operation
-  asim_field: checkpoint.securitygateway.file_operation
+  ecs_field: event.type
+  cim_field: action
+  asim_field: EventType
   category: MEPP
   display_name: File Operation
 - field_name: data_type
   field_type: string
   description: Can be Business-related or Non-Business related
-  ecs_field: checkpoint.securitygateway.data_type
-  cim_field: checkpoint.securitygateway.data_type
-  asim_field: checkpoint.securitygateway.data_type
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: ThreatCategory
   category: MEPP
   display_name: data_type
 - field_name: user_status
   field_type: string
   description: Decision provided by user in User Check Message - can be Approved,
     Blocked, Pending or Expired
-  ecs_field: checkpoint.securitygateway.user_status
-  cim_field: checkpoint.securitygateway.user_status
-  asim_field: checkpoint.securitygateway.user_status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: MEPP
   display_name: UserCheck Response
 - field_name: portal_message
   field_type: string
   description: Additional message provided to user
-  ecs_field: checkpoint.securitygateway.portal_message
-  cim_field: checkpoint.securitygateway.portal_message
-  asim_field: checkpoint.securitygateway.portal_message
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: MEPP
   display_name: UserCheck Message to User
 - field_name: media_encrypted_algo
@@ -4404,9 +4404,9 @@ fields:
 - field_name: media_size
   field_type: integer
   description: Size of media
-  ecs_field: checkpoint.securitygateway.media_size
-  cim_field: checkpoint.securitygateway.media_size
-  asim_field: checkpoint.securitygateway.media_size
+  ecs_field: file.size
+  cim_field: file_size
+  asim_field: FileSize
   category: MEPP
   display_name: media_size
 - field_name: media_encryptedbytes
@@ -4452,17 +4452,17 @@ fields:
 - field_name: sig_ver
   field_type: string
   description: Signatures version
-  ecs_field: checkpoint.securitygateway.sig_ver
-  cim_field: checkpoint.securitygateway.sig_ver
-  asim_field: checkpoint.securitygateway.sig_ver
+  ecs_field: observer.version
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Anti-Malware
   display_name: sig_ver
 - field_name: engine_ver
   field_type: string
   description: Engine version
-  ecs_field: checkpoint.securitygateway.engine_ver
-  cim_field: checkpoint.securitygateway.engine_ver
-  asim_field: checkpoint.securitygateway.engine_ver
+  ecs_field: observer.version
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Anti-Malware
   display_name: engine_ver
 - field_name: items_scanned
@@ -4492,9 +4492,9 @@ fields:
 - field_name: action_details
   field_type: string
   description: Check Point Anti-Malware field
-  ecs_field: checkpoint.securitygateway.action_details
-  cim_field: checkpoint.securitygateway.action_details
-  asim_field: checkpoint.securitygateway.action_details
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: Anti-Malware
   display_name: Action Details
 - field_name: infection_category
@@ -4580,9 +4580,9 @@ fields:
 - field_name: update_ver
   field_type: string
   description: Signature version
-  ecs_field: checkpoint.securitygateway.update_ver
-  cim_field: checkpoint.securitygateway.update_ver
-  asim_field: checkpoint.securitygateway.update_ver
+  ecs_field: observer.version
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Anti-Malware
   display_name: update_ver
 - field_name: program_name
@@ -4613,9 +4613,9 @@ fields:
 - field_name: ep_rule_id
   field_type: integer
   description: Number of matching rule
-  ecs_field: checkpoint.securitygateway.ep_rule_id
-  cim_field: checkpoint.securitygateway.ep_rule_id
-  asim_field: checkpoint.securitygateway.ep_rule_id
+  ecs_field: rule.id
+  cim_field: rule
+  asim_field: RuleNumber
   category: Firewall
   display_name: ep_rule_id
 - field_name: treatment_mode
@@ -4647,9 +4647,9 @@ fields:
 - field_name: remediation
   field_type: string
   description: Name of remediation command
-  ecs_field: checkpoint.securitygateway.remediation
-  cim_field: checkpoint.securitygateway.remediation
-  asim_field: checkpoint.securitygateway.remediation
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Compliance
   display_name: remediation
 - field_name: remediation_result
@@ -4671,9 +4671,9 @@ fields:
 - field_name: check_name
   field_type: string
   description: Name of matching compliance check
-  ecs_field: checkpoint.securitygateway.check_name
-  cim_field: checkpoint.securitygateway.check_name
-  asim_field: checkpoint.securitygateway.check_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Compliance
   display_name: check_name
 - field_name: remediation_source
@@ -4695,9 +4695,9 @@ fields:
 - field_name: run_as
   field_type: string
   description: User used for running remediatoin (SYSTEM of current user)
-  ecs_field: checkpoint.securitygateway.run_as
-  cim_field: checkpoint.securitygateway.run_as
-  asim_field: checkpoint.securitygateway.run_as
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: Compliance
   display_name: run_as
 - field_name: automatic_remediation
@@ -4711,9 +4711,9 @@ fields:
 - field_name: check_type
   field_type: string
   description: Type of matching compliance check
-  ecs_field: checkpoint.securitygateway.check_type
-  cim_field: checkpoint.securitygateway.check_type
-  asim_field: checkpoint.securitygateway.check_type
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: ThreatCategory
   category: Compliance
   display_name: check_type
 - field_name: check_requirement
@@ -4727,9 +4727,9 @@ fields:
 - field_name: check_details
   field_type: string
   description: Additional details of why the check matched
-  ecs_field: checkpoint.securitygateway.check_details
-  cim_field: checkpoint.securitygateway.check_details
-  asim_field: checkpoint.securitygateway.check_details
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: Compliance
   display_name: check_details
 - field_name: check_validations
@@ -4751,33 +4751,33 @@ fields:
 - field_name: certificates
   field_type: string
   description: Info about certificate chain
-  ecs_field: checkpoint.securitygateway.certificates
-  cim_field: checkpoint.securitygateway.certificates
-  asim_field: checkpoint.securitygateway.certificates
+  ecs_field: tls.server.certificate_chain
+  cim_field: ssl_cert
+  asim_field: TlsCert
   category: SSL Inspection
   display_name: certificates
 - field_name: signer
   field_type: string
   description: Signer of the inspected exe
-  ecs_field: checkpoint.securitygateway.signer
-  cim_field: checkpoint.securitygateway.signer
-  asim_field: checkpoint.securitygateway.signer
+  ecs_field: file.code_signature.subject_name
+  cim_field: file_hash
+  asim_field: FileHash
   category: SSL Inspection
   display_name: signer
 - field_name: machine_sid
   field_type: string
   description: Machine SID
-  ecs_field: checkpoint.securitygateway.machine_sid
-  cim_field: checkpoint.securitygateway.machine_sid
-  asim_field: checkpoint.securitygateway.machine_sid
+  ecs_field: host.id
+  cim_field: dvc_id
+  asim_field: DvcId
   category: Forensics
   display_name: machine_sid
 - field_name: detected_by
   field_type: string
   description: Name of Blade/Component that triggered Forensics
-  ecs_field: checkpoint.securitygateway.detected_by
-  cim_field: checkpoint.securitygateway.detected_by
-  asim_field: checkpoint.securitygateway.detected_by
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Forensics
   display_name: Triggered By
 - field_name: attack_status
@@ -4791,49 +4791,49 @@ fields:
 - field_name: remediated_files
   field_type: string
   description: Remediated files
-  ecs_field: checkpoint.securitygateway.remediated_files
-  cim_field: checkpoint.securitygateway.remediated_files
-  asim_field: checkpoint.securitygateway.remediated_files
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: FilePath
   category: Forensics
   display_name: Remediated Files
 - field_name: impacted_files
   field_type: string
   description: Affected files
-  ecs_field: checkpoint.securitygateway.impacted_files
-  cim_field: checkpoint.securitygateway.impacted_files
-  asim_field: checkpoint.securitygateway.impacted_files
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: FilePath
   category: Forensics
   display_name: Impacted Files
 - field_name: suspicious_events
   field_type: string
   description: Events that lead to the trigger
-  ecs_field: checkpoint.securitygateway.suspicious_events
-  cim_field: checkpoint.securitygateway.suspicious_events
-  asim_field: checkpoint.securitygateway.suspicious_events
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: Forensics
   display_name: Suspicious Events
 - field_name: incident_details
   field_type: string
   description: Additional details of Forensics Analysis
-  ecs_field: checkpoint.securitygateway.incident_details
-  cim_field: checkpoint.securitygateway.incident_details
-  asim_field: checkpoint.securitygateway.incident_details
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
   category: Forensics
   display_name: Incident Details
 - field_name: incident_uid
   field_type: string
   description: ID of EFR report, if relevant/exists
-  ecs_field: checkpoint.securitygateway.incident_uid
-  cim_field: checkpoint.securitygateway.incident_uid
-  asim_field: checkpoint.securitygateway.incident_uid
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventId
   category: Threat Emulation
   display_name: incident_uid
 - field_name: extension_version
   field_type: string
   description: Build number of browser extension component
-  ecs_field: checkpoint.securitygateway.extension_version
-  cim_field: checkpoint.securitygateway.extension_version
-  asim_field: checkpoint.securitygateway.extension_version
+  ecs_field: observer.version
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Threat Extraction
   display_name: Extension Version
 - field_name: trusted_domain
@@ -4847,9 +4847,9 @@ fields:
 - field_name: app_package
   field_type: string
   description: Unique identifier of the application on the protected mobile device
-  ecs_field: checkpoint.securitygateway.app_package
-  cim_field: checkpoint.securitygateway.app_package
-  asim_field: checkpoint.securitygateway.app_package
+  ecs_field: process.name
+  cim_field: process
+  asim_field: ProcessName
   category: Harmony Mobile App
   display_name: App Package
 - field_name: app_repackaged
@@ -4864,9 +4864,9 @@ fields:
 - field_name: app_sid_id
   field_type: string
   description: Unique SHA identifier of a mobile application
-  ecs_field: checkpoint.securitygateway.app_sid_id
-  cim_field: checkpoint.securitygateway.app_sid_id
-  asim_field: checkpoint.securitygateway.app_sid_id
+  ecs_field: process.hash.sha256
+  cim_field: process_id
+  asim_field: ProcessId
   category: Harmony Mobile App
   display_name: Application Signature ID
 - field_name: app_version
@@ -4889,25 +4889,25 @@ fields:
 - field_name: cp_component_version
   field_type: string
   description: Version of the AutoUpdater component
-  ecs_field: checkpoint.securitygateway.cp_component_version
-  cim_field: checkpoint.securitygateway.cp_component_version
-  asim_field: checkpoint.securitygateway.cp_component_version
+  ecs_field: observer.version
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Harmony Mobile App
   display_name: N / A
 - field_name: cp_component_name
   field_type: string
   description: Name of the AutoUpdater component
-  ecs_field: checkpoint.securitygateway.cp_component_name
-  cim_field: checkpoint.securitygateway.cp_component_name
-  asim_field: checkpoint.securitygateway.cp_component_name
+  ecs_field: observer.product
+  cim_field: vendor_product
+  asim_field: DvcProduct
   category: Harmony Mobile App
   display_name: N / A
 - field_name: system_application
   field_type: string
   description: Name of the internal application
-  ecs_field: checkpoint.securitygateway.system_application
-  cim_field: checkpoint.securitygateway.system_application
-  asim_field: checkpoint.securitygateway.system_application
+  ecs_field: process.name
+  cim_field: process
+  asim_field: ProcessName
   category: Harmony Mobile App
   display_name: N / A
 - field_name: package_action
@@ -4929,7 +4929,7 @@ fields:
 - field_name: administrator
   field_type: string
   description: User who performed the operation
-  ecs_field: user.name
+  ecs_field: source.user.name
   cim_field: user
   asim_field: ActorUsername
   category: Audit
@@ -4970,7 +4970,7 @@ fields:
 - field_name: objectname
   field_type: string
   description: The name of the object that is affected by the action
-  ecs_field: file.name
+  ecs_field: rule.name
   cim_field: objectname
   asim_field: objectname
   category: Audit

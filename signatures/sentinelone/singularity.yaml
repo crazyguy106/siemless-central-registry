@@ -7,7 +7,7 @@ source_document: Google Chronicle SENTINELONE_ALERT Parser Documentation
 source_url: https://docs.cloud.google.com/chronicle/docs/ingestion/default-parsers/sentinelone-alert
 extraction_date: '2026-01-02'
 source_file: sentinelone-singularity-signatures.json
-generated_at: '2026-02-13T07:34:34.431006'
+generated_at: '2026-02-13T08:53:55.980843'
 categories:
 - Legacy
 - AgentDetectionInfo
@@ -180,7 +180,7 @@ fields:
 - field_name: agentDetectionInfo.cloudProviders.AWS.awsSecurityGroups
   field_type: string
   description: AWS security groups
-  ecs_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_awssecuritygroups
+  ecs_field: cloud.instance.security_groups
   cim_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_awssecuritygroups
   asim_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_awssecuritygroups
   category: AgentCloudProviders
@@ -188,7 +188,7 @@ fields:
 - field_name: agentDetectionInfo.cloudProviders.AWS.awsSubnetIds
   field_type: string
   description: AWS subnet IDs
-  ecs_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_awssubnetids
+  ecs_field: cloud.subnet.id
   cim_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_awssubnetids
   asim_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_awssubnetids
   category: AgentCloudProviders
@@ -244,7 +244,7 @@ fields:
 - field_name: agentDetectionInfo.cloudProviders.AWS.cloudTags
   field_type: string
   description: AWS resource tags
-  ecs_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_cloudtags
+  ecs_field: cloud.instance.tags
   cim_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_cloudtags
   asim_field: sentinelone.singularity.agentdetectioninfo_cloudproviders_aws_cloudtags
   category: AgentCloudProviders
@@ -332,7 +332,7 @@ fields:
 - field_name: agentDetectionInfo.uuid
   field_type: string
   description: UUID of the agent
-  ecs_field: sentinelone.singularity.agentdetectioninfo_uuid
+  ecs_field: agent.id
   cim_field: sentinelone.singularity.agentdetectioninfo_uuid
   asim_field: sentinelone.singularity.agentdetectioninfo_uuid
   category: AgentDetectionInfo
@@ -340,7 +340,7 @@ fields:
 - field_name: agentDetectionInfo.version
   field_type: string
   description: Agent version
-  ecs_field: sentinelone.singularity.agentdetectioninfo_version
+  ecs_field: agent.version
   cim_field: sentinelone.singularity.agentdetectioninfo_version
   asim_field: sentinelone.singularity.agentdetectioninfo_version
   category: AgentDetectionInfo
@@ -348,7 +348,7 @@ fields:
 - field_name: agentDomain
   field_type: string
   description: Agent domain
-  ecs_field: sentinelone.singularity.agentdomain
+  ecs_field: host.domain
   cim_field: sentinelone.singularity.agentdomain
   asim_field: sentinelone.singularity.agentdomain
   category: Legacy
@@ -396,7 +396,7 @@ fields:
 - field_name: agentMachineType
   field_type: string
   description: Agent machine type
-  ecs_field: sentinelone.singularity.agentmachinetype
+  ecs_field: host.type
   cim_field: sentinelone.singularity.agentmachinetype
   asim_field: sentinelone.singularity.agentmachinetype
   category: Legacy
@@ -412,7 +412,7 @@ fields:
 - field_name: agentOsType
   field_type: string
   description: Agent OS type
-  ecs_field: sentinelone.singularity.agentostype
+  ecs_field: host.os.family
   cim_field: sentinelone.singularity.agentostype
   asim_field: sentinelone.singularity.agentostype
   category: Legacy
@@ -580,7 +580,7 @@ fields:
 - field_name: agentRealtimeInfo.id
   field_type: string
   description: Realtime info ID
-  ecs_field: sentinelone.singularity.agentrealtimeinfo_id
+  ecs_field: agent.id
   cim_field: sentinelone.singularity.agentrealtimeinfo_id
   asim_field: sentinelone.singularity.agentrealtimeinfo_id
   category: AgentRealtimeInfo
@@ -612,7 +612,7 @@ fields:
 - field_name: agentRealtimeInfo.machineType
   field_type: string
   description: Machine type
-  ecs_field: sentinelone.singularity.agentrealtimeinfo_machinetype
+  ecs_field: host.type
   cim_field: sentinelone.singularity.agentrealtimeinfo_machinetype
   asim_field: sentinelone.singularity.agentrealtimeinfo_machinetype
   category: AgentRealtimeInfo
@@ -620,9 +620,9 @@ fields:
 - field_name: agentRealtimeInfo.name
   field_type: string
   description: Agent name
-  ecs_field: sentinelone.singularity.agentrealtimeinfo_name
-  cim_field: sentinelone.singularity.agentrealtimeinfo_name
-  asim_field: sentinelone.singularity.agentrealtimeinfo_name
+  ecs_field: host.name
+  cim_field: dest
+  asim_field: TargetDeviceName
   category: AgentRealtimeInfo
   display_name: name
 - field_name: agentRealtimeInfo.networkInterfaces.id
@@ -636,7 +636,7 @@ fields:
 - field_name: agentRealtimeInfo.networkInterfaces.name
   field_type: string
   description: Network interface name
-  ecs_field: sentinelone.singularity.agentrealtimeinfo_networkinterfaces_name
+  ecs_field: host.network.interface.name
   cim_field: sentinelone.singularity.agentrealtimeinfo_networkinterfaces_name
   asim_field: sentinelone.singularity.agentrealtimeinfo_networkinterfaces_name
   category: AgentRealtimeInfo
@@ -660,7 +660,7 @@ fields:
 - field_name: agentRealtimeInfo.os
   field_type: string
   description: Operating system
-  ecs_field: sentinelone.singularity.agentrealtimeinfo_os
+  ecs_field: host.os.full
   cim_field: sentinelone.singularity.agentrealtimeinfo_os
   asim_field: sentinelone.singularity.agentrealtimeinfo_os
   category: AgentRealtimeInfo
@@ -748,7 +748,7 @@ fields:
 - field_name: agentRealtimeInfo.uuid
   field_type: string
   description: UUID
-  ecs_field: sentinelone.singularity.agentrealtimeinfo_uuid
+  ecs_field: agent.id
   cim_field: sentinelone.singularity.agentrealtimeinfo_uuid
   asim_field: sentinelone.singularity.agentrealtimeinfo_uuid
   category: AgentRealtimeInfo
@@ -820,7 +820,7 @@ fields:
 - field_name: alertInfo.dvEventId
   field_type: string
   description: Deep Visibility event ID
-  ecs_field: sentinelone.singularity.alertinfo_dveventid
+  ecs_field: event.id
   cim_field: sentinelone.singularity.alertinfo_dveventid
   asim_field: sentinelone.singularity.alertinfo_dveventid
   category: AlertInfo
@@ -860,23 +860,23 @@ fields:
 - field_name: alertInfo.indicatorDescription
   field_type: string
   description: Indicator description
-  ecs_field: sentinelone.singularity.alertinfo_indicatordescription
-  cim_field: sentinelone.singularity.alertinfo_indicatordescription
-  asim_field: sentinelone.singularity.alertinfo_indicatordescription
+  ecs_field: event.reason
+  cim_field: signature
+  asim_field: ThreatName
   category: AlertInfo
   display_name: indicatorDescription
 - field_name: alertInfo.indicatorName
   field_type: string
   description: Indicator name
-  ecs_field: sentinelone.singularity.alertinfo_indicatorname
-  cim_field: sentinelone.singularity.alertinfo_indicatorname
-  asim_field: sentinelone.singularity.alertinfo_indicatorname
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
   category: AlertInfo
   display_name: indicatorName
 - field_name: alertInfo.isEdr
   field_type: boolean
   description: Whether this is an EDR alert
-  ecs_field: sentinelone.singularity.alertinfo_isedr
+  ecs_field: event.category
   cim_field: sentinelone.singularity.alertinfo_isedr
   asim_field: sentinelone.singularity.alertinfo_isedr
   category: AlertInfo
@@ -1076,7 +1076,7 @@ fields:
 - field_name: annotation
   field_type: string
   description: Annotation/note
-  ecs_field: sentinelone.singularity.annotation
+  ecs_field: event.note
   cim_field: sentinelone.singularity.annotation
   asim_field: sentinelone.singularity.annotation
   category: Legacy
@@ -1084,15 +1084,15 @@ fields:
 - field_name: automaticallyResolved
   field_type: boolean
   description: Whether automatically resolved
-  ecs_field: sentinelone.singularity.automaticallyresolved
+  ecs_field: event.outcome
   cim_field: sentinelone.singularity.automaticallyresolved
-  asim_field: sentinelone.singularity.automaticallyresolved
+  asim_field: EventResult
   category: Legacy
   display_name: automaticallyResolved
 - field_name: browserType
   field_type: string
   description: Browser type
-  ecs_field: sentinelone.singularity.browsertype
+  ecs_field: user_agent.name
   cim_field: sentinelone.singularity.browsertype
   asim_field: sentinelone.singularity.browsertype
   category: Legacy
@@ -1100,7 +1100,7 @@ fields:
 - field_name: certId
   field_type: string
   description: Certificate ID
-  ecs_field: sentinelone.singularity.certid
+  ecs_field: file.code_signature.subject_name
   cim_field: sentinelone.singularity.certid
   asim_field: sentinelone.singularity.certid
   category: Legacy
@@ -1116,7 +1116,7 @@ fields:
 - field_name: classificationSource
   field_type: string
   description: Classification source
-  ecs_field: sentinelone.singularity.classificationsource
+  ecs_field: observer.name
   cim_field: sentinelone.singularity.classificationsource
   asim_field: sentinelone.singularity.classificationsource
   category: Legacy
@@ -1124,7 +1124,7 @@ fields:
 - field_name: classifierName
   field_type: string
   description: Classifier name
-  ecs_field: sentinelone.singularity.classifiername
+  ecs_field: rule.name
   cim_field: sentinelone.singularity.classifiername
   asim_field: sentinelone.singularity.classifiername
   category: Legacy
@@ -1132,9 +1132,9 @@ fields:
 - field_name: cloudVerdict
   field_type: string
   description: Cloud verdict
-  ecs_field: sentinelone.singularity.cloudverdict
+  ecs_field: event.outcome
   cim_field: sentinelone.singularity.cloudverdict
-  asim_field: sentinelone.singularity.cloudverdict
+  asim_field: EventResult
   category: Legacy
   display_name: cloudVerdict
 - field_name: collectionId
@@ -1148,7 +1148,7 @@ fields:
 - field_name: commandId
   field_type: string
   description: Command ID
-  ecs_field: sentinelone.singularity.commandid
+  ecs_field: process.entity_id
   cim_field: sentinelone.singularity.commandid
   asim_field: sentinelone.singularity.commandid
   category: Legacy
@@ -1164,7 +1164,7 @@ fields:
 - field_name: containerInfo.image
   field_type: string
   description: Container image
-  ecs_field: sentinelone.singularity.containerinfo_image
+  ecs_field: container.image.name
   cim_field: sentinelone.singularity.containerinfo_image
   asim_field: sentinelone.singularity.containerinfo_image
   category: ContainerInfo
@@ -1180,7 +1180,7 @@ fields:
 - field_name: containerInfo.labels
   field_type: string
   description: Container labels
-  ecs_field: sentinelone.singularity.containerinfo_labels
+  ecs_field: container.labels
   cim_field: sentinelone.singularity.containerinfo_labels
   asim_field: sentinelone.singularity.containerinfo_labels
   category: ContainerInfo
@@ -1220,7 +1220,7 @@ fields:
 - field_name: engines
   field_type: string
   description: Detection engines
-  ecs_field: sentinelone.singularity.engines
+  ecs_field: observer.product
   cim_field: sentinelone.singularity.engines
   asim_field: sentinelone.singularity.engines
   category: Legacy
@@ -1228,7 +1228,7 @@ fields:
 - field_name: external_ticket_id
   field_type: string
   description: External ticket ID
-  ecs_field: sentinelone.singularity.external_ticket_id
+  ecs_field: event.reference
   cim_field: sentinelone.singularity.external_ticket_id
   asim_field: sentinelone.singularity.external_ticket_id
   category: Legacy
@@ -1236,8 +1236,8 @@ fields:
 - field_name: fileContentHash
   field_type: string
   description: File content hash
-  ecs_field: sentinelone.singularity.filecontenthash
-  cim_field: sentinelone.singularity.filecontenthash
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
   asim_field: sentinelone.singularity.filecontenthash
   category: Legacy
   display_name: fileContentHash
@@ -1260,7 +1260,7 @@ fields:
 - field_name: fileExtensionType
   field_type: string
   description: File extension type
-  ecs_field: sentinelone.singularity.fileextensiontype
+  ecs_field: file.extension
   cim_field: sentinelone.singularity.fileextensiontype
   asim_field: sentinelone.singularity.fileextensiontype
   category: Legacy
@@ -1276,7 +1276,7 @@ fields:
 - field_name: fileIsExecutable
   field_type: boolean
   description: Whether file is executable
-  ecs_field: sentinelone.singularity.fileisexecutable
+  ecs_field: file.type
   cim_field: sentinelone.singularity.fileisexecutable
   asim_field: sentinelone.singularity.fileisexecutable
   category: Legacy
@@ -1292,7 +1292,7 @@ fields:
 - field_name: fileMaliciousContent
   field_type: boolean
   description: Whether file has malicious content
-  ecs_field: sentinelone.singularity.filemaliciouscontent
+  ecs_field: event.category
   cim_field: sentinelone.singularity.filemaliciouscontent
   asim_field: sentinelone.singularity.filemaliciouscontent
   category: Legacy
@@ -1300,7 +1300,7 @@ fields:
 - field_name: fileObjectId
   field_type: string
   description: File object ID
-  ecs_field: sentinelone.singularity.fileobjectid
+  ecs_field: file.inode
   cim_field: sentinelone.singularity.fileobjectid
   asim_field: sentinelone.singularity.fileobjectid
   category: Legacy
@@ -1324,7 +1324,7 @@ fields:
 - field_name: fileVerificationType
   field_type: string
   description: File verification type
-  ecs_field: sentinelone.singularity.fileverificationtype
+  ecs_field: file.code_signature.status
   cim_field: sentinelone.singularity.fileverificationtype
   asim_field: sentinelone.singularity.fileverificationtype
   category: Legacy
@@ -1340,7 +1340,7 @@ fields:
 - field_name: fromScan
   field_type: boolean
   description: Whether from scan
-  ecs_field: sentinelone.singularity.fromscan
+  ecs_field: event.action
   cim_field: sentinelone.singularity.fromscan
   asim_field: sentinelone.singularity.fromscan
   category: Legacy
@@ -1372,23 +1372,23 @@ fields:
 - field_name: indicators.description
   field_type: string
   description: Indicator description
-  ecs_field: sentinelone.singularity.indicators_description
-  cim_field: sentinelone.singularity.indicators_description
-  asim_field: sentinelone.singularity.indicators_description
+  ecs_field: event.reason
+  cim_field: signature
+  asim_field: ThreatName
   category: Indicators
   display_name: description
 - field_name: indicators.ids
   field_type: string
   description: Indicator IDs
-  ecs_field: sentinelone.singularity.indicators_ids
+  ecs_field: rule.id
   cim_field: sentinelone.singularity.indicators_ids
-  asim_field: sentinelone.singularity.indicators_ids
+  asim_field: RuleName
   category: Indicators
   display_name: ids
 - field_name: indicators.tactics.name
   field_type: string
   description: MITRE ATT&CK tactic name
-  ecs_field: sentinelone.singularity.indicators_tactics_name
+  ecs_field: threat.tactic.name
   cim_field: sentinelone.singularity.indicators_tactics_name
   asim_field: sentinelone.singularity.indicators_tactics_name
   category: Indicators
@@ -1404,7 +1404,7 @@ fields:
 - field_name: indicators.tactics.techniques.link
   field_type: string
   description: Technique link
-  ecs_field: sentinelone.singularity.indicators_tactics_techniques_link
+  ecs_field: threat.technique.reference
   cim_field: sentinelone.singularity.indicators_tactics_techniques_link
   asim_field: sentinelone.singularity.indicators_tactics_techniques_link
   category: Indicators
@@ -1412,7 +1412,7 @@ fields:
 - field_name: indicators.tactics.techniques.name
   field_type: string
   description: MITRE ATT&CK technique name
-  ecs_field: sentinelone.singularity.indicators_tactics_techniques_name
+  ecs_field: threat.technique.name
   cim_field: sentinelone.singularity.indicators_tactics_techniques_name
   asim_field: sentinelone.singularity.indicators_tactics_techniques_name
   category: Indicators
@@ -1420,7 +1420,7 @@ fields:
 - field_name: initiatedBy
   field_type: string
   description: Initiated by
-  ecs_field: sentinelone.singularity.initiatedby
+  ecs_field: event.provider
   cim_field: sentinelone.singularity.initiatedby
   asim_field: sentinelone.singularity.initiatedby
   category: Legacy
@@ -1564,25 +1564,25 @@ fields:
 - field_name: maliciousProcessArguments
   field_type: string
   description: Malicious process arguments
-  ecs_field: sentinelone.singularity.maliciousprocessarguments
-  cim_field: sentinelone.singularity.maliciousprocessarguments
-  asim_field: sentinelone.singularity.maliciousprocessarguments
+  ecs_field: process.args
+  cim_field: process
+  asim_field: ProcessName
   category: Legacy
   display_name: maliciousProcessArguments
 - field_name: markedAsBenign
   field_type: boolean
   description: Whether marked as benign
-  ecs_field: sentinelone.singularity.markedasbenign
-  cim_field: sentinelone.singularity.markedasbenign
-  asim_field: sentinelone.singularity.markedasbenign
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   category: Legacy
   display_name: markedAsBenign
 - field_name: mitigationMode
   field_type: string
   description: Mitigation mode (protect/detect)
-  ecs_field: sentinelone.singularity.mitigationmode
+  ecs_field: event.type
   cim_field: sentinelone.singularity.mitigationmode
-  asim_field: sentinelone.singularity.mitigationmode
+  asim_field: EventType
   category: Legacy
   display_name: mitigationMode
 - field_name: mitigationReport
@@ -1708,7 +1708,7 @@ fields:
 - field_name: publisher
   field_type: string
   description: Publisher name
-  ecs_field: sentinelone.singularity.publisher
+  ecs_field: file.code_signature.subject_name
   cim_field: sentinelone.singularity.publisher
   asim_field: sentinelone.singularity.publisher
   category: Legacy
@@ -1716,8 +1716,8 @@ fields:
 - field_name: rank
   field_type: int
   description: Rank
-  ecs_field: sentinelone.singularity.rank
-  cim_field: sentinelone.singularity.rank
+  ecs_field: event.severity
+  cim_field: severity
   asim_field: sentinelone.singularity.rank
   category: Legacy
   display_name: rank
@@ -1732,7 +1732,7 @@ fields:
 - field_name: ruleInfo.description
   field_type: string
   description: Rule description
-  ecs_field: sentinelone.singularity.ruleinfo_description
+  ecs_field: rule.description
   cim_field: sentinelone.singularity.ruleinfo_description
   asim_field: sentinelone.singularity.ruleinfo_description
   category: RuleInfo
@@ -1772,7 +1772,7 @@ fields:
 - field_name: ruleInfo.s1ql
   field_type: string
   description: S1QL query
-  ecs_field: sentinelone.singularity.ruleinfo_s1ql
+  ecs_field: rule.query
   cim_field: sentinelone.singularity.ruleinfo_s1ql
   asim_field: sentinelone.singularity.ruleinfo_s1ql
   category: RuleInfo
@@ -1796,15 +1796,15 @@ fields:
 - field_name: ruleInfo.treatAsThreat
   field_type: string
   description: Treat as threat type
-  ecs_field: sentinelone.singularity.ruleinfo_treatasthreat
-  cim_field: sentinelone.singularity.ruleinfo_treatasthreat
+  ecs_field: event.category
+  cim_field: category
   asim_field: sentinelone.singularity.ruleinfo_treatasthreat
   category: RuleInfo
   display_name: treatAsThreat
 - field_name: siteId
   field_type: string
   description: Site ID
-  ecs_field: sentinelone.singularity.siteid
+  ecs_field: host.group
   cim_field: sentinelone.singularity.siteid
   asim_field: sentinelone.singularity.siteid
   category: Legacy
@@ -1828,7 +1828,7 @@ fields:
 - field_name: sourceParentProcessInfo.fileHashMd5
   field_type: string
   description: Parent process file MD5 hash
-  ecs_field: sentinelone.singularity.sourceparentprocessinfo_filehashmd5
+  ecs_field: process.parent.hash.md5
   cim_field: sentinelone.singularity.sourceparentprocessinfo_filehashmd5
   asim_field: sentinelone.singularity.sourceparentprocessinfo_filehashmd5
   category: SourceParentProcessInfo
@@ -1836,7 +1836,7 @@ fields:
 - field_name: sourceParentProcessInfo.fileHashSha1
   field_type: string
   description: Parent process file SHA1 hash
-  ecs_field: sentinelone.singularity.sourceparentprocessinfo_filehashsha1
+  ecs_field: process.parent.hash.sha1
   cim_field: sentinelone.singularity.sourceparentprocessinfo_filehashsha1
   asim_field: sentinelone.singularity.sourceparentprocessinfo_filehashsha1
   category: SourceParentProcessInfo
@@ -1844,7 +1844,7 @@ fields:
 - field_name: sourceParentProcessInfo.fileHashSha256
   field_type: string
   description: Parent process file SHA256 hash
-  ecs_field: sentinelone.singularity.sourceparentprocessinfo_filehashsha256
+  ecs_field: process.parent.hash.sha256
   cim_field: sentinelone.singularity.sourceparentprocessinfo_filehashsha256
   asim_field: sentinelone.singularity.sourceparentprocessinfo_filehashsha256
   category: SourceParentProcessInfo
@@ -1860,7 +1860,7 @@ fields:
 - field_name: sourceParentProcessInfo.fileSignerIdentity
   field_type: string
   description: Parent file signer identity
-  ecs_field: sentinelone.singularity.sourceparentprocessinfo_filesigneridentity
+  ecs_field: process.parent.code_signature.subject_name
   cim_field: sentinelone.singularity.sourceparentprocessinfo_filesigneridentity
   asim_field: sentinelone.singularity.sourceparentprocessinfo_filesigneridentity
   category: SourceParentProcessInfo
@@ -1868,7 +1868,7 @@ fields:
 - field_name: sourceParentProcessInfo.integrityLevel
   field_type: string
   description: Parent process integrity level
-  ecs_field: sentinelone.singularity.sourceparentprocessinfo_integritylevel
+  ecs_field: process.parent.integrity_level
   cim_field: sentinelone.singularity.sourceparentprocessinfo_integritylevel
   asim_field: sentinelone.singularity.sourceparentprocessinfo_integritylevel
   category: SourceParentProcessInfo
@@ -1900,7 +1900,7 @@ fields:
 - field_name: sourceParentProcessInfo.storyline
   field_type: string
   description: Parent storyline ID
-  ecs_field: sentinelone.singularity.sourceparentprocessinfo_storyline
+  ecs_field: process.parent.entity_id
   cim_field: sentinelone.singularity.sourceparentprocessinfo_storyline
   asim_field: sentinelone.singularity.sourceparentprocessinfo_storyline
   category: SourceParentProcessInfo
@@ -1924,9 +1924,9 @@ fields:
 - field_name: sourceParentProcessInfo.user
   field_type: string
   description: Parent process user
-  ecs_field: sentinelone.singularity.sourceparentprocessinfo_user
-  cim_field: sentinelone.singularity.sourceparentprocessinfo_user
-  asim_field: sentinelone.singularity.sourceparentprocessinfo_user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: SourceParentProcessInfo
   display_name: user
 - field_name: sourceProcessInfo.commandline
@@ -1940,24 +1940,24 @@ fields:
 - field_name: sourceProcessInfo.fileHashMd5
   field_type: string
   description: Process file MD5 hash
-  ecs_field: sentinelone.singularity.sourceprocessinfo_filehashmd5
-  cim_field: sentinelone.singularity.sourceprocessinfo_filehashmd5
+  ecs_field: process.hash.md5
+  cim_field: file_hash
   asim_field: sentinelone.singularity.sourceprocessinfo_filehashmd5
   category: SourceProcessInfo
   display_name: fileHashMd5
 - field_name: sourceProcessInfo.fileHashSha1
   field_type: string
   description: Process file SHA1 hash
-  ecs_field: sentinelone.singularity.sourceprocessinfo_filehashsha1
-  cim_field: sentinelone.singularity.sourceprocessinfo_filehashsha1
+  ecs_field: process.hash.sha1
+  cim_field: file_hash
   asim_field: sentinelone.singularity.sourceprocessinfo_filehashsha1
   category: SourceProcessInfo
   display_name: fileHashSha1
 - field_name: sourceProcessInfo.fileHashSha256
   field_type: string
   description: Process file SHA256 hash
-  ecs_field: sentinelone.singularity.sourceprocessinfo_filehashsha256
-  cim_field: sentinelone.singularity.sourceprocessinfo_filehashsha256
+  ecs_field: process.hash.sha256
+  cim_field: process_hash
   asim_field: sentinelone.singularity.sourceprocessinfo_filehashsha256
   category: SourceProcessInfo
   display_name: fileHashSha256
@@ -1972,7 +1972,7 @@ fields:
 - field_name: sourceProcessInfo.fileSignerIdentity
   field_type: string
   description: File signer identity
-  ecs_field: sentinelone.singularity.sourceprocessinfo_filesigneridentity
+  ecs_field: process.code_signature.subject_name
   cim_field: sentinelone.singularity.sourceprocessinfo_filesigneridentity
   asim_field: sentinelone.singularity.sourceprocessinfo_filesigneridentity
   category: SourceProcessInfo
@@ -1980,7 +1980,7 @@ fields:
 - field_name: sourceProcessInfo.integrityLevel
   field_type: string
   description: Process integrity level
-  ecs_field: sentinelone.singularity.sourceprocessinfo_integritylevel
+  ecs_field: process.integrity_level
   cim_field: sentinelone.singularity.sourceprocessinfo_integritylevel
   asim_field: sentinelone.singularity.sourceprocessinfo_integritylevel
   category: SourceProcessInfo
@@ -2012,7 +2012,7 @@ fields:
 - field_name: sourceProcessInfo.storyline
   field_type: string
   description: Storyline ID
-  ecs_field: sentinelone.singularity.sourceprocessinfo_storyline
+  ecs_field: process.entity_id
   cim_field: sentinelone.singularity.sourceprocessinfo_storyline
   asim_field: sentinelone.singularity.sourceprocessinfo_storyline
   category: SourceProcessInfo
@@ -2036,9 +2036,9 @@ fields:
 - field_name: sourceProcessInfo.user
   field_type: string
   description: Process user
-  ecs_field: sentinelone.singularity.sourceprocessinfo_user
-  cim_field: sentinelone.singularity.sourceprocessinfo_user
-  asim_field: sentinelone.singularity.sourceprocessinfo_user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
   category: SourceProcessInfo
   display_name: user
 - field_name: targetProcessInfo.tgtFileCreatedAt
@@ -2052,23 +2052,23 @@ fields:
 - field_name: targetProcessInfo.tgtFileHashSha1
   field_type: string
   description: Target file SHA1 hash
-  ecs_field: sentinelone.singularity.targetprocessinfo_tgtfilehashsha1
-  cim_field: sentinelone.singularity.targetprocessinfo_tgtfilehashsha1
+  ecs_field: file.hash.sha1
+  cim_field: file_hash
   asim_field: sentinelone.singularity.targetprocessinfo_tgtfilehashsha1
   category: TargetProcessInfo
   display_name: tgtFileHashSha1
 - field_name: targetProcessInfo.tgtFileHashSha256
   field_type: string
   description: Target file SHA256 hash
-  ecs_field: sentinelone.singularity.targetprocessinfo_tgtfilehashsha256
-  cim_field: sentinelone.singularity.targetprocessinfo_tgtfilehashsha256
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
   asim_field: sentinelone.singularity.targetprocessinfo_tgtfilehashsha256
   category: TargetProcessInfo
   display_name: tgtFileHashSha256
 - field_name: targetProcessInfo.tgtFileId
   field_type: string
   description: Target file ID
-  ecs_field: sentinelone.singularity.targetprocessinfo_tgtfileid
+  ecs_field: file.inode
   cim_field: sentinelone.singularity.targetprocessinfo_tgtfileid
   asim_field: sentinelone.singularity.targetprocessinfo_tgtfileid
   category: TargetProcessInfo
@@ -2076,7 +2076,7 @@ fields:
 - field_name: targetProcessInfo.tgtFileIsSigned
   field_type: boolean
   description: Whether target file is signed
-  ecs_field: sentinelone.singularity.targetprocessinfo_tgtfileissigned
+  ecs_field: file.code_signature.exists
   cim_field: sentinelone.singularity.targetprocessinfo_tgtfileissigned
   asim_field: sentinelone.singularity.targetprocessinfo_tgtfileissigned
   category: TargetProcessInfo
@@ -2124,7 +2124,7 @@ fields:
 - field_name: targetProcessInfo.tgtProcIntegrityLevel
   field_type: string
   description: Target process integrity level
-  ecs_field: sentinelone.singularity.targetprocessinfo_tgtprocintegritylevel
+  ecs_field: process.integrity_level
   cim_field: sentinelone.singularity.targetprocessinfo_tgtprocintegritylevel
   asim_field: sentinelone.singularity.targetprocessinfo_tgtprocintegritylevel
   category: TargetProcessInfo
@@ -2180,7 +2180,7 @@ fields:
 - field_name: threatAgentVersion
   field_type: string
   description: Threat agent version
-  ecs_field: sentinelone.singularity.threatagentversion
+  ecs_field: agent.version
   cim_field: sentinelone.singularity.threatagentversion
   asim_field: sentinelone.singularity.threatagentversion
   category: Legacy
@@ -2188,15 +2188,15 @@ fields:
 - field_name: threatInfo.analystVerdict
   field_type: string
   description: Analyst verdict
-  ecs_field: sentinelone.singularity.threatinfo_analystverdict
-  cim_field: sentinelone.singularity.threatinfo_analystverdict
-  asim_field: sentinelone.singularity.threatinfo_analystverdict
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   category: ThreatInfo
   display_name: analystVerdict
 - field_name: threatInfo.analystVerdictDescription
   field_type: string
   description: Analyst verdict description
-  ecs_field: sentinelone.singularity.threatinfo_analystverdictdescription
+  ecs_field: event.reason
   cim_field: sentinelone.singularity.threatinfo_analystverdictdescription
   asim_field: sentinelone.singularity.threatinfo_analystverdictdescription
   category: ThreatInfo
@@ -2212,7 +2212,7 @@ fields:
 - field_name: threatInfo.browserType
   field_type: string
   description: Browser type
-  ecs_field: sentinelone.singularity.threatinfo_browsertype
+  ecs_field: user_agent.name
   cim_field: sentinelone.singularity.threatinfo_browsertype
   asim_field: sentinelone.singularity.threatinfo_browsertype
   category: ThreatInfo
@@ -2244,9 +2244,9 @@ fields:
 - field_name: threatInfo.cloudFilesHashVerdict
   field_type: string
   description: Cloud file hash verdict
-  ecs_field: sentinelone.singularity.threatinfo_cloudfileshashverdict
+  ecs_field: event.outcome
   cim_field: sentinelone.singularity.threatinfo_cloudfileshashverdict
-  asim_field: sentinelone.singularity.threatinfo_cloudfileshashverdict
+  asim_field: EventResult
   category: ThreatInfo
   display_name: cloudFilesHashVerdict
 - field_name: threatInfo.collectionId
@@ -2276,7 +2276,7 @@ fields:
 - field_name: threatInfo.detectionEngines
   field_type: string
   description: Detection engines used
-  ecs_field: sentinelone.singularity.threatinfo_detectionengines
+  ecs_field: observer.product
   cim_field: sentinelone.singularity.threatinfo_detectionengines
   asim_field: sentinelone.singularity.threatinfo_detectionengines
   category: ThreatInfo
@@ -2324,7 +2324,7 @@ fields:
 - field_name: threatInfo.externalTicketId
   field_type: string
   description: External ticket ID
-  ecs_field: sentinelone.singularity.threatinfo_externalticketid
+  ecs_field: event.reference
   cim_field: sentinelone.singularity.threatinfo_externalticketid
   asim_field: sentinelone.singularity.threatinfo_externalticketid
   category: ThreatInfo
@@ -2340,7 +2340,7 @@ fields:
 - field_name: threatInfo.fileExtension
   field_type: string
   description: File extension
-  ecs_field: sentinelone.singularity.threatinfo_fileextension
+  ecs_field: file.extension
   cim_field: sentinelone.singularity.threatinfo_fileextension
   asim_field: sentinelone.singularity.threatinfo_fileextension
   category: ThreatInfo
@@ -2348,7 +2348,7 @@ fields:
 - field_name: threatInfo.fileExtensionType
   field_type: string
   description: File extension type
-  ecs_field: sentinelone.singularity.threatinfo_fileextensiontype
+  ecs_field: file.type
   cim_field: sentinelone.singularity.threatinfo_fileextensiontype
   asim_field: sentinelone.singularity.threatinfo_fileextensiontype
   category: ThreatInfo
@@ -2372,7 +2372,7 @@ fields:
 - field_name: threatInfo.fileVerificationType
   field_type: string
   description: File verification type (Signed/NotSigned)
-  ecs_field: sentinelone.singularity.threatinfo_fileverificationtype
+  ecs_field: file.code_signature.status
   cim_field: sentinelone.singularity.threatinfo_fileverificationtype
   asim_field: sentinelone.singularity.threatinfo_fileverificationtype
   category: ThreatInfo
@@ -2444,7 +2444,7 @@ fields:
 - field_name: threatInfo.isValidCertificate
   field_type: boolean
   description: Whether certificate is valid
-  ecs_field: sentinelone.singularity.threatinfo_isvalidcertificate
+  ecs_field: file.code_signature.valid
   cim_field: sentinelone.singularity.threatinfo_isvalidcertificate
   asim_field: sentinelone.singularity.threatinfo_isvalidcertificate
   category: ThreatInfo
@@ -2468,9 +2468,9 @@ fields:
 - field_name: threatInfo.mitigatedPreemptively
   field_type: boolean
   description: Whether mitigated preemptively
-  ecs_field: sentinelone.singularity.threatinfo_mitigatedpreemptively
-  cim_field: sentinelone.singularity.threatinfo_mitigatedpreemptively
-  asim_field: sentinelone.singularity.threatinfo_mitigatedpreemptively
+  ecs_field: event.outcome
+  cim_field: action
+  asim_field: EventResult
   category: ThreatInfo
   display_name: mitigatedPreemptively
 - field_name: threatInfo.mitigationStatus

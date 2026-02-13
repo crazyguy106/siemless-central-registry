@@ -7,7 +7,7 @@ source_document: ''
 source_url: ''
 extraction_date: '2026-01-02'
 source_file: zscaler-zia-signatures.json
-generated_at: '2026-02-13T07:34:35.692915'
+generated_at: '2026-02-13T08:53:57.229105'
 categories:
 - HTTP
 - Activity
@@ -72,9 +72,9 @@ fields:
 - field_name: activitytype
   field_type: string
   description: Activity type (Print, Copy, etc.)
-  ecs_field: zscaler.zscalerinternetaccesszia.activitytype
-  cim_field: zscaler.zscalerinternetaccesszia.activitytype
-  asim_field: zscaler.zscalerinternetaccesszia.activitytype
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: File
 - field_name: adminid
   field_type: string
@@ -121,9 +121,9 @@ fields:
 - field_name: appclass
   field_type: string
   description: Cloud Application Class (Consumer, IT/ISP, etc.)
-  ecs_field: zscaler.zscalerinternetaccesszia.appclass
-  cim_field: zscaler.zscalerinternetaccesszia.appclass
-  asim_field: zscaler.zscalerinternetaccesszia.appclass
+  ecs_field: url.category
+  cim_field: url_category
+  asim_field: UrlCategory
   category: CloudApp
 - field_name: appname
   field_type: string
@@ -142,9 +142,9 @@ fields:
 - field_name: apprulelabel
   field_type: string
   description: Cloud App Control policy rule label
-  ecs_field: zscaler.zscalerinternetaccesszia.apprulelabel
-  cim_field: zscaler.zscalerinternetaccesszia.apprulelabel
-  asim_field: zscaler.zscalerinternetaccesszia.apprulelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: CloudApp
 - field_name: attachment_count
   field_type: integer
@@ -205,9 +205,9 @@ fields:
 - field_name: b64referer
   field_type: string
   description: Referer (base64 encoded)
-  ecs_field: zscaler.zscalerinternetaccesszia.b64referer
-  cim_field: zscaler.zscalerinternetaccesszia.b64referer
-  asim_field: zscaler.zscalerinternetaccesszia.b64referer
+  ecs_field: http.request.referrer
+  cim_field: url
+  asim_field: UrlOriginal
   category: URL
 - field_name: baession
   field_type: string
@@ -219,9 +219,9 @@ fields:
 - field_name: branch
   field_type: string
   description: Branch name
-  ecs_field: zscaler.zscalerinternetaccesszia.branch
-  cim_field: zscaler.zscalerinternetaccesszia.branch
-  asim_field: zscaler.zscalerinternetaccesszia.branch
+  ecs_field: observer.ingress.zone
+  cim_field: src_zone
+  asim_field: SrcZone
   category: Repository
 - field_name: browser
   field_type: string
@@ -338,9 +338,9 @@ fields:
 - field_name: collaborator
   field_type: string
   description: Collaborator email/name
-  ecs_field: zscaler.zscalerinternetaccesszia.collaborator
-  cim_field: zscaler.zscalerinternetaccesszia.collaborator
-  asim_field: zscaler.zscalerinternetaccesszia.collaborator
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: Collaboration
 - field_name: commit_id
   field_type: string
@@ -359,7 +359,7 @@ fields:
 - field_name: company
   field_type: string
   description: Company name
-  ecs_field: zscaler.zscalerinternetaccesszia.company
+  ecs_field: cloud.account.id
   cim_field: zscaler.zscalerinternetaccesszia.company
   asim_field: zscaler.zscalerinternetaccesszia.company
   category: Common
@@ -415,9 +415,9 @@ fields:
 - field_name: datacenter
   field_type: string
   description: Data Center Name
-  ecs_field: zscaler.zscalerinternetaccesszia.datacenter
-  cim_field: zscaler.zscalerinternetaccesszia.datacenter
-  asim_field: zscaler.zscalerinternetaccesszia.datacenter
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: DataCenter
 - field_name: datacentercity
   field_type: string
@@ -464,7 +464,7 @@ fields:
 - field_name: deviceappversion
   field_type: string
   description: Device application version
-  ecs_field: zscaler.zscalerinternetaccesszia.deviceappversion
+  ecs_field: observer.version
   cim_field: zscaler.zscalerinternetaccesszia.deviceappversion
   asim_field: zscaler.zscalerinternetaccesszia.deviceappversion
   category: IPS
@@ -527,16 +527,16 @@ fields:
 - field_name: dlp_dictionary
   field_type: string
   description: DLP dictionary matched
-  ecs_field: zscaler.zscalerinternetaccesszia.dlp_dictionary
-  cim_field: zscaler.zscalerinternetaccesszia.dlp_dictionary
-  asim_field: zscaler.zscalerinternetaccesszia.dlp_dictionary
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: DLP
 - field_name: dlp_engine
   field_type: string
   description: DLP engine name
-  ecs_field: zscaler.zscalerinternetaccesszia.dlp_engine
-  cim_field: zscaler.zscalerinternetaccesszia.dlp_engine
-  asim_field: zscaler.zscalerinternetaccesszia.dlp_engine
+  ecs_field: rule.ruleset
+  cim_field: rule
+  asim_field: RuleName
   category: DLP
 - field_name: dlp_identifier
   field_type: string
@@ -555,16 +555,16 @@ fields:
 - field_name: dlpdictnames
   field_type: string
   description: DLP dictionary names (pipe delimited)
-  ecs_field: zscaler.zscalerinternetaccesszia.dlpdictnames
-  cim_field: zscaler.zscalerinternetaccesszia.dlpdictnames
-  asim_field: zscaler.zscalerinternetaccesszia.dlpdictnames
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: DLP
 - field_name: dlpenginenames
   field_type: string
   description: DLP engine names (pipe delimited)
-  ecs_field: zscaler.zscalerinternetaccesszia.dlpenginenames
-  cim_field: zscaler.zscalerinternetaccesszia.dlpenginenames
-  asim_field: zscaler.zscalerinternetaccesszia.dlpenginenames
+  ecs_field: rule.ruleset
+  cim_field: rule
+  asim_field: RuleName
   category: DLP
 - field_name: dlpidentifier
   field_type: string
@@ -576,9 +576,9 @@ fields:
 - field_name: dlpmd5
   field_type: string
   description: MD5 hash (hex-encoded, 32 chars)
-  ecs_field: zscaler.zscalerinternetaccesszia.dlpmd5
-  cim_field: zscaler.zscalerinternetaccesszia.dlpmd5
-  asim_field: zscaler.zscalerinternetaccesszia.dlpmd5
+  ecs_field: file.hash.md5
+  cim_field: file_name
+  asim_field: FileName
   category: DLP
 - field_name: dlprulename
   field_type: string
@@ -590,16 +590,16 @@ fields:
 - field_name: dns_gateway_rule
   field_type: string
   description: DNS gateway rule matched
-  ecs_field: zscaler.zscalerinternetaccesszia.dns_gateway_rule
-  cim_field: zscaler.zscalerinternetaccesszia.dns_gateway_rule
-  asim_field: zscaler.zscalerinternetaccesszia.dns_gateway_rule
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Transaction
 - field_name: dns_gateway_server
   field_type: string
   description: DNS gateway server
-  ecs_field: zscaler.zscalerinternetaccesszia.dns_gateway_server
-  cim_field: zscaler.zscalerinternetaccesszia.dns_gateway_server
-  asim_field: zscaler.zscalerinternetaccesszia.dns_gateway_server
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Transaction
 - field_name: dns_gateway_status
   field_type: string
@@ -611,14 +611,14 @@ fields:
 - field_name: dns_req
   field_type: string
   description: DNS request domain
-  ecs_field: zscaler.zscalerinternetaccesszia.dns_req
-  cim_field: zscaler.zscalerinternetaccesszia.dns_req
+  ecs_field: dns.question.name
+  cim_field: query
   asim_field: zscaler.zscalerinternetaccesszia.dns_req
   category: Transaction
 - field_name: dns_reqtype
   field_type: string
   description: DNS request type (A, AAAA, CNAME, etc.)
-  ecs_field: zscaler.zscalerinternetaccesszia.dns_reqtype
+  ecs_field: dns.question.type
   cim_field: zscaler.zscalerinternetaccesszia.dns_reqtype
   asim_field: zscaler.zscalerinternetaccesszia.dns_reqtype
   category: Transaction
@@ -632,7 +632,7 @@ fields:
 - field_name: dns_resptype
   field_type: string
   description: DNS response type
-  ecs_field: zscaler.zscalerinternetaccesszia.dns_resptype
+  ecs_field: dns.response.code
   cim_field: zscaler.zscalerinternetaccesszia.dns_resptype
   asim_field: zscaler.zscalerinternetaccesszia.dns_resptype
   category: Transaction
@@ -646,15 +646,15 @@ fields:
 - field_name: dnsrulelabel
   field_type: string
   description: DNS rule label
-  ecs_field: zscaler.zscalerinternetaccesszia.dnsrulelabel
-  cim_field: zscaler.zscalerinternetaccesszia.dnsrulelabel
-  asim_field: zscaler.zscalerinternetaccesszia.dnsrulelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Transaction
 - field_name: dohused
   field_type: string
   description: DNS over HTTPS used (Yes/No)
-  ecs_field: zscaler.zscalerinternetaccesszia.dohused
-  cim_field: zscaler.zscalerinternetaccesszia.dohused
+  ecs_field: network.protocol
+  cim_field: app
   asim_field: zscaler.zscalerinternetaccesszia.dohused
   category: Transaction
 - field_name: dpdreason
@@ -695,9 +695,9 @@ fields:
 - field_name: dstsubnet
   field_type: string
   description: Destination subnet
-  ecs_field: zscaler.zscalerinternetaccesszia.dstsubnet
-  cim_field: zscaler.zscalerinternetaccesszia.dstsubnet
-  asim_field: zscaler.zscalerinternetaccesszia.dstsubnet
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: IKE
 - field_name: dsttype
   field_type: string
@@ -716,8 +716,8 @@ fields:
 - field_name: edns_req
   field_type: string
   description: DNS request (hex-encoded)
-  ecs_field: zscaler.zscalerinternetaccesszia.edns_req
-  cim_field: zscaler.zscalerinternetaccesszia.edns_req
+  ecs_field: dns.question.name
+  cim_field: query
   asim_field: zscaler.zscalerinternetaccesszia.edns_req
   category: Transaction
 - field_name: edns_resp
@@ -800,23 +800,23 @@ fields:
 - field_name: encapsulation
   field_type: string
   description: Encapsulation mode (Tunnel, Transport)
-  ecs_field: zscaler.zscalerinternetaccesszia.encapsulation
-  cim_field: zscaler.zscalerinternetaccesszia.encapsulation
-  asim_field: zscaler.zscalerinternetaccesszia.encapsulation
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: IKE
 - field_name: epochtime
   field_type: integer
   description: UNIX epoch timestamp
-  ecs_field: zscaler.zscalerinternetaccesszia.epochtime
+  ecs_field: '@timestamp'
   cim_field: zscaler.zscalerinternetaccesszia.epochtime
   asim_field: zscaler.zscalerinternetaccesszia.epochtime
   category: DateTime
 - field_name: ereferer
   field_type: string
   description: Referer (hex-encoded)
-  ecs_field: zscaler.zscalerinternetaccesszia.ereferer
-  cim_field: zscaler.zscalerinternetaccesszia.ereferer
-  asim_field: zscaler.zscalerinternetaccesszia.ereferer
+  ecs_field: http.request.referrer
+  cim_field: url
+  asim_field: UrlOriginal
   category: URL
 - field_name: errorcode
   field_type: string
@@ -1066,15 +1066,15 @@ fields:
 - field_name: ipsrulelabel
   field_type: string
   description: IPS rule label
-  ecs_field: zscaler.zscalerinternetaccesszia.ipsrulelabel
-  cim_field: zscaler.zscalerinternetaccesszia.ipsrulelabel
-  asim_field: zscaler.zscalerinternetaccesszia.ipsrulelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Session
 - field_name: is_anomaly
   field_type: boolean
   description: Anomaly detection flag
-  ecs_field: zscaler.zscalerinternetaccesszia.is_anomaly
-  cim_field: zscaler.zscalerinternetaccesszia.is_anomaly
+  ecs_field: event.category
+  cim_field: category
   asim_field: zscaler.zscalerinternetaccesszia.is_anomaly
   category: Activity
 - field_name: keyprotectiontype
@@ -1094,8 +1094,8 @@ fields:
 - field_name: lifetime
   field_type: integer
   description: SA lifetime in seconds
-  ecs_field: zscaler.zscalerinternetaccesszia.lifetime
-  cim_field: zscaler.zscalerinternetaccesszia.lifetime
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: zscaler.zscalerinternetaccesszia.lifetime
   category: IKE
 - field_name: location
@@ -1108,9 +1108,9 @@ fields:
 - field_name: locationname
   field_type: string
   description: Location name
-  ecs_field: zscaler.zscalerinternetaccesszia.locationname
-  cim_field: zscaler.zscalerinternetaccesszia.locationname
-  asim_field: zscaler.zscalerinternetaccesszia.locationname
+  ecs_field: observer.ingress.zone
+  cim_field: src_zone
+  asim_field: SrcZone
   category: Event
 - field_name: login
   field_type: string
@@ -1129,22 +1129,22 @@ fields:
 - field_name: mailglobalid
   field_type: string
   description: Global mail identifier
-  ecs_field: zscaler.zscalerinternetaccesszia.mailglobalid
+  ecs_field: email.message_id
   cim_field: zscaler.zscalerinternetaccesszia.mailglobalid
   asim_field: zscaler.zscalerinternetaccesszia.mailglobalid
   category: Email
 - field_name: mailsize
   field_type: integer
   description: Email size in bytes
-  ecs_field: zscaler.zscalerinternetaccesszia.mailsize
+  ecs_field: email.message.size
   cim_field: zscaler.zscalerinternetaccesszia.mailsize
   asim_field: zscaler.zscalerinternetaccesszia.mailsize
   category: Email
 - field_name: mailsource
   field_type: string
   description: Mail source (Inbound, Outbound)
-  ecs_field: zscaler.zscalerinternetaccesszia.mailsource
-  cim_field: zscaler.zscalerinternetaccesszia.mailsource
+  ecs_field: network.direction
+  cim_field: direction
   asim_field: zscaler.zscalerinternetaccesszia.mailsource
   category: Email
 - field_name: malwarecat
@@ -1206,7 +1206,7 @@ fields:
 - field_name: mobdevtype
   field_type: string
   description: Mobile device type
-  ecs_field: zscaler.zscalerinternetaccesszia.mobdevtype
+  ecs_field: host.os.name
   cim_field: zscaler.zscalerinternetaccesszia.mobdevtype
   asim_field: zscaler.zscalerinternetaccesszia.mobdevtype
   category: Mobile
@@ -1220,9 +1220,9 @@ fields:
 - field_name: natrulelabel
   field_type: string
   description: NAT rule label
-  ecs_field: zscaler.zscalerinternetaccesszia.natrulelabel
-  cim_field: zscaler.zscalerinternetaccesszia.natrulelabel
-  asim_field: zscaler.zscalerinternetaccesszia.natrulelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Transaction
 - field_name: newdstip
   field_type: ip
@@ -1248,15 +1248,15 @@ fields:
 - field_name: nwapp
   field_type: string
   description: Network application matched
-  ecs_field: zscaler.zscalerinternetaccesszia.nwapp
-  cim_field: zscaler.zscalerinternetaccesszia.nwapp
+  ecs_field: network.application
+  cim_field: app
   asim_field: zscaler.zscalerinternetaccesszia.nwapp
   category: Policy
 - field_name: nwsvc
   field_type: string
   description: Network service matched
-  ecs_field: zscaler.zscalerinternetaccesszia.nwsvc
-  cim_field: zscaler.zscalerinternetaccesszia.nwsvc
+  ecs_field: network.application
+  cim_field: app
   asim_field: zscaler.zscalerinternetaccesszia.nwsvc
   category: Policy
 - field_name: object_id
@@ -1325,9 +1325,9 @@ fields:
 - field_name: odeviceowner
   field_type: string
   description: Device owner (obfuscated)
-  ecs_field: zscaler.zscalerinternetaccesszia.odeviceowner
-  cim_field: zscaler.zscalerinternetaccesszia.odeviceowner
-  asim_field: zscaler.zscalerinternetaccesszia.odeviceowner
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: Device
 - field_name: olddstip
   field_type: ip
@@ -1346,7 +1346,7 @@ fields:
 - field_name: os
   field_type: string
   description: Operating system
-  ecs_field: zscaler.zscalerinternetaccesszia.os
+  ecs_field: host.os.name
   cim_field: zscaler.zscalerinternetaccesszia.os
   asim_field: zscaler.zscalerinternetaccesszia.os
   category: Activity
@@ -1381,9 +1381,9 @@ fields:
 - field_name: pagerisk
   field_type: integer
   description: Page risk score
-  ecs_field: zscaler.zscalerinternetaccesszia.pagerisk
-  cim_field: zscaler.zscalerinternetaccesszia.pagerisk
-  asim_field: zscaler.zscalerinternetaccesszia.pagerisk
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Misc
 - field_name: permission_level
   field_type: string
@@ -1402,8 +1402,8 @@ fields:
 - field_name: pii_detected
   field_type: boolean
   description: PII detected flag
-  ecs_field: zscaler.zscalerinternetaccesszia.pii_detected
-  cim_field: zscaler.zscalerinternetaccesszia.pii_detected
+  ecs_field: event.category
+  cim_field: category
   asim_field: zscaler.zscalerinternetaccesszia.pii_detected
   category: GenAI
 - field_name: policy
@@ -1514,23 +1514,23 @@ fields:
 - field_name: reqheadersize
   field_type: integer
   description: Request header size in bytes
-  ecs_field: zscaler.zscalerinternetaccesszia.reqheadersize
-  cim_field: zscaler.zscalerinternetaccesszia.reqheadersize
-  asim_field: zscaler.zscalerinternetaccesszia.reqheadersize
+  ecs_field: http.request.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: HTTP
 - field_name: reqrulelabel
   field_type: string
   description: Request rule label
-  ecs_field: zscaler.zscalerinternetaccesszia.reqrulelabel
-  cim_field: zscaler.zscalerinternetaccesszia.reqrulelabel
-  asim_field: zscaler.zscalerinternetaccesszia.reqrulelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Action
 - field_name: reqsize
   field_type: integer
   description: Request size in bytes
-  ecs_field: zscaler.zscalerinternetaccesszia.reqsize
-  cim_field: zscaler.zscalerinternetaccesszia.reqsize
-  asim_field: zscaler.zscalerinternetaccesszia.reqsize
+  ecs_field: http.request.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Bandwidth
 - field_name: requestmethod
   field_type: string
@@ -1570,9 +1570,9 @@ fields:
 - field_name: respheadersize
   field_type: integer
   description: Response header size in bytes
-  ecs_field: zscaler.zscalerinternetaccesszia.respheadersize
-  cim_field: zscaler.zscalerinternetaccesszia.respheadersize
-  asim_field: zscaler.zscalerinternetaccesszia.respheadersize
+  ecs_field: http.response.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: HTTP
 - field_name: response_snippet
   field_type: string
@@ -1591,16 +1591,16 @@ fields:
 - field_name: respsize
   field_type: integer
   description: Response size in bytes
-  ecs_field: zscaler.zscalerinternetaccesszia.respsize
-  cim_field: zscaler.zscalerinternetaccesszia.respsize
-  asim_field: zscaler.zscalerinternetaccesszia.respsize
+  ecs_field: http.response.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: Bandwidth
 - field_name: resrulelabel
   field_type: string
   description: Response rule label
-  ecs_field: zscaler.zscalerinternetaccesszia.resrulelabel
-  cim_field: zscaler.zscalerinternetaccesszia.resrulelabel
-  asim_field: zscaler.zscalerinternetaccesszia.resrulelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Action
 - field_name: result
   field_type: string
@@ -1647,9 +1647,9 @@ fields:
 - field_name: rxbytes
   field_type: integer
   description: Received bytes
-  ecs_field: zscaler.zscalerinternetaccesszia.rxbytes
-  cim_field: zscaler.zscalerinternetaccesszia.rxbytes
-  asim_field: zscaler.zscalerinternetaccesszia.rxbytes
+  ecs_field: network.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: Sample
 - field_name: rxpkts
   field_type: integer
@@ -1710,9 +1710,9 @@ fields:
 - field_name: secret_type
   field_type: string
   description: Secret type detected (API key, password, etc.)
-  ecs_field: zscaler.zscalerinternetaccesszia.secret_type
-  cim_field: zscaler.zscalerinternetaccesszia.secret_type
-  asim_field: zscaler.zscalerinternetaccesszia.secret_type
+  ecs_field: threat.technique.name
+  cim_field: signature
+  asim_field: ThreatName
   category: Repository
 - field_name: sender
   field_type: email
@@ -1745,9 +1745,9 @@ fields:
 - field_name: share_link
   field_type: string
   description: Sharing link
-  ecs_field: zscaler.zscalerinternetaccesszia.share_link
-  cim_field: zscaler.zscalerinternetaccesszia.share_link
-  asim_field: zscaler.zscalerinternetaccesszia.share_link
+  ecs_field: url.full
+  cim_field: url
+  asim_field: UrlOriginal
   category: Collaboration
 - field_name: sip
   field_type: ip
@@ -1808,9 +1808,9 @@ fields:
 - field_name: srcsubnet
   field_type: string
   description: Source subnet
-  ecs_field: zscaler.zscalerinternetaccesszia.srcsubnet
-  cim_field: zscaler.zscalerinternetaccesszia.srcsubnet
-  asim_field: zscaler.zscalerinternetaccesszia.srcsubnet
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: IKE
 - field_name: srv_dip
   field_type: ip
@@ -1969,9 +1969,9 @@ fields:
 - field_name: triggeredrulelabel
   field_type: string
   description: Triggered rule label
-  ecs_field: zscaler.zscalerinternetaccesszia.triggeredrulelabel
-  cim_field: zscaler.zscalerinternetaccesszia.triggeredrulelabel
-  asim_field: zscaler.zscalerinternetaccesszia.triggeredrulelabel
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: DLP
 - field_name: tsip
   field_type: ip
@@ -2011,9 +2011,9 @@ fields:
 - field_name: tuntype
   field_type: string
   description: Tunnel type
-  ecs_field: zscaler.zscalerinternetaccesszia.tuntype
-  cim_field: zscaler.zscalerinternetaccesszia.tuntype
-  asim_field: zscaler.zscalerinternetaccesszia.tuntype
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Session
 - field_name: txbps
   field_type: integer
@@ -2025,9 +2025,9 @@ fields:
 - field_name: txbytes
   field_type: integer
   description: Transmitted bytes
-  ecs_field: zscaler.zscalerinternetaccesszia.txbytes
-  cim_field: zscaler.zscalerinternetaccesszia.txbytes
-  asim_field: zscaler.zscalerinternetaccesszia.txbytes
+  ecs_field: network.bytes
+  cim_field: bytes_out
+  asim_field: SrcBytes
   category: Sample
 - field_name: txpkts
   field_type: integer
@@ -2039,8 +2039,8 @@ fields:
 - field_name: unscannabletype
   field_type: string
   description: Unscannable content type
-  ecs_field: zscaler.zscalerinternetaccesszia.unscannabletype
-  cim_field: zscaler.zscalerinternetaccesszia.unscannabletype
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: zscaler.zscalerinternetaccesszia.unscannabletype
   category: Misc
 - field_name: url
@@ -2088,9 +2088,9 @@ fields:
 - field_name: vpncredentialname
   field_type: string
   description: VPN credential name
-  ecs_field: zscaler.zscalerinternetaccesszia.vpncredentialname
-  cim_field: zscaler.zscalerinternetaccesszia.vpncredentialname
-  asim_field: zscaler.zscalerinternetaccesszia.vpncredentialname
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: IKE
 - field_name: year
   field_type: integer
@@ -2109,7 +2109,7 @@ fields:
 - field_name: ztunnelversion
   field_type: string
   description: ZTunnel version
-  ecs_field: zscaler.zscalerinternetaccesszia.ztunnelversion
+  ecs_field: observer.version
   cim_field: zscaler.zscalerinternetaccesszia.ztunnelversion
   asim_field: zscaler.zscalerinternetaccesszia.ztunnelversion
   category: Forwarding

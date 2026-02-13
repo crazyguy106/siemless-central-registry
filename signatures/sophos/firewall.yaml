@@ -7,7 +7,7 @@ source_document: SF syslog file guide 22.0
 source_url: https://docs.sophos.com/nsg/sophos-firewall/22.0/Help/en-us/webhelp/onlinehelp/SyslogGuide/index.html
 extraction_date: '2026-01-01'
 source_file: sophos-firewall-signatures.json
-generated_at: '2026-02-13T07:34:34.707543'
+generated_at: '2026-02-13T08:53:56.251858'
 categories:
 - SD-WAN
 - IPS
@@ -227,7 +227,7 @@ fields:
 - field_name: device_name
   field_type: string
   description: ''
-  ecs_field: host.hostname
+  ecs_field: observer.hostname
   cim_field: device_name
   asim_field: DvcHostname
   category: Antivirus (HTTP / HTTPS)
@@ -251,7 +251,7 @@ fields:
 - field_name: message
   field_type: string
   description: ''
-  ecs_field: message
+  ecs_field: event.original
   cim_field: msg
   asim_field: EventMessage
   category: Antivirus (HTTP / HTTPS)
@@ -523,9 +523,9 @@ fields:
 - field_name: app_technology
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.app_technology
-  cim_field: sophos.firewall.app_technology
-  asim_field: sophos.firewall.app_technology
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkProtocol
   category: Reporting
   display_name: App Technology
 - field_name: app_category
@@ -563,9 +563,9 @@ fields:
 - field_name: parent_app
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.parent_app
-  cim_field: sophos.firewall.parent_app
-  asim_field: sophos.firewall.parent_app
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkProtocol
   category: Reporting
   display_name: Parent App
 - field_name: parent_app_risk
@@ -643,17 +643,17 @@ fields:
 - field_name: application_technology
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.application_technology
-  cim_field: sophos.firewall.application_technology
-  asim_field: sophos.firewall.application_technology
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkProtocol
   category: Reporting
   display_name: Application Technology
 - field_name: application_category
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.application_category
-  cim_field: sophos.firewall.application_category
-  asim_field: sophos.firewall.application_category
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Reporting
   display_name: Application Category
 - field_name: src_country_code
@@ -779,17 +779,17 @@ fields:
 - field_name: login_user
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.login_user
-  cim_field: sophos.firewall.login_user
-  asim_field: sophos.firewall.login_user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: IPS
   display_name: Login User
 - field_name: host_login_user
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.host_login_user
-  cim_field: sophos.firewall.host_login_user
-  asim_field: sophos.firewall.host_login_user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: IPS
   display_name: Host Login User
 - field_name: process_user
@@ -819,9 +819,9 @@ fields:
 - field_name: execution_path
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.execution_path
-  cim_field: sophos.firewall.execution_path
-  asim_field: sophos.firewall.execution_path
+  ecs_field: file.path
+  cim_field: process
+  asim_field: FileName
   category: IPS
   display_name: Execution Path
 - field_name: client_used
@@ -867,9 +867,9 @@ fields:
 - field_name: user_full_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.user_full_name
-  cim_field: sophos.firewall.user_full_name
-  asim_field: sophos.firewall.user_full_name
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: Reporting
   display_name: User Full Name
 - field_name: usergroupname
@@ -931,9 +931,9 @@ fields:
 - field_name: allowed
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.allowed
-  cim_field: sophos.firewall.allowed
-  asim_field: sophos.firewall.allowed
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Heartbeat
   display_name: Allowed
 - field_name: expired
@@ -963,9 +963,9 @@ fields:
 - field_name: failure
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.failure
-  cim_field: sophos.firewall.failure
-  asim_field: sophos.firewall.failure
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: DDNS
   display_name: Failure
 - field_name: host
@@ -1067,9 +1067,9 @@ fields:
 - field_name: client_host_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.client_host_name
-  cim_field: sophos.firewall.client_host_name
-  asim_field: sophos.firewall.client_host_name
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Reporting
   display_name: Client Host Name
 - field_name: raw_data
@@ -1091,7 +1091,7 @@ fields:
 - field_name: sender
   field_type: datetime
   description: ''
-  ecs_field: email.from.address
+  ecs_field: source.user.email
   cim_field: src_email
   asim_field: SrcUserEmail
   category: Reporting
@@ -1099,7 +1099,7 @@ fields:
 - field_name: recipient
   field_type: string
   description: ''
-  ecs_field: email.to.address
+  ecs_field: destination.user.email
   cim_field: dest_email
   asim_field: DstUserEmail
   category: Reporting
@@ -1123,9 +1123,9 @@ fields:
 - field_name: email_size
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.email_size
-  cim_field: sophos.firewall.email_size
-  asim_field: sophos.firewall.email_size
+  ecs_field: file.size
+  cim_field: bytes_in
+  asim_field: SrcBytes
   category: Reporting
   display_name: Email Size
 - field_name: u_int32_t
@@ -1171,9 +1171,9 @@ fields:
 - field_name: quarantine
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.quarantine
-  cim_field: sophos.firewall.quarantine
-  asim_field: sophos.firewall.quarantine
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Reporting
   display_name: Quarantine
 - field_name: obsolete
@@ -1195,25 +1195,25 @@ fields:
 - field_name: spam
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.spam
-  cim_field: sophos.firewall.spam
-  asim_field: sophos.firewall.spam
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Reporting
   display_name: Spam
 - field_name: av_policy_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.av_policy_name
-  cim_field: sophos.firewall.av_policy_name
-  asim_field: sophos.firewall.av_policy_name
+  ecs_field: rule.name
+  cim_field: policy
+  asim_field: RuleName
   category: Reporting
   display_name: Av Policy Name
 - field_name: avaspolicy
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.avaspolicy
-  cim_field: sophos.firewall.avaspolicy
-  asim_field: sophos.firewall.avaspolicy
+  ecs_field: rule.name
+  cim_field: policy
+  asim_field: RuleName
   category: Reporting
   display_name: Avaspolicy
 - field_name: to_email_address
@@ -1227,9 +1227,9 @@ fields:
 - field_name: rcpts
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.rcpts
-  cim_field: sophos.firewall.rcpts
-  asim_field: sophos.firewall.rcpts
+  ecs_field: email.to.address
+  cim_field: user
+  asim_field: DstUsername
   category: Reporting
   display_name: Rcpts
 - field_name: email_subject
@@ -1259,25 +1259,25 @@ fields:
 - field_name: mailsize
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.mailsize
-  cim_field: sophos.firewall.mailsize
-  asim_field: sophos.firewall.mailsize
+  ecs_field: file.size
+  cim_field: bytes_in
+  asim_field: SrcBytes
   category: Reporting
   display_name: Mailsize
 - field_name: mail_size
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.mail_size
-  cim_field: sophos.firewall.mail_size
-  asim_field: sophos.firewall.mail_size
+  ecs_field: file.size
+  cim_field: bytes_in
+  asim_field: SrcBytes
   category: Reporting
   display_name: Mail Size
 - field_name: spamaction
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.spamaction
-  cim_field: sophos.firewall.spamaction
-  asim_field: sophos.firewall.spamaction
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Reporting
   display_name: Spamaction
 - field_name: as
@@ -1307,17 +1307,17 @@ fields:
 - field_name: src_domainname
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.src_domainname
-  cim_field: sophos.firewall.src_domainname
-  asim_field: sophos.firewall.src_domainname
+  ecs_field: source.domain
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Reporting
   display_name: Src Domainname
 - field_name: dst_domainname
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.dst_domainname
-  cim_field: sophos.firewall.dst_domainname
-  asim_field: sophos.firewall.dst_domainname
+  ecs_field: destination.domain
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Reporting
   display_name: Dst Domainname
 - field_name: code
@@ -1331,9 +1331,9 @@ fields:
 - field_name: quarantine_reason
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.quarantine_reason
-  cim_field: sophos.firewall.quarantine_reason
-  asim_field: sophos.firewall.quarantine_reason
+  ecs_field: event.reason
+  cim_field: status
+  asim_field: EventResult
   category: Reporting
   display_name: Quarantine Reason
 - field_name: virusname
@@ -1411,9 +1411,9 @@ fields:
 - field_name: fw_rule_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.fw_rule_name
-  cim_field: sophos.firewall.fw_rule_name
-  asim_field: sophos.firewall.fw_rule_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: SSL VPN
   display_name: Fw Rule Name
 - field_name: policy_type
@@ -1451,9 +1451,9 @@ fields:
 - field_name: appfilter_policy_id
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.appfilter_policy_id
-  cim_field: sophos.firewall.appfilter_policy_id
-  asim_field: sophos.firewall.appfilter_policy_id
+  ecs_field: rule.id
+  cim_field: policy
+  asim_field: RuleName
   category: SSL VPN
   display_name: Appfilter Policy Id
 - field_name: application
@@ -1563,9 +1563,9 @@ fields:
 - field_name: received
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.received
-  cim_field: sophos.firewall.received
-  asim_field: sophos.firewall.received
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: SSL VPN
   display_name: Received
 - field_name: tran_src_ip
@@ -1667,25 +1667,25 @@ fields:
 - field_name: dir_disp
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.dir_disp
-  cim_field: sophos.firewall.dir_disp
-  asim_field: sophos.firewall.dir_disp
+  ecs_field: network.direction
+  cim_field: direction
+  asim_field: EventType
   category: SSL VPN
   display_name: Dir Disp
 - field_name: connevent
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.connevent
-  cim_field: sophos.firewall.connevent
-  asim_field: sophos.firewall.connevent
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: SSL VPN
   display_name: Connevent
 - field_name: con_event
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.con_event
-  cim_field: sophos.firewall.con_event
-  asim_field: sophos.firewall.con_event
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: SSL VPN
   display_name: Con Event
 - field_name: connid
@@ -1699,25 +1699,25 @@ fields:
 - field_name: con_id
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.con_id
-  cim_field: sophos.firewall.con_id
-  asim_field: sophos.firewall.con_id
+  ecs_field: event.code
+  cim_field: signature
+  asim_field: EventType
   category: SSL VPN
   display_name: Con Id
 - field_name: vconnid
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.vconnid
-  cim_field: sophos.firewall.vconnid
-  asim_field: sophos.firewall.vconnid
+  ecs_field: event.code
+  cim_field: signature
+  asim_field: EventType
   category: SSL VPN
   display_name: Vconnid
 - field_name: virt_con_id
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.virt_con_id
-  cim_field: sophos.firewall.virt_con_id
-  asim_field: sophos.firewall.virt_con_id
+  ecs_field: event.code
+  cim_field: signature
+  asim_field: EventType
   category: SSL VPN
   display_name: Virt Con Id
 - field_name: hb_health
@@ -1851,33 +1851,33 @@ fields:
 - field_name: nat_rule_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.nat_rule_name
-  cim_field: sophos.firewall.nat_rule_name
-  asim_field: sophos.firewall.nat_rule_name
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: SSL VPN
   display_name: Nat Rule Name
 - field_name: gatewayname
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.gatewayname
-  cim_field: sophos.firewall.gatewayname
-  asim_field: sophos.firewall.gatewayname
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Gateway
   display_name: Gatewayname
 - field_name: gw_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.gw_name
-  cim_field: sophos.firewall.gw_name
-  asim_field: sophos.firewall.gw_name
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Gateway
   display_name: Gw Name
 - field_name: occurred
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.occurred
-  cim_field: sophos.firewall.occurred
-  asim_field: sophos.firewall.occurred
+  ecs_field: event.start
+  cim_field: action
+  asim_field: EventType
   category: HA - High availability
   display_name: Occurred
 - field_name: time
@@ -1931,9 +1931,9 @@ fields:
 - field_name: ep_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.ep_name
-  cim_field: sophos.firewall.ep_name
-  asim_field: sophos.firewall.ep_name
+  ecs_field: host.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Heartbeat
   display_name: Ep Name
 - field_name: endpoint
@@ -1947,9 +1947,9 @@ fields:
 - field_name: allows
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.allows
-  cim_field: sophos.firewall.allows
-  asim_field: sophos.firewall.allows
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Heartbeat
   display_name: Allows
 - field_name: ep_ip
@@ -1987,9 +1987,9 @@ fields:
 - field_name: stamp
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.stamp
-  cim_field: sophos.firewall.stamp
-  asim_field: sophos.firewall.stamp
+  ecs_field: event.start
+  cim_field: action
+  asim_field: EventType
   category: Heartbeat
   display_name: Stamp
 - field_name: interface
@@ -2003,9 +2003,9 @@ fields:
 - field_name: idp_policy_id
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.idp_policy_id
-  cim_field: sophos.firewall.idp_policy_id
-  asim_field: sophos.firewall.idp_policy_id
+  ecs_field: rule.id
+  cim_field: policy
+  asim_field: RuleName
   category: IPS
   display_name: Idp Policy Id
 - field_name: configured
@@ -2091,9 +2091,9 @@ fields:
 - field_name: victim
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.victim
-  cim_field: sophos.firewall.victim
-  asim_field: sophos.firewall.victim
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: IPS
   display_name: Victim
 - field_name: set
@@ -2107,17 +2107,17 @@ fields:
 - field_name: connectionname
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.connectionname
-  cim_field: sophos.firewall.connectionname
-  asim_field: sophos.firewall.connectionname
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkProtocol
   category: IPsec
   display_name: Connectionname
 - field_name: connectiontype
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.connectiontype
-  cim_field: sophos.firewall.connectiontype
-  asim_field: sophos.firewall.connectiontype
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: IPsec
   display_name: Connectiontype
 - field_name: unused
@@ -2131,17 +2131,17 @@ fields:
 - field_name: localinterfaceip
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.localinterfaceip
-  cim_field: sophos.firewall.localinterfaceip
-  asim_field: sophos.firewall.localinterfaceip
+  ecs_field: host.ip
+  cim_field: dvc
+  asim_field: DvcHostname
   category: IPsec
   display_name: Localinterfaceip
 - field_name: localgateway
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.localgateway
-  cim_field: sophos.firewall.localgateway
-  asim_field: sophos.firewall.localgateway
+  ecs_field: host.ip
+  cim_field: dvc
+  asim_field: DvcHostname
   category: IPsec
   display_name: Localgateway
 - field_name: gw_ip
@@ -2155,33 +2155,33 @@ fields:
 - field_name: localnetwork
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.localnetwork
-  cim_field: sophos.firewall.localnetwork
-  asim_field: sophos.firewall.localnetwork
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: IPsec
   display_name: Localnetwork
 - field_name: local_network
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.local_network
-  cim_field: sophos.firewall.local_network
-  asim_field: sophos.firewall.local_network
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: IPsec
   display_name: Local Network
 - field_name: remotenetwork
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.remotenetwork
-  cim_field: sophos.firewall.remotenetwork
-  asim_field: sophos.firewall.remotenetwork
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: IPsec
   display_name: Remotenetwork
 - field_name: remote_network
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.remote_network
-  cim_field: sophos.firewall.remote_network
-  asim_field: sophos.firewall.remote_network
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: IPsec
   display_name: Remote Network
 - field_name: reproduced
@@ -2203,17 +2203,17 @@ fields:
 - field_name: remotepeer
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.remotepeer
-  cim_field: sophos.firewall.remotepeer
-  asim_field: sophos.firewall.remotepeer
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: L2TP PPTP VPN
   display_name: Remotepeer
 - field_name: ipleased
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.ipleased
-  cim_field: sophos.firewall.ipleased
-  asim_field: sophos.firewall.ipleased
+  ecs_field: host.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: L2TP PPTP VPN
   display_name: Ipleased
 - field_name: bytes_recv
@@ -2227,9 +2227,9 @@ fields:
 - field_name: con_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.con_name
-  cim_field: sophos.firewall.con_name
-  asim_field: sophos.firewall.con_name
+  ecs_field: network.application
+  cim_field: app
+  asim_field: NetworkProtocol
   category: RED
   display_name: Con Name
 - field_name: disable_count
@@ -2251,9 +2251,9 @@ fields:
 - field_name: disconnected
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.disconnected
-  cim_field: sophos.firewall.disconnected
-  asim_field: sophos.firewall.disconnected
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: RED
   display_name: Disconnected
 - field_name: con_count
@@ -2331,9 +2331,9 @@ fields:
 - field_name: source
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.source
-  cim_field: sophos.firewall.source
-  asim_field: sophos.firewall.source
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Zero Day Protection events
   display_name: Source
 - field_name: line
@@ -2371,17 +2371,17 @@ fields:
 - field_name: clean
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.clean
-  cim_field: sophos.firewall.clean
-  asim_field: sophos.firewall.clean
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Zero Day Protection events
   display_name: Clean
 - field_name: malicious
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.malicious
-  cim_field: sophos.firewall.malicious
-  asim_field: sophos.firewall.malicious
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Zero Day Protection events
   display_name: Malicious
 - field_name: cloud
@@ -2419,41 +2419,41 @@ fields:
 - field_name: profile_id
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.profile_id
-  cim_field: sophos.firewall.profile_id
-  asim_field: sophos.firewall.profile_id
+  ecs_field: rule.id
+  cim_field: policy
+  asim_field: RuleName
   category: SD-WAN
   display_name: Profile Id
 - field_name: profile_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.profile_name
-  cim_field: sophos.firewall.profile_name
-  asim_field: sophos.firewall.profile_name
+  ecs_field: rule.name
+  cim_field: policy
+  asim_field: RuleName
   category: SD-WAN
   display_name: Profile Name
 - field_name: gw_id
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.gw_id
-  cim_field: sophos.firewall.gw_id
-  asim_field: sophos.firewall.gw_id
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: SD-WAN
   display_name: Gw Id
 - field_name: probe_target
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.probe_target
-  cim_field: sophos.firewall.probe_target
-  asim_field: sophos.firewall.probe_target
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: SD-WAN
   display_name: Probe Target
 - field_name: latency
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.latency
-  cim_field: sophos.firewall.latency
-  asim_field: sophos.firewall.latency
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventType
   category: SD-WAN
   display_name: Latency
 - field_name: jitter
@@ -2475,9 +2475,9 @@ fields:
 - field_name: gw_status
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.gw_status
-  cim_field: sophos.firewall.gw_status
-  asim_field: sophos.firewall.gw_status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: SD-WAN
   display_name: Gw Status
 - field_name: sla_status
@@ -2499,17 +2499,17 @@ fields:
 - field_name: notify
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.notify
-  cim_field: sophos.firewall.notify
-  asim_field: sophos.firewall.notify
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Reporting
   display_name: Notify
 - field_name: decrypt
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.decrypt
-  cim_field: sophos.firewall.decrypt
-  asim_field: sophos.firewall.decrypt
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Reporting
   display_name: Decrypt
 - field_name: rule_id
@@ -2539,9 +2539,9 @@ fields:
 - field_name: resumed
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.resumed
-  cim_field: sophos.firewall.resumed
-  asim_field: sophos.firewall.resumed
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Reporting
   display_name: Resumed
 - field_name: value
@@ -2563,9 +2563,9 @@ fields:
 - field_name: fingerprint
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.fingerprint
-  cim_field: sophos.firewall.fingerprint
-  asim_field: sophos.firewall.fingerprint
+  ecs_field: file.hash.sha256
+  cim_field: file_name
+  asim_field: FileName
   category: Reporting
   display_name: Fingerprint
 - field_name: cipher_suite
@@ -2691,9 +2691,9 @@ fields:
 - field_name: ws_protocol
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.ws_protocol
-  cim_field: sophos.firewall.ws_protocol
-  asim_field: sophos.firewall.ws_protocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Firewall
   display_name: Ws Protocol
 - field_name: query_string
@@ -2795,9 +2795,9 @@ fields:
 - field_name: microseconds
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.microseconds
-  cim_field: sophos.firewall.microseconds
-  asim_field: sophos.firewall.microseconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventType
   category: Firewall
   display_name: Microseconds
 - field_name: bytessent
@@ -2811,9 +2811,9 @@ fields:
 - field_name: bytesrcv
   field_type: int
   description: ''
-  ecs_field: sophos.firewall.bytesrcv
-  cim_field: sophos.firewall.bytesrcv
-  asim_field: sophos.firewall.bytesrcv
+  ecs_field: source.bytes
+  cim_field: bytes_in
+  asim_field: SrcBytes
   category: Firewall
   display_name: Bytesrcv
 - field_name: http_status
@@ -2835,9 +2835,9 @@ fields:
 - field_name: originated
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.originated
-  cim_field: sophos.firewall.originated
-  asim_field: sophos.firewall.originated
+  ecs_field: event.start
+  cim_field: action
+  asim_field: EventType
   category: Web (System HTTPS Deny events)
   display_name: Originated
 - field_name: country
@@ -2883,57 +2883,57 @@ fields:
 - field_name: scanning
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.scanning
-  cim_field: sophos.firewall.scanning
-  asim_field: sophos.firewall.scanning
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Web content policy
   display_name: Scanning
 - field_name: http_category
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.http_category
-  cim_field: sophos.firewall.http_category
-  asim_field: sophos.firewall.http_category
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Web content policy
   display_name: Http Category
 - field_name: site_category
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.site_category
-  cim_field: sophos.firewall.site_category
-  asim_field: sophos.firewall.site_category
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Web content policy
   display_name: Site Category
 - field_name: website
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.website
-  cim_field: sophos.firewall.website
-  asim_field: sophos.firewall.website
+  ecs_field: url.domain
+  cim_field: url
+  asim_field: UrlOriginal
   category: Web content policy
   display_name: Website
 - field_name: scanned
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.scanned
-  cim_field: sophos.firewall.scanned
-  asim_field: sophos.firewall.scanned
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Web content policy
   display_name: Scanned
 - field_name: in
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.in
-  cim_field: sophos.firewall.in
-  asim_field: sophos.firewall.in
+  ecs_field: source.bytes
+  cim_field: bytes_in
+  asim_field: SrcBytes
   category: Web content policy
   display_name: In
 - field_name: out
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.out
-  cim_field: sophos.firewall.out
-  asim_field: sophos.firewall.out
+  ecs_field: destination.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
   category: Web content policy
   display_name: Out
 - field_name: match
@@ -2955,9 +2955,9 @@ fields:
 - field_name: uploaded
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.uploaded
-  cim_field: sophos.firewall.uploaded
-  asim_field: sophos.firewall.uploaded
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventResult
   category: Web content policy
   display_name: Uploaded
 - field_name: context_match
@@ -2987,9 +2987,9 @@ fields:
 - field_name: zone
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.zone
-  cim_field: sophos.firewall.zone
-  asim_field: sophos.firewall.zone
+  ecs_field: observer.ingress.zone
+  cim_field: src_zone
+  asim_field: SrcZone
   category: Web content policy
   display_name: Zone
 - field_name: transactionid
@@ -3003,9 +3003,9 @@ fields:
 - field_name: sitecategory
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.sitecategory
-  cim_field: sophos.firewall.sitecategory
-  asim_field: sophos.firewall.sitecategory
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Web content policy
   display_name: Sitecategory
 - field_name: rule
@@ -3051,33 +3051,33 @@ fields:
 - field_name: web_policy
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.web_policy
-  cim_field: sophos.firewall.web_policy
-  asim_field: sophos.firewall.web_policy
+  ecs_field: rule.name
+  cim_field: policy
+  asim_field: RuleName
   category: Web filter
   display_name: Web Policy
 - field_name: requested
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.requested
-  cim_field: sophos.firewall.requested
-  asim_field: sophos.firewall.requested
+  ecs_field: event.start
+  cim_field: action
+  asim_field: EventType
   category: Web filter
   display_name: Requested
 - field_name: http_category_type
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.http_category_type
-  cim_field: sophos.firewall.http_category_type
-  asim_field: sophos.firewall.http_category_type
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Web filter
   display_name: Http Category Type
 - field_name: category_type
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.category_type
-  cim_field: sophos.firewall.category_type
-  asim_field: sophos.firewall.category_type
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Web filter
   display_name: Category Type
 - field_name: override_token
@@ -3115,9 +3115,9 @@ fields:
 - field_name: authorizer
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.authorizer
-  cim_field: sophos.firewall.authorizer
-  asim_field: sophos.firewall.authorizer
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: Web filter
   display_name: Authorizer
 - field_name: session
@@ -3131,25 +3131,25 @@ fields:
 - field_name: firewall
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.firewall
-  cim_field: sophos.firewall.firewall
-  asim_field: sophos.firewall.firewall
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Web filter
   display_name: Firewall
 - field_name: activity_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.activity_name
-  cim_field: sophos.firewall.activity_name
-  asim_field: sophos.firewall.activity_name
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Web filter
   display_name: Activity Name
 - field_name: recorded
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.recorded
-  cim_field: sophos.firewall.recorded
-  asim_field: sophos.firewall.recorded
+  ecs_field: event.start
+  cim_field: action
+  asim_field: EventType
   category: Web filter
   display_name: Recorded
 - field_name: immediately
@@ -3179,25 +3179,25 @@ fields:
 - field_name: download_file_type
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.download_file_type
-  cim_field: sophos.firewall.download_file_type
-  asim_field: sophos.firewall.download_file_type
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: Web filter
   display_name: Download File Type
 - field_name: upload_file_name
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.upload_file_name
-  cim_field: sophos.firewall.upload_file_name
-  asim_field: sophos.firewall.upload_file_name
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: Web filter
   display_name: Upload File Name
 - field_name: upload_file_type
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.upload_file_type
-  cim_field: sophos.firewall.upload_file_type
-  asim_field: sophos.firewall.upload_file_type
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: FileName
   category: Web filter
   display_name: Upload File Type
 - field_name: used_quota
@@ -3211,17 +3211,17 @@ fields:
 - field_name: risk
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.risk
-  cim_field: sophos.firewall.risk
-  asim_field: sophos.firewall.risk
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
   category: Web filter
   display_name: Risk
 - field_name: parent_app_category
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.parent_app_category
-  cim_field: sophos.firewall.parent_app_category
-  asim_field: sophos.firewall.parent_app_category
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventType
   category: Web filter
   display_name: Parent App Category
 - field_name: namw
@@ -3235,9 +3235,9 @@ fields:
 - field_name: activityname
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.activityname
-  cim_field: sophos.firewall.activityname
-  asim_field: sophos.firewall.activityname
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Firewall
   display_name: Activityname
 - field_name: ssid
@@ -3251,9 +3251,9 @@ fields:
 - field_name: ap
   field_type: string
   description: ''
-  ecs_field: sophos.firewall.ap
-  cim_field: sophos.firewall.ap
-  asim_field: sophos.firewall.ap
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Reporting
   display_name: Ap
 notes: Extracted from Sophos Firewall Syslog Guide using field table pattern matching

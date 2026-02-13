@@ -7,7 +7,7 @@ source_document: Fireware v12.10.x Log Message Catalog
 source_url: https://www.watchguard.com/help/docs/help-center/en-US/Content/Integration-Guides/log-catalog/log-catalog.html
 extraction_date: '2026-01-01'
 source_file: watchguard-firebox-signatures.json
-generated_at: '2026-02-13T07:34:35.177902'
+generated_at: '2026-02-13T08:53:56.715684'
 categories:
 - Proxy Policy
 - VPN
@@ -670,9 +670,9 @@ fields:
 - field_name: member
   field_type: string
   description: Cluster member name
-  ecs_field: watchguard.firebox.member
-  cim_field: cluster_member
-  asim_field: DvcClusterMember
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Common
   display_name: Member
 - field_name: sender
@@ -982,9 +982,9 @@ fields:
 - field_name: iph_len
   field_type: int
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.iph_len
-  cim_field: watchguard.firebox.iph_len
-  asim_field: watchguard.firebox.iph_len
+  ecs_field: network.bytes
+  cim_field: bytes
+  asim_field: SrcBytes
   category: Firewall
   display_name: Iph Len
 - field_name: udp_info
@@ -998,16 +998,16 @@ fields:
 - field_name: route_type
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.route_type
-  cim_field: watchguard.firebox.route_type
+  ecs_field: network.direction
+  cim_field: direction
   asim_field: watchguard.firebox.route_type
   category: Firewall
   display_name: Route Type
 - field_name: cat_name
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.cat_name
-  cim_field: watchguard.firebox.cat_name
+  ecs_field: rule.category
+  cim_field: category
   asim_field: watchguard.firebox.cat_name
   category: Firewall
   display_name: Cat Name
@@ -1022,15 +1022,15 @@ fields:
 - field_name: cat_id
   field_type: int
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.cat_id
-  cim_field: watchguard.firebox.cat_id
+  ecs_field: rule.id
+  cim_field: signature
   asim_field: watchguard.firebox.cat_id
   category: Firewall
   display_name: Cat Id
 - field_name: vers
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.vers
+  ecs_field: observer.version
   cim_field: watchguard.firebox.vers
   asim_field: watchguard.firebox.vers
   category: Firewall
@@ -1038,17 +1038,17 @@ fields:
 - field_name: app_beh_name
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.app_beh_name
-  cim_field: watchguard.firebox.app_beh_name
-  asim_field: watchguard.firebox.app_beh_name
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Firewall
   display_name: App Beh Name
 - field_name: ctl_disp
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.ctl_disp
-  cim_field: watchguard.firebox.ctl_disp
-  asim_field: watchguard.firebox.ctl_disp
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
   category: Firewall
   display_name: Ctl Disp
 - field_name: signature_name
@@ -1062,8 +1062,8 @@ fields:
 - field_name: signature_cat
   field_type: string
   description: WatchGuard Firewall field
-  ecs_field: watchguard.firebox.signature_cat
-  cim_field: watchguard.firebox.signature_cat
+  ecs_field: rule.category
+  cim_field: category
   asim_field: watchguard.firebox.signature_cat
   category: Firewall
   display_name: Signature Cat
@@ -1158,9 +1158,9 @@ fields:
 - field_name: dev_name
   field_type: string
   description: WatchGuard Networking field
-  ecs_field: watchguard.firebox.dev_name
-  cim_field: watchguard.firebox.dev_name
-  asim_field: watchguard.firebox.dev_name
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Networking
   display_name: Dev Name
 - field_name: operation
@@ -1190,9 +1190,9 @@ fields:
 - field_name: if_name
   field_type: string
   description: WatchGuard Networking field
-  ecs_field: watchguard.firebox.if_name
-  cim_field: watchguard.firebox.if_name
-  asim_field: watchguard.firebox.if_name
+  ecs_field: observer.ingress.interface
+  cim_field: src_zone
+  asim_field: SrcZone
   category: Networking
   display_name: If Name
 - field_name: response
@@ -1206,9 +1206,9 @@ fields:
 - field_name: ret_code
   field_type: string
   description: WatchGuard Networking field
-  ecs_field: watchguard.firebox.ret_code
-  cim_field: watchguard.firebox.ret_code
-  asim_field: watchguard.firebox.ret_code
+  ecs_field: event.code
+  cim_field: status
+  asim_field: EventResult
   category: Networking
   display_name: Ret Code
 - field_name: domain
@@ -1398,9 +1398,9 @@ fields:
 - field_name: scan_type
   field_type: string
   description: WatchGuard Networking field
-  ecs_field: watchguard.firebox.scan_type
-  cim_field: watchguard.firebox.scan_type
-  asim_field: watchguard.firebox.scan_type
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Networking
   display_name: Scan Type
 - field_name: scan_stage
@@ -1414,8 +1414,8 @@ fields:
 - field_name: etails
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.etails
-  cim_field: watchguard.firebox.etails
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: watchguard.firebox.etails
   category: Proxy Policy
   display_name: Etails
@@ -1494,17 +1494,17 @@ fields:
 - field_name: app_beh_id
   field_type: int
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.app_beh_id
-  cim_field: watchguard.firebox.app_beh_id
+  ecs_field: event.code
+  cim_field: status
   asim_field: watchguard.firebox.app_beh_id
   category: Proxy Policy
   display_name: App Beh Id
 - field_name: dlp_sensor
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.dlp_sensor
-  cim_field: watchguard.firebox.dlp_sensor
-  asim_field: watchguard.firebox.dlp_sensor
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Proxy Policy
   display_name: Dlp Sensor
 - field_name: rule
@@ -1526,15 +1526,15 @@ fields:
 - field_name: redirect_action
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.redirect_action
-  cim_field: watchguard.firebox.redirect_action
-  asim_field: watchguard.firebox.redirect_action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Proxy Policy
   display_name: Redirect Action
 - field_name: task_uuid
   field_type: int
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.task_uuid
+  ecs_field: event.id
   cim_field: watchguard.firebox.task_uuid
   asim_field: watchguard.firebox.task_uuid
   category: Proxy Policy
@@ -1566,9 +1566,9 @@ fields:
 - field_name: ssl
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.ssl
-  cim_field: watchguard.firebox.ssl
-  asim_field: watchguard.firebox.ssl
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Proxy Policy
   display_name: Ssl
 - field_name: content_src
@@ -1622,7 +1622,7 @@ fields:
 - field_name: recipients
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.recipients
+  ecs_field: email.to.address
   cim_field: watchguard.firebox.recipients
   asim_field: watchguard.firebox.recipients
   category: Proxy Policy
@@ -1630,8 +1630,8 @@ fields:
 - field_name: timeout
   field_type: int
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.timeout
-  cim_field: watchguard.firebox.timeout
+  ecs_field: event.duration
+  cim_field: duration
   asim_field: watchguard.firebox.timeout
   category: Proxy Policy
   display_name: Timeout
@@ -1670,9 +1670,9 @@ fields:
 - field_name: response_size
   field_type: int
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.response_size
-  cim_field: watchguard.firebox.response_size
-  asim_field: watchguard.firebox.response_size
+  ecs_field: http.response.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: Proxy Policy
   display_name: Response Size
 - field_name: line_length
@@ -1694,8 +1694,8 @@ fields:
 - field_name: pad_error
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.pad_error
-  cim_field: watchguard.firebox.pad_error
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: watchguard.firebox.pad_error
   category: Proxy Policy
   display_name: Pad Error
@@ -1726,8 +1726,8 @@ fields:
 - field_name: wgrd_spam_id
   field_type: int
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.wgrd_spam_id
-  cim_field: watchguard.firebox.wgrd_spam_id
+  ecs_field: rule.id
+  cim_field: signature
   asim_field: watchguard.firebox.wgrd_spam_id
   category: Proxy Policy
   display_name: Wgrd Spam Id
@@ -1742,9 +1742,9 @@ fields:
 - field_name: ctl_src
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.ctl_src
-  cim_field: watchguard.firebox.ctl_src
-  asim_field: watchguard.firebox.ctl_src
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: Proxy Policy
   display_name: Ctl Src
 - field_name: file
@@ -1758,25 +1758,25 @@ fields:
 - field_name: ctl_dst
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.ctl_dst
-  cim_field: watchguard.firebox.ctl_dst
-  asim_field: watchguard.firebox.ctl_dst
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: Proxy Policy
   display_name: Ctl Dst
 - field_name: sensor
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.sensor
-  cim_field: watchguard.firebox.sensor
-  asim_field: watchguard.firebox.sensor
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Proxy Policy
   display_name: Sensor
 - field_name: authenticated_user
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.authenticated_user
-  cim_field: watchguard.firebox.authenticated_user
-  asim_field: watchguard.firebox.authenticated_user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: Proxy Policy
   display_name: Authenticated User
 - field_name: bounce_ip
@@ -1790,7 +1790,7 @@ fields:
 - field_name: query_class
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.query_class
+  ecs_field: dns.question.class
   cim_field: watchguard.firebox.query_class
   asim_field: watchguard.firebox.query_class
   category: Proxy Policy
@@ -1798,7 +1798,7 @@ fields:
 - field_name: query_opcode
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.query_opcode
+  ecs_field: dns.question.type
   cim_field: watchguard.firebox.query_opcode
   asim_field: watchguard.firebox.query_opcode
   category: Proxy Policy
@@ -1814,9 +1814,9 @@ fields:
 - field_name: app_cat_name
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.app_cat_name
-  cim_field: watchguard.firebox.app_cat_name
-  asim_field: watchguard.firebox.app_cat_name
+  ecs_field: url.category
+  cim_field: url_category
+  asim_field: UrlCategory
   category: Proxy Policy
   display_name: App Cat Name
 - field_name: from
@@ -1838,9 +1838,9 @@ fields:
 - field_name: len
   field_type: int
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.len
-  cim_field: watchguard.firebox.len
-  asim_field: watchguard.firebox.len
+  ecs_field: network.bytes
+  cim_field: bytes
+  asim_field: SrcBytes
   category: Proxy Policy
   display_name: Len
 - field_name: mbx
@@ -1854,9 +1854,9 @@ fields:
 - field_name: call_from
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.call_from
-  cim_field: watchguard.firebox.call_from
-  asim_field: watchguard.firebox.call_from
+  ecs_field: source.user.name
+  cim_field: user
+  asim_field: SrcUsername
   category: Proxy Policy
   display_name: Call From
 - field_name: codec
@@ -1870,9 +1870,9 @@ fields:
 - field_name: call_to
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.call_to
+  ecs_field: destination.user.name
   cim_field: watchguard.firebox.call_to
-  asim_field: watchguard.firebox.call_to
+  asim_field: DstUsername
   category: Proxy Policy
   display_name: Call To
 - field_name: sni
@@ -1910,9 +1910,9 @@ fields:
 - field_name: beh_name
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.beh_name
-  cim_field: watchguard.firebox.beh_name
-  asim_field: watchguard.firebox.beh_name
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Proxy Policy
   display_name: Beh Name
 - field_name: data
@@ -1926,33 +1926,33 @@ fields:
 - field_name: inspect_action
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.inspect_action
-  cim_field: watchguard.firebox.inspect_action
-  asim_field: watchguard.firebox.inspect_action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Proxy Policy
   display_name: Inspect Action
 - field_name: exception_rule
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.exception_rule
-  cim_field: watchguard.firebox.exception_rule
-  asim_field: watchguard.firebox.exception_rule
+  ecs_field: rule.name
+  cim_field: rule
+  asim_field: RuleName
   category: Proxy Policy
   display_name: Exception Rule
 - field_name: new_action
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.new_action
-  cim_field: watchguard.firebox.new_action
-  asim_field: watchguard.firebox.new_action
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
   category: Proxy Policy
   display_name: New Action
 - field_name: rotocol
   field_type: string
   description: WatchGuard Proxy Policy field
-  ecs_field: watchguard.firebox.rotocol
-  cim_field: watchguard.firebox.rotocol
-  asim_field: watchguard.firebox.rotocol
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: Proxy Policy
   display_name: Rotocol
 - field_name: geo_dst
@@ -1990,9 +1990,9 @@ fields:
 - field_name: subsystem
   field_type: string
   description: WatchGuard Management field
-  ecs_field: watchguard.firebox.subsystem
-  cim_field: watchguard.firebox.subsystem
-  asim_field: watchguard.firebox.subsystem
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
   category: Management
   display_name: Subsystem
 - field_name: object
@@ -2038,8 +2038,8 @@ fields:
 - field_name: lockout_type
   field_type: string
   description: WatchGuard Management field
-  ecs_field: watchguard.firebox.lockout_type
-  cim_field: watchguard.firebox.lockout_type
+  ecs_field: event.category
+  cim_field: category
   asim_field: watchguard.firebox.lockout_type
   category: Management
   display_name: Lockout Type
@@ -2142,17 +2142,17 @@ fields:
 - field_name: local
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.local
-  cim_field: watchguard.firebox.local
-  asim_field: watchguard.firebox.local
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: VPN
   display_name: Local
 - field_name: remote
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.remote
-  cim_field: watchguard.firebox.remote
-  asim_field: watchguard.firebox.remote
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: VPN
   display_name: Remote
 - field_name: cert_type
@@ -2166,16 +2166,16 @@ fields:
 - field_name: ndpoint
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.ndpoint
-  cim_field: watchguard.firebox.ndpoint
-  asim_field: watchguard.firebox.ndpoint
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
   category: VPN
   display_name: Ndpoint
 - field_name: eason
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.eason
-  cim_field: watchguard.firebox.eason
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: watchguard.firebox.eason
   category: VPN
   display_name: Eason
@@ -2198,9 +2198,9 @@ fields:
 - field_name: received
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.received
-  cim_field: watchguard.firebox.received
-  asim_field: watchguard.firebox.received
+  ecs_field: network.bytes
+  cim_field: bytes_in
+  asim_field: DstBytes
   category: VPN
   display_name: Received
 - field_name: expected
@@ -2230,8 +2230,8 @@ fields:
 - field_name: info_msg
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.info_msg
-  cim_field: watchguard.firebox.info_msg
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: watchguard.firebox.info_msg
   category: VPN
   display_name: Info Msg
@@ -2254,9 +2254,9 @@ fields:
 - field_name: received_if
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.received_if
-  cim_field: watchguard.firebox.received_if
-  asim_field: watchguard.firebox.received_if
+  ecs_field: observer.ingress.interface
+  cim_field: src_zone
+  asim_field: SrcZone
   category: VPN
   display_name: Received If
 - field_name: received_ifindex
@@ -2270,9 +2270,9 @@ fields:
 - field_name: expected_if
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.expected_if
-  cim_field: watchguard.firebox.expected_if
-  asim_field: watchguard.firebox.expected_if
+  ecs_field: observer.egress.interface
+  cim_field: dest_zone
+  asim_field: DstZone
   category: VPN
   display_name: Expected If
 - field_name: received_ip
@@ -2302,9 +2302,9 @@ fields:
 - field_name: received_proto
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.received_proto
-  cim_field: watchguard.firebox.received_proto
-  asim_field: watchguard.firebox.received_proto
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
   category: VPN
   display_name: Received Proto
 - field_name: expected_proto
@@ -2318,17 +2318,17 @@ fields:
 - field_name: ateway
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.ateway
-  cim_field: watchguard.firebox.ateway
-  asim_field: watchguard.firebox.ateway
+  ecs_field: observer.ip
+  cim_field: dvc
+  asim_field: DvcHostname
   category: VPN
   display_name: Ateway
 - field_name: tr_local
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.tr_local
-  cim_field: watchguard.firebox.tr_local
-  asim_field: watchguard.firebox.tr_local
+  ecs_field: source.nat.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
   category: VPN
   display_name: Tr Local
 - field_name: user_name
@@ -2374,16 +2374,16 @@ fields:
 - field_name: req_or_resp
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.req_or_resp
-  cim_field: watchguard.firebox.req_or_resp
+  ecs_field: network.direction
+  cim_field: direction
   asim_field: watchguard.firebox.req_or_resp
   category: VPN
   display_name: Req Or Resp
 - field_name: msg_info
   field_type: string
   description: WatchGuard VPN field
-  ecs_field: watchguard.firebox.msg_info
-  cim_field: watchguard.firebox.msg_info
+  ecs_field: event.reason
+  cim_field: reason
   asim_field: watchguard.firebox.msg_info
   category: VPN
   display_name: Msg Info
@@ -2438,7 +2438,7 @@ fields:
 - field_name: ver_number
   field_type: int
   description: WatchGuard Mobile Security field
-  ecs_field: watchguard.firebox.ver_number
+  ecs_field: observer.version
   cim_field: watchguard.firebox.ver_number
   asim_field: watchguard.firebox.ver_number
   category: Mobile Security
