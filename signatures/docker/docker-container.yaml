@@ -7,7 +7,7 @@ source_document: JSON File Logging Driver Documentation
 source_url: https://docs.docker.com/config/containers/logging/json-file/
 extraction_date: '2026-01-02'
 source_file: docker-signatures.json
-generated_at: '2026-02-12T18:54:28.771128'
+generated_at: '2026-02-13T07:34:25.576941'
 categories:
 - LogEntry
 - Stream
@@ -20,89 +20,88 @@ fields:
 - field_name: log
   field_type: string
   description: The actual log message content, typically ending with newline character
-  category: LogEntry
   ecs_field: docker.dockercontainerlogs.log
   cim_field: docker.dockercontainerlogs.log
   asim_field: docker.dockercontainerlogs.log
+  category: LogEntry
 - field_name: stream
   field_type: enum
   description: 'Origin designation: stdout or stderr'
-  category: Stream
   ecs_field: docker.dockercontainerlogs.stream
   cim_field: docker.dockercontainerlogs.stream
   asim_field: docker.dockercontainerlogs.stream
+  category: Stream
 - field_name: time
   field_type: datetime
   description: ISO 8601 formatted timestamp (RFC3339Nano) indicating when the log
     was captured
-  category: Timestamp
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
+  category: Timestamp
 - field_name: container_id
   field_type: string
   description: Container ID (full 64-char hex)
-  category: Container
   ecs_field: container.id
   cim_field: container_id
   asim_field: ContainerId
+  category: Container
 - field_name: container_name
   field_type: string
   description: Container name (without leading slash)
-  category: Container
   ecs_field: container.name
   cim_field: container_name
   asim_field: ContainerName
+  category: Container
 - field_name: image_id
   field_type: string
   description: Image ID used to create container
-  category: Container
   ecs_field: docker.dockercontainerlogs.image_id
   cim_field: docker.dockercontainerlogs.image_id
   asim_field: docker.dockercontainerlogs.image_id
+  category: Container
 - field_name: image_name
   field_type: string
   description: Image name including tag
-  category: Container
   ecs_field: container.image.name
-  cim_field: ''
-  asim_field: ''
+  cim_field: image_name
+  asim_field: image_name
+  category: Container
 - field_name: partial_message
   field_type: boolean
   description: True if message exceeds 16KB buffer and is split
-  category: LogEntry
   ecs_field: docker.dockercontainerlogs.partial_message
   cim_field: docker.dockercontainerlogs.partial_message
   asim_field: docker.dockercontainerlogs.partial_message
+  category: LogEntry
 - field_name: partial_id
   field_type: string
   description: Unique ID linking partial message fragments
-  category: LogEntry
   ecs_field: docker.dockercontainerlogs.partial_id
   cim_field: docker.dockercontainerlogs.partial_id
   asim_field: docker.dockercontainerlogs.partial_id
+  category: LogEntry
 - field_name: partial_ordinal
   field_type: integer
   description: Sequence number for partial message reassembly
-  category: LogEntry
   ecs_field: docker.dockercontainerlogs.partial_ordinal
   cim_field: docker.dockercontainerlogs.partial_ordinal
   asim_field: docker.dockercontainerlogs.partial_ordinal
+  category: LogEntry
 - field_name: partial_last
   field_type: boolean
   description: True if this is the final fragment of a partial message
-  category: LogEntry
   ecs_field: docker.dockercontainerlogs.partial_last
   cim_field: docker.dockercontainerlogs.partial_last
   asim_field: docker.dockercontainerlogs.partial_last
+  category: LogEntry
 - field_name: attrs
   field_type: object
   description: Container labels and environment variables (when logging with labels/env
     options)
-  category: Labels
   ecs_field: docker.dockercontainerlogs.attrs
   cim_field: docker.dockercontainerlogs.attrs
   asim_field: docker.dockercontainerlogs.attrs
-mapped_field_count: 12
+  category: Labels
 notes: JSON file logging driver is Docker's default logging driver. Logs are stored
   as JSON objects, one per line.

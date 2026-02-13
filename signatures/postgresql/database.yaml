@@ -5,12 +5,161 @@ product_full_name: Database
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: postgresql-database-signatures.json
-generated_at: '2026-02-12T18:54:31.599016'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-13T07:34:34.384598'
+field_count: 25
+fields:
+- field_name: postgresql.log.client_addr
+  field_type: ip
+  description: Host where the connection originated from
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: postgresql.log.client_port
+  field_type: integer
+  description: Port where the connection originated from
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: postgresql.log.session_id
+  field_type: keyword
+  description: PostgreSQL session identifier
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: postgresql.log.session_line_number
+  field_type: long
+  description: Line number inside a session
+  ecs_field: event.sequence
+  cim_field: sequence
+  asim_field: EventSequence
+- field_name: postgresql.log.database
+  field_type: keyword
+  description: Name of database
+  ecs_field: database.name
+  cim_field: db_name
+  asim_field: TargetAppName
+- field_name: postgresql.log.query
+  field_type: keyword
+  description: Query statement
+  ecs_field: database.query
+  cim_field: query
+  asim_field: TargetProcessCommandLine
+- field_name: postgresql.log.query_step
+  field_type: keyword
+  description: Statement step (statement, parse, bind, execute)
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventSubType
+- field_name: postgresql.log.query_name
+  field_type: keyword
+  description: Name given to a query using extended query protocol
+  ecs_field: database.statement_name
+  cim_field: statement_name
+  asim_field: TargetProcessName
+- field_name: postgresql.log.command_tag
+  field_type: keyword
+  description: Type of session's current command (SELECT, INSERT, etc.)
+  ecs_field: event.action
+  cim_field: command
+  asim_field: EventType
+- field_name: postgresql.log.session_start_time
+  field_type: date
+  description: Time when this session started
+  ecs_field: session.start
+  cim_field: session_start
+  asim_field: EventStartTime
+- field_name: postgresql.log.virtual_transaction_id
+  field_type: keyword
+  description: Backend local transaction id
+  ecs_field: transaction.id
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
+- field_name: postgresql.log.transaction_id
+  field_type: long
+  description: The id of current transaction
+  ecs_field: transaction.id
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
+- field_name: postgresql.log.sql_state_code
+  field_type: keyword
+  description: State code returned by Postgres (SQLSTATE)
+  ecs_field: error.code
+  cim_field: error_code
+  asim_field: EventResultDetails
+- field_name: postgresql.log.detail
+  field_type: text
+  description: More information about the message, parameters for parametrized queries
+  ecs_field: error.message
+  cim_field: error_message
+  asim_field: EventMessage
+- field_name: postgresql.log.hint
+  field_type: text
+  description: A possible solution to solve an error
+  ecs_field: error.message
+  cim_field: resolution
+  asim_field: EventRecommendation
+- field_name: postgresql.log.internal_query
+  field_type: text
+  description: Internal query that led to the error
+  ecs_field: database.query
+  cim_field: internal_query
+  asim_field: TargetProcessCommandLine
+- field_name: postgresql.log.internal_query_pos
+  field_type: long
+  description: Character count of the internal query
+  ecs_field: error.stack_trace
+  cim_field: query_position
+  asim_field: EventCount
+- field_name: postgresql.log.context
+  field_type: text
+  description: Error context
+  ecs_field: error.stack_trace
+  cim_field: context
+  asim_field: EventMessage
+- field_name: postgresql.log.query_pos
+  field_type: long
+  description: Character count of the error position
+  ecs_field: error.stack_trace
+  cim_field: error_position
+  asim_field: EventCount
+- field_name: postgresql.log.location
+  field_type: keyword
+  description: Location of the error in PostgreSQL source code
+  ecs_field: error.stack_trace
+  cim_field: source_location
+  asim_field: EventMessage
+- field_name: postgresql.log.application_name
+  field_type: keyword
+  description: Name of the application defined by the client
+  ecs_field: user_agent.name
+  cim_field: app
+  asim_field: TargetAppName
+- field_name: postgresql.log.backend_type
+  field_type: keyword
+  description: Type of backend (client backend, autovacuum worker, etc.)
+  ecs_field: process.name
+  cim_field: process_name
+  asim_field: ActingProcessName
+- field_name: postgresql.log.level
+  field_type: keyword
+  description: Log level (DEBUG, INFO, NOTICE, WARNING, ERROR, LOG, FATAL, PANIC)
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
+- field_name: postgresql.log.user
+  field_type: keyword
+  description: Database user name
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: postgresql.log.message
+  field_type: text
+  description: Log message
+  ecs_field: message
+  cim_field: message
+  asim_field: EventMessage
 signatures:
 - name: postgresql_log
   description: PostgreSQL database log entry

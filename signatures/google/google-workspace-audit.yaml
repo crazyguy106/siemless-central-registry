@@ -7,7 +7,7 @@ source_document: Google Workspace Audit Logging in Cloud Logging
 source_url: https://cloud.google.com/logging/docs/audit/gsuite-audit-logging
 extraction_date: '2026-01-02'
 source_file: google-workspace-signatures.json
-generated_at: '2026-02-12T18:54:31.256026'
+generated_at: '2026-02-13T07:34:33.268572'
 categories:
 - LogEntry
 - ProtoPayload
@@ -21,220 +21,219 @@ fields:
 - field_name: logName
   field_type: string
   description: Contains organization ID and audit log type (admin_activity or data_access)
-  category: LogEntry
   ecs_field: log.logger
   cim_field: log_name
   asim_field: LogName
+  category: LogEntry
 - field_name: resource
   field_type: object
   description: Target of the audited operation
-  category: LogEntry
   ecs_field: url.original
   cim_field: url
   asim_field: Url
+  category: LogEntry
 - field_name: resource.type
   field_type: string
   description: Resource type being audited
-  category: LogEntry
   ecs_field: google.googleworkspaceauditlogs.resource_type
   cim_field: resource_type
   asim_field: CloudResourceType
+  category: LogEntry
 - field_name: resource.labels
   field_type: object
   description: Resource labels including project_id, organization_id
-  category: LogEntry
   ecs_field: cloud.instance.id
-  cim_field: ''
-  asim_field: ''
+  cim_field: resource.labels
+  asim_field: resource.labels
+  category: LogEntry
 - field_name: timestamp
   field_type: datetime
   description: Time when operation occurred (RFC 3339 format)
-  category: LogEntry
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
+  category: LogEntry
 - field_name: severity
   field_type: string
   description: Log severity level
-  category: LogEntry
   ecs_field: log.level
   cim_field: log_level
   asim_field: EventSeverity
+  category: LogEntry
 - field_name: insertId
   field_type: string
   description: Unique identifier for the log entry
-  category: LogEntry
   ecs_field: event.id
   cim_field: insert_id
   asim_field: LogInsertId
+  category: LogEntry
 - field_name: protoPayload.@type
   field_type: string
   description: Always type.googleapis.com/google.cloud.audit.AuditLog
-  category: ProtoPayload
   ecs_field: google.googleworkspaceauditlogs.protopayload__type
   cim_field: google.googleworkspaceauditlogs.protopayload__type
   asim_field: google.googleworkspaceauditlogs.protopayload__type
+  category: ProtoPayload
 - field_name: protoPayload.serviceName
   field_type: string
   description: Service generating the audit log (e.g., admin.googleapis.com)
-  category: ProtoPayload
   ecs_field: cloud.service.name
   cim_field: gcp_service
   asim_field: CloudServiceName
+  category: ProtoPayload
 - field_name: protoPayload.methodName
   field_type: string
   description: Specific operation performed
-  category: ProtoPayload
   ecs_field: event.action
   cim_field: method_name
   asim_field: EventAction
+  category: ProtoPayload
 - field_name: protoPayload.resourceName
   field_type: string
   description: Organization identifier being audited
-  category: ProtoPayload
   ecs_field: google.googleworkspaceauditlogs.protopayload_resourcename
   cim_field: resource_name
   asim_field: CloudResourceName
+  category: ProtoPayload
 - field_name: protoPayload.status
   field_type: object
   description: Status of the operation
-  category: ProtoPayload
   ecs_field: event.outcome
-  cim_field: ''
-  asim_field: ''
+  cim_field: protoPayload.status
+  asim_field: protoPayload.status
+  category: ProtoPayload
 - field_name: protoPayload.authenticationInfo.principalEmail
   field_type: email
   description: Email of user performing the action
-  category: AuthenticationInfo
   ecs_field: user.email
   cim_field: principal_email
   asim_field: ActorUserEmail
+  category: AuthenticationInfo
 - field_name: protoPayload.authenticationInfo.principalSubject
   field_type: string
   description: Subject identifier for the principal
-  category: AuthenticationInfo
   ecs_field: user.id
-  cim_field: ''
-  asim_field: ''
+  cim_field: protoPayload.authenticationInfo.principalSubject
+  asim_field: protoPayload.authenticationInfo.principalSubject
+  category: AuthenticationInfo
 - field_name: protoPayload.requestMetadata.callerIp
   field_type: ip
   description: Source IP address of the request
-  category: RequestMetadata
   ecs_field: source.ip
   cim_field: caller_ip
   asim_field: SrcIpAddr
+  category: RequestMetadata
 - field_name: protoPayload.requestMetadata.callerSuppliedUserAgent
   field_type: string
   description: User agent string from the caller
-  category: RequestMetadata
   ecs_field: user_agent.original
   cim_field: caller_user_agent
   asim_field: UserAgent
+  category: RequestMetadata
 - field_name: protoPayload.requestMetadata.requestAttributes
   field_type: object
   description: Additional request attributes
-  category: RequestMetadata
   ecs_field: google.googleworkspaceauditlogs.protopayload_requestmetadata_requestattributes
   cim_field: google.googleworkspaceauditlogs.protopayload_requestmetadata_requestattributes
   asim_field: google.googleworkspaceauditlogs.protopayload_requestmetadata_requestattributes
+  category: RequestMetadata
 - field_name: protoPayload.metadata.@type
   field_type: string
   description: Always type.googleapis.com/ccc_hosted_reporting.ActivityProto
-  category: Metadata
   ecs_field: google.googleworkspaceauditlogs.protopayload_metadata__type
   cim_field: google.googleworkspaceauditlogs.protopayload_metadata__type
   asim_field: google.googleworkspaceauditlogs.protopayload_metadata__type
+  category: Metadata
 - field_name: protoPayload.metadata.activityId
   field_type: object
   description: Unique activity identifier with timestamp
-  category: Metadata
   ecs_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid
   cim_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid
   asim_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid
+  category: Metadata
 - field_name: protoPayload.metadata.activityId.timeUsec
   field_type: integer
   description: Activity timestamp in microseconds
-  category: Metadata
   ecs_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid_timeusec
   cim_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid_timeusec
   asim_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid_timeusec
+  category: Metadata
 - field_name: protoPayload.metadata.activityId.uniqQualifier
   field_type: string
   description: Unique qualifier for the activity
-  category: Metadata
   ecs_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid_uniqqualifier
   cim_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid_uniqqualifier
   asim_field: google.googleworkspaceauditlogs.protopayload_metadata_activityid_uniqqualifier
+  category: Metadata
 - field_name: protoPayload.metadata.event
   field_type: array
   description: Array of event objects
-  category: Event
   ecs_field: google.googleworkspaceauditlogs.protopayload_metadata_event
   cim_field: google.googleworkspaceauditlogs.protopayload_metadata_event
   asim_field: google.googleworkspaceauditlogs.protopayload_metadata_event
+  category: Event
 - field_name: protoPayload.metadata.event.eventName
   field_type: string
   description: Human-readable event identifier
-  category: Event
   ecs_field: google.googleworkspaceauditlogs.protopayload_metadata_event_eventname
   cim_field: google.googleworkspaceauditlogs.protopayload_metadata_event_eventname
   asim_field: google.googleworkspaceauditlogs.protopayload_metadata_event_eventname
+  category: Event
 - field_name: protoPayload.metadata.event.eventType
   field_type: string
   description: Classification of event (e.g., login, admin_action)
-  category: Event
   ecs_field: event.action
-  cim_field: ''
-  asim_field: ''
+  cim_field: protoPayload.metadata.event.eventType
+  asim_field: protoPayload.metadata.event.eventType
+  category: Event
 - field_name: protoPayload.metadata.event.status
   field_type: string
   description: Event status (success, failure)
-  category: Event
   ecs_field: event.outcome
-  cim_field: ''
-  asim_field: ''
+  cim_field: protoPayload.metadata.event.status
+  asim_field: protoPayload.metadata.event.status
+  category: Event
 - field_name: protoPayload.metadata.event.parameter
   field_type: array
   description: Key-value pairs with event details
-  category: Parameter
   ecs_field: google.googleworkspaceauditlogs.protopayload_metadata_event_parameter
   cim_field: google.googleworkspaceauditlogs.protopayload_metadata_event_parameter
   asim_field: google.googleworkspaceauditlogs.protopayload_metadata_event_parameter
+  category: Parameter
 - field_name: parameter.name
   field_type: string
   description: Parameter field name
-  category: Parameter
   ecs_field: google.googleworkspaceauditlogs.parameter_name
   cim_field: google.googleworkspaceauditlogs.parameter_name
   asim_field: google.googleworkspaceauditlogs.parameter_name
+  category: Parameter
 - field_name: parameter.type
   field_type: string
   description: Parameter data type (TYPE_STRING, TYPE_INT64, etc.)
-  category: Parameter
   ecs_field: google.googleworkspaceauditlogs.parameter_type
   cim_field: google.googleworkspaceauditlogs.parameter_type
   asim_field: google.googleworkspaceauditlogs.parameter_type
+  category: Parameter
 - field_name: parameter.value
   field_type: string
   description: Single parameter value
-  category: Parameter
   ecs_field: google.googleworkspaceauditlogs.parameter_value
   cim_field: google.googleworkspaceauditlogs.parameter_value
   asim_field: google.googleworkspaceauditlogs.parameter_value
+  category: Parameter
 - field_name: parameter.multiStrValue
   field_type: array
   description: Array of string values for repeated fields
-  category: Parameter
   ecs_field: google.googleworkspaceauditlogs.parameter_multistrvalue
   cim_field: google.googleworkspaceauditlogs.parameter_multistrvalue
   asim_field: google.googleworkspaceauditlogs.parameter_multistrvalue
+  category: Parameter
 - field_name: parameter.label
   field_type: string
   description: Field label (LABEL_REPEATED for arrays)
-  category: Parameter
   ecs_field: google.googleworkspaceauditlogs.parameter_label
   cim_field: google.googleworkspaceauditlogs.parameter_label
   asim_field: google.googleworkspaceauditlogs.parameter_label
-mapped_field_count: 31
+  category: Parameter
 notes: Audit logs for Google Workspace services (Admin, Drive, Login, etc.) streamed
   to Cloud Logging.

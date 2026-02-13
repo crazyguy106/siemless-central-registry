@@ -5,124 +5,139 @@ product_full_name: Building Automation and Control Networks
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: ot-bacnet-signatures.json
-generated_at: '2026-02-12T18:54:31.472303'
+generated_at: '2026-02-13T07:34:33.981535'
 field_count: 16
 fields:
 - field_name: source_device_id
   field_type: number
   description: BACnet device instance number (0-4194302)
-  category: device
   ecs_field: source.address
   cim_field: src_id
   asim_field: SrcDvcId
+  category: device
+  display_name: Source Device ID
 - field_name: destination_device_id
   field_type: number
   description: BACnet device instance number (0-4194302)
-  category: device
   ecs_field: destination.address
   cim_field: dest_id
   asim_field: DstDvcId
+  category: device
+  display_name: Destination Device ID
 - field_name: service_choice
   field_type: number
   description: BACnet service type (0-255)
-  category: protocol
   ecs_field: event.code
   cim_field: signature_id
   asim_field: EventOriginalType
+  category: protocol
+  display_name: Service Choice
 - field_name: service_name
   field_type: string
   description: Human-readable service name
-  category: protocol
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
+  category: protocol
+  display_name: Service Name
 - field_name: object_type
   field_type: string
   description: BACnet object type (analog-input, binary-output, schedule, etc.)
-  category: data
   ecs_field: file.type
   cim_field: object_category
   asim_field: TargetFileType
+  category: data
+  display_name: Object Type
 - field_name: object_instance
   field_type: number
   description: Object instance number within type
-  category: data
   ecs_field: ot.bacnet.object_instance
   cim_field: object_path
   asim_field: TargetFilePath
+  category: data
+  display_name: Object Instance
 - field_name: property_id
   field_type: number
   description: BACnet property identifier
-  category: data
   ecs_field: file.name
   cim_field: file_name
   asim_field: TargetFileName
+  category: data
+  display_name: Property ID
 - field_name: property_value
   field_type: string
   description: Value of the property
-  category: data
   ecs_field: file.hash.md5
   cim_field: file_hash
   asim_field: TargetFileHashMd5
+  category: data
+  display_name: Property Value
 - field_name: priority
   field_type: number
   description: Command priority (1-16, 1=highest)
-  category: control
   ecs_field: event.severity
   cim_field: priority
   asim_field: EventSeverity
+  category: control
+  display_name: Write Priority
 - field_name: alarm_state
   field_type: string
   description: Current alarm state (normal, offnormal, high-limit, low-limit)
-  category: alarm
   ecs_field: event.outcome
   cim_field: result
   asim_field: EventResult
+  category: alarm
+  display_name: Alarm State
 - field_name: notify_type
   field_type: string
   description: Type of event notification (alarm, event, ack-notification)
-  category: alarm
   ecs_field: event.category
   cim_field: category
   asim_field: EventType
+  category: alarm
+  display_name: Notification Type
 - field_name: source_ip
   field_type: ip
   description: Source IP address (BACnet/IP)
-  category: network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
+  category: network
+  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: Destination IP address (BACnet/IP)
-  category: network
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: network
+  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Source port
-  category: network
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
+  category: network
+  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: Destination port (typically 47808 for BACnet/IP)
-  category: network
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
+  category: network
+  display_name: Destination Port
 - field_name: invoke_id
   field_type: number
   description: Request/response correlation ID
-  category: protocol
   ecs_field: event.sequence
   cim_field: transaction_id
   asim_field: EventOriginalUid
-mapped_field_count: 16
+  category: protocol
+  display_name: Invoke ID
 signatures:
 - name: bacnet_read_property
   pattern: service_choice[=:]\s*12\b|ReadProperty|BACnet.*Read

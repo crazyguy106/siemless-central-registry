@@ -5,12 +5,299 @@ product_full_name: Falcon
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: crowdstrike-falcon-signatures.json
-generated_at: '2026-02-12T18:54:28.755281'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-13T07:34:25.495168'
+field_count: 48
+fields:
+- field_name: eventType
+  field_type: keyword
+  description: CrowdStrike event type identifier
+  ecs_field: event.code
+  cim_field: signature_id
+  asim_field: EventOriginalType
+- field_name: eventCreationTime
+  field_type: date
+  description: Timestamp when the event was created
+  ecs_field: event.created
+  cim_field: _time
+  asim_field: EventStartTime
+- field_name: offset
+  field_type: long
+  description: Event stream offset for deduplication
+  ecs_field: event.sequence
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
+- field_name: customerIDString
+  field_type: keyword
+  description: CrowdStrike customer ID
+  ecs_field: cloud.account.id
+  cim_field: vendor_account
+  asim_field: EventOwner
+- field_name: ComputerName
+  field_type: keyword
+  description: Name of the host where event occurred
+  ecs_field: host.name
+  cim_field: dest
+  asim_field: DvcHostname
+- field_name: MachineDomain
+  field_type: keyword
+  description: Active Directory domain of the host
+  ecs_field: host.domain
+  cim_field: dest_nt_domain
+  asim_field: DvcDomain
+- field_name: OU
+  field_type: keyword
+  description: Active Directory Organizational Unit
+  ecs_field: user.group.name
+  cim_field: dest_ou
+  asim_field: DvcScopeId
+- field_name: SiteName
+  field_type: keyword
+  description: AD site name of the host
+  ecs_field: cloud.availability_zone
+  cim_field: site
+  asim_field: DvcZone
+- field_name: UserName
+  field_type: keyword
+  description: Username associated with the event
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: UserSid
+  field_type: keyword
+  description: Windows Security Identifier of the user
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
+- field_name: UserPrincipal
+  field_type: keyword
+  description: User principal name (UPN)
+  ecs_field: user.email
+  cim_field: user_email
+  asim_field: ActorUserPrincipalName
+- field_name: ProcessId
+  field_type: long
+  description: Process ID of the target process
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: TargetProcessId
+- field_name: ParentProcessId
+  field_type: long
+  description: Process ID of the parent process
+  ecs_field: process.parent.pid
+  cim_field: parent_process_id
+  asim_field: ActingProcessId
+- field_name: ProcessStartTime
+  field_type: date
+  description: Timestamp when process started
+  ecs_field: process.start
+  cim_field: process_start_time
+  asim_field: TargetProcessCreationTime
+- field_name: ProcessEndTime
+  field_type: date
+  description: Timestamp when process ended
+  ecs_field: process.end
+  cim_field: process_end_time
+  asim_field: TargetProcessTerminationTime
+- field_name: FileName
+  field_type: keyword
+  description: Name of the file or executable
+  ecs_field: file.name
+  cim_field: file_name
+  asim_field: TargetFileName
+- field_name: FilePath
+  field_type: keyword
+  description: Full path to the file
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFilePath
+- field_name: ImageFileName
+  field_type: keyword
+  description: Full path to the process executable
+  ecs_field: process.executable
+  cim_field: process_path
+  asim_field: TargetProcessName
+- field_name: CommandLine
+  field_type: keyword
+  description: Full command line of the process
+  ecs_field: process.command_line
+  cim_field: process
+  asim_field: TargetProcessCommandLine
+- field_name: SHA256String
+  field_type: keyword
+  description: SHA256 hash of the file
+  ecs_field: file.hash.sha256
+  cim_field: file_hash
+  asim_field: TargetFileSHA256
+- field_name: MD5String
+  field_type: keyword
+  description: MD5 hash of the file
+  ecs_field: file.hash.md5
+  cim_field: file_hash
+  asim_field: TargetFileMD5
+- field_name: SHA1String
+  field_type: keyword
+  description: SHA1 hash of the file
+  ecs_field: file.hash.sha1
+  cim_field: file_hash
+  asim_field: TargetFileSHA1
+- field_name: LocalAddressIP4
+  field_type: ip
+  description: Local IPv4 address
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: RemoteAddressIP4
+  field_type: ip
+  description: Remote IPv4 address
+  ecs_field: destination.ip
+  cim_field: dest_ip
+  asim_field: DstIpAddr
+- field_name: LocalPort
+  field_type: integer
+  description: Local port number
+  ecs_field: source.port
+  cim_field: src_port
+  asim_field: SrcPortNumber
+- field_name: RemotePort
+  field_type: integer
+  description: Remote port number
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: Protocol
+  field_type: keyword
+  description: Network protocol (TCP, UDP, etc.)
+  ecs_field: network.transport
+  cim_field: transport
+  asim_field: NetworkProtocol
+- field_name: MACAddress
+  field_type: keyword
+  description: MAC address of the host
+  ecs_field: host.mac
+  cim_field: src_mac
+  asim_field: SrcMacAddr
+- field_name: DomainName
+  field_type: keyword
+  description: DNS domain name queried
+  ecs_field: dns.question.name
+  cim_field: query
+  asim_field: DnsQuery
+- field_name: RequestType
+  field_type: keyword
+  description: DNS request type (A, AAAA, MX, etc.)
+  ecs_field: dns.question.type
+  cim_field: record_type
+  asim_field: DnsQueryType
+- field_name: DetectName
+  field_type: keyword
+  description: Name of the detection rule triggered
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
+- field_name: DetectDescription
+  field_type: keyword
+  description: Description of the detection
+  ecs_field: rule.description
+  cim_field: signature_description
+  asim_field: RuleDescription
+- field_name: Severity
+  field_type: integer
+  description: Numeric severity level (0-100)
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: ThreatRiskLevel
+- field_name: SeverityName
+  field_type: keyword
+  description: Severity name (Low, Medium, High, Critical)
+  ecs_field: event.category
+  cim_field: severity_label
+  asim_field: ThreatRiskLevelOriginal
+- field_name: Tactic
+  field_type: keyword
+  description: MITRE ATT&CK tactic
+  ecs_field: threat.tactic.name
+  cim_field: mitre_tactic
+  asim_field: ThreatTactics
+- field_name: Technique
+  field_type: keyword
+  description: MITRE ATT&CK technique
+  ecs_field: threat.technique.name
+  cim_field: mitre_technique
+  asim_field: ThreatTechniques
+- field_name: Objective
+  field_type: keyword
+  description: Attack objective classification
+  ecs_field: threat.indicator.type
+  cim_field: threat_category
+  asim_field: ThreatCategory
+- field_name: TargetFileName
+  field_type: keyword
+  description: Target file name for file operations
+  ecs_field: file.target_path
+  cim_field: file_name
+  asim_field: TargetFileName
+- field_name: TargetDirectoryName
+  field_type: keyword
+  description: Target directory for file operations
+  ecs_field: file.directory
+  cim_field: file_directory
+  asim_field: TargetFileDirectory
+- field_name: RegObjectName
+  field_type: keyword
+  description: Registry key path
+  ecs_field: registry.path
+  cim_field: registry_path
+  asim_field: RegistryKey
+- field_name: RegValueName
+  field_type: keyword
+  description: Registry value name
+  ecs_field: registry.value
+  cim_field: registry_value_name
+  asim_field: RegistryValueName
+- field_name: RegStringValue
+  field_type: keyword
+  description: Registry value data
+  ecs_field: registry.data.strings
+  cim_field: registry_value_data
+  asim_field: RegistryValueData
+- field_name: ContextBaseFileName
+  field_type: keyword
+  description: Process name that initiated the activity
+  ecs_field: process.name
+  cim_field: process_name
+  asim_field: ActingProcessName
+- field_name: incident.fine_score
+  field_type: integer
+  description: CrowdStrike incident fine score (0-100)
+  ecs_field: event.risk_score
+  cim_field: risk_score
+  asim_field: ThreatConfidence
+- field_name: incident.objective
+  field_type: keyword
+  description: Attack objective of the incident
+  ecs_field: threat.indicator.description
+  cim_field: threat_name
+  asim_field: ThreatName
+- field_name: aid
+  field_type: keyword
+  description: CrowdStrike Agent ID
+  ecs_field: agent.id
+  cim_field: dest_id
+  asim_field: DvcId
+- field_name: cid
+  field_type: keyword
+  description: CrowdStrike Customer ID
+  ecs_field: organization.id
+  cim_field: vendor_customer_id
+  asim_field: EventVendorId
+- field_name: aip
+  field_type: ip
+  description: Agent IP address
+  ecs_field: host.ip
+  cim_field: src_ip
+  asim_field: DvcIpAddr
 signatures:
 - name: crowdstrike_falcon_generic_cef
   description: Generic CrowdStrike Falcon detection - CEF format

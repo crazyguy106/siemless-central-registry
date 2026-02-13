@@ -5,12 +5,227 @@ product_full_name: PAS
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: cyberark-pas-signatures.json
-generated_at: '2026-02-12T18:54:28.758284'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-13T07:34:25.522686'
+field_count: 36
+fields:
+- field_name: cyberarkpas.audit.action
+  field_type: keyword
+  description: Audit record description
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: cyberarkpas.audit.source_user
+  field_type: keyword
+  description: User who performed the operation
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: cyberarkpas.audit.target_user
+  field_type: keyword
+  description: User on which the operation was performed
+  ecs_field: user.target.name
+  cim_field: dest_user
+  asim_field: TargetUsername
+- field_name: cyberarkpas.audit.station
+  field_type: keyword
+  description: IP or hostname from which the operation was performed
+  ecs_field: source.address
+  cim_field: src
+  asim_field: SrcHostname
+- field_name: cyberarkpas.audit.gateway_station
+  field_type: ip
+  description: IP or hostname of the PVWA server
+  ecs_field: observer.ip
+  cim_field: dvc_ip
+  asim_field: DvcIpAddr
+- field_name: cyberarkpas.audit.safe
+  field_type: keyword
+  description: Target Safe name
+  ecs_field: file.directory
+  cim_field: object_path
+  asim_field: TargetFilePath
+- field_name: cyberarkpas.audit.file
+  field_type: keyword
+  description: Target file name
+  ecs_field: file.name
+  cim_field: object
+  asim_field: TargetFileName
+- field_name: cyberarkpas.audit.severity
+  field_type: keyword
+  description: Audit record severity
+  ecs_field: event.severity
+  cim_field: severity
+  asim_field: EventSeverity
+- field_name: cyberarkpas.audit.message_id
+  field_type: keyword
+  description: Unique message ID
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventOriginalUid
+- field_name: cyberarkpas.audit.reason
+  field_type: keyword
+  description: Reason for the operation
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: cyberarkpas.audit.iso_timestamp
+  field_type: date
+  description: ISO timestamp of the audit event
+  ecs_field: '@timestamp'
+  cim_field: _time
+  asim_field: EventStartTime
+- field_name: cyberarkpas.audit.ca_properties.address
+  field_type: keyword
+  description: Target account address
+  ecs_field: destination.address
+  cim_field: dest
+  asim_field: DstHostname
+- field_name: cyberarkpas.audit.ca_properties.cpm_status
+  field_type: keyword
+  description: CPM status of the account
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: cyberarkpas.audit.ca_properties.database
+  field_type: keyword
+  description: Target database name
+  ecs_field: database.name
+  cim_field: db_name
+  asim_field: TargetAppName
+- field_name: cyberarkpas.audit.ca_properties.device_type
+  field_type: keyword
+  description: Type of device
+  ecs_field: host.type
+  cim_field: dest_type
+  asim_field: DstDeviceType
+- field_name: cyberarkpas.audit.ca_properties.dual_account_status
+  field_type: keyword
+  description: Dual account status
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventCategory
+- field_name: cyberarkpas.audit.ca_properties.group_name
+  field_type: keyword
+  description: Group name
+  ecs_field: group.name
+  cim_field: group
+  asim_field: ActorScope
+- field_name: cyberarkpas.audit.ca_properties.in_process
+  field_type: keyword
+  description: Operation in progress indicator
+  ecs_field: event.type
+  cim_field: status
+  asim_field: EventStatus
+- field_name: cyberarkpas.audit.ca_properties.index
+  field_type: keyword
+  description: Account index
+  ecs_field: event.sequence
+  cim_field: sequence
+  asim_field: EventSequence
+- field_name: cyberarkpas.audit.ca_properties.last_task
+  field_type: keyword
+  description: Last CPM task performed
+  ecs_field: event.action
+  cim_field: change_type
+  asim_field: ActorOriginalUserType
+- field_name: cyberarkpas.audit.ca_properties.logon_domain
+  field_type: keyword
+  description: Logon domain
+  ecs_field: user.domain
+  cim_field: user_domain
+  asim_field: ActorScope
+- field_name: cyberarkpas.audit.ca_properties.policy_id
+  field_type: keyword
+  description: Policy ID
+  ecs_field: rule.id
+  cim_field: policy_id
+  asim_field: RuleNumber
+- field_name: cyberarkpas.audit.ca_properties.port
+  field_type: integer
+  description: Target port number
+  ecs_field: destination.port
+  cim_field: dest_port
+  asim_field: DstPortNumber
+- field_name: cyberarkpas.audit.ca_properties.retries_count
+  field_type: integer
+  description: Number of retries
+  ecs_field: event.retry
+  cim_field: retry_count
+  asim_field: EventCount
+- field_name: cyberarkpas.audit.ca_properties.user_name
+  field_type: keyword
+  description: Target account username
+  ecs_field: user.target.name
+  cim_field: dest_user
+  asim_field: TargetUsername
+- field_name: cyberarkpas.audit.extra_details.ad_process_id
+  field_type: keyword
+  description: Active Directory process ID
+  ecs_field: process.pid
+  cim_field: process_id
+  asim_field: TargetProcessId
+- field_name: cyberarkpas.audit.extra_details.dst_host
+  field_type: keyword
+  description: Destination hostname
+  ecs_field: destination.address
+  cim_field: dest
+  asim_field: DstHostname
+- field_name: cyberarkpas.audit.extra_details.protocol
+  field_type: keyword
+  description: Protocol used
+  ecs_field: network.protocol
+  cim_field: protocol
+  asim_field: NetworkProtocol
+- field_name: cyberarkpas.audit.extra_details.session_duration
+  field_type: long
+  description: Session duration in seconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: cyberarkpas.audit.extra_details.session_id
+  field_type: keyword
+  description: Session identifier
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: cyberarkpas.audit.extra_details.src_host
+  field_type: keyword
+  description: Source hostname
+  ecs_field: source.address
+  cim_field: src
+  asim_field: SrcHostname
+- field_name: cyberarkpas.audit.extra_details.command
+  field_type: keyword
+  description: Command executed during session
+  ecs_field: process.command_line
+  cim_field: process
+  asim_field: TargetProcessCommandLine
+- field_name: cyberarkpas.audit.extra_details.connection_component_id
+  field_type: keyword
+  description: Connection component identifier
+  ecs_field: observer.name
+  cim_field: dvc_name
+  asim_field: DvcHostname
+- field_name: cyberarkpas.audit.extra_details.psmid
+  field_type: keyword
+  description: PSM server ID
+  ecs_field: observer.id
+  cim_field: dvc_id
+  asim_field: DvcId
+- field_name: cyberarkpas.audit.extra_details.recording_file
+  field_type: keyword
+  description: Session recording file path
+  ecs_field: file.path
+  cim_field: file_path
+  asim_field: TargetFilePath
+- field_name: cyberarkpas.audit.extra_details.request_ticket_id
+  field_type: keyword
+  description: Request ticket identifier
+  ecs_field: event.reference
+  cim_field: ticket_id
+  asim_field: EventOriginalUid
 signatures:
 - name: cyberark_audit
   description: CyberArk PAS audit event - requires CyberArk-specific identifiers

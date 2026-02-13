@@ -5,131 +5,147 @@ product_full_name: MX
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: juniper-mx-signatures.json
-generated_at: '2026-02-12T18:54:31.289349'
+generated_at: '2026-02-13T07:34:33.378348'
 field_count: 17
 fields:
 - field_name: peer-address
   field_type: ip
   description: BGP/OSPF/LDP peer IP address
-  category: routing
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: routing
+  display_name: Peer Address
 - field_name: peer-as
   field_type: number
   description: BGP peer autonomous system number
-  category: routing
   ecs_field: destination.as.number
   cim_field: dest_as
   asim_field: DstOriginalRiskLevel
+  category: routing
+  display_name: Peer AS Number
 - field_name: neighbor-address
   field_type: ip
   description: OSPF/IS-IS neighbor router ID
-  category: routing
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: routing
+  display_name: Neighbor Address
 - field_name: interface
   field_type: string
   description: Interface name
-  category: network
   ecs_field: observer.ingress.interface.name
   cim_field: interface
   asim_field: DvcInboundInterface
+  category: network
+  display_name: Interface
 - field_name: old-state
   field_type: string
   description: Previous protocol state
-  category: routing
   ecs_field: event.action
   cim_field: action
   asim_field: DvcOriginalAction
+  category: routing
+  display_name: Old State
 - field_name: new-state
   field_type: string
   description: New protocol state
-  category: routing
   ecs_field: event.outcome
   cim_field: result
   asim_field: EventResult
+  category: routing
+  display_name: New State
 - field_name: reason
   field_type: string
   description: State change reason
-  category: routing
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
+  category: routing
+  display_name: Reason
 - field_name: notification-code
   field_type: number
   description: BGP notification code
-  category: routing
   ecs_field: event.code
   cim_field: signature_id
   asim_field: EventOriginalUid
+  category: routing
+  display_name: Notification Code
 - field_name: lsp-name
   field_type: string
   description: MPLS Label Switched Path name
-  category: routing
   ecs_field: network.name
   cim_field: channel
   asim_field: NetworkProtocol
+  category: routing
+  display_name: LSP Name
 - field_name: system-id
   field_type: string
   description: IS-IS system identifier
-  category: routing
   ecs_field: destination.domain
   cim_field: dest_host
   asim_field: DstHostname
+  category: routing
+  display_name: IS-IS System ID
 - field_name: component
   field_type: string
   description: Chassis component (FPC, PIC, PEM, FAN)
-  category: system
   ecs_field: observer.name
   cim_field: dvc_name
   asim_field: DvcHostname
+  category: system
+  display_name: Hardware Component
 - field_name: slot
   field_type: number
   description: Hardware slot number
-  category: system
   ecs_field: observer.ingress.interface.id
   cim_field: interface_id
   asim_field: DvcInterfaceGuid
+  category: system
+  display_name: Slot Number
 - field_name: master-re
   field_type: string
   description: Master routing engine
-  category: system
   ecs_field: observer.name
   cim_field: dvc_name
   asim_field: DvcHostname
+  category: system
+  display_name: Master RE
 - field_name: subscriber-ip
   field_type: ip
   description: Subscriber session IP (BNG)
-  category: authentication
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
+  category: authentication
+  display_name: Subscriber IP
 - field_name: mac-address
   field_type: string
   description: Subscriber MAC address
-  category: authentication
   ecs_field: source.mac
   cim_field: src_mac
   asim_field: SrcMacAddr
+  category: authentication
+  display_name: MAC Address
 - field_name: ifIndex
   field_type: number
   description: SNMP interface index
-  category: network
   ecs_field: observer.ingress.interface.id
   cim_field: interface_id
   asim_field: DvcInterfaceGuid
+  category: network
+  display_name: Interface Index
 - field_name: ifName
   field_type: string
   description: Interface name from SNMP
-  category: network
   ecs_field: observer.ingress.interface.name
   cim_field: interface
   asim_field: DvcInboundInterface
-mapped_field_count: 17
+  category: network
+  display_name: Interface Name
 signatures:
 - name: juniper_mx_bgp_state_change
   pattern: RPD_BGP_NEIGHBOR_STATE_CHANGED

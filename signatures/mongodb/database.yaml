@@ -5,12 +5,120 @@ product_full_name: Database
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: mongodb-database-signatures.json
-generated_at: '2026-02-12T18:54:31.429247'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-13T07:34:33.834858'
+field_count: 18
+fields:
+- field_name: mongodb.log.component
+  field_type: keyword
+  description: Functional categorization of log message (ACCESS, COMMAND, CONTROL,
+    etc.)
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventSubType
+- field_name: mongodb.log.context
+  field_type: keyword
+  description: Context for the log message (connection, initandlisten, etc.)
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: mongodb.log.severity
+  field_type: keyword
+  description: Log severity level (F, E, W, I, D1-D5)
+  ecs_field: log.level
+  cim_field: log_level
+  asim_field: EventSeverity
+- field_name: mongodb.log.id
+  field_type: long
+  description: Unique identifier for the log statement
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventOriginalUid
+- field_name: mongodb.log.message
+  field_type: text
+  description: Log message
+  ecs_field: message
+  cim_field: message
+  asim_field: EventMessage
+- field_name: mongodb.log.attr.remote
+  field_type: keyword
+  description: Remote client address
+  ecs_field: source.address
+  cim_field: src
+  asim_field: SrcHostname
+- field_name: mongodb.log.attr.connectionId
+  field_type: long
+  description: Connection identifier
+  ecs_field: network.connection.id
+  cim_field: connection_id
+  asim_field: NetworkConnectionId
+- field_name: mongodb.log.attr.command
+  field_type: keyword
+  description: Database command executed
+  ecs_field: event.action
+  cim_field: command
+  asim_field: EventType
+- field_name: mongodb.log.attr.ns
+  field_type: keyword
+  description: Namespace (database.collection)
+  ecs_field: database.name
+  cim_field: db_name
+  asim_field: TargetAppName
+- field_name: mongodb.log.attr.durationMillis
+  field_type: long
+  description: Operation duration in milliseconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: mongodb.log.attr.planSummary
+  field_type: keyword
+  description: Query plan summary
+  ecs_field: database.query
+  cim_field: query_plan
+  asim_field: TargetProcessCommandLine
+- field_name: mongodb.log.attr.keysExamined
+  field_type: long
+  description: Number of index keys examined
+  ecs_field: database.rows_affected
+  cim_field: keys_examined
+  asim_field: EventCount
+- field_name: mongodb.log.attr.docsExamined
+  field_type: long
+  description: Number of documents examined
+  ecs_field: database.rows_affected
+  cim_field: docs_examined
+  asim_field: EventCount
+- field_name: mongodb.log.attr.nreturned
+  field_type: long
+  description: Number of documents returned
+  ecs_field: database.rows_affected
+  cim_field: rows_returned
+  asim_field: EventCount
+- field_name: mongodb.log.attr.user
+  field_type: keyword
+  description: Authenticated user
+  ecs_field: user.name
+  cim_field: user
+  asim_field: ActorUsername
+- field_name: mongodb.log.attr.db
+  field_type: keyword
+  description: Database name
+  ecs_field: database.name
+  cim_field: db_name
+  asim_field: TargetAppName
+- field_name: mongodb.log.attr.client
+  field_type: keyword
+  description: Client application identifier
+  ecs_field: user_agent.name
+  cim_field: app
+  asim_field: HttpUserAgent
+- field_name: mongodb.log.attr.reslen
+  field_type: long
+  description: Response length in bytes
+  ecs_field: destination.bytes
+  cim_field: bytes_out
+  asim_field: DstBytes
 signatures:
 - name: mongodb_log
   description: MongoDB database log entry

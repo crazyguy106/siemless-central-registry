@@ -5,12 +5,365 @@ product_full_name: Audit
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: salesforce-audit-signatures.json
-generated_at: '2026-02-12T18:54:31.600014'
-field_count: 0
-fields: []
-mapped_field_count: 0
+generated_at: '2026-02-13T07:34:34.399008'
+field_count: 59
+fields:
+- field_name: salesforce.instance_url
+  field_type: keyword
+  description: The Instance URL of the Salesforce instance
+  ecs_field: url.domain
+  cim_field: url_domain
+  asim_field: UrlHost
+- field_name: salesforce.apex.document_id
+  field_type: keyword
+  description: Unique ID of the Apex document
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventOriginalUid
+- field_name: salesforce.apex.action
+  field_type: keyword
+  description: Action performed by the callout
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: salesforce.apex.class_name
+  field_type: keyword
+  description: The Apex class name
+  ecs_field: code.stacktrace
+  cim_field: class_name
+  asim_field: TargetProcessName
+- field_name: salesforce.apex.client_name
+  field_type: keyword
+  description: The name of the client using Salesforce services
+  ecs_field: user_agent.name
+  cim_field: http_user_agent
+  asim_field: HttpUserAgent
+- field_name: salesforce.apex.cpu_time
+  field_type: float
+  description: The CPU time in milliseconds used to complete the request
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: salesforce.apex.db_total_time
+  field_type: float
+  description: Time spent waiting for database processing in aggregate
+  ecs_field: event.duration
+  cim_field: response_time
+  asim_field: EventDuration
+- field_name: salesforce.apex.entity_name
+  field_type: keyword
+  description: The name of the object affected by the trigger
+  ecs_field: database.name
+  cim_field: object
+  asim_field: TargetAppName
+- field_name: salesforce.apex.entry_point
+  field_type: keyword
+  description: The entry point for this Apex execution
+  ecs_field: process.entry_leader.name
+  cim_field: process
+  asim_field: ActingProcessName
+- field_name: salesforce.apex.event_type
+  field_type: keyword
+  description: The type of event
+  ecs_field: event.category
+  cim_field: event_type
+  asim_field: EventType
+- field_name: salesforce.apex.login_key
+  field_type: keyword
+  description: The string that ties together all events in a user's login session
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: salesforce.apex.message
+  field_type: text
+  description: Error or warning message associated with the failed call
+  ecs_field: error.message
+  cim_field: error_message
+  asim_field: EventMessage
+- field_name: salesforce.apex.method_name
+  field_type: keyword
+  description: The name of the calling Apex method
+  ecs_field: code.function
+  cim_field: function
+  asim_field: TargetProcessName
+- field_name: salesforce.apex.organization_id
+  field_type: keyword
+  description: The 15-character ID of the organization
+  ecs_field: organization.id
+  cim_field: vendor_account
+  asim_field: ActorScope
+- field_name: salesforce.apex.query
+  field_type: keyword
+  description: The SOQL query, if one was performed
+  ecs_field: database.query
+  cim_field: query
+  asim_field: TargetProcessCommandLine
+- field_name: salesforce.apex.request_id
+  field_type: keyword
+  description: The unique ID of a single transaction
+  ecs_field: http.request.id
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
+- field_name: salesforce.apex.request_status
+  field_type: keyword
+  description: The status of the request
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: salesforce.apex.rows_processed
+  field_type: long
+  description: The number of rows that were processed in the request
+  ecs_field: database.rows_affected
+  cim_field: rows_affected
+  asim_field: EventCount
+- field_name: salesforce.apex.run_time
+  field_type: float
+  description: The amount of time that the request took in milliseconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: salesforce.apex.trigger_id
+  field_type: keyword
+  description: The 15-character ID of the trigger that was fired
+  ecs_field: rule.id
+  cim_field: signature_id
+  asim_field: RuleNumber
+- field_name: salesforce.apex.trigger_name
+  field_type: keyword
+  description: The trigger name
+  ecs_field: rule.name
+  cim_field: signature
+  asim_field: RuleName
+- field_name: salesforce.apex.trigger_type
+  field_type: keyword
+  description: The type of this trigger
+  ecs_field: rule.category
+  cim_field: category
+  asim_field: EventSubType
+- field_name: salesforce.apex.uri
+  field_type: keyword
+  description: The URI of the page receiving the request
+  ecs_field: url.path
+  cim_field: uri_path
+  asim_field: UrlPath
+- field_name: salesforce.apex.user_id_derived
+  field_type: keyword
+  description: The 18-character case-safe ID of the user
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
+- field_name: salesforce.login.document_id
+  field_type: keyword
+  description: Unique ID of the login event
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventOriginalUid
+- field_name: salesforce.login.application
+  field_type: keyword
+  description: The application used to access the organization
+  ecs_field: user_agent.name
+  cim_field: app
+  asim_field: TargetAppName
+- field_name: salesforce.login.api.type
+  field_type: keyword
+  description: The type of Salesforce API request
+  ecs_field: event.category
+  cim_field: api_type
+  asim_field: EventSubType
+- field_name: salesforce.login.api.version
+  field_type: keyword
+  description: The version of the Salesforce API
+  ecs_field: observer.version
+  cim_field: api_version
+  asim_field: EventProductVersion
+- field_name: salesforce.login.auth.service_id
+  field_type: keyword
+  description: The authentication method used by a third-party identity provider
+  ecs_field: authentication.provider
+  cim_field: authentication_method
+  asim_field: LogonMethod
+- field_name: salesforce.login.session.level
+  field_type: text
+  description: Session-level security controls
+  ecs_field: authentication.type
+  cim_field: authentication_type
+  asim_field: LogonType
+- field_name: salesforce.login.session.key
+  field_type: keyword
+  description: The user's unique session ID
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: salesforce.login.key
+  field_type: keyword
+  description: String that ties together all events in a user's login session
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: salesforce.login.history_id
+  field_type: keyword
+  description: Tracks a user session for correlation
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: salesforce.login.type
+  field_type: keyword
+  description: The type of login used to access the session
+  ecs_field: event.action
+  cim_field: authentication_method
+  asim_field: LogonMethod
+- field_name: salesforce.login.geo_id
+  field_type: keyword
+  description: The Salesforce ID of the LoginGeo object
+  ecs_field: source.geo.name
+  cim_field: src_location
+  asim_field: SrcGeoCity
+- field_name: salesforce.login.client_ip
+  field_type: keyword
+  description: The IP address of the client
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+- field_name: salesforce.login.cpu_time
+  field_type: long
+  description: The CPU time in milliseconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: salesforce.login.db_time_total
+  field_type: double
+  description: Time in nanoseconds for database round trip
+  ecs_field: event.duration
+  cim_field: response_time
+  asim_field: EventDuration
+- field_name: salesforce.login.event_type
+  field_type: keyword
+  description: The type of event (Login)
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: salesforce.login.organization_id
+  field_type: keyword
+  description: The 15-character ID of the organization
+  ecs_field: organization.id
+  cim_field: vendor_account
+  asim_field: ActorScope
+- field_name: salesforce.login.request_id
+  field_type: keyword
+  description: The unique ID of a single transaction
+  ecs_field: http.request.id
+  cim_field: transaction_id
+  asim_field: EventOriginalUid
+- field_name: salesforce.login.request_status
+  field_type: keyword
+  description: The status of the request
+  ecs_field: event.outcome
+  cim_field: result
+  asim_field: EventResult
+- field_name: salesforce.login.run_time
+  field_type: long
+  description: The amount of time that the request took in milliseconds
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+- field_name: salesforce.login.user_id
+  field_type: keyword
+  description: The 15-character ID of the user
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
+- field_name: salesforce.logout.document_id
+  field_type: keyword
+  description: Unique ID of the logout event
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventOriginalUid
+- field_name: salesforce.logout.session.key
+  field_type: keyword
+  description: The user's unique session ID
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: salesforce.logout.session.type
+  field_type: keyword
+  description: The session type (API, Oauth2, UI)
+  ecs_field: authentication.type
+  cim_field: authentication_type
+  asim_field: LogonType
+- field_name: salesforce.logout.login_key
+  field_type: keyword
+  description: String that ties together all events in a user's login session
+  ecs_field: session.id
+  cim_field: session_id
+  asim_field: TargetSessionId
+- field_name: salesforce.logout.api.type
+  field_type: keyword
+  description: The type of Salesforce API request
+  ecs_field: event.category
+  cim_field: api_type
+  asim_field: EventSubType
+- field_name: salesforce.logout.event_type
+  field_type: keyword
+  description: The type of event (Logout)
+  ecs_field: event.action
+  cim_field: action
+  asim_field: EventType
+- field_name: salesforce.logout.organization_id
+  field_type: keyword
+  description: The 15-character ID of the organization
+  ecs_field: organization.id
+  cim_field: vendor_account
+  asim_field: ActorScope
+- field_name: salesforce.logout.user_id
+  field_type: keyword
+  description: The 15-character ID of the user
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
+- field_name: salesforce.logout.user_initiated_logout
+  field_type: keyword
+  description: Whether user intentionally logged out (1) or session timed out (0)
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+- field_name: salesforce.setup_audit_trail.document_id
+  field_type: keyword
+  description: Unique ID of the audit trail event
+  ecs_field: event.id
+  cim_field: signature_id
+  asim_field: EventOriginalUid
+- field_name: salesforce.setup_audit_trail.created_by_context
+  field_type: keyword
+  description: The context under which the Setup change was made
+  ecs_field: user.roles
+  cim_field: user_role
+  asim_field: ActorOriginalUserType
+- field_name: salesforce.setup_audit_trail.created_by_id
+  field_type: keyword
+  description: ID of the user who made the change
+  ecs_field: user.id
+  cim_field: user_id
+  asim_field: ActorUserId
+- field_name: salesforce.setup_audit_trail.delegate_user
+  field_type: keyword
+  description: The Login-As user who executed the action
+  ecs_field: user.effective.name
+  cim_field: effective_user
+  asim_field: ActingAppName
+- field_name: salesforce.setup_audit_trail.display
+  field_type: keyword
+  description: The full description of changes made in Setup
+  ecs_field: message
+  cim_field: description
+  asim_field: EventMessage
+- field_name: salesforce.setup_audit_trail.section
+  field_type: keyword
+  description: The section in the Setup menu where the action occurred
+  ecs_field: event.category
+  cim_field: category
+  asim_field: EventSubType
 signatures:
 - name: salesforce_apex
   description: Salesforce Apex execution log

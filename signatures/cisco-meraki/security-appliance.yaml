@@ -7,7 +7,7 @@ source_document: Meraki Syslog Event Types and Log Samples
 source_url: https://documentation.meraki.com/General_Administration/Monitoring_and_Reporting/Syslog_Event_Types_and_Log_Samples
 extraction_date: '2026-01-01'
 source_file: meraki-signatures.json
-generated_at: '2026-02-12T18:54:31.343902'
+generated_at: '2026-02-13T07:34:33.535458'
 categories:
 - MX Security Appliance
 - MR Access Points
@@ -17,542 +17,618 @@ fields:
 - field_name: type
   field_type: string
   description: Event type identifier
-  category: Common
   ecs_field: event.code
   cim_field: event_type
   asim_field: EventId
+  category: Common
+  display_name: Type
 - field_name: vpn_type
   field_type: string
   description: VPN type (site-to-site, etc)
-  category: Common
   ecs_field: network.type
   cim_field: vpn_type
   asim_field: NetworkType
+  category: Common
+  display_name: Vpn Type
 - field_name: src
   field_type: ip
   description: Source IP address
-  category: Common
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
+  category: Common
+  display_name: Src
 - field_name: dst
   field_type: ip
   description: Destination IP address
-  category: Common
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: Common
+  display_name: Dst
 - field_name: sport
   field_type: port
   description: Source port
-  category: Common
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
+  category: Common
+  display_name: Sport
 - field_name: dport
   field_type: port
   description: Destination port
-  category: Common
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
+  category: Common
+  display_name: Dport
 - field_name: mac
   field_type: string
   description: MAC address
-  category: Common
   ecs_field: host.mac
   cim_field: src_mac
   asim_field: SrcMacAddr
+  category: Common
+  display_name: Mac
 - field_name: protocol
   field_type: string
   description: Network protocol (tcp, udp, etc)
-  category: Common
   ecs_field: network.transport
   cim_field: transport
   asim_field: NetworkProtocol
+  category: Common
+  display_name: Protocol
 - field_name: pattern
   field_type: string
   description: Firewall rule pattern matched
-  category: Common
   ecs_field: rule.name
   cim_field: rule_pattern
   asim_field: RuleName
+  category: Common
+  display_name: Pattern
 - field_name: peer_contact
   field_type: string
   description: VPN peer contact address
-  category: Common
   ecs_field: destination.ip
   cim_field: vpn_peer_contact
   asim_field: DstIpAddr
+  category: Common
+  display_name: Peer Contact
 - field_name: peer_ident
   field_type: string
   description: VPN peer identifier
-  category: Common
   ecs_field: destination.user.id
   cim_field: vpn_peer_id
   asim_field: DstUserId
+  category: Common
+  display_name: Peer Ident
 - field_name: connectivity
   field_type: string
   description: VPN connectivity status
-  category: Common
   ecs_field: event.outcome
   cim_field: connectivity_status
   asim_field: EventResult
+  category: Common
+  display_name: Connectivity
 - field_name: local_ip
   field_type: ip
   description: Local VPN IP address
-  category: Common
   ecs_field: host.ip
   cim_field: src_ip
   asim_field: DvcIpAddr
+  category: Common
+  display_name: Local Ip
 - field_name: signature
   field_type: string
   description: IDS signature ID
-  category: Common
   ecs_field: rule.name
   cim_field: signature
   asim_field: RuleName
+  category: Common
+  display_name: Signature
 - field_name: priority
   field_type: int
   description: Alert priority (1=high, 4=low)
-  category: Common
   ecs_field: event.severity
   cim_field: severity
   asim_field: EventSeverity
+  category: Common
+  display_name: Priority
 - field_name: timestamp
   field_type: datetime
   description: Event timestamp
-  category: Common
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventTime
+  category: Common
+  display_name: Timestamp
 - field_name: direction
   field_type: string
   description: Traffic direction (ingress/egress)
-  category: Common
   ecs_field: network.direction
   cim_field: direction
   asim_field: NetworkDirection
+  category: Common
+  display_name: Direction
 - field_name: decision
   field_type: string
   description: Security decision (allowed/blocked)
-  category: Common
   ecs_field: event.outcome
   cim_field: decision
   asim_field: EventResult
+  category: Common
+  display_name: Decision
 - field_name: action
   field_type: string
   description: Action taken (block, allow, rst)
-  category: Common
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
+  category: Common
+  display_name: Action
 - field_name: message
   field_type: string
   description: Alert message
-  category: Common
-  ecs_field: message
-  cim_field: message
-  asim_field: message
-- field_name: url
-  field_type: string
-  description: URL accessed
-  category: Common
-  ecs_field: url.original
-  cim_field: url
-  asim_field: Url
-- field_name: name
-  field_type: string
-  description: Malware/file name
-  category: Common
-  ecs_field: event.action
-  cim_field: ''
-  asim_field: ''
-- field_name: sha256
-  field_type: string
-  description: File SHA256 hash
-  category: Common
-  ecs_field: process.hash.sha256
-  cim_field: ''
-  asim_field: ''
-- field_name: disposition
-  field_type: string
-  description: Malware disposition
-  category: Common
-  ecs_field: event.outcome
-  cim_field: ''
-  asim_field: ''
-- field_name: ip
-  field_type: ip
-  description: IP address
-  category: Common
-  ecs_field: source.ip
-  cim_field: src_ip
-  asim_field: SrcIpAddr
-- field_name: server
-  field_type: string
-  description: DHCP server
-  category: Common
-  ecs_field: network.forwarded_ip
-  cim_field: dhcp_server
-  asim_field: DvcIpAddr
-- field_name: client
-  field_type: string
-  description: DHCP client
-  category: Common
-  ecs_field: source.mac
-  cim_field: dhcp_client
-  asim_field: SrcMacAddr
-- field_name: router
-  field_type: ip
-  description: Router IP address
-  category: Common
-  ecs_field: network.forwarded_ip
-  cim_field: router
-  asim_field: DvcIpAddr
-- field_name: subnet
-  field_type: string
-  description: Subnet mask
-  category: Common
-  ecs_field: ciscomeraki.securityappliance.subnet
-  cim_field: subnet
-  asim_field: DstNetworkCidr
-- field_name: dns
-  field_type: string
-  description: DNS servers
-  category: Common
-  ecs_field: ciscomeraki.securityappliance.dns
-  cim_field: dns_server
-  asim_field: DnsResolver
-- field_name: host
-  field_type: string
-  description: Hostname
-  category: Common
-  ecs_field: url.domain
-  cim_field: url_host
-  asim_field: UrlHost
-- field_name: port
-  field_type: string
-  description: Switch port number
-  category: Common
-  ecs_field: observer.ingress.interface.name
-  cim_field: switch_port
-  asim_field: SrcInterfaceName
-- field_name: status
-  field_type: string
-  description: Port/link status
-  category: Common
-  ecs_field: event.outcome
-  cim_field: status
-  asim_field: EventResult
-- field_name: vlan_id
-  field_type: int
-  description: VLAN ID
-  category: Common
-  ecs_field: network.vlan.id
-  cim_field: vlan_id
-  asim_field: SrcVlanId
-- field_name: vlan
-  field_type: int
-  description: VLAN number
-  category: Common
-  ecs_field: network.vlan.id
-  cim_field: ''
-  asim_field: ''
-- field_name: identity
-  field_type: string
-  description: 802.1X user identity
-  category: Common
-  ecs_field: user.name
-  cim_field: user
-  asim_field: TargetUsername
-- field_name: radio
-  field_type: string
-  description: Radio number
-  category: Common
-  ecs_field: observer.ingress.interface.name
-  cim_field: radio
-  asim_field: SrcInterfaceName
-- field_name: vap
-  field_type: string
-  description: Virtual access point
-  category: Common
-  ecs_field: observer.ingress.interface.alias
-  cim_field: vap
-  asim_field: SrcInterfaceType
-- field_name: channel
-  field_type: string
-  description: Wireless channel
-  category: Common
-  ecs_field: ciscomeraki.securityappliance.channel
-  cim_field: channel
-  asim_field: NetworkChannel
-- field_name: rssi
-  field_type: int
-  description: Signal strength (RSSI)
-  category: Common
-  ecs_field: ciscomeraki.securityappliance.rssi
-  cim_field: rssi
-  asim_field: NetworkSignalStrength
-- field_name: aid
-  field_type: string
-  description: Association ID
-  category: Common
-  ecs_field: ciscomeraki.securityappliance.aid
-  cim_field: association_id
-  asim_field: NetworkSessionId
-- field_name: reason
-  field_type: string
-  description: Reason code
-  category: Common
-  ecs_field: event.reason
-  cim_field: reason
-  asim_field: EventResultDetails
-- field_name: instigator
-  field_type: string
-  description: Event instigator
-  category: Common
-  ecs_field: event.provider
-  cim_field: instigator
-  asim_field: EventSource
-- field_name: duration
-  field_type: string
-  description: Connection duration
-  category: Common
-  ecs_field: event.duration
-  cim_field: duration
-  asim_field: EventDuration
-- field_name: is_wpa
-  field_type: string
-  description: WPA enabled flag
-  category: Common
-  ecs_field: ciscomeraki.securityappliance.is_wpa
-  cim_field: wpa_enabled
-  asim_field: NetworkProtocol
-- field_name: full_conn
-  field_type: string
-  description: Full connection time
-  category: Common
-  ecs_field: event.duration
-  cim_field: full_connection_time
-  asim_field: EventDuration
-- field_name: ip_resp
-  field_type: string
-  description: IP response time
-  category: Common
-  ecs_field: event.duration
-  cim_field: ip_response_time
-  asim_field: EventDuration
-- field_name: ip_src
-  field_type: ip
-  description: Source IP from association
-  category: Common
-  ecs_field: source.ip
-  cim_field: association_ip
-  asim_field: SrcIpAddr
-- field_name: arp_resp
-  field_type: string
-  description: ARP response time
-  category: Common
-  ecs_field: event.duration
-  cim_field: arp_response_time
-  asim_field: EventDuration
-- field_name: arp_src
-  field_type: ip
-  description: ARP source IP
-  category: Common
-  ecs_field: source.ip
-  cim_field: arp_src_ip
-  asim_field: SrcIpAddr
-- field_name: dns_server
-  field_type: ip
-  description: DNS server used
-  category: Common
-  ecs_field: related.ip
-  cim_field: dns_server
-  asim_field: DnsResolver
-- field_name: dns_resp
-  field_type: string
-  description: DNS response time
-  category: Common
-  ecs_field: event.duration
-  cim_field: dns_response_time
-  asim_field: EventDuration
-- field_name: download
-  field_type: string
-  description: Download bandwidth limit
-  category: Common
-  ecs_field: destination.bytes
-  cim_field: ''
-  asim_field: ''
-- field_name: upload
-  field_type: string
-  description: Upload bandwidth limit
-  category: Common
-  ecs_field: source.bytes
-  cim_field: ''
-  asim_field: ''
-- field_name: ssid
-  field_type: string
-  description: SSID name
-  category: Common
-  ecs_field: network.name
-  cim_field: ''
-  asim_field: ''
-- field_name: bssid
-  field_type: string
-  description: BSSID (AP MAC)
-  category: Common
-  ecs_field: observer.mac
-  cim_field: bssid
-  asim_field: DvcMacAddr
-- field_name: wired_mac
-  field_type: string
-  description: Wired MAC address
-  category: Common
-  ecs_field: observer.mac
-  cim_field: wired_mac
-  asim_field: DvcMacAddr
-- field_name: fc_type
-  field_type: string
-  description: Frame control type
-  category: Common
-  ecs_field: network.type
-  cim_field: frame_control_type
-  asim_field: NetworkProtocol
-- field_name: fc_subtype
-  field_type: string
-  description: Frame control subtype
-  category: Common
-  ecs_field: network.type
-  cim_field: frame_control_subtype
-  asim_field: NetworkProtocol
-- field_name: packet
-  field_type: string
-  description: Packet type (deauth, etc)
-  category: Common
-  ecs_field: ciscomeraki.securityappliance.packet
-  cim_field: ciscomeraki.securityappliance.packet
-  asim_field: ciscomeraki.securityappliance.packet
-- field_name: device
-  field_type: string
-  description: Device MAC address
-  category: Common
-  ecs_field: observer.name
-  cim_field: dvc
-  asim_field: DvcHostname
-- field_name: state
-  field_type: string
-  description: Flood state (start/end)
-  category: Common
-  ecs_field: event.outcome
-  cim_field: ''
-  asim_field: ''
-- field_name: alarm_id
-  field_type: string
-  description: Alarm identifier
-  category: Common
-  ecs_field: event.id
-  cim_field: alarm_id
-  asim_field: EventOriginalUid
-- field_name: dos_count
-  field_type: int
-  description: DoS packet count
-  category: Common
-  ecs_field: event.sequence
-  cim_field: dos_count
-  asim_field: EventCount
-- field_name: inter_arrival
-  field_type: string
-  description: Inter-arrival time
-  category: Common
-  ecs_field: event.duration
-  cim_field: inter_arrival
-  asim_field: EventDuration
-- field_name: msg
-  field_type: string
-  description: Event message
-  category: Common
   ecs_field: message
   cim_field: msg
   asim_field: EventMessage
-- field_name: user
-  field_type: string
-  description: Username
   category: Common
+  display_name: Message
+- field_name: url
+  field_type: string
+  description: URL accessed
+  ecs_field: url.original
+  cim_field: url
+  asim_field: Url
+  category: Common
+  display_name: Url
+- field_name: name
+  field_type: string
+  description: Malware/file name
+  ecs_field: event.action
+  cim_field: name
+  asim_field: name
+  category: Common
+  display_name: Name
+- field_name: sha256
+  field_type: string
+  description: File SHA256 hash
+  ecs_field: process.hash.sha256
+  cim_field: sha256
+  asim_field: sha256
+  category: Common
+  display_name: Sha256
+- field_name: disposition
+  field_type: string
+  description: Malware disposition
+  ecs_field: event.outcome
+  cim_field: disposition
+  asim_field: disposition
+  category: Common
+  display_name: Disposition
+- field_name: ip
+  field_type: ip
+  description: IP address
+  ecs_field: source.ip
+  cim_field: src_ip
+  asim_field: SrcIpAddr
+  category: Common
+  display_name: Ip
+- field_name: server
+  field_type: string
+  description: DHCP server
+  ecs_field: network.forwarded_ip
+  cim_field: dhcp_server
+  asim_field: DvcIpAddr
+  category: Common
+  display_name: Server
+- field_name: client
+  field_type: string
+  description: DHCP client
+  ecs_field: source.mac
+  cim_field: dhcp_client
+  asim_field: SrcMacAddr
+  category: Common
+  display_name: Client
+- field_name: router
+  field_type: ip
+  description: Router IP address
+  ecs_field: network.forwarded_ip
+  cim_field: router
+  asim_field: DvcIpAddr
+  category: Common
+  display_name: Router
+- field_name: subnet
+  field_type: string
+  description: Subnet mask
+  ecs_field: ciscomeraki.securityappliance.subnet
+  cim_field: subnet
+  asim_field: DstNetworkCidr
+  category: Common
+  display_name: Subnet
+- field_name: dns
+  field_type: string
+  description: DNS servers
+  ecs_field: ciscomeraki.securityappliance.dns
+  cim_field: dns_server
+  asim_field: DnsResolver
+  category: Common
+  display_name: Dns
+- field_name: host
+  field_type: string
+  description: Hostname
+  ecs_field: url.domain
+  cim_field: url_host
+  asim_field: UrlHost
+  category: Common
+  display_name: Host
+- field_name: port
+  field_type: string
+  description: Switch port number
+  ecs_field: observer.ingress.interface.name
+  cim_field: switch_port
+  asim_field: SrcInterfaceName
+  category: Common
+  display_name: Port
+- field_name: status
+  field_type: string
+  description: Port/link status
+  ecs_field: event.outcome
+  cim_field: status
+  asim_field: EventResult
+  category: Common
+  display_name: Status
+- field_name: vlan_id
+  field_type: int
+  description: VLAN ID
+  ecs_field: network.vlan.id
+  cim_field: vlan_id
+  asim_field: SrcVlanId
+  category: Common
+  display_name: Vlan Id
+- field_name: vlan
+  field_type: int
+  description: VLAN number
+  ecs_field: network.vlan.id
+  cim_field: vlan
+  asim_field: vlan
+  category: Common
+  display_name: Vlan
+- field_name: identity
+  field_type: string
+  description: 802.1X user identity
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
+  category: Common
+  display_name: Identity
+- field_name: radio
+  field_type: string
+  description: Radio number
+  ecs_field: observer.ingress.interface.name
+  cim_field: radio
+  asim_field: SrcInterfaceName
+  category: Common
+  display_name: Radio
+- field_name: vap
+  field_type: string
+  description: Virtual access point
+  ecs_field: observer.ingress.interface.alias
+  cim_field: vap
+  asim_field: SrcInterfaceType
+  category: Common
+  display_name: Vap
+- field_name: channel
+  field_type: string
+  description: Wireless channel
+  ecs_field: ciscomeraki.securityappliance.channel
+  cim_field: channel
+  asim_field: NetworkChannel
+  category: Common
+  display_name: Channel
+- field_name: rssi
+  field_type: int
+  description: Signal strength (RSSI)
+  ecs_field: ciscomeraki.securityappliance.rssi
+  cim_field: rssi
+  asim_field: NetworkSignalStrength
+  category: Common
+  display_name: Rssi
+- field_name: aid
+  field_type: string
+  description: Association ID
+  ecs_field: ciscomeraki.securityappliance.aid
+  cim_field: association_id
+  asim_field: NetworkSessionId
+  category: Common
+  display_name: Aid
+- field_name: reason
+  field_type: string
+  description: Reason code
+  ecs_field: event.reason
+  cim_field: reason
+  asim_field: EventResultDetails
+  category: Common
+  display_name: Reason
+- field_name: instigator
+  field_type: string
+  description: Event instigator
+  ecs_field: event.provider
+  cim_field: instigator
+  asim_field: EventSource
+  category: Common
+  display_name: Instigator
+- field_name: duration
+  field_type: string
+  description: Connection duration
+  ecs_field: event.duration
+  cim_field: duration
+  asim_field: EventDuration
+  category: Common
+  display_name: Duration
+- field_name: is_wpa
+  field_type: string
+  description: WPA enabled flag
+  ecs_field: ciscomeraki.securityappliance.is_wpa
+  cim_field: wpa_enabled
+  asim_field: NetworkProtocol
+  category: Common
+  display_name: Is Wpa
+- field_name: full_conn
+  field_type: string
+  description: Full connection time
+  ecs_field: event.duration
+  cim_field: full_connection_time
+  asim_field: EventDuration
+  category: Common
+  display_name: Full Conn
+- field_name: ip_resp
+  field_type: string
+  description: IP response time
+  ecs_field: event.duration
+  cim_field: ip_response_time
+  asim_field: EventDuration
+  category: Common
+  display_name: Ip Resp
+- field_name: ip_src
+  field_type: ip
+  description: Source IP from association
+  ecs_field: source.ip
+  cim_field: association_ip
+  asim_field: SrcIpAddr
+  category: Common
+  display_name: Ip Src
+- field_name: arp_resp
+  field_type: string
+  description: ARP response time
+  ecs_field: event.duration
+  cim_field: arp_response_time
+  asim_field: EventDuration
+  category: Common
+  display_name: Arp Resp
+- field_name: arp_src
+  field_type: ip
+  description: ARP source IP
+  ecs_field: source.ip
+  cim_field: arp_src_ip
+  asim_field: SrcIpAddr
+  category: Common
+  display_name: Arp Src
+- field_name: dns_server
+  field_type: ip
+  description: DNS server used
+  ecs_field: related.ip
+  cim_field: dns_server
+  asim_field: DnsResolver
+  category: Common
+  display_name: Dns Server
+- field_name: dns_resp
+  field_type: string
+  description: DNS response time
+  ecs_field: event.duration
+  cim_field: dns_response_time
+  asim_field: EventDuration
+  category: Common
+  display_name: Dns Resp
+- field_name: download
+  field_type: string
+  description: Download bandwidth limit
+  ecs_field: destination.bytes
+  cim_field: download
+  asim_field: download
+  category: Common
+  display_name: Download
+- field_name: upload
+  field_type: string
+  description: Upload bandwidth limit
+  ecs_field: source.bytes
+  cim_field: upload
+  asim_field: upload
+  category: Common
+  display_name: Upload
+- field_name: ssid
+  field_type: string
+  description: SSID name
+  ecs_field: network.name
+  cim_field: ssid
+  asim_field: ssid
+  category: Common
+  display_name: Ssid
+- field_name: bssid
+  field_type: string
+  description: BSSID (AP MAC)
+  ecs_field: observer.mac
+  cim_field: bssid
+  asim_field: DvcMacAddr
+  category: Common
+  display_name: Bssid
+- field_name: wired_mac
+  field_type: string
+  description: Wired MAC address
+  ecs_field: observer.mac
+  cim_field: wired_mac
+  asim_field: DvcMacAddr
+  category: Common
+  display_name: Wired Mac
+- field_name: fc_type
+  field_type: string
+  description: Frame control type
+  ecs_field: network.type
+  cim_field: frame_control_type
+  asim_field: NetworkProtocol
+  category: Common
+  display_name: Fc Type
+- field_name: fc_subtype
+  field_type: string
+  description: Frame control subtype
+  ecs_field: network.type
+  cim_field: frame_control_subtype
+  asim_field: NetworkProtocol
+  category: Common
+  display_name: Fc Subtype
+- field_name: packet
+  field_type: string
+  description: Packet type (deauth, etc)
+  ecs_field: ciscomeraki.securityappliance.packet
+  cim_field: ciscomeraki.securityappliance.packet
+  asim_field: ciscomeraki.securityappliance.packet
+  category: Common
+  display_name: Packet
+- field_name: device
+  field_type: string
+  description: Device MAC address
+  ecs_field: observer.name
+  cim_field: dvc
+  asim_field: DvcHostname
+  category: Common
+  display_name: Device
+- field_name: state
+  field_type: string
+  description: Flood state (start/end)
+  ecs_field: event.outcome
+  cim_field: state
+  asim_field: state
+  category: Common
+  display_name: State
+- field_name: alarm_id
+  field_type: string
+  description: Alarm identifier
+  ecs_field: event.id
+  cim_field: alarm_id
+  asim_field: EventOriginalUid
+  category: Common
+  display_name: Alarm Id
+- field_name: dos_count
+  field_type: int
+  description: DoS packet count
+  ecs_field: event.sequence
+  cim_field: dos_count
+  asim_field: EventCount
+  category: Common
+  display_name: Dos Count
+- field_name: inter_arrival
+  field_type: string
+  description: Inter-arrival time
+  ecs_field: event.duration
+  cim_field: inter_arrival
+  asim_field: EventDuration
+  category: Common
+  display_name: Inter Arrival
+- field_name: msg
+  field_type: string
+  description: Event message
+  ecs_field: message
+  cim_field: msg
+  asim_field: EventMessage
+  category: Common
+  display_name: Msg
+- field_name: user
+  field_type: string
+  description: Username
+  ecs_field: user.name
+  cim_field: user
+  asim_field: TargetUsername
+  category: Common
+  display_name: User
 - field_name: allow
   field_type: string
   description: Allow/deny action
-  category: Common
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
+  category: Common
+  display_name: Allow
 - field_name: deny
   field_type: string
   description: Deny action
-  category: Common
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
+  category: Common
+  display_name: Deny
 - field_name: request
   field_type: string
   description: HTTP request
-  category: Common
   ecs_field: url.original
   cim_field: http_request
   asim_field: Url
+  category: Common
+  display_name: Request
 - field_name: dhost
   field_type: string
   description: Destination host MAC
-  category: Common
   ecs_field: destination.mac
   cim_field: dest_mac
   asim_field: DstMacAddr
+  category: Common
+  display_name: Dhost
 - field_name: retval
   field_type: string
   description: Meraki MX Security Appliance field
-  category: MX Security Appliance
   ecs_field: ciscomeraki.securityappliance.retval
   cim_field: ciscomeraki.securityappliance.retval
   asim_field: ciscomeraki.securityappliance.retval
+  category: MX Security Appliance
+  display_name: Retval
 - field_name: spi
   field_type: string
   description: Meraki MX Security Appliance field
-  category: MX Security Appliance
   ecs_field: event.id
   cim_field: spi
   asim_field: NetworkSessionId
+  category: MX Security Appliance
+  display_name: Spi
 - field_name: auth_neg_dur
   field_type: string
   description: Meraki MR Access Points field
-  category: MR Access Points
   ecs_field: ciscomeraki.securityappliance.auth_neg_dur
   cim_field: ciscomeraki.securityappliance.auth_neg_dur
   asim_field: ciscomeraki.securityappliance.auth_neg_dur
+  category: MR Access Points
+  display_name: Auth Neg Dur
 - field_name: last_auth_ago
   field_type: string
   description: Meraki MR Access Points field
-  category: MR Access Points
   ecs_field: ciscomeraki.securityappliance.last_auth_ago
   cim_field: ciscomeraki.securityappliance.last_auth_ago
   asim_field: ciscomeraki.securityappliance.last_auth_ago
+  category: MR Access Points
+  display_name: Last Auth Ago
 - field_name: dns_req_rtt
   field_type: string
   description: Meraki MR Access Points field
-  category: MR Access Points
   ecs_field: ciscomeraki.securityappliance.dns_req_rtt
   cim_field: ciscomeraki.securityappliance.dns_req_rtt
   asim_field: ciscomeraki.securityappliance.dns_req_rtt
+  category: MR Access Points
+  display_name: Dns Req Rtt
 - field_name: auth_neg_failed
   field_type: string
   description: Meraki MR Access Points field
-  category: MR Access Points
   ecs_field: ciscomeraki.securityappliance.auth_neg_failed
   cim_field: ciscomeraki.securityappliance.auth_neg_failed
   asim_field: ciscomeraki.securityappliance.auth_neg_failed
-mapped_field_count: 76
+  category: MR Access Points
+  display_name: Auth Neg Failed
 notes: Extracted from Meraki syslog documentation - fields from key=value patterns
   in log examples

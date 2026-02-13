@@ -5,124 +5,139 @@ product_full_name: Siemens S7 Communication Protocol
 log_type: structured
 source_document: ''
 source_url: ''
-extraction_date: '2026-02-12'
+extraction_date: '2026-02-13'
 source_file: ot-s7comm-signatures.json
-generated_at: '2026-02-12T18:54:31.518780'
+generated_at: '2026-02-13T07:34:34.112860'
 field_count: 16
 fields:
 - field_name: source_ip
   field_type: ip
   description: Client/HMI IP address
-  category: network
   ecs_field: source.ip
   cim_field: src_ip
   asim_field: SrcIpAddr
+  category: network
+  display_name: Source IP
 - field_name: destination_ip
   field_type: ip
   description: PLC IP address
-  category: network
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: network
+  display_name: Destination IP
 - field_name: source_port
   field_type: port
   description: Client port
-  category: network
   ecs_field: source.port
   cim_field: src_port
   asim_field: SrcPortNumber
+  category: network
+  display_name: Source Port
 - field_name: destination_port
   field_type: port
   description: PLC port (typically 102 for ISO-TSAP)
-  category: network
   ecs_field: destination.port
   cim_field: dest_port
   asim_field: DstPortNumber
+  category: network
+  display_name: Destination Port
 - field_name: rosctr
   field_type: number
   description: Remote Operating Service Control (1=Job, 2=Ack, 3=Ack_Data, 7=Userdata)
-  category: protocol
   ecs_field: event.code
   cim_field: signature_id
   asim_field: EventOriginalType
+  category: protocol
+  display_name: ROSCTR
 - field_name: function_code
   field_type: number
   description: S7 function code
-  category: protocol
   ecs_field: event.action
   cim_field: action
   asim_field: DvcAction
+  category: protocol
+  display_name: Function Code
 - field_name: function_name
   field_type: string
   description: Human-readable function name
-  category: protocol
   ecs_field: event.reason
   cim_field: reason
   asim_field: EventResultDetails
+  category: protocol
+  display_name: Function Name
 - field_name: area
   field_type: string
   description: S7 memory area (I=Inputs, Q=Outputs, M=Markers, DB=Data Block)
-  category: data
   ecs_field: file.type
   cim_field: object_category
   asim_field: TargetFileType
+  category: data
+  display_name: Memory Area
 - field_name: db_number
   field_type: number
   description: Data block number (for DB area)
-  category: data
   ecs_field: file.inode
   cim_field: file_id
   asim_field: TargetFileId
+  category: data
+  display_name: Data Block Number
 - field_name: start_address
   field_type: number
   description: Starting byte address
-  category: data
   ecs_field: ot.s7comm.start_address
   cim_field: object_path
   asim_field: TargetFilePath
+  category: data
+  display_name: Start Address
 - field_name: length
   field_type: number
   description: Number of bytes to read/write
-  category: data
   ecs_field: file.size
   cim_field: bytes
   asim_field: SrcBytes
+  category: data
+  display_name: Data Length
 - field_name: data_value
   field_type: string
   description: Read/written data value
-  category: data
   ecs_field: file.hash.md5
   cim_field: file_hash
   asim_field: TargetFileHashMd5
+  category: data
+  display_name: Data Value
 - field_name: error_class
   field_type: number
   description: S7 error class
-  category: error
   ecs_field: error.code
   cim_field: error_code
   asim_field: EventResultDetails
+  category: error
+  display_name: Error Class
 - field_name: error_code
   field_type: number
   description: S7 error code
-  category: error
   ecs_field: error.type
   cim_field: error_type
   asim_field: EventMessage
+  category: error
+  display_name: Error Code
 - field_name: rack
   field_type: number
   description: PLC rack number
-  category: device
   ecs_field: host.geo.region_name
   cim_field: dest_zone
   asim_field: DstZone
+  category: device
+  display_name: Rack
 - field_name: slot
   field_type: number
   description: PLC slot number
-  category: device
   ecs_field: host.geo.city_name
   cim_field: dest_location
   asim_field: DstGeoCity
-mapped_field_count: 16
+  category: device
+  display_name: Slot
 signatures:
 - name: s7comm_generic
   description: Generic Siemens S7comm protocol detection

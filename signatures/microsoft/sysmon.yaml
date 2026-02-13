@@ -7,7 +7,7 @@ source_document: Sysmon Documentation
 source_url: https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
 extraction_date: '2026-01-02'
 source_file: sysmon-signatures.json
-generated_at: '2026-02-12T18:54:31.771414'
+generated_at: '2026-02-13T07:34:35.058720'
 categories:
 - Common
 - Process
@@ -25,720 +25,598 @@ fields:
 - field_name: UtcTime
   field_type: datetime
   description: Event timestamp in UTC format
-  category: Common
   ecs_field: '@timestamp'
   cim_field: _time
   asim_field: EventStartTime
+  category: Common
 - field_name: ProcessGuid
   field_type: guid
   description: Unique GUID for process across domain (links events)
-  category: Common
   ecs_field: process.entity_id
   cim_field: process_guid
   asim_field: ProcessGuid
+  category: Common
 - field_name: ProcessId
   field_type: integer
   description: Windows process ID
-  category: Common
   ecs_field: process.pid
   cim_field: process_id
   asim_field: TargetProcessId
+  category: Common
 - field_name: Image
   field_type: string
   description: Full path to process executable image
-  category: Common
   ecs_field: process.executable
-  cim_field: ''
-  asim_field: ''
+  cim_field: Image
+  asim_field: Image
+  category: Common
 - field_name: User
   field_type: string
   description: User account running the process (DOMAIN\user)
-  category: Common
   ecs_field: user.name
   cim_field: user
   asim_field: TargetUsername
+  category: Common
 - field_name: RuleName
   field_type: string
   description: Name of triggered rule from Sysmon config
-  category: Common
   ecs_field: rule.name
-  cim_field: ''
-  asim_field: ''
+  cim_field: RuleName
+  asim_field: RuleName
+  category: Common
 - field_name: CommandLine
   field_type: string
   description: Complete command line arguments for the process
-  category: Process
   ecs_field: process.command_line
   cim_field: process_exec
   asim_field: TargetProcessCommandLine
+  category: Process
 - field_name: CurrentDirectory
   field_type: string
   description: Current working directory of the process
-  category: Process
   ecs_field: microsoft.sysmon.currentdirectory
   cim_field: microsoft.sysmon.currentdirectory
   asim_field: microsoft.sysmon.currentdirectory
+  category: Process
 - field_name: Hashes
   field_type: string
   description: Hash values of process image (SHA1, MD5, SHA256, IMPHASH)
-  category: Process
   ecs_field: file.hash.sha256
   cim_field: file_hash
   asim_field: TargetFileSHA256
+  category: Process
 - field_name: ParentProcessGuid
   field_type: guid
   description: GUID of the parent process
-  category: Process
   ecs_field: process.parent.entity_id
   cim_field: parent_process_guid
   asim_field: ParentProcessGuid
+  category: Process
 - field_name: ParentProcessId
   field_type: integer
   description: Process ID of the parent
-  category: Process
   ecs_field: process.parent.pid
-  cim_field: ''
-  asim_field: ''
+  cim_field: ParentProcessId
+  asim_field: ParentProcessId
+  category: Process
 - field_name: ParentImage
   field_type: string
   description: Full path to parent process executable
-  category: Process
   ecs_field: process.parent.name
-  cim_field: ''
-  asim_field: ''
+  cim_field: ParentImage
+  asim_field: ParentImage
+  category: Process
 - field_name: ParentCommandLine
   field_type: string
   description: Command line of parent process
-  category: Process
   ecs_field: process.parent.command_line
-  cim_field: ''
-  asim_field: ''
+  cim_field: ParentCommandLine
+  asim_field: ParentCommandLine
+  category: Process
 - field_name: ParentUser
   field_type: string
   description: User account of parent process
-  category: Process
   ecs_field: microsoft.sysmon.parentuser
   cim_field: microsoft.sysmon.parentuser
   asim_field: microsoft.sysmon.parentuser
+  category: Process
 - field_name: LogonGuid
   field_type: guid
   description: GUID of the logon session
-  category: Process
   ecs_field: event.id
   cim_field: transaction_id
   asim_field: EventOriginalUid
+  category: Process
 - field_name: LogonId
   field_type: string
   description: Logon session ID (hex)
-  category: Process
   ecs_field: winlog.logon.id
   cim_field: logon_id
   asim_field: LogonId
+  category: Process
 - field_name: TerminalSessionId
   field_type: integer
   description: Terminal Services session ID
-  category: Process
   ecs_field: microsoft.sysmon.terminalsessionid
   cim_field: microsoft.sysmon.terminalsessionid
   asim_field: microsoft.sysmon.terminalsessionid
+  category: Process
 - field_name: IntegrityLevel
   field_type: string
   description: Process integrity level (Low, Medium, High, System)
-  category: Process
   ecs_field: process.integrity_level
   cim_field: integrity_level
   asim_field: ProcessIntegrityLevel
+  category: Process
 - field_name: OriginalFileName
   field_type: string
   description: Original filename from PE header
-  category: Process
   ecs_field: file.name
-  cim_field: ''
-  asim_field: ''
+  cim_field: OriginalFileName
+  asim_field: OriginalFileName
+  category: Process
 - field_name: FileVersion
   field_type: string
   description: File version from PE header
-  category: Process
   ecs_field: microsoft.sysmon.fileversion
   cim_field: microsoft.sysmon.fileversion
   asim_field: microsoft.sysmon.fileversion
+  category: Process
 - field_name: Description
   field_type: string
   description: File description from PE header
-  category: Process
   ecs_field: message
   cim_field: event_description
   asim_field: EventMessage
+  category: Process
 - field_name: Product
   field_type: string
   description: Product name from PE header
-  category: Process
   ecs_field: observer.product
   cim_field: product
   asim_field: DvcProduct
+  category: Process
 - field_name: Company
   field_type: string
   description: Company name from PE header
-  category: Process
   ecs_field: microsoft.sysmon.company
   cim_field: microsoft.sysmon.company
   asim_field: microsoft.sysmon.company
+  category: Process
 - field_name: Protocol
   field_type: string
   description: Network protocol (tcp, udp)
-  category: Network
   ecs_field: network.transport
   cim_field: transport
   asim_field: NetworkProtocol
+  category: Network
 - field_name: Initiated
   field_type: boolean
   description: True if process initiated the connection
-  category: Network
   ecs_field: microsoft.sysmon.initiated
   cim_field: microsoft.sysmon.initiated
   asim_field: microsoft.sysmon.initiated
+  category: Network
 - field_name: SourceIsIpv6
   field_type: boolean
   description: True if source is IPv6
-  category: Network
   ecs_field: network.type
   cim_field: is_ipv6
   asim_field: NetworkType
+  category: Network
 - field_name: SourceIp
   field_type: ip
   description: Source IP address
-  category: Network
   ecs_field: source.ip
-  cim_field: ''
-  asim_field: ''
+  cim_field: SourceIp
+  asim_field: SourceIp
+  category: Network
 - field_name: SourceHostname
   field_type: string
   description: Source hostname (if DNS lookup enabled)
-  category: Network
   ecs_field: source.address
-  cim_field: ''
-  asim_field: ''
+  cim_field: SourceHostname
+  asim_field: SourceHostname
+  category: Network
 - field_name: SourcePort
   field_type: integer
   description: Source port number
-  category: Network
   ecs_field: source.port
-  cim_field: ''
-  asim_field: ''
+  cim_field: SourcePort
+  asim_field: SourcePort
+  category: Network
 - field_name: SourcePortName
   field_type: string
   description: Well-known source port name
-  category: Network
   ecs_field: source.port
-  cim_field: ''
-  asim_field: ''
+  cim_field: SourcePortName
+  asim_field: SourcePortName
+  category: Network
 - field_name: DestinationIsIpv6
   field_type: boolean
   description: True if destination is IPv6
-  category: Network
   ecs_field: microsoft.sysmon.destinationisipv6
   cim_field: microsoft.sysmon.destinationisipv6
   asim_field: microsoft.sysmon.destinationisipv6
+  category: Network
 - field_name: DestinationIp
   field_type: ip
   description: Destination IP address
-  category: Network
   ecs_field: destination.ip
-  cim_field: ''
-  asim_field: ''
+  cim_field: DestinationIp
+  asim_field: DestinationIp
+  category: Network
 - field_name: DestinationHostname
   field_type: string
   description: Destination hostname (if DNS lookup enabled)
-  category: Network
   ecs_field: observer.hostname
-  cim_field: ''
-  asim_field: ''
+  cim_field: DestinationHostname
+  asim_field: DestinationHostname
+  category: Network
 - field_name: DestinationPort
   field_type: integer
   description: Destination port number
-  category: Network
   ecs_field: destination.port
-  cim_field: ''
-  asim_field: ''
+  cim_field: DestinationPort
+  asim_field: DestinationPort
+  category: Network
 - field_name: DestinationPortName
   field_type: string
   description: Well-known destination port name
-  category: Network
   ecs_field: destination.port
-  cim_field: ''
-  asim_field: ''
+  cim_field: DestinationPortName
+  asim_field: DestinationPortName
+  category: Network
 - field_name: TargetFilename
   field_type: string
   description: Full path to the target file
-  category: File
   ecs_field: file.name
-  cim_field: ''
-  asim_field: ''
+  cim_field: TargetFilename
+  asim_field: TargetFilename
+  category: File
 - field_name: CreationUtcTime
   field_type: datetime
   description: File creation timestamp
-  category: File
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
+  category: File
 - field_name: PreviousCreationUtcTime
   field_type: datetime
   description: Previous file creation timestamp (timestomp detection)
-  category: File
   ecs_field: event.created
   cim_field: _time
   asim_field: EventStartTime
+  category: File
 - field_name: Hash
   field_type: string
   description: Hash of file or stream contents
-  category: File
   ecs_field: process.hash.sha256
-  cim_field: ''
-  asim_field: ''
+  cim_field: Hash
+  asim_field: Hash
+  category: File
 - field_name: Contents
   field_type: string
   description: File stream contents (for named streams)
-  category: File
   ecs_field: file.name
-  cim_field: ''
-  asim_field: ''
+  cim_field: Contents
+  asim_field: Contents
+  category: File
 - field_name: IsExecutable
   field_type: boolean
   description: True if file is PE executable
-  category: File
   ecs_field: microsoft.sysmon.isexecutable
   cim_field: microsoft.sysmon.isexecutable
   asim_field: microsoft.sysmon.isexecutable
+  category: File
 - field_name: Archived
   field_type: boolean
   description: True if deleted file was archived
-  category: File
   ecs_field: microsoft.sysmon.archived
   cim_field: microsoft.sysmon.archived
   asim_field: microsoft.sysmon.archived
+  category: File
 - field_name: EventType
   field_type: string
   description: Registry event type (CreateKey, DeleteKey, SetValue, etc.)
-  category: Registry
   ecs_field: event.type
   cim_field: event_type
   asim_field: EventType
+  category: Registry
 - field_name: TargetObject
   field_type: string
   description: Full registry path (HKLM\Software\...)
-  category: Registry
   ecs_field: registry.key
-  cim_field: ''
-  asim_field: ''
+  cim_field: TargetObject
+  asim_field: TargetObject
+  category: Registry
 - field_name: Details
   field_type: string
   description: Registry value data for SetValue events
-  category: Registry
   ecs_field: message
-  cim_field: ''
-  asim_field: ''
+  cim_field: Details
+  asim_field: Details
+  category: Registry
 - field_name: NewName
   field_type: string
   description: New name for renamed registry key/value
-  category: Registry
   ecs_field: microsoft.sysmon.newname
   cim_field: microsoft.sysmon.newname
   asim_field: microsoft.sysmon.newname
+  category: Registry
 - field_name: ImageLoaded
   field_type: string
   description: Full path to loaded driver/module
-  category: Driver
   ecs_field: file.path
-  cim_field: ''
-  asim_field: ''
+  cim_field: ImageLoaded
+  asim_field: ImageLoaded
+  category: Driver
 - field_name: Signature
   field_type: string
   description: Digital signature signer name
-  category: Driver
   ecs_field: rule.name
   cim_field: signature
   asim_field: RuleName
+  category: Driver
 - field_name: SignatureStatus
   field_type: string
   description: Signature validity status (Valid, Expired, Revoked, etc.)
-  category: Driver
   ecs_field: event.outcome
-  cim_field: ''
-  asim_field: ''
+  cim_field: SignatureStatus
+  asim_field: SignatureStatus
+  category: Driver
 - field_name: Signed
   field_type: boolean
   description: True if driver is digitally signed
-  category: Driver
   ecs_field: file.code_signature.exists
   cim_field: signed
   asim_field: FileIsSigned
+  category: Driver
 - field_name: SourceProcessGuid
   field_type: guid
   description: GUID of source process creating the thread
-  category: Process
   ecs_field: process.entity_id
   cim_field: process_guid
   asim_field: ProcessGuid
+  category: Process
 - field_name: SourceProcessId
   field_type: integer
   description: PID of source process
-  category: Process
   ecs_field: process.pid
-  cim_field: ''
-  asim_field: ''
+  cim_field: SourceProcessId
+  asim_field: SourceProcessId
+  category: Process
 - field_name: SourceImage
   field_type: string
   description: Path to source process image
-  category: Process
   ecs_field: microsoft.sysmon.sourceimage
   cim_field: microsoft.sysmon.sourceimage
   asim_field: microsoft.sysmon.sourceimage
+  category: Process
 - field_name: TargetProcessGuid
   field_type: guid
   description: GUID of target process receiving the thread
-  category: Process
   ecs_field: process.entity_id
   cim_field: process_guid
   asim_field: ProcessGuid
+  category: Process
 - field_name: TargetProcessId
   field_type: integer
   description: PID of target process
-  category: Process
   ecs_field: process.pid
-  cim_field: ''
-  asim_field: ''
+  cim_field: TargetProcessId
+  asim_field: TargetProcessId
+  category: Process
 - field_name: TargetImage
   field_type: string
   description: Path to target process image
-  category: Process
   ecs_field: microsoft.sysmon.targetimage
   cim_field: microsoft.sysmon.targetimage
   asim_field: microsoft.sysmon.targetimage
+  category: Process
 - field_name: NewThreadId
   field_type: integer
   description: ID of the newly created thread
-  category: Process
   ecs_field: microsoft.sysmon.newthreadid
   cim_field: microsoft.sysmon.newthreadid
   asim_field: microsoft.sysmon.newthreadid
+  category: Process
 - field_name: StartAddress
   field_type: string
   description: Start address of the new thread (hex)
-  category: Process
   ecs_field: microsoft.sysmon.startaddress
   cim_field: microsoft.sysmon.startaddress
   asim_field: microsoft.sysmon.startaddress
+  category: Process
 - field_name: StartModule
   field_type: string
   description: Module containing the start address
-  category: Process
   ecs_field: microsoft.sysmon.startmodule
   cim_field: microsoft.sysmon.startmodule
   asim_field: microsoft.sysmon.startmodule
+  category: Process
 - field_name: StartFunction
   field_type: string
   description: Function at start address (if exported)
-  category: Process
   ecs_field: microsoft.sysmon.startfunction
   cim_field: microsoft.sysmon.startfunction
   asim_field: microsoft.sysmon.startfunction
+  category: Process
 - field_name: SourceThreadId
   field_type: integer
   description: Thread ID in source process
-  category: Process
   ecs_field: microsoft.sysmon.sourcethreadid
   cim_field: microsoft.sysmon.sourcethreadid
   asim_field: microsoft.sysmon.sourcethreadid
+  category: Process
 - field_name: GrantedAccess
   field_type: string
   description: Access rights granted (hex mask)
-  category: Process
   ecs_field: microsoft.sysmon.grantedaccess
   cim_field: microsoft.sysmon.grantedaccess
   asim_field: microsoft.sysmon.grantedaccess
+  category: Process
 - field_name: CallTrace
   field_type: string
   description: Call stack leading to the access
-  category: Process
   ecs_field: microsoft.sysmon.calltrace
   cim_field: microsoft.sysmon.calltrace
   asim_field: microsoft.sysmon.calltrace
+  category: Process
 - field_name: Device
   field_type: string
   description: Target device for raw read (\Device\HarddiskVolume1)
-  category: File
   ecs_field: observer.name
   cim_field: dvc
   asim_field: DvcHostname
+  category: File
 - field_name: PipeName
   field_type: string
   description: Name of the pipe (\\*\pipe\name)
-  category: Pipe
   ecs_field: microsoft.sysmon.pipename
   cim_field: microsoft.sysmon.pipename
   asim_field: microsoft.sysmon.pipename
+  category: Pipe
 - field_name: Operation
   field_type: string
   description: WMI operation type
-  category: WMI
   ecs_field: event.action
   cim_field: action
   asim_field: EventType
+  category: WMI
 - field_name: EventNamespace
   field_type: string
   description: WMI namespace (root\subscription)
-  category: WMI
   ecs_field: microsoft.sysmon.eventnamespace
   cim_field: microsoft.sysmon.eventnamespace
   asim_field: microsoft.sysmon.eventnamespace
+  category: WMI
 - field_name: Name
   field_type: string
   description: WMI filter/consumer name
-  category: WMI
   ecs_field: event.action
-  cim_field: ''
-  asim_field: ''
+  cim_field: Name
+  asim_field: Name
+  category: WMI
 - field_name: Query
   field_type: string
   description: WMI query/filter expression
-  category: WMI
   ecs_field: event.original
   cim_field: query
   asim_field: EventOriginal
+  category: WMI
 - field_name: Type
   field_type: string
   description: Consumer type (CommandLineEventConsumer, etc.)
-  category: WMI
   ecs_field: event.code
   cim_field: event_type
   asim_field: EventId
+  category: WMI
 - field_name: Destination
   field_type: string
   description: Consumer destination (script path, command)
-  category: WMI
   ecs_field: destination.ip
   cim_field: dest_ip
   asim_field: DstIpAddr
+  category: WMI
 - field_name: Consumer
   field_type: string
   description: Consumer name in binding
-  category: WMI
   ecs_field: microsoft.sysmon.consumer
   cim_field: microsoft.sysmon.consumer
   asim_field: microsoft.sysmon.consumer
+  category: WMI
 - field_name: Filter
   field_type: string
   description: Filter name in binding
-  category: WMI
   ecs_field: microsoft.sysmon.filter
   cim_field: microsoft.sysmon.filter
   asim_field: microsoft.sysmon.filter
+  category: WMI
 - field_name: QueryName
   field_type: string
   description: DNS query domain name
-  category: DNS
   ecs_field: dns.question.name
-  cim_field: ''
-  asim_field: ''
+  cim_field: QueryName
+  asim_field: QueryName
+  category: DNS
 - field_name: QueryType
   field_type: string
   description: DNS record type (A, AAAA, CNAME, MX, TXT)
-  category: DNS
   ecs_field: dns.question.type
-  cim_field: ''
-  asim_field: ''
+  cim_field: QueryType
+  asim_field: QueryType
+  category: DNS
 - field_name: QueryStatus
   field_type: string
   description: DNS query status (0=success, error code)
-  category: DNS
   ecs_field: http.response.status_code
-  cim_field: ''
-  asim_field: ''
+  cim_field: QueryStatus
+  asim_field: QueryStatus
+  category: DNS
 - field_name: QueryResults
   field_type: string
   description: DNS query results (IP addresses)
-  category: DNS
   ecs_field: event.outcome
-  cim_field: ''
-  asim_field: ''
+  cim_field: QueryResults
+  asim_field: QueryResults
+  category: DNS
 - field_name: Session
   field_type: integer
   description: Terminal session where clipboard changed
-  category: Clipboard
   ecs_field: event.id
-  cim_field: ''
-  asim_field: ''
+  cim_field: Session
+  asim_field: Session
+  category: Clipboard
 - field_name: ClientInfo
   field_type: string
   description: Remote client info (for RDP sessions)
-  category: Clipboard
   ecs_field: microsoft.sysmon.clientinfo
   cim_field: microsoft.sysmon.clientinfo
   asim_field: microsoft.sysmon.clientinfo
+  category: Clipboard
 - field_name: Type
   field_type: string
   description: Tampering type (Image is replaced, Image is locked for access)
-  category: Process
   ecs_field: event.code
   cim_field: event_type
   asim_field: EventId
+  category: Process
 - field_name: State
   field_type: string
   description: Service state (Started, Stopped)
-  category: Service
   ecs_field: event.outcome
-  cim_field: ''
-  asim_field: ''
+  cim_field: State
+  asim_field: State
+  category: Service
 - field_name: Version
   field_type: string
   description: Sysmon version
-  category: Service
   ecs_field: observer.version
   cim_field: version
   asim_field: DvcVersion
+  category: Service
 - field_name: SchemaVersion
   field_type: string
   description: Sysmon schema version
-  category: Service
   ecs_field: event.module
-  cim_field: ''
-  asim_field: ''
+  cim_field: SchemaVersion
+  asim_field: SchemaVersion
+  category: Service
 - field_name: Configuration
   field_type: string
   description: Current configuration file path
-  category: Service
   ecs_field: file.path
-  cim_field: ''
-  asim_field: ''
+  cim_field: Configuration
+  asim_field: Configuration
+  category: Service
 - field_name: ConfigurationFileHash
   field_type: string
   description: Hash of configuration file
-  category: Service
   ecs_field: microsoft.sysmon.configurationfilehash
   cim_field: microsoft.sysmon.configurationfilehash
   asim_field: microsoft.sysmon.configurationfilehash
-mapped_field_count: 85
-event_types:
-- id: 1
-  tag: ProcessCreate
-  name: Process Creation
-  description: Extended information about newly created processes
-- id: 2
-  tag: FileCreateTime
-  name: File Creation Time Changed
-  description: File creation timestamp explicitly modified
-- id: 3
-  tag: NetworkConnect
-  name: Network Connection
-  description: TCP/UDP connections (disabled by default)
-- id: 4
-  tag: null
-  name: Sysmon Service State Changed
-  description: Sysmon service started/stopped
-- id: 5
-  tag: ProcessTerminate
-  name: Process Terminated
-  description: Process termination events
-- id: 6
-  tag: DriverLoad
-  name: Driver Loaded
-  description: Driver loading with signature info
-- id: 7
-  tag: ImageLoad
-  name: Image Loaded
-  description: DLL/module loading (disabled by default)
-- id: 8
-  tag: CreateRemoteThread
-  name: CreateRemoteThread
-  description: Thread creation in another process
-- id: 9
-  tag: RawAccessRead
-  name: Raw Access Read
-  description: Raw drive read operations
-- id: 10
-  tag: ProcessAccess
-  name: Process Access
-  description: Process opening another process
-- id: 11
-  tag: FileCreate
-  name: File Created
-  description: File creation/overwriting events
-- id: 12
-  tag: RegistryEvent
-  name: Registry Object Create/Delete
-  description: Registry key/value creation/deletion
-- id: 13
-  tag: RegistryEvent
-  name: Registry Value Set
-  description: Registry value modifications
-- id: 14
-  tag: RegistryEvent
-  name: Registry Object Renamed
-  description: Registry key/value renames
-- id: 15
-  tag: FileCreateStreamHash
-  name: File Stream Created
-  description: Named file stream creation with hash
-- id: 16
-  tag: null
-  name: Sysmon Configuration Change
-  description: Configuration/rule updates
-- id: 17
-  tag: PipeEvent
-  name: Named Pipe Created
-  description: Named pipe creation
-- id: 18
-  tag: PipeEvent
-  name: Named Pipe Connected
-  description: Pipe client/server connection
-- id: 19
-  tag: WmiEvent
-  name: WMI Event Filter
-  description: WMI event filter registration
-- id: 20
-  tag: WmiEvent
-  name: WMI Event Consumer
-  description: WMI consumer registration
-- id: 21
-  tag: WmiEvent
-  name: WMI Consumer to Filter
-  description: Consumer binds to filter
-- id: 22
-  tag: DNSQuery
-  name: DNS Query
-  description: DNS queries (success/fail, cached/uncached)
-- id: 23
-  tag: FileDelete
-  name: File Delete Archived
-  description: Deleted file with archive copy
-- id: 24
-  tag: ClipboardChange
-  name: Clipboard Change
-  description: System clipboard content change
-- id: 25
-  tag: ProcessTampering
-  name: Process Image Change
-  description: Detects process hollowing/herpaderp
-- id: 26
-  tag: FileDeleteDetected
-  name: File Delete Logged
-  description: File deletion without archive
-- id: 27
-  tag: FileBlockExecutable
-  name: File Block Executable
-  description: Blocks PE file creation
-- id: 28
-  tag: FileBlockShredding
-  name: File Block Shredding
-  description: Blocks file shredding
-- id: 29
-  tag: FileExecutableDetected
-  name: File Executable Detected
-  description: New executable file detected
-- id: 255
-  tag: Error
-  name: Error
-  description: Sysmon internal error
+  category: Service
 notes: Sysmon provides detailed information about process creations, network connections,
   file changes, registry operations, and more. Critical for endpoint detection and
   response.
