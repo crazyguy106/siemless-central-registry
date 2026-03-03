@@ -1,0 +1,31 @@
+title: Cisco Secure Firewall - High EVE Threat Confidence
+id: 8c15183e-2e70-4db4-86c3-88f8d9129b66
+status: stable
+level: medium
+description: |
+  The following analytic detects connections with a high Encrypted Visibility Engine (EVE) threat confidence score, indicating potentially malicious behavior within encrypted traffic. It leverages Cisco Secure Firewall Threat Defense logs and evaluates the EVE_ThreatConfidencePct field, which reflects the system's confidence in classifying encrypted sessions as threats based on machine learning models and behavioral analysis. A score equal to or greater than 80 suggests the connection is highly likely to be associated with malware command and control (C2), remote access tools, or suspicious tunneling behavior. If confirmed malicious, this may indicate covert communication over TLS from compromised hosts.
+
+author: Nasreddine Bencherchali, Splunk
+date: 2026-01-21
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_secure_firewall` EventType=ConnectionEvent EVE_ThreatConfidencePct >= 80
+| stats count min(_time) as firstTime max(_time) as lastTime
+    Values(rule) as rule
+    Values(url) as url
+    by EVE_Process, EVE_ThreatConfidencePct, src, dest, dest_port, transport, action
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_secure_firewall___high_eve_threat_confidence_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+tags:
+  - attack.t1041
+  - attack.t1071.001
+  - attack.t1105
+  - attack.t1573.002

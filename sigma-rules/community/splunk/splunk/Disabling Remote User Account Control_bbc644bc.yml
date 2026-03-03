@@ -1,0 +1,19 @@
+title: Disabling Remote User Account Control
+id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
+status: stable
+level: high
+description: |
+  The following analytic identifies modifications to the registry key that controls the enforcement of Windows User Account Control (UAC). It detects changes to the registry path `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA` where the value is set to `0x00000000`. This activity is significant because disabling UAC can allow unauthorized changes to the system without user consent, potentially leading to privilege escalation. If confirmed malicious, an attacker could gain elevated privileges, making it easier to execute further attacks or maintain persistence within the environment.
+author: David Dorsey, Patrick Bareiss, Splunk
+date: 2025-05-02
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA* Registry.registry_value_data="0x00000000" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `disabling_remote_user_account_control_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1548.002

@@ -1,0 +1,25 @@
+title: Kubernetes Shell Running on Worker Node
+id: efebf0c4-dcf4-496f-85a2-5ab7ad8fa876
+status: experimental
+level: medium
+description: |
+  The following analytic identifies shell activity within the Kubernetes privilege scope on a worker node. It leverages process metrics from an OTEL collector hostmetrics receiver, specifically process.cpu.utilization and process.memory.utilization, pulled from Splunk Observability Cloud. This activity is significant as unauthorized shell processes can indicate potential security threats, providing attackers an entry point to compromise the node and the entire Kubernetes cluster. If confirmed malicious, this activity could lead to data theft, service disruption, privilege escalation, lateral movement, and further attacks, severely compromising the cluster's security and integrity.
+author: Matthew Moore, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | mstats avg(process.cpu.utilization) as process.cpu.utilization avg(process.memory.utilization) as process.memory.utilization where `kubernetes_metrics` AND process.executable.name IN ("sh","bash","csh", "tcsh") by host.name k8s.cluster.name k8s.node.name process.pid process.executable.name span=10s
+| search process.cpu.utilization>0 OR process.memory.utilization>0
+| stats avg(process.cpu.utilization) as process.cpu.utilization avg(process.memory.utilization) as process.memory.utilization
+  BY host.name k8s.cluster.name k8s.node.name
+     process.pid process.executable.name
+| rename host.name as host
+| `kubernetes_shell_running_on_worker_node_filter`
+  condition: _splunk_search
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart/tree/main
+tags:
+  - attack.t1204

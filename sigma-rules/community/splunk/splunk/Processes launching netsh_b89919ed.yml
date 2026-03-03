@@ -1,0 +1,31 @@
+title: Processes launching netsh
+id: b89919ed-fe5f-492c-b139-95dbb162040e
+status: stable
+level: medium
+description: |
+  The following analytic identifies processes launching netsh.exe, a command-line utility used to modify network configurations. It detects this activity by analyzing data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs, names, parent processes, and command-line executions. This behavior is significant because netsh.exe can be exploited to execute malicious helper DLLs, serving as a persistence mechanism. If confirmed malicious, an attacker could gain persistent access, modify network settings, and potentially escalate privileges, posing a severe threat to the network's integrity and security.
+author: Michael Haag, Josef Kuepker, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE `process_netsh`
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name("Processes")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `processes_launching_netsh_filter`
+  condition: _splunk_search
+references:
+  - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+tags:
+  - attack.t1562.004

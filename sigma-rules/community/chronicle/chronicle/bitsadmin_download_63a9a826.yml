@@ -1,0 +1,36 @@
+title: bitsadmin_download
+id: f7649c39-2fff-4844-bb12-cc5d3845ef0b
+status: experimental
+level: medium
+description: |
+  Detects usage of bitsadmin downloading a file  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Michael Haag
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule bitsadmin_download {
+ meta:
+    author = "Michael Haag"
+    description = "Detects usage of bitsadmin downloading a file  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/dgW6LyPKmzNW"
+    version = "0.01"
+    created = "2021-03-09"
+    category = "process_creation"
+    product = "windows"
+    mitre = "defense_evasion, persistence, t1197, s0190"
+
+  events:
+(re.regex($selection.target.process.file.full_path, `.*\\bitsadmin\.exe`) and $selection.target.process.command_line = "/transfer" and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1"))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/dgW6LyPKmzNW
+tags:
+
+

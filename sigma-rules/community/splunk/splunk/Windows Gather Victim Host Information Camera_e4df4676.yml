@@ -1,0 +1,31 @@
+title: Windows Gather Victim Host Information Camera
+id: e4df4676-ea41-4397-b160-3ee0140dc332
+status: stable
+level: medium
+description: |
+  The following analytic detects a PowerShell script that enumerates camera devices on the targeted host. This detection leverages PowerShell Script Block Logging, specifically looking for commands querying Win32_PnPEntity for camera-related information. This activity is significant as it is commonly observed in DCRat malware, which collects camera data to send to its command-and-control server. If confirmed malicious, this behavior could indicate an attempt to gather sensitive visual information from the host, potentially leading to privacy breaches or further exploitation.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText= "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText IN ("*Image*", "*Camera*")
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY dest signature signature_id
+       user_id vendor_product EventID
+       Guid Opcode Name
+       Path ProcessID ScriptBlockId
+       ScriptBlockText
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_gather_victim_host_information_camera_filter`
+  condition: _splunk_search
+references:
+  - https://cert.gov.ua/article/405538
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
+  - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+tags:
+  - attack.t1592.001

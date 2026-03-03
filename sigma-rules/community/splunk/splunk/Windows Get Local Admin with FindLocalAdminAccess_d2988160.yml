@@ -1,0 +1,31 @@
+title: Windows Get Local Admin with FindLocalAdminAccess
+id: d2988160-3ce9-4310-b59d-905334920cdd
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the `Find-LocalAdminAccess` cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet is part of PowerView, a toolkit for Windows domain enumeration. Identifying the use of `Find-LocalAdminAccess` is crucial as adversaries may use it to find machines where the current user has local administrator access, facilitating lateral movement or privilege escalation. If confirmed malicious, this activity could allow attackers to target and compromise additional systems within the network, significantly increasing their control and access to sensitive information.
+author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*"
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY dest signature signature_id
+       user_id vendor_product EventID
+       Guid Opcode Name
+       Path ProcessID ScriptBlockId
+       ScriptBlockText
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_get_local_admin_with_findlocaladminaccess_filter`
+  condition: _splunk_search
+references:
+  - https://powersploit.readthedocs.io/en/latest/Recon/Find-LocalAdminAccess/
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters/powerview
+tags:
+  - attack.t1087.002

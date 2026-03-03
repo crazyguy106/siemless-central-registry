@@ -1,0 +1,33 @@
+title: Windows Excel ActiveMicrosoftApp Child Process
+id: 4dfd6a58-93b2-4012-bb33-038bb63652b3
+status: stable
+level: medium
+description: |
+  The following analytic identifies the execution of the ActiveMicrosoftApp process as a child of Microsoft Excel. Under normal conditions, Excel primarily spawns internal Office-related processes, and the creation of ActiveMicrosoftApp is uncommon in day-to-day business workflows. Adversaries may abuse this behavior to blend malicious activity within trusted applications, execute unauthorized code, or bypass application control mechanisms. This technique aligns with common tradecraft where Office applications are leveraged as initial access or execution vectors due to their prevalence in enterprise environments. Detecting this relationship helps defenders spot suspicious child processes that may indicate malware execution, persistence mechanisms, or attempts to establish command-and-control. Security teams should investigate the parent Excel process, the context of the ActiveMicrosoftApp execution, and any subsequent network or file activity. While certain legitimate Office features could trigger this process in specific environments, its occurrence generally warrants further scrutiny to validate intent and rule out compromise.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE Processes.parent_process_name = "EXCEL.EXE" Processes.process_name IN ("WINPROJ.EXE", "FOXPROW.exe","SCHDPLUS.exe")
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `windows_excel_activemicrosoftapp_child_process_filter`
+  condition: _splunk_search
+references:
+  - https://specterops.io/blog/2023/10/30/lateral-movement-abuse-the-power-of-dcom-excel-application/
+  - https://blog.talosintelligence.com/pathwiper-targets-ukraine/
+  - https://www.trellix.com/blogs/research/dcom-abuse-and-network-erasure-with-trellix-ndr/
+tags:
+  - attack.t1021.003

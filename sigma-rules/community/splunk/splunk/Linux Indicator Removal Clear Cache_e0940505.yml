@@ -1,0 +1,35 @@
+title: Linux Indicator Removal Clear Cache
+id: e0940505-0b73-4719-84e6-cb94c44a5245
+status: stable
+level: high
+description: |
+  The following analytic detects processes that clear or free page cache on a Linux system. It leverages Endpoint Detection and Response (EDR) data, focusing on specific command-line executions involving the kernel system request `drop_caches`. This activity is significant as it may indicate an attempt to delete forensic evidence or the presence of wiper malware like Awfulshred. If confirmed malicious, this behavior could allow an attacker to cover their tracks, making it difficult to investigate other malicious activities or system compromises.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE Processes.process_name IN ("dash", "sudo", "bash")
+    AND
+    Processes.process  IN("* echo 3 &gt; *", "* echo 2 &gt; *","* echo 1 &gt; *")
+    AND
+    Processes.process = "*/proc/sys/vm/drop_caches"
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `linux_indicator_removal_clear_cache_filter`
+  condition: _splunk_search
+references:
+  - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+  - https://cert.gov.ua/article/3718487
+tags:
+  - attack.t1070

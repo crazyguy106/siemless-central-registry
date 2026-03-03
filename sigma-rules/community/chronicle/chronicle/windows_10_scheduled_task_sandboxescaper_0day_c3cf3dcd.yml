@@ -1,0 +1,36 @@
+title: windows_10_scheduled_task_sandboxescaper_0day
+id: 4cb3d52c-8dd3-4840-b829-7843637aa549
+status: experimental
+level: medium
+description: |
+  Detects Task Scheduler .job import arbitrary DACL write\\par  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Olaf Hartong
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule windows_10_scheduled_task_sandboxescaper_0day {
+ meta:
+    author = "Olaf Hartong"
+    description = "Detects Task Scheduler .job import arbitrary DACL write\\par  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/HcfelKJbUzFI"
+    version = "0.01"
+    created = "2019/05/22"
+    category = "process_creation"
+    product = "windows"
+    mitre = "privilege_escalation, execution, t1053, car.2013-08-001"
+
+  events:
+($selection.target.process.file.full_path = "schtasks.exe" and re.regex($selection.target.process.command_line, `.*/change.*/TN.*/RU.*/RP.*`) and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1"))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/HcfelKJbUzFI
+tags:
+
+

@@ -1,0 +1,27 @@
+title: Linux Auditd Setuid Using Setcap Utility
+id: 1474459a-302b-4255-8add-d82f96d14cd9
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the 'setcap' utility to enable the SUID bit on Linux systems. It leverages Linux Auditd data, focusing on process names and command-line arguments that indicate the use of 'setcap' with specific capabilities. This activity is significant because setting the SUID bit allows a user to temporarily gain root access, posing a substantial security risk. If confirmed malicious, an attacker could escalate privileges, execute arbitrary commands with elevated permissions, and potentially compromise the entire system.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `linux_auditd` execve_command IN ("*setcap *")  AND execve_command IN ("*cap_setuid+ep*", "*cap_setuid=ep*", "*cap_net_bind_service+p*", "*cap_net_raw+ep*", "*cap_dac_read_search+ep*")
+  | rename host as dest
+  | rename comm as process_name
+  | rename exe as process
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY argc execve_command dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_auditd_setuid_using_setcap_utility_filter`
+  condition: _splunk_search
+references:
+  - https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
+tags:
+  - attack.t1548.001

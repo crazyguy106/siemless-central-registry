@@ -1,0 +1,20 @@
+title: Detects KillNets Ransomware note and the file extension that has been used to encrypt files
+id: eebe1ed3-50a6-47dc-ad53-4dddefe878fb
+status: experimental
+level: medium
+description: |
+  Detects KillNets Ransomware note and the file extension that has been used to encrypt files.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let killnetRansomNote = "ru.txt";
+let killnetRansomExtension = ".killnet";
+DeviceFileEvents
+| where FileName =~ killnetRansomNote or FileName endswith killnetRansomExtension
+| project-reorder Timestamp, DeviceName, FileName, FolderPath, InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

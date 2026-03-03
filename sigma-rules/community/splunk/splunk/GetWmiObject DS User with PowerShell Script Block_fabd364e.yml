@@ -1,0 +1,20 @@
+title: GetWmiObject DS User with PowerShell Script Block
+id: fabd364e-04f3-11ec-b34b-acde48001122
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the `Get-WmiObject` cmdlet with the `DS_User` class parameter via PowerShell Script Block Logging (EventCode=4104). It leverages logs to identify attempts to query all domain users using WMI. This activity is significant as it may indicate an adversary or Red Team operation attempting to enumerate domain users for situational awareness and Active Directory discovery. If confirmed malicious, this behavior could lead to further reconnaissance, enabling attackers to map out the network and identify potential targets for privilege escalation or lateral movement.
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+date: 2025-05-02
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `powershell` EventCode=4104 ScriptBlockText = "*get-wmiobject*" ScriptBlockText = "*ds_user*" ScriptBlockText = "*-namespace*" ScriptBlockText = "*root\\directory\\ldap*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getwmiobject_ds_user_with_powershell_script_block_filter`
+  condition: _splunk_search
+references:
+  - https://www.blackhillsinfosec.com/red-blue-purple/
+  - https://docs.microsoft.com/en-us/windows/win32/wmisdk/describing-the-ldap-namespace
+tags:
+  - attack.t1087.002

@@ -1,0 +1,26 @@
+title: Fake computer account created
+id: c1faf5e8-6958-11ec-90d6-0242ac120003
+status: stable
+level: medium
+description: |
+  'This query detects domain user accounts creation (event ID 4720) where the username ends with $. 
+Accounts that end with $ are normally domain computer accounts and when they are created the event ID 4741 is generated instead.'
+
+author: Vasileios Paschalidis
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    SecurityEvent
+| where EventID == 4720 and TargetUserName endswith "$"
+| summarize StartTime = min(TimeGenerated), EndTime = max(TimeGenerated) by Computer, SubjectUserName, SubjectDomainName, SubjectAccount, SubjectUserSid, SubjectLogonId, 
+TargetUserName, TargetDomainName, TargetAccount, TargetSid, UserPrincipalName
+| extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+| project-away DomainIndex
+
+  condition: _kql_query
+tags:
+  - attack.defense_evasion
+  - attack.t1564

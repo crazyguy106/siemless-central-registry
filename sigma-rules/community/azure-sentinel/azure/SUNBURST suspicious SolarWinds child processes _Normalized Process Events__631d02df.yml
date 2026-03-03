@@ -1,0 +1,32 @@
+title: SUNBURST suspicious SolarWinds child processes (Normalized Process Events)
+id: 631d02df-ab51-46c1-8d72-32d0cfec0720
+status: stable
+level: medium
+description: |
+  Identifies suspicious child processes of SolarWinds.Orion.Core.BusinessLayer.dll that may be evidence of the SUNBURST backdoor
+References:
+- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+- https://gist.github.com/olafhartong/71ffdd4cab4b6acd5cbcd1a0691ff82f
+To use this analytics rule, make sure you have deployed the [ASIM normalization parsers](https://aka.ms/ASimProcessEvent)'
+
+author: Yuval Naor
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let excludeProcs = dynamic([@"\SolarWinds\Orion\APM\APMServiceControl.exe", @"\SolarWinds\Orion\ExportToPDFCmd.Exe", @"\SolarWinds.Credentials\SolarWinds.Credentials.Orion.WebApi.exe", @"\SolarWinds\Orion\Topology\SolarWinds.Orion.Topology.Calculator.exe", @"\SolarWinds\Orion\Database-Maint.exe", @"\SolarWinds.Orion.ApiPoller.Service\SolarWinds.Orion.ApiPoller.Service.exe", @"\Windows\SysWOW64\WerFault.exe"]);
+imProcessCreate
+| where Process hassuffix 'solarwinds.businesslayerhost.exe'
+| where not(Process has_any (excludeProcs))
+| extend AccountName = tostring(split(ActorUsername, @'\')[1]), AccountNTDomain = tostring(split(ActorUsername, @'\')[0])
+| extend HostName = tostring(split(Dvc, ".")[0]), DomainIndex = toint(indexof(Dvc, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Dvc, DomainIndex + 1), Dvc)
+| project-away DomainIndex
+
+  condition: _kql_query
+tags:
+  - attack.execution
+  - attack.persistence
+  - attack.t1059
+  - attack.t1543

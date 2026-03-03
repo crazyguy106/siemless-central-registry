@@ -1,0 +1,36 @@
+title: enabling_rdp_remotely_using_psexec
+id: e3bc7628-86a4-4c6f-b547-f3c13d35c6e0
+status: experimental
+level: medium
+description: |
+  Detects enabling RDP remotely via PsExec.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Ruslan Mikhalov, SOC Prime Team
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule enabling_rdp_remotely_using_psexec {
+ meta:
+    author = "Ruslan Mikhalov, SOC Prime Team"
+    description = "Detects enabling RDP remotely via PsExec.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/zkQq2YsKMtBj"
+    version = "0.01"
+    created = "2018/03/13"
+    product = "windows"
+    service = "sysmon"
+    mitre = "Defense Evasion, t1112, Execution, t1059"
+
+  events:
+($sysmon_remoterdpenable.metadata.product_event_type = "1" and re.regex($sysmon_remoterdpenable.target.process.file.full_path, `.*\\reg\.exe`) and $sysmon_remoterdpenable.target.process.command_line = "\"reg\" add \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /t REG_DWORD /d 0 /f" and re.regex($sysmon_remoterdpenable.principal.process.command_line, `.*\\PSEXESVC\.exe`))
+
+  condition:
+    $sysmon_remoterdpenable
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/zkQq2YsKMtBj
+tags:
+
+

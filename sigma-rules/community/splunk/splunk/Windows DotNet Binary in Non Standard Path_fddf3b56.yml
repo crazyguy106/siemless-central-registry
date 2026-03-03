@@ -1,0 +1,60 @@
+title: Windows DotNet Binary in Non Standard Path
+id: fddf3b56-7933-11ec-98a6-acde48001122
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of native .NET binaries from non-standard directories within the Windows operating system.
+It leverages Endpoint Detection and Response (EDR) telemetry, comparing process names and original file names against a predefined lookup "is_net_windows_file".
+This activity is significant because adversaries may move .NET binaries to unconventional paths to evade detection and execute malicious code.
+If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
+Also this analytic leverages a sub-search to enhance performance. sub-searches have limitations on the amount of data they can return. Keep this in mind if you have an extensive list of ransomware note file names.
+
+author: Michael Haag, Splunk
+date: 2026-01-19
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+as lastTime
+FROM datamodel=Endpoint.Processes where
+NOT Processes.process_path IN (
+      "*:\\Windows\\ADWS\\*",
+      "*:\\Windows\\Microsoft.NET\\*",
+      "*:\\Windows\\NetworkController\\*",
+      "*:\\Windows\\System32\\*",
+      "*:\\Windows\\SystemApps\\*",
+      "*:\\Windows\\SysWOW64\\*",
+      "*:\\Windows\\WinSxS\\*"
+    )
+(
+  [ | inputlookup is_net_windows_file
+    | search netFile=true
+    | fields originalFileName
+    | rename originalFileName as Processes.original_file_name
+    | format
+  ]
+)
+by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+   Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+   Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+   Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+| `drop_dm_object_name("Processes")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| lookup update=true is_net_windows_file filename as process_name OUTPUT netFile
+| lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile
+| search netFile=true
+| `windows_dotnet_binary_in_non_standard_path_filter`
+
+  condition: _splunk_search
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+  - https://attack.mitre.org/techniques/T1036/003/
+  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+tags:
+  - attack.t1036.003
+  - attack.t1218.004

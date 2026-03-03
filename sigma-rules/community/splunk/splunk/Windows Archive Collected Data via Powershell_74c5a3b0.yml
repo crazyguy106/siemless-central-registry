@@ -1,0 +1,19 @@
+title: Windows Archive Collected Data via Powershell
+id: 74c5a3b0-27a7-463c-9d00-1a5bb12cb7b5
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of PowerShell scripts to archive files into a temporary folder. It leverages PowerShell Script Block Logging, specifically monitoring for the `Compress-Archive` command targeting the `Temp` directory. This activity is significant as it may indicate an adversary's attempt to collect and compress data for exfiltration. If confirmed malicious, this behavior could lead to unauthorized data access and exfiltration, posing a severe risk to sensitive information and overall network security.
+author: Teoderick Contreras, Splunk
+date: 2025-09-18
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `powershell` EventCode=4104 ScriptBlockText = "*Compress-Archive*"  ScriptBlockText = "*\\Temp\\*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_archive_collected_data_via_powershell_filter`
+  condition: _splunk_search
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+tags:
+  - attack.t1560

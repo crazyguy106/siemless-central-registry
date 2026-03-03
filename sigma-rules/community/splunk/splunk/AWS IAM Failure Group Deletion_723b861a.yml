@@ -1,0 +1,28 @@
+title: AWS IAM Failure Group Deletion
+id: 723b861a-92eb-11eb-93b8-acde48001122
+status: stable
+level: medium
+description: |
+  The following analytic identifies failed attempts to delete AWS IAM groups. It leverages AWS CloudTrail logs to detect events where the DeleteGroup action fails due to errors like NoSuchEntityException, DeleteConflictException, or AccessDenied. This activity is significant as it may indicate unauthorized attempts to modify IAM group configurations, which could be a precursor to privilege escalation or other malicious actions. If confirmed malicious, this could allow an attacker to disrupt IAM policies, potentially leading to unauthorized access or denial of service within the AWS environment.
+author: Michael Haag, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: access
+detection:
+  _splunk_search: |
+    `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com)
+  | rename user_name as user
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY signature dest user
+       user_agent src vendor_account
+       vendor_region vendor_product
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `aws_iam_failure_group_deletion_filter`
+  condition: _splunk_search
+references:
+  - https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+tags:
+  - attack.t1098

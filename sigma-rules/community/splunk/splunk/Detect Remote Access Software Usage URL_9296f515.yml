@@ -1,0 +1,40 @@
+title: Detect Remote Access Software Usage URL
+id: 9296f515-073c-43a5-88ec-eda5a4626654
+status: stable
+level: medium
+description: |
+  The following analytic detects the execution of known remote access software within the environment. It leverages network logs mapped to the Web data model, identifying specific URLs and user agents associated with remote access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This activity is significant as adversaries often use these utilities to maintain unauthorized remote access. If confirmed malicious, this could allow attackers to control systems remotely, exfiltrate data, or further compromise the network, posing a severe security risk.
+author: Steven Dick
+date: 2026-01-19
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | tstats count min(_time) as firstTime
+               max(_time) as lastTime
+               latest(Web.http_method) as http_method
+               latest(Web.http_user_agent) as http_user_agent
+               latest(Web.url) as url
+               latest(Web.user) as user
+               latest(Web.dest) as dest
+from datamodel=Web where
+Web.url_domain=*
+NOT Web.url_domain IN ("-", "unknown")
+by Web.action Web.src Web.category Web.url_domain Web.url_length
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `drop_dm_object_name("Web")`
+| lookup remote_access_software remote_domain AS url_domain OUTPUT isutility, description as signature, comment_reference
+as desc, category
+| search isutility = True
+| `remote_access_software_usage_exceptions`
+| `detect_remote_access_software_usage_url_filter`
+
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+tags:
+  - attack.t1219

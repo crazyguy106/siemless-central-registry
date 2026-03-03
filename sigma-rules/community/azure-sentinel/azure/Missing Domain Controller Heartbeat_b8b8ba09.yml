@@ -1,0 +1,34 @@
+title: Missing Domain Controller Heartbeat
+id: b8b8ba09-1e89-45a1-8bd7-691cd23bfa32
+status: stable
+level: high
+description: |
+  'This detection will go over the heartbeats received from the agents of Domain Controllers over the last hour, and will create alerts if the last heartbeats were received an hour ago.'
+
+author: Jose Sebastian Canos
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let query_frequency = 15m;
+let missing_period = 1h;
+//Enter a reference list of hostnames for your DC servers
+let DCServersList = dynamic (["DC01.simulandlabs.com","DC02.simulandlabs.com"]);
+//Alternatively, a Watchlist can be used
+//let DCServersList = _GetWatchlist('HostName-DomainControllers') | project HostName;
+Heartbeat
+| summarize arg_max(TimeGenerated, *) by Computer
+| where Computer in (DCServersList)
+//You may specify the OS type of your Domain Controllers
+//| where OSType == 'Windows'
+| where TimeGenerated between (ago(query_frequency + missing_period) .. ago(missing_period))
+| project TimeGenerated, Computer, OSType, Version, ComputerEnvironment, Type, Solutions
+| sort by TimeGenerated asc
+
+  condition: _kql_query
+tags:
+  - attack.impact
+  - attack.defense_evasion
+  - attack.t1499
+  - attack.t1564

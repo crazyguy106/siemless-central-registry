@@ -1,0 +1,30 @@
+title: Prohibited Network Traffic Allowed
+id: ce5a0962-849f-4720-a678-753fe6674479
+status: stable
+level: high
+description: |
+  The following analytic detects instances where network traffic, identified by port and transport layer protocol as prohibited in the "lookup_interesting_ports" table, is allowed. It uses the Network_Traffic data model to cross-reference traffic data against predefined security policies. This activity is significant for a SOC as it highlights potential misconfigurations or policy violations that could lead to unauthorized access or data exfiltration. If confirmed malicious, this could allow attackers to bypass network defenses, leading to potential data breaches and compromising the organization's security posture.
+author: Rico Valdez, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Traffic
+  WHERE All_Traffic.action IN ("allowed", "allow") [
+| inputlookup interesting_ports_lookup where is_prohibited="true"
+| table dest_port transport
+| dedup dest_port transport
+| rename dest_port as All_Traffic.dest_port
+| rename transport as All_Traffic.transport] by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action All_Traffic.dvc All_Traffic.src_port All_Traffic.vendor_product All_Traffic.rule
+| lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port transport as All_Traffic.transport OUTPUT app is_prohibited note
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `drop_dm_object_name("All_Traffic")`
+| `prohibited_network_traffic_allowed_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1048

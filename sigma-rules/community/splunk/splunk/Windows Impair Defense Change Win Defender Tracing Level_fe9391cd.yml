@@ -1,0 +1,20 @@
+title: Windows Impair Defense Change Win Defender Tracing Level
+id: fe9391cd-952a-4c64-8f56-727cb0d4f2d4
+status: stable
+level: high
+description: |
+  The following analytic detects modifications to the Windows registry specifically targeting the "WppTracingLevel" setting within Windows Defender. This detection leverages data from the Endpoint.Registry data model to identify changes in the registry path associated with Windows Defender tracing levels. Such modifications are significant as they can impair the diagnostic capabilities of Windows Defender, potentially hiding malicious activities. If confirmed malicious, this activity could allow an attacker to evade detection and maintain persistence within the environment, leading to further compromise and data exfiltration.
+author: Teoderick Contreras, Splunk
+date: 2025-05-02
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Reporting\\WppTracingLevel" Registry.registry_value_data="0x00000001" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defense_change_win_defender_tracing_level_filter`
+  condition: _splunk_search
+references:
+  - https://x.com/malmoeb/status/1742604217989415386?s=20
+  - https://github.com/undergroundwires/privacy.sexy
+tags:
+  - attack.t1562.001

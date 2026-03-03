@@ -1,0 +1,31 @@
+title: Windows RDP Login Session Was Established
+id: 00ca7f9e-88ab-4841-a6c2-83979ab1ed29
+status: stable
+level: medium
+description: |
+  The following analytic detects instances where a successful Remote Desktop Protocol (RDP) login session was established, as indicated by Windows Security Event ID 4624 with Logon Type 10. This event confirms that a user has not only provided valid credentials but has also initiated a full interactive RDP session. It is a key indicator of successful remote access to a Windows system. When correlated with Event ID 1149, which logs RDP authentication success, this analytic helps distinguish between mere credential acceptance and actual session establishment—critical for effective monitoring and threat detection.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `wineventlog_security`  EventCode=4624 Logon_Type=10
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY action app authentication_method
+       dest dvc process
+       process_id process_name process_path
+       signature signature_id src
+       src_port status subject
+       user user_group vendor_product
+       Logon_Type
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_rdp_login_session_was_established_filter`
+  condition: _splunk_search
+references:
+  - https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+  - https://thelocalh0st.github.io/posts/rdp/
+tags:
+  - attack.t1021.001

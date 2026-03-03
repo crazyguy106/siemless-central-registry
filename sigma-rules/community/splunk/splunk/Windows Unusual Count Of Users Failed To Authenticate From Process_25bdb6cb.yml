@@ -1,0 +1,33 @@
+title: Windows Unusual Count Of Users Failed To Authenticate From Process
+id: 25bdb6cb-2e49-4d34-a93c-d6c567c122fe
+status: stable
+level: medium
+description: |
+  The following analytic identifies a source process failing to authenticate multiple users, potentially indicating a Password Spraying attack. It leverages Windows Event 4625, which logs failed logon attempts, and uses statistical analysis to detect anomalies. This activity is significant as it may represent an adversary attempting to gain initial access or elevate privileges within an Active Directory environment. If confirmed malicious, the attacker could compromise multiple accounts, leading to unauthorized access, data exfiltration, or further lateral movement within the network.
+author: Mauricio Velazco, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-"
+  | bucket span=2m _time
+  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user values(dest) as dest values(src) as src
+    BY _time, ProcessName, SubjectUserName,
+       Computer, action, app,
+       authentication_method, signature, signature_id
+  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std
+    BY ProcessName, SubjectUserName, Computer
+  | eval upperBound=(comp_avg+comp_std*3)
+  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+  | search isOutlier=1
+  | `windows_unusual_count_of_users_failed_to_authenticate_from_process_filter`
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
+  - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
+tags:
+  - attack.t1110.003

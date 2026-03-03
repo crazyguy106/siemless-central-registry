@@ -1,0 +1,30 @@
+title: Ollama Possible API Endpoint Scan Reconnaissance
+id: ad3f352a-0347-48ee-86b9-670b5025a548
+status: experimental
+level: medium
+description: |
+  Detects API reconnaissance and endpoint scanning activity against Ollama servers by identifying sources probing multiple API endpoints within short timeframes, particularly when using HEAD requests or accessing diverse endpoint paths, which indicates systematic enumeration to map the API surface, discover hidden endpoints, or identify vulnerabilities before launching targeted attacks.
+author: Rod Soto
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `ollama_server` "[GIN]"
+  | bin _time span=5m
+  | stats count as total_requests, values(dest) as dest, values(http_method) as methods, values(status) as status_codes
+    BY _time, src, host
+  | where total_requests > 120
+  | eval severity="medium"
+  | eval attack_type="API Activity Surge"
+  | stats count
+    BY _time, host, src,
+       total_requests, dest, methods,
+       status_codes, severity, attack_type
+  | `ollama_possible_api_endpoint_scan_reconnaissance_filter`
+  condition: _splunk_search
+references:
+  - https://github.com/rosplk/ta-ollama
+tags:
+  - attack.t1595

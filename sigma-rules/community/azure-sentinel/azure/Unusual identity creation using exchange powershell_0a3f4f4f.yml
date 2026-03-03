@@ -1,0 +1,34 @@
+title: Unusual identity creation using exchange powershell
+id: 0a3f4f4f-46ad-4562-acd6-f17730a5aef4
+status: stable
+level: high
+description: |
+  ' The query below identifies creation of unusual identity by the Europium actor to mimic Microsoft Exchange Health Manager Service account using Exchange PowerShell commands
+  Reference: https://www.microsoft.com/security/blog/2022/09/08/microsoft-investigates-iranian-attacks-against-the-albanian-government/'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    (union isfuzzy=true
+(SecurityEvent
+| where EventID==4688
+| where CommandLine has_any ("New-Mailbox","Update-RoleGroupMember") and CommandLine has "HealthMailbox55x2yq"
+| project TimeGenerated, DeviceName = Computer, AccountName = SubjectUserName, AccountDomain = SubjectDomainName, ProcessName, ProcessNameFullPath = NewProcessName, EventID, Activity, CommandLine, EventSourceName, Type
+| extend InitiatingProcessAccount = strcat(AccountDomain, "\\", AccountName)
+),
+(DeviceProcessEvents
+| where ProcessCommandLine has_any ("New-Mailbox","Update-RoleGroupMember") and ProcessCommandLine has "HealthMailbox55x2yq"
+| extend timestamp = TimeGenerated, AccountDomain = InitiatingProcessAccountDomain, AccountName = InitiatingProcessAccountName
+| extend InitiatingProcessAccount = strcat(AccountDomain, "\\", AccountName)
+)
+)
+| extend HostName = tostring(split(DeviceName, ".")[0]), DomainIndex = toint(indexof(DeviceName, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(DeviceName, DomainIndex + 1), DeviceName)
+
+  condition: _kql_query
+tags:
+  - attack.persistence
+  - attack.t1136

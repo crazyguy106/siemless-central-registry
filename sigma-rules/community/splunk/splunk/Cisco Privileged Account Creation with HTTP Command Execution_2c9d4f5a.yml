@@ -1,0 +1,58 @@
+title: Cisco Privileged Account Creation with HTTP Command Execution
+id: 2c9d4f5a-8b6e-4c7f-9d8e-1a2b3c4d5e6f
+status: stable
+level: medium
+description: |
+  This analytic correlates risk events between privileged account creation on Cisco IOS devices and HTTP requests to privileged execution paths such as `/level/15/exec/-/*`.
+APT actors have been observed creating privileged accounts and then running commands on routers via HTTP GET or POST requests that target privileged execution paths.
+These requests allow attackers to execute commands with the highest privilege level (15) on Cisco devices without requiring interactive SSH access.
+This correlation identifies when both "Cisco IOS Suspicious Privileged Account Creation" and "Privileged Command Execution via HTTP" Snort detections fire for the same network device.
+This behavior indicates an attacker leveraging the newly created account to execute commands remotely via HTTP.
+
+author: Nasreddine Bencherchali, Splunk
+date: 2026-01-22
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly`
+  min(_time) as firstTime
+  max(_time) as lastTime
+  sum(All_Risk.calculated_risk_score) as risk_score
+  count(All_Risk.calculated_risk_score) as risk_event_count
+
+  values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id
+  dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count
+
+  values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id
+  dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count
+
+  values(All_Risk.tag) as tag
+  values(source) as source
+  dc(source) as source_count
+
+  values(contributing_events_search)
+
+  values(All_Risk.threat_object)
+
+  from datamodel=Risk.All_Risk where
+
+  source IN (
+    "*Cisco IOS Suspicious Privileged Account Creation*",
+    "*Cisco Secure Firewall - Privileged Command Execution via HTTP*"
+  )
+  by All_Risk.normalized_risk_object
+| `drop_dm_object_name(All_Risk)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| where source_count >= 2
+| `cisco_privileged_account_creation_with_http_command_execution_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+tags:
+  - attack.t1021.004
+  - attack.t1136
+  - attack.t1078

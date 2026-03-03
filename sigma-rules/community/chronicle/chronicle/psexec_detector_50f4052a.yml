@@ -1,0 +1,36 @@
+title: psexec_detector
+id: eadbccfd-3292-4c50-abd7-231800f8df5a
+status: experimental
+level: medium
+description: |
+  Detects PSExec being run on a machine  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Lee Archinal
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule psexec_detector {
+ meta:
+    author = "Lee Archinal"
+    description = "Detects PSExec being run on a machine  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/xCNohGCqCRpO"
+    version = "0.01"
+    created = "2019/04/29"
+    product = "windows"
+    service = "sysmon"
+    mitre = "Defense_evasion, t1112, Execution, t1059"
+
+  events:
+($selection.metadata.product_event_type = "1" and re.regex($selection.target.process.file.full_path, `.*\\PsExec\.exe`))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/xCNohGCqCRpO
+tags:
+
+

@@ -1,0 +1,56 @@
+title: Cisco ASA - Logging Filters Configuration Tampering
+id: b87b48a8-6d1a-4280-9cf1-16a950dbf901
+status: stable
+level: medium
+description: |
+  This analytic detects tampering with logging filter configurations on Cisco ASA devices via CLI or ASDM.
+Adversaries may reduce logging levels or disable specific log categories to evade detection, hide their activities, or prevent security monitoring systems from capturing evidence of their actions. By lowering logging verbosity, attackers can operate with reduced visibility to security teams.
+The detection monitors for logging configuration commands (message ID 111008 or 111010) that modify logging destinations (asdm, console, history, mail, monitor, trap) without setting them to higher severity levels (5-notifications, 6-informational, 7-debugging), which may indicate an attempt to reduce logging verbosity.
+Investigate unauthorized logging configuration changes that reduce verbosity, especially changes performed by non-administrative accounts, during unusual hours, or without corresponding change management approval.
+
+author: Nasreddine Bencherchali, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_asa`
+message_id IN (111008, 111010)
+command = "logging *"
+command IN (
+  "*asdm*",
+  "*console*",
+  "*history*",
+  "*mail*",
+  "*monitor*",
+  "*trap*"
+)
+NOT command IN (
+  "*notifications*",
+  "*informational*",
+  "*debugging*",
+  "* 5*",
+  "* 6*",
+  "* 7*"
+)
+| fillnull
+| stats count
+        earliest(_time) as firstTime
+        latest(_time) as lastTime
+        values(user) as user
+        values(action) as action
+        values(message_id) as message_id
+        values(command) as command
+        values(src_ip) as src_ip
+        values(process_name) as process_name
+  by host
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_asa___logging_filters_configuration_tampering_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/I-R/asa-command-ref-I-R/m_log-lz.html
+tags:
+  - attack.t1562

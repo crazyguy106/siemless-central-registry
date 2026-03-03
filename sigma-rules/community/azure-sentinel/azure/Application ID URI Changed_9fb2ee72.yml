@@ -1,0 +1,39 @@
+title: Application ID URI Changed
+id: 9fb2ee72-959f-4c2b-bc38-483affc539e4
+status: stable
+level: medium
+description: |
+  'Detects changes to an Application ID URI.
+  Monitor these changes to make sure that they were authorized.
+  Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-applications#appid-uri-added-modified-or-removed'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    AuditLogs
+  | where Category == "ApplicationManagement"
+  | where OperationName has_any ("Update Application", "Update Service principal")
+  | where TargetResources has "AppIdentifierUri"
+  | extend InitiatingAppName = tostring(InitiatedBy.app.displayName)
+  | extend InitiatingAppServicePrincipalId = tostring(InitiatedBy.app.servicePrincipalId)
+  | extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+  | extend InitiatingAadUserId = tostring(InitiatedBy.user.id)
+  | extend InitiatingIPAddress = tostring(InitiatedBy.user.ipAddress)
+  | extend mod_props = TargetResources[0].modifiedProperties
+  | extend TargetAppName = tostring(TargetResources[0].displayName)
+  | mv-expand mod_props
+  | where mod_props.displayName has "AppIdentifierUri"
+  | extend OldURI = tostring(mod_props.oldValue)
+  | extend NewURI = tostring(mod_props.newValue)
+  | extend UpdatedBy = iif(isnotempty(InitiatingAppName), InitiatingAppName, InitiatingUserPrincipalName)
+  | extend InitiatingAccountName = tostring(split(InitiatingUserPrincipalName, "@")[0]), InitiatingAccountUPNSuffix = tostring(split(InitiatingUserPrincipalName, "@")[1])
+  | project-reorder TimeGenerated, InitiatingAppName, InitiatingAppServicePrincipalId, InitiatingAadUserId, InitiatingUserPrincipalName, InitiatingIPAddress
+
+  condition: _kql_query
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+  - attack.t1078.004

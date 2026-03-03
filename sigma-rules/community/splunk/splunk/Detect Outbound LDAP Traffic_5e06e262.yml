@@ -1,0 +1,40 @@
+title: Detect Outbound LDAP Traffic
+id: 5e06e262-d7cd-4216-b2f8-27b437e18458
+status: stable
+level: low
+description: |
+  The following analytic identifies outbound LDAP traffic to external IP addresses. It leverages the Network_Traffic data model to detect connections on ports 389 or 636 that are not directed to private IP ranges (RFC1918). This activity is significant because outbound LDAP traffic can indicate potential data exfiltration or unauthorized access attempts. If confirmed malicious, attackers could exploit this to access sensitive directory information, leading to data breaches or further network compromise.
+author: Bhavin Patel, Johan Bjerke, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_ip) as dest_ip FROM datamodel=Network_Traffic.All_Traffic
+  WHERE All_Traffic.dest_port = 389
+    OR
+    All_Traffic.dest_port = 636
+    AND
+    NOT (All_Traffic.dest_ip = 10.0.0.0/8
+    OR
+    All_Traffic.dest_ip=192.168.0.0/16
+    OR
+    All_Traffic.dest_ip = 172.16.0.0/12)
+  BY All_Traffic.action All_Traffic.app All_Traffic.bytes
+     All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
+     All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
+     All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
+     All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
+     All_Traffic.user All_Traffic.vendor_product All_Traffic.rule
+| `drop_dm_object_name("All_Traffic")`
+| where src_ip != dest_ip
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `detect_outbound_ldap_traffic_filter`
+  condition: _splunk_search
+references:
+  - https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+tags:
+  - attack.t1190
+  - attack.t1059

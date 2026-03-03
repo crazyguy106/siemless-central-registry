@@ -1,0 +1,34 @@
+title: Windows PowerSploit GPP Discovery
+id: 0130a0df-83a1-4647-9011-841e950ff302
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of the Get-GPPPassword PowerShell cmdlet, which is used to search for unsecured credentials in Group Policy Preferences (GPP). This detection leverages PowerShell Script Block Logging to identify specific script block text associated with this cmdlet. Monitoring this activity is crucial as it can indicate an attempt to retrieve and decrypt stored credentials from SYSVOL, potentially leading to unauthorized access. If confirmed malicious, this activity could allow an attacker to escalate privileges or move laterally within the network by exploiting exposed credentials.
+author: Mauricio Velazco, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY dest signature signature_id
+       user_id vendor_product EventID
+       Guid Opcode Name
+       Path ProcessID ScriptBlockId
+       ScriptBlockText
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_powersploit_gpp_discovery_filter`
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1552/006/
+  - https://pentestlab.blog/2017/03/20/group-policy-preferences/
+  - https://adsecurity.org/?p=2288
+  - https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
+  - https://adsecurity.org/?p=2288
+  - https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30
+tags:
+  - attack.t1552.006

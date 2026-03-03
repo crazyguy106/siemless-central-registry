@@ -1,0 +1,25 @@
+title: Cisco Umbrella - Crypto Miner User-Agent Detected
+id: b619d1f1-7f39-4c7e-bf9e-afbb46457997
+status: stable
+level: medium
+description: |
+  'Detects suspicious user agent strings used by crypto miners in proxy logs.'
+
+author: Microsoft
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let timeframe = 15m;
+Cisco_Umbrella
+| where EventType == "proxylogs"
+| where TimeGenerated > ago(timeframe)
+| where HttpUserAgentOriginal contains "XMRig" or HttpUserAgentOriginal contains "ccminer"
+| extend Message = "Crypto Miner User Agent"
+| project Message, SrcIpAddr, DstIpAddr, UrlOriginal, TimeGenerated,HttpUserAgentOriginal
+
+  condition: _kql_query
+tags:
+
+

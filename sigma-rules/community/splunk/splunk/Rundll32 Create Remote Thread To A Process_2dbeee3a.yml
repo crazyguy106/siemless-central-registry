@@ -1,0 +1,19 @@
+title: Rundll32 Create Remote Thread To A Process
+id: 2dbeee3a-f067-11eb-96c0-acde48001122
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of a remote thread by rundll32.exe into another process. It leverages Sysmon EventCode 8 logs, specifically monitoring SourceImage and TargetImage fields. This activity is significant as it is a common technique used by malware, such as IcedID, to execute malicious code within legitimate processes, aiding in defense evasion and data theft. If confirmed malicious, this behavior could allow an attacker to execute arbitrary code, escalate privileges, and exfiltrate sensitive information from the compromised host.
+author: Teoderick Contreras, Splunk
+date: 2026-01-14
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe" | stats count min(_time) as firstTime max(_time) as lastTime by EventID Guid NewThreadId ProcessID SecurityID SourceImage SourceProcessGuid SourceProcessId StartAddress StartFunction StartModule TargetImage TargetProcessGuid TargetProcessId UserID dest parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_create_remote_thread_to_a_process_filter`
+  condition: _splunk_search
+references:
+  - https://www.joesandbox.com/analysis/380662/0/html
+tags:
+  - attack.t1055

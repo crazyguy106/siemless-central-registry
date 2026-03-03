@@ -1,0 +1,38 @@
+title: A host is potentially running a hacking tool (ASIM Web Session schema)
+id: 3f0c20d5-6228-48ef-92f3-9ff7822c1954
+status: stable
+level: medium
+description: |
+  'This rule identifies a web request with a user agent header known to belong to a hacking tool. This indicates a hacking tool is used on the host.<br>You can add custom hacking tool indicating User-Agent headers using a watchlist, for more information refer to the [UnusualUserAgents Watchlist](https://aka.ms/ASimUnusualUserAgentsWatchlist).
+ This analytic rule uses [ASIM](https://aka.ms/AboutASIM) and supports any built-in or custom source that supports the ASIM WebSession schema (ASIM WebSession Schema)'
+
+author: Yaron
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let threatCategory="Hacking Tool";
+let knownUserAgentsIndicators = materialize(externaldata(UserAgent:string, Category:string)
+    [ @"https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/UnusualUserAgents.csv"] 
+        with(format="csv", ignoreFirstRecord=True));
+let knownUserAgents=toscalar(knownUserAgentsIndicators | where Category==threatCategory | where isnotempty(UserAgent) | summarize make_list(UserAgent));
+let customUserAgents=toscalar(_GetWatchlist("UnusualUserAgents") | where SearchKey==threatCategory | extend UserAgent=column_ifexists("UserAgent","") | where isnotempty(UserAgent) | summarize make_list(UserAgent));
+let fullUAList = array_concat(knownUserAgents,customUserAgents);
+_Im_WebSession(httpuseragent_has_any=fullUAList)
+| project SrcIpAddr, Url, TimeGenerated, HttpUserAgent, SrcUsername
+| extend AccountName = tostring(split(SrcUsername, "@")[0]), AccountUPNSuffix = tostring(split(SrcUsername, "@")[1])
+
+  condition: _kql_query
+tags:
+  - attack.execution
+  - attack.discovery
+  - attack.lateral_movement
+  - attack.collection
+  - attack.exfiltration
+  - attack.t1059
+  - attack.t1046
+  - attack.t1021
+  - attack.t1557
+  - attack.t1102
+  - attack.t1020

@@ -1,0 +1,33 @@
+title: Exchange SSRF Autodiscover ProxyShell - Detection
+id: 968358d6-6af8-49bb-aaa4-187b3067fb95
+status: stable
+level: high
+description: |
+  'This query looks for suspicious request patterns to Exchange servers that fit patterns recently blogged about by PeterJson. This exploitation chain utilises an SSRF vulnerability in Exchange which eventually allows the attacker to execute arbitrary Powershell on the server.
+In the example powershell can be used to write an email to disk with an encoded attachment containing a shell.
+Reference: https://peterjson.medium.com/reproducing-the-proxyshell-pwn2own-exploit-49743a4ea9a1'
+
+author: Thomas McElroy
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let successCodes = dynamic([200, 302, 401]);
+W3CIISLog
+| where scStatus has_any (successCodes)
+| where ipv4_is_private(cIP) == False
+| where csUriStem hasprefix "/autodiscover/autodiscover.json"
+| project TimeGenerated, cIP, sIP, sSiteName, csUriStem, csUriQuery, Computer, csUserName, _ResourceId, FileUri
+| where (csUriQuery !has "Protocol" and isnotempty(csUriQuery))
+or (csUriQuery has_any("/mapi/", "powershell"))
+or (csUriQuery contains "@" and csUriQuery matches regex @"\.[a-zA-Z]{2,4}?(?:[a-zA-Z]{2,4}\/)")
+or (csUriQuery contains ":" and csUriQuery matches regex @"\:[0-9]{2,4}\/")
+| extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+| extend AccountName = tostring(split(csUserName, "@")[0]), AccountUPNSuffix = tostring(split(csUserName, "@")[1])
+
+  condition: _kql_query
+tags:
+  - attack.initial_access
+  - attack.t1190

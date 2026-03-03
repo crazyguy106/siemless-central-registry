@@ -1,0 +1,41 @@
+title: Midnight Blizzard - suspicious rundll32.exe execution of vbscript
+id: d82e1987-4356-4a7b-bc5e-064f29b143c0
+status: stable
+level: medium
+description: |
+  'This query idenifies when rundll32.exe executes a specific set of inline VBScript commands
+ References: https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    (union isfuzzy=true 
+(SecurityEvent
+| where EventID == 4688
+| where Process =~ 'rundll32.exe' 
+| where CommandLine has_all ('Execute','RegRead','window.close')
+| project TimeGenerated, Computer, SubjectAccount = Account, SubjectUserName, SubjectDomainName, SubjectUserSid, Process, ProcessId, NewProcessName, CommandLine, ParentProcessName, _ResourceId
+),
+(WindowsEvent
+| where EventID == 4688 and EventData has 'rundll32.exe' and EventData has_any ('Execute','RegRead','window.close')
+| extend NewProcessName = tostring(EventData.NewProcessName)
+| extend Process=tostring(split(NewProcessName, '\\')[-1])
+| where Process =~ 'rundll32.exe' 
+| extend CommandLine = tostring(EventData.CommandLine)
+| where CommandLine has_all ('Execute','RegRead','window.close')
+| extend SubjectAccount =  strcat(EventData.SubjectDomainName,"\\", EventData.SubjectUserName)
+| extend ParentProcessName = tostring(EventData.ParentProcessName)  
+| project TimeGenerated, Computer, SubjectAccount, SubjectUserName = tostring(EventData.SubjectUserName), SubjectDomainName = tostring(EventData.SubjectDomainName), SubjectUserSid = tostring(EventData.SubjectUserSid), Process, NewProcessName, CommandLine, ParentProcessName, _ResourceId
+)
+)
+| extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+| project-away DomainIndex
+
+  condition: _kql_query
+tags:
+  - attack.persistence
+  - attack.t1547

@@ -1,0 +1,47 @@
+title: User login from different countries within 3 hours (Uses Authentication Normalization)
+id: 09ec8fa2-b25f-4696-bfae-05a7b85d7b9e
+status: stable
+level: high
+description: |
+  'This query searches for successful user logins from different countries within 3 hours.
+ To use this analytics rule, make sure you have deployed the [ASIM normalization parsers](https://aka.ms/ASimAuthentication)'
+
+author: Ofer Shezaf
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let timeframe = ago(3h);
+let threshold = 2;
+imAuthentication
+| where TimeGenerated > timeframe
+| where EventType == 'Logon'
+    and EventResult == 'Success'
+| where isnotempty(SrcGeoCountry)
+| summarize
+    StartTime        = min(TimeGenerated)
+    , EndTime        = max(TimeGenerated)
+    , Vendors        = make_set(EventVendor, 128)
+    , Products       = make_set(EventProduct, 128)
+    , NumOfCountries = dcount(SrcGeoCountry)
+    , Countries      = make_set(SrcGeoCountry, 128)
+    by TargetUserId, TargetUsername, TargetUserType
+| where NumOfCountries >= threshold
+| where TargetUserType !in ("Application", "Service", "System", "Other", "Machine", "ServicePrincipal")
+| extend
+  Name = iif(
+      TargetUsername contains "@"
+          , tostring(split(TargetUsername, '@', 0)[0])
+          , TargetUsername
+      ),
+  UPNSuffix = iif(
+      TargetUsername contains "@"
+      , tostring(split(TargetUsername, '@', 1)[0])
+      , ""
+  )
+
+  condition: _kql_query
+tags:
+  - attack.initial_access
+  - attack.t1078

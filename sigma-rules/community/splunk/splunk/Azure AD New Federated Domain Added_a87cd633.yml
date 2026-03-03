@@ -1,0 +1,34 @@
+title: Azure AD New Federated Domain Added
+id: a87cd633-076d-4ab2-9047-977751a3c1a0
+status: stable
+level: high
+description: |
+  The following analytic detects the addition of a new federated domain within an Azure Active Directory tenant. It leverages Azure AD AuditLogs to identify successful "Set domain authentication" operations. This activity is significant as it may indicate the use of the Azure AD identity federation backdoor technique, allowing an adversary to establish persistence. If confirmed malicious, the attacker could impersonate any user, bypassing password and MFA requirements, potentially leading to unauthorized access and control over the Azure AD environment.
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: threat
+detection:
+  _splunk_search: |
+    `azure_monitor_aad` operationName="Set domain authentication" "properties.result"=success
+  | rename properties.* as *
+  | rename targetResources{}.displayName as domain
+  | rename userAgent as user_agent
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY dest user src
+       vendor_account vendor_product user_agent
+       domain signature
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_new_federated_domain_added_filter`
+  condition: _splunk_search
+references:
+  - https://www.mandiant.com/resources/remediation-and-hardening-strategies-microsoft-365-defend-against-apt29-v13
+  - https://o365blog.com/post/federation-vulnerability/
+  - https://www.inversecos.com/2021/11/how-to-detect-azure-active-directory.html
+  - https://www.mandiant.com/resources/blog/detecting-microsoft-365-azure-active-directory-backdoors
+  - https://attack.mitre.org/techniques/T1484/002/
+tags:
+  - attack.t1484.002

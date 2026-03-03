@@ -1,0 +1,54 @@
+title: Silk Typhoon New UM Service Child Process
+id: 95a15f39-d9cc-4667-8cdd-58f3113691c9
+status: stable
+level: medium
+description: |
+  'This query looks for new processes being spawned by the Exchange UM service where that process has not previously been observed before. 
+Reference: https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let lookback = 14d;
+let timeframe = 1d;
+(union isfuzzy=true
+(SecurityEvent
+| where TimeGenerated > ago(lookback) and TimeGenerated < ago(timeframe)
+| where EventID == 4688
+| where ParentProcessName has_any ("umworkerprocess.exe", "UMService.exe")
+| join kind=rightanti (
+SecurityEvent
+| where TimeGenerated > ago(timeframe)
+| where ParentProcessName has_any ("umworkerprocess.exe", "UMService.exe")
+| where EventID == 4688) on NewProcessName
+),
+(WindowsEvent
+| where TimeGenerated > ago(lookback) and TimeGenerated < ago(timeframe)
+| where EventID == 4688 and EventData has_any ("umworkerprocess.exe", "UMService.exe")
+| extend ParentProcessName = tostring(EventData.ParentProcessName)
+| where ParentProcessName has_any ("umworkerprocess.exe", "UMService.exe")
+| extend NewProcessName = tostring(EventData.NewProcessName)
+| extend Account = strcat(tostring(EventData.SubjectDomainName),"\\", tostring(EventData.SubjectUserName))
+| extend IpAddress = tostring(EventData.IpAddress)
+| join kind=rightanti (
+WindowsEvent
+| where TimeGenerated > ago(timeframe)
+| where EventID == 4688  and EventData has_any ("umworkerprocess.exe", "UMService.exe")
+| extend ParentProcessName = tostring(EventData.ParentProcessName)
+| where ParentProcessName has_any ("umworkerprocess.exe", "UMService.exe")
+| extend NewProcessName = tostring(EventData.NewProcessName)
+| extend Account = strcat(tostring(EventData.SubjectDomainName),"\\", tostring(EventData.SubjectUserName))
+| extend IpAddress = tostring(EventData.IpAddress)) on NewProcessName
+| extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+| extend SubjectUserName = tostring(EventData.SubjectUserName), SubjectDomainName = tostring(EventData.SubjectDomainName)
+| project-away DomainIndex
+))  
+
+  condition: _kql_query
+tags:
+  - attack.initial_access
+  - attack.t1190

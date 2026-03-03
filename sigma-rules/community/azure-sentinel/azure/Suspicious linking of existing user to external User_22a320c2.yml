@@ -1,0 +1,38 @@
+title: Suspicious linking of existing user to external User
+id: 22a320c2-e1e5-4c74-a35b-39fc9cdcf859
+status: stable
+level: medium
+description: |
+  ' This query will detect when an attempt is made to update an existing user and link it to an guest or external identity. These activities are unusual and such linking of external 
+identities should be investigated. In some cases you may see internal Entra ID sync accounts (Sync_) do this which may be benign'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    AuditLogs
+| where OperationName=~ "Update user" 
+| where Result =~ "success" 
+| mv-expand TargetResources 
+| mv-expand TargetResources.modifiedProperties 
+| extend displayName = tostring(TargetResources_modifiedProperties.displayName), 
+TargetUPN_oldValue = tostring(parse_json(tostring(TargetResources_modifiedProperties.oldValue))[0]), 
+TargetUPN_newValue = tostring(parse_json(tostring(TargetResources_modifiedProperties.newValue))[0])
+| where displayName == "UserPrincipalName" and TargetUPN_oldValue !has "#EXT" and TargetUPN_newValue has "#EXT"
+| extend InitiatingAppName = tostring(InitiatedBy.app.displayName)
+| extend InitiatingAppServicePrincipalId = tostring(InitiatedBy.app.servicePrincipalId)
+| extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+| extend InitiatingAadUserId = tostring(InitiatedBy.user.id)
+| extend InitiatingIPAddress = tostring(InitiatedBy.user.ipAddress)
+| extend InitiatedBy = tostring(iff(isnotempty(InitiatingUserPrincipalName),InitiatingUserPrincipalName, InitiatingAppName))
+| summarize arg_max(TimeGenerated, *) by CorrelationId
+| project-reorder TimeGenerated, InitiatedBy, InitiatingAppName, InitiatingAppServicePrincipalId, InitiatingUserPrincipalName, InitiatingAadUserId, InitiatingIPAddress, TargetUPN_oldValue, TargetUPN_newValue
+| extend InitiatingAccountName = tostring(split(InitiatingUserPrincipalName, "@")[0]), InitiatingAccountUPNSuffix = tostring(split(InitiatingUserPrincipalName, "@")[1])
+| extend TargetAccountName = tostring(split(TargetUPN_oldValue, "@")[0]), TargetUPNSuffix = tostring(split(TargetUPN_oldValue, "@")[1])
+
+  condition: _kql_query
+tags:
+  - attack.privilege_escalation
+  - attack.t1078.004

@@ -1,0 +1,20 @@
+title: UAC Bypass MMC Load Unsigned Dll
+id: 7f04349c-e30d-11eb-bc7f-acde48001122
+status: stable
+level: high
+description: |
+  The following analytic detects the loading of an unsigned DLL by the MMC.exe application, which is indicative of a potential UAC bypass or privilege escalation attempt. It leverages Sysmon EventCode 7 to identify instances where MMC.exe loads a non-Microsoft, unsigned DLL. This activity is significant because attackers often use this technique to modify CLSID registry entries, causing MMC.exe to load malicious DLLs, thereby bypassing User Account Control (UAC) and gaining elevated privileges. If confirmed malicious, this could allow an attacker to execute arbitrary code with higher privileges, leading to further system compromise and persistence.
+author: Teoderick Contreras, Splunk
+date: 2026-01-14
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false Company != "Microsoft Corporation" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `uac_bypass_mmc_load_unsigned_dll_filter`
+  condition: _splunk_search
+references:
+  - https://offsec.almond.consulting/UAC-bypass-dotnet.html
+tags:
+  - attack.t1218.014
+  - attack.t1548.002

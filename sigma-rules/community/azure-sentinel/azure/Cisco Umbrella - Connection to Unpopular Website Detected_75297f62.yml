@@ -1,0 +1,34 @@
+title: Cisco Umbrella - Connection to Unpopular Website Detected
+id: 75297f62-10a8-4fc1-9b2a-12f25c6f05a7
+status: stable
+level: medium
+description: |
+  'Detects first connection to an unpopular website (possible malicious payload delivery).'
+
+author: Microsoft
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let domain_lookBack= 14d;
+let timeframe = 1d;
+let top_million_list = Cisco_Umbrella
+| where EventType == "proxylogs"
+| where TimeGenerated > ago(domain_lookBack) and TimeGenerated < ago(timeframe)
+| extend Hostname = parse_url(UrlOriginal)["Host"]
+| summarize count() by tostring(Hostname)
+| top 1000000 by count_
+| summarize make_list(Hostname);
+Cisco_Umbrella
+| where EventType == "proxylogs"
+| where TimeGenerated > ago(timeframe)
+| extend Hostname = parse_url(UrlOriginal)["Host"]
+| where Hostname !in (top_million_list)
+| extend Message = "Connect to unpopular website (possible malicious payload delivery)"
+| project Message, SrcIpAddr, DstIpAddr,UrlOriginal, TimeGenerated
+
+  condition: _kql_query
+tags:
+
+

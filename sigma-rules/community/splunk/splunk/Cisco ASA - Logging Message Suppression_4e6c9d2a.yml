@@ -1,0 +1,41 @@
+title: Cisco ASA - Logging Message Suppression
+id: 4e6c9d2a-8f3b-4c7e-9a5f-2d8b6e1c4a9f
+status: stable
+level: medium
+description: |
+  This analytic detects suppression of specific logging messages on Cisco ASA devices using the "no logging message" command.
+Adversaries may suppress specific log message IDs to selectively disable logging of security-critical events such as authentication failures, configuration changes, or suspicious network activity. This targeted approach allows attackers to evade detection while maintaining normal logging operations that might otherwise alert administrators to complete logging disablement.
+The detection monitors for command execution events (message ID 111008 or 111010) containing the "no logging message" command, which is used to suppress specific message IDs from being logged regardless of the configured severity level.
+Investigate unauthorized message suppression, especially suppression of security-critical message IDs (authentication, authorization, configuration changes), suppression performed by non-administrative accounts, during unusual hours, or without documented justification.
+
+author: Nasreddine Bencherchali, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_asa`
+message_id IN (111008, 111010)
+command = "no logging message *"
+| fillnull
+| stats count
+        earliest(_time) as firstTime
+        latest(_time) as lastTime
+        values(user) as user
+        values(action) as action
+        values(message_id) as message_id
+        values(command) as command
+        values(src_ip) as src_ip
+        values(process_name) as process_name
+  by host
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_asa___logging_message_suppression_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/RayInitiator-LINE-VIPER/ncsc-mar-rayinitiator-line-viper.pdf
+tags:
+  - attack.t1562.002
+  - attack.t1070

@@ -1,0 +1,39 @@
+title: M365 Copilot Jailbreak Attempts
+id: b05a4f25-e07d-436f-ab03-f954afa922c0
+status: experimental
+level: medium
+description: |
+  Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls. The detection searches exported eDiscovery prompt logs for jailbreak keywords like "pretend you are," "act as," "rules=," "ignore," "bypass," and "override" in the Subject_Title field, assigning severity scores based on the manipulation type (score of 4 for amoral impersonation or explicit rule injection, score of 3 for entity roleplay or bypass commands). Prompts with a jailbreak score of 2 or higher are flagged, prioritizing the most severe attempts to override AI safety mechanisms through direct instruction injection or unauthorized persona adoption.
+author: Rod Soto
+date: 2026-01-13
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `m365_exported_ediscovery_prompt_logs`
+| search Subject_Title IN (
+                            "*act as*",
+                            "*bypass*",
+                            "*ignore*",
+                            "*override*",
+                            "*pretend you are*",
+                            "*rules=*"
+                          )
+| eval user = Sender
+| eval jailbreak_score=case(
+                            match(Subject_Title, "(?i)pretend you are.*amoral"), 4,
+                            match(Subject_Title, "(?i)act as.*entities"), 3,
+                            match(Subject_Title, "(?i)(ignore|bypass|override)"), 3,
+                            match(Subject_Title, "(?i)rules\s*="), 4, 1=1, 1
+)
+| where jailbreak_score >= 2
+| table _time, user, Subject_Title, jailbreak_score, Workload, Size
+| sort -jailbreak_score, -_time
+| `m365_copilot_jailbreak_attempts_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+tags:
+  - attack.t1562.001

@@ -1,0 +1,25 @@
+title: Windows Driver Inventory
+id: f87aa96b-369b-4a3e-9021-1bbacbfcb8fb
+status: stable
+level: low
+description: |
+  The following analytic identifies drivers being loaded across the fleet. It leverages a PowerShell script input deployed to critical systems to capture driver data. This detection is significant as it helps monitor for unauthorized or malicious drivers that could compromise system integrity. If confirmed malicious, such drivers could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment.
+author: Michael Haag, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `driverinventory`
+  | stats values(Path) min(_time) as firstTime max(_time) as lastTime count
+    BY host DriverType
+  | rename host as dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_driver_inventory_filter`
+  condition: _splunk_search
+references:
+  - https://gist.github.com/MHaggis/3e4dc85c69b3f7a4595a06c8a692f244
+tags:
+  - attack.t1068

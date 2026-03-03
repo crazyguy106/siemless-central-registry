@@ -1,0 +1,38 @@
+title: Detect Regasm with Network Connection
+id: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of regasm.exe establishing a network connection to a public IP address, excluding private IP ranges. This detection leverages Sysmon EventID 3 logs to identify such behavior. This activity is significant as regasm.exe is a legitimate Microsoft-signed binary that can be exploited to bypass application control mechanisms. If confirmed malicious, this behavior could indicate an adversary's attempt to establish a remote Command and Control (C2) channel, potentially leading to privilege escalation and further malicious actions within the environment.
+author: Michael Haag, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `sysmon`
+EventID=3
+process_name=regasm.exe
+NOT dest_ip IN (
+  "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+  "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+  "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+  "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+  "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
+)
+| stats count min(_time) as firstTime max(_time) as lastTime
+  by action app dest dest_ip dest_port direction dvc protocol protocol_version src
+     src_ip src_port transport user vendor_product process_name process_exec process_guid
+     process_id
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `detect_regasm_with_network_connection_filter`
+
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1218/009/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+  - https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+tags:
+  - attack.t1218.009

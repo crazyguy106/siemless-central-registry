@@ -1,0 +1,26 @@
+title: Potential Fodhelper UAC Bypass (ASIM Version)
+id: ac9e233e-44d4-45eb-b522-6e47445f6582
+status: stable
+level: medium
+description: |
+  'This detection looks for the steps required to conduct a UAC bypass using Fodhelper.exe. By default this detection looks for the setting of the required registry keys and the invoking of the process within 1 hour - this can be tweaked as required.'
+
+author: Pete Bryan
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    imRegistry
+  | where EventType in ("RegistryValueSet", "RegistryKeyCreated")
+  | where RegistryKey has "Software\\Classes\\ms-settings\\shell\\open\\command"
+  | extend TimeKey = bin(TimeGenerated, 1h)
+  | join (imProcess
+  | where Process endswith "fodhelper.exe"
+  | where ParentProcessName endswith "cmd.exe" or ParentProcessName endswith "powershell.exe" or ParentProcessName endswith "powershell_ise.exe"
+  | extend TimeKey = bin(TimeGenerated, 1h)) on TimeKey, Dvc
+
+  condition: _kql_query
+tags:
+  - attack.privilege_escalation
+  - attack.t1548.002

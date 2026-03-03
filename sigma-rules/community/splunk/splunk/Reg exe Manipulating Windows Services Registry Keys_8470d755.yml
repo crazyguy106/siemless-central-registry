@@ -1,0 +1,31 @@
+title: Reg exe Manipulating Windows Services Registry Keys
+id: 8470d755-0c13-45b3-bd63-387a373c10cf
+status: stable
+level: high
+description: |
+  The following analytic detects the use of reg.exe to modify registry keys associated with Windows services and their configurations. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line executions. This activity is significant because unauthorized changes to service registry keys can indicate an attempt to establish persistence or escalate privileges. If confirmed malicious, this could allow an attacker to control service behavior, potentially leading to unauthorized code execution or system compromise.
+author: Rico Valdez, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
+  WHERE Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add* Processes.process=*Services*
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name("Processes")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `reg_exe_manipulating_windows_services_registry_keys_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1574.011

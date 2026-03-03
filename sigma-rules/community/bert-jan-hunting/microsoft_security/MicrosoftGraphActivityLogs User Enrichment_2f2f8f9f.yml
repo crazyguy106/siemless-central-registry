@@ -1,0 +1,23 @@
+title: MicrosoftGraphActivityLogs User Enrichment
+id: 29132505-4313-44a1-ad17-1ed66a5376bd
+status: experimental
+level: medium
+description: |
+  This query enriches the *MicrosoftGraphActivityLogs* with userinformation from the *IdentityInfo* table to get more context in the results.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    MicrosoftGraphActivityLogs
+| where isnotempty(UserId)
+| lookup kind=leftouter (IdentityInfo
+    | where TimeGenerated > ago(30d)
+    | summarize arg_max(TimeGenerated, *) by AccountObjectId
+    | project AccountObjectId, AccountDisplayName, AccountUpn)
+    on $left.UserId == $right.AccountObjectId
+| project-reorder AccountDisplayName, AccountUpn, RequestMethod, RequestUri
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

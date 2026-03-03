@@ -1,0 +1,42 @@
+title: Guest Users Invited to Tenant by New Inviters
+id: 572e75ef-5147-49d9-9d65-13f2ed1e3a86
+status: stable
+level: medium
+description: |
+  'Detects when a Guest User is added by a user account that has not been seen adding a guest in the previous 14 days.
+  Monitoring guest accounts and the access they are provided is important to detect potential account abuse.
+  Accounts added should be investigated to ensure the activity was legitimate.
+  Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-user-accounts#monitoring-for-failed-unusual-sign-ins'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let inviting_users = (AuditLogs
+  | where TimeGenerated between(ago(14d)..ago(1d))
+  | where OperationName =~ "Invite external user"
+  | where Result =~ "success"
+  | extend InitiatingUserPrincipalName = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)
+  | where isnotempty(InitiatingUserPrincipalName)
+  | summarize by InitiatingUserPrincipalName);
+  AuditLogs
+  | where TimeGenerated > ago(1d)
+  | where OperationName =~ "Invite external user"
+  | where Result =~ "success"
+  | extend InitiatingUserPrincipalName = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)
+  | extend InitiatingAadUserId = tostring(InitiatedBy.user.id)
+  | extend InitiatingIPAddress = tostring(InitiatedBy.user.ipAddress)
+  | where isnotempty(InitiatingUserPrincipalName) and InitiatingUserPrincipalName !in (inviting_users)
+  | extend TargetUserPrincipalName = tostring(TargetResources[0].userPrincipalName)
+  | extend TargetAadUserId = tostring(TargetResources[0].id)
+  | extend invitingUser = InitiatingUserPrincipalName, invitedUserPrincipalName = TargetUserPrincipalName
+  | extend InitiatingAccountName = tostring(split(InitiatingUserPrincipalName, "@")[0]), InitiatingAccountUPNSuffix = tostring(split(InitiatingUserPrincipalName, "@")[1])
+  | extend TargetAccountName = tostring(split(TargetUserPrincipalName, "@")[0]), TargetAccountUPNSuffix = tostring(split(TargetUserPrincipalName, "@")[1])
+  | project-reorder TimeGenerated, OperationName, Result, TargetUserPrincipalName, TargetAadUserId, InitiatingUserPrincipalName, InitiatingAadUserId, InitiatingIPAddress
+
+  condition: _kql_query
+tags:
+  - attack.persistence
+  - attack.t1078.004

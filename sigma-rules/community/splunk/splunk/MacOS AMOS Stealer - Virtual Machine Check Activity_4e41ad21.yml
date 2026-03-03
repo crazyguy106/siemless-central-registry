@@ -1,0 +1,41 @@
+title: MacOS AMOS Stealer - Virtual Machine Check Activity
+id: 4e41ad21-9761-426d-8aa1-083712ff9f30
+status: stable
+level: medium
+description: |
+  The following analytic detects AMOS Stealer VM check activity on macOS. It leverages osquery to monitor process events and identifies the execution of the "osascript" command along with specific commandline strings. This activity is significant
+as AMOS stealer was seen using this pattern in order to check if the host is a Virtual Machine or not. If confirmed malicious, this behavior indicate that the host is already infected by the AMOS stealer, which could allow attackers to execute arbitrary code, escalate privileges, steal information, or persist within the environment, posing a significant security risk.
+
+author: Nasreddine Bencherchali, Splunk, Alex Karkins
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `osquery_macro` name=es_process_events
+columns.cmdline="*osascript*" AND columns.cmdline="* -e *" AND columns.cmdline="*set*" AND columns.cmdline="*system_profiler*" AND columns.cmdline IN ("*VMware*", "*QEMU*")
+| rename columns.* as *
+| stats  min(_time) as firstTime max(_time) as lastTime
+  values(cmdline) as cmdline,
+  values(pid) as pid,
+  values(parent) as parent,
+  values(path) as path,
+  values(signing_id) as signing_id,
+  by username host
+| rename
+  username as user,
+  cmdline as process,
+  parent as parent_process,
+  path as process_path,
+  host as dest
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `macos_amos_stealer___virtual_machine_check_activity_filter`
+
+  condition: _splunk_search
+references:
+  - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+  - https://www.virustotal.com/gui/search/behaviour_processes%253A%2522osascript%2520-e%2520set%2522%2520AND%2520behaviour_processes%253A%2522system_profiler%2522%2520AND%2520(behaviour_processes%253A%2522VMware%2522%2520OR%2520behaviour_processes%253A%2522QEMU%2522)?type=files
+tags:
+  - attack.t1059.002

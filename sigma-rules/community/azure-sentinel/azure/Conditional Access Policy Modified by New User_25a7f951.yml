@@ -1,0 +1,43 @@
+title: Conditional Access Policy Modified by New User
+id: 25a7f951-54b7-4cf5-9862-ebc04306c590
+status: stable
+level: medium
+description: |
+  'Detects a Conditional Access Policy being modified by a user who has not modified a policy in the last 14 days.
+  A threat actor may try to modify policies to weaken the security controls in place.
+  Investigate any change to ensure they are approved.
+  Ref: https://docs.microsoft.com/azure/active-directory/fundamentals/security-operations-infrastructure#conditional-access'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let known_users = (AuditLogs
+  | where TimeGenerated between(ago(14d)..ago(1d))
+  | where OperationName has "conditional access policy"
+  | where Result =~ "success"
+  | extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+  | summarize by InitiatingUserPrincipalName);
+  AuditLogs
+  | where TimeGenerated > ago(1d)
+  | where OperationName has "conditional access policy"
+  | where Result =~ "success"
+  | extend InitiatingAppName = tostring(InitiatedBy.app.displayName)
+  | extend InitiatingAppId = tostring(InitiatedBy.app.appId)
+  | extend InitiatingAppServicePrincipalId = tostring(InitiatedBy.app.servicePrincipalId)
+  | extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+  | extend InitiatingAadUserId = tostring(InitiatedBy.user.id)
+  | extend InitiatingIPAddress = tostring(InitiatedBy.user.ipAddress)
+  | extend CAPolicyName = tostring(TargetResources[0].displayName)
+  | where InitiatingUserPrincipalName !in (known_users)
+  | extend NewPolicyValues = TargetResources[0].modifiedProperties[0].newValue
+  | extend OldPolicyValues = TargetResources[0].modifiedProperties[0].oldValue
+  | extend InitiatingAccountName = tostring(split(InitiatingUserPrincipalName, "@")[0]), InitiatingAccountUPNSuffix = tostring(split(InitiatingUserPrincipalName, "@")[1])
+  | project-reorder TimeGenerated, OperationName, CAPolicyName, InitiatingAppId, InitiatingAppName, InitiatingAppServicePrincipalId, InitiatingUserPrincipalName, InitiatingAadUserId, InitiatingIPAddress, NewPolicyValues, OldPolicyValues
+
+  condition: _kql_query
+tags:
+  - attack.defense_evasion
+  - attack.t1078.004

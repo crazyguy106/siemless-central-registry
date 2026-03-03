@@ -1,0 +1,43 @@
+title: Detect Remote Access Software Usage Traffic
+id: 885ea672-07ee-475a-879e-60d28aa5dd42
+status: stable
+level: medium
+description: |
+  The following analytic detects network traffic associated with known remote access software applications, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. It leverages Palo Alto traffic logs mapped to the Network_Traffic data model in Splunk. This activity is significant because adversaries often use remote access tools to maintain unauthorized access to compromised environments. If confirmed malicious, this activity could allow attackers to control systems remotely, exfiltrate data, or deploy additional malware, posing a severe threat to the organization's security.
+author: Steven Dick
+date: 2026-01-19
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly`
+  count min(_time) as firstTime
+        max(_time) as lastTime
+        values(All_Traffic.dest_port) as dest_port
+        latest(All_Traffic.user) as user
+from datamodel=Network_Traffic where
+All_Traffic.app=*
+NOT All_Traffic.app IN ("-", "unknown")
+by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in
+   All_Traffic.bytes_out All_Traffic.dest All_Traffic.dest_ip
+   All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
+   All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip
+   All_Traffic.src_port All_Traffic.transport All_Traffic.user
+   All_Traffic.vendor_product
+| `drop_dm_object_name("All_Traffic")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| lookup remote_access_software remote_appid AS app OUTPUT isutility, description as signature, comment_reference as desc, category
+| search isutility = True
+| `remote_access_software_usage_exceptions`
+| `detect_remote_access_software_usage_traffic_filter`
+
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+  - https://applipedia.paloaltonetworks.com/
+tags:
+  - attack.t1219

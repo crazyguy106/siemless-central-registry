@@ -1,0 +1,21 @@
+title: Detect Remote Access Software Usage Registry
+id: 33804986-25dd-43cf-bb6b-dc14956c7cbc
+status: stable
+level: medium
+description: |
+  The following analytic detects when a known remote access software is added to common persistence locations on a device within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
+author: Steven Dick
+date: 2025-10-14
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` latest(Registry.process_guid) as process_guid  count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\Microsoft\\Windows\\CurrentVersion\\Run*" OR (Registry.registry_path="*\\SYSTEM\\CurrentControlSet\\Services\\*" AND Registry.registry_value_name="ImagePath")) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rex field=registry_value_data "(\")?.+\\\(?<file_name_1>[^\"=]+\.[^\" ]{1,5})(\")?" | rex field=registry_value_data "(?<file_name_2>[^\.]+\.[^\" ]{1,5}$)" | eval file_name = coalesce(file_name_1,file_name_2) | lookup remote_access_software remote_utility AS file_name OUTPUT isutility, description as signature, comment_reference as desc, category | search isutility = TRUE | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_registry_filter`
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+tags:
+  - attack.t1219

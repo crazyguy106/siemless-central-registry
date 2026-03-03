@@ -1,0 +1,35 @@
+title: ASL AWS Network Access Control List Created with All Open Ports
+id: a2625034-c2de-44fc-b45c-7bac9c4a7974
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of AWS Network Access Control Lists (ACLs) with all ports open to a specified CIDR. It leverages AWS CloudTrail events, specifically monitoring for `CreateNetworkAclEntry` or `ReplaceNetworkAclEntry` actions with rules allowing all traffic. This activity is significant because it can expose the network to unauthorized access, increasing the risk of data breaches and other malicious activities. If confirmed malicious, an attacker could exploit this misconfiguration to gain unrestricted access to the network, potentially leading to data exfiltration, service disruption, or further compromise of the AWS environment.
+author: Patrick Bareiss, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `amazon_security_lake` api.operation=CreateNetworkAclEntry OR api.operation=ReplaceNetworkAclEntry status=Success
+  | spath input=api.request.data path=ruleAction output=ruleAction
+  | spath input=api.request.data path=egress output=egress
+  | spath input=api.request.data path=aclProtocol output=aclProtocol
+  | spath input=api.request.data path=cidrBlock output=cidrBlock
+  | spath input=api.request.data path=networkAclId output=networkAclId
+  | search ruleAction=allow AND egress=false AND aclProtocol=-1 AND cidrBlock=0.0.0.0/0
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY actor.user.uid api.operation api.service.name
+       http_request.user_agent src_endpoint.ip actor.user.account.uid
+       cloud.provider cloud.region networkAclId
+       cidrBlock
+  | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `asl_aws_network_access_control_list_created_with_all_open_ports_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1562.007

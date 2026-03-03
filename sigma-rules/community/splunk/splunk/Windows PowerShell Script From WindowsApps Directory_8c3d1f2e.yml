@@ -1,0 +1,23 @@
+title: Windows PowerShell Script From WindowsApps Directory
+id: 8c3d1f2e-7b4a-45e3-9d8f-6a2e4c9b1234
+status: stable
+level: high
+description: |
+  The following analytic identifies the execution of PowerShell scripts from the WindowsApps directory, which is a common technique used in malicious MSIX package execution. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command lines and parent process paths. This activity is significant as adversaries have been observed using MSIX packages with embedded PowerShell scripts (particularly StartingScriptWrapper.ps1) to execute malicious code. If confirmed malicious, this could allow attackers to execute arbitrary code, establish persistence, or deliver malware while evading traditional detection mechanisms.
+author: Michael Haag, Splunk
+date: 2025-08-05
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name="powershell.exe" AND (Processes.parent_process_path="*\\WindowsApps\\*" OR Processes.process="*WindowsApps*-file *" OR Processes.process="*WindowsApps*.ps1*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_script_from_windowsapps_directory_filter`
+  condition: _splunk_search
+references:
+  - https://redcanary.com/blog/threat-intelligence/msix-installers/
+  - https://redcanary.com/threat-detection-report/techniques/installer-packages/
+  - https://learn.microsoft.com/en-us/windows/msix/package/package-support-framework
+  - https://attack.mitre.org/techniques/T1059/001/
+tags:
+  - attack.t1059.001
+  - attack.t1204.002

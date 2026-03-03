@@ -1,0 +1,29 @@
+title: Cisco Secure Firewall - Lumma Stealer Outbound Connection Attempt
+id: 66f22f52-fbae-4be7-a263-561dacb63612
+status: stable
+level: medium
+description: |
+  This analytic detects Lumma Stealer outbound connection attempts using Cisco Secure Firewall Intrusion Events.
+It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where Snort signatures with IDs 64797, 64798, 64799, 64800, 64801, 64167, 64168, 64169, 62709 have been triggered. If confirmed malicious, this behavior could indicate an active infection of Lumma Stealer.
+
+author: Nasreddine Bencherchali, Splunk, Talos NTDR
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_secure_firewall` EventType=IntrusionEvent signature_id IN (64797, 64798, 64799, 64800, 64801, 64167, 64168, 64169, 62709)
+| fillnull
+| stats min(_time) as firstTime max(_time) as lastTime
+        by src dest dest_port transport signature_id signature class_desc MitreAttackGroups rule InlineResult InlineResultReason app
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_secure_firewall___lumma_stealer_outbound_connection_attempt_filter`
+
+  condition: _splunk_search
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma
+tags:
+  - attack.t1041
+  - attack.t1573.002

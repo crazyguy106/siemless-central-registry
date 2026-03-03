@@ -1,0 +1,28 @@
+title: Linux Auditd Database File And Directory Discovery
+id: f616c4f3-bde9-41cf-856c-019b65f668bb
+status: stable
+level: medium
+description: |
+  The following analytic detects suspicious database file and directory discovery activities, which may signal an attacker attempt to locate and assess critical database assets on a compromised system. This behavior is often a precursor to data theft, unauthorized access, or privilege escalation, as attackers seek to identify valuable information stored in databases. By monitoring for unusual or unauthorized attempts to locate database files and directories, this analytic aids in early detection of potential reconnaissance or data breach efforts, enabling security teams to respond swiftly and mitigate the risk of further compromise.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `linux_auditd` execve_command IN ("*find*", "*grep*") AND execve_command IN("*.db*", "*.sql*", "*.sqlite*", "*.mdb*", "*.accdb*", "*.mdf*", "*.ndf*", "*.ldf*", "*.frm*", "*.myd*", "*.myi*", "*.dbf*", "*.db2*", "*.dbc*", "*.fpt*", "*.ora*")
+  | rename host as dest
+  | rename comm as process_name
+  | rename exe as process
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY argc execve_command dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_auditd_database_file_and_directory_discovery_filter`
+  condition: _splunk_search
+references:
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+  - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+tags:
+  - attack.t1083

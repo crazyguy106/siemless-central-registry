@@ -1,0 +1,31 @@
+title: MCP Prompt Injection
+id: 49779398-b738-4d64-bb3f-ead6eb97fe53
+status: stable
+level: high
+description: |
+  This detection identifies potential prompt injection attempts within MCP (Model Context Protocol) communications by monitoring for known malicious phrases and patterns commonly used to manipulate AI assistants. Prompt injection is a critical vulnerability where adversaries embed hidden instructions in content processed by AI tools, attempting to override system prompts, bypass security controls, or hijack the AI's behavior. The search monitors JSON-RPC traffic for phrases such as "IGNORE PREVIOUS INSTRUCTIONS," "SYSTEM PROMPT OVERRIDE," and "ignore all security" which indicate attempts to subvert the AI's intended behavior and potentially execute unauthorized actions through the MCP toolchain.
+author: Rod Soto
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `mcp_server` direction=inbound ( "IGNORE PREVIOUS INSTRUCTIONS" OR "AI_INSTRUCTION" OR "SYSTEM PROMPT OVERRIDE" OR "[SYSTEM]:" OR "ignore all security" OR "New directive" OR "ignore security policies" )
+| eval dest=host
+| eval injection_payload=coalesce('params.content_preview', 'params.result_preview')
+| eval target_path='params.path'
+| eval sql_query='params.query'
+| stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(target_path) as target_path values(sql_query) as sql_query values(injection_payload) as injection_payload by dest, source
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| table dest firstTime lastTime count source method target_path sql_query injection_payload
+| `mcp_prompt_injection_filter`
+
+  condition: _splunk_search
+references:
+  - https://splunkbase.splunk.com/app/8377
+  - https://www.tenable.com/blog/mcp-prompt-injection-not-just-for-evil
+  - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+tags:
+  - attack.t1059

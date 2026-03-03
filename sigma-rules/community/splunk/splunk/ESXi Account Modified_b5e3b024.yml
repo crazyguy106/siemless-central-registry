@@ -1,0 +1,21 @@
+title: ESXi Account Modified
+id: b5e3b024-a7bb-4019-8975-46cf54485e78
+status: stable
+level: medium
+description: |
+  This detection identifies the creation, deletion, or modification of a local user account on an ESXi host. This activity may indicate unauthorized access, indicator removal, or persistence attempts by an attacker seeking to establish or maintain control of the host.
+author: Raven Tait, Splunk
+date: 2025-07-01
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `esxi_syslog` Message="*esxcli system account*" Message IN ("*-i *","*--id*") NOT Message="*[shell*" | rex field=_raw "Z (?<dest>[\w\.]+)\s.*: \[(?<initial_user>\w+)]:\s.+-i[d]*\s(?<modified_user>[\w_\-0-9]+)" | stats min(_time) as firstTime max(_time) as lastTime count by dest initial_user modified_user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `esxi_account_modified_filter`
+  condition: _splunk_search
+references:
+  - https://detect.fyi/detecting-and-responding-to-esxi-compromise-with-splunk-f33998ce7823
+tags:
+  - attack.t1136.001
+  - attack.t1078
+  - attack.t1098

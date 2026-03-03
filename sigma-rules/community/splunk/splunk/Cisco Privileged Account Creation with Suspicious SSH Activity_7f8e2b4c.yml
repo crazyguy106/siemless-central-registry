@@ -1,0 +1,70 @@
+title: Cisco Privileged Account Creation with Suspicious SSH Activity
+id: 7f8e2b4c-9a3d-4e1f-8c5b-6d7e8f9a0b1c
+status: stable
+level: medium
+description: |
+  This analytic detects a correlation between privileged account creation on Cisco IOS devices and subsequent inbound SSH connections to non-standard ports or sshd_operns by correlating risk events
+This correlation identifies when both "Cisco IOS Suspicious Privileged Account Creation" and SSH-related Snort detections ("SSH Connection to sshd_operns" or "SSH Connection to Non-Standard Port") fire for the same network device.
+This behavior is highly indicative of persistence establishment following initial compromise.
+
+author: Nasreddine Bencherchali, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly`
+  min(_time) as firstTime
+  max(_time) as lastTime
+
+  sum(All_Risk.calculated_risk_score) as risk_score
+  count(All_Risk.calculated_risk_score) as risk_event_count
+
+  values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id
+  dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count
+
+  values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id
+  dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count
+
+  values(All_Risk.tag) as tag
+  values(source) as source
+  dc(source) as source_count
+
+  values(contributing_events_search)
+
+  values(All_Risk.threat_object)
+
+  from datamodel=Risk.All_Risk where
+
+  source IN (
+    "*Cisco IOS Suspicious Privileged Account Creation*",
+    "*Cisco Secure Firewall - SSH Connection to sshd_operns*",
+    "*Cisco Secure Firewall - SSH Connection to Non-Standard Port*"
+  )
+  by All_Risk.normalized_risk_object
+| `drop_dm_object_name(All_Risk)`
+| eval has_account_creation=if(
+                                match(source, "Cisco IOS Suspicious Privileged Account Creation"),
+                                1, 0
+                              )
+| eval has_ssh_detection=if(
+                              match(source, "SSH Connection to sshd_operns")
+                              OR
+                              match(source, "SSH Connection to Non-Standard Port"),
+                              1, 0
+                            )
+| where has_account_creation=1
+        AND
+        has_ssh_detection=1
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_privileged_account_creation_with_suspicious_ssh_activity_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+tags:
+  - attack.t1021.004
+  - attack.t1136
+  - attack.t1078

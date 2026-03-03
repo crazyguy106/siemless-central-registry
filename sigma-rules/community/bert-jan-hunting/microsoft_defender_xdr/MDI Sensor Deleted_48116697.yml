@@ -1,0 +1,19 @@
+title: MDI Sensor Deleted
+id: 093f596d-4e1c-45a9-88f9-46caa249532e
+status: experimental
+level: medium
+description: |
+  This query returns results when a Defender For Identity Sensor has been deleted. This sensor would have been installed on your Domain Controller, ADCS, ADFS or Entra Connect server.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where ActionType == "SensorDeleted"
+| extend Sensor = tostring(parse_json(RawEventData).ResultDescription), InitiatorUpn = tostring(parse_json(RawEventData).UserId)
+| project-reorder Timestamp, Sensor, InitiatorUpn
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

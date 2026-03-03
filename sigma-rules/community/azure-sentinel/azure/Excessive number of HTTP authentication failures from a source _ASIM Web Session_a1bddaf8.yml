@@ -1,0 +1,29 @@
+title: Excessive number of HTTP authentication failures from a source (ASIM Web Session schema)
+id: a1bddaf8-982b-4089-ba9e-6590dfcf80ea
+status: stable
+level: low
+description: |
+  This rule identifies a source that repeatedly fails to authenticate to a web service (HTTP response code 403). This may indicate a [brute force](https://en.wikipedia.org/wiki/Brute-force_attack) or [credential stuffing](https://en.wikipedia.org/wiki/Credential_stuffing) attack.
+This rule uses the [Advanced Security Information Model (ASIM)](https://aka.ms/AboutASIM) and supports any web session source that complies with ASIM.
+
+author: Yaron
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let error403_count_threshold=200;
+_Im_WebSession(eventresultdetails_in=dynamic(["403"]))
+| extend ParsedUrl=parse_url(Url)
+| extend UrlHost=tostring(ParsedUrl["Host"]), UrlSchema=tostring(ParsedUrl["Schema"])
+| summarize StartTime = min(TimeGenerated), EndTime = max(TimeGenerated), NumberOfErrors = count(), Urls=makeset(Url) by UrlHost, SrcIpAddr
+| where NumberOfErrors > error403_count_threshold
+| sort by NumberOfErrors desc
+| extend Url=tostring(Urls[0])
+
+  condition: _kql_query
+tags:
+  - attack.persistence
+  - attack.credential_access
+  - attack.t1110
+  - attack.t1556

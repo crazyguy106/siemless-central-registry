@@ -1,0 +1,48 @@
+title: Cisco ASA - Logging Disabled via CLI
+id: 7b4c9f3e-5a88-4b7b-9c4b-94d8e5d67201
+status: stable
+level: high
+description: |
+  This analytic detects the disabling of logging functionality on a Cisco ASA device
+through CLI commands. Adversaries or malicious insiders may attempt to disable logging
+to evade detection and hide malicious activity. The detection looks for specific ASA
+syslog message IDs (111010, 111008) associated with command execution,
+combined with suspicious commands such as `no logging`, `logging disable`,
+`clear logging`, or `no logging host`. Disabling logging on a firewall or security device
+is a strong indicator of defense evasion.
+
+author: Bhavin Patel, Micheal Haag, Nasreddine Bencherchali, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_asa`
+message_id IN (111008, 111010)
+command IN (
+    "*no logging*",
+    "*logging disable*",
+    "*clear logging*",
+    "*no logging host*",
+    "*no logging trap*"
+)
+| stats earliest(_time) as firstTime
+        latest(_time) as lastTime
+        values(user) as user
+        values(action) as action
+        values(message_id) as message_id
+        values(command) as command
+        values(src_ip) as src_ip
+        values(process_name) as process_name
+  by host
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_asa___logging_disabled_via_cli_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.cisco.com/site/us/en/products/security/firewalls/adaptive-security-appliance-asa-software/index.html
+  - https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks
+tags:
+  - attack.t1562

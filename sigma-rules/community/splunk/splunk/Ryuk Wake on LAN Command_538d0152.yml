@@ -1,0 +1,37 @@
+title: Ryuk Wake on LAN Command
+id: 538d0152-7aaa-11eb-beaa-acde48001122
+status: stable
+level: high
+description: |
+  The following analytic detects the use of Wake-on-LAN commands associated with Ryuk ransomware. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific process and command-line activities. This behavior is significant as Ryuk ransomware uses Wake-on-LAN to power on devices in a compromised network, increasing its encryption success rate. If confirmed malicious, this activity could lead to widespread ransomware encryption across multiple endpoints, causing significant operational disruption and data loss. Immediate isolation and thorough investigation of the affected endpoints are crucial to mitigate the impact.
+author: Michael Haag, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE (
+        Processes.process="*8 LAN*"
+        OR
+        Processes.process="*9 REP*"
+    )
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `ryuk_wake_on_lan_command_filter`
+  condition: _splunk_search
+references:
+  - https://www.bleepingcomputer.com/news/security/ryuk-ransomware-uses-wake-on-lan-to-encrypt-offline-devices/
+  - https://www.bleepingcomputer.com/news/security/ryuk-ransomware-now-self-spreads-to-other-windows-lan-devices/
+  - https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-006.pdf
+tags:
+  - attack.t1059.003

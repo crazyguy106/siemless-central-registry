@@ -1,0 +1,30 @@
+title: Base64 encoded Windows process command-lines (Normalized Process Events)
+id: f8b3c49c-4087-499b-920f-0dcfaff0cbca
+status: stable
+level: medium
+description: |
+  'Identifies instances of a base64 encoded PE file header seen in the process command line parameter.
+To use this analytics rule, make sure you have deployed the [ASIM normalization parsers](https://aka.ms/ASimProcessEvent)'
+
+author: Yuval Naor
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    imProcessCreate
+| where CommandLine contains "TVqQAAMAAAAEAAA"
+| where isnotempty(Process)
+| summarize StartTime = min(TimeGenerated), EndTime = max(TimeGenerated), count() by Dvc, ActorUsername, Process, CommandLine, ActingProcessName, EventVendor, EventProduct
+| extend AccountName = tostring(split(ActorUsername, @'\')[1]), AccountNTDomain = tostring(split(ActorUsername, @'\')[0])
+| extend HostName = tostring(split(Dvc, ".")[0]), DomainIndex = toint(indexof(Dvc, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Dvc, DomainIndex + 1), Dvc)
+| project-away DomainIndex
+
+  condition: _kql_query
+tags:
+  - attack.execution
+  - attack.defense_evasion
+  - attack.t1059
+  - attack.t1027
+  - attack.t1140

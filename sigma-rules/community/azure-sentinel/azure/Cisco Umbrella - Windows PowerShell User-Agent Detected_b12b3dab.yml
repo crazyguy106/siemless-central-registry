@@ -1,0 +1,25 @@
+title: Cisco Umbrella - Windows PowerShell User-Agent Detected
+id: b12b3dab-d973-45af-b07e-e29bb34d8db9
+status: stable
+level: medium
+description: |
+  'Rule helps to detect Powershell user-agent activity by an unusual process other than a web browser.'
+
+author: Microsoft
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let timeframe = 15m;
+Cisco_Umbrella
+| where EventType == "proxylogs"
+| where TimeGenerated > ago(timeframe)
+| where HttpUserAgentOriginal contains "WindowsPowerShell"
+| extend Message = "Windows PowerShell User Agent"
+| project Message, SrcIpAddr, DstIpAddr, UrlOriginal, TimeGenerated,HttpUserAgentOriginal
+
+  condition: _kql_query
+tags:
+  - attack.defense_evasion
+

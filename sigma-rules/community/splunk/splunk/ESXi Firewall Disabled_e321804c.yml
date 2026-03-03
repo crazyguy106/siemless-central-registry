@@ -1,0 +1,19 @@
+title: ESXi Firewall Disabled
+id: e321804c-8eb5-42f2-a843-36b289a6c6b2
+status: stable
+level: high
+description: |
+  This detection identifies when the ESXi firewall is disabled or set to permissive mode, which can expose the host to unauthorized access and network-based attacks. Such changes are often a precursor to lateral movement, data exfiltration, or the installation of malicious software by a threat actor.
+author: Raven Tait, Splunk
+date: 2025-08-06
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `esxi_syslog` Message="*network firewall set*" AND Message="*enabled f*" | rex field=_raw "Z (?<dest>[\w\.]+)\s" | stats min(_time) as firstTime max(_time) as lastTime count by dest Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `esxi_firewall_disabled_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1562.004

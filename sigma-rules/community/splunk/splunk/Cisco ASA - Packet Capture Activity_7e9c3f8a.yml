@@ -1,0 +1,43 @@
+title: Cisco ASA - Packet Capture Activity
+id: 7e9c3f8a-4b2d-4c5e-9a1f-6d8e5b3c2a9f
+status: stable
+level: medium
+description: |
+  This analytic detects execution of packet capture commands on Cisco ASA devices via CLI or ASDM.
+Adversaries may abuse the built-in packet capture functionality to perform network sniffing, intercept credentials transmitted over the network, capture sensitive data in transit, or gather intelligence about network traffic patterns and internal communications. Packet captures can reveal usernames, passwords, session tokens, and confidential business data.
+The detection monitors for command execution events (message ID 111008 or 111010) containing "capture" commands, which are used to initiate packet capture sessions on specific interfaces or for specific traffic patterns on the ASA device.
+Investigate unauthorized packet capture activities, especially captures targeting sensitive interfaces (internal network segments, DMZ), captures configured to capture large volumes of traffic, captures with suspicious filter criteria, captures initiated by non-administrative accounts, or captures during unusual hours.
+
+author: Nasreddine Bencherchali, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_asa`
+message_id IN (111008, 111010)
+command IN ("capture *")
+| fillnull
+| stats count
+        earliest(_time) as firstTime
+        latest(_time) as lastTime
+        values(user) as user
+        values(action) as action
+        values(message_id) as message_id
+        values(command) as command
+        values(src_ip) as src_ip
+        values(process_name) as process_name
+  by host
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_asa___packet_capture_activity_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/A-H/asa-command-ref-A-H/ca-cld-commands.html
+  - https://www.cisco.com/c/en/us/support/docs/security/asa-5500-x-series-next-generation-firewalls/118097-configure-asa-00.html
+  - https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/RayInitiator-LINE-VIPER/ncsc-mar-rayinitiator-line-viper.pdf
+tags:
+  - attack.t1040
+  - attack.t1557

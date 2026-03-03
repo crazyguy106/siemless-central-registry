@@ -1,0 +1,28 @@
+title: AWS Defense Evasion Impair Security Services
+id: b28c4957-96a6-47e0-a965-6c767aac1458
+status: stable
+level: high
+description: |
+  The following analytic detects attempts to impair or disable AWS security services by monitoring specific deletion operations across GuardDuty, AWS WAF (classic and v2), CloudWatch, Route 53, and CloudWatch Logs. These actions include deleting detectors, rule groups, IP sets, web ACLs, logging configurations, alarms, and log streams. Adversaries may perform such operations to evade detection or remove visibility from defenders. By explicitly pairing eventName values with their corresponding eventSource services, this detection reduces noise and ensures that only security-related deletions are flagged. It leverages CloudTrail logs to identify specific API calls like "DeleteLogStream" and "DeleteDetector." This activity is significant because it indicates potential efforts to disable security monitoring and evade detection. If confirmed malicious, this could allow attackers to operate undetected, escalate privileges, or exfiltrate data without triggering security alerts, severely compromising the security posture of the AWS environment.
+author: Bhavin Patel, Gowthamaraj Rajendran, Splunk, PashFW, Github Community
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: threat
+detection:
+  _splunk_search: |
+    `cloudtrail`
+(eventName="DeleteDetector" AND eventSource="guardduty.amazonaws.com") OR (   eventName IN ("DeleteIPSet", "DeleteWebACL", "DeleteRuleGroup", "DeleteRule") AND eventSource IN ("guardduty.amazonaws.com", "wafv2.amazonaws.com", "waf.amazonaws.com") ) OR ( eventName="DeleteLoggingConfiguration" AND eventSource IN ("wafv2.amazonaws.com", "waf.amazonaws.com", "route53.amazonaws.com") )
+| rename user_name as user
+| stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `aws_defense_evasion_impair_security_services_filter`
+
+  condition: _splunk_search
+references:
+  - https://docs.aws.amazon.com/cli/latest/reference/guardduty/index.html
+  - https://docs.aws.amazon.com/cli/latest/reference/waf/index.html
+  - https://www.elastic.co/guide/en/security/current/prebuilt-rules.html
+tags:
+  - attack.t1562.008

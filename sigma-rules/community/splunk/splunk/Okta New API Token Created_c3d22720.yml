@@ -1,0 +1,31 @@
+title: Okta New API Token Created
+id: c3d22720-35d3-4da4-bd0a-740d37192bd4
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of a new API token within an Okta tenant. It uses OktaIm2 logs ingested via the Splunk Add-on for Okta Identity Cloud to identify events where the `system.api_token.create` command is executed. This activity is significant because creating a new API token can indicate potential account takeover attempts or unauthorized access, allowing an adversary to maintain persistence. If confirmed malicious, this could enable attackers to execute API calls, access sensitive data, and perform administrative actions within the Okta environment.
+author: Michael Haag, Mauricio Velazco, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: access
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime FROM datamodel=Change
+  WHERE All_Changes.action=created
+    AND
+    All_Changes.command=system.api_token.create
+  BY _time span=5m All_Changes.user
+     All_Changes.result All_Changes.command sourcetype
+     All_Changes.src All_Changes.action All_Changes.object_category
+     All_Changes.dest
+| `drop_dm_object_name("All_Changes")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `okta_new_api_token_created_filter`
+  condition: _splunk_search
+references:
+  - https://developer.okta.com/docs/reference/api/event-types/?q=security.threat.detected
+  - https://splunkbase.splunk.com/app/6553
+tags:
+  - attack.t1078.001

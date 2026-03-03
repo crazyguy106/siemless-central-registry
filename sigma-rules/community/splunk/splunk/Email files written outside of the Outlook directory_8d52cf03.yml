@@ -1,0 +1,34 @@
+title: Email files written outside of the Outlook directory
+id: 8d52cf03-ba25-4101-aa78-07994aed4f74
+status: experimental
+level: high
+description: |
+  The following analytic detects email files (.pst or .ost) being created outside the standard Outlook directories. It leverages the Endpoint.Filesystem data model to identify file creation events and filters for email files not located in "C:\Users\*\My Documents\Outlook Files\*" or "C:\Users\*\AppData\Local\Microsoft\Outlook*". This activity is significant as it may indicate data exfiltration or unauthorized access to email data. If confirmed malicious, an attacker could potentially access sensitive email content, leading to data breaches or further exploitation within the network.
+author: Bhavin Patel, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+  WHERE (
+        Filesystem.file_name=*.pst
+        OR
+        Filesystem.file_name=*.ost
+    )
+    Filesystem.file_path != "C:\Users\*\My Documents\Outlook Files\*"  Filesystem.file_path!="C:\Users\*\AppData\Local\Microsoft\Outlook*"
+  BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+     Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+     Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+     Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+     Filesystem.user Filesystem.vendor_product
+| `drop_dm_object_name("Filesystem")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `email_files_written_outside_of_the_outlook_directory_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1114.001

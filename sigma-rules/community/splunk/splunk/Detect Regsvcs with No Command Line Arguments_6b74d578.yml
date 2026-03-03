@@ -1,0 +1,34 @@
+title: Detect Regsvcs with No Command Line Arguments
+id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
+status: stable
+level: high
+description: |
+  The following analytic detects instances of regsvcs.exe running without command line arguments. This behavior typically indicates process injection, where another process manipulates regsvcs.exe. The detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, IDs, and command-line executions. This activity is significant as it may signal an attempt to evade detection and execute malicious code. If confirmed malicious, the attacker could achieve code execution, potentially leading to privilege escalation, persistence, or access to sensitive information.
+author: Michael Haag, Splunk
+date: 2025-12-15
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+as lastTime FROM datamodel=Endpoint.Processes where
+(Processes.process_name=regsvcs.exe OR Processes.original_file_name=RegSvcs.exe)
+Processes.process IN ("*regsvcs","*regsvcs.exe", "*regsvcs.exe\"")
+by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+   Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
+   Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
+   Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
+   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `detect_regsvcs_with_no_command_line_arguments_filter`
+
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1218/009/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+  - https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
+tags:
+  - attack.t1218.009

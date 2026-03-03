@@ -1,0 +1,35 @@
+title: Disable Logs Using WevtUtil
+id: 236e7c8e-c9d9-11eb-a824-acde48001122
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of "wevtutil.exe" with parameters to disable event logs. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because disabling event logs is a common tactic used by ransomware to evade detection and hinder forensic investigations. If confirmed malicious, this action could allow attackers to operate undetected, making it difficult to trace their activities and respond effectively to the incident.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE Processes.process_name = "wevtutil.exe"
+    AND
+    (Processes.process = "*sl*"
+    OR
+    Processes.process = "*set-log*" ) Processes.process = "*/e:false*"
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `disable_logs_using_wevtutil_filter`
+  condition: _splunk_search
+references:
+  - https://www.bleepingcomputer.com/news/security/new-ransom-x-ransomware-used-in-texas-txdot-cyberattack/
+tags:
+  - attack.t1070.001

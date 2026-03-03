@@ -1,0 +1,29 @@
+title: GCP Multi-Factor Authentication Disabled
+id: b9bc5513-6fc1-4821-85a3-e1d81e451c83
+status: stable
+level: high
+description: |
+  The following analytic detects an attempt to disable multi-factor authentication (MFA) for a Google Cloud Platform (GCP) user. It leverages Google Workspace Admin log events, specifically the `UNENROLL_USER_FROM_STRONG_AUTH` command. This activity is significant because disabling MFA can allow an adversary to maintain persistence within the environment using a compromised account without raising suspicion. If confirmed malicious, this action could enable attackers to bypass additional security layers, potentially leading to unauthorized access, data exfiltration, or further exploitation of the compromised account.
+author: Bhavin Patel, Mauricio Velazco, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: identity
+detection:
+  _splunk_search: |
+    `gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY user, command, actor.email,
+       status, id.applicationName, event.name,
+       vendor_account, action
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `gcp_multi_factor_authentication_disabled_filter`
+  condition: _splunk_search
+references:
+  - https://support.google.com/cloudidentity/answer/2537800?hl=en
+  - https://attack.mitre.org/tactics/TA0005/
+  - https://attack.mitre.org/techniques/T1556/
+tags:
+  - attack.t1556.006
+  - attack.t1586.003

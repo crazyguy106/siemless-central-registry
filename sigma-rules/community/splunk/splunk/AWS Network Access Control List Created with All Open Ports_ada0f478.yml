@@ -1,0 +1,33 @@
+title: AWS Network Access Control List Created with All Open Ports
+id: ada0f478-84a8-4641-a3f1-d82362d6bd75
+status: stable
+level: high
+description: |
+  The following analytic detects the creation of AWS Network Access Control Lists (ACLs) with all ports open to a specified CIDR. It leverages AWS CloudTrail events, specifically monitoring for `CreateNetworkAclEntry` or `ReplaceNetworkAclEntry` actions with rules allowing all traffic. This activity is significant because it can expose the network to unauthorized access, increasing the risk of data breaches and other malicious activities. If confirmed malicious, an attacker could exploit this misconfiguration to gain unrestricted access to the network, potentially leading to data exfiltration, service disruption, or further compromise of the AWS environment.
+author: Bhavin Patel, Patrick Bareiss, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
+  | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
+  | eval port_range='requestParameters.portRange.to' - 'requestParameters.portRange.from'
+  | where port_range>1024]
+  | fillnull
+  | rename user_name as user
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY signature dest user
+       user_agent src vendor_account
+       vendor_region vendor_product requestParameters.ruleAction
+       requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
+       requestParameters.portRange.from requestParameters.cidrBlock
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `aws_network_access_control_list_created_with_all_open_ports_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1562.007

@@ -1,0 +1,40 @@
+title: Windows host username encoded in base64 web request
+id: 6e715730-82c0-496c-983b-7a20c4590bd9
+status: stable
+level: medium
+description: |
+  'This detection will identify network requests in HTTP proxy data that contains Base64 encoded usernames from machines in the DeviceEvents table.
+This technique was seen usee by POLONIUM in their RunningRAT tool.'
+
+author: Thomas McElroy
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let accountLookback = 3d;
+let requestLookback = 3d;
+let extraction_regex = @"(?:\?|&)[a-zA-Z0-9\%]*=([a-zA-Z0-9\/\+\=]*)";
+// Collect account names and base64 encode them
+DeviceEvents
+| where TimeGenerated > ago(accountLookback)
+| summarize make_set(DeviceId), make_set(DeviceName) by InitiatingProcessAccountName
+| where isnotempty(InitiatingProcessAccountName)
+| extend base64_user = base64_encode_tostring(InitiatingProcessAccountName)
+| join (
+    // Collect requests and extract base64 parameters
+    CommonSecurityLog
+    | where TimeGenerated > ago(requestLookback)
+    | where isnotempty(RequestURL)
+    // Summarize early on the RequestURL
+    | summarize FirstRequest=min(TimeGenerated), LastRequest=max(TimeGenerated), NumberOfRequests=count() by RequestURL
+    | extend base64_candidate = extract_all(extraction_regex, RequestURL)
+    | mv-expand base64_candidate  to typeof(string)
+) on $left.base64_user == $right.base64_candidate
+| project FirstRequest, LastRequest, NumberOfRequests, RequestURL, DeviceIds=set_DeviceId, DeviceNames=set_DeviceName, UserName=InitiatingProcessAccountName
+
+  condition: _kql_query
+tags:
+  - attack.exfiltration
+  - attack.t1041
+  - attack.t1071.001

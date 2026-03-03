@@ -1,0 +1,47 @@
+title: Cisco Secure Firewall - Lumma Stealer Activity
+id: 96bce783-c22e-4e48-8cf1-3eb2794c5083
+status: stable
+level: high
+description: |
+  This analytic detects Lumma Stealer activity using Cisco Secure Firewall Intrusion Events.
+It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where four of the following Snort signature IDs 64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811 occurs in the span of 15 minutes from the same host.
+If confirmed malicious, this behavior is highly indicative of a successful infection of Lumma Stealer.
+
+author: Nasreddine Bencherchali, Splunk, Talos NTDR
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_secure_firewall` EventType=IntrusionEvent signature_id IN (64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811)
+| bin _time span=15m
+| fillnull
+| stats dc(signature_id) as unique_signature_count
+        values(signature_id) as signature_id
+        values(signature) as signature
+        values(class_desc) as class_desc
+        values(MitreAttackGroups) as MitreAttackGroups
+        values(InlineResult) as InlineResult
+        values(InlineResultReason) as InlineResultReason
+        values(dest) as dest
+        values(dest_port) as dest_port
+        values(rule) as rule
+        values(transport) as transport
+        values(app) as app
+        min(_time) as firstTime
+        max(_time) as lastTime
+        by src
+| where unique_signature_count >= 3
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_secure_firewall___lumma_stealer_activity_filter`
+
+  condition: _splunk_search
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma
+tags:
+  - attack.t1190
+  - attack.t1210
+  - attack.t1027
+  - attack.t1204

@@ -1,0 +1,35 @@
+title: HTTP Scripting Tool User Agent
+id: 04430b4e-5ca8-4e88-98b5-d6bcf54f8393
+status: stable
+level: medium
+description: |
+  This Splunk query analyzes web access logs to identify and categorize non-browser user agents, detecting various types of security tools, scripting languages, automation frameworks, and suspicious patterns. This activity can signify malicious actors attempting to interact with web endpoints in non-standard ways.
+author: Raven Tait, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `nginx_access_logs`
+  | eval http_user_agent = lower(http_user_agent)
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name(Web)`
+  | lookup scripting_tools_user_agents tool_user_agent AS http_user_agent OUTPUT tool
+  | where isnotnull(tool)
+  | rename dest_ip as dest
+  | stats count min(firstTime) as first_seen max(lastTime) as last_seen values(tool) as tool
+    BY http_user_agent dest src_ip
+       status
+  | `http_scripting_tool_user_agent_filter`
+  condition: _splunk_search
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_ua_hacktool.yml
+  - https://help.aikido.dev/zen-firewall/miscellaneous/bot-protection-details
+tags:
+  - attack.t1071.001

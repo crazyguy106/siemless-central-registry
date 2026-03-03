@@ -1,0 +1,30 @@
+title: Windows Screen Capture Via Powershell
+id: 5e0b1936-8f99-4399-8ee2-9edc5b32e170
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of a PowerShell script designed to capture screen images on a host. It leverages PowerShell Script Block Logging to identify specific script block text patterns associated with screen capture activities. This behavior is significant as it may indicate an attempt to exfiltrate sensitive information by capturing desktop screenshots. If confirmed malicious, this activity could allow an attacker to gather visual data from the compromised system, potentially leading to data breaches or further exploitation.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" AND ScriptBlockText = "*.CopyFromScreen*"
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY dest signature signature_id
+       user_id vendor_product EventID
+       Guid Opcode Name
+       Path ProcessID ScriptBlockId
+       ScriptBlockText
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_screen_capture_via_powershell_filter`
+  condition: _splunk_search
+references:
+  - https://twitter.com/_CERT_UA/status/1620781684257091584
+  - https://cert.gov.ua/article/3761104
+tags:
+  - attack.t1113

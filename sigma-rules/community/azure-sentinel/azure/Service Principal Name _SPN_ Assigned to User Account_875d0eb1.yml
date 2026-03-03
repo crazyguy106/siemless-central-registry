@@ -1,0 +1,31 @@
+title: Service Principal Name (SPN) Assigned to User Account
+id: 875d0eb1-883a-4191-bd0e-dbfdeb95a464
+status: stable
+level: medium
+description: |
+  'This query identifies whether an Active Directory user object was assigned a service principal name which could indicate that an adversary is preparing for performing Kerberoasting. 
+This query checks for event id 5136, that the Object Class field is "user" and the LDAP Display Name is "servicePrincipalName".
+Ref: https://thevivi.net/assets/docs/2019/theVIVI-AD-Security-Workshop_AfricaHackon2019.pdf'
+
+author: Vasileios Paschalidis
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    SecurityEvent
+| where EventID == 5136 
+| parse EventData with * 'AttributeLDAPDisplayName">' AttributeLDAPDisplayName "<" *
+| parse EventData with * 'ObjectClass">' ObjectClass "<" *
+| where AttributeLDAPDisplayName == "servicePrincipalName" and  ObjectClass == "user"
+| parse EventData with * 'ObjectDN">' ObjectDN "<" *
+| parse EventData with * 'AttributeValue">' AttributeValue "<" *
+| summarize StartTime = min(TimeGenerated), EndTime = max(TimeGenerated) by Computer, SubjectAccount, ObjectDN, AttributeValue, SubjectUserName, SubjectDomainName, SubjectUserSid
+| extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+| project-away DomainIndex
+
+  condition: _kql_query
+tags:
+  - attack.privilege_escalation
+  - attack.t1134

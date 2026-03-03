@@ -1,0 +1,19 @@
+title: Logon Failure Reasons
+id: 1b0abd21-c01e-4c49-9c24-897a0a5afdae
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Logon Failure Reasons
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceLogonEvents
+| where isnotempty(FailureReason)
+| summarize count() by FailureReason
+| render piechart with (title="Logon Failure Reasons")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,36 @@
+title: Short Lived Windows Accounts
+id: b25f6f62-0782-43c1-b403-083231ffd97d
+status: stable
+level: high
+description: |
+  The following analytic detects the rapid creation and deletion of Windows accounts within a short time frame of 1 hour. It leverages the "Change" data model in Splunk, specifically monitoring events with result IDs 4720 (account creation) and 4726 (account deletion). This behavior is significant as it may indicate an attacker attempting to create and remove accounts quickly to evade detection or gain unauthorized access. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, or further malicious actions within the environment. Immediate investigation of flagged events is crucial to mitigate potential damage.
+author: David Dorsey, Bhavin Patel, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: access
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change
+  WHERE All_Changes.result_id=4720
+    OR
+    All_Changes.result_id=4726
+  BY _time span=1h All_Changes.user
+     All_Changes.dest All_Changes.Account_Management.src All_Changes.Account_Management.src_user
+| `security_content_ctime(lastTime)`
+| `security_content_ctime(firstTime)`
+| `drop_dm_object_name("All_Changes")`
+| `drop_dm_object_name("Account_Management")`
+| transaction user connected=false maxspan=60m
+| eval create_result_id=mvindex(result_id, 0)
+| eval delete_result_id=mvindex(result_id, 1)
+| search create_result_id = 4720 delete_result_id=4726
+| table firstTime lastTime count user src src_user dest create_result_id delete_result_id
+| `short_lived_windows_accounts_filter`
+  condition: _splunk_search
+references:
+  - https://www.youtube.com/watch?v=D4Cd-KK4ctk
+  - https://attack.mitre.org/techniques/T1078/
+tags:
+  - attack.t1078.003
+  - attack.t1136.001

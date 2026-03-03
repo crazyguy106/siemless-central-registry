@@ -1,0 +1,33 @@
+title: Silk Typhoon Suspicious Exchange Request
+id: 23005e87-2d3a-482b-b03d-edbebd1ae151
+status: stable
+level: medium
+description: |
+  'This query looks for suspicious request patterns to Exchange servers that fit a pattern observed by Silk Typhoon actors.
+The same query can be run on HTTPProxy logs from on-premise hosted Exchange servers.
+Reference: https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let exchange_servers = (
+W3CIISLog
+| where TimeGenerated > ago(14d)
+| where sSiteName =~ "Exchange Back End"
+| summarize by Computer);
+W3CIISLog
+| where TimeGenerated > ago(1d)
+| where Computer in (exchange_servers)
+| where csUriQuery startswith "t="
+| project-reorder TimeGenerated, Computer, csUriStem, csUriQuery, csUserName, csUserAgent, cIP
+| extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+| extend AccountName = tostring(split(csUserName, "@")[0]), AccountUPNSuffix = tostring(split(csUserName, "@")[1])
+
+  condition: _kql_query
+tags:
+  - attack.initial_access
+  - attack.t1190

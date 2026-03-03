@@ -1,0 +1,25 @@
+title: RunningRAT request parameters
+id: baedfdf4-7cc8-45a1-81a9-065821628b83
+status: stable
+level: high
+description: |
+  'This detection will alert when RunningRAT URI parameters or paths are detect in an HTTP request.
+Id the device blocked this communication presence of this alert means the RunningRAT implant is likely still executing on the source host.'
+
+author: Thomas McElroy
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let runningRAT_parameters = dynamic(['/ui/chk', 'mactok=', 'UsRnMe=', 'IlocalP=', 'kMnD=']);
+CommonSecurityLog
+| where RequestMethod == "GET"
+| project TimeGenerated, DeviceVendor, DeviceProduct, DeviceAction, DestinationDnsDomain, DestinationIP, RequestURL, SourceIP, SourceHostName, RequestClientApplication
+| where RequestURL has_any (runningRAT_parameters)
+
+  condition: _kql_query
+tags:
+  - attack.exfiltration
+  - attack.t1041
+  - attack.t1071.001

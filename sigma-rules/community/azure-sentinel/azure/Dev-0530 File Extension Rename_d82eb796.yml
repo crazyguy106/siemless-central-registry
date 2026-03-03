@@ -1,0 +1,59 @@
+title: Dev-0530 File Extension Rename
+id: d82eb796-d1eb-43c8-a813-325ce3417cef
+status: stable
+level: high
+description: |
+  'Dev-0530 actors are known to encrypt the contents of the victims device as well as renaming the file extensions. This query looks for the creation of files with .h0lyenc extension or presence of ransom note.'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    union isfuzzy=true
+    (DeviceFileEvents
+    | where ActionType == "FileCreated"
+    | where FileName endswith ".h0lyenc" or FolderPath == "C:\\FOR_DECRYPT.html"
+    | summarize StartTime = min(TimeGenerated), EndTime = max(TimeGenerated)
+        by
+        AccountName = InitiatingProcessAccountName, AccountDomain = InitiatingProcessAccountDomain,
+        DeviceName,
+        Type,
+        InitiatingProcessId,
+        FileName,
+        FolderPath,
+        EventType = ActionType,
+        Commandline = InitiatingProcessCommandLine,
+        InitiatingProcessFileName,
+        InitiatingProcessSHA256,
+        FileHashCustomEntity = SHA256,
+        AlgorithmCustomEntity = "SHA256"
+    | extend HostName = tostring(split(DeviceName, ".")[0]), DomainIndex = toint(indexof(DeviceName, '.'))
+    | extend HostNameDomain = iff(DomainIndex != -1, substring(DeviceName, DomainIndex + 1), DeviceName)
+    ),
+    (imFileEvent
+    | where EventType == "FileCreated"
+    | where TargetFilePath endswith ".h0lyenc" or TargetFilePath == "C:\\FOR_DECRYPT.html"
+    | summarize StartTime = min(TimeGenerated), EndTime = max(TimeGenerated)
+        by
+        ActorUsername,
+        DvcHostname,
+        DvcDomain,
+        DvcId,
+        Type,
+        EventType,
+        FileHashCustomEntity = TargetFileSHA256,
+        Hash,
+        TargetFilePath,
+        Commandline = ActingProcessCommandLine,
+        AlgorithmCustomEntity = "SHA256"
+    | extend AccountName = tostring(split(ActorUsername, @'\')[1]), AccountDomain = tostring(split(ActorUsername, @'\')[0])
+    | extend HostName = DvcHostname, HostNameDomain = DvcDomain
+    | extend DeviceName = strcat(DvcHostname, ".", DvcDomain )
+    )
+
+  condition: _kql_query
+tags:
+  - attack.impact
+  - attack.t1486

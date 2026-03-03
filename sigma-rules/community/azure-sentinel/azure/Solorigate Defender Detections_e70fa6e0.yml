@@ -1,0 +1,30 @@
+title: Solorigate Defender Detections
+id: e70fa6e0-796a-4e85-9420-98b17b0bb749
+status: stable
+level: high
+description: |
+  'Surfaces any Defender Alert for Solorigate Events. In Microsoft Sentinel the SecurityAlerts table includes only the Device Name of the affected device, this query joins the DeviceInfo table to clearly connect other information such as
+ Device group, ip, logged on users etc. This way, the Microsoft Sentinel user can have all the pertinent device info in one view for all the the Solarigate Defender alerts.'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    DeviceInfo
+| extend DeviceName = tolower(DeviceName)
+| join (SecurityAlert
+| where ProviderName =~ "MDATP"
+| extend ThreatName = tostring(parse_json(ExtendedProperties).ThreatName)
+| where ThreatName has "Solorigate"
+) on $left.DeviceName == $right.CompromisedEntity
+| project TimeGenerated, DisplayName, ThreatName, CompromisedEntity, PublicIP, MachineGroup, AlertSeverity, Description, LoggedOnUsers, DeviceId, TenantId
+| extend HostName = tostring(split(CompromisedEntity, ".")[0]), DomainIndex = toint(indexof(CompromisedEntity, '.'))
+| extend HostNameDomain = iff(DomainIndex != -1, substring(CompromisedEntity, DomainIndex + 1), CompromisedEntity)
+| project-away DomainIndex
+
+  condition: _kql_query
+tags:
+  - attack.initial_access
+  - attack.t1195

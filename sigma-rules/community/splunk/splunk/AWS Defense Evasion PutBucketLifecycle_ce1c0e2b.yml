@@ -1,0 +1,31 @@
+title: AWS Defense Evasion PutBucketLifecycle
+id: ce1c0e2b-9303-4903-818b-0d9002fc6ea4
+status: stable
+level: low
+description: |
+  The following analytic detects `PutBucketLifecycle` events in AWS CloudTrail logs where a user sets a lifecycle rule for an S3 bucket with an expiration period of fewer than three days. This detection leverages CloudTrail logs to identify suspicious lifecycle configurations. This activity is significant because attackers may use it to delete CloudTrail logs quickly, thereby evading detection and impairing forensic investigations. If confirmed malicious, this could allow attackers to cover their tracks, making it difficult to trace their actions and respond to the breach effectively.
+author: Bhavin Patel
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: threat
+detection:
+  _splunk_search: |
+    `cloudtrail` eventName=PutBucketLifecycle user_type=IAMUser errorCode=success
+  | spath path=requestParameters{}.LifecycleConfiguration{}.Rule{}.Expiration{}.Days output=expiration_days
+  | spath path=requestParameters{}.bucketName output=bucket_name
+  | rename user_name as user
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    BY signature dest user
+       user_agent src vendor_account
+       vendor_region vendor_product bucket_name
+       expiration_days
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `aws_defense_evasion_putbucketlifecycle_filter`
+  condition: _splunk_search
+references:
+  - https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-lifecycle-rule/
+tags:
+  - attack.t1485.001
+  - attack.t1562.008

@@ -1,0 +1,39 @@
+title: Detect Remote Access Software Usage DNS
+id: a16b797d-e309-41bd-8ba0-5067dae2e4be
+status: stable
+level: medium
+description: |
+  The following analytic detects DNS queries to domains associated with known remote access software such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This detection is crucial as adversaries often use these tools to maintain access and control over compromised environments. Identifying such behavior is vital for a Security Operations Center (SOC) because unauthorized remote access can lead to data breaches, ransomware attacks, and other severe impacts if these threats are not mitigated promptly.
+author: Steven Dick
+date: 2026-01-19
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly`
+  count min(_time) as firstTime
+        max(_time) as lastTime
+from datamodel=Network_Resolution where
+DNS.query=*
+NOT DNS.query IN ("-", "unknown")
+by DNS.answer DNS.answer_count DNS.query
+   DNS.query_count DNS.reply_code_id DNS.src
+   DNS.vendor_product
+| `drop_dm_object_name("DNS")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| lookup remote_access_software remote_domain AS query OUTPUT isutility, description as signature,
+comment_reference as desc, category
+| eval dest = query
+| search isutility = True
+| `remote_access_software_usage_exceptions`
+| `detect_remote_access_software_usage_dns_filter`
+
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+tags:
+  - attack.t1219

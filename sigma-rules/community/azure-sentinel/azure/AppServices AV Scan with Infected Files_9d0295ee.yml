@@ -1,0 +1,22 @@
+title: AppServices AV Scan with Infected Files
+id: 9d0295ee-cb75-4f2c-9952-e5acfbb67036
+status: stable
+level: informational
+description: |
+  'Identifies if an AV scan finds infected files in Azure App Services.'
+
+author: SecurityJedi
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let timeframe = ago(1d);
+AppServiceAntivirusScanAuditLogs
+| where NumberOfInfectedFiles > 0
+| extend timestamp = TimeGenerated
+
+  condition: _kql_query
+tags:
+
+

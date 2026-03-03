@@ -1,0 +1,22 @@
+title: AppServices AV Scan Failure
+id: c2da1106-bfe4-4a63-bf14-5ab73130ccd5
+status: stable
+level: informational
+description: |
+  'Identifies if an AV scan fails in Azure App Services.'
+
+author: SecurityJedi
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let timeframe = ago(1d);
+AppServiceAntivirusScanAuditLogs
+| where ScanStatus == "Failed"
+| extend timestamp = TimeGenerated
+
+  condition: _kql_query
+tags:
+
+

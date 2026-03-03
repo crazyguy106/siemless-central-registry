@@ -1,0 +1,26 @@
+title: Risk Rule for Dev Sec Ops by Repository
+id: 161bc0ca-4651-4c13-9c27-27770660cf67
+status: stable
+level: medium
+description: |
+  The following analytic identifies high-risk activities within repositories by correlating repository data with risk scores. It leverages findings and intermediate findings created by detections from the Dev Sec Ops analytic stories, summing risk scores and capturing source and user information. The detection focuses on high-risk scores above 100 and sources with more than three occurrences. This activity is significant as it highlights repositories frequently targeted by threats, providing insights into potential vulnerabilities. If confirmed malicious, attackers could exploit these repositories, leading to data breaches or infrastructure compromise.
+author: Bhavin Patel
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: threat
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as sum_risk_score, values(All_Risk.annotations.mitre_attack.mitre_tactic) as annotations.mitre_attack.mitre_tactic, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count values(source) as source, dc(source) as source_count FROM datamodel=Risk.All_Risk
+  WHERE All_Risk.analyticstories="Dev Sec Ops" All_Risk.risk_object_type = "other"
+  BY All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic
+| `drop_dm_object_name(All_Risk)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| where source_count > 3 and sum_risk_score > 100
+| `risk_rule_for_dev_sec_ops_by_repository_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1204.003

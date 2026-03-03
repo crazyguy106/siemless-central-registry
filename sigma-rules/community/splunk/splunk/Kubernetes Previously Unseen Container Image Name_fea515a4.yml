@@ -1,0 +1,28 @@
+title: Kubernetes Previously Unseen Container Image Name
+id: fea515a4-b1d8-4cd6-80d6-e0d71397b891
+status: experimental
+level: medium
+description: |
+  The following analytic identifies the creation of containerized workloads using previously unseen images in a Kubernetes cluster. It leverages process metrics from an OTEL collector and Kubernetes cluster receiver, pulled from Splunk Observability Cloud. The detection compares container image names seen in the last hour with those from the previous 30 days. This activity is significant as unfamiliar container images may introduce vulnerabilities, malware, or misconfigurations, posing threats to the cluster's integrity. If confirmed malicious, compromised images can lead to data breaches, service disruptions, unauthorized access, and potential lateral movement within the cluster.
+author: Matthew Moore, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    | mstats  count(k8s.container.ready) as k8s.container.ready_count where `kubernetes_metrics` AND earliest=-24h by host.name k8s.cluster.name k8s.node.name container.image.name
+| eval current="True"
+| append [mstats  count(k8s.container.ready) as k8s.container.ready_count where `kubernetes_metrics` AND earliest=-30d latest=-1h  by host.name k8s.cluster.name k8s.node.name container.image.name
+| eval current="false" ]
+| stats values(current) as current
+  BY host.name k8s.cluster.name k8s.node.name
+     container.image.name
+| search current="true" AND current!="false"
+| rename host.name as host
+| `kubernetes_previously_unseen_container_image_name_filter`
+  condition: _splunk_search
+references:
+  - https://github.com/signalfx/splunk-otel-collector-chart
+tags:
+  - attack.t1204

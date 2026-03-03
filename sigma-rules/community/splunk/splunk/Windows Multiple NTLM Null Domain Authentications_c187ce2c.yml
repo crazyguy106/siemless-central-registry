@@ -1,0 +1,23 @@
+title: Windows Multiple NTLM Null Domain Authentications
+id: c187ce2c-c88e-4cec-8a1c-607ca0dedd78
+status: stable
+level: high
+description: |
+  The following analytic detects when a device is the target of numerous NTLM authentications using a null domain. This activity generally results when an attacker attempts to brute force, password spray, or otherwise authenticate to a domain joined Windows device from a non-domain device. This activity may also generate a large number of EventID 4776 events in tandem, however these events will not indicate the attacker or target device
+author: Steven Dick
+date: 2026-01-14
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `ntlm_audit` EventCode IN (8004,8005,8006) DomainName=NULL UserName!=NULL | eval src = replace(WorkstationName,"\\\\","")  ```CIM alignment, remove leading \\ from some auth attempts ``` | eval dest = SChannelName, user = UserName ``` CIM alignment``` | where SChannelName!=src ``` Remove NTLM auths to self, improves accuracy for certain applications``` | stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user))) as unique_count dc(eval(upper(src))) as src_count by dest | eventstats avg(unique_count) as unique_avg , stdev(unique_count) as unique_std | eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula for sensitivity``` | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0) | where isOutlier==1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_multiple_ntlm_null_domain_authentications_filter`
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
+  - https://techcommunity.microsoft.com/t5/microsoft-defender-for-identity/enriched-ntlm-authentication-data-using-windows-event-8004/m-p/871827
+  - https://www.varonis.com/blog/investigate-ntlm-brute-force
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrpc/4d1235e3-2c96-4e9f-a147-3cb338a0d09f
+tags:
+  - attack.t1110.003

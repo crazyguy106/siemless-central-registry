@@ -1,0 +1,37 @@
+title: Cisco - firewall block but success logon to Microsoft Entra ID
+id: 157c0cfc-d76d-463b-8755-c781608cdc1a
+status: stable
+level: medium
+description: |
+  'Correlate IPs blocked by a Cisco firewall appliance with successful Microsoft Entra ID signins.
+Because the IP was blocked by the firewall, that same IP logging on successfully to Entra ID is potentially suspect and could indicate credential compromise for the user account.'
+
+author: Microsoft Security Resarch
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let aadFunc = (tableName:string){
+CommonSecurityLog
+| where DeviceVendor =~ "Cisco"
+| where DeviceAction =~ "denied"
+| where ipv4_is_private(SourceIP) == false
+| summarize count() by SourceIP
+| join (
+    // Successful signins from IPs blocked by the firewall solution are suspect
+    // Include fully successful sign-ins, but also ones that failed only at MFA stage
+    // as that supposes the password was sucessfully guessed.
+  table(tableName)
+  | where ResultType in ("0", "50074", "50076")
+) on $left.SourceIP == $right.IPAddress
+| extend AccountName = tostring(split(Account, "@")[0]), AccountUPNSuffix = tostring(split(Account, "@")[1])
+};
+let aadSignin = aadFunc("SigninLogs");
+let aadNonInt = aadFunc("AADNonInteractiveUserSignInLogs");
+union isfuzzy=true aadSignin, aadNonInt
+
+  condition: _kql_query
+tags:
+  - attack.initial_access
+  - attack.t1078

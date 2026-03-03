@@ -1,0 +1,34 @@
+title: GetDomainComputer with PowerShell
+id: ed550c19-712e-43f6-bd19-6f58f61b3a5e
+status: stable
+level: high
+description: |
+  The following analytic detects the execution of `powershell.exe` with command-line arguments that utilize `Get-DomainComputer` to discover remote systems. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as `Get-DomainComputer` is part of PowerView, a tool often used by adversaries for domain enumeration and situational awareness. If confirmed malicious, this activity could allow attackers to map out the network, identify critical systems, and plan further attacks, potentially leading to unauthorized access and data exfiltration.
+author: Mauricio Velazco, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE (
+        Processes.process_name="powershell.exe"
+    )
+    (Processes.process=*Get-DomainComputer*)
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `getdomaincomputer_with_powershell_filter`
+  condition: _splunk_search
+references:
+  - https://attack.mitre.org/techniques/T1018/
+tags:
+  - attack.t1018

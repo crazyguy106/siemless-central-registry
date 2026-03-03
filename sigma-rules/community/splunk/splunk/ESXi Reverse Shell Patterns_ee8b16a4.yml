@@ -1,0 +1,19 @@
+title: ESXi Reverse Shell Patterns
+id: ee8b16a4-118e-4dd7-af4b-835530415610
+status: stable
+level: high
+description: |
+  This detection looks for reverse shell string patterns on an ESXi host, which may indicate that a threat actor is attempting to establish remote control over the system.
+author: Raven Tait, Splunk
+date: 2025-05-12
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `esxi_syslog` Message IN ("*bash -i >&*","*/dev/tcp/*","*/dev/udp/*", "*/socat exec:*","*socket(S,PF_INET*") OR (Message="*python -c*" AND Message="*import socket*") | rex field=_raw "Z (?<dest>[\w\.]+)\s" | stats min(_time) as firstTime max(_time) as lastTime count by dest Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `esxi_reverse_shell_patterns_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1059

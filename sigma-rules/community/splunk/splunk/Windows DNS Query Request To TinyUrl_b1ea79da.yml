@@ -1,0 +1,39 @@
+title: Windows DNS Query Request To TinyUrl
+id: b1ea79da-719c-437c-acaf-5c93f838f425
+status: stable
+level: medium
+description: |
+  The following analytic detects a process located in a potentially suspicious location making DNS queries to known URL shortening services, specifically tinyurl.
+URL shorteners are frequently used by threat actors to obfuscate malicious destinations, including phishing pages, malware distribution sites, or command-and-control (C2) endpoints.
+While tinyurl.com is a legitimate service, its use in enterprise environments—particularly by non-browser processes or scripts—should be considered suspicious, especially if correlated with subsequent outbound connections, file downloads, process file path or credential prompts. Analysts should investigate the source process, execution context, and destination domain to determine intent and risk.
+
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `sysmon`
+EventCode=22
+QueryName = "tinyurl.com"
+Image IN (
+  "*\\AppData\\*",
+  "*\\Perflogs\\*",
+  "*\\ProgramData\\*",
+  "*\\Temp\\*",
+  "*\\Users\\Public\\*",
+  "*\\Windows\\Tasks\\*"
+  )
+| stats count min(_time) as firstTime max(_time) as lastTime
+  by answer answer_count dvc process_exec process_guid process_name query query_count
+     reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `windows_dns_query_request_to_tinyurl_filter`
+
+  condition: _splunk_search
+references:
+  - https://x.com/Unit42_Intel/status/1919418143476199869
+tags:
+  - attack.t1105

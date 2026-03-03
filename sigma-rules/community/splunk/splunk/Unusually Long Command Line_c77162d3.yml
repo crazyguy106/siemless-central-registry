@@ -1,0 +1,38 @@
+title: Unusually Long Command Line
+id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
+status: experimental
+level: medium
+description: |
+  The following analytic detects unusually long command lines, which may indicate malicious activity. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on the length of command lines executed on hosts. This behavior is significant because attackers often use obfuscated or complex command lines to evade detection and execute malicious payloads. If confirmed malicious, this activity could lead to data theft, ransomware deployment, or further system compromise. Analysts should investigate the source and content of the command line, inspect relevant artifacts, and review concurrent processes to identify potential threats.
+author: David Dorsey, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name("Processes")`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| eval processlen=len(process)
+| eventstats stdev(processlen) as stdev, avg(processlen) as avg
+  BY dest
+| stats max(processlen) as maxlen, values(stdev) as stdevperhost, values(avg) as avgperhost
+  BY dest, user, process_name,
+     process
+| eval threshold = 3
+| where maxlen > ((threshold*stdevperhost) + avgperhost)
+| `unusually_long_command_line_filter`
+  condition: _splunk_search
+references:
+
+tags:
+

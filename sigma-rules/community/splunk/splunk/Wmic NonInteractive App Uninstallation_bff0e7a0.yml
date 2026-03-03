@@ -1,0 +1,31 @@
+title: Wmic NonInteractive App Uninstallation
+id: bff0e7a0-317f-11ec-ab4e-acde48001122
+status: stable
+level: low
+description: |
+  The following analytic identifies the use of the WMIC command-line tool attempting to uninstall applications non-interactively. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns associated with WMIC. This activity is significant because it is uncommon and may indicate an attempt to evade detection by uninstalling security software, as seen in IcedID malware campaigns. If confirmed malicious, this behavior could allow an attacker to disable security defenses, facilitating further compromise and persistence within the environment.
+author: Teoderick Contreras, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE Processes.process_name=wmic.exe Processes.process="* product *" Processes.process="*where name*" Processes.process="*call uninstall*" Processes.process="*/nointeractive*"
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `wmic_noninteractive_app_uninstallation_filter`
+  condition: _splunk_search
+references:
+  - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+tags:
+  - attack.t1562.001

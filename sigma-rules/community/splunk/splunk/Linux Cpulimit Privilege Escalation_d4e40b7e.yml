@@ -1,0 +1,38 @@
+title: Linux Cpulimit Privilege Escalation
+id: d4e40b7e-aad3-4a7d-aac8-550ea5222be5
+status: stable
+level: medium
+description: |
+  The following analytic detects the use of the 'cpulimit' command with specific flags ('-l', '-f') executed with 'sudo' privileges. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process command-line arguments and execution details. This activity is significant because if 'cpulimit' is granted sudo rights, a user can potentially execute system commands as root, leading to privilege escalation. If confirmed malicious, this could allow an attacker to gain root access, execute arbitrary commands, and fully compromise the affected system.
+author: Gowthamaraj Rajendran, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE Processes.process="*cpulimit*"
+    AND
+    Processes.process="*-l*"
+    AND
+    Processes.process="*-f*"
+    AND
+    Processes.process="*sudo*"
+  BY Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `linux_cpulimit_privilege_escalation_filter`
+  condition: _splunk_search
+references:
+  - https://gtfobins.github.io/gtfobins/cpulimit/
+  - http://cpulimit.sourceforge.net/
+tags:
+  - attack.t1548.003

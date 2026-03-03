@@ -1,0 +1,29 @@
+title: Windows AD Abnormal Object Access Activity
+id: 71b289db-5f2c-4c43-8256-8bf26ae7324a
+status: stable
+level: medium
+description: |
+  The following analytic identifies a statistically significant increase in access to Active Directory objects, which may indicate attacker enumeration. It leverages Windows Security Event Code 4662 to monitor and analyze access patterns, comparing them against historical averages to detect anomalies. This activity is significant for a SOC because abnormal access to AD objects can be an early indicator of reconnaissance efforts by an attacker. If confirmed malicious, this behavior could lead to unauthorized access, privilege escalation, or further compromise of the Active Directory environment.
+author: Steven Dick
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `wineventlog_security` EventCode=4662
+  | stats min(_time) AS firstTime, max(_time) AS lastTime, dc(ObjectName) AS ObjectName_count, values(ObjectType) AS ObjectType, latest(Computer) AS dest count
+    BY SubjectUserName
+  | eventstats avg(ObjectName_count) AS average stdev(ObjectName_count) AS standarddev
+  | eval limit = round((average+(standarddev*3)),0), user = SubjectUserName
+  | where ObjectName_count > limit
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_ad_abnormal_object_access_activity_filter`
+  condition: _splunk_search
+references:
+  - https://medium.com/securonix-tech-blog/detecting-ldap-enumeration-and-bloodhound-s-sharphound-collector-using-active-directory-decoys-dfc840f2f644
+  - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4662
+  - https://attack.mitre.org/tactics/TA0007/
+tags:
+  - attack.t1087.002

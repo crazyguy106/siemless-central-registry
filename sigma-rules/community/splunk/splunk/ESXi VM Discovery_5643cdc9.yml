@@ -1,0 +1,19 @@
+title: ESXi VM Discovery
+id: 5643cdc9-a0be-4123-860b-f13da0bf4fcb
+status: stable
+level: high
+description: |
+  This detection identifies the use of ESXCLI commands to discover virtual machines on an ESXi host While used by administrators, this activity may also indicate adversary reconnaissance aimed at identifying high value targets, mapping the virtual environment, or preparing for data theft or destructive operations.
+author: Raven Tait, Splunk
+date: 2025-08-06
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `esxi_syslog` Message="*esxcli vm process*" Message="*list*" | rex field=_raw "\]: \[(?<user>\w+)\]:(?<command>.+)" | rex field=_raw "Z (?<dest>[\w\.]+)\s" | stats min(_time) as firstTime max(_time) as lastTime count by dest user command | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `esxi_vm_discovery_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1673

@@ -1,0 +1,36 @@
+title: fallout_rig_ek_delivers_raccoon_stealer
+id: 518cb7e0-8b63-4642-a0dd-c83ce2449546
+status: experimental
+level: medium
+description: |
+  Raccoon Stealer  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Emir Erdogan
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule fallout_rig_ek_delivers_raccoon_stealer {
+ meta:
+    author = "Emir Erdogan"
+    description = "Raccoon Stealer  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/9lYIAZKxCWzK"
+    version = "0.01"
+    created = "2019/11/24"
+    product = "windows"
+    service = "sysmon"
+    mitre = "T1140, T1059, T1005, T1022, T1105, T1057"
+
+  events:
+(((re.regex($selection1.target.process.file.full_path, `.*\\cvtres\.exe`) and re.regex($selection1.principal.process.file.full_path, `.*\\csc\.exe`)) or ($selection1.metadata.product_event_type = "1" and (re.regex($selection1.target.process.file.full_path, `.*\\csc\.exe`) or re.regex($selection1.target.process.file.full_path, `.*\\AyJWa1N0\.tmp`)) and re.regex($selection1.principal.process.file.full_path, `.*\\powershell\.exe`))) or (re.regex($selection1.target.process.file.full_path, `.*\\cmd\.exe`) and re.regex($selection1.principal.process.file.full_path, `.*\\AyJWa1N0\.tmp`)))
+
+  condition:
+    $selection1
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/9lYIAZKxCWzK
+tags:
+
+

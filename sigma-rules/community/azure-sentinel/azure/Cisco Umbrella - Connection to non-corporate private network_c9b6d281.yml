@@ -1,0 +1,25 @@
+title: Cisco Umbrella - Connection to non-corporate private network
+id: c9b6d281-b96b-4763-b728-9a04b9fe1246
+status: stable
+level: medium
+description: |
+  'IP addresses of broadband links that usually indicates users attempting to access their home network, for example for a remote session to a home computer.'
+
+author: Microsoft
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    let lbtime = 10m;
+Cisco_Umbrella
+| where TimeGenerated > ago(lbtime)
+| where EventType == 'proxylogs'
+| where DvcAction =~ 'Allowed'
+| where UrlCategory has_any ('Dynamic and Residential', 'Personal VPN')
+| project TimeGenerated, SrcIpAddr, Identities
+
+  condition: _kql_query
+tags:
+  - attack.exfiltration
+

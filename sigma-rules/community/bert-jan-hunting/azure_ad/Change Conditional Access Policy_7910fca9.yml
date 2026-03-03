@@ -1,0 +1,19 @@
+title: Change Conditional Access Policy
+id: a4ed2ef7-de12-432e-b771-8e4f4e95a177
+status: experimental
+level: medium
+description: |
+  This KQL query lists all conditional access policies that have been changed. The modification of authentication processes can be used to create persistence on an cloud account.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    AuditLogs
+| where OperationName == "Update conditional access policy"
+| extend DeletedPolicy = TargetResources.[0].displayName, Actor = InitiatedBy.user.userPrincipalName
+| project TimeGenerated, Actor, DeletedPolicy, TargetResources
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

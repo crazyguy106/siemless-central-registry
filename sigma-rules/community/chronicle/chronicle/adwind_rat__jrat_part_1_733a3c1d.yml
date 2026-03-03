@@ -1,0 +1,36 @@
+title: adwind_rat__jrat_part_1
+id: 641478fe-5c79-44eb-b571-b868106c1bee
+status: experimental
+level: medium
+description: |
+  Detects javaw.exe in AppData folder as used by Adwind / JRAT  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Florian Roth, Tom Ueltschi
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule adwind_rat__jrat_part_1 {
+ meta:
+    author = "Florian Roth, Tom Ueltschi"
+    description = "Detects javaw.exe in AppData folder as used by Adwind / JRAT  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/4VPNvKK4SGiZ"
+    version = "0.01"
+    created = "2017/11/10"
+    product = "windows"
+    service = "sysmon"
+    mitre = "execution, t1064"
+
+  events:
+($selection.metadata.product_event_type = "11" and (re.regex($selection.target.file.full_path, `.*\\AppData\\Roaming\\Oracle\\bin\\java.*\.exe`) or re.regex($selection.target.file.full_path, `.*\\Retrive.*\.vbs`)))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/4VPNvKK4SGiZ
+tags:
+
+

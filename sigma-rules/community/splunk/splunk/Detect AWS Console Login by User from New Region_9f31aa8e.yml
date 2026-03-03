@@ -1,0 +1,38 @@
+title: Detect AWS Console Login by User from New Region
+id: 9f31aa8e-e37c-46bc-bce1-8b3be646d026
+status: stable
+level: low
+description: |
+  The following analytic identifies AWS console login attempts by users from a new region. It leverages AWS CloudTrail events and compares current login regions against a baseline of previously seen regions for each user. This activity is significant as it may indicate unauthorized access attempts or compromised credentials. If confirmed malicious, an attacker could gain unauthorized access to AWS resources, potentially leading to data breaches, resource manipulation, or further lateral movement within the cloud environment.
+author: Bhavin Patel, Eric McGinnis Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: threat
+detection:
+  _splunk_search: |
+    | tstats earliest(_time) as firstTime latest(_time) as lastTime FROM datamodel=Authentication
+  WHERE Authentication.signature=ConsoleLogin
+  BY Authentication.user Authentication.src
+| iplocation Authentication.src
+| `drop_dm_object_name(Authentication)`
+| rename Region as justSeenRegion
+| table firstTime lastTime user justSeenRegion
+| join user type=outer [
+| inputlookup previously_seen_users_console_logins
+| rename Region as previouslySeenRegion
+| stats min(firstTime) AS earliestseen
+  BY user previouslySeenRegion
+| fields earliestseen user previouslySeenRegion]
+| eval userRegion=if(firstTime >= relative_time(now(), "-24h@h"), "New Region","Previously Seen Region")
+| where userRegion= "New Region"
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| table firstTime lastTime user previouslySeenRegion justSeenRegion userRegion
+| `detect_aws_console_login_by_user_from_new_region_filter`
+  condition: _splunk_search
+references:
+
+tags:
+  - attack.t1535
+  - attack.t1586.003

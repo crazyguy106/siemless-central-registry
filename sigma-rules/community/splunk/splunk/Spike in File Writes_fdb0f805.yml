@@ -1,0 +1,28 @@
+title: Spike in File Writes
+id: fdb0f805-74e4-4539-8c00-618927333aae
+status: experimental
+level: medium
+description: |
+  The following analytic detects a sharp increase in the number of files written to a specific host. It leverages the Endpoint.Filesystem data model, focusing on 'created' actions and comparing current file write counts against historical averages and standard deviations. This activity is significant as a sudden spike in file writes can indicate malicious activities such as ransomware encryption or data exfiltration. If confirmed malicious, this behavior could lead to significant data loss, system compromise, or further propagation of malware within the network.
+author: David Dorsey, Splunk
+date: 2026-02-25
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
+  WHERE Filesystem.action=created
+  BY _time span=1h, Filesystem.dest
+| `drop_dm_object_name(Filesystem)`
+| eventstats max(_time) as maxtime
+| stats count as num_data_samples max(eval(if(_time >= relative_time(maxtime, "-1d@d"), count, null))) as "count" avg(eval(if(_time<relative_time(maxtime, "-1d@d"), count,null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-1d@d"), count, null))) as stdev
+  BY "dest"
+| eval upperBound=(avg+stdev*4), isOutlier=if((count > upperBound) AND num_data_samples >=20, 1, 0)
+| search isOutlier=1
+| `spike_in_file_writes_filter`
+  condition: _splunk_search
+references:
+
+tags:
+

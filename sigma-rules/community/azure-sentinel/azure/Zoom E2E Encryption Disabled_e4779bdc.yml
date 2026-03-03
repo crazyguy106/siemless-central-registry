@@ -1,0 +1,25 @@
+title: Zoom E2E Encryption Disabled
+id: e4779bdc-397a-4b71-be28-59e6a1e1d16b
+status: stable
+level: medium
+description: |
+  'This alerts when end to end encryption is disabled for Zoom meetings.'
+
+author: Microsoft Security Research
+logsource:
+  product: azure
+  service: sentinel
+detection:
+  _kql_query: |
+    ZoomLogs
+| where Event =~ "account.settings_updated"
+| extend NewE2ESetting = columnifexists("payload_object_settings_in_meeting_e2e_encryption_b", "")
+| extend OldE2ESetting = columnifexists("payload_old_object_settings_in_meeting_e2e_encryption_b", "")
+| where OldE2ESetting =~ 'false' and NewE2ESetting =~ 'true'
+| extend AccountName = tostring(split(User, "@")[0]), AccountUPNSuffix = tostring(split(User, "@")[1])
+
+  condition: _kql_query
+tags:
+  - attack.credential_access
+  - attack.discovery
+  - attack.t1040
