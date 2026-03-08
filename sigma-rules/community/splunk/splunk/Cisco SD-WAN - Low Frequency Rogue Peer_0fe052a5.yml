@@ -1,0 +1,62 @@
+title: Cisco SD-WAN - Low Frequency Rogue Peer
+id: 0fe052a5-07b8-48e7-9fc8-d6a3957eb914
+status: stable
+level: medium
+description: |
+  This analytic identifies low-frequency Cisco SD-WAN control peering activity from control-connection-state-change events where "new-state:up".
+
+It extracts "peer-type" and "peer-system-ip", groups events by these two fields, and counts how often each combination appears within the selected time window.
+
+Combinations whose count is less than or equal to the defined threshold (currently <=3 occurrences in the search window) are flagged as rare.
+
+Analysts should prioritize peer identities that are rarely observed in the environment, particularly those involving unexpected peer-type roles or unfamiliar peer-system-ip values.
+Rare control-plane peers may indicate misconfiguration, unauthorized SD-WAN components, infrastructure drift, or potentially malicious control-plane connection attempts.
+
+Findings might indicate the potential exploitation of CVE-2026-20127.
+
+Note that the threshold setting is set to "3", but its highly recommended that this should be adapted to the environment before deploying this search.
+
+author: Nasreddine Bencherchali, Splunk
+date: 2026-03-02
+logsource:
+  product: splunk
+  category: network
+detection:
+  _splunk_search: |
+    `cisco_sd_wan_syslog`
+TERM("*control-connection-state-change*")
+TERM("*new-state:up*")
+TERM("*peer-system-ip:*")
+TERM("*public-ip:*")
+| rex field=_raw "^(?<event_timestamp>(?:[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}(?:\.\d{3})?|[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.\d{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})))\s*:?"
+| rex field=_raw "^(?:[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}(?:\.\d{3})?\s*:?\s+)(?<prefix_host>[^\s:]+)\s+\S+(?:\[\d+\])?:\s+%"
+| eval dest=coalesce(prefix_host, legacy_host, device_name, host)
+| rex field=_raw "new-state:(?<new_state>\S+)"
+| rex field=_raw "peer-type:(?<peer_type>\S+)"
+| rex field=_raw "peer-system-ip:(?<peer_system_ip>\S+)"
+| rex field=_raw "public-ip:(?<public_ip>\S+)"
+| rex field=_raw "public-port:(?<public_port>\d+)"
+
+| where isnotnull(peer_type) AND isnotnull(peer_system_ip)
+
+| stats count
+        values(dest) as dest
+        values(public_ip) as public_ips
+        values(public_port) as public_ports
+  by peer_type peer_system_ip
+| where count <= 3
+| sort 0 count asc
+| table dest peer_type peer_system_ip public_ips
+        public_ports count
+| `cisco_sd_wan___low_frequency_rogue_peer_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems
+  - https://blog.talosintelligence.com/uat-8616-sd-wan/
+  - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/Monitor-And-Maintain/monitor-maintain-book/m-alarms-events-logs.html
+  - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/system-interface/ios-xe-17/systems-interfaces-book-xe-sdwan/configure-logging.html
+  - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
+tags:
+  - attack.t1190

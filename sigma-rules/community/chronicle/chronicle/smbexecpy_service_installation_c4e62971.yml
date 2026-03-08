@@ -1,0 +1,35 @@
+title: smbexecpy_service_installation
+id: ddb82b37-55fa-450c-8170-23b454371641
+status: experimental
+level: medium
+description: |
+  Detects the use of smbexec.py tool by detecting a specific service installation  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Omer Faruk Celik
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule smbexecpy_service_installation {
+ meta:
+    author = "Omer Faruk Celik"
+    description = "Detects the use of smbexec.py tool by detecting a specific service installation  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/9pBTcmTTsThC"
+    version = "0.01"
+    created = "2018/03/20"
+    product = "windows"
+    mitre = "lateral_movement, execution, t1077, t1035"
+
+  events:
+($service_installation.metadata.product_event_type = "7045" and $service_installation.target.process.command_line = "BTOBTO" and re.regex($service_installation.target.process.command_line, `.*\\execute\.bat`))
+
+  condition:
+    $service_installation
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/9pBTcmTTsThC
+tags:
+
+

@@ -1,0 +1,35 @@
+title: lojack_doubleagent_communication
+id: 407f5857-6006-4c7a-a285-27c3d3283cf7
+status: experimental
+level: medium
+description: |
+  Lojack Double-Agent Communication Detection.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Alexandr Yampolskyi, SOC Prime
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule lojack_doubleagent_communication {
+ meta:
+    author = "Alexandr Yampolskyi, SOC Prime"
+    description = "Lojack Double-Agent Communication Detection.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/ryZLkAa7uswv"
+    version = "0.01"
+    created = "2008/04/01"
+    product = "proxy"
+    mitre = "Command and Control, t1071, t1043"
+
+  events:
+($selection.target.hostname = "sysanalyticweb.com" or $selection.target.hostname = "elaxo.org" or $selection.target.hostname = "ikmtrust.com" or $selection.target.hostname = "lxwo.org")
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/ryZLkAa7uswv
+tags:
+
+

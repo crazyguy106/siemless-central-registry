@@ -1,0 +1,36 @@
+title: suspicious_powershell_invocation_based_on_parent_process
+id: 2591021b-69d5-4386-b6f5-ec09ce89e58d
+status: experimental
+level: medium
+description: |
+  Detects suspicious powershell invocations from interpreters or unusual programs  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Florian Roth
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule suspicious_powershell_invocation_based_on_parent_process {
+ meta:
+    author = "Florian Roth"
+    description = "Detects suspicious powershell invocations from interpreters or unusual programs  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/8bKj8RKQidUa"
+    version = "0.01"
+    created = "2021-03-09"
+    category = "process_creation"
+    product = "windows"
+    mitre = "execution, t1086"
+
+  events:
+(((re.regex($selection.principal.process.file.full_path, `.*\\wscript\.exe`) or re.regex($selection.principal.process.file.full_path, `.*\\cscript\.exe`)) and re.regex($selection.target.process.file.full_path, `.*\\powershell\.exe`) and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1")) and not (re.regex($selection.principal.file.full_path, `.*\\Health Service State\\.*`)))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/8bKj8RKQidUa
+tags:
+
+

@@ -1,0 +1,50 @@
+title: suspicious_execute_remote_batch_script
+id: 56a512f3-14af-4f06-b4c7-ae1f660c44e6
+status: experimental
+level: medium
+description: |
+  One-liner execution of a Windows batch script from a network share
+author: Google Cloud Security
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    /*
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+rule suspicious_execute_remote_batch_script
+{
+  meta:
+    author = "Google Cloud Security"
+    description = "One-liner execution of a Windows batch script from a network share"
+    reference = "https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute.md"
+    yara_version = "YL2.0"
+    rule_version = "1.0"
+
+  events:
+    re.regex($e1.principal.process.command_line, `\bcmd(\.exe)?\s+.*/k.*<.*\\`) nocase
+
+  condition:
+    $e1
+}
+
+  condition: _yaral_rule
+references:
+  - https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute.md
+tags:
+
+

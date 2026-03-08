@@ -1,0 +1,23 @@
+title: End of Support software used
+id: 1aa592e9-7570-418b-b2a4-0a1c35d52792
+status: experimental
+level: medium
+description: |
+  End of Support software used 
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSoftwareInventory
+| where EndOfSupportStatus == "EOS Version" or EndOfSupportStatus == 
+"EOS Software"
+| summarize TotalDevices = count(), EOS_Devices = make_set(DeviceName) 
+by SoftwareName, SoftwareVersion
+| sort by TotalDevices
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

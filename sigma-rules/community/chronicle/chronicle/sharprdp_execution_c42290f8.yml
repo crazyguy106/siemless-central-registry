@@ -1,0 +1,36 @@
+title: sharprdp_execution
+id: 4960807c-556a-431b-84cf-80c4faa86170
+status: experimental
+level: medium
+description: |
+  Detects SharpRDP execution  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Den Iuzvyk
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule sharprdp_execution {
+ meta:
+    author = "Den Iuzvyk"
+    description = "Detects SharpRDP execution  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/SLPtUkJUtDYH"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "sysmon"
+    mitre = "t1076, lateral_movement"
+
+  events:
+($dllload.metadata.product_event_type = "7" and re.regex($dllload.target.process.file.full_path, `.*\\mstsc\.exe`) and re.regex($dllload.target.process.file.full_path, `.*\\mstscax\.dll`))
+
+  condition:
+    $dllload
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/SLPtUkJUtDYH
+tags:
+
+

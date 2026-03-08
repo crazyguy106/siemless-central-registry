@@ -1,0 +1,22 @@
+title: List Activities Compromised Device Can Perform as Source
+id: 00009fda-0252-4ea3-8aee-1b10e2fb3744
+status: experimental
+level: medium
+description: |
+  KQL detection rule: List Activities Compromised Device Can Perform as Source
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    // List activities device can do as source
+let DeviceName = "laptop.test.com";
+ExposureGraphEdges
+| where SourceNodeLabel == "device"
+| where SourceNodeName == DeviceName
+| summarize Total = dcount(TargetNodeName), Details = make_set(TargetNodeName) by EdgeLabel, SourceNodeName
+| project Source = SourceNodeName, Action = EdgeLabel, Details, Tota
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,21 @@
+title: Audit RBAC Changes Defender XDR
+id: 8c27eab7-dab9-4d06-908d-81160ba7f381
+status: experimental
+level: medium
+description: |
+  The query below can be used to monitor RBAC changes in Defender XDR. This query list additions, deletions and changes, if you only want to monitor specific actions you can enhance the query by filtering on the actiontype.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_xdr
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| extend Workload = tostring(parse_json(RawEventData).Workload)
+| where Workload contains "Defender"
+| where ActionType endswith "Role"
+| extend RoleName = tostring(parse_json(RawEventData).RoleName), RolePermissions = tostring(parse_json(RawEventData).RolePermissions), AssignedGroups = tostring(parse_json(RawEventData).AssignedGroups)
+| project-reorder Timestamp, ActionType, AccountObjectId, RoleName, RolePermissions, AssignedGroups
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

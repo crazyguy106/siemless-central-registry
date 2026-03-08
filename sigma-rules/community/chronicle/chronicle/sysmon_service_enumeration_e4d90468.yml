@@ -1,0 +1,36 @@
+title: sysmon_service_enumeration
+id: e8b6d223-1e12-4253-ad43-00edfb4ed4aa
+status: experimental
+level: medium
+description: |
+  Detects Sysmon Enumeration Activity  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Osman Demir
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule sysmon_service_enumeration {
+ meta:
+    author = "Osman Demir"
+    description = "Detects Sysmon Enumeration Activity  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/DnN9qhks24Tp"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "powershell"
+    mitre = "discovery, t1063"
+
+  events:
+(re.regex($selection.target.process.command_line, `ls HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels | Where-Object \\{$_\.name -like \".*sysmon.*\"\\}`) or $selection.target.process.command_line = "ls HKCU:\\Software\\Sysinternals  | Select-Object name" or $selection.target.process.command_line = "Get-CimInstance win32_service -Filter \"Description = 'System Monitor service'\"")
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/DnN9qhks24Tp
+tags:
+
+

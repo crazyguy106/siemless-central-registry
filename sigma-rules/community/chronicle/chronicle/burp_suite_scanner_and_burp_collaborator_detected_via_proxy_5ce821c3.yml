@@ -1,0 +1,35 @@
+title: burp_suite_scanner_and_burp_collaborator_detected_via_proxy
+id: bc66716d-2b85-4ea1-bae5-a0887100d3c5
+status: experimental
+level: medium
+description: |
+  Burp Suite Scanner Activirt Detected via Proxy  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Emir Erdogan
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule burp_suite_scanner_and_burp_collaborator_detected_via_proxy {
+ meta:
+    author = "Emir Erdogan"
+    description = "Burp Suite Scanner Activirt Detected via Proxy  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/QhIyqc5Qdl6m"
+    version = "0.01"
+    created = "2021-03-09"
+    category = "proxy"
+    mitre = "T1190, T1210"
+
+  events:
+re.regex($selection.target.url, `.*burpcollaborator.*`)
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/QhIyqc5Qdl6m
+tags:
+
+
