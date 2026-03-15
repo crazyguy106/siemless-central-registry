@@ -1,0 +1,36 @@
+title: detection_of_com_hijacking
+id: 93a425d0-8f1d-4979-8f86-fba761b21145
+status: experimental
+level: medium
+description: |
+  Hijacking a COM object requires a change in the Windows Registry to replace a reference to a legitimate system component which may cause that component to not work when executed.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Emir Erdogan
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule detection_of_com_hijacking {
+ meta:
+    author = "Emir Erdogan"
+    description = "Hijacking a COM object requires a change in the Windows Registry to replace a reference to a legitimate system component which may cause that component to not work when executed.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/7TGQasRZEcf5"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "sysmon"
+    mitre = "T1122"
+
+  events:
+($selection.principal.process.file.full_path = "C:\\Windows\\System32\\cmd.exe" and $selection.target.process.file.full_path = "C:\\Windows\\System32\\reg.exe" and (re.regex($selection.target.process.command_line, `reg add .*\\SOFTWARE\\Classes\\CLSID.*.*\.dll`) or re.regex($selection.target.process.command_line, `reg add .*\\SOFTWARE\\Classes\\CLSID.*.*\.exe`)))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/7TGQasRZEcf5
+tags:
+
+

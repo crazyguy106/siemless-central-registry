@@ -1,0 +1,19 @@
+title: TTP Detection Rule: PowerShell Launching Scripts From WindowsApps Directory (FIN7)
+id: d2c6c4e7-29d4-42a6-b5ba-ef37203b4779
+status: experimental
+level: medium
+description: |
+  Detection opportunity: Launching PowerShell scripts from **windowsapps** directory
+
+This pseudo-detector looks for the execution of PowerShell scripts from the windowsapps directory. There are instances where benign PowerShell scripts run from this directory, but analysts can sort out malicious or suspicious activity by investigating follow-on actions and network connections. However, in this case we see the adversary calling `StartingScriptWrapper.ps1` from the windowsapps directory to execute their malicious payload script.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceProcessEvents
+| where InitiatingProcessFolderPath contains "windowsapps" and FileName =~ "powershell.exe" and ProcessCommandLine has_all ("windowsapps","-file",".ps1")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

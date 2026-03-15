@@ -1,0 +1,28 @@
+title: List SmartScreen Events
+id: f44aacc6-1b88-45cf-b586-3fe0350d51de
+status: experimental
+level: medium
+description: |
+  This query lists all SmartScreen related events.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents
+| where Timestamp > ago(30d)
+| where ActionType startswith "SmartScreen"
+| extend SmartScreenTrigger = iff(ActionType == "SmartScreenUrlWarning", 
+RemoteUrl, FileName)
+| extend ReasonForTrigger = parse_json(AdditionalFields).Experience
+| project
+     Timestamp,
+     DeviceName,
+     ActionType,
+     SmartScreenTrigger,
+     ReasonForTrigger,
+     InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

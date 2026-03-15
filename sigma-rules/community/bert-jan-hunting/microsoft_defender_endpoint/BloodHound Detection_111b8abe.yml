@@ -1,0 +1,28 @@
+title: BloodHound Detection
+id: d6d9b9f9-1373-4eba-a2b0-5213d3675bf2
+status: experimental
+level: medium
+description: |
+  This query detects the use of bloodhound based on the processes it creates. This detection is based on Threat Report by RedCanary.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    // List with known bloodhound executions
+let BloodhoundCommands = dynamic(['-collectionMethod', 'invoke-bloodhound' ,'get-bloodHounddata']);
+DeviceProcessEvents
+| where ProcessCommandLine has_any (BloodhoundCommands)
+| project
+     Timestamp,
+     DeviceName,
+     AccountName,
+     AccountDomain,
+     ProcessCommandLine,
+     FileName,
+     InitiatingProcessCommandLine,
+     InitiatingProcessFileName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

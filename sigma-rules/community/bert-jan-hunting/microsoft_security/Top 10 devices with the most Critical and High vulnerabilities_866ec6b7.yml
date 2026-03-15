@@ -1,0 +1,19 @@
+title: Top 10 devices with the most Critical and High vulnerabilities
+id: 3c85f608-ec62-4993-a9bd-3d0e83d1e142
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Top 10 devices with the most Critical and High vulnerabilities
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSoftwareVulnerabilities
+| where VulnerabilitySeverityLevel has_any ('critical', 'High')
+| summarize count(), VulnerableCVE = make_set(CveId) by DeviceName
+| top 10 by count_
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,21 @@
+title: List recently found devices that can be onboarded
+id: f30e45ae-2076-4647-97b7-ed84bf50a2db
+status: experimental
+level: medium
+description: |
+  This query lists devices that can be onboarded to Defender For Endpoint and have recently been detected. You can determine what recently is by using the *RecentDetection* parameter.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let RecentDetection = 10d;
+DeviceInfo
+| where Timestamp > ago(RecentDetection)
+| summarize arg_max(Timestamp, *) by DeviceId
+| where OnboardingStatus == "Can be onboarded"
+| summarize TotalDevices = dcount(DeviceId), DeviceNames = make_set(DeviceName) by OSPlatform, DeviceType
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

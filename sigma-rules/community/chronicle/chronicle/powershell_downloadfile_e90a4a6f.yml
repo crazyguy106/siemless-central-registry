@@ -1,0 +1,36 @@
+title: powershell_downloadfile
+id: 828f28f7-afda-40f1-a92e-4442a959e62f
+status: experimental
+level: medium
+description: |
+  Detects the execution of powershell, a WebClient object creation and the invocation of DownloadFile in a single command line  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Florian Roth
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule powershell_downloadfile {
+ meta:
+    author = "Florian Roth"
+    description = "Detects the execution of powershell, a WebClient object creation and the invocation of DownloadFile in a single command line  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/hV0W6QPlXWli"
+    version = "0.01"
+    created = "2020/03/25"
+    category = "process_creation"
+    product = "windows"
+    mitre = "execution, t1086"
+
+  events:
+(re.regex($selection.target.process.command_line, `.*powershell.*`) and re.regex($selection.target.process.command_line, `.*\.DownloadFile.*`) and re.regex($selection.target.process.command_line, `.*System\.Net\.WebClient.*`) and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1"))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/hV0W6QPlXWli
+tags:
+
+

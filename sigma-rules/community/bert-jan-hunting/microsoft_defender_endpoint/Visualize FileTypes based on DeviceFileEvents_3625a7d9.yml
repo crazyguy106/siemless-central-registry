@@ -1,0 +1,22 @@
+title: Visualize FileTypes based on DeviceFileEvents
+id: 5749006b-d5f3-41b6-bea4-2f54ed32eee0
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Visualize FileTypes based on DeviceFileEvents
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let TimeFrame = 7d;
+DeviceFileEvents
+| where Timestamp > ago(TimeFrame)
+| extend FileType = tostring(parse_json(AdditionalFields).FileType)
+| where isnotempty(FileType)
+| summarize Total = count() by FileType
+| render piechart with(title="FileTypes used")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

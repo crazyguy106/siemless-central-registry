@@ -1,0 +1,20 @@
+title: Detection Enrichment - Entra User
+id: 51e984a5-c77c-4d70-9168-132c11d51438
+status: experimental
+level: medium
+description: |
+  Sentinel Data Lake job to put an aggregated table of entra users in LAW for filtering/enrichment in detections and automations.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    EntraUsers
+| where TimeGenerated > ago(3d)
+| summarize arg_max(TimeGenerated, * ) by id
+| project-away _*
+| project-rename ObjectId = id
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

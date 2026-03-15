@@ -1,0 +1,35 @@
+title: suspicious_reconnaissance_activity
+id: 266cd41f-4e12-4302-a4c4-5a7c6fdb2677
+status: experimental
+level: medium
+description: |
+  Detects suspicious command line activity on Windows systems  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Florian Roth
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule suspicious_reconnaissance_activity {
+ meta:
+    author = "Florian Roth"
+    description = "Detects suspicious command line activity on Windows systems  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/1H6XajuNzAYw"
+    version = "0.01"
+    created = "2021-03-09"
+    category = "process_creation"
+    product = "windows"
+
+  events:
+(($selection.target.process.command_line = "net group \"domain admins\" /domain" or $selection.target.process.command_line = "net localgroup administrators") and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1"))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/1H6XajuNzAYw
+tags:
+
+

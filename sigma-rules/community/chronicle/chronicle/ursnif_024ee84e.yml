@@ -1,0 +1,36 @@
+title: ursnif
+id: 6687c29e-d727-4f46-836b-b39759fe3605
+status: experimental
+level: medium
+description: |
+  Detects new registry key created by Ursnif malware.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: megan201296
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule ursnif {
+ meta:
+    author = "megan201296"
+    description = "Detects new registry key created by Ursnif malware.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/BjobB0UXw8vv"
+    version = "0.01"
+    created = "2019/02/13"
+    product = "windows"
+    service = "sysmon"
+    mitre = "execution, t1112"
+
+  events:
+($selection.metadata.product_event_type = "13" and re.regex($selection.target.registry.registry_key, `.*\\Software\\AppDataLow\\Software\\Microsoft\\.*`))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/BjobB0UXw8vv
+tags:
+
+
