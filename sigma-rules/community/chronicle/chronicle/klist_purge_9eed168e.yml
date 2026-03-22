@@ -1,0 +1,36 @@
+title: klist_purge
+id: 8adc275f-3f58-4551-ab24-0d3cc8114a83
+status: experimental
+level: medium
+description: |
+  Delete Evidence of Pass-the-Ticket attack  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Ruslan Mikhalov, SOC Prime Team
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule klist_purge {
+ meta:
+    author = "Ruslan Mikhalov, SOC Prime Team"
+    description = "Delete Evidence of Pass-the-Ticket attack  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/giY1lJKpXh6N"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "sysmon"
+    mitre = "Defense Evasion, t1070"
+
+  events:
+($sysmon_klistpurge.metadata.product_event_type = "1" and re.regex($sysmon_klistpurge.target.process.command_line, `klist.*purge`))
+
+  condition:
+    $sysmon_klistpurge
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/giY1lJKpXh6N
+tags:
+
+

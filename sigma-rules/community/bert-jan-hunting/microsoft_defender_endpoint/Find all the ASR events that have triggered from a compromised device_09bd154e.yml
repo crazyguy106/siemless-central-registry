@@ -1,0 +1,30 @@
+title: Find all the ASR events that have triggered from a compromised device
+id: 9020a6e3-8f0a-461d-8341-ba6cc1ef4306
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Find all the ASR events that have triggered from a compromised device
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedDevice = "laptop1";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+DeviceEvents
+| where Timestamp > ago(SearchWindow)
+| where DeviceName == CompromisedDevice
+| where ActionType startswith "ASR"
+| project
+     Timestamp,
+     ActionType,
+     FileName,
+     FolderPath,
+     ProcessCommandLine,
+     InitiatingProcessCommandLine,
+     AccountDomain,
+     AccountName
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

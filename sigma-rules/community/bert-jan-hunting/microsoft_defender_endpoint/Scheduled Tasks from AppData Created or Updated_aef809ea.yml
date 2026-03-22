@@ -1,0 +1,24 @@
+title: Scheduled Tasks from AppData Created or Updated
+id: ae741084-8ac0-431a-bccc-e79a6085723c
+status: experimental
+level: medium
+description: |
+  This query detects scheduled tasks that are created or updated with executables or scripts located in the `AppData` directory (including `%localappdata%` and `%appdata%`). This is a common technique used by malware and attackers to persist on a system without requiring administrative privileges. OneDrive-related tasks are excluded as a known false positive.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let Filters = dynamic(['AppData', '%localappdata%', '%appdata%']);
+let Exclusions = dynamic([@'\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe', 'OneDriveLauncher.exe']);
+DeviceEvents
+| where ActionType in ('ScheduledTaskCreated', 'ScheduledTaskUpdated')
+| where AdditionalFields has_any (Filters)
+| extend ParsedAdditionalFields = parse_json(AdditionalFields)
+| extend ScheduledTaskName = ParsedAdditionalFields.TaskName, Details = parse_json(ParsedAdditionalFields.TaskContent)
+| where not(Details has_any (Exclusions))
+| project-reorder Timestamp, DeviceName, ActionType, InitiatingProcessAccountUpn, ScheduledTaskName, Details
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

@@ -1,0 +1,18 @@
+title: Vulnerabilities visualized in a Piechart
+id: 360d6c70-8d09-44cf-be9c-59a69b921d80
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Vulnerabilities visualized in a Piechart
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceTvmSoftwareVulnerabilities
+| summarize count() by VulnerabilitySeverityLevel
+| render piechart
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

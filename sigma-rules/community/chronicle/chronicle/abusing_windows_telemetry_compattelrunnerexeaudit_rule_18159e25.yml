@@ -1,0 +1,36 @@
+title: abusing_windows_telemetry_compattelrunnerexeaudit_rule
+id: f82ef310-97b5-4baf-94de-4423f918992d
+status: experimental
+level: medium
+description: |
+  Detects abusing of CompatTelRunner.exe for persistance.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Den Iuzvyk
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule abusing_windows_telemetry_compattelrunnerexeaudit_rule {
+ meta:
+    author = "Den Iuzvyk"
+    description = "Detects abusing of CompatTelRunner.exe for persistance.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/0ZXi5CE8Zkwb"
+    version = "0.01"
+    created = "2020/04/09"
+    category = "sysmon"
+    product = "windows"
+    mitre = "persistence, t1053"
+
+  events:
+($selection.metadata.product_event_type = "4657" and (re.regex($selection.target.registry.registry_value_data, `.*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\TelemetryController.*\\Command.*`) or re.regex($selection.target.file.full_path, `.*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\TelemetryController.*\\Command.*`)))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/0ZXi5CE8Zkwb
+tags:
+
+

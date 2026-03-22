@@ -1,0 +1,30 @@
+title: Find all the activities that launched a browser to open a URL from a compromised device.
+id: b4b2189f-75b9-4291-9b5c-4d5615822e47
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Find all the activities that launched a browser to open a URL from a compromised device.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedDevice = "laptop.contoso.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+DeviceEvents
+| where Timestamp > ago(SearchWindow)
+| where DeviceName == CompromisedDevice
+| where ActionType == "BrowserLaunchedToOpenUrl"
+| where InitiatingProcessFileName == "outlook.exe"
+| where RemoteUrl startswith "http"
+| project
+     Timestamp,
+     DeviceName,
+     RemoteUrl,
+     InitiatingProcessFileName,
+     InitiatingProcessCommandLine,
+     InitiatingProcessFolderPath
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

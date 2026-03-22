@@ -1,0 +1,36 @@
+title: default_powersploit_and_empire_schtasks_persistence
+id: a8170e6e-394f-4b3d-8597-01a3a257281e
+status: experimental
+level: medium
+description: |
+  Detects the creation of a schtask via PowerSploit or Empire Default Configuration.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Markus Neis, @Karneades
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule default_powersploit_and_empire_schtasks_persistence {
+ meta:
+    author = "Markus Neis, @Karneades"
+    description = "Detects the creation of a schtask via PowerSploit or Empire Default Configuration.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/WqCUvktzgL7k"
+    version = "0.01"
+    created = "2018/03/06"
+    product = "windows"
+    category = "process_creation"
+    mitre = "execution, persistence, privilege_escalation, t1053, t1086, s0111, g0022, g0060, car.2013-08-001"
+
+  events:
+(re.regex($selection.principal.process.file.full_path, `.*\\powershell\.exe`) and (re.regex($selection.target.process.command_line, `.*schtasks.*/Create.*/SC .*ONLOGON.*/TN .*Updater.*/TR .*powershell.*`) or re.regex($selection.target.process.command_line, `.*schtasks.*/Create.*/SC .*DAILY.*/TN .*Updater.*/TR .*powershell.*`) or re.regex($selection.target.process.command_line, `.*schtasks.*/Create.*/SC .*ONIDLE.*/TN .*Updater.*/TR .*powershell.*`) or re.regex($selection.target.process.command_line, `.*schtasks.*/Create.*/SC .*Updater.*/TN .*Updater.*/TR .*powershell.*`)) and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1"))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/WqCUvktzgL7k
+tags:
+
+

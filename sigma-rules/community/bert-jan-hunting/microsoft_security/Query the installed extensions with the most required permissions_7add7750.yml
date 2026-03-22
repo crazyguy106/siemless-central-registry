@@ -1,0 +1,28 @@
+title: Query the installed extensions with the most required permissions
+id: ea9e30b4-2157-4e5d-8e07-da4c27be6b94
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Query the installed extensions with the most required permissions
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let PermissionInformation = DeviceTvmBrowserExtensionsKB
+     | where IsPermissionRequired == "true"
+     | summarize
+         TotalPermissions = dcount(PermissionName),
+         PermissionNames = make_set(PermissionName)
+         by ExtensionId
+     | where TotalPermissions > 3 // Change baseline if needed
+     | project ExtensionId, TotalPermissions, PermissionNames;
+DeviceTvmBrowserExtensions
+| join kind=inner PermissionInformation on ExtensionId
+| sort by TotalPermissions
+| join kind=leftouter (DeviceInfo | summarize arg_max(Timestamp, *) by DeviceId | project DeviceId, DeviceName, OSPlatform)  on DeviceId
+| project DeviceId, OSPlatform, DeviceName, BrowserName, ExtensionName, ExtensionRisk, PermissionNames, TotalPermissions
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

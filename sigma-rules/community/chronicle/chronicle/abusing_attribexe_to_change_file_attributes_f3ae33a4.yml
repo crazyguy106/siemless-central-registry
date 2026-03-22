@@ -1,0 +1,35 @@
+title: abusing_attribexe_to_change_file_attributes
+id: f2426ca6-5253-46e1-8169-7bc4ff53a3ef
+status: experimental
+level: medium
+description: |
+  Detects possible abuse of attrib.exe to hide files and folder or to mark a file as a system file  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Sreeman
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule abusing_attribexe_to_change_file_attributes {
+ meta:
+    author = "Sreeman"
+    description = "Detects possible abuse of attrib.exe to hide files and folder or to mark a file as a system file  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/djaZYE9kUyp8"
+    version = "0.01"
+    created = "2020/03/01"
+    product = "Windows"
+    mitre = "t1158, defense_evasion, persistence"
+
+  events:
+(re.regex($selection.target.process.command_line, `.*attrib\.exe \+h.*`) or re.regex($selection.target.process.command_line, `.*attrib\.exe \+s.*`) or re.regex($selection.target.process.command_line, `.*attrib\.exe \+r.*`) or re.regex($selection.target.process.command_line, `.*attrib\.exe -h.*`) or re.regex($selection.target.process.command_line, `.*attrib\.exe -s.*`) or re.regex($selection.target.process.command_line, `.*attrib\.exe -r.*`))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/djaZYE9kUyp8
+tags:
+
+

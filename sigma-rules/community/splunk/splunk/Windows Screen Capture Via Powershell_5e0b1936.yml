@@ -11,17 +11,24 @@ logsource:
   category: endpoint
 detection:
   _splunk_search: |
-    `powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" AND ScriptBlockText = "*.CopyFromScreen*"
-  | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime
-    BY dest signature signature_id
-       user_id vendor_product EventID
-       Guid Opcode Name
-       Path ProcessID ScriptBlockId
-       ScriptBlockText
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_screen_capture_via_powershell_filter`
+    `powershell`
+EventCode=4104
+ScriptBlockText IN (
+    "*[Drawing.Graphics]::FromImage*",
+    "*Drawing.Bitmap*",
+    "*Graphics.FromImage*"
+)
+ScriptBlockText = "*.CopyFromScreen*"
+| fillnull
+| stats count min(_time) as firstTime max(_time) as lastTime
+  BY dest signature signature_id
+     user_id vendor_product EventID
+     Guid Opcode Name
+     Path ProcessID ScriptBlockId
+     ScriptBlockText
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `windows_screen_capture_via_powershell_filter`
   condition: _splunk_search
 references:
   - https://twitter.com/_CERT_UA/status/1620781684257091584
