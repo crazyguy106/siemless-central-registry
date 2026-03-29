@@ -1,0 +1,20 @@
+title: Function: ResourcesCount()
+id: 76f42f8d-f258-4aaf-9cbd-a6cc60607914
+status: experimental
+level: medium
+description: |
+  Count the number of Azure Resources for each subscription.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let ResourcesCount = () {
+    arg("").Resources
+    | summarize TotalResources = count() by subscriptionId
+};
+ResourcesCount()
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

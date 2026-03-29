@@ -1,0 +1,24 @@
+title: SignIn From Suspicious IP
+id: b2aa2932-8e63-48ae-84c6-5dd2d0f3ffed
+status: experimental
+level: medium
+description: |
+  This query combines threat intelligence feeds with Entra ID sign-in information.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    let IPs = ThreatIntelligenceIndicator
+    | where isnotempty( NetworkSourceIP)
+    | where ConfidenceScore > 70
+    | distinct NetworkSourceIP;
+AADSignInEventsBeta
+| where IPAddress in (IPs)
+| project TimeGenerated, AccountUpn, IPAddress, Country
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

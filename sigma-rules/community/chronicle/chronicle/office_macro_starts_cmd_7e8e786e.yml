@@ -1,0 +1,35 @@
+title: office_macro_starts_cmd
+id: 93f9b5b6-961e-43b4-a93f-b5e8d095c7f8
+status: experimental
+level: medium
+description: |
+  Detects a Windows command line executable started from Microsoft Word or Excel  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Florian Roth
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule office_macro_starts_cmd {
+ meta:
+    author = "Florian Roth"
+    description = "Detects a Windows command line executable started from Microsoft Word or Excel  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/G1MCKmrJFFAl"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "sysmon"
+
+  events:
+($selection.metadata.product_event_type = "1" and (re.regex($selection.principal.process.file.full_path, `.*\\WINWORD\.EXE`) or re.regex($selection.principal.process.file.full_path, `.*\\EXCEL\.EXE`)) and re.regex($selection.target.process.file.full_path, `.*\\cmd\.exe`))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/G1MCKmrJFFAl
+tags:
+
+

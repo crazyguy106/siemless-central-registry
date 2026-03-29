@@ -5,7 +5,7 @@ level: high
 description: |
   The following analytic detects the execution of "rundll32.exe" with inline protocol handlers such as "JavaScript", "VBScript", and "About". This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on command-line arguments. This activity is significant as it is often associated with fileless malware or application whitelisting bypass techniques. If confirmed malicious, this could allow an attacker to execute arbitrary code, bypass security controls, and maintain persistence within the environment.
 author: Michael Haag, Splunk
-date: 2026-03-10
+date: 2026-03-26
 logsource:
   product: splunk
   category: endpoint
@@ -14,9 +14,7 @@ detection:
     | tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
   WHERE `process_rundll32` (Processes.process=*vbscript*
     OR
-    Processes.process=*javascript*
-    OR
-    Processes.process=*about*)
+    Processes.process=*javascript*)
   BY Processes.action Processes.dest Processes.original_file_name
      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path

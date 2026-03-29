@@ -5,7 +5,7 @@ level: medium
 description: |
   The following analytic detects the modification of ACL permissions to files or folders, making them accessible to everyone or to system account. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on processes like "cacls.exe," "icacls.exe," and "xcacls.exe" with specific command-line arguments. This activity is significant as it may indicate an adversary attempting to evade ACLs or access protected files. If confirmed malicious, this could allow unauthorized access to sensitive data, potentially leading to data breaches or further system compromise.
 author: Teoderick Contreras, Splunk
-date: 2026-03-10
+date: 2026-03-24
 logsource:
   product: splunk
   category: endpoint
@@ -19,7 +19,7 @@ detection:
 from datamodel=Endpoint.Processes where
   Processes.process_name IN ("icacls.exe", "cacls.exe", "xcacls.exe")
   Processes.process IN ("*/grant*", "*/g:*", "*/g *")
-  Processes.process IN ("* Everyone:*", "* SYSTEM:*", "* S-1-1-0:*")
+  Processes.process IN ("* SYSTEM:*", "* S-1-1-0:*")
 by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
 Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
 Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec

@@ -1,0 +1,36 @@
+title: cmdexe_launching_a_browser
+id: 5b07400b-2f56-44f7-a95a-ffcfb09f237b
+status: experimental
+level: medium
+description: |
+  This rule detects when cmd.exe starts a browser, which is an anomaly as opposed to a user accessing a site directly through a browser  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Joseph Kamau
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule cmdexe_launching_a_browser {
+ meta:
+    author = "Joseph Kamau"
+    description = "This rule detects when cmd.exe starts a browser, which is an anomaly as opposed to a user accessing a site directly through a browser  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/XsNRrBUK2MlX"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "process_creation"
+    mitre = "execution, t1059"
+
+  events:
+re.regex($selection.target.process.command_line, `cmd\.exe /c \"start http.*`)
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/XsNRrBUK2MlX
+tags:
+
+

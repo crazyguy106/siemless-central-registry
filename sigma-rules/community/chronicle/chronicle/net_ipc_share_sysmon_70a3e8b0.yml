@@ -1,0 +1,36 @@
+title: net_ipc_share_sysmon
+id: c28d0b60-ec15-45ac-82a6-240fecf4699f
+status: experimental
+level: medium
+description: |
+  Detects net usage accessing IPC$.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Michael Haag, Alexandr Yampolskyi
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule net_ipc_share_sysmon {
+ meta:
+    author = "Michael Haag, Alexandr Yampolskyi"
+    description = "Detects net usage accessing IPC$.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/w9Hn8H98uk1g"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "sysmon"
+    mitre = "Execution, t1204, 1059"
+
+  events:
+($selection.metadata.product_event_type = "1" and $selection.target.process.file.full_path = "net.exe" and re.regex($selection.target.process.command_line, `.*ipc$.*`))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/w9Hn8H98uk1g
+tags:
+
+

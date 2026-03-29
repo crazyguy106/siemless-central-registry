@@ -10,7 +10,7 @@ This activity is significant as it may indicate an attempt to exploit known vuln
 If confirmed malicious, attackers could gain administrative access, leading to data breaches or further network compromise.
 
 author: Michael Haag, Splunk
-date: 2026-03-10
+date: 2026-03-27
 logsource:
   product: splunk
   category: network
@@ -23,10 +23,10 @@ detection:
 from datamodel=Web WHERE
 
 Web.url IN (
-  "/app?service=direct/1/PrinterDetails/printerOptionsTab.tab"
-  "/app?service=direct/1/PrinterList/selectPrinter&sp=*",
-  "/app?service=page/PrinterList",
-  "/app?service=page/SetupCompleted"
+  "*/app?service=direct/1/PrinterDetails/printerOptionsTab.tab"
+  "*/app?service=direct/1/PrinterList/selectPrinter&sp=*",
+  "*/app?service=page/PrinterList",
+  "*/app?service=page/SetupCompleted"
 )
 NOT src IN (
               "10.0.0.0/8",

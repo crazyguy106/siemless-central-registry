@@ -3,19 +3,56 @@ id: 1e45e6a8-110b-4886-b815-8d69cf35bf0a
 status: stable
 level: high
 description: |
-  Detects attempts to exploit a request smuggling technique against IIS that leverages a Windows quirk where requests for reserved Windows device names such as "/con" trigger an early server response before the request body is received. When combined with a Content-Length desynchronization, this behavior can lead to a parsing confusion between frontend and backend.
+  Detects attempts to exploit a request smuggling technique against IIS that leverages a Windows quirk where requests for reserved Windows device names such as "/con" trigger an early server response before the request body is received.
+When combined with a Content-Length desynchronization, this behavior can lead to a parsing confusion between frontend and backend.
 author: Raven Tait, Splunk
-date: 2026-03-10
+date: 2026-03-27
 logsource:
   product: splunk
   category: network
 detection:
   _splunk_search: |
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-  WHERE Web.url IN ("/con", "/prn", "/aux", "/nul", "/com1","/com2","/com3","/com4", "/com5","/com6","/com7")
-  BY Web.src, Web.dest, Web.http_user_agent,
-     Web.url, Web.status, Web.http_method
+    | tstats `security_content_summariesonly`
+  count min(_time) as firstTime
+        max(_time) as lastTime
+
+FROM datamodel=Web WHERE
+
+Web.url IN (
+    "*/aux",
+    "*/com1",
+    "*/com2",
+    "*/com3",
+    "*/com4",
+    "*/com5",
+    "*/com6",
+    "*/com7",
+    "*/con",
+    "*/nul",
+    "*/prn"
+)
+
+BY Web.src Web.dest Web.http_user_agent
+   Web.url Web.url_domain Web.status Web.http_method
+
 | `drop_dm_object_name("Web")`
+```
+We have to add the logic below because the TA does not extract the URI path from the URL, and the anchors are short. Hence to avoid false positives, we need to extract the URI path from the URL and check if it is a reserved name.
+```
+| eval uri=replace(url, url_domain, "")
+| where uri IN (
+    "/aux",
+    "/com1",
+    "/com2",
+    "/com3",
+    "/com4",
+    "/com5",
+    "/com6",
+    "/com7",
+    "/con",
+    "/nul",
+    "/prn"
+)
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 | `http_request_to_reserved_name_on_iis_server_filter`

@@ -1,0 +1,27 @@
+title: Hunt for newly identified lateral movement paths to sensitive accounts
+id: 4f216924-a164-431a-a087-b533c3bfe287
+status: experimental
+level: medium
+description: |
+  Defender For Identity identifies lateral movement paths to all sensitive accounts (if possible). This is similar to a Bloodhound output. A newly identified path can mean that a sensitive account can be taken over if the path is followed.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_identity
+  service: kql
+detection:
+  _kql_query: |
+    IdentityDirectoryEvents
+| where ActionType == "Potential lateral movement path identified"
+| extend AdditionalInfo = parse_json(AdditionalFields)
+| extend LateralMovementPathToSensitiveAccount = AdditionalFields.['ACTOR.ACCOUNT']
+| extend FromAccount = AdditionalFields.['FROM.ACCOUNT']
+| project
+     Timestamp,
+     LateralMovementPathToSensitiveAccount,
+     FromAccount,
+     DeviceName,
+     AccountName,
+     AccountDomain
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

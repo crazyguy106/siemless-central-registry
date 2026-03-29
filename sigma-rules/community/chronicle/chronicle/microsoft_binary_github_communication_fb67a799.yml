@@ -1,0 +1,36 @@
+title: microsoft_binary_github_communication
+id: 9ad22515-444e-437d-8e37-dfbcc0369ba2
+status: experimental
+level: medium
+description: |
+  Detects an executable in the Windows folder accessing github.com  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Michael Haag (idea), Florian Roth (rule)
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule microsoft_binary_github_communication {
+ meta:
+    author = "Michael Haag (idea), Florian Roth (rule)"
+    description = "Detects an executable in the Windows folder accessing github.com  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/cEQSqcboHsqH"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "sysmon"
+    mitre = "lateral_movement, t1105"
+
+  events:
+($selection.metadata.product_event_type = "3" and (re.regex($selection.target.hostname, `.*\.github\.com`) or re.regex($selection.target.hostname, `.*\.githubusercontent\.com`)) and re.regex($selection.target.process.file.full_path, `C:\\Windows\\.*`))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/cEQSqcboHsqH
+tags:
+
+
