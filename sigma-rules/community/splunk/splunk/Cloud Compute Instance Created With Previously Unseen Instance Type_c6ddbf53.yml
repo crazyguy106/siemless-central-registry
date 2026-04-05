@@ -3,17 +3,26 @@ id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 status: stable
 level: medium
 description: |
-  The following analytic detects the creation of EC2 instances with previously unseen instance types. It leverages Splunk's tstats command to analyze data from the Change data model, identifying instance types that have not been previously recorded. This activity is significant for a SOC because it may indicate unauthorized or suspicious activity, such as an attacker attempting to create instances for malicious purposes. If confirmed malicious, this could lead to unauthorized access, data exfiltration, system compromise, or service disruption. Immediate investigation is required to determine the legitimacy of the instance creation.
+  The following analytic detects the creation of EC2 instances with previously unseen instance types.
+It leverages Splunk's tstats command to analyze data from the Change data model, identifying instance types that have not been previously recorded.
+This activity is significant for a SOC because it may indicate unauthorized or suspicious activity, such as an attacker attempting to create instances for malicious purposes.
+If confirmed malicious, this could lead to unauthorized access, data exfiltration, system compromise, or service disruption. Immediate investigation is required to determine the legitimacy of the instance creation.
 author: David Dorsey, Splunk
-date: 2026-03-10
+date: 2026-03-25
 logsource:
   product: splunk
   category: threat
 detection:
   _splunk_search: |
-    | tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id) as dest, count FROM datamodel=Change
-  WHERE All_Changes.action=created
-  BY All_Changes.Instance_Changes.instance_type, All_Changes.user
+    | tstats count earliest(_time) as firstTime
+               latest(_time) as lastTime
+               values(All_Changes.object_id) as dest
+FROM datamodel=Change WHERE
+
+All_Changes.action=created
+
+BY All_Changes.Instance_Changes.instance_type All_Changes.user
+
 | `drop_dm_object_name("All_Changes")`
 | `drop_dm_object_name("Instance_Changes")`
 | where instance_type != "unknown"
@@ -29,4 +38,4 @@ detection:
 references:
 
 tags:
-
+  - attack.t1578.002

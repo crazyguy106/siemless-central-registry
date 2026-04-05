@@ -1,0 +1,26 @@
+title: List Local Firewall Additions
+id: cca01a8e-77be-4fb4-9d4d-0a1d4a1000f4
+status: experimental
+level: medium
+description: |
+  List Local Firewall Additions
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceProcessEvents
+| where ProcessCommandLine has "firewall add"
+| where InitiatingProcessFileName != "Microsoft.Tri.Sensor.Updater.exe" // DFI sensor
+| project-reorder
+     Timestamp,
+     DeviceName,
+     AccountName,
+     ProcessCommandLine,
+     InitiatingProcessCommandLine
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

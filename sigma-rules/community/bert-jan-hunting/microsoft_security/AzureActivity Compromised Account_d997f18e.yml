@@ -1,0 +1,24 @@
+title: AzureActivity Compromised Account
+id: 8e11534c-fd3a-48da-b008-8d03f3534712
+status: experimental
+level: medium
+description: |
+  This query list all the actions (ACTION, DELETE, WRITE, etc) by a compromised account.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    let CompromisedAccountUPN = "test@test.com";
+let SearchWindow = 48h; //Customizable h = hours, d = days
+AzureActivity
+| where Caller =~ CompromisedAccountUPN
+| where TimeGenerated > ago(SearchWindow)
+| summarize TotalEvents = count() by OperationNameValue
+| sort by TotalEvents desc
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

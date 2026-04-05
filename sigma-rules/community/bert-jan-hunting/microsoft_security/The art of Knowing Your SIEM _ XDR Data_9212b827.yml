@@ -1,0 +1,18 @@
+title: The art of Knowing Your SIEM & XDR Data
+id: 1f0c291c-0a4d-41df-b243-5ed758ef6269
+status: experimental
+level: medium
+description: |
+  KQL detection rule: The art of Knowing Your SIEM & XDR Data
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    union * 
+| where TimeGenerated > ago(90d) 
+| distinct Type
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

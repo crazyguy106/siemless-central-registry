@@ -1,0 +1,22 @@
+title: Triggers when a remote public SBM connection has been found
+id: 150612f6-6564-451d-9550-30767a4b453a
+status: experimental
+level: medium
+description: |
+  Triggers when a remote public SBM connection has been found
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where RemoteIPType == "Public"
+| where RemotePort == 445
+| where ActionType == "ConnectionSuccess"
+| project-reorder Timestamp, DeviceName, RemoteIP
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

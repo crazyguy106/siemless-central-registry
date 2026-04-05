@@ -1,0 +1,19 @@
+title: Statistics onboarded devices (OS)
+id: 1a43cab1-5d9d-45dd-a5ce-d5c2f15ea0b2
+status: experimental
+level: medium
+description: |
+  This query lists how many devices have been onboarded per operating system.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    DeviceInfo
+| where OnboardingStatus == "Onboarded"
+| summarize arg_max(Timestamp, *) by DeviceId
+| summarize TotalDevices = count() by OSPlatform
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

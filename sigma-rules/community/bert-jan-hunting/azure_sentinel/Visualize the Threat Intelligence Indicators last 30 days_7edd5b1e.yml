@@ -1,0 +1,22 @@
+title: Visualize the Threat Intelligence Indicators last 30 days
+id: c31db9e3-8875-4606-8853-5815f2a77e24
+status: experimental
+level: medium
+description: |
+  This query visualizes the IOCs that have triggerd in the last 30 days. That can for example be Domains, IPs or URLs. THe resuls are rendered in a Piechart. 
+
+## Sentinel
+author: Bert-JanP
+logsource:
+  product: azure_sentinel
+  service: kql
+detection:
+  _kql_query: |
+    ThreatIntelligenceIndicator
+| where TimeGenerated > ago(30d)
+| extend IOC = iff(isnotempty(DomainName), DomainName, iff(isnotempty(NetworkIP), NetworkIP, iff(isnotempty(Url),Url, "No IOC defined")))
+| summarize count() by IOC
+| render piechart with (title="Threat Intelligence Indicators by IOC last month")
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

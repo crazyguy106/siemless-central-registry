@@ -1,0 +1,36 @@
+title: suspicious_sysvol_domain_group_policy_access
+id: daafbccd-4848-4f21-b741-9bae51fd6d30
+status: experimental
+level: medium
+description: |
+  Detects Access to Domain Group Policies stored in SYSVOL  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Markus Neis
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule suspicious_sysvol_domain_group_policy_access {
+ meta:
+    author = "Markus Neis"
+    description = "Detects Access to Domain Group Policies stored in SYSVOL  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/q3qYWdX8GgjC"
+    version = "0.01"
+    created = "2018/04/09"
+    category = "process_creation"
+    product = "windows"
+    mitre = "credential_access, t1003"
+
+  events:
+(re.regex($selection.target.process.command_line, `.*\\SYSVOL\\.*\\policies\\.*`) and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1"))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/q3qYWdX8GgjC
+tags:
+
+

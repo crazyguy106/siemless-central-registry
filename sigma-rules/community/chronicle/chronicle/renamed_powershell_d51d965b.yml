@@ -1,0 +1,36 @@
+title: renamed_powershell
+id: 2fa1f2b9-6a1a-4671-bf04-043137ec90e0
+status: experimental
+level: medium
+description: |
+  Detects the execution of a renamed PowerShell often used by attackers or malware  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Florian Roth
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule renamed_powershell {
+ meta:
+    author = "Florian Roth"
+    description = "Detects the execution of a renamed PowerShell often used by attackers or malware  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/VUM6x3MrZB0F"
+    version = "0.01"
+    created = "2019/08/22"
+    product = "windows"
+    service = "sysmon"
+    mitre = "car.2013-05-009"
+
+  events:
+(($selection.metadata.description = "Windows PowerShell" and $selection.metadata.description = "Microsoft Corporation") and not (re.regex($selection.target.process.file.full_path, `.*\\powershell\.exe`)))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/VUM6x3MrZB0F
+tags:
+
+

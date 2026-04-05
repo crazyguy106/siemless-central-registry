@@ -1,0 +1,36 @@
+title: winrm_session_created_sysmon_behavior
+id: 52673617-dbcb-4a00-9404-224dca655886
+status: experimental
+level: medium
+description: |
+  This detects when a remote session is created on a machine  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Lee Archinal
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule winrm_session_created_sysmon_behavior {
+ meta:
+    author = "Lee Archinal"
+    description = "This detects when a remote session is created on a machine  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/V1tyK5giCwqm"
+    version = "0.01"
+    created = "2019/06/30"
+    product = "windows"
+    service = "sysmon"
+    mitre = "lateral_movement, t1028"
+
+  events:
+($selection1.metadata.product_event_type = "3" and re.regex($selection1.target.process.file.full_path, `.*powershell\.exe`) and re.regex($selection1.principal.port, `.*`) and $selection1.target.port = "5985")
+
+  condition:
+    $selection1
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/V1tyK5giCwqm
+tags:
+
+

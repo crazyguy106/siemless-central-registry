@@ -1,0 +1,36 @@
+title: possible_system_owneruser_discovery_sysmonwindows_logs
+id: 4dbe37f9-5855-4b0e-bdad-c5fb7260ff2e
+status: experimental
+level: medium
+description: |
+  Adversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Roman Ranskyi
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule possible_system_owneruser_discovery_sysmonwindows_logs {
+ meta:
+    author = "Roman Ranskyi"
+    description = "Adversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/STD0YEfhpWU0"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "security"
+    mitre = "Discovery, t1033"
+
+  events:
+(($selection0.target.process.command_line = "wmic" or $selection0.target.process.command_line = "useraccount get /ALL" or $selection0.target.process.command_line = "whoami") or ($selection0.target.process.file.full_path = "whoami.exe" or $selection0.target.process.file.full_path = "qwinsta.exe" or $selection0.target.process.file.full_path = "quser.exe"))
+
+  condition:
+    $selection0
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/STD0YEfhpWU0
+tags:
+
+

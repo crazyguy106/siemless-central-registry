@@ -1,0 +1,35 @@
+title: powershell_script_run_in_appdata
+id: 6df51e16-b98f-40f5-bd7a-f40f521e5e28
+status: experimental
+level: medium
+description: |
+  Detects a suspicious command line execution that invokes PowerShell with reference to an AppData folder  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Florian Roth
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule powershell_script_run_in_appdata {
+ meta:
+    author = "Florian Roth"
+    description = "Detects a suspicious command line execution that invokes PowerShell with reference to an AppData folder  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/k6QPeHUNnhRg"
+    version = "0.01"
+    created = "2019/01/09"
+    category = "process_creation"
+    product = "windows"
+
+  events:
+((re.regex($selection.target.process.command_line, `.* /c powershell.*\\AppData\\Local\\.*`) or re.regex($selection.target.process.command_line, `.* /c powershell.*\\AppData\\Roaming\\.*`)) and ($selection.metadata.product_event_type = "4688" or $selection.metadata.product_event_type = "1"))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/k6QPeHUNnhRg
+tags:
+
+

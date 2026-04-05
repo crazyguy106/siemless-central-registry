@@ -1,0 +1,21 @@
+title: User Account Deletion
+id: 80de725c-a10d-499a-bd30-85bf81e4f4e6
+status: experimental
+level: medium
+description: |
+  Lists the deleted users based on EventId 4726.
+
+
+## Sentinel
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    SecurityEvent
+| where EventID == 4726
+| project TimeGenerated, DeletedUser = TargetAccount, Domain = TargetDomainName, Initiator = SubjectAccount, Activity
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

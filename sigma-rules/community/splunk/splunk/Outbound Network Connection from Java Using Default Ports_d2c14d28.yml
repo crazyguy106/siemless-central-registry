@@ -3,53 +3,60 @@ id: d2c14d28-5c47-11ec-9892-acde48001122
 status: stable
 level: high
 description: |
-  The following analytic detects outbound network connections from Java processes to default ports used by LDAP and RMI protocols, which may indicate exploitation of the CVE-2021-44228-Log4j vulnerability. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network traffic logs. Monitoring this activity is crucial as it can signify an attacker’s attempt to perform JNDI lookups and retrieve malicious payloads. If confirmed malicious, this activity could lead to remote code execution and further compromise of the affected server.
+  The following analytic detects outbound network connections from Java processes to default ports used by LDAP and RMI protocols, which may indicate exploitation of the CVE-2021-44228-Log4j vulnerability.
+This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network traffic logs.
+Monitoring this activity is crucial as it can signify an attacker's attempt to perform JNDI lookups and retrieve malicious payloads.
+If confirmed malicious, this activity could lead to remote code execution and further compromise of the affected server.
+
 author: Mauricio Velazco, Lou Stella, Splunk
-date: 2026-03-10
+date: 2026-03-18
 logsource:
   product: splunk
   category: endpoint
 detection:
   _splunk_search: |
-    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  WHERE (
-        Processes.process_name="java.exe"
-        OR
-        Processes.process_name=javaw.exe
-        OR
-        Processes.process_name=javaw.exe
-    )
-  BY Processes.action Processes.dest Processes.original_file_name
-     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-     Processes.process Processes.process_exec Processes.process_guid
-     Processes.process_hash Processes.process_id Processes.process_integrity_level
-     Processes.process_name Processes.process_path Processes.user
-     Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly` count
+FROM datamodel=Endpoint.Processes WHERE
+
+Processes.process_name IN (
+    "java.exe",
+    "javaw.exe"
+)
+BY Processes.action Processes.dest Processes.original_file_name
+   Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+   Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+   Processes.process Processes.process_exec Processes.process_guid
+   Processes.process_hash Processes.process_id Processes.process_integrity_level
+   Processes.process_name Processes.process_path Processes.user
+   Processes.user_id Processes.vendor_product
+
 | `drop_dm_object_name(Processes)`
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
-| join process_id [
-| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
-  WHERE (
-        All_Traffic.dest_port= 389
-        OR
-        All_Traffic.dest_port= 636
-        OR
-        All_Traffic.dest_port = 1389
-        OR
-        All_Traffic.dest_port = 1099
+| join process_id
+[
+    | tstats `security_content_summariesonly` count
+    FROM datamodel=Network_Traffic.All_Traffic WHERE
+    All_Traffic.dest_port IN (
+                389,
+                636,
+                1099,
+                1389
     )
-  BY All_Traffic.action All_Traffic.app All_Traffic.bytes
-     All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
-     All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
-     All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
-     All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
-     All_Traffic.user All_Traffic.vendor_product All_Traffic.direction
-     All_Traffic.process_id
-| `drop_dm_object_name(All_Traffic)`
-| rename dest as connection_to_CNC]
-| table _time dest parent_process_name process_name process_path process dest_port
+    BY All_Traffic.action All_Traffic.app All_Traffic.bytes
+        All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
+        All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
+        All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
+        All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
+        All_Traffic.user All_Traffic.vendor_product All_Traffic.direction
+        All_Traffic.process_id
+    | `drop_dm_object_name(All_Traffic)`
+    | rename dest as connection_to_CNC
+]
+| table _time dest
+        parent_process_path parent_process_name parent_process
+        process_path process_name process process_hash
+        connection_to_CNC dest_port user
 | `outbound_network_connection_from_java_using_default_ports_filter`
   condition: _splunk_search
 references:

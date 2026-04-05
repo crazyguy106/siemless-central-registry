@@ -3,19 +3,31 @@ id: a83122f2-fa09-4868-a230-544dbc54bc1c
 status: stable
 level: high
 description: |
-  The following analytic detects attempts to exploit CVE-2022-40684, a Fortinet appliance authentication bypass vulnerability. It identifies REST API requests to the /api/v2/ endpoint using various HTTP methods (GET, POST, PUT, DELETE) that may indicate unauthorized modifications, such as adding SSH keys or creating new users. This detection leverages the Web datamodel to monitor specific URL patterns and HTTP methods. This activity is significant as it can lead to unauthorized access and control over the appliance. If confirmed malicious, attackers could gain persistent access, reroute network traffic, or capture sensitive information.
+  The following analytic detects attempts to exploit CVE-2022-40684, a Fortinet appliance authentication bypass vulnerability.
+It identifies REST API requests to the /api/v2/ endpoint using various HTTP methods (GET, POST, PUT, DELETE) that may indicate unauthorized modifications, such as adding SSH keys or creating new users.
+This detection leverages the Web datamodel to monitor specific URL patterns and HTTP methods.
+This activity is significant as it can lead to unauthorized access and control over the appliance.
+If confirmed malicious, attackers could gain persistent access, reroute network traffic, or capture sensitive information.
+
 author: Michael Haag, Splunk
-date: 2026-03-10
+date: 2026-03-23
 logsource:
   product: splunk
   category: network
 detection:
   _splunk_search: |
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-  WHERE Web.url IN ("*/api/v2/cmdb/system/admin*")  Web.http_method IN ("GET", "PUT")
-  BY Web.http_user_agent, Web.http_method, Web.url,
-     Web.url_length, Web.src, Web.dest,
-     sourcetype
+    | tstats `security_content_summariesonly`
+         count min(_time) as firstTime
+               max(_time) as lastTime
+
+FROM datamodel=Web WHERE
+
+Web.url = "*/api/v2/cmdb/system/admin*"
+Web.http_method IN ("GET", "PUT")
+BY Web.http_user_agent
+   Web.http_method Web.url
+   Web.url_length
+   Web.src Web.dest
 | `drop_dm_object_name("Web")`
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`

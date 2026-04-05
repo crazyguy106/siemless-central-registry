@@ -1,0 +1,23 @@
+title: Defender AV Exclusion Events
+id: bfae4e34-2419-429b-bb6a-f03608feed61
+status: experimental
+level: medium
+description: |
+  This query detects attempts to add exclusions to Microsoft Defender via PowerShell commands such as `Add-MpPreference` or `Set-MpPreference`. Attackers frequently add exclusions to Defender to allow their malicious tools to run without being detected. The query covers both direct command-line executions and PowerShell script-based executions captured via `DeviceEvents`.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    let ExclusionOptions = dynamic(['ExclusionPath', 'ExclusionExtension', 'ExclusionProcess', 'ExclusionIpAddress']);
+let Modules = dynamic(['Add-MpPreference','Set-MpPreference']);
+let CommandLineExecutions = DeviceProcessEvents
+    | where ProcessCommandLine has_any (Modules) and ProcessCommandLine has_any (ExclusionOptions);
+let PowerShellExecutions = DeviceEvents
+    | where ActionType == 'PowerShellCommand' 
+    | where AdditionalFields  has_any (Modules) and AdditionalFields has_any (ExclusionOptions);
+union PowerShellExecutions, CommandLineExecutions
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

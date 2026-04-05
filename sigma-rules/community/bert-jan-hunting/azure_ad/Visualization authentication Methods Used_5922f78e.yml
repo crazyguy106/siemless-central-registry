@@ -1,0 +1,20 @@
+title: Visualization authentication Methods Used
+id: e4b2f9a4-e69c-4424-aafd-d63bed8f696d
+status: experimental
+level: medium
+description: |
+  This visualisation shows the authentication methods that have been used based on the selected TimeFrame.
+author: Bert-JanP
+logsource:
+  product: azure_ad
+  service: kql
+detection:
+  _kql_query: |
+    let TimeFrame = 30d;
+SigninLogs
+| where TimeGenerated > ago(TimeFrame)
+| where ResultType == 0
+| summarize Total = count() by AuthenticationProtocol, bin(TimeGenerated, 1d)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

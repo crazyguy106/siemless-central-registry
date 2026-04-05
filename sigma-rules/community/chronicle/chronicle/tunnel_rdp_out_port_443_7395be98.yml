@@ -1,0 +1,36 @@
+title: tunnel_rdp_out_port_443
+id: 1db80998-0192-4789-9213-32c3ea6300d1
+status: experimental
+level: medium
+description: |
+  Using RDP To Access Servers Over 443  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Emir Erdogan
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule tunnel_rdp_out_port_443 {
+ meta:
+    author = "Emir Erdogan"
+    description = "Using RDP To Access Servers Over 443  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/qQSfSVjmAYms"
+    version = "0.01"
+    created = "2021-03-09"
+    product = "windows"
+    service = "sysmon"
+    mitre = "T1076"
+
+  events:
+($selection.principal.process.file.full_path = "C:\\Windows\\System32\\cmd.exe" and $selection.target.process.file.full_path = "C:\\Windows\\System32\\reg.exe" and re.regex($selection.target.process.command_line, `reg  add .*\\Control\\TerminalServer\\WinStations\\RDP-Tcp.* /v PortNumber /t  REG_DWORD /d 443 /f`))
+
+  condition:
+    $selection
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/qQSfSVjmAYms
+tags:
+
+

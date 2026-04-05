@@ -1,0 +1,36 @@
+title: cmstpexe_execution_detector_sysmon_behavior
+id: 039c235f-0355-4795-ac91-4c3aeac48bdc
+status: experimental
+level: medium
+description: |
+  This content detects usage of the Microsoft Connection Manager Profile as detected by Sysmon.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md.
+author: Lee Archinal
+logsource:
+  product: chronicle
+  service: general
+detection:
+  _yaral_rule: |
+    rule cmstpexe_execution_detector_sysmon_behavior {
+ meta:
+    author = "Lee Archinal"
+    description = "This content detects usage of the Microsoft Connection Manager Profile as detected by Sysmon.  License: https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md."
+    reference = "https://tdm.socprime.com/tdm/info/Ix6E5rYxh3Jj"
+    version = "0.01"
+    created = "2019/09/16"
+    product = "windows"
+    service = "sysmon"
+    mitre = "execution, t1191"
+
+  events:
+(($selection1.target.process.file.full_path = "C:\\Windows\\System32\\cmstp.exe" and (($selection1.metadata.product_event_type = "1" and re.regex($selection1.target.process.command_line, `cmstp\.exe /s .*\.inf`)) or ($selection1.metadata.product_event_type = "13" and re.regex($selection1.target.registry.registry_key, `.*\\cmstp\.exe`)))) or ($selection1.metadata.product_event_type = "11" and $selection1.target.process.file.full_path = "C:\\WINDOWS\\ssytem32\\cmstp.exe"))
+
+  condition:
+    $selection1
+}
+
+  condition: _yaral_rule
+references:
+  - https://tdm.socprime.com/tdm/info/Ix6E5rYxh3Jj
+tags:
+
+
