@@ -1,0 +1,21 @@
+title: Mailitemsaccessed
+id: fbfd0ce1-b2e9-4bd3-a6e9-fdd8f8457a8d
+status: experimental
+level: medium
+description: |
+  KQL detection rule: Mailitemsaccessed
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    union OfficeActivity, CloudAppEvents
+| where TimeGenerated > ago(30d)
+| extend Operation = coalesce(ActionType, Operation)
+| where Operation == "MailItemsAccessed"
+| summarize TotalEvents = count(), TotalCloudAppsEvents = countif(Type == "CloudAppEvents"), TotalUALEvents = countif(Type == "OfficeActivity") by bin(TimeGenerated, 1d)
+| extend EqualLogs = iff(TotalCloudAppsEvents == TotalUALEvents, true, false)
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules
