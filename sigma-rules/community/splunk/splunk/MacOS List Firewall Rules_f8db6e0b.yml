@@ -1,0 +1,55 @@
+title: MacOS List Firewall Rules
+id: f8db6e0b-55bb-40ca-bc85-2b3700adb0f8
+status: stable
+level: medium
+description: |
+  This analytic detects attempts to enumerate or verify the configuration of the macOS application firewall.
+Specifically, it monitors executions of `defaults read /Library/Preferences/com.apple.alf` and `/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate`.
+These commands provide insight into firewall status, allowed applications, and explicit authorization rules.
+While they are legitimate administrative operations, adversaries may leverage them to identify potential attack surfaces, determine whether the firewall is active, or enumerate allowed network flows.
+Monitoring for these commands, particularly when executed by non-administrative users or at unusual times, can provide early indication of reconnaissance activity on macOS endpoints
+
+author: Jamie Windley, Splunk
+date: 2025-09-08
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly`
+  count
+  values(Processes.parent_process) AS parent_process
+  values(Processes.parent_process_exec) AS parent_process_exec
+  values(Processes.parent_process_id) AS parent_process_id
+  values(Processes.parent_process_name) AS parent_process_name
+  values(Processes.parent_process_path) AS parent_process_path
+  min(_time) as firstTime
+  max(_time) as lastTime
+
+from datamodel=Endpoint.Processes where
+(
+Processes.process_name = "defaults"
+Processes.process = "* read *",
+Processes.process = "*/Library/Preferences/com.apple.alf*"
+)
+OR
+(
+  Processes.process_name = "socketfilterfw"
+  Processes.process = "*--getglobalstate*"
+)
+
+by Processes.action Processes.dest Processes.process Processes.process_hash
+   Processes.process_id Processes.process_name Processes.process_path
+   Processes.user Processes.vendor_product
+
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `macos_list_firewall_rules_filter`
+
+  condition: _splunk_search
+references:
+  - https://www.manpagez.com/man/8/socketfilterfw/
+  - https://ss64.com/mac/defaults.html
+tags:
+  - attack.t1016

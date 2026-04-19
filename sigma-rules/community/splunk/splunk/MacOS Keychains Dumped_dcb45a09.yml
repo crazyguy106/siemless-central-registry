@@ -1,0 +1,45 @@
+title: MacOS Keychains Dumped
+id: dcb45a09-5e6f-441e-b2f8-cbbf923e36d9
+status: stable
+level: high
+description: |
+  Detects command-line attempts to access or dump macOS Keychain files. Adversaries may use native utilities or direct file access to extract plaintext credentials from Keychain databases located in ~/Library/Keychains/ or /Library/Keychains/.
+This technique is commonly associated with post-exploitation credential harvesting, where an attacker with local access seeks to escalate privileges or move laterally by obtaining stored credentials for applications, Wi-Fi networks, and system services.
+author: Raven Tait, Splunk
+date: 2026-04-15
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly`
+  count min(_time) as firstTime
+        max(_time) as lastTime
+
+from datamodel=Endpoint.Processes where
+
+Processes.process IN (
+    "*dump-keychain -d*",
+    "*keychaindump*"
+)
+
+Processes.process="*/library/keychains*"
+
+by Processes.dest Processes.original_file_name Processes.parent_process_id
+   Processes.process Processes.process_exec Processes.process_guid
+   Processes.process_hash Processes.process_id
+   Processes.process_current_directory Processes.process_name
+   Processes.process_path Processes.user
+   Processes.user_id Processes.vendor_product
+
+| `drop_dm_object_name(Processes)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `macos_keychains_dumped_filter`
+  condition: _splunk_search
+references:
+  - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+  - https://gist.github.com/hfeeki/88c12f01d00534e09a84
+  - https://ss64.com/mac/security-keychain-settings.html
+tags:
+  - attack.t1555.001

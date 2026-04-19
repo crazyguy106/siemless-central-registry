@@ -9,7 +9,7 @@ Monitoring this activity is crucial as it can signify an attacker's attempt to p
 If confirmed malicious, this activity could lead to remote code execution and further compromise of the affected server.
 
 author: Mauricio Velazco, Lou Stella, Splunk
-date: 2026-03-18
+date: 2026-04-09
 logsource:
   product: splunk
   category: endpoint
@@ -33,7 +33,7 @@ BY Processes.action Processes.dest Processes.original_file_name
 | `drop_dm_object_name(Processes)`
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
-| join process_id
+| join process_id dest
 [
     | tstats `security_content_summariesonly` count
     FROM datamodel=Network_Traffic.All_Traffic WHERE
@@ -52,6 +52,7 @@ BY Processes.action Processes.dest Processes.original_file_name
         All_Traffic.process_id
     | `drop_dm_object_name(All_Traffic)`
     | rename dest as connection_to_CNC
+    | rename src as dest
 ]
 | table _time dest
         parent_process_path parent_process_name parent_process

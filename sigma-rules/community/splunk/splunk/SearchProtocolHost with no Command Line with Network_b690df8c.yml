@@ -5,7 +5,7 @@ level: high
 description: |
   The following analytic detects instances of searchprotocolhost.exe running without command line arguments but with an active network connection. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process execution and network traffic data. It is significant because searchprotocolhost.exe typically runs with specific command line arguments, and deviations from this norm can indicate malicious activity, such as Cobalt Strike usage. If confirmed malicious, this activity could allow attackers to establish network connections for command and control, potentially leading to data exfiltration or further system compromise.
 author: Michael Haag, Splunk
-date: 2026-03-10
+date: 2026-04-09
 logsource:
   product: splunk
   category: endpoint
@@ -31,7 +31,7 @@ by _time span=1h Processes.action Processes.dest Processes.original_file_name
 | `drop_dm_object_name(Processes)`
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
-| join  process_id
+| join process_id dest
 [
   | tstats `security_content_summariesonly` count
     FROM datamodel=Network_Traffic.All_Traffic where
@@ -43,6 +43,7 @@ by _time span=1h Processes.action Processes.dest Processes.original_file_name
        All_Traffic.process_id
 | `drop_dm_object_name(All_Traffic)`
 | rename dest as C2
+| rename src as dest
 ]
 | table _time dest parent_process_name process_name process_path process process_id dest_port C2
 | `searchprotocolhost_with_no_command_line_with_network_filter`

@@ -5,7 +5,7 @@ level: high
 description: |
   The following analytic detects the execution of gpupdate.exe without command line arguments and with an active network connection. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process execution and network traffic data. It is significant because gpupdate.exe typically runs with specific arguments, and its execution without them, especially with network activity, is often associated with malicious software like Cobalt Strike. If confirmed malicious, this activity could indicate an attacker leveraging gpupdate.exe for lateral movement, command and control, or other nefarious purposes, potentially leading to system compromise.
 author: Michael Haag, Splunk
-date: 2026-03-10
+date: 2026-04-09
 logsource:
   product: splunk
   category: endpoint
@@ -24,12 +24,13 @@ detection:
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 | regex process="(?i)(gpupdate\.exe.{0,4}$)"
-| join  process_id [
+| join process_id dest [
 | tstats `security_content_summariesonly` count values(All_Traffic.app) as app values(All_Traffic.dest_ip) as dest_ip values(All_Traffic.direction) as direction values(All_Traffic.dvc) as dvc values(All_Traffic.protocol) as protocol values(All_Traffic.protocol_version) as protocol_version values(All_Traffic.src) as src values(All_Traffic.src_ip) as src_ip values(All_Traffic.src_port) as src_port values(All_Traffic.transport) as transport FROM datamodel=Network_Traffic.All_Traffic
   WHERE All_Traffic.dest_port != 0
-  BY All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
+  BY All_Traffic.process_id All_Traffic.src All_Traffic.dest All_Traffic.dest_port
 | `drop_dm_object_name(All_Traffic)`
-| rename dest as C2 ]
+| rename dest as C2
+| rename src as dest ]
 | table _time user dest parent_process_name process_name process_path process process_id dest_port C2 app dest_ip direction dvc protocol protocol_version src src_ip src_port transport
 | `gpupdate_with_no_command_line_arguments_with_network_filter`
   condition: _splunk_search
