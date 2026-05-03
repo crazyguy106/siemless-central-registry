@@ -5,22 +5,35 @@ level: medium
 description: |
   The following analytic detects the use of PowerShell scripts to load .NET assemblies into memory via reflection, a technique often used in malicious activities such as those by Empire and Cobalt Strike. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command executed. This behavior is significant as it can indicate advanced attack techniques aiming to execute code in memory, bypassing traditional defenses. If confirmed malicious, this activity could lead to unauthorized code execution, privilege escalation, and persistent access within the environment.
 author: Michael Haag, Teoderick Contreras Splunk
-date: 2026-04-16
+date: 2026-04-21
 logsource:
   product: splunk
   category: endpoint
 detection:
   _splunk_search: |
-    `powershell` EventCode=4104 ScriptBlockText IN ("*Reflection.Assembly]::Load*",
-"*Reflection.Assembly.Load*", "*UnsafeLoadFrom*", "*.LoadFrom(*", "*.LoadModule(*",
-"*.LoadWithPartialName*", "*ReflectionOnlyLoad*", "*Reflection.Assembly]::('daoL'[-1..-4] -join '')*")
+    `powershell` EventCode=4104
+ScriptBlockText IN (
+    "*.LoadFrom(*",
+    "*.LoadModule(*",
+    "*.LoadWithPartialName*",
+    "*Reflection.Assembly.Load*",
+    "*Reflection.Assembly]::('daoL'[-1..-4] -join '')*",
+    "*Reflection.Assembly]::Load*",
+    "*ReflectionOnlyLoad*",
+    "*UnsafeLoadFrom*"
+)
+
 | fillnull
-| stats count min(_time) as firstTime max(_time) as lastTime
-by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+| stats count min(_time) as firstTime
+              max(_time) as lastTime
+  by dest signature signature_id user_id
+     vendor_product EventID Guid Opcode
+     Name Path ProcessID
+     ScriptBlockId ScriptBlockText
+
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 | `powershell_loading_dotnet_into_memory_via_reflection_filter`
-
   condition: _splunk_search
 references:
   - https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly?view=net-5.0

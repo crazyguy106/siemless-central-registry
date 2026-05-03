@@ -1,0 +1,23 @@
+title: List the devices with the most open ports
+id: d2f748e2-70a3-4a99-8ba2-9a51514b88c7
+status: experimental
+level: medium
+description: |
+  List the devices with the most open ports.
+
+## Defender XDR
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where ActionType == "ListeningConnectionCreated"
+| where LocalPort < 5000 //Remove open TCP ports
+| where LocalIP !="127.0.0.1" // Will generate a lot of false positives
+| summarize TotalOpenPorts = dcount(LocalPort), OpenPortsList = make_set(LocalPort) by DeviceName
+| sort by TotalOpenPorts
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules
