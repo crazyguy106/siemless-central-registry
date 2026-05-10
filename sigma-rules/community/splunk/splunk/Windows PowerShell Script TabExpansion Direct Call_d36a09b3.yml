@@ -1,0 +1,37 @@
+title: Windows PowerShell Script TabExpansion Direct Call
+id: d36a09b3-35ac-4d6f-964a-39fd337abc2f
+status: stable
+level: medium
+description: |
+  Detects specific indicators associated with the execution of the TabExpansion internal function in PowerShell.
+Calling this function directly is not normal and can be indicative of malicious activity such as TabShell.
+Due to the way PowerShell internals work it can be used in conjunction with directory transversal to load any PowerShell functions even in a sandboxed session.
+False positives could include legitimate usage of the TabExpansion function but calling it directly is very rare.
+author: Raven Tait, Splunk
+date: 2026-04-13
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `powershell`
+EventID="4104"
+ScriptBlockText="*$lastWord*"
+ScriptBlockText="*$_val=' + $_expression*"
+ScriptBlockText="*function Write-Members*"
+| fillnull
+| stats count min(_time) as firstTime
+              max(_time) as lastTime
+  by Computer EventID ScriptBlockText signature signature_id user_id vendor_product Guid
+     Opcode Name Path ProcessID ScriptBlockId
+
+| rename Computer as dest
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `windows_powershell_script_tabexpansion_direct_call_filter`
+  condition: _splunk_search
+references:
+  - https://blog.viettelcybersecurity.com/tabshell-owassrf/
+tags:
+  - attack.t1059.001
+  - attack.t1129

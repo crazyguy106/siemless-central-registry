@@ -1,0 +1,43 @@
+title: Windows XLL File Creation Outside of Typical Location
+id: 7cdbe5e2-878d-4020-94f3-52938760155e
+status: stable
+level: medium
+description: |
+  Detects the creation of an XLL file outside of typical locations.
+This can indicate an attempt to abuse Excel COM objects to load and execute a malicious XLL.
+author: Raven Tait, Splunk
+date: 2026-04-13
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    | tstats `security_content_summariesonly`
+  count min(_time) as firstTime
+        max(_time) as lastTime
+
+from datamodel=Endpoint.Filesystem where
+
+Filesystem.file_path="*.xll"
+
+NOT Filesystem.file_path IN (
+    "*:\\Program Files\\Microsoft Office\\*",
+    "*\\AppData\\Roaming\\Microsoft\\AddIns\\*"
+    )
+
+by Filesystem.dest Filesystem.file_create_time Filesystem.process_path
+   Filesystem.process_guid Filesystem.process_id Filesystem.file_path
+   Filesystem.action Filesystem.file_name
+   Filesystem.user Filesystem.vendor_product
+
+| `drop_dm_object_name(Filesystem)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `windows_xll_file_creation_outside_of_typical_location_filter`
+  condition: _splunk_search
+references:
+  - https://www.bleepingcomputer.com/news/security/new-specula-tool-uses-outlook-for-remote-code-execution-in-windows/
+  - https://github.com/trustedsec/specula/wiki
+tags:
+  - attack.t1129
+  - attack.t1059

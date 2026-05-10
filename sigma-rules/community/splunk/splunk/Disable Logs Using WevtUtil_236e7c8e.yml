@@ -5,7 +5,7 @@ level: high
 description: |
   The following analytic detects the execution of "wevtutil.exe" with parameters to disable event logs. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because disabling event logs is a common tactic used by ransomware to evade detection and hinder forensic investigations. If confirmed malicious, this action could allow attackers to operate undetected, making it difficult to trace their activities and respond effectively to the incident.
 author: Teoderick Contreras, Splunk
-date: 2026-04-15
+date: 2026-05-04
 logsource:
   product: splunk
   category: endpoint
@@ -16,7 +16,7 @@ detection:
     AND
     (Processes.process = "*sl*"
     OR
-    Processes.process = "*set-log*" ) Processes.process = "*/e:false*"
+    Processes.process = "*set-log*" ) Processes.process IN ("*/e:false*", "*/enabled:false*")
   BY Processes.action Processes.dest Processes.original_file_name
      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -32,4 +32,4 @@ detection:
 references:
   - https://www.bleepingcomputer.com/news/security/new-ransom-x-ransomware-used-in-texas-txdot-cyberattack/
 tags:
-  - attack.t1070.001
+  - attack.t1685.005

@@ -1,0 +1,18 @@
+title: Triggers when a user performs a SmartScreen Override action
+id: d5cc2a21-2136-4597-b2c1-9990046d7a50
+status: experimental
+level: medium
+description: |
+  This query lists all SmartScreen override related events.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceEvents
+| where ingestion_time() > ago(7d)
+| where ActionType == "SmartScreenUserOverride"
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules
