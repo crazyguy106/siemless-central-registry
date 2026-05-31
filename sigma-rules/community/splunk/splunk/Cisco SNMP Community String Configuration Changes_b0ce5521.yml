@@ -5,10 +5,10 @@ level: medium
 description: |
   This analytic detects changes to SNMP community strings on Cisco devices, which could indicate an attacker establishing persistence or attempting to extract credentials. After gaining initial access to network devices, threat actors like Static Tundra often modify SNMP configurations to enable unauthorized monitoring and data collection. This detection specifically looks for the configuration of SNMP community strings with read-write (rw) or read-only (ro) permissions, as well as the configuration of SNMP hosts that may be used to exfiltrate data. These activities are particularly concerning as they may represent attempts to establish persistent access or extract sensitive information from compromised devices.
 author: Bhavin Patel, Michael Haag, Splunk
-date: 2026-05-04
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
@@ -31,6 +31,4 @@ references:
   - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
   - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/snmp/command/snmp-cr-book/snmp-s1.html#wp1307296356
 tags:
-  - attack.t1685
-  - attack.t1040
-  - attack.t1552
+

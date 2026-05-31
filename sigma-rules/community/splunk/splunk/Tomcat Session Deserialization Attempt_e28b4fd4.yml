@@ -5,10 +5,10 @@ level: medium
 description: |
   This detection identifies potential exploitation of CVE-2025-24813 in Apache Tomcat through the second stage of the attack. This phase occurs when an attacker attempts to trigger deserialization of a previously uploaded malicious session file by sending a GET request with a specially crafted JSESSIONID cookie. These requests typically have specific characteristics, including a JSESSIONID cookie with a leading dot that matches a previously uploaded filename, and typically result in a HTTP 500 error when the exploitation succeeds.
 author: Michael Haag, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
@@ -34,5 +34,4 @@ references:
   - https://www.rapid7.com/db/vulnerabilities/apache-tomcat-cve-2025-24813/
   - https://gist.github.com/MHaggis/e106367f6649fbb09ab27e7b4a01cf73
 tags:
-  - attack.t1190
-  - attack.t1505.003
+

@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic identifies when a user with sufficient access to Exchange Online alters the mail flow/transport rule configuration of the organization. Transport rules are a set of rules that can be used by attackers to modify or delete emails based on specific conditions, this activity could indicate an attacker hiding or exfiltrated data.
 author: Steven Dick
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") AND Operation="*TransportRule"
@@ -24,5 +24,4 @@ references:
   - https://cardinalops.com/blog/cardinalops-contributes-new-mitre-attck-techniques-related-to-abuse-of-mail-transport-rules/
   - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-OAuth-applications-used-to-compromise-email-servers-and-spread-spam/
 tags:
-  - attack.t1114.003
-  - attack.t1564.008
+

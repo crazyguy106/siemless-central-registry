@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects the addition of a new federated domain within an Azure Active Directory tenant. It leverages Azure AD AuditLogs to identify successful "Set domain authentication" operations. This activity is significant as it may indicate the use of the Azure AD identity federation backdoor technique, allowing an adversary to establish persistence. If confirmed malicious, the attacker could impersonate any user, bypassing password and MFA requirements, potentially leading to unauthorized access and control over the Azure AD environment.
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `azure_monitor_aad` operationName="Set domain authentication" "properties.result"=success
@@ -31,4 +31,4 @@ references:
   - https://www.mandiant.com/resources/blog/detecting-microsoft-365-azure-active-directory-backdoors
   - https://attack.mitre.org/techniques/T1484/002/
 tags:
-  - attack.t1484.002
+

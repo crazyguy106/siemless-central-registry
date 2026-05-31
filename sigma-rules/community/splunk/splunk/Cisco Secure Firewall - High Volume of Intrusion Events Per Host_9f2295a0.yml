@@ -6,10 +6,10 @@ description: |
   The following analytic detects internal systems that generate an unusually high volume of intrusion detections within a 30-minute window. It leverages Cisco Secure Firewall Threat Defense logs, specifically focusing on the IntrusionEvent event type, to identify hosts that trigger more than 15 Snort-based signatures during that time. A sudden spike in intrusion alerts originating from a single host may indicate suspicious or malicious activity such as malware execution, command-and-control communication, vulnerability scanning, or lateral movement. In some cases, this behavior may also be caused by misconfigured or outdated software repeatedly tripping detection rules. Systems exhibiting this pattern should be triaged promptly, as repeated Snort rule matches from a single source are often early indicators of compromise, persistence, or active exploitation attempts.
 
 author: Nasreddine Bencherchali, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `cisco_secure_firewall` EventType=IntrusionEvent
@@ -29,6 +29,4 @@ detection:
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 tags:
-  - attack.t1059
-  - attack.t1071
-  - attack.t1595.002
+

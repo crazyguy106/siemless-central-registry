@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects the creation of new mail flow rules in Office 365 that may redirect or copy emails to unauthorized or external addresses. It leverages Office 365 Management Activity logs, specifically querying for the "New-TransportRule" operation and parameters like "BlindCopyTo", "CopyTo", and "RedirectMessageTo". This activity is significant as it can indicate potential data exfiltration or unauthorized access to sensitive information. If confirmed malicious, attackers could intercept or redirect email communications, leading to data breaches or information leakage.
 author: Mauricio Velazco, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: audit
+  category: endpoint
 detection:
   _splunk_search: |
     `o365_management_activity` Workload=Exchange Operation="New-TransportRule" | eval match1=mvfind('Parameters{}.Name',"BlindCopyTo") | eval match2=mvfind('Parameters{}.Name',"CopyTo") | eval match3=mvfind('Parameters{}.Name', "RedirectMessageTo") | where match1>= 0 OR match2>= 0 OR match3>=0 | eval ForwardTo=coalesce(BlindCopyTo, CopyTo, RedirectMessageTo) | search ForwardTo!="" | rename UserId as user | fillnull | stats count earliest(_time) as firstTime latest(_time) as lastTime by user, Name, ForwardTo, vendor_account, vendor_product, dest, signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_new_forwarding_mailflow_rule_created_filter`
@@ -18,4 +18,4 @@ references:
   - https://learn.microsoft.com/en-us/exchange/security-and-compliance/mail-flow-rules/mail-flow-rules
   - https://learn.microsoft.com/en-us/exchange/security-and-compliance/mail-flow-rules/mail-flow-rule-actions
 tags:
-  - attack.t1114
+

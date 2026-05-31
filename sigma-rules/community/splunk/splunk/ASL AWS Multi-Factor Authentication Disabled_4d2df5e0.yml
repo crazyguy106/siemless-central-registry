@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects attempts to disable multi-factor authentication (MFA) for an AWS IAM user. It leverages Amazon Security Lake logs, specifically monitoring for `DeleteVirtualMFADevice` or `DeactivateMFADevice` API operations. This activity is significant as disabling MFA can indicate an adversary attempting to weaken account security to maintain persistence using a compromised account. If confirmed malicious, this action could allow attackers to retain access to the AWS environment without detection, potentially leading to unauthorized access to sensitive resources and prolonged compromise.
 author: Patrick Bareiss, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice)
@@ -26,6 +26,4 @@ references:
   - https://attack.mitre.org/techniques/T1621/
   - https://aws.amazon.com/what-is/mfa/
 tags:
-  - attack.t1556.006
-  - attack.t1586.003
-  - attack.t1621
+

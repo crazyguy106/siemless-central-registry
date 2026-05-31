@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic detects when an excessive number of files are downloaded from o365 by the same user over a short period of time. O365 may bundle these files together as a ZIP file, however each file will have it's own download event. This behavior may indicate an attacker staging data for exfiltration or an insider threat removing organizational data. Additional attention should be taken with any Azure Guest (#EXT#) accounts.
 author: Steven Dick
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `o365_management_activity` Operation IN ("filedownloaded")
@@ -25,5 +25,4 @@ references:
   - https://www.varonis.com/blog/sidestepping-detection-while-exfiltrating-sharepoint-data
   - https://thedfirjournal.com/posts/m365-data-exfiltration-rclone/
 tags:
-  - attack.t1567
-  - attack.t1530
+

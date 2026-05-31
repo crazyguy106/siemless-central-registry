@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects IPv6 network infrastructure threats by identifying suspicious activities such as IP and MAC address theft or packet drops. It leverages logs from Cisco network devices configured with First Hop Security measures like RA Guard and DHCP Guard. This activity is significant as it can indicate attempts to compromise network integrity and security. If confirmed malicious, attackers could manipulate network traffic, leading to potential data interception, unauthorized access, or network disruption.
 author: Mikael Bjerkeland, Splunk
-date: 2026-03-10
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP")
@@ -31,6 +31,4 @@ references:
   - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-src-guard.html
   - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ipv6-dest-guard.html
 tags:
-  - attack.t1200
-  - attack.t1498
-  - attack.t1557.002
+

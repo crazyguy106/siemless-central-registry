@@ -5,10 +5,10 @@ level: high
 description: |
   This analytic detects the configuration of TFTP services on Cisco IOS devices that could be used to exfiltrate sensitive configuration files. Threat actors like Static Tundra have been observed configuring TFTP servers to make device configuration files accessible for exfiltration after gaining initial access. The detection specifically looks for commands that expose critical configuration files such as startup-config, running-config, and other sensitive system information through TFTP. This activity is particularly concerning as it may represent an attempt to steal credentials, network topology information, and other sensitive data stored in device configurations.
 author: Bhavin Patel, Michael Haag, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
@@ -28,5 +28,4 @@ references:
   - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
   - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/fundamentals/command/cf_command_ref/T_through_X.html#wp3081407060
 tags:
-  - attack.t1567
-  - attack.t1005
+

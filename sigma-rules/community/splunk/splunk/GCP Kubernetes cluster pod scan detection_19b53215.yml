@@ -5,10 +5,10 @@ level: low
 description: |
   The following analytic identifies unauthenticated requests to Kubernetes cluster pods. It detects this activity by analyzing GCP Pub/Sub messages for audit logs where the response status code is 401, indicating unauthorized access attempts. This activity is significant for a SOC because it may indicate reconnaissance or scanning attempts by an attacker trying to identify vulnerable pods. If confirmed malicious, this activity could lead to unauthorized access, allowing the attacker to exploit vulnerabilities within the cluster, potentially compromising sensitive data or gaining control over the Kubernetes environment.
 author: Rod Soto, Splunk
-date: 2026-02-25
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `google_gcp_pubsub_message` category=kube-audit
@@ -20,4 +20,4 @@ detection:
 references:
 
 tags:
-  - attack.t1526
+

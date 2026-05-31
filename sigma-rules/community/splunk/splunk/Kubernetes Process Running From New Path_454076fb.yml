@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic identifies processes running from newly seen paths within a Kubernetes environment. It leverages process metrics collected via an OTEL collector and hostmetrics receiver, and data is pulled from Splunk Observability Cloud using the Splunk Infrastructure Monitoring Add-on. This detection compares processes observed in the last hour with those seen over the previous 30 days. This activity is significant as it may indicate unauthorized changes, compromised nodes, or the introduction of malicious software. If confirmed malicious, it could lead to unauthorized process execution, control over critical resources, data exfiltration, privilege escalation, or malware introduction within the Kubernetes cluster.
 author: Matthew Moore, Splunk
-date: 2026-03-10
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name
@@ -24,4 +24,4 @@ detection:
 references:
   - https://github.com/signalfx/splunk-otel-collector-chart
 tags:
-  - attack.t1204
+

@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic identifies the creation of a new AWS IAM policy version that allows access to all resources. It detects this activity by analyzing AWS CloudTrail logs for the CreatePolicyVersion event with a policy document that grants broad permissions. This behavior is significant because it violates the principle of least privilege, potentially exposing the environment to misuse or abuse. If confirmed malicious, an attacker could gain extensive access to AWS resources, leading to unauthorized actions, data exfiltration, or further compromise of the AWS environment.
 author: Patrick Bareiss, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `amazon_security_lake` api.operation=CreatePolicy
@@ -30,4 +30,4 @@ references:
   - https://bishopfox.com/blog/privilege-escalation-in-aws
   - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
 tags:
-  - attack.t1078.004
+

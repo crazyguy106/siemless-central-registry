@@ -1,0 +1,23 @@
+title: Outbound MSHTA Connection
+id: 4f8557a7-d8a3-425a-8c89-fcc1ba699ecd
+status: experimental
+level: medium
+description: |
+  Detects outbound network connections initiated by `mshta.exe`. `mshta.exe` is a legitimate Windows binary, but it is frequently abused by adversaries to execute malicious script content from local or remote HTA resources.
+
+This query helps identify suspicious executions.
+
+It is recommended to investigate if you can block mshta in your organization, if not possible use auto isolation rules for suspicious outbound mshta connections.
+author: Bert-JanP
+logsource:
+  product: microsoft_defender_endpoint
+  service: kql
+detection:
+  _kql_query: |
+    DeviceNetworkEvents
+| where InitiatingProcessFileName =~ "mshta.exe"
+| where RemoteIPType == "Public" or not(ipv4_is_private(RemoteIP))
+| project-reorder Timestamp, InitiatingProcessCommandLine, RemoteUrl, RemoteIP, DeviceName, InitiatingProcessAccountUpn
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules

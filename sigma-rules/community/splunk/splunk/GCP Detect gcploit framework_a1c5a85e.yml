@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic identifies the use of the GCPloit exploitation framework within Google Cloud Platform (GCP). It detects specific GCP Pub/Sub messages with a function timeout of 539 seconds, which is indicative of GCPloit activity. This detection is significant as GCPloit can be used to escalate privileges and facilitate lateral movement from compromised high-privilege accounts. If confirmed malicious, this activity could allow attackers to gain unauthorized access, escalate their privileges, and move laterally within the GCP environment, potentially compromising sensitive data and critical resources.
 author: Rod Soto, Splunk
-date: 2026-03-12
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `google_gcp_pubsub_message` data.protoPayload.request.function.timeout=539s
@@ -19,4 +19,4 @@ references:
   - https://github.com/dxa4481/gcploit
   - https://www.youtube.com/watch?v=Ml09R38jpok
 tags:
-  - attack.t1078
+

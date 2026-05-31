@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects a series of AWS API calls related to EC2 snapshots within a short time window, indicating potential exfiltration via EC2 Snapshot modifications. It leverages AWS CloudTrail logs to identify actions such as creating, describing, and modifying snapshot attributes. This activity is significant as it may indicate an attacker attempting to exfiltrate data by sharing EC2 snapshots externally. If confirmed malicious, the attacker could gain access to sensitive information stored in the snapshots, leading to data breaches and potential compliance violations.
 author: Bhavin Patel, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com"
@@ -28,4 +28,4 @@ references:
   - https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
   - https://stratus-red-team.cloud/attack-techniques/list/
 tags:
-  - attack.t1537
+

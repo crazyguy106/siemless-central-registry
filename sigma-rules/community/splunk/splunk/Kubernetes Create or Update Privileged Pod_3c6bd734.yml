@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic detects the creation or update of privileged pods in Kubernetes. It identifies this activity by monitoring Kubernetes Audit logs for pod configurations that include root privileges. This behavior is significant for a SOC as it could indicate an attempt to escalate privileges, exploit the kernel, and gain full access to the host's namespace and devices. If confirmed malicious, this activity could lead to unauthorized access to sensitive information, data breaches, and service disruptions, posing a severe threat to the environment.
 author: Patrick Bareiss, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `kube_audit` objectRef.resource=pods verb=create OR verb=update requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration=*\"privileged\":true*
@@ -24,4 +24,4 @@ detection:
 references:
   - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
 tags:
-  - attack.t1204
+

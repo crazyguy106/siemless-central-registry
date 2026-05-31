@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic detects an AWS account successfully authenticating from multiple unique IP addresses within a 5-minute window. It leverages AWS CloudTrail logs, specifically monitoring `ConsoleLogin` events and counting distinct source IPs. This behavior is significant as it may indicate compromised credentials, potentially from a phishing attack, being used concurrently by an adversary and a legitimate user. If confirmed malicious, this activity could allow unauthorized access to corporate resources, leading to data breaches or further exploitation within the AWS environment.
 author: Bhavin Patel, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudtrail` eventName = ConsoleLogin
@@ -25,5 +25,4 @@ detection:
 references:
   - https://rhinosecuritylabs.com/aws/mfa-phishing-on-aws/
 tags:
-  - attack.t1586
-  - attack.t1535
+

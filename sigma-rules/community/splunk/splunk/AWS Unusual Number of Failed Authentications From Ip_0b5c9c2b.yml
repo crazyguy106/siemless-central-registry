@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic identifies a single source IP failing to authenticate into the AWS Console with multiple valid users. It uses CloudTrail logs and calculates the standard deviation for source IP, leveraging the 3-sigma rule to detect unusual numbers of failed authentication attempts. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the AWS environment.
 author: Bhavin Patel, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudtrail` eventName=ConsoleLogin action=failure
@@ -30,6 +30,4 @@ references:
   - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
   - https://softwaresecuritydotblog.wordpress.com/2019/09/28/how-to-protect-against-credential-stuffing-on-aws/
 tags:
-  - attack.t1110.003
-  - attack.t1110.004
-  - attack.t1586.003
+

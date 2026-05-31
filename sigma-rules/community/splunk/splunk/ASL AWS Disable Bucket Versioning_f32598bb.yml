@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic detects when AWS S3 bucket versioning is suspended by a user. It leverages AWS CloudTrail logs to identify `PutBucketVersioning` events with the `VersioningConfiguration.Status` set to `Suspended`. This activity is significant because disabling versioning can prevent recovery of deleted or modified data, which is a common tactic in ransomware attacks. If confirmed malicious, this action could lead to data loss and hinder recovery efforts, severely impacting data integrity and availability.
 author: Patrick Bareiss, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `amazon_security_lake` api.operation=PutBucketVersioning
@@ -30,4 +30,4 @@ references:
   - https://invictus-ir.medium.com/ransomware-in-the-cloud-7f14805bbe82
   - https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
 tags:
-  - attack.t1490
+

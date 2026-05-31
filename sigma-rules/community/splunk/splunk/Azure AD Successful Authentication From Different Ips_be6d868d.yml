@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects an Azure AD account successfully authenticating from multiple unique IP addresses within a 30-minute window. It leverages Azure AD SignInLogs to identify instances where the same user logs in from different IPs in a short time frame. This behavior is significant as it may indicate compromised credentials being used by an adversary, potentially following a phishing attack. If confirmed malicious, this activity could allow unauthorized access to corporate resources, leading to data breaches or further exploitation within the network.
 author: Mauricio Velazco, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: identity
+  category: endpoint
 detection:
   _splunk_search: |
     `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=SignInLogs
@@ -28,5 +28,4 @@ references:
   - https://attack.mitre.org/techniques/T1110.001
   - https://attack.mitre.org/techniques/T1110.003
 tags:
-  - attack.t1110.001
-  - attack.t1110.003
+

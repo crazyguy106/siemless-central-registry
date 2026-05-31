@@ -5,10 +5,10 @@ level: high
 description: |
   This Splunk query analyzes web logs to identify and categorize user agents, detecting various types of c2 frameworks. This activity can signify malicious actors attempting to interact with hosts on the network using known default configurations of command and control tools.
 author: Ravent Tait, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats  `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
@@ -30,4 +30,4 @@ references:
   - https://www.keysight.com/blogs/en/tech/nwvs/2021/07/28/koadic-c3-command-control-decoded
   - https://github.com/mthcht/awesome-lists/blob/main/Lists/suspicious_http_user_agents_list.csv
 tags:
-  - attack.t1071.001
+

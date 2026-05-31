@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic identifies excessive AccessDenied events within an hour timeframe for IAM users in AWS. It leverages AWS CloudTrail logs to detect multiple failed access attempts from the same source IP and user identity. This activity is significant as it may indicate that an access key has been compromised and is being misused for unauthorized discovery actions. If confirmed malicious, this could allow attackers to gather information about the AWS environment, potentially leading to further exploitation or privilege escalation.
 author: Michael Haag, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: access
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
@@ -25,4 +25,4 @@ detection:
 references:
   - https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
 tags:
-  - attack.t1580
+

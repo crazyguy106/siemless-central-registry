@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic identifies the creation of new email inbox rules in an Office 365 environment. It detects events logged under New-InboxRule and Set-InboxRule operations within the o365_management_activity data source, focusing on parameters that may indicate mail forwarding, removal, or obfuscation. Inbox rule creation is a typical end-user activity however attackers also leverage this technique for multiple reasons.
 author: Steven Dick
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: audit
+  category: endpoint
 detection:
   _splunk_search: |
     `o365_management_activity` Workload=Exchange AND (Operation=New-InboxRule OR Operation=Set-InboxRule) Parameters{}.Name IN (SoftDeleteMessage,DeleteMessage,ForwardTo,ForwardAsAttachmentTo,RedirectTo,MoveToFolder,CopyToFolder)
@@ -24,5 +24,4 @@ references:
   - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
   - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
 tags:
-  - attack.t1114.003
-  - attack.t1564.008
+

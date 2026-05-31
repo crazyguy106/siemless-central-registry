@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic identifies when specific O365 advanced security settings are altered within the Office 365 tenant. If an attacker successfully disables O365 security settings, they can operate within the tenant with reduced risk of detection. This can lead to unauthorized data access, data exfiltration, account compromise, or other malicious activities without leaving a detailed audit trail.
 author: Steven Dick
-date: 2026-05-04
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") Operation IN ("*AntiPhish*","*SafeLink*","*SafeAttachment*","*Malware*")
@@ -26,4 +26,4 @@ references:
   - https://learn.microsoft.com/en-us/entra/fundamentals/security-defaults
   - https://attack.mitre.org/techniques/T1562/008/
 tags:
-  - attack.t1685.002
+

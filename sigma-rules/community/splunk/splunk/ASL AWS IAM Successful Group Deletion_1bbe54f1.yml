@@ -5,10 +5,10 @@ level: low
 description: |
   The following analytic detects the successful deletion of a group within AWS IAM, leveraging CloudTrail IAM events. This action, while not inherently malicious, can serve as a precursor to more sinister activities, such as unauthorized access or privilege escalation attempts. By monitoring for such deletions, the analytic aids in identifying potential preparatory steps towards an attack, allowing for early detection and mitigation. The identification of this behavior is crucial for a SOC to prevent the potential impact of an attack, which could include unauthorized access to sensitive resources or disruption of AWS environment operations.
 author: Patrick Bareiss, Splunk
-date: 2026-02-25
+date: 
 logsource:
   product: splunk
-  category: access
+  category: endpoint
 detection:
   _splunk_search: |
     `amazon_security_lake` api.operation=DeleteGroup status=Success
@@ -26,5 +26,4 @@ references:
   - https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
   - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
 tags:
-  - attack.t1069.003
-  - attack.t1098
+

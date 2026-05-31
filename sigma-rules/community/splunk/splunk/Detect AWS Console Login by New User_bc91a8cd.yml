@@ -5,10 +5,10 @@ level: low
 description: |
   The following analytic detects AWS console login events by new users. It leverages AWS CloudTrail events and compares them against a lookup file of previously seen users based on ARN values. This detection is significant because a new user logging into the AWS console could indicate the creation of new accounts or potential unauthorized access. If confirmed malicious, this activity could lead to unauthorized access to AWS resources, data exfiltration, or further exploitation within the cloud environment.
 author: Rico Valdez, Splunk
-date: 2026-02-25
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats earliest(_time) as firstTime latest(_time) as lastTime FROM datamodel=Authentication
@@ -28,5 +28,4 @@ detection:
 references:
 
 tags:
-  - attack.t1552
-  - attack.t1586.003
+

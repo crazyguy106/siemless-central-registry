@@ -5,10 +5,10 @@ level: low
 description: |
   The following analytic identifies a spike in failed authentication attempts within an Office 365 environment, indicative of a potential distributed password spraying attack. It leverages UserLoginFailed events from O365 Management Activity logs, focusing on ErrorNumber 50126. This detection is significant as it highlights attempts to bypass security controls using multiple IP addresses and user agents. If confirmed malicious, this activity could lead to unauthorized access, data breaches, privilege escalation, and lateral movement within the organization. Early detection is crucial to prevent account takeovers and mitigate subsequent threats.
 author: Mauricio Velazco, Splunk
-date: 2026-02-25
+date: 
 logsource:
   product: splunk
-  category: identity
+  category: endpoint
 detection:
   _splunk_search: |
     `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126
@@ -28,6 +28,4 @@ references:
   - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
   - https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
 tags:
-  - attack.t1110.003
-  - attack.t1110.004
-  - attack.t1586.003
+

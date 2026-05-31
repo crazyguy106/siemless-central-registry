@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic detects cloud API calls executed by user roles that have not previously run these commands. It leverages the Change data model in Splunk to identify commands executed by users with the user_type of AssumedRole and a status of success. This activity is significant because new commands from different user roles can indicate potential malicious activity or unauthorized actions. If confirmed malicious, this behavior could lead to unauthorized access, data breaches, or other damaging outcomes by exploiting new or unmonitored commands within the cloud environment.
 author: David Dorsey, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats earliest(_time) as firstTime, latest(_time) as lastTime FROM datamodel=Change
@@ -30,4 +30,4 @@ detection:
 references:
 
 tags:
-  - attack.t1078
+

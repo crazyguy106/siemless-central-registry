@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic identifies attempts to access the Remote ShellServlet on a web server, specifically targeting Confluence servers vulnerable to CVE-2023-22518 and CVE-2023-22515. It leverages web data to detect URLs containing "*plugins/servlet/com.jsos.shell/*" with a status code of 200. This activity is significant as it is commonly associated with web shells and other malicious behaviors, potentially leading to unauthorized command execution. If confirmed malicious, attackers could gain remote code execution capabilities, compromising the server and potentially the entire network.
 author: Michael Haag, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
@@ -24,4 +24,4 @@ detection:
 references:
   - http://www.servletsuite.com/servlets/shell.htm
 tags:
-  - attack.t1190
+

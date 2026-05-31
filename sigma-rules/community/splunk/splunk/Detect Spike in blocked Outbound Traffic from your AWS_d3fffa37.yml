@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic identifies spikes in blocked outbound network connections originating from within your AWS environment. It leverages VPC Flow Logs data from CloudWatch, focusing on blocked actions from internal IP ranges to external destinations. This detection is significant as it can indicate potential exfiltration attempts or misconfigurations leading to data leakage. If confirmed malicious, such activity could allow attackers to bypass network defenses, leading to unauthorized data transfer or communication with malicious external entities.
 author: Bhavin Patel, Splunk
-date: 2026-03-12
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12 OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)  [search  `cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12 OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)

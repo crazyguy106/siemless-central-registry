@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects an attempt to disable multi-factor authentication (MFA) for a Google Cloud Platform (GCP) user. It leverages Google Workspace Admin log events, specifically the `UNENROLL_USER_FROM_STRONG_AUTH` command. This activity is significant because disabling MFA can allow an adversary to maintain persistence within the environment using a compromised account without raising suspicion. If confirmed malicious, this action could enable attackers to bypass additional security layers, potentially leading to unauthorized access, data exfiltration, or further exploitation of the compromised account.
 author: Bhavin Patel, Mauricio Velazco, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: identity
+  category: endpoint
 detection:
   _splunk_search: |
     `gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH
@@ -25,5 +25,4 @@ references:
   - https://attack.mitre.org/tactics/TA0005/
   - https://attack.mitre.org/techniques/T1556/
 tags:
-  - attack.t1556.006
-  - attack.t1586.003
+

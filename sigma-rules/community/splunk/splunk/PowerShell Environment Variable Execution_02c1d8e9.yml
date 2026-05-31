@@ -5,7 +5,7 @@ level: medium
 description: |
   The following analytic detects the execution of PowerShell scripts that combine environment variable access (`$env:` or `[Environment]::SetEnvironmentVariable`) with `Invoke-Expression` or its alias `iex` to dynamically construct and run code at runtime. This technique is commonly used by adversaries to stage and execute payloads by embedding commands or encoded content inside environment variables, then evaluating them on the fly — effectively hiding the true execution intent from static inspection. Detection is based on PowerShell Script Block Logging (Event ID 4104), which captures the de-obfuscated script block before it executes. Triggering this analytic indicates a potential attempt to execute environment-variable-stored code, a behavior observed in malware loaders and stagers, including those associated with the VIP Keylogger campaign.
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
-date: 2026-04-20
+date: 
 logsource:
   product: splunk
   category: endpoint
@@ -36,4 +36,4 @@ references:
   - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
   - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
-  - attack.t1059.001
+

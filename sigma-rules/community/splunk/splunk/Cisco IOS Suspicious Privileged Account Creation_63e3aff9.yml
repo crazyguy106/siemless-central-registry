@@ -5,10 +5,10 @@ level: medium
 description: |
   This analytic detects the creation of privileged user accounts on Cisco IOS devices, which could indicate an attacker establishing backdoor access. The detection focuses on identifying when user accounts are created with privilege level 15 (the highest administrative privilege level in Cisco IOS) or when existing accounts have their privileges elevated. This type of activity is particularly concerning when performed by unauthorized users or during unusual hours, as it may represent a key step in establishing persistence following the exploitation of vulnerabilities like CVE-2018-0171 in Cisco Smart Install. Threat actors like Static Tundra have been observed creating privileged accounts as part of their attack chain after gaining initial access to network devices.
 author: Bhavin Patel, Michael Haag, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
@@ -33,5 +33,4 @@ references:
   - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
   - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp3796044403
 tags:
-  - attack.t1136
-  - attack.t1078
+

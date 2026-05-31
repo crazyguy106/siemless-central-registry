@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic identifies instances where admin consent is granted to an application within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to the admin consent action within the AzureActiveDirectory workload. This activity is significant because admin consent allows applications to access data across the entire tenant, potentially exposing vast amounts of organizational data. If confirmed malicious, an attacker could gain extensive and persistent access to organizational data, leading to data exfiltration, espionage, further malicious activities, and potential compliance violations.
 author: Mauricio Velazco, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: identity
+  category: endpoint
 detection:
   _splunk_search: |
     `o365_management_activity` Operation="Consent to application." | eval new_field=mvindex('ModifiedProperties{}.NewValue', 4) | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)" | rex field=new_field "Scope: (?<Scope>[^\,]+)" | search ConsentType = "AllPrincipals" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by user, object, ObjectId, ConsentType, Scope, dest, vendor_account, vendor_product, signature, src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_tenant_wide_admin_consent_granted_filter`
@@ -20,4 +20,4 @@ references:
   - https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/grant-admin-consent?pivots=portal
   - https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT501/AZT501-2/
 tags:
-  - attack.t1098.003
+

@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects when an EC2 snapshot is shared with an external AWS account by analyzing AWS CloudTrail events. This detection method leverages CloudTrail logs to identify modifications in snapshot permissions, specifically when the snapshot is shared outside the originating AWS account. This activity is significant as it may indicate an attempt to exfiltrate sensitive data stored in the snapshot. If confirmed malicious, an attacker could gain unauthorized access to the snapshot's data, potentially leading to data breaches or further exploitation of the compromised information.
 author: Bhavin Patel, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudtrail` eventName=ModifySnapshotAttribute
@@ -30,4 +30,4 @@ references:
   - https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot/
   - https://hackingthe.cloud/aws/enumeration/loot_public_ebs_snapshots/
 tags:
-  - attack.t1537
+

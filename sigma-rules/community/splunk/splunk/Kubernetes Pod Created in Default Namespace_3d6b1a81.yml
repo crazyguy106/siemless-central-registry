@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic detects the creation of Kubernetes pods in the default, kube-system, or kube-public namespaces. It leverages Kubernetes audit logs to identify pod creation events within these specific namespaces. This activity is significant for a SOC as it may indicate an attacker attempting to hide their presence or evade defenses. Unauthorized pod creation in these namespaces can suggest a successful cluster breach, potentially leading to privilege escalation, persistent access, or further malicious activities within the cluster.
 author: Patrick Bareiss, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `kube_audit` objectRef.resource=pods verb=create objectRef.namespace IN ("default", "kube-system", "kube-public")
@@ -25,4 +25,4 @@ detection:
 references:
   - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
 tags:
-  - attack.t1204
+

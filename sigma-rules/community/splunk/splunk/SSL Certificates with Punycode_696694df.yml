@@ -5,10 +5,10 @@ level: low
 description: |
   The following analytic detects SSL certificates with Punycode domains in the SSL issuer email domain, identified by the prefix "xn--". It leverages the Certificates Datamodel to flag these domains and uses CyberChef for decoding. This activity is significant as Punycode can be used for domain spoofing and phishing attacks. If confirmed malicious, attackers could deceive users and systems, potentially leading to unauthorized access and data breaches.
 author: Michael Haag, Splunk
-date: 2026-02-25
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates
@@ -28,4 +28,4 @@ references:
   - https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
   - https://github.com/corelight/CVE-2022-3602/tree/master/scripts
 tags:
-  - attack.t1573
+

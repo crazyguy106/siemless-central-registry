@@ -5,10 +5,10 @@ level: medium
 description: |
   The following analytic detects an AWS account experiencing more than 20 failed authentication attempts within a 5-minute window. It leverages AWS CloudTrail logs to identify multiple failed ConsoleLogin events. This behavior is significant as it may indicate a brute force attack targeting the account. If confirmed malicious, the attacker could potentially gain unauthorized access, leading to data breaches or further exploitation of the AWS environment. Security teams should consider adjusting the threshold based on their specific environment to reduce false positives.
 author: Bhavin Patel, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudtrail` eventName=ConsoleLogin action=failure
@@ -26,4 +26,4 @@ detection:
 references:
   - https://www.trendmicro.com/cloudoneconformity/knowledge-base/aws/IAM/password-policy.html
 tags:
-  - attack.t1201
+

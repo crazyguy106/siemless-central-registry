@@ -5,10 +5,10 @@ level: low
 description: |
   Microsoft Intune device remediation scripts are a tool administrators can use to remotely manage devices, this functionality can also be abused for SYSTEM level code execution and lateral movement to intune managed devices. This detection identifies when a new device health script has been added, updated or deleted.
 author: Dean Luxton
-date: 2026-02-25
+date: 
 logsource:
   product: splunk
-  category: audit
+  category: endpoint
 detection:
   _splunk_search: |
     `azure_monitor_activity` operationName="*DeviceHealthScript*" | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin | rex field="operationName" "^(?P<action>\w+?)DeviceHealthScript" | replace "patch" with "updated", "create" with "created", "delete", with "deleted", "assign", with "assigned" IN action | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId | `microsoft_intune_device_health_scripts_filter`
@@ -18,7 +18,4 @@ references:
   - https://securityintelligence.com/x-force/detecting-intune-lateral-movement/
   - https://posts.specterops.io/maestro-9ed71d38d546
 tags:
-  - attack.t1072
-  - attack.t1021.007
-  - attack.t1202
-  - attack.t1105
+

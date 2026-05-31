@@ -5,10 +5,10 @@ level: high
 description: |
   This detection identifies when an Azure Service Principal elevates privileges by adding themself to a new app role assignment.
 author: Dean Luxton
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: identity
+  category: endpoint
 detection:
   _splunk_search: |
     `azure_monitor_aad` category=AuditLogs operationName="Add app role assignment to service principal" properties.initiatedBy.app.displayName=* properties.result=Success | spath path=properties{}.targetResources{}.modifiedProperties{} output=targetResources | rename properties.* as * | eval user="NA" | eval src="NA" | stats min(_time) as firstTime max(_time) as lastTime values(eval(mvfilter(match(targetResources, "AppRole.Value")))) as appRole, values(eval(mvfilter(match(targetResources, "ServicePrincipal.DisplayName")))) as targetServicePrincipal values(eval(mvindex('properties.targetResources{}.displayName',0))) as targetAppContext values(user_agent) as user_agent values(identity) as servicePrincipal values(properties.initiatedBy.app.servicePrincipalId) as servicePrincipalId by dest user src vendor_account vendor_product signature | spath input=appRole path=newValue output=appRole | spath input=targetServicePrincipal path=newValue output=targetServicePrincipal | eval appRole=trim(replace(appRole, "\"", "")), targetServicePrincipal=trim(replace(targetServicePrincipal, "\"", "")) | where servicePrincipal=targetServicePrincipal | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_service_principal_privilege_escalation_filter`
@@ -20,4 +20,4 @@ references:
   - https://www.splunk.com/en_us/blog/security/hunting-m365-invaders-navigating-the-shadows-of-midnight-blizzard.html
   - https://posts.specterops.io/microsoft-breach-what-happened-what-should-azure-admins-do-da2b7e674ebc
 tags:
-  - attack.t1098.003
+

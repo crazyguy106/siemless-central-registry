@@ -6,10 +6,10 @@ description: |
   The following analytic detects potentially suspicious large volumes of data sent by the connection initiator on flows from internal to external networks. It leverages Cisco Secure Firewall Threat Defense ConnectionEvent logs and thresholds on InitiatorBytes (bytes transmitted by the initiator), which for typical inside-initiated client sessions approximates upload or outbound payload from the internal host and avoids flagging large downloads where most bytes appear in ResponderBytes. Connections where the initiator sent at least 100 MB are flagged, as these may indicate unauthorized data exfiltration, especially if associated with unusual users, hosts, or processes. This analytic is scoped to inside-to-outside flows using a macro (cisco_secure_firewall_inside_to_outside) to abstract environment-specific zone definitions. If confirmed malicious, this behavior may reflect data staging and exfiltration over an encrypted or stealthy transport.
 
 author: Nasreddine Bencherchali, Splunk
-date: 2026-04-09
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `cisco_secure_firewall` EventType=ConnectionEvent `cisco_secure_firewall_inside_to_outside`
@@ -29,6 +29,4 @@ detection:
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 tags:
-  - attack.t1041
-  - attack.t1567.002
-  - attack.t1048.003
+

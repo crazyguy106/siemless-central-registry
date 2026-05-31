@@ -6,10 +6,10 @@ description: |
   The following analytic detects repeated blocked connection attempts from the same initiator to the same responder within a short time window. It leverages Cisco Secure Firewall Threat Defense logs and identifies connections where the action is set to Block, and the number of occurrences reaches or exceeds a threshold of ten within a one-minute span. This pattern may indicate a misconfigured application, unauthorized access attempts, or early stages of a brute-force or scanning operation. If confirmed malicious, this behavior may represent an attacker probing the network, attempting lateral movement, or testing firewall rules for weaknesses.
 
 author: Nasreddine Bencherchali, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: network
+  category: endpoint
 detection:
   _splunk_search: |
     `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
@@ -27,8 +27,4 @@ detection:
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 tags:
-  - attack.t1018
-  - attack.t1046
-  - attack.t1110
-  - attack.t1203
-  - attack.t1595.002
+

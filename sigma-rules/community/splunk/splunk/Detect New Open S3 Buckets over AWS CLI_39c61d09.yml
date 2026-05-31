@@ -5,10 +5,10 @@ level: high
 description: |
   The following analytic detects the creation of open/public S3 buckets via the AWS CLI. It leverages AWS CloudTrail logs to identify events where a user has set bucket permissions to allow access to "AuthenticatedUsers" or "AllUsers." This activity is significant because open S3 buckets can expose sensitive data to unauthorized users, leading to data breaches. If confirmed malicious, an attacker could gain unauthorized access to potentially sensitive information stored in the S3 bucket, posing a significant security risk.
 author: Patrick Bareiss, Splunk
-date: 2026-04-15
+date: 
 logsource:
   product: splunk
-  category: threat
+  category: endpoint
 detection:
   _splunk_search: |
     `cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR userAgent=aws-cli* ) eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers")
@@ -26,4 +26,4 @@ detection:
 references:
 
 tags:
-  - attack.t1530
+
