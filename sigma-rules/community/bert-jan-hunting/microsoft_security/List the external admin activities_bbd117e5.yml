@@ -1,0 +1,24 @@
+title: List the external admin activities
+id: a2f66b41-93d4-454c-a64b-e7dc1cafd73e
+status: experimental
+level: medium
+description: |
+  This query lists all the external admin activities in your tenant sorted from the account with the most actions performed to the one with the least actions.
+author: Bert-JanP
+logsource:
+  product: microsoft_security
+  service: kql
+detection:
+  _kql_query: |
+    CloudAppEvents
+| where IsExternalUser == 1 and AccountType == "Admin"
+| summarize
+      TotalActivities = count(),
+      ActionsPerformed = make_set(ActionType),
+      Applications = make_set(Application),
+      IPsUsed = make_set(IPAddress)
+      by AccountId
+| sort by TotalActivities
+  condition: _kql_query
+references:
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules
