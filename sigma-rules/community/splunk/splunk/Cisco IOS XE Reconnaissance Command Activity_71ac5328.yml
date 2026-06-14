@@ -1,0 +1,68 @@
+title: Cisco IOS XE Reconnaissance Command Activity
+id: 71ac5328-2364-40cf-8381-92b8dc531399
+status: stable
+level: medium
+description: |
+  This analytic detects bursts of Cisco IOS or NX-OS discovery commands associated with Salt Typhoon tradecraft.
+Adversaries who gain initial access to network infrastructure devices typically perform systematic reconnaissance to understand the device configuration, network topology, security policies, connected systems, and potential attack paths.
+This reconnaissance phase involves executing multiple "show" commands to enumerate device details, running configurations, active connections, routing information, and VPN sessions.
+
+author: Nasreddine Bencherchali
+date: 
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `cisco_ios`
+facility IN ("AAA", "HA_EM")
+mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
+message_text IN (
+    "*show running-config*",
+    "*show tacacs*",
+    "*show cdp neighbors*",
+    "*show file systems*",
+    "*dir bootflash:*",
+    "*show clock*",
+    "*show platform software status control-processor brief*",
+    "*terminal length 0*",
+    "*terminal width 0*"
+)
+
+| rex field=message_text "^\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\s+\((?<aaa_result>SUCCESS|FAILURE)\))?$"
+| rex field=message_text "^(?:[^:]+:\s+)?(?:catchall:\s+)?(?<eem_command>.+?)\s*$"
+| eval command=lower(trim(coalesce(aaa_command, eem_command, "")))
+
+| eval command_type=case(
+    like(command, "show running-config%"), "show_conf",
+    like(command, "show tacacs%"), "show_tacacs",
+    like(command, "show cdp neighbors detail%"), "show_cdp",
+    like(command, "show cdp neighbors%"), "show_cdp",
+    like(command, "show file systems%"), "show_file",
+    like(command, "dir bootflash:%"), "dir_bootflash",
+    like(command, "show clock%"), "show_clock",
+    like(command, "show platform software status control-processor brief%"), "show_platform",
+    like(command, "terminal length 0%"), "terminal",
+    like(command, "terminal width 0%"), "terminal",
+    true(), null())
+| where isnotnull(command_type)
+| eval user=coalesce(aaa_user, user, "unknown")
+| eval src_ip=coalesce(aaa_src, src_ip, "unknown")
+| eval dest=coalesce(host, dvc, dest, "unknown")
+| bin _time span=5m
+| stats count min(_time) as firstTime
+              max(_time) as lastTime
+              dc(command_type) as unique_recon_commands
+              values(command_type) as command_types
+              values(command) as commands
+  by _time dest user src_ip
+| where unique_recon_commands >= 4
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_ios_xe_reconnaissance_command_activity_filter`
+  condition: _splunk_search
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+  - https://blog.talosintelligence.com/salt-typhoon-analysis/
+tags:
+

@@ -1,0 +1,34 @@
+title: Cisco IOS XE Request Platform Package Describe Shell Pattern
+id: a113a8be-7386-46e0-a079-d9fd46f9631f
+status: stable
+level: high
+description: |
+  This analytic detects Cisco IOS-XE "request platform software package describe" commands containing suspicious shell-style filename patterns. Indicative of Slat Typhoon tradecraft.
+
+author: Nasreddine Bencherchali
+date: 
+logsource:
+  product: splunk
+  category: endpoint
+detection:
+  _splunk_search: |
+    `cisco_ios`
+facility IN ("AAA", "HA_EM")
+mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
+message_text="*request platform software package describe*"
+message_text IN ("*--filename=/(bash)n*", "*--filename=$(bash)n*")
+
+| eval dest=coalesce(host, dvc, dest, "unknown")
+| stats count min(_time) as firstTime
+              max(_time) as lastTime
+              values(message_text) as message
+  by dest
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_ios_xe_request_platform_package_describe_shell_pattern_filter`
+  condition: _splunk_search
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+  - https://blog.talosintelligence.com/salt-typhoon-analysis/
+tags:
+
